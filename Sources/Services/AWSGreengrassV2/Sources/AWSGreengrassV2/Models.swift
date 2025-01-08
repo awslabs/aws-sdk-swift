@@ -65,8 +65,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -81,8 +80,7 @@ extension GreengrassV2ClientTypes {
 
         public init(
             thingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.thingName = thingName
         }
     }
@@ -103,8 +101,7 @@ extension GreengrassV2ClientTypes {
             code: Swift.String? = nil,
             message: Swift.String? = nil,
             thingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.thingName = thingName
@@ -124,8 +121,7 @@ extension GreengrassV2ClientTypes {
         public init(
             associationTimestamp: Foundation.Date? = nil,
             thingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationTimestamp = associationTimestamp
             self.thingName = thingName
         }
@@ -154,8 +150,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -175,8 +170,7 @@ extension GreengrassV2ClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -243,8 +237,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [GreengrassV2ClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: GreengrassV2ClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -258,8 +251,7 @@ public struct AssociateServiceRoleToAccountInput: Swift.Sendable {
 
     public init(
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleArn = roleArn
     }
 }
@@ -270,8 +262,7 @@ public struct AssociateServiceRoleToAccountOutput: Swift.Sendable {
 
     public init(
         associatedAt: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedAt = associatedAt
     }
 }
@@ -303,8 +294,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -339,8 +329,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -358,8 +347,7 @@ public struct BatchAssociateClientDeviceWithCoreDeviceInput: Swift.Sendable {
     public init(
         coreDeviceThingName: Swift.String? = nil,
         entries: [GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceEntry]? = nil
-    )
-    {
+    ) {
         self.coreDeviceThingName = coreDeviceThingName
         self.entries = entries
     }
@@ -371,8 +359,7 @@ public struct BatchAssociateClientDeviceWithCoreDeviceOutput: Swift.Sendable {
 
     public init(
         errorEntries: [GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceErrorEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
     }
 }
@@ -387,8 +374,7 @@ extension GreengrassV2ClientTypes {
 
         public init(
             thingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.thingName = thingName
         }
     }
@@ -404,8 +390,7 @@ public struct BatchDisassociateClientDeviceFromCoreDeviceInput: Swift.Sendable {
     public init(
         coreDeviceThingName: Swift.String? = nil,
         entries: [GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceEntry]? = nil
-    )
-    {
+    ) {
         self.coreDeviceThingName = coreDeviceThingName
         self.entries = entries
     }
@@ -426,8 +411,7 @@ extension GreengrassV2ClientTypes {
             code: Swift.String? = nil,
             message: Swift.String? = nil,
             thingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.thingName = thingName
@@ -441,8 +425,7 @@ public struct BatchDisassociateClientDeviceFromCoreDeviceOutput: Swift.Sendable 
 
     public init(
         errorEntries: [GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceErrorEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
     }
 }
@@ -474,8 +457,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -489,8 +471,7 @@ public struct CancelDeploymentInput: Swift.Sendable {
 
     public init(
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
     }
 }
@@ -501,8 +482,7 @@ public struct CancelDeploymentOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -604,8 +584,7 @@ extension GreengrassV2ClientTypes {
             message: Swift.String? = nil,
             vendorGuidance: GreengrassV2ClientTypes.VendorGuidance? = nil,
             vendorGuidanceMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentState = componentState
             self.errors = errors
             self.message = message
@@ -627,8 +606,7 @@ extension GreengrassV2ClientTypes {
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.name = name
         }
@@ -659,8 +637,7 @@ extension GreengrassV2ClientTypes {
             description: Swift.String? = nil,
             platforms: [GreengrassV2ClientTypes.ComponentPlatform]? = nil,
             publisher: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.componentVersion = componentVersion
             self.creationTimestamp = creationTimestamp
@@ -686,8 +663,7 @@ extension GreengrassV2ClientTypes {
             arn: Swift.String? = nil,
             componentName: Swift.String? = nil,
             latestVersion: GreengrassV2ClientTypes.ComponentLatestVersion? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.componentName = componentName
             self.latestVersion = latestVersion
@@ -710,8 +686,7 @@ extension GreengrassV2ClientTypes {
             componentName: Swift.String? = nil,
             componentVersion: Swift.String? = nil,
             versionRequirements: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.componentName = componentName
             self.componentVersion = componentVersion
             self.versionRequirements = versionRequirements
@@ -731,8 +706,7 @@ extension GreengrassV2ClientTypes {
         public init(
             merge: Swift.String? = nil,
             reset: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.merge = merge
             self.reset = reset
         }
@@ -787,8 +761,7 @@ extension GreengrassV2ClientTypes {
         public init(
             dependencyType: GreengrassV2ClientTypes.ComponentDependencyType? = nil,
             versionRequirement: Swift.String? = nil
-        )
-        {
+        ) {
             self.dependencyType = dependencyType
             self.versionRequirement = versionRequirement
         }
@@ -807,8 +780,7 @@ extension GreengrassV2ClientTypes {
         public init(
             cpus: Swift.Double = 0.0,
             memory: Swift.Int = 0
-        )
-        {
+        ) {
             self.cpus = cpus
             self.memory = memory
         }
@@ -830,8 +802,7 @@ extension GreengrassV2ClientTypes {
             posixUser: Swift.String? = nil,
             systemResourceLimits: GreengrassV2ClientTypes.SystemResourceLimits? = nil,
             windowsUser: Swift.String? = nil
-        )
-        {
+        ) {
             self.posixUser = posixUser
             self.systemResourceLimits = systemResourceLimits
             self.windowsUser = windowsUser
@@ -855,8 +826,7 @@ extension GreengrassV2ClientTypes {
             componentVersion: Swift.String? = nil,
             configurationUpdate: GreengrassV2ClientTypes.ComponentConfigurationUpdate? = nil,
             runWith: GreengrassV2ClientTypes.ComponentRunWith? = nil
-        )
-        {
+        ) {
             self.componentVersion = componentVersion
             self.configurationUpdate = configurationUpdate
             self.runWith = runWith
@@ -879,8 +849,7 @@ extension GreengrassV2ClientTypes {
             arn: Swift.String? = nil,
             componentName: Swift.String? = nil,
             componentVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.componentName = componentName
             self.componentVersion = componentVersion
@@ -935,8 +904,7 @@ extension GreengrassV2ClientTypes {
             id: Swift.String? = nil,
             metadata: Swift.String? = nil,
             portNumber: Swift.Int = 0
-        )
-        {
+        ) {
             self.hostAddress = hostAddress
             self.id = id
             self.metadata = metadata
@@ -1006,8 +974,7 @@ extension GreengrassV2ClientTypes {
             platform: Swift.String? = nil,
             runtime: Swift.String? = nil,
             status: GreengrassV2ClientTypes.CoreDeviceStatus? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.coreDeviceThingName = coreDeviceThingName
             self.lastStatusUpdateTimestamp = lastStatusUpdateTimestamp
@@ -1037,8 +1004,7 @@ public struct RequestAlreadyInProgressException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1076,8 +1042,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -1133,8 +1098,7 @@ extension GreengrassV2ClientTypes {
         public init(
             topic: Swift.String? = nil,
             type: GreengrassV2ClientTypes.LambdaEventSourceType? = nil
-        )
-        {
+        ) {
             self.topic = topic
             self.type = type
         }
@@ -1215,8 +1179,7 @@ extension GreengrassV2ClientTypes {
             addGroupOwner: Swift.Bool? = false,
             path: Swift.String? = nil,
             permission: GreengrassV2ClientTypes.LambdaFilesystemPermission? = nil
-        )
-        {
+        ) {
             self.addGroupOwner = addGroupOwner
             self.path = path
             self.permission = permission
@@ -1244,8 +1207,7 @@ extension GreengrassV2ClientTypes {
             destinationPath: Swift.String? = nil,
             permission: GreengrassV2ClientTypes.LambdaFilesystemPermission? = nil,
             sourcePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.addGroupOwner = addGroupOwner
             self.destinationPath = destinationPath
             self.permission = permission
@@ -1272,8 +1234,7 @@ extension GreengrassV2ClientTypes {
             memorySizeInKB: Swift.Int? = 0,
             mountROSysfs: Swift.Bool? = false,
             volumes: [GreengrassV2ClientTypes.LambdaVolumeMount]? = nil
-        )
-        {
+        ) {
             self.devices = devices
             self.memorySizeInKB = memorySizeInKB
             self.mountROSysfs = mountROSysfs
@@ -1323,8 +1284,7 @@ extension GreengrassV2ClientTypes {
         public init(
             containerParams: GreengrassV2ClientTypes.LambdaContainerParams? = nil,
             isolationMode: GreengrassV2ClientTypes.LambdaIsolationMode? = nil
-        )
-        {
+        ) {
             self.containerParams = containerParams
             self.isolationMode = isolationMode
         }
@@ -1377,8 +1337,7 @@ extension GreengrassV2ClientTypes {
             pinned: Swift.Bool? = false,
             statusTimeoutInSeconds: Swift.Int? = 0,
             timeoutInSeconds: Swift.Int? = 0
-        )
-        {
+        ) {
             self.environmentVariables = environmentVariables
             self.eventSources = eventSources
             self.execArgs = execArgs
@@ -1419,8 +1378,7 @@ extension GreengrassV2ClientTypes {
             componentPlatforms: [GreengrassV2ClientTypes.ComponentPlatform]? = nil,
             componentVersion: Swift.String? = nil,
             lambdaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentDependencies = componentDependencies
             self.componentLambdaParameters = componentLambdaParameters
             self.componentName = componentName
@@ -1446,8 +1404,7 @@ public struct CreateComponentVersionInput: Swift.Sendable {
         inlineRecipe: Foundation.Data? = nil,
         lambdaFunction: GreengrassV2ClientTypes.LambdaFunctionRecipeSource? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.inlineRecipe = inlineRecipe
         self.lambdaFunction = lambdaFunction
@@ -1477,8 +1434,7 @@ public struct CreateComponentVersionOutput: Swift.Sendable {
         componentVersion: Swift.String? = nil,
         creationTimestamp: Foundation.Date? = nil,
         status: GreengrassV2ClientTypes.CloudComponentStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.componentName = componentName
         self.componentVersion = componentVersion
@@ -1535,8 +1491,7 @@ extension GreengrassV2ClientTypes {
         public init(
             action: GreengrassV2ClientTypes.DeploymentComponentUpdatePolicyAction? = nil,
             timeoutInSeconds: Swift.Int? = 0
-        )
-        {
+        ) {
             self.action = action
             self.timeoutInSeconds = timeoutInSeconds
         }
@@ -1552,8 +1507,7 @@ extension GreengrassV2ClientTypes {
 
         public init(
             timeoutInSeconds: Swift.Int? = 0
-        )
-        {
+        ) {
             self.timeoutInSeconds = timeoutInSeconds
         }
     }
@@ -1603,8 +1557,7 @@ extension GreengrassV2ClientTypes {
             componentUpdatePolicy: GreengrassV2ClientTypes.DeploymentComponentUpdatePolicy? = nil,
             configurationValidationPolicy: GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy? = nil,
             failureHandlingPolicy: GreengrassV2ClientTypes.DeploymentFailureHandlingPolicy? = nil
-        )
-        {
+        ) {
             self.componentUpdatePolicy = componentUpdatePolicy
             self.configurationValidationPolicy = configurationValidationPolicy
             self.failureHandlingPolicy = failureHandlingPolicy
@@ -1699,8 +1652,7 @@ extension GreengrassV2ClientTypes {
             failureType: GreengrassV2ClientTypes.IoTJobExecutionFailureType? = nil,
             minNumberOfExecutedThings: Swift.Int? = nil,
             thresholdPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.action = action
             self.failureType = failureType
             self.minNumberOfExecutedThings = minNumberOfExecutedThings
@@ -1719,8 +1671,7 @@ extension GreengrassV2ClientTypes {
 
         public init(
             criteriaList: [GreengrassV2ClientTypes.IoTJobAbortCriteria]? = nil
-        )
-        {
+        ) {
             self.criteriaList = criteriaList
         }
     }
@@ -1738,8 +1689,7 @@ extension GreengrassV2ClientTypes {
         public init(
             numberOfNotifiedThings: Swift.Int? = nil,
             numberOfSucceededThings: Swift.Int? = nil
-        )
-        {
+        ) {
             self.numberOfNotifiedThings = numberOfNotifiedThings
             self.numberOfSucceededThings = numberOfSucceededThings
         }
@@ -1764,8 +1714,7 @@ extension GreengrassV2ClientTypes {
             baseRatePerMinute: Swift.Int? = nil,
             incrementFactor: Swift.Double? = nil,
             rateIncreaseCriteria: GreengrassV2ClientTypes.IoTJobRateIncreaseCriteria? = nil
-        )
-        {
+        ) {
             self.baseRatePerMinute = baseRatePerMinute
             self.incrementFactor = incrementFactor
             self.rateIncreaseCriteria = rateIncreaseCriteria
@@ -1785,8 +1734,7 @@ extension GreengrassV2ClientTypes {
         public init(
             exponentialRate: GreengrassV2ClientTypes.IoTJobExponentialRolloutRate? = nil,
             maximumPerMinute: Swift.Int? = nil
-        )
-        {
+        ) {
             self.exponentialRate = exponentialRate
             self.maximumPerMinute = maximumPerMinute
         }
@@ -1802,8 +1750,7 @@ extension GreengrassV2ClientTypes {
 
         public init(
             inProgressTimeoutInMinutes: Swift.Int? = 0
-        )
-        {
+        ) {
             self.inProgressTimeoutInMinutes = inProgressTimeoutInMinutes
         }
     }
@@ -1824,8 +1771,7 @@ extension GreengrassV2ClientTypes {
             abortConfig: GreengrassV2ClientTypes.IoTJobAbortConfig? = nil,
             jobExecutionsRolloutConfig: GreengrassV2ClientTypes.IoTJobExecutionsRolloutConfig? = nil,
             timeoutConfig: GreengrassV2ClientTypes.IoTJobTimeoutConfig? = nil
-        )
-        {
+        ) {
             self.abortConfig = abortConfig
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.timeoutConfig = timeoutConfig
@@ -1861,8 +1807,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         parentTargetArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.components = components
         self.deploymentName = deploymentName
@@ -1886,8 +1831,7 @@ public struct CreateDeploymentOutput: Swift.Sendable {
         deploymentId: Swift.String? = nil,
         iotJobArn: Swift.String? = nil,
         iotJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.iotJobArn = iotJobArn
         self.iotJobId = iotJobId
@@ -1901,8 +1845,7 @@ public struct DeleteComponentInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1914,8 +1857,7 @@ public struct DeleteCoreDeviceInput: Swift.Sendable {
 
     public init(
         coreDeviceThingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreDeviceThingName = coreDeviceThingName
     }
 }
@@ -1927,8 +1869,7 @@ public struct DeleteDeploymentInput: Swift.Sendable {
 
     public init(
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
     }
 }
@@ -2001,8 +1942,7 @@ extension GreengrassV2ClientTypes {
             parentTargetArn: Swift.String? = nil,
             revisionId: Swift.String? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.deploymentId = deploymentId
             self.deploymentName = deploymentName
@@ -2051,8 +1991,7 @@ public struct DescribeComponentInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2087,8 +2026,7 @@ public struct DescribeComponentOutput: Swift.Sendable {
         publisher: Swift.String? = nil,
         status: GreengrassV2ClientTypes.CloudComponentStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.componentName = componentName
         self.componentVersion = componentVersion
@@ -2112,8 +2050,7 @@ public struct DisassociateServiceRoleFromAccountOutput: Swift.Sendable {
 
     public init(
         disassociatedAt: Swift.String? = nil
-    )
-    {
+    ) {
         self.disassociatedAt = disassociatedAt
     }
 }
@@ -2177,8 +2114,7 @@ extension GreengrassV2ClientTypes {
         public init(
             errorStack: [Swift.String]? = nil,
             errorTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.errorStack = errorStack
             self.errorTypes = errorTypes
         }
@@ -2246,8 +2182,7 @@ extension GreengrassV2ClientTypes {
             reason: Swift.String? = nil,
             statusDetails: GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.coreDeviceExecutionStatus = coreDeviceExecutionStatus
             self.creationTimestamp = creationTimestamp
             self.deploymentId = deploymentId
@@ -2302,8 +2237,7 @@ public struct GetComponentInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         recipeOutputFormat: GreengrassV2ClientTypes.RecipeOutputFormat? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.recipeOutputFormat = recipeOutputFormat
     }
@@ -2323,8 +2257,7 @@ public struct GetComponentOutput: Swift.Sendable {
         recipe: Foundation.Data? = nil,
         recipeOutputFormat: GreengrassV2ClientTypes.RecipeOutputFormat? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.recipe = recipe
         self.recipeOutputFormat = recipeOutputFormat
         self.tags = tags
@@ -2406,8 +2339,7 @@ public struct GetComponentVersionArtifactInput: Swift.Sendable {
         artifactName: Swift.String? = nil,
         iotEndpointType: GreengrassV2ClientTypes.IotEndpointType? = nil,
         s3EndpointType: GreengrassV2ClientTypes.S3EndpointType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.artifactName = artifactName
         self.iotEndpointType = iotEndpointType
@@ -2422,8 +2354,7 @@ public struct GetComponentVersionArtifactOutput: Swift.Sendable {
 
     public init(
         preSignedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.preSignedUrl = preSignedUrl
     }
 }
@@ -2435,8 +2366,7 @@ public struct GetConnectivityInfoInput: Swift.Sendable {
 
     public init(
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingName = thingName
     }
 }
@@ -2450,8 +2380,7 @@ public struct GetConnectivityInfoOutput: Swift.Sendable {
     public init(
         connectivityInfo: [GreengrassV2ClientTypes.ConnectivityInfo]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectivityInfo = connectivityInfo
         self.message = message
     }
@@ -2464,8 +2393,7 @@ public struct GetCoreDeviceInput: Swift.Sendable {
 
     public init(
         coreDeviceThingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreDeviceThingName = coreDeviceThingName
     }
 }
@@ -2505,8 +2433,7 @@ public struct GetCoreDeviceOutput: Swift.Sendable {
         runtime: Swift.String? = nil,
         status: GreengrassV2ClientTypes.CoreDeviceStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.architecture = architecture
         self.coreDeviceThingName = coreDeviceThingName
         self.coreVersion = coreVersion
@@ -2525,8 +2452,7 @@ public struct GetDeploymentInput: Swift.Sendable {
 
     public init(
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
     }
 }
@@ -2576,8 +2502,7 @@ public struct GetDeploymentOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.components = components
         self.creationTimestamp = creationTimestamp
         self.deploymentId = deploymentId
@@ -2609,8 +2534,7 @@ public struct GetServiceRoleForAccountOutput: Swift.Sendable {
     public init(
         associatedAt: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedAt = associatedAt
         self.roleArn = roleArn
     }
@@ -2629,8 +2553,7 @@ public struct ListClientDevicesAssociatedWithCoreDeviceInput: Swift.Sendable {
         coreDeviceThingName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreDeviceThingName = coreDeviceThingName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2646,8 +2569,7 @@ public struct ListClientDevicesAssociatedWithCoreDeviceOutput: Swift.Sendable {
     public init(
         associatedClientDevices: [GreengrassV2ClientTypes.AssociatedClientDevice]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedClientDevices = associatedClientDevices
         self.nextToken = nextToken
     }
@@ -2665,8 +2587,7 @@ public struct ListComponentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         scope: GreengrassV2ClientTypes.ComponentVisibilityScope? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.scope = scope
@@ -2682,8 +2603,7 @@ public struct ListComponentsOutput: Swift.Sendable {
     public init(
         components: [GreengrassV2ClientTypes.Component]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.components = components
         self.nextToken = nextToken
     }
@@ -2702,8 +2622,7 @@ public struct ListComponentVersionsInput: Swift.Sendable {
         arn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2719,8 +2638,7 @@ public struct ListComponentVersionsOutput: Swift.Sendable {
     public init(
         componentVersions: [GreengrassV2ClientTypes.ComponentVersionListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentVersions = componentVersions
         self.nextToken = nextToken
     }
@@ -2752,8 +2670,7 @@ public struct ListCoreDevicesInput: Swift.Sendable {
         runtime: Swift.String? = nil,
         status: GreengrassV2ClientTypes.CoreDeviceStatus? = nil,
         thingGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.runtime = runtime
@@ -2771,8 +2688,7 @@ public struct ListCoreDevicesOutput: Swift.Sendable {
     public init(
         coreDevices: [GreengrassV2ClientTypes.CoreDevice]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreDevices = coreDevices
         self.nextToken = nextToken
     }
@@ -2803,8 +2719,7 @@ public struct ListDeploymentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         parentTargetArn: Swift.String? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.historyFilter = historyFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2822,8 +2737,7 @@ public struct ListDeploymentsOutput: Swift.Sendable {
     public init(
         deployments: [GreengrassV2ClientTypes.Deployment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deployments = deployments
         self.nextToken = nextToken
     }
@@ -2842,8 +2756,7 @@ public struct ListEffectiveDeploymentsInput: Swift.Sendable {
         coreDeviceThingName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreDeviceThingName = coreDeviceThingName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2859,8 +2772,7 @@ public struct ListEffectiveDeploymentsOutput: Swift.Sendable {
     public init(
         effectiveDeployments: [GreengrassV2ClientTypes.EffectiveDeployment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.effectiveDeployments = effectiveDeployments
         self.nextToken = nextToken
     }
@@ -2918,8 +2830,7 @@ public struct ListInstalledComponentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         topologyFilter: GreengrassV2ClientTypes.InstalledComponentTopologyFilter? = nil
-    )
-    {
+    ) {
         self.coreDeviceThingName = coreDeviceThingName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3007,8 +2918,7 @@ extension GreengrassV2ClientTypes {
             lifecycleState: GreengrassV2ClientTypes.InstalledComponentLifecycleState? = nil,
             lifecycleStateDetails: Swift.String? = nil,
             lifecycleStatusCodes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.componentName = componentName
             self.componentVersion = componentVersion
             self.isRoot = isRoot
@@ -3031,8 +2941,7 @@ public struct ListInstalledComponentsOutput: Swift.Sendable {
     public init(
         installedComponents: [GreengrassV2ClientTypes.InstalledComponent]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.installedComponents = installedComponents
         self.nextToken = nextToken
     }
@@ -3045,8 +2954,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3057,8 +2965,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3072,8 +2979,7 @@ public struct ResolveComponentCandidatesInput: Swift.Sendable {
     public init(
         componentCandidates: [GreengrassV2ClientTypes.ComponentCandidate]? = nil,
         platform: GreengrassV2ClientTypes.ComponentPlatform? = nil
-    )
-    {
+    ) {
         self.componentCandidates = componentCandidates
         self.platform = platform
     }
@@ -3109,8 +3015,7 @@ extension GreengrassV2ClientTypes {
             message: Swift.String? = nil,
             recipe: Foundation.Data? = nil,
             vendorGuidance: GreengrassV2ClientTypes.VendorGuidance? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.componentName = componentName
             self.componentVersion = componentVersion
@@ -3127,8 +3032,7 @@ public struct ResolveComponentCandidatesOutput: Swift.Sendable {
 
     public init(
         resolvedComponentVersions: [GreengrassV2ClientTypes.ResolvedComponentVersion]? = nil
-    )
-    {
+    ) {
         self.resolvedComponentVersions = resolvedComponentVersions
     }
 }
@@ -3144,8 +3048,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3167,8 +3070,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3190,8 +3092,7 @@ public struct UpdateConnectivityInfoInput: Swift.Sendable {
     public init(
         connectivityInfo: [GreengrassV2ClientTypes.ConnectivityInfo]? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectivityInfo = connectivityInfo
         self.thingName = thingName
     }
@@ -3206,8 +3107,7 @@ public struct UpdateConnectivityInfoOutput: Swift.Sendable {
     public init(
         message: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
         self.version = version
     }

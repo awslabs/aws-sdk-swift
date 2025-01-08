@@ -218,8 +218,7 @@ extension ComprehendMedicalClientTypes {
         public init(
             name: ComprehendMedicalClientTypes.AttributeName? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.name = name
             self.score = score
         }
@@ -420,8 +419,7 @@ extension ComprehendMedicalClientTypes {
             text: Swift.String? = nil,
             traits: [ComprehendMedicalClientTypes.Trait]? = nil,
             type: ComprehendMedicalClientTypes.EntitySubType? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.category = category
             self.endOffset = endOffset
@@ -445,8 +443,7 @@ extension ComprehendMedicalClientTypes {
 
         public init(
             originalTextCharacters: Swift.Int? = nil
-        )
-        {
+        ) {
             self.originalTextCharacters = originalTextCharacters
         }
     }
@@ -470,8 +467,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -494,8 +490,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -518,8 +513,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -542,8 +536,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -555,8 +548,7 @@ public struct DescribeEntitiesDetectionV2JobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -574,8 +566,7 @@ extension ComprehendMedicalClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
         }
@@ -665,8 +656,7 @@ extension ComprehendMedicalClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
         }
@@ -721,8 +711,7 @@ extension ComprehendMedicalClientTypes {
             modelVersion: Swift.String? = nil,
             outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig? = nil,
             submitTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.expirationTime = expirationTime
@@ -747,8 +736,7 @@ public struct DescribeEntitiesDetectionV2JobOutput: Swift.Sendable {
 
     public init(
         comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties? = nil
-    )
-    {
+    ) {
         self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
     }
 }
@@ -760,8 +748,7 @@ public struct DescribeICD10CMInferenceJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -772,8 +759,7 @@ public struct DescribeICD10CMInferenceJobOutput: Swift.Sendable {
 
     public init(
         comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties? = nil
-    )
-    {
+    ) {
         self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
     }
 }
@@ -785,8 +771,7 @@ public struct DescribePHIDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -797,8 +782,7 @@ public struct DescribePHIDetectionJobOutput: Swift.Sendable {
 
     public init(
         comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties? = nil
-    )
-    {
+    ) {
         self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
     }
 }
@@ -810,8 +794,7 @@ public struct DescribeRxNormInferenceJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -822,8 +805,7 @@ public struct DescribeRxNormInferenceJobOutput: Swift.Sendable {
 
     public init(
         comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties? = nil
-    )
-    {
+    ) {
         self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
     }
 }
@@ -835,8 +817,7 @@ public struct DescribeSNOMEDCTInferenceJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -847,8 +828,7 @@ public struct DescribeSNOMEDCTInferenceJobOutput: Swift.Sendable {
 
     public init(
         comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties? = nil
-    )
-    {
+    ) {
         self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
     }
 }
@@ -871,8 +851,7 @@ public struct InvalidEncodingException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -895,8 +874,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -919,8 +897,7 @@ public struct TextSizeLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -932,8 +909,7 @@ public struct DetectEntitiesInput: Swift.Sendable {
 
     public init(
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.text = text
     }
 }
@@ -971,8 +947,7 @@ extension ComprehendMedicalClientTypes {
             text: Swift.String? = nil,
             traits: [ComprehendMedicalClientTypes.Trait]? = nil,
             type: ComprehendMedicalClientTypes.EntitySubType? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.beginOffset = beginOffset
             self.category = category
@@ -998,8 +973,7 @@ extension ComprehendMedicalClientTypes {
         public init(
             attribute: ComprehendMedicalClientTypes.Attribute? = nil,
             type: ComprehendMedicalClientTypes.EntityType? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.type = type
         }
@@ -1023,8 +997,7 @@ public struct DetectEntitiesOutput: Swift.Sendable {
         modelVersion: Swift.String? = nil,
         paginationToken: Swift.String? = nil,
         unmappedAttributes: [ComprehendMedicalClientTypes.UnmappedAttribute]? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.modelVersion = modelVersion
         self.paginationToken = paginationToken
@@ -1039,8 +1012,7 @@ public struct DetectEntitiesV2Input: Swift.Sendable {
 
     public init(
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.text = text
     }
 }
@@ -1062,8 +1034,7 @@ public struct DetectEntitiesV2Output: Swift.Sendable {
         modelVersion: Swift.String? = nil,
         paginationToken: Swift.String? = nil,
         unmappedAttributes: [ComprehendMedicalClientTypes.UnmappedAttribute]? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.modelVersion = modelVersion
         self.paginationToken = paginationToken
@@ -1078,8 +1049,7 @@ public struct DetectPHIInput: Swift.Sendable {
 
     public init(
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.text = text
     }
 }
@@ -1098,8 +1068,7 @@ public struct DetectPHIOutput: Swift.Sendable {
         entities: [ComprehendMedicalClientTypes.Entity]? = nil,
         modelVersion: Swift.String? = nil,
         paginationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.modelVersion = modelVersion
         self.paginationToken = paginationToken
@@ -1113,8 +1082,7 @@ public struct InferICD10CMInput: Swift.Sendable {
 
     public init(
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.text = text
     }
 }
@@ -1236,8 +1204,7 @@ extension ComprehendMedicalClientTypes {
         public init(
             name: ComprehendMedicalClientTypes.ICD10CMTraitName? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.name = name
             self.score = score
         }
@@ -1324,8 +1291,7 @@ extension ComprehendMedicalClientTypes {
             text: Swift.String? = nil,
             traits: [ComprehendMedicalClientTypes.ICD10CMTrait]? = nil,
             type: ComprehendMedicalClientTypes.ICD10CMAttributeType? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.category = category
             self.endOffset = endOffset
@@ -1381,8 +1347,7 @@ extension ComprehendMedicalClientTypes {
             code: Swift.String? = nil,
             description: Swift.String? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.code = code
             self.description = description
             self.score = score
@@ -1426,8 +1391,7 @@ extension ComprehendMedicalClientTypes {
             text: Swift.String? = nil,
             traits: [ComprehendMedicalClientTypes.ICD10CMTrait]? = nil,
             type: ComprehendMedicalClientTypes.ICD10CMEntityType? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.beginOffset = beginOffset
             self.category = category
@@ -1455,8 +1419,7 @@ public struct InferICD10CMOutput: Swift.Sendable {
         entities: [ComprehendMedicalClientTypes.ICD10CMEntity]? = nil,
         modelVersion: Swift.String? = nil,
         paginationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.modelVersion = modelVersion
         self.paginationToken = paginationToken
@@ -1470,8 +1433,7 @@ public struct InferRxNormInput: Swift.Sendable {
 
     public init(
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.text = text
     }
 }
@@ -1517,8 +1479,7 @@ extension ComprehendMedicalClientTypes {
         public init(
             name: ComprehendMedicalClientTypes.RxNormTraitName? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.name = name
             self.score = score
         }
@@ -1599,8 +1560,7 @@ extension ComprehendMedicalClientTypes {
             text: Swift.String? = nil,
             traits: [ComprehendMedicalClientTypes.RxNormTrait]? = nil,
             type: ComprehendMedicalClientTypes.RxNormAttributeType? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.id = id
@@ -1654,8 +1614,7 @@ extension ComprehendMedicalClientTypes {
             code: Swift.String? = nil,
             description: Swift.String? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.code = code
             self.description = description
             self.score = score
@@ -1728,8 +1687,7 @@ extension ComprehendMedicalClientTypes {
             text: Swift.String? = nil,
             traits: [ComprehendMedicalClientTypes.RxNormTrait]? = nil,
             type: ComprehendMedicalClientTypes.RxNormEntityType? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.beginOffset = beginOffset
             self.category = category
@@ -1757,8 +1715,7 @@ public struct InferRxNormOutput: Swift.Sendable {
         entities: [ComprehendMedicalClientTypes.RxNormEntity]? = nil,
         modelVersion: Swift.String? = nil,
         paginationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.modelVersion = modelVersion
         self.paginationToken = paginationToken
@@ -1772,8 +1729,7 @@ public struct InferSNOMEDCTInput: Swift.Sendable {
 
     public init(
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.text = text
     }
 }
@@ -1869,8 +1825,7 @@ extension ComprehendMedicalClientTypes {
             code: Swift.String? = nil,
             description: Swift.String? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.code = code
             self.description = description
             self.score = score
@@ -1940,8 +1895,7 @@ extension ComprehendMedicalClientTypes {
         public init(
             name: ComprehendMedicalClientTypes.SNOMEDCTTraitName? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.name = name
             self.score = score
         }
@@ -2028,8 +1982,7 @@ extension ComprehendMedicalClientTypes {
             text: Swift.String? = nil,
             traits: [ComprehendMedicalClientTypes.SNOMEDCTTrait]? = nil,
             type: ComprehendMedicalClientTypes.SNOMEDCTAttributeType? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.category = category
             self.endOffset = endOffset
@@ -2116,8 +2069,7 @@ extension ComprehendMedicalClientTypes {
             text: Swift.String? = nil,
             traits: [ComprehendMedicalClientTypes.SNOMEDCTTrait]? = nil,
             type: ComprehendMedicalClientTypes.SNOMEDCTEntityType? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.beginOffset = beginOffset
             self.category = category
@@ -2147,8 +2099,7 @@ extension ComprehendMedicalClientTypes {
             edition: Swift.String? = nil,
             language: Swift.String? = nil,
             versionDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.edition = edition
             self.language = language
             self.versionDate = versionDate
@@ -2175,8 +2126,7 @@ public struct InferSNOMEDCTOutput: Swift.Sendable {
         modelVersion: Swift.String? = nil,
         paginationToken: Swift.String? = nil,
         snomedctDetails: ComprehendMedicalClientTypes.SNOMEDCTDetails? = nil
-    )
-    {
+    ) {
         self.characters = characters
         self.entities = entities
         self.modelVersion = modelVersion
@@ -2203,8 +2153,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2227,8 +2176,7 @@ extension ComprehendMedicalClientTypes {
             jobStatus: ComprehendMedicalClientTypes.JobStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -2249,8 +2197,7 @@ public struct ListEntitiesDetectionV2JobsInput: Swift.Sendable {
         filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2266,8 +2213,7 @@ public struct ListEntitiesDetectionV2JobsOutput: Swift.Sendable {
     public init(
         comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
         self.nextToken = nextToken
     }
@@ -2285,8 +2231,7 @@ public struct ListICD10CMInferenceJobsInput: Swift.Sendable {
         filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2302,8 +2247,7 @@ public struct ListICD10CMInferenceJobsOutput: Swift.Sendable {
     public init(
         comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
         self.nextToken = nextToken
     }
@@ -2321,8 +2265,7 @@ public struct ListPHIDetectionJobsInput: Swift.Sendable {
         filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2338,8 +2281,7 @@ public struct ListPHIDetectionJobsOutput: Swift.Sendable {
     public init(
         comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
         self.nextToken = nextToken
     }
@@ -2357,8 +2299,7 @@ public struct ListRxNormInferenceJobsInput: Swift.Sendable {
         filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2374,8 +2315,7 @@ public struct ListRxNormInferenceJobsOutput: Swift.Sendable {
     public init(
         comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
         self.nextToken = nextToken
     }
@@ -2393,8 +2333,7 @@ public struct ListSNOMEDCTInferenceJobsInput: Swift.Sendable {
         filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2410,8 +2349,7 @@ public struct ListSNOMEDCTInferenceJobsOutput: Swift.Sendable {
     public init(
         comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
         self.nextToken = nextToken
     }
@@ -2445,8 +2383,7 @@ public struct StartEntitiesDetectionV2JobInput: Swift.Sendable {
         kmsKey: Swift.String? = nil,
         languageCode: ComprehendMedicalClientTypes.LanguageCode? = nil,
         outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -2463,8 +2400,7 @@ public struct StartEntitiesDetectionV2JobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2497,8 +2433,7 @@ public struct StartICD10CMInferenceJobInput: Swift.Sendable {
         kmsKey: Swift.String? = nil,
         languageCode: ComprehendMedicalClientTypes.LanguageCode? = nil,
         outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -2515,8 +2450,7 @@ public struct StartICD10CMInferenceJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2549,8 +2483,7 @@ public struct StartPHIDetectionJobInput: Swift.Sendable {
         kmsKey: Swift.String? = nil,
         languageCode: ComprehendMedicalClientTypes.LanguageCode? = nil,
         outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -2567,8 +2500,7 @@ public struct StartPHIDetectionJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2601,8 +2533,7 @@ public struct StartRxNormInferenceJobInput: Swift.Sendable {
         kmsKey: Swift.String? = nil,
         languageCode: ComprehendMedicalClientTypes.LanguageCode? = nil,
         outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -2619,8 +2550,7 @@ public struct StartRxNormInferenceJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2653,8 +2583,7 @@ public struct StartSNOMEDCTInferenceJobInput: Swift.Sendable {
         kmsKey: Swift.String? = nil,
         languageCode: ComprehendMedicalClientTypes.LanguageCode? = nil,
         outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -2671,8 +2600,7 @@ public struct StartSNOMEDCTInferenceJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2684,8 +2612,7 @@ public struct StopEntitiesDetectionV2JobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2696,8 +2623,7 @@ public struct StopEntitiesDetectionV2JobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2709,8 +2635,7 @@ public struct StopICD10CMInferenceJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2721,8 +2646,7 @@ public struct StopICD10CMInferenceJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2734,8 +2658,7 @@ public struct StopPHIDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2746,8 +2669,7 @@ public struct StopPHIDetectionJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2759,8 +2681,7 @@ public struct StopRxNormInferenceJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2771,8 +2692,7 @@ public struct StopRxNormInferenceJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2784,8 +2704,7 @@ public struct StopSNOMEDCTInferenceJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2796,8 +2715,7 @@ public struct StopSNOMEDCTInferenceJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }

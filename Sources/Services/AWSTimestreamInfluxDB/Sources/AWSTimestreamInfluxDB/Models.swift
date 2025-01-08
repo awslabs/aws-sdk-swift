@@ -53,8 +53,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -86,8 +85,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -113,8 +111,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -146,8 +143,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -173,8 +169,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -201,8 +196,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -260,8 +254,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: TimestreamInfluxDBClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -389,8 +382,7 @@ extension TimestreamInfluxDBClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.enabled = enabled
         }
@@ -407,8 +399,7 @@ extension TimestreamInfluxDBClientTypes {
 
         public init(
             s3Configuration: TimestreamInfluxDBClientTypes.S3Configuration? = nil
-        )
-        {
+        ) {
             self.s3Configuration = s3Configuration
         }
     }
@@ -509,8 +500,7 @@ public struct CreateDbInstanceInput: Swift.Sendable {
         username: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.bucket = bucket
         self.dbInstanceType = dbInstanceType
@@ -650,8 +640,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         status: TimestreamInfluxDBClientTypes.Status? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
@@ -681,8 +670,7 @@ public struct DeleteDbInstanceInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -751,8 +739,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         status: TimestreamInfluxDBClientTypes.Status? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
@@ -782,8 +769,7 @@ public struct GetDbInstanceInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -852,8 +838,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         status: TimestreamInfluxDBClientTypes.Status? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
@@ -885,8 +870,7 @@ public struct ListDbInstancesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -934,8 +918,7 @@ extension TimestreamInfluxDBClientTypes {
             networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
             port: Swift.Int? = nil,
             status: TimestreamInfluxDBClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.dbInstanceType = dbInstanceType
@@ -961,8 +944,7 @@ public struct ListDbInstancesOutput: Swift.Sendable {
     public init(
         items: [TimestreamInfluxDBClientTypes.DbInstanceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -990,8 +972,7 @@ public struct UpdateDbInstanceInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         port: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.deploymentType = deploymentType
@@ -1065,8 +1046,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         status: TimestreamInfluxDBClientTypes.Status? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
@@ -1138,8 +1118,7 @@ extension TimestreamInfluxDBClientTypes {
         public init(
             durationType: TimestreamInfluxDBClientTypes.DurationType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationType = durationType
             self.value = value
         }
@@ -1315,8 +1294,7 @@ extension TimestreamInfluxDBClientTypes {
             storageWalMaxWriteDelay: TimestreamInfluxDBClientTypes.Duration? = nil,
             tracingType: TimestreamInfluxDBClientTypes.TracingType? = nil,
             uiDisabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.fluxLogEnabled = fluxLogEnabled
             self.httpIdleTimeout = httpIdleTimeout
             self.httpReadHeaderTimeout = httpReadHeaderTimeout
@@ -1381,8 +1359,7 @@ public struct CreateDbParameterGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         parameters: TimestreamInfluxDBClientTypes.Parameters? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.parameters = parameters
@@ -1411,8 +1388,7 @@ public struct CreateDbParameterGroupOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         parameters: TimestreamInfluxDBClientTypes.Parameters? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.id = id
@@ -1428,8 +1404,7 @@ public struct GetDbParameterGroupInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -1455,8 +1430,7 @@ public struct GetDbParameterGroupOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         parameters: TimestreamInfluxDBClientTypes.Parameters? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.id = id
@@ -1474,8 +1448,7 @@ public struct ListDbParameterGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1502,8 +1475,7 @@ extension TimestreamInfluxDBClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -1522,8 +1494,7 @@ public struct ListDbParameterGroupsOutput: Swift.Sendable {
     public init(
         items: [TimestreamInfluxDBClientTypes.DbParameterGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1536,8 +1507,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1548,8 +1518,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1565,8 +1534,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1583,8 +1551,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

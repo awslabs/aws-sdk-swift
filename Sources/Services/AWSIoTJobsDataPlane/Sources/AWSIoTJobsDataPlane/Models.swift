@@ -44,8 +44,7 @@ public struct CertificateValidationException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -77,8 +76,7 @@ extension IoTJobsDataPlaneClientTypes {
             l: Swift.Int? = nil,
             s: Swift.String? = nil,
             ul: Swift.String? = nil
-        )
-        {
+        ) {
             self.b = b
             self.bin = bin
             self.d = d
@@ -111,8 +109,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
@@ -137,8 +134,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -162,8 +158,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -187,8 +182,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -211,8 +205,7 @@ public struct TerminalStateException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -239,8 +232,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         payload: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.payload = payload
     }
@@ -263,8 +255,7 @@ public struct DescribeJobExecutionInput: Swift.Sendable {
         includeJobDocument: Swift.Bool? = nil,
         jobId: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionNumber = executionNumber
         self.includeJobDocument = includeJobDocument
         self.jobId = jobId
@@ -358,8 +349,7 @@ extension IoTJobsDataPlaneClientTypes {
             statusDetails: [Swift.String: Swift.String]? = nil,
             thingName: Swift.String? = nil,
             versionNumber: Swift.Int = 0
-        )
-        {
+        ) {
             self.approximateSecondsBeforeTimedOut = approximateSecondsBeforeTimedOut
             self.executionNumber = executionNumber
             self.jobDocument = jobDocument
@@ -381,8 +371,7 @@ public struct DescribeJobExecutionOutput: Swift.Sendable {
 
     public init(
         execution: IoTJobsDataPlaneClientTypes.JobExecution? = nil
-    )
-    {
+    ) {
         self.execution = execution
     }
 }
@@ -394,8 +383,7 @@ public struct GetPendingJobExecutionsInput: Swift.Sendable {
 
     public init(
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingName = thingName
     }
 }
@@ -424,8 +412,7 @@ extension IoTJobsDataPlaneClientTypes {
             queuedAt: Swift.Int = 0,
             startedAt: Swift.Int? = nil,
             versionNumber: Swift.Int = 0
-        )
-        {
+        ) {
             self.executionNumber = executionNumber
             self.jobId = jobId
             self.lastUpdatedAt = lastUpdatedAt
@@ -445,8 +432,7 @@ public struct GetPendingJobExecutionsOutput: Swift.Sendable {
     public init(
         inProgressJobs: [IoTJobsDataPlaneClientTypes.JobExecutionSummary]? = nil,
         queuedJobs: [IoTJobsDataPlaneClientTypes.JobExecutionSummary]? = nil
-    )
-    {
+    ) {
         self.inProgressJobs = inProgressJobs
         self.queuedJobs = queuedJobs
     }
@@ -470,8 +456,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -494,8 +479,7 @@ public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -518,8 +502,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -542,8 +525,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -568,8 +550,7 @@ public struct StartCommandExecutionInput: Swift.Sendable {
         executionTimeoutSeconds: Swift.Int? = nil,
         parameters: [Swift.String: IoTJobsDataPlaneClientTypes.CommandParameterValue]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.commandArn = commandArn
         self.executionTimeoutSeconds = executionTimeoutSeconds
@@ -584,8 +565,7 @@ public struct StartCommandExecutionOutput: Swift.Sendable {
 
     public init(
         executionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionId = executionId
     }
 }
@@ -603,8 +583,7 @@ public struct StartNextPendingJobExecutionInput: Swift.Sendable {
         statusDetails: [Swift.String: Swift.String]? = nil,
         stepTimeoutInMinutes: Swift.Int? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.statusDetails = statusDetails
         self.stepTimeoutInMinutes = stepTimeoutInMinutes
         self.thingName = thingName
@@ -617,8 +596,7 @@ public struct StartNextPendingJobExecutionOutput: Swift.Sendable {
 
     public init(
         execution: IoTJobsDataPlaneClientTypes.JobExecution? = nil
-    )
-    {
+    ) {
         self.execution = execution
     }
 }
@@ -656,8 +634,7 @@ public struct UpdateJobExecutionInput: Swift.Sendable {
         statusDetails: [Swift.String: Swift.String]? = nil,
         stepTimeoutInMinutes: Swift.Int? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionNumber = executionNumber
         self.expectedVersion = expectedVersion
         self.includeJobDocument = includeJobDocument
@@ -685,8 +662,7 @@ extension IoTJobsDataPlaneClientTypes {
             status: IoTJobsDataPlaneClientTypes.JobExecutionStatus? = nil,
             statusDetails: [Swift.String: Swift.String]? = nil,
             versionNumber: Swift.Int = 0
-        )
-        {
+        ) {
             self.status = status
             self.statusDetails = statusDetails
             self.versionNumber = versionNumber
@@ -703,8 +679,7 @@ public struct UpdateJobExecutionOutput: Swift.Sendable {
     public init(
         executionState: IoTJobsDataPlaneClientTypes.JobExecutionState? = nil,
         jobDocument: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionState = executionState
         self.jobDocument = jobDocument
     }

@@ -67,8 +67,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -92,8 +91,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -117,8 +115,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -142,8 +139,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -167,8 +163,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -187,8 +182,7 @@ extension AccountClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -255,8 +249,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [AccountClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: AccountClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -283,8 +276,7 @@ public struct AcceptPrimaryEmailUpdateInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         otp: Swift.String? = nil,
         primaryEmail: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.otp = otp
         self.primaryEmail = primaryEmail
@@ -331,8 +323,7 @@ public struct AcceptPrimaryEmailUpdateOutput: Swift.Sendable {
 
     public init(
         status: AccountClientTypes.PrimaryEmailUpdateStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -379,8 +370,7 @@ public struct DeleteAlternateContactInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         alternateContactType: AccountClientTypes.AlternateContactType? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.alternateContactType = alternateContactType
     }
@@ -396,8 +386,7 @@ public struct GetAlternateContactInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         alternateContactType: AccountClientTypes.AlternateContactType? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.alternateContactType = alternateContactType
     }
@@ -424,8 +413,7 @@ extension AccountClientTypes {
             name: Swift.String? = nil,
             phoneNumber: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.alternateContactType = alternateContactType
             self.emailAddress = emailAddress
             self.name = name
@@ -446,8 +434,7 @@ public struct GetAlternateContactOutput: Swift.Sendable {
 
     public init(
         alternateContact: AccountClientTypes.AlternateContact? = nil
-    )
-    {
+    ) {
         self.alternateContact = alternateContact
     }
 }
@@ -478,8 +465,7 @@ public struct PutAlternateContactInput: Swift.Sendable {
         name: Swift.String? = nil,
         phoneNumber: Swift.String? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.alternateContactType = alternateContactType
         self.emailAddress = emailAddress
@@ -500,8 +486,7 @@ public struct GetContactInformationInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -554,8 +539,7 @@ extension AccountClientTypes {
             postalCode: Swift.String? = nil,
             stateOrRegion: Swift.String? = nil,
             websiteUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
             self.addressLine3 = addressLine3
@@ -583,8 +567,7 @@ public struct GetContactInformationOutput: Swift.Sendable {
 
     public init(
         contactInformation: AccountClientTypes.ContactInformation? = nil
-    )
-    {
+    ) {
         self.contactInformation = contactInformation
     }
 }
@@ -599,8 +582,7 @@ public struct PutContactInformationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         contactInformation: AccountClientTypes.ContactInformation? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.contactInformation = contactInformation
     }
@@ -613,8 +595,7 @@ public struct GetPrimaryEmailInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -625,8 +606,7 @@ public struct GetPrimaryEmailOutput: Swift.Sendable {
 
     public init(
         primaryEmail: Swift.String? = nil
-    )
-    {
+    ) {
         self.primaryEmail = primaryEmail
     }
 }
@@ -647,8 +627,7 @@ public struct StartPrimaryEmailUpdateInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         primaryEmail: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.primaryEmail = primaryEmail
     }
@@ -665,8 +644,7 @@ public struct StartPrimaryEmailUpdateOutput: Swift.Sendable {
 
     public init(
         status: AccountClientTypes.PrimaryEmailUpdateStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -681,8 +659,7 @@ public struct DisableRegionInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         regionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.regionName = regionName
     }
@@ -698,8 +675,7 @@ public struct EnableRegionInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         regionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.regionName = regionName
     }
@@ -715,8 +691,7 @@ public struct GetRegionOptStatusInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         regionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.regionName = regionName
     }
@@ -769,8 +744,7 @@ public struct GetRegionOptStatusOutput: Swift.Sendable {
     public init(
         regionName: Swift.String? = nil,
         regionOptStatus: AccountClientTypes.RegionOptStatus? = nil
-    )
-    {
+    ) {
         self.regionName = regionName
         self.regionOptStatus = regionOptStatus
     }
@@ -791,8 +765,7 @@ public struct ListRegionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         regionOptStatusContains: [AccountClientTypes.RegionOptStatus]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -812,8 +785,7 @@ extension AccountClientTypes {
         public init(
             regionName: Swift.String? = nil,
             regionOptStatus: AccountClientTypes.RegionOptStatus? = nil
-        )
-        {
+        ) {
             self.regionName = regionName
             self.regionOptStatus = regionOptStatus
         }
@@ -829,8 +801,7 @@ public struct ListRegionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         regions: [AccountClientTypes.Region]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.regions = regions
     }

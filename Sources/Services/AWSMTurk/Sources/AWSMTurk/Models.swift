@@ -46,8 +46,7 @@ public struct RequestError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     public init(
         message: Swift.String? = nil,
         turkErrorCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.turkErrorCode = turkErrorCode
     }
@@ -73,8 +72,7 @@ public struct ServiceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     public init(
         message: Swift.String? = nil,
         turkErrorCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.turkErrorCode = turkErrorCode
     }
@@ -90,8 +88,7 @@ public struct AcceptQualificationRequestInput: Swift.Sendable {
     public init(
         integerValue: Swift.Int? = nil,
         qualificationRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.integerValue = integerValue
         self.qualificationRequestId = qualificationRequestId
     }
@@ -115,8 +112,7 @@ public struct ApproveAssignmentInput: Swift.Sendable {
         assignmentId: Swift.String? = nil,
         overrideRejection: Swift.Bool? = nil,
         requesterFeedback: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentId = assignmentId
         self.overrideRejection = overrideRejection
         self.requesterFeedback = requesterFeedback
@@ -202,8 +198,7 @@ extension MTurkClientTypes {
             requesterFeedback: Swift.String? = nil,
             submitTime: Foundation.Date? = nil,
             workerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.acceptTime = acceptTime
             self.answer = answer
             self.approvalTime = approvalTime
@@ -237,8 +232,7 @@ public struct AssociateQualificationWithWorkerInput: Swift.Sendable {
         qualificationTypeId: Swift.String? = nil,
         sendNotification: Swift.Bool? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.integerValue = integerValue
         self.qualificationTypeId = qualificationTypeId
         self.sendNotification = sendNotification
@@ -272,8 +266,7 @@ extension MTurkClientTypes {
             grantTime: Foundation.Date? = nil,
             reason: Swift.String? = nil,
             workerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assignmentId = assignmentId
             self.bonusAmount = bonusAmount
             self.grantTime = grantTime
@@ -350,8 +343,7 @@ public struct CreateAdditionalAssignmentsForHITInput: Swift.Sendable {
         hitId: Swift.String? = nil,
         numberOfAdditionalAssignments: Swift.Int? = nil,
         uniqueRequestToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hitId = hitId
         self.numberOfAdditionalAssignments = numberOfAdditionalAssignments
         self.uniqueRequestToken = uniqueRequestToken
@@ -375,8 +367,7 @@ extension MTurkClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -398,8 +389,7 @@ extension MTurkClientTypes {
             key: Swift.String? = nil,
             mapEntries: [MTurkClientTypes.ParameterMapEntry]? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.mapEntries = mapEntries
             self.values = values
@@ -420,8 +410,7 @@ extension MTurkClientTypes {
         public init(
             parameters: [MTurkClientTypes.PolicyParameter]? = nil,
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.policyName = policyName
         }
@@ -442,8 +431,7 @@ extension MTurkClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -495,8 +483,7 @@ extension MTurkClientTypes {
         public init(
             country: Swift.String? = nil,
             subdivision: Swift.String? = nil
-        )
-        {
+        ) {
             self.country = country
             self.subdivision = subdivision
         }
@@ -530,8 +517,7 @@ extension MTurkClientTypes {
             localeValues: [MTurkClientTypes.Locale]? = nil,
             qualificationTypeId: Swift.String? = nil,
             requiredToPreview: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.actionsGuarded = actionsGuarded
             self.comparator = comparator
             self.integerValues = integerValues
@@ -598,8 +584,7 @@ public struct CreateHITInput: Swift.Sendable {
         reward: Swift.String? = nil,
         title: Swift.String? = nil,
         uniqueRequestToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentDurationInSeconds = assignmentDurationInSeconds
         self.assignmentReviewPolicy = assignmentReviewPolicy
         self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
@@ -761,8 +746,7 @@ extension MTurkClientTypes {
             requesterAnnotation: Swift.String? = nil,
             reward: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
             self.creationTime = creationTime
@@ -794,8 +778,7 @@ public struct CreateHITOutput: Swift.Sendable {
 
     public init(
         hit: MTurkClientTypes.HIT? = nil
-    )
-    {
+    ) {
         self.hit = hit
     }
 }
@@ -828,8 +811,7 @@ public struct CreateHITTypeInput: Swift.Sendable {
         qualificationRequirements: [MTurkClientTypes.QualificationRequirement]? = nil,
         reward: Swift.String? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentDurationInSeconds = assignmentDurationInSeconds
         self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
         self.description = description
@@ -846,8 +828,7 @@ public struct CreateHITTypeOutput: Swift.Sendable {
 
     public init(
         hitTypeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hitTypeId = hitTypeId
     }
 }
@@ -887,8 +868,7 @@ public struct CreateHITWithHITTypeInput: Swift.Sendable {
         question: Swift.String? = nil,
         requesterAnnotation: Swift.String? = nil,
         uniqueRequestToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentReviewPolicy = assignmentReviewPolicy
         self.hitLayoutId = hitLayoutId
         self.hitLayoutParameters = hitLayoutParameters
@@ -908,8 +888,7 @@ public struct CreateHITWithHITTypeOutput: Swift.Sendable {
 
     public init(
         hit: MTurkClientTypes.HIT? = nil
-    )
-    {
+    ) {
         self.hit = hit
     }
 }
@@ -979,8 +958,7 @@ public struct CreateQualificationTypeInput: Swift.Sendable {
         retryDelayInSeconds: Swift.Int? = nil,
         test: Swift.String? = nil,
         testDurationInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.answerKey = answerKey
         self.autoGranted = autoGranted
         self.autoGrantedValue = autoGrantedValue
@@ -1039,8 +1017,7 @@ extension MTurkClientTypes {
             retryDelayInSeconds: Swift.Int? = nil,
             test: Swift.String? = nil,
             testDurationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.answerKey = answerKey
             self.autoGranted = autoGranted
             self.autoGrantedValue = autoGrantedValue
@@ -1064,8 +1041,7 @@ public struct CreateQualificationTypeOutput: Swift.Sendable {
 
     public init(
         qualificationType: MTurkClientTypes.QualificationType? = nil
-    )
-    {
+    ) {
         self.qualificationType = qualificationType
     }
 }
@@ -1081,8 +1057,7 @@ public struct CreateWorkerBlockInput: Swift.Sendable {
     public init(
         reason: Swift.String? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reason = reason
         self.workerId = workerId
     }
@@ -1100,8 +1075,7 @@ public struct DeleteHITInput: Swift.Sendable {
 
     public init(
         hitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hitId = hitId
     }
 }
@@ -1118,8 +1092,7 @@ public struct DeleteQualificationTypeInput: Swift.Sendable {
 
     public init(
         qualificationTypeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.qualificationTypeId = qualificationTypeId
     }
 }
@@ -1139,8 +1112,7 @@ public struct DeleteWorkerBlockInput: Swift.Sendable {
     public init(
         reason: Swift.String? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reason = reason
         self.workerId = workerId
     }
@@ -1165,8 +1137,7 @@ public struct DisassociateQualificationFromWorkerInput: Swift.Sendable {
         qualificationTypeId: Swift.String? = nil,
         reason: Swift.String? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.qualificationTypeId = qualificationTypeId
         self.reason = reason
         self.workerId = workerId
@@ -1251,8 +1222,7 @@ public struct GetAccountBalanceOutput: Swift.Sendable {
     public init(
         availableBalance: Swift.String? = nil,
         onHoldBalance: Swift.String? = nil
-    )
-    {
+    ) {
         self.availableBalance = availableBalance
         self.onHoldBalance = onHoldBalance
     }
@@ -1265,8 +1235,7 @@ public struct GetAssignmentInput: Swift.Sendable {
 
     public init(
         assignmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentId = assignmentId
     }
 }
@@ -1280,8 +1249,7 @@ public struct GetAssignmentOutput: Swift.Sendable {
     public init(
         assignment: MTurkClientTypes.Assignment? = nil,
         hit: MTurkClientTypes.HIT? = nil
-    )
-    {
+    ) {
         self.assignment = assignment
         self.hit = hit
     }
@@ -1298,8 +1266,7 @@ public struct GetFileUploadURLInput: Swift.Sendable {
     public init(
         assignmentId: Swift.String? = nil,
         questionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentId = assignmentId
         self.questionIdentifier = questionIdentifier
     }
@@ -1311,8 +1278,7 @@ public struct GetFileUploadURLOutput: Swift.Sendable {
 
     public init(
         fileUploadURL: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileUploadURL = fileUploadURL
     }
 }
@@ -1324,8 +1290,7 @@ public struct GetHITInput: Swift.Sendable {
 
     public init(
         hitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hitId = hitId
     }
 }
@@ -1336,8 +1301,7 @@ public struct GetHITOutput: Swift.Sendable {
 
     public init(
         hit: MTurkClientTypes.HIT? = nil
-    )
-    {
+    ) {
         self.hit = hit
     }
 }
@@ -1353,8 +1317,7 @@ public struct GetQualificationScoreInput: Swift.Sendable {
     public init(
         qualificationTypeId: Swift.String? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.qualificationTypeId = qualificationTypeId
         self.workerId = workerId
     }
@@ -1413,8 +1376,7 @@ extension MTurkClientTypes {
             qualificationTypeId: Swift.String? = nil,
             status: MTurkClientTypes.QualificationStatus? = nil,
             workerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.grantTime = grantTime
             self.integerValue = integerValue
             self.localeValue = localeValue
@@ -1431,8 +1393,7 @@ public struct GetQualificationScoreOutput: Swift.Sendable {
 
     public init(
         qualification: MTurkClientTypes.Qualification? = nil
-    )
-    {
+    ) {
         self.qualification = qualification
     }
 }
@@ -1444,8 +1405,7 @@ public struct GetQualificationTypeInput: Swift.Sendable {
 
     public init(
         qualificationTypeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.qualificationTypeId = qualificationTypeId
     }
 }
@@ -1456,8 +1416,7 @@ public struct GetQualificationTypeOutput: Swift.Sendable {
 
     public init(
         qualificationType: MTurkClientTypes.QualificationType? = nil
-    )
-    {
+    ) {
         self.qualificationType = qualificationType
     }
 }
@@ -1477,8 +1436,7 @@ public struct ListAssignmentsForHITInput: Swift.Sendable {
         hitId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentStatuses = assignmentStatuses
         self.hitId = hitId
         self.maxResults = maxResults
@@ -1498,8 +1456,7 @@ public struct ListAssignmentsForHITOutput: Swift.Sendable {
         assignments: [MTurkClientTypes.Assignment]? = nil,
         nextToken: Swift.String? = nil,
         numResults: Swift.Int? = nil
-    )
-    {
+    ) {
         self.assignments = assignments
         self.nextToken = nextToken
         self.numResults = numResults
@@ -1520,8 +1477,7 @@ public struct ListBonusPaymentsInput: Swift.Sendable {
         hitId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentId = assignmentId
         self.hitId = hitId
         self.maxResults = maxResults
@@ -1541,8 +1497,7 @@ public struct ListBonusPaymentsOutput: Swift.Sendable {
         bonusPayments: [MTurkClientTypes.BonusPayment]? = nil,
         nextToken: Swift.String? = nil,
         numResults: Swift.Int? = nil
-    )
-    {
+    ) {
         self.bonusPayments = bonusPayments
         self.nextToken = nextToken
         self.numResults = numResults
@@ -1557,8 +1512,7 @@ public struct ListHITsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1576,8 +1530,7 @@ public struct ListHITsOutput: Swift.Sendable {
         hiTs: [MTurkClientTypes.HIT]? = nil,
         nextToken: Swift.String? = nil,
         numResults: Swift.Int? = nil
-    )
-    {
+    ) {
         self.hiTs = hiTs
         self.nextToken = nextToken
         self.numResults = numResults
@@ -1597,8 +1550,7 @@ public struct ListHITsForQualificationTypeInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         qualificationTypeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.qualificationTypeId = qualificationTypeId
@@ -1617,8 +1569,7 @@ public struct ListHITsForQualificationTypeOutput: Swift.Sendable {
         hiTs: [MTurkClientTypes.HIT]? = nil,
         nextToken: Swift.String? = nil,
         numResults: Swift.Int? = nil
-    )
-    {
+    ) {
         self.hiTs = hiTs
         self.nextToken = nextToken
         self.numResults = numResults
@@ -1637,8 +1588,7 @@ public struct ListQualificationRequestsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         qualificationTypeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.qualificationTypeId = qualificationTypeId
@@ -1669,8 +1619,7 @@ extension MTurkClientTypes {
             submitTime: Foundation.Date? = nil,
             test: Swift.String? = nil,
             workerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.answer = answer
             self.qualificationRequestId = qualificationRequestId
             self.qualificationTypeId = qualificationTypeId
@@ -1693,8 +1642,7 @@ public struct ListQualificationRequestsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         numResults: Swift.Int? = nil,
         qualificationRequests: [MTurkClientTypes.QualificationRequest]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.numResults = numResults
         self.qualificationRequests = qualificationRequests
@@ -1720,8 +1668,7 @@ public struct ListQualificationTypesInput: Swift.Sendable {
         mustBeRequestable: Swift.Bool? = nil,
         nextToken: Swift.String? = nil,
         query: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.mustBeOwnedByCaller = mustBeOwnedByCaller
         self.mustBeRequestable = mustBeRequestable
@@ -1742,8 +1689,7 @@ public struct ListQualificationTypesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         numResults: Swift.Int? = nil,
         qualificationTypes: [MTurkClientTypes.QualificationType]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.numResults = numResults
         self.qualificationTypes = qualificationTypes
@@ -1794,8 +1740,7 @@ public struct ListReviewableHITsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: MTurkClientTypes.ReviewableHITStatus? = nil
-    )
-    {
+    ) {
         self.hitTypeId = hitTypeId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1815,8 +1760,7 @@ public struct ListReviewableHITsOutput: Swift.Sendable {
         hiTs: [MTurkClientTypes.HIT]? = nil,
         nextToken: Swift.String? = nil,
         numResults: Swift.Int? = nil
-    )
-    {
+    ) {
         self.hiTs = hiTs
         self.nextToken = nextToken
         self.numResults = numResults
@@ -1874,8 +1818,7 @@ public struct ListReviewPolicyResultsForHITInput: Swift.Sendable {
         policyLevels: [MTurkClientTypes.ReviewPolicyLevel]? = nil,
         retrieveActions: Swift.Bool? = nil,
         retrieveResults: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.hitId = hitId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1950,8 +1893,7 @@ extension MTurkClientTypes {
             status: MTurkClientTypes.ReviewActionStatus? = nil,
             targetId: Swift.String? = nil,
             targetType: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.actionName = actionName
             self.completeTime = completeTime
@@ -1988,8 +1930,7 @@ extension MTurkClientTypes {
             subjectId: Swift.String? = nil,
             subjectType: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.key = key
             self.questionId = questionId
@@ -2012,8 +1953,7 @@ extension MTurkClientTypes {
         public init(
             reviewActions: [MTurkClientTypes.ReviewActionDetail]? = nil,
             reviewResults: [MTurkClientTypes.ReviewResultDetail]? = nil
-        )
-        {
+        ) {
             self.reviewActions = reviewActions
             self.reviewResults = reviewResults
         }
@@ -2041,8 +1981,7 @@ public struct ListReviewPolicyResultsForHITOutput: Swift.Sendable {
         hitReviewPolicy: MTurkClientTypes.ReviewPolicy? = nil,
         hitReviewReport: MTurkClientTypes.ReviewReport? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentReviewPolicy = assignmentReviewPolicy
         self.assignmentReviewReport = assignmentReviewReport
         self.hitId = hitId
@@ -2060,8 +1999,7 @@ public struct ListWorkerBlocksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2079,8 +2017,7 @@ extension MTurkClientTypes {
         public init(
             reason: Swift.String? = nil,
             workerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.workerId = workerId
         }
@@ -2099,8 +2036,7 @@ public struct ListWorkerBlocksOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         numResults: Swift.Int? = nil,
         workerBlocks: [MTurkClientTypes.WorkerBlock]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.numResults = numResults
         self.workerBlocks = workerBlocks
@@ -2123,8 +2059,7 @@ public struct ListWorkersWithQualificationTypeInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         qualificationTypeId: Swift.String? = nil,
         status: MTurkClientTypes.QualificationStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.qualificationTypeId = qualificationTypeId
@@ -2144,8 +2079,7 @@ public struct ListWorkersWithQualificationTypeOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         numResults: Swift.Int? = nil,
         qualifications: [MTurkClientTypes.Qualification]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.numResults = numResults
         self.qualifications = qualifications
@@ -2167,8 +2101,7 @@ public struct NotifyWorkersInput: Swift.Sendable {
         messageText: Swift.String? = nil,
         subject: Swift.String? = nil,
         workerIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.messageText = messageText
         self.subject = subject
         self.workerIds = workerIds
@@ -2219,8 +2152,7 @@ extension MTurkClientTypes {
             notifyWorkersFailureCode: MTurkClientTypes.NotifyWorkersFailureCode? = nil,
             notifyWorkersFailureMessage: Swift.String? = nil,
             workerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.notifyWorkersFailureCode = notifyWorkersFailureCode
             self.notifyWorkersFailureMessage = notifyWorkersFailureMessage
             self.workerId = workerId
@@ -2234,8 +2166,7 @@ public struct NotifyWorkersOutput: Swift.Sendable {
 
     public init(
         notifyWorkersFailureStatuses: [MTurkClientTypes.NotifyWorkersFailureStatus]? = nil
-    )
-    {
+    ) {
         self.notifyWorkersFailureStatuses = notifyWorkersFailureStatuses
     }
 }
@@ -2251,8 +2182,7 @@ public struct RejectAssignmentInput: Swift.Sendable {
     public init(
         assignmentId: Swift.String? = nil,
         requesterFeedback: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentId = assignmentId
         self.requesterFeedback = requesterFeedback
     }
@@ -2273,8 +2203,7 @@ public struct RejectQualificationRequestInput: Swift.Sendable {
     public init(
         qualificationRequestId: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.qualificationRequestId = qualificationRequestId
         self.reason = reason
     }
@@ -2307,8 +2236,7 @@ public struct SendBonusInput: Swift.Sendable {
         reason: Swift.String? = nil,
         uniqueRequestToken: Swift.String? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentId = assignmentId
         self.bonusAmount = bonusAmount
         self.reason = reason
@@ -2382,8 +2310,7 @@ extension MTurkClientTypes {
             eventTypes: [MTurkClientTypes.EventType]? = nil,
             transport: MTurkClientTypes.NotificationTransport? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.eventTypes = eventTypes
             self.transport = transport
@@ -2403,8 +2330,7 @@ public struct SendTestEventNotificationInput: Swift.Sendable {
     public init(
         notification: MTurkClientTypes.NotificationSpecification? = nil,
         testEventType: MTurkClientTypes.EventType? = nil
-    )
-    {
+    ) {
         self.notification = notification
         self.testEventType = testEventType
     }
@@ -2426,8 +2352,7 @@ public struct UpdateExpirationForHITInput: Swift.Sendable {
     public init(
         expireAt: Foundation.Date? = nil,
         hitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.expireAt = expireAt
         self.hitId = hitId
     }
@@ -2452,8 +2377,7 @@ public struct UpdateHITReviewStatusInput: Swift.Sendable {
     public init(
         hitId: Swift.String? = nil,
         revert: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.hitId = hitId
         self.revert = revert
     }
@@ -2475,8 +2399,7 @@ public struct UpdateHITTypeOfHITInput: Swift.Sendable {
     public init(
         hitId: Swift.String? = nil,
         hitTypeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hitId = hitId
         self.hitTypeId = hitTypeId
     }
@@ -2500,8 +2423,7 @@ public struct UpdateNotificationSettingsInput: Swift.Sendable {
         active: Swift.Bool? = nil,
         hitTypeId: Swift.String? = nil,
         notification: MTurkClientTypes.NotificationSpecification? = nil
-    )
-    {
+    ) {
         self.active = active
         self.hitTypeId = hitTypeId
         self.notification = notification
@@ -2544,8 +2466,7 @@ public struct UpdateQualificationTypeInput: Swift.Sendable {
         retryDelayInSeconds: Swift.Int? = nil,
         test: Swift.String? = nil,
         testDurationInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.answerKey = answerKey
         self.autoGranted = autoGranted
         self.autoGrantedValue = autoGrantedValue
@@ -2564,8 +2485,7 @@ public struct UpdateQualificationTypeOutput: Swift.Sendable {
 
     public init(
         qualificationType: MTurkClientTypes.QualificationType? = nil
-    )
-    {
+    ) {
         self.qualificationType = qualificationType
     }
 }

@@ -61,8 +61,7 @@ public struct AccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -82,8 +81,7 @@ extension DatabaseMigrationClientTypes {
             accountQuotaName: Swift.String? = nil,
             max: Swift.Int = 0,
             used: Swift.Int = 0
-        )
-        {
+        ) {
             self.accountQuotaName = accountQuotaName
             self.max = max
             self.used = used
@@ -110,8 +108,7 @@ public struct InvalidResourceStateFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -135,8 +132,7 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -162,8 +158,7 @@ extension DatabaseMigrationClientTypes {
             key: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.resourceArn = resourceArn
             self.value = value
@@ -183,8 +178,7 @@ public struct AddTagsToResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -218,8 +212,7 @@ public struct ApplyPendingMaintenanceActionInput: Swift.Sendable {
         applyAction: Swift.String? = nil,
         optInType: Swift.String? = nil,
         replicationInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyAction = applyAction
         self.optInType = optInType
         self.replicationInstanceArn = replicationInstanceArn
@@ -250,8 +243,7 @@ extension DatabaseMigrationClientTypes {
             description: Swift.String? = nil,
             forcedApplyDate: Foundation.Date? = nil,
             optInStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
             self.currentApplyDate = currentApplyDate
@@ -274,8 +266,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             pendingMaintenanceActionDetails: [DatabaseMigrationClientTypes.PendingMaintenanceAction]? = nil,
             resourceIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
             self.resourceIdentifier = resourceIdentifier
         }
@@ -289,8 +280,7 @@ public struct ApplyPendingMaintenanceActionOutput: Swift.Sendable {
 
     public init(
         resourcePendingMaintenanceActions: DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions? = nil
-    )
-    {
+    ) {
         self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
     }
 }
@@ -309,8 +299,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             instanceSizingType: Swift.String? = nil,
             workloadType: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceSizingType = instanceSizingType
             self.workloadType = workloadType
         }
@@ -331,8 +320,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             databaseId: Swift.String? = nil,
             settings: DatabaseMigrationClientTypes.RecommendationSettings? = nil
-        )
-        {
+        ) {
             self.databaseId = databaseId
             self.settings = settings
         }
@@ -345,8 +333,7 @@ public struct BatchStartRecommendationsInput: Swift.Sendable {
 
     public init(
         data: [DatabaseMigrationClientTypes.StartRecommendationsRequestEntry]? = nil
-    )
-    {
+    ) {
         self.data = data
     }
 }
@@ -366,8 +353,7 @@ extension DatabaseMigrationClientTypes {
             code: Swift.String? = nil,
             databaseId: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.databaseId = databaseId
             self.message = message
@@ -381,8 +367,7 @@ public struct BatchStartRecommendationsOutput: Swift.Sendable {
 
     public init(
         errorEntries: [DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
     }
 }
@@ -395,8 +380,7 @@ public struct CancelReplicationTaskAssessmentRunInput: Swift.Sendable {
 
     public init(
         replicationTaskAssessmentRunArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationTaskAssessmentRunArn = replicationTaskAssessmentRunArn
     }
 }
@@ -413,8 +397,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             individualAssessmentCompletedCount: Swift.Int = 0,
             individualAssessmentCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.individualAssessmentCompletedCount = individualAssessmentCompletedCount
             self.individualAssessmentCount = individualAssessmentCount
         }
@@ -442,8 +425,7 @@ extension DatabaseMigrationClientTypes {
             failed: Swift.Int = 0,
             passed: Swift.Int = 0,
             warning: Swift.Int = 0
-        )
-        {
+        ) {
             self.cancelled = cancelled
             self.error = error
             self.failed = failed
@@ -523,8 +505,7 @@ extension DatabaseMigrationClientTypes {
             resultStatistic: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic? = nil,
             serviceAccessRoleArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.assessmentProgress = assessmentProgress
             self.assessmentRunName = assessmentRunName
             self.isLatestTaskAssessmentRun = isLatestTaskAssessmentRun
@@ -550,8 +531,7 @@ public struct CancelReplicationTaskAssessmentRunOutput: Swift.Sendable {
 
     public init(
         replicationTaskAssessmentRun: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun? = nil
-    )
-    {
+    ) {
         self.replicationTaskAssessmentRun = replicationTaskAssessmentRun
     }
 }
@@ -574,8 +554,7 @@ public struct FailedDependencyFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -598,8 +577,7 @@ public struct InvalidOperationFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -626,8 +604,7 @@ public struct ResourceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientR
     public init(
         message: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceArn = resourceArn
     }
@@ -652,8 +629,7 @@ public struct ResourceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -708,8 +684,7 @@ extension DatabaseMigrationClientTypes {
             cdcStartTime: Foundation.Date? = nil,
             cdcStopTime: Foundation.Date? = nil,
             slotName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.cdcStopTime = cdcStopTime
@@ -757,8 +732,7 @@ public struct CreateDataMigrationInput: Swift.Sendable {
         serviceAccessRoleArn: Swift.String? = nil,
         sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dataMigrationName = dataMigrationName
         self.dataMigrationType = dataMigrationType
         self.enableCloudwatchLogs = enableCloudwatchLogs
@@ -791,8 +765,7 @@ extension DatabaseMigrationClientTypes {
             cloudwatchLogsEnabled: Swift.Bool? = nil,
             numberOfJobs: Swift.Int? = nil,
             selectionRules: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudwatchLogsEnabled = cloudwatchLogsEnabled
             self.numberOfJobs = numberOfJobs
             self.selectionRules = selectionRules
@@ -838,8 +811,7 @@ extension DatabaseMigrationClientTypes {
             tablesLoaded: Swift.Int = 0,
             tablesLoading: Swift.Int = 0,
             tablesQueued: Swift.Int = 0
-        )
-        {
+        ) {
             self.cdcLatency = cdcLatency
             self.elapsedTimeMillis = elapsedTimeMillis
             self.fullLoadPercentage = fullLoadPercentage
@@ -907,8 +879,7 @@ extension DatabaseMigrationClientTypes {
             serviceAccessRoleArn: Swift.String? = nil,
             sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]? = nil,
             stopReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataMigrationArn = dataMigrationArn
             self.dataMigrationCidrBlocks = dataMigrationCidrBlocks
             self.dataMigrationCreateTime = dataMigrationCreateTime
@@ -940,8 +911,7 @@ public struct CreateDataMigrationOutput: Swift.Sendable {
 
     public init(
         dataMigration: DatabaseMigrationClientTypes.DataMigration? = nil
-    )
-    {
+    ) {
         self.dataMigration = dataMigration
     }
 }
@@ -1002,8 +972,7 @@ extension DatabaseMigrationClientTypes {
             port: Swift.Int? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
@@ -1031,8 +1000,7 @@ extension DatabaseMigrationClientTypes {
             port: Swift.Int? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.port = port
             self.serverName = serverName
@@ -1062,8 +1030,7 @@ extension DatabaseMigrationClientTypes {
             port: Swift.Int? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
@@ -1164,8 +1131,7 @@ extension DatabaseMigrationClientTypes {
             port: Swift.Int? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
-        )
-        {
+        ) {
             self.authMechanism = authMechanism
             self.authSource = authSource
             self.authType = authType
@@ -1196,8 +1162,7 @@ extension DatabaseMigrationClientTypes {
             port: Swift.Int? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.port = port
             self.serverName = serverName
@@ -1242,8 +1207,7 @@ extension DatabaseMigrationClientTypes {
             secretsManagerSecurityDbEncryptionSecretId: Swift.String? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
-        )
-        {
+        ) {
             self.asmServer = asmServer
             self.certificateArn = certificateArn
             self.databaseName = databaseName
@@ -1279,8 +1243,7 @@ extension DatabaseMigrationClientTypes {
             port: Swift.Int? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
@@ -1305,8 +1268,7 @@ extension DatabaseMigrationClientTypes {
             databaseName: Swift.String? = nil,
             port: Swift.Int? = nil,
             serverName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.port = port
             self.serverName = serverName
@@ -1358,8 +1320,7 @@ public struct CreateDataProviderInput: Swift.Sendable {
         engine: Swift.String? = nil,
         settings: DatabaseMigrationClientTypes.DataProviderSettings? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dataProviderName = dataProviderName
         self.description = description
         self.engine = engine
@@ -1392,8 +1353,7 @@ extension DatabaseMigrationClientTypes {
             description: Swift.String? = nil,
             engine: Swift.String? = nil,
             settings: DatabaseMigrationClientTypes.DataProviderSettings? = nil
-        )
-        {
+        ) {
             self.dataProviderArn = dataProviderArn
             self.dataProviderCreationTime = dataProviderCreationTime
             self.dataProviderName = dataProviderName
@@ -1410,8 +1370,7 @@ public struct CreateDataProviderOutput: Swift.Sendable {
 
     public init(
         dataProvider: DatabaseMigrationClientTypes.DataProvider? = nil
-    )
-    {
+    ) {
         self.dataProvider = dataProvider
     }
 }
@@ -1435,8 +1394,7 @@ public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1459,8 +1417,7 @@ public struct S3AccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1477,8 +1434,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             serviceAccessRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.serviceAccessRoleArn = serviceAccessRoleArn
         }
@@ -1563,8 +1519,7 @@ extension DatabaseMigrationClientTypes {
             serverName: Swift.String? = nil,
             useUpdateLookUp: Swift.Bool? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.docsToInvestigate = docsToInvestigate
             self.extractDocId = extractDocId
@@ -1597,8 +1552,7 @@ extension DatabaseMigrationClientTypes {
 
         public init(
             serviceAccessRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceAccessRoleArn = serviceAccessRoleArn
         }
     }
@@ -1627,8 +1581,7 @@ extension DatabaseMigrationClientTypes {
             fullLoadErrorPercentage: Swift.Int? = nil,
             serviceAccessRoleArn: Swift.String? = nil,
             useNewMappingType: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.endpointUri = endpointUri
             self.errorRetryDuration = errorRetryDuration
             self.fullLoadErrorPercentage = fullLoadErrorPercentage
@@ -1744,8 +1697,7 @@ extension DatabaseMigrationClientTypes {
             serverTimezone: Swift.String? = nil,
             targetDbType: DatabaseMigrationClientTypes.TargetDbType? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterConnectScript = afterConnectScript
             self.cleanSourceMetadataOnMismatch = cleanSourceMetadataOnMismatch
             self.databaseName = databaseName
@@ -1817,8 +1769,7 @@ extension DatabaseMigrationClientTypes {
             setDataCaptureChanges: Swift.Bool? = nil,
             username: Swift.String? = nil,
             writeBufferSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.currentLsn = currentLsn
             self.databaseName = databaseName
             self.keepCsvFiles = keepCsvFiles
@@ -2033,8 +1984,7 @@ extension DatabaseMigrationClientTypes {
             sslEndpointIdentificationAlgorithm: DatabaseMigrationClientTypes.KafkaSslEndpointIdentificationAlgorithm? = nil,
             topic: Swift.String? = nil,
             useLargeIntegerValue: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.broker = broker
             self.includeControlDetails = includeControlDetails
             self.includeNullAndEmpty = includeNullAndEmpty
@@ -2104,8 +2054,7 @@ extension DatabaseMigrationClientTypes {
             serviceAccessRoleArn: Swift.String? = nil,
             streamArn: Swift.String? = nil,
             useLargeIntegerValue: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeControlDetails = includeControlDetails
             self.includeNullAndEmpty = includeNullAndEmpty
             self.includePartitionValue = includePartitionValue
@@ -2277,8 +2226,7 @@ extension DatabaseMigrationClientTypes {
             useBcpFullLoad: Swift.Bool? = nil,
             useThirdPartyBackupDevice: Swift.Bool? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationMethod = authenticationMethod
             self.bcpPacketSize = bcpPacketSize
             self.controlTablesFileGroup = controlTablesFileGroup
@@ -2364,8 +2312,7 @@ extension DatabaseMigrationClientTypes {
             serverName: Swift.String? = nil,
             useUpdateLookUp: Swift.Bool? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.authMechanism = authMechanism
             self.authSource = authSource
             self.authType = authType
@@ -2442,8 +2389,7 @@ extension DatabaseMigrationClientTypes {
             serverTimezone: Swift.String? = nil,
             targetDbType: DatabaseMigrationClientTypes.TargetDbType? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterConnectScript = afterConnectScript
             self.cleanSourceMetadataOnMismatch = cleanSourceMetadataOnMismatch
             self.databaseName = databaseName
@@ -2497,8 +2443,7 @@ extension DatabaseMigrationClientTypes {
             s3BucketFolder: Swift.String? = nil,
             s3BucketName: Swift.String? = nil,
             serviceAccessRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorRetryDuration = errorRetryDuration
             self.iamAuthEnabled = iamAuthEnabled
             self.maxFileSize = maxFileSize
@@ -2709,8 +2654,7 @@ extension DatabaseMigrationClientTypes {
             useLogminerReader: Swift.Bool? = nil,
             usePathPrefix: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessAlternateDirectly = accessAlternateDirectly
             self.addSupplementalLogging = addSupplementalLogging
             self.additionalArchivedLogDestId = additionalArchivedLogDestId
@@ -2938,8 +2882,7 @@ extension DatabaseMigrationClientTypes {
             slotName: Swift.String? = nil,
             trimSpaceInChar: Swift.Bool? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterConnectScript = afterConnectScript
             self.babelfishDatabaseName = babelfishDatabaseName
             self.captureDdls = captureDdls
@@ -3064,8 +3007,7 @@ extension DatabaseMigrationClientTypes {
             serverName: Swift.String? = nil,
             sslCaCertificateArn: Swift.String? = nil,
             sslSecurityProtocol: DatabaseMigrationClientTypes.SslSecurityProtocolValue? = nil
-        )
-        {
+        ) {
             self.authPassword = authPassword
             self.authType = authType
             self.authUserName = authUserName
@@ -3210,8 +3152,7 @@ extension DatabaseMigrationClientTypes {
             truncateColumns: Swift.Bool? = nil,
             username: Swift.String? = nil,
             writeBufferSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.acceptAnyDate = acceptAnyDate
             self.afterConnectScript = afterConnectScript
             self.bucketFolder = bucketFolder
@@ -3652,8 +3593,7 @@ extension DatabaseMigrationClientTypes {
             timestampColumnName: Swift.String? = nil,
             useCsvNoSupValue: Swift.Bool? = nil,
             useTaskStartTimeForFullLoadTimestamp: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.addColumnName = addColumnName
             self.addTrailingPaddingCharacter = addTrailingPaddingCharacter
             self.bucketFolder = bucketFolder
@@ -3726,8 +3666,7 @@ extension DatabaseMigrationClientTypes {
             secretsManagerSecretId: Swift.String? = nil,
             serverName: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.password = password
             self.port = port
@@ -3768,8 +3707,7 @@ extension DatabaseMigrationClientTypes {
             enableMagneticStoreWrites: Swift.Bool? = nil,
             magneticDuration: Swift.Int? = nil,
             memoryDuration: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cdcInsertsAndUpdates = cdcInsertsAndUpdates
             self.databaseName = databaseName
             self.enableMagneticStoreWrites = enableMagneticStoreWrites
@@ -3898,8 +3836,7 @@ public struct CreateEndpointInput: Swift.Sendable {
         tags: [DatabaseMigrationClientTypes.Tag]? = nil,
         timestreamSettings: DatabaseMigrationClientTypes.TimestreamSettings? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.databaseName = databaseName
         self.dmsTransferSettings = dmsTransferSettings
@@ -4063,8 +4000,7 @@ extension DatabaseMigrationClientTypes {
             sybaseSettings: DatabaseMigrationClientTypes.SybaseSettings? = nil,
             timestreamSettings: DatabaseMigrationClientTypes.TimestreamSettings? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -4112,8 +4048,7 @@ public struct CreateEndpointOutput: Swift.Sendable {
 
     public init(
         endpoint: DatabaseMigrationClientTypes.Endpoint? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
     }
 }
@@ -4136,8 +4071,7 @@ public struct KMSAccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4160,8 +4094,7 @@ public struct KMSDisabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4184,8 +4117,7 @@ public struct KMSInvalidStateFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4208,8 +4140,7 @@ public struct KMSNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4232,8 +4163,7 @@ public struct KMSThrottlingFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4257,8 +4187,7 @@ public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4282,8 +4211,7 @@ public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4315,8 +4243,7 @@ public struct CreateEventSubscriptionInput: Swift.Sendable {
         sourceType: Swift.String? = nil,
         subscriptionName: Swift.String? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.eventCategories = eventCategories
         self.snsTopicArn = snsTopicArn
@@ -4360,8 +4287,7 @@ extension DatabaseMigrationClientTypes {
             sourceType: Swift.String? = nil,
             status: Swift.String? = nil,
             subscriptionCreationTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.custSubscriptionId = custSubscriptionId
             self.customerAwsId = customerAwsId
             self.enabled = enabled
@@ -4382,8 +4308,7 @@ public struct CreateEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: DatabaseMigrationClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -4406,8 +4331,7 @@ public struct S3ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4430,8 +4354,7 @@ public struct CreateFleetAdvisorCollectorInput: Swift.Sendable {
         description: Swift.String? = nil,
         s3BucketName: Swift.String? = nil,
         serviceAccessRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectorName = collectorName
         self.description = description
         self.s3BucketName = s3BucketName
@@ -4457,8 +4380,7 @@ public struct CreateFleetAdvisorCollectorOutput: Swift.Sendable {
         description: Swift.String? = nil,
         s3BucketName: Swift.String? = nil,
         serviceAccessRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectorName = collectorName
         self.collectorReferencedId = collectorReferencedId
         self.description = description
@@ -4497,8 +4419,7 @@ public struct CreateInstanceProfileInput: Swift.Sendable {
         subnetGroupIdentifier: Swift.String? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil,
         vpcSecurityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZone = availabilityZone
         self.description = description
         self.instanceProfileName = instanceProfileName
@@ -4547,8 +4468,7 @@ extension DatabaseMigrationClientTypes {
             publiclyAccessible: Swift.Bool? = nil,
             subnetGroupIdentifier: Swift.String? = nil,
             vpcSecurityGroups: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.instanceProfileArn = instanceProfileArn
@@ -4569,8 +4489,7 @@ public struct CreateInstanceProfileOutput: Swift.Sendable {
 
     public init(
         instanceProfile: DatabaseMigrationClientTypes.InstanceProfile? = nil
-    )
-    {
+    ) {
         self.instanceProfile = instanceProfile
     }
 }
@@ -4587,8 +4506,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             s3BucketPath: Swift.String? = nil,
             s3BucketRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketPath = s3BucketPath
             self.s3BucketRoleArn = s3BucketRoleArn
         }
@@ -4611,8 +4529,7 @@ extension DatabaseMigrationClientTypes {
             dataProviderIdentifier: Swift.String? = nil,
             secretsManagerAccessRoleArn: Swift.String? = nil,
             secretsManagerSecretId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataProviderIdentifier = dataProviderIdentifier
             self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
             self.secretsManagerSecretId = secretsManagerSecretId
@@ -4650,8 +4567,7 @@ public struct CreateMigrationProjectInput: Swift.Sendable {
         tags: [DatabaseMigrationClientTypes.Tag]? = nil,
         targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]? = nil,
         transformationRules: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceProfileIdentifier = instanceProfileIdentifier
         self.migrationProjectName = migrationProjectName
@@ -4681,8 +4597,7 @@ extension DatabaseMigrationClientTypes {
             dataProviderName: Swift.String? = nil,
             secretsManagerAccessRoleArn: Swift.String? = nil,
             secretsManagerSecretId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataProviderArn = dataProviderArn
             self.dataProviderName = dataProviderName
             self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
@@ -4727,8 +4642,7 @@ extension DatabaseMigrationClientTypes {
             sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptor]? = nil,
             targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptor]? = nil,
             transformationRules: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.instanceProfileArn = instanceProfileArn
             self.instanceProfileName = instanceProfileName
@@ -4749,8 +4663,7 @@ public struct CreateMigrationProjectOutput: Swift.Sendable {
 
     public init(
         migrationProject: DatabaseMigrationClientTypes.MigrationProject? = nil
-    )
-    {
+    ) {
         self.migrationProject = migrationProject
     }
 }
@@ -4774,8 +4687,7 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4799,8 +4711,7 @@ public struct ReplicationSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4838,8 +4749,7 @@ extension DatabaseMigrationClientTypes {
             preferredMaintenanceWindow: Swift.String? = nil,
             replicationSubnetGroupId: Swift.String? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.dnsNameServers = dnsNameServers
             self.kmsKeyId = kmsKeyId
@@ -4899,8 +4809,7 @@ public struct CreateReplicationConfigInput: Swift.Sendable {
         tableMappings: Swift.String? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil,
         targetEndpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeConfig = computeConfig
         self.replicationConfigIdentifier = replicationConfigIdentifier
         self.replicationSettings = replicationSettings
@@ -4953,8 +4862,7 @@ extension DatabaseMigrationClientTypes {
             supplementalSettings: Swift.String? = nil,
             tableMappings: Swift.String? = nil,
             targetEndpointArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.computeConfig = computeConfig
             self.replicationConfigArn = replicationConfigArn
             self.replicationConfigCreateTime = replicationConfigCreateTime
@@ -4977,8 +4885,7 @@ public struct CreateReplicationConfigOutput: Swift.Sendable {
 
     public init(
         replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig? = nil
-    )
-    {
+    ) {
         self.replicationConfig = replicationConfig
     }
 }
@@ -5002,8 +4909,7 @@ public struct InsufficientResourceCapacityFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5027,8 +4933,7 @@ public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5048,8 +4953,7 @@ extension DatabaseMigrationClientTypes {
             keyCacheSecretIamArn: Swift.String? = nil,
             keyCacheSecretId: Swift.String? = nil,
             krb5FileContents: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyCacheSecretIamArn = keyCacheSecretIamArn
             self.keyCacheSecretId = keyCacheSecretId
             self.krb5FileContents = krb5FileContents
@@ -5123,8 +5027,7 @@ public struct CreateReplicationInstanceInput: Swift.Sendable {
         resourceIdentifier: Swift.String? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -5166,8 +5069,7 @@ extension DatabaseMigrationClientTypes {
             multiAZ: Swift.Bool? = nil,
             networkType: Swift.String? = nil,
             replicationInstanceClass: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.engineVersion = engineVersion
             self.multiAZ = multiAZ
@@ -5186,8 +5088,7 @@ extension DatabaseMigrationClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -5208,8 +5109,7 @@ extension DatabaseMigrationClientTypes {
             subnetAvailabilityZone: DatabaseMigrationClientTypes.AvailabilityZone? = nil,
             subnetIdentifier: Swift.String? = nil,
             subnetStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
             self.subnetStatus = subnetStatus
@@ -5241,8 +5141,7 @@ extension DatabaseMigrationClientTypes {
             subnets: [DatabaseMigrationClientTypes.Subnet]? = nil,
             supportedNetworkTypes: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
             self.subnetGroupStatus = subnetGroupStatus
@@ -5265,8 +5164,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             status: Swift.String? = nil,
             vpcSecurityGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
@@ -5394,8 +5292,7 @@ extension DatabaseMigrationClientTypes {
             replicationSubnetGroup: DatabaseMigrationClientTypes.ReplicationSubnetGroup? = nil,
             secondaryAvailabilityZone: Swift.String? = nil,
             vpcSecurityGroups: [DatabaseMigrationClientTypes.VpcSecurityGroupMembership]? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -5433,8 +5330,7 @@ public struct CreateReplicationInstanceOutput: Swift.Sendable {
 
     public init(
         replicationInstance: DatabaseMigrationClientTypes.ReplicationInstance? = nil
-    )
-    {
+    ) {
         self.replicationInstance = replicationInstance
     }
 }
@@ -5458,8 +5354,7 @@ public struct CreateReplicationSubnetGroupInput: Swift.Sendable {
         replicationSubnetGroupIdentifier: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
         self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
         self.subnetIds = subnetIds
@@ -5474,8 +5369,7 @@ public struct CreateReplicationSubnetGroupOutput: Swift.Sendable {
 
     public init(
         replicationSubnetGroup: DatabaseMigrationClientTypes.ReplicationSubnetGroup? = nil
-    )
-    {
+    ) {
         self.replicationSubnetGroup = replicationSubnetGroup
     }
 }
@@ -5535,8 +5429,7 @@ public struct CreateReplicationTaskInput: Swift.Sendable {
         tags: [DatabaseMigrationClientTypes.Tag]? = nil,
         targetEndpointArn: Swift.String? = nil,
         taskData: Swift.String? = nil
-    )
-    {
+    ) {
         self.cdcStartPosition = cdcStartPosition
         self.cdcStartTime = cdcStartTime
         self.cdcStopPosition = cdcStopPosition
@@ -5592,8 +5485,7 @@ extension DatabaseMigrationClientTypes {
             tablesLoaded: Swift.Int = 0,
             tablesLoading: Swift.Int = 0,
             tablesQueued: Swift.Int = 0
-        )
-        {
+        ) {
             self.elapsedTimeMillis = elapsedTimeMillis
             self.freshStartDate = freshStartDate
             self.fullLoadFinishDate = fullLoadFinishDate
@@ -5730,8 +5622,7 @@ extension DatabaseMigrationClientTypes {
             targetEndpointArn: Swift.String? = nil,
             targetReplicationInstanceArn: Swift.String? = nil,
             taskData: Swift.String? = nil
-        )
-        {
+        ) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStopPosition = cdcStopPosition
             self.lastFailureMessage = lastFailureMessage
@@ -5762,8 +5653,7 @@ public struct CreateReplicationTaskOutput: Swift.Sendable {
 
     public init(
         replicationTask: DatabaseMigrationClientTypes.ReplicationTask? = nil
-    )
-    {
+    ) {
         self.replicationTask = replicationTask
     }
 }
@@ -5775,8 +5665,7 @@ public struct DeleteCertificateInput: Swift.Sendable {
 
     public init(
         certificateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
     }
 }
@@ -5817,8 +5706,7 @@ extension DatabaseMigrationClientTypes {
             signingAlgorithm: Swift.String? = nil,
             validFromDate: Foundation.Date? = nil,
             validToDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificateCreationDate = certificateCreationDate
             self.certificateIdentifier = certificateIdentifier
@@ -5839,8 +5727,7 @@ public struct DeleteCertificateOutput: Swift.Sendable {
 
     public init(
         certificate: DatabaseMigrationClientTypes.Certificate? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
     }
 }
@@ -5857,8 +5744,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
     public init(
         endpointArn: Swift.String? = nil,
         replicationInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
         self.replicationInstanceArn = replicationInstanceArn
     }
@@ -5896,8 +5782,7 @@ extension DatabaseMigrationClientTypes {
             replicationInstanceArn: Swift.String? = nil,
             replicationInstanceIdentifier: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointArn = endpointArn
             self.endpointIdentifier = endpointIdentifier
             self.lastFailureMessage = lastFailureMessage
@@ -5915,8 +5800,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
 
     public init(
         connection: DatabaseMigrationClientTypes.Connection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -5928,8 +5812,7 @@ public struct DeleteDataMigrationInput: Swift.Sendable {
 
     public init(
         dataMigrationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataMigrationIdentifier = dataMigrationIdentifier
     }
 }
@@ -5940,8 +5823,7 @@ public struct DeleteDataMigrationOutput: Swift.Sendable {
 
     public init(
         dataMigration: DatabaseMigrationClientTypes.DataMigration? = nil
-    )
-    {
+    ) {
         self.dataMigration = dataMigration
     }
 }
@@ -5953,8 +5835,7 @@ public struct DeleteDataProviderInput: Swift.Sendable {
 
     public init(
         dataProviderIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataProviderIdentifier = dataProviderIdentifier
     }
 }
@@ -5965,8 +5846,7 @@ public struct DeleteDataProviderOutput: Swift.Sendable {
 
     public init(
         dataProvider: DatabaseMigrationClientTypes.DataProvider? = nil
-    )
-    {
+    ) {
         self.dataProvider = dataProvider
     }
 }
@@ -5979,8 +5859,7 @@ public struct DeleteEndpointInput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -5992,8 +5871,7 @@ public struct DeleteEndpointOutput: Swift.Sendable {
 
     public init(
         endpoint: DatabaseMigrationClientTypes.Endpoint? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
     }
 }
@@ -6006,8 +5884,7 @@ public struct DeleteEventSubscriptionInput: Swift.Sendable {
 
     public init(
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionName = subscriptionName
     }
 }
@@ -6019,8 +5896,7 @@ public struct DeleteEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: DatabaseMigrationClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -6043,8 +5919,7 @@ public struct CollectorNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6056,8 +5931,7 @@ public struct DeleteFleetAdvisorCollectorInput: Swift.Sendable {
 
     public init(
         collectorReferencedId: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectorReferencedId = collectorReferencedId
     }
 }
@@ -6069,8 +5943,7 @@ public struct DeleteFleetAdvisorDatabasesInput: Swift.Sendable {
 
     public init(
         databaseIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.databaseIds = databaseIds
     }
 }
@@ -6081,8 +5954,7 @@ public struct DeleteFleetAdvisorDatabasesOutput: Swift.Sendable {
 
     public init(
         databaseIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.databaseIds = databaseIds
     }
 }
@@ -6094,8 +5966,7 @@ public struct DeleteInstanceProfileInput: Swift.Sendable {
 
     public init(
         instanceProfileIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceProfileIdentifier = instanceProfileIdentifier
     }
 }
@@ -6106,8 +5977,7 @@ public struct DeleteInstanceProfileOutput: Swift.Sendable {
 
     public init(
         instanceProfile: DatabaseMigrationClientTypes.InstanceProfile? = nil
-    )
-    {
+    ) {
         self.instanceProfile = instanceProfile
     }
 }
@@ -6119,8 +5989,7 @@ public struct DeleteMigrationProjectInput: Swift.Sendable {
 
     public init(
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationProjectIdentifier = migrationProjectIdentifier
     }
 }
@@ -6131,8 +6000,7 @@ public struct DeleteMigrationProjectOutput: Swift.Sendable {
 
     public init(
         migrationProject: DatabaseMigrationClientTypes.MigrationProject? = nil
-    )
-    {
+    ) {
         self.migrationProject = migrationProject
     }
 }
@@ -6145,8 +6013,7 @@ public struct DeleteReplicationConfigInput: Swift.Sendable {
 
     public init(
         replicationConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationConfigArn = replicationConfigArn
     }
 }
@@ -6158,8 +6025,7 @@ public struct DeleteReplicationConfigOutput: Swift.Sendable {
 
     public init(
         replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig? = nil
-    )
-    {
+    ) {
         self.replicationConfig = replicationConfig
     }
 }
@@ -6172,8 +6038,7 @@ public struct DeleteReplicationInstanceInput: Swift.Sendable {
 
     public init(
         replicationInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationInstanceArn = replicationInstanceArn
     }
 }
@@ -6185,8 +6050,7 @@ public struct DeleteReplicationInstanceOutput: Swift.Sendable {
 
     public init(
         replicationInstance: DatabaseMigrationClientTypes.ReplicationInstance? = nil
-    )
-    {
+    ) {
         self.replicationInstance = replicationInstance
     }
 }
@@ -6199,8 +6063,7 @@ public struct DeleteReplicationSubnetGroupInput: Swift.Sendable {
 
     public init(
         replicationSubnetGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
     }
 }
@@ -6219,8 +6082,7 @@ public struct DeleteReplicationTaskInput: Swift.Sendable {
 
     public init(
         replicationTaskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationTaskArn = replicationTaskArn
     }
 }
@@ -6232,8 +6094,7 @@ public struct DeleteReplicationTaskOutput: Swift.Sendable {
 
     public init(
         replicationTask: DatabaseMigrationClientTypes.ReplicationTask? = nil
-    )
-    {
+    ) {
         self.replicationTask = replicationTask
     }
 }
@@ -6246,8 +6107,7 @@ public struct DeleteReplicationTaskAssessmentRunInput: Swift.Sendable {
 
     public init(
         replicationTaskAssessmentRunArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationTaskAssessmentRunArn = replicationTaskAssessmentRunArn
     }
 }
@@ -6259,8 +6119,7 @@ public struct DeleteReplicationTaskAssessmentRunOutput: Swift.Sendable {
 
     public init(
         replicationTaskAssessmentRun: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun? = nil
-    )
-    {
+    ) {
         self.replicationTaskAssessmentRun = replicationTaskAssessmentRun
     }
 }
@@ -6281,8 +6140,7 @@ public struct DescribeAccountAttributesOutput: Swift.Sendable {
     public init(
         accountQuotas: [DatabaseMigrationClientTypes.AccountQuota]? = nil,
         uniqueAccountIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountQuotas = accountQuotas
         self.uniqueAccountIdentifier = uniqueAccountIdentifier
     }
@@ -6313,8 +6171,7 @@ public struct DescribeApplicableIndividualAssessmentsInput: Swift.Sendable {
         replicationTaskArn: Swift.String? = nil,
         sourceEngineName: Swift.String? = nil,
         targetEngineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.migrationType = migrationType
@@ -6335,8 +6192,7 @@ public struct DescribeApplicableIndividualAssessmentsOutput: Swift.Sendable {
     public init(
         individualAssessmentNames: [Swift.String]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.individualAssessmentNames = individualAssessmentNames
         self.marker = marker
     }
@@ -6356,8 +6212,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -6376,8 +6231,7 @@ public struct DescribeCertificatesInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -6393,8 +6247,7 @@ public struct DescribeCertificatesOutput: Swift.Sendable {
     public init(
         certificates: [DatabaseMigrationClientTypes.Certificate]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.marker = marker
     }
@@ -6413,8 +6266,7 @@ public struct DescribeConnectionsInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -6431,8 +6283,7 @@ public struct DescribeConnectionsOutput: Swift.Sendable {
     public init(
         connections: [DatabaseMigrationClientTypes.Connection]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.connections = connections
         self.marker = marker
     }
@@ -6445,8 +6296,7 @@ public struct DescribeConversionConfigurationInput: Swift.Sendable {
 
     public init(
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationProjectIdentifier = migrationProjectIdentifier
     }
 }
@@ -6460,8 +6310,7 @@ public struct DescribeConversionConfigurationOutput: Swift.Sendable {
     public init(
         conversionConfiguration: Swift.String? = nil,
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.conversionConfiguration = conversionConfiguration
         self.migrationProjectIdentifier = migrationProjectIdentifier
     }
@@ -6485,8 +6334,7 @@ public struct DescribeDataMigrationsInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         withoutSettings: Swift.Bool? = nil,
         withoutStatistics: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -6504,8 +6352,7 @@ public struct DescribeDataMigrationsOutput: Swift.Sendable {
     public init(
         dataMigrations: [DatabaseMigrationClientTypes.DataMigration]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataMigrations = dataMigrations
         self.marker = marker
     }
@@ -6523,8 +6370,7 @@ public struct DescribeDataProvidersInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -6540,8 +6386,7 @@ public struct DescribeDataProvidersOutput: Swift.Sendable {
     public init(
         dataProviders: [DatabaseMigrationClientTypes.DataProvider]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataProviders = dataProviders
         self.marker = marker
     }
@@ -6560,8 +6405,7 @@ public struct DescribeEndpointsInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -6578,8 +6422,7 @@ public struct DescribeEndpointsOutput: Swift.Sendable {
     public init(
         endpoints: [DatabaseMigrationClientTypes.Endpoint]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.marker = marker
     }
@@ -6598,8 +6441,7 @@ public struct DescribeEndpointSettingsInput: Swift.Sendable {
         engineName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.engineName = engineName
         self.marker = marker
         self.maxRecords = maxRecords
@@ -6674,8 +6516,7 @@ extension DatabaseMigrationClientTypes {
             sensitive: Swift.Bool? = nil,
             type: DatabaseMigrationClientTypes.EndpointSettingTypeValue? = nil,
             units: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicability = applicability
             self.defaultValue = defaultValue
             self.enumValues = enumValues
@@ -6698,8 +6539,7 @@ public struct DescribeEndpointSettingsOutput: Swift.Sendable {
     public init(
         endpointSettings: [DatabaseMigrationClientTypes.EndpointSetting]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointSettings = endpointSettings
         self.marker = marker
     }
@@ -6718,8 +6558,7 @@ public struct DescribeEndpointTypesInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -6747,8 +6586,7 @@ extension DatabaseMigrationClientTypes {
             engineName: Swift.String? = nil,
             replicationInstanceEngineMinimumVersion: Swift.String? = nil,
             supportsCDC: Swift.Bool = false
-        )
-        {
+        ) {
             self.endpointType = endpointType
             self.engineDisplayName = engineDisplayName
             self.engineName = engineName
@@ -6768,8 +6606,7 @@ public struct DescribeEndpointTypesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         supportedEndpointTypes: [DatabaseMigrationClientTypes.SupportedEndpointType]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.supportedEndpointTypes = supportedEndpointTypes
     }
@@ -6784,8 +6621,7 @@ public struct DescribeEngineVersionsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
     }
@@ -6850,8 +6686,7 @@ extension DatabaseMigrationClientTypes {
             lifecycle: Swift.String? = nil,
             releaseStatus: DatabaseMigrationClientTypes.ReleaseStatusValues? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoUpgradeDate = autoUpgradeDate
             self.availableUpgrades = availableUpgrades
             self.deprecationDate = deprecationDate
@@ -6873,8 +6708,7 @@ public struct DescribeEngineVersionsOutput: Swift.Sendable {
     public init(
         engineVersions: [DatabaseMigrationClientTypes.EngineVersion]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineVersions = engineVersions
         self.marker = marker
     }
@@ -6890,8 +6724,7 @@ public struct DescribeEventCategoriesInput: Swift.Sendable {
     public init(
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         sourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.sourceType = sourceType
     }
@@ -6909,8 +6742,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             eventCategories: [Swift.String]? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventCategories = eventCategories
             self.sourceType = sourceType
         }
@@ -6924,8 +6756,7 @@ public struct DescribeEventCategoriesOutput: Swift.Sendable {
 
     public init(
         eventCategoryGroupList: [DatabaseMigrationClientTypes.EventCategoryGroup]? = nil
-    )
-    {
+    ) {
         self.eventCategoryGroupList = eventCategoryGroupList
     }
 }
@@ -6987,8 +6818,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         sourceIdentifier: Swift.String? = nil,
         sourceType: DatabaseMigrationClientTypes.SourceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.endTime = endTime
         self.eventCategories = eventCategories
@@ -7022,8 +6852,7 @@ extension DatabaseMigrationClientTypes {
             message: Swift.String? = nil,
             sourceIdentifier: Swift.String? = nil,
             sourceType: DatabaseMigrationClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.date = date
             self.eventCategories = eventCategories
             self.message = message
@@ -7043,8 +6872,7 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         events: [DatabaseMigrationClientTypes.Event]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.marker = marker
     }
@@ -7066,8 +6894,7 @@ public struct DescribeEventSubscriptionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -7085,8 +6912,7 @@ public struct DescribeEventSubscriptionsOutput: Swift.Sendable {
     public init(
         eventSubscriptionsList: [DatabaseMigrationClientTypes.EventSubscription]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSubscriptionsList = eventSubscriptionsList
         self.marker = marker
     }
@@ -7108,8 +6934,7 @@ public struct DescribeExtensionPackAssociationsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -7126,8 +6951,7 @@ extension DatabaseMigrationClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -7155,8 +6979,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             objectURL: Swift.String? = nil,
             s3ObjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.objectURL = objectURL
             self.s3ObjectKey = s3ObjectKey
         }
@@ -7184,8 +7007,7 @@ extension DatabaseMigrationClientTypes {
             migrationProjectArn: Swift.String? = nil,
             requestIdentifier: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.error = error
             self.exportSqlDetails = exportSqlDetails
             self.migrationProjectArn = migrationProjectArn
@@ -7204,8 +7026,7 @@ public struct DescribeExtensionPackAssociationsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.requests = requests
     }
@@ -7230,8 +7051,7 @@ public struct DescribeFleetAdvisorCollectorsInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -7285,8 +7105,7 @@ extension DatabaseMigrationClientTypes {
             localCollectorS3Access: Swift.Bool? = nil,
             webCollectorGrantedRoleBasedAccess: Swift.Bool? = nil,
             webCollectorS3Access: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.collectorStatus = collectorStatus
             self.localCollectorS3Access = localCollectorS3Access
             self.webCollectorGrantedRoleBasedAccess = webCollectorGrantedRoleBasedAccess
@@ -7307,8 +7126,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             numberOfDatabases: Swift.Int? = nil,
             numberOfSchemas: Swift.Int? = nil
-        )
-        {
+        ) {
             self.numberOfDatabases = numberOfDatabases
             self.numberOfSchemas = numberOfSchemas
         }
@@ -7392,8 +7210,7 @@ extension DatabaseMigrationClientTypes {
             s3BucketName: Swift.String? = nil,
             serviceAccessRoleArn: Swift.String? = nil,
             versionStatus: DatabaseMigrationClientTypes.VersionStatus? = nil
-        )
-        {
+        ) {
             self.collectorHealthCheck = collectorHealthCheck
             self.collectorName = collectorName
             self.collectorReferencedId = collectorReferencedId
@@ -7420,8 +7237,7 @@ public struct DescribeFleetAdvisorCollectorsOutput: Swift.Sendable {
     public init(
         collectors: [DatabaseMigrationClientTypes.CollectorResponse]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectors = collectors
         self.nextToken = nextToken
     }
@@ -7454,8 +7270,7 @@ public struct DescribeFleetAdvisorDatabasesInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -7474,8 +7289,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             collectorName: Swift.String? = nil,
             collectorReferencedId: Swift.String? = nil
-        )
-        {
+        ) {
             self.collectorName = collectorName
             self.collectorReferencedId = collectorReferencedId
         }
@@ -7497,8 +7311,7 @@ extension DatabaseMigrationClientTypes {
             ipAddress: Swift.String? = nil,
             serverId: Swift.String? = nil,
             serverName: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.serverId = serverId
             self.serverName = serverName
@@ -7533,8 +7346,7 @@ extension DatabaseMigrationClientTypes {
             servicePack: Swift.String? = nil,
             supportLevel: Swift.String? = nil,
             tooltip: Swift.String? = nil
-        )
-        {
+        ) {
             self.engine = engine
             self.engineEdition = engineEdition
             self.engineVersion = engineVersion
@@ -7573,8 +7385,7 @@ extension DatabaseMigrationClientTypes {
             numberOfSchemas: Swift.Int? = nil,
             server: DatabaseMigrationClientTypes.ServerShortInfoResponse? = nil,
             softwareDetails: DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse? = nil
-        )
-        {
+        ) {
             self.collectors = collectors
             self.databaseId = databaseId
             self.databaseName = databaseName
@@ -7595,8 +7406,7 @@ public struct DescribeFleetAdvisorDatabasesOutput: Swift.Sendable {
     public init(
         databases: [DatabaseMigrationClientTypes.DatabaseResponse]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.databases = databases
         self.nextToken = nextToken
     }
@@ -7611,8 +7421,7 @@ public struct DescribeFleetAdvisorLsaAnalysisInput: Swift.Sendable {
     public init(
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxRecords = maxRecords
         self.nextToken = nextToken
     }
@@ -7630,8 +7439,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             lsaAnalysisId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.lsaAnalysisId = lsaAnalysisId
             self.status = status
         }
@@ -7647,8 +7455,7 @@ public struct DescribeFleetAdvisorLsaAnalysisOutput: Swift.Sendable {
     public init(
         analysis: [DatabaseMigrationClientTypes.FleetAdvisorLsaAnalysisResponse]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysis = analysis
         self.nextToken = nextToken
     }
@@ -7671,8 +7478,7 @@ public struct DescribeFleetAdvisorSchemaObjectSummaryInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -7708,8 +7514,7 @@ extension DatabaseMigrationClientTypes {
             numberOfObjects: Swift.Int? = nil,
             objectType: Swift.String? = nil,
             schemaId: Swift.String? = nil
-        )
-        {
+        ) {
             self.codeLineCount = codeLineCount
             self.codeSize = codeSize
             self.numberOfObjects = numberOfObjects
@@ -7728,8 +7533,7 @@ public struct DescribeFleetAdvisorSchemaObjectSummaryOutput: Swift.Sendable {
     public init(
         fleetAdvisorSchemaObjects: [DatabaseMigrationClientTypes.FleetAdvisorSchemaObjectResponse]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetAdvisorSchemaObjects = fleetAdvisorSchemaObjects
         self.nextToken = nextToken
     }
@@ -7768,8 +7572,7 @@ public struct DescribeFleetAdvisorSchemasInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -7794,8 +7597,7 @@ extension DatabaseMigrationClientTypes {
             databaseId: Swift.String? = nil,
             databaseIpAddress: Swift.String? = nil,
             databaseName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseEngine = databaseEngine
             self.databaseId = databaseId
             self.databaseIpAddress = databaseIpAddress
@@ -7825,8 +7627,7 @@ extension DatabaseMigrationClientTypes {
             databaseName: Swift.String? = nil,
             schemaId: Swift.String? = nil,
             schemaName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseId = databaseId
             self.databaseIpAddress = databaseIpAddress
             self.databaseName = databaseName
@@ -7869,8 +7670,7 @@ extension DatabaseMigrationClientTypes {
             schemaName: Swift.String? = nil,
             server: DatabaseMigrationClientTypes.ServerShortInfoResponse? = nil,
             similarity: Swift.Double? = nil
-        )
-        {
+        ) {
             self.codeLineCount = codeLineCount
             self.codeSize = codeSize
             self.complexity = complexity
@@ -7893,8 +7693,7 @@ public struct DescribeFleetAdvisorSchemasOutput: Swift.Sendable {
     public init(
         fleetAdvisorSchemas: [DatabaseMigrationClientTypes.SchemaResponse]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetAdvisorSchemas = fleetAdvisorSchemas
         self.nextToken = nextToken
     }
@@ -7912,8 +7711,7 @@ public struct DescribeInstanceProfilesInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -7929,8 +7727,7 @@ public struct DescribeInstanceProfilesOutput: Swift.Sendable {
     public init(
         instanceProfiles: [DatabaseMigrationClientTypes.InstanceProfile]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceProfiles = instanceProfiles
         self.marker = marker
     }
@@ -7952,8 +7749,7 @@ public struct DescribeMetadataModelAssessmentsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -7970,8 +7766,7 @@ public struct DescribeMetadataModelAssessmentsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.requests = requests
     }
@@ -7993,8 +7788,7 @@ public struct DescribeMetadataModelConversionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8011,8 +7805,7 @@ public struct DescribeMetadataModelConversionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.requests = requests
     }
@@ -8034,8 +7827,7 @@ public struct DescribeMetadataModelExportsAsScriptInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8052,8 +7844,7 @@ public struct DescribeMetadataModelExportsAsScriptOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.requests = requests
     }
@@ -8075,8 +7866,7 @@ public struct DescribeMetadataModelExportsToTargetInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8093,8 +7883,7 @@ public struct DescribeMetadataModelExportsToTargetOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.requests = requests
     }
@@ -8116,8 +7905,7 @@ public struct DescribeMetadataModelImportsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8134,8 +7922,7 @@ public struct DescribeMetadataModelImportsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.requests = requests
     }
@@ -8159,8 +7946,7 @@ public struct DescribeMigrationProjectsInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8176,8 +7962,7 @@ public struct DescribeMigrationProjectsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         migrationProjects: [DatabaseMigrationClientTypes.MigrationProject]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.migrationProjects = migrationProjects
     }
@@ -8193,8 +7978,7 @@ public struct DescribeOrderableReplicationInstancesInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
     }
@@ -8233,8 +8017,7 @@ extension DatabaseMigrationClientTypes {
             releaseStatus: DatabaseMigrationClientTypes.ReleaseStatusValues? = nil,
             replicationInstanceClass: Swift.String? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.defaultAllocatedStorage = defaultAllocatedStorage
             self.engineVersion = engineVersion
@@ -8258,8 +8041,7 @@ public struct DescribeOrderableReplicationInstancesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         orderableReplicationInstances: [DatabaseMigrationClientTypes.OrderableReplicationInstance]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.orderableReplicationInstances = orderableReplicationInstances
     }
@@ -8281,8 +8063,7 @@ public struct DescribePendingMaintenanceActionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         replicationInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8300,8 +8081,7 @@ public struct DescribePendingMaintenanceActionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         pendingMaintenanceActions: [DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.pendingMaintenanceActions = pendingMaintenanceActions
     }
@@ -8319,8 +8099,7 @@ public struct DescribeRecommendationLimitationsInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -8351,8 +8130,7 @@ extension DatabaseMigrationClientTypes {
             impact: Swift.String? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseId = databaseId
             self.description = description
             self.engineName = engineName
@@ -8372,8 +8150,7 @@ public struct DescribeRecommendationLimitationsOutput: Swift.Sendable {
     public init(
         limitations: [DatabaseMigrationClientTypes.Limitation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limitations = limitations
         self.nextToken = nextToken
     }
@@ -8391,8 +8168,7 @@ public struct DescribeRecommendationsInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -8426,8 +8202,7 @@ extension DatabaseMigrationClientTypes {
             instanceVcpu: Swift.Double? = nil,
             storageIops: Swift.Int? = nil,
             storageSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.deploymentOption = deploymentOption
             self.engineEdition = engineEdition
             self.engineVersion = engineVersion
@@ -8472,8 +8247,7 @@ extension DatabaseMigrationClientTypes {
             storageIops: Swift.Int? = nil,
             storageSize: Swift.Int? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentOption = deploymentOption
             self.engineEdition = engineEdition
             self.engineVersion = engineVersion
@@ -8499,8 +8273,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             requirementsToTarget: DatabaseMigrationClientTypes.RdsRequirements? = nil,
             targetConfiguration: DatabaseMigrationClientTypes.RdsConfiguration? = nil
-        )
-        {
+        ) {
             self.requirementsToTarget = requirementsToTarget
             self.targetConfiguration = targetConfiguration
         }
@@ -8516,8 +8289,7 @@ extension DatabaseMigrationClientTypes {
 
         public init(
             rdsEngine: DatabaseMigrationClientTypes.RdsRecommendation? = nil
-        )
-        {
+        ) {
             self.rdsEngine = rdsEngine
         }
     }
@@ -8550,8 +8322,7 @@ extension DatabaseMigrationClientTypes {
             preferred: Swift.Bool? = nil,
             settings: DatabaseMigrationClientTypes.RecommendationSettings? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.data = data
             self.databaseId = databaseId
@@ -8572,8 +8343,7 @@ public struct DescribeRecommendationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recommendations: [DatabaseMigrationClientTypes.Recommendation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recommendations = recommendations
     }
@@ -8587,8 +8357,7 @@ public struct DescribeRefreshSchemasStatusInput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -8646,8 +8415,7 @@ extension DatabaseMigrationClientTypes {
             lastRefreshDate: Foundation.Date? = nil,
             replicationInstanceArn: Swift.String? = nil,
             status: DatabaseMigrationClientTypes.RefreshSchemasStatusTypeValue? = nil
-        )
-        {
+        ) {
             self.endpointArn = endpointArn
             self.lastFailureMessage = lastFailureMessage
             self.lastRefreshDate = lastRefreshDate
@@ -8664,8 +8432,7 @@ public struct DescribeRefreshSchemasStatusOutput: Swift.Sendable {
 
     public init(
         refreshSchemasStatus: DatabaseMigrationClientTypes.RefreshSchemasStatus? = nil
-    )
-    {
+    ) {
         self.refreshSchemasStatus = refreshSchemasStatus
     }
 }
@@ -8683,8 +8450,7 @@ public struct DescribeReplicationConfigsInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8701,8 +8467,7 @@ public struct DescribeReplicationConfigsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         replicationConfigs: [DatabaseMigrationClientTypes.ReplicationConfig]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.replicationConfigs = replicationConfigs
     }
@@ -8721,8 +8486,7 @@ public struct DescribeReplicationInstancesInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8739,8 +8503,7 @@ public struct DescribeReplicationInstancesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         replicationInstances: [DatabaseMigrationClientTypes.ReplicationInstance]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.replicationInstances = replicationInstances
     }
@@ -8759,8 +8522,7 @@ public struct DescribeReplicationInstanceTaskLogsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         replicationInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.replicationInstanceArn = replicationInstanceArn
@@ -8782,8 +8544,7 @@ extension DatabaseMigrationClientTypes {
             replicationInstanceTaskLogSize: Swift.Int = 0,
             replicationTaskArn: Swift.String? = nil,
             replicationTaskName: Swift.String? = nil
-        )
-        {
+        ) {
             self.replicationInstanceTaskLogSize = replicationInstanceTaskLogSize
             self.replicationTaskArn = replicationTaskArn
             self.replicationTaskName = replicationTaskName
@@ -8803,8 +8564,7 @@ public struct DescribeReplicationInstanceTaskLogsOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         replicationInstanceArn: Swift.String? = nil,
         replicationInstanceTaskLogs: [DatabaseMigrationClientTypes.ReplicationInstanceTaskLog]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.replicationInstanceArn = replicationInstanceArn
         self.replicationInstanceTaskLogs = replicationInstanceTaskLogs
@@ -8824,8 +8584,7 @@ public struct DescribeReplicationsInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8856,8 +8615,7 @@ extension DatabaseMigrationClientTypes {
             provisionState: Swift.String? = nil,
             provisionedCapacityUnits: Swift.Int = 0,
             reasonForNewProvisioningData: Swift.String? = nil
-        )
-        {
+        ) {
             self.dateNewProvisioningDataAvailable = dateNewProvisioningDataAvailable
             self.dateProvisioned = dateProvisioned
             self.isNewProvisioningAvailable = isNewProvisioningAvailable
@@ -8907,8 +8665,7 @@ extension DatabaseMigrationClientTypes {
             tablesLoaded: Swift.Int = 0,
             tablesLoading: Swift.Int = 0,
             tablesQueued: Swift.Int = 0
-        )
-        {
+        ) {
             self.elapsedTimeMillis = elapsedTimeMillis
             self.freshStartDate = freshStartDate
             self.fullLoadFinishDate = fullLoadFinishDate
@@ -9015,8 +8772,7 @@ extension DatabaseMigrationClientTypes {
             status: Swift.String? = nil,
             stopReason: Swift.String? = nil,
             targetEndpointArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
@@ -9050,8 +8806,7 @@ public struct DescribeReplicationsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         replications: [DatabaseMigrationClientTypes.Replication]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.replications = replications
     }
@@ -9070,8 +8825,7 @@ public struct DescribeReplicationSubnetGroupsInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -9088,8 +8842,7 @@ public struct DescribeReplicationSubnetGroupsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         replicationSubnetGroups: [DatabaseMigrationClientTypes.ReplicationSubnetGroup]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.replicationSubnetGroups = replicationSubnetGroups
     }
@@ -9112,8 +8865,7 @@ public struct DescribeReplicationTableStatisticsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         replicationConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -9218,8 +8970,7 @@ extension DatabaseMigrationClientTypes {
             validationState: Swift.String? = nil,
             validationStateDetails: Swift.String? = nil,
             validationSuspendedRecords: Swift.Int = 0
-        )
-        {
+        ) {
             self.appliedDdls = appliedDdls
             self.appliedDeletes = appliedDeletes
             self.appliedInserts = appliedInserts
@@ -9260,8 +9011,7 @@ public struct DescribeReplicationTableStatisticsOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         replicationConfigArn: Swift.String? = nil,
         replicationTableStatistics: [DatabaseMigrationClientTypes.TableStatistics]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.replicationConfigArn = replicationConfigArn
         self.replicationTableStatistics = replicationTableStatistics
@@ -9281,8 +9031,7 @@ public struct DescribeReplicationTaskAssessmentResultsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         replicationTaskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.replicationTaskArn = replicationTaskArn
@@ -9316,8 +9065,7 @@ extension DatabaseMigrationClientTypes {
             replicationTaskIdentifier: Swift.String? = nil,
             replicationTaskLastAssessmentDate: Foundation.Date? = nil,
             s3ObjectUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.assessmentResults = assessmentResults
             self.assessmentResultsFile = assessmentResultsFile
             self.assessmentStatus = assessmentStatus
@@ -9347,8 +9095,7 @@ public struct DescribeReplicationTaskAssessmentResultsOutput: Swift.Sendable {
         bucketName: Swift.String? = nil,
         marker: Swift.String? = nil,
         replicationTaskAssessmentResults: [DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult]? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
         self.marker = marker
         self.replicationTaskAssessmentResults = replicationTaskAssessmentResults
@@ -9368,8 +9115,7 @@ public struct DescribeReplicationTaskAssessmentRunsInput: Swift.Sendable {
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -9386,8 +9132,7 @@ public struct DescribeReplicationTaskAssessmentRunsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         replicationTaskAssessmentRuns: [DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.replicationTaskAssessmentRuns = replicationTaskAssessmentRuns
     }
@@ -9406,8 +9151,7 @@ public struct DescribeReplicationTaskIndividualAssessmentsInput: Swift.Sendable 
         filters: [DatabaseMigrationClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -9447,8 +9191,7 @@ extension DatabaseMigrationClientTypes {
             replicationTaskIndividualAssessmentArn: Swift.String? = nil,
             replicationTaskIndividualAssessmentStartDate: Foundation.Date? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.individualAssessmentName = individualAssessmentName
             self.replicationTaskAssessmentRunArn = replicationTaskAssessmentRunArn
             self.replicationTaskIndividualAssessmentArn = replicationTaskIndividualAssessmentArn
@@ -9468,8 +9211,7 @@ public struct DescribeReplicationTaskIndividualAssessmentsOutput: Swift.Sendable
     public init(
         marker: Swift.String? = nil,
         replicationTaskIndividualAssessments: [DatabaseMigrationClientTypes.ReplicationTaskIndividualAssessment]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.replicationTaskIndividualAssessments = replicationTaskIndividualAssessments
     }
@@ -9491,8 +9233,7 @@ public struct DescribeReplicationTasksInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         withoutSettings: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -9510,8 +9251,7 @@ public struct DescribeReplicationTasksOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         replicationTasks: [DatabaseMigrationClientTypes.ReplicationTask]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.replicationTasks = replicationTasks
     }
@@ -9531,8 +9271,7 @@ public struct DescribeSchemasInput: Swift.Sendable {
         endpointArn: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
         self.marker = marker
         self.maxRecords = maxRecords
@@ -9549,8 +9288,7 @@ public struct DescribeSchemasOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         schemas: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.schemas = schemas
     }
@@ -9573,8 +9311,7 @@ public struct DescribeTableStatisticsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         replicationTaskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -9595,8 +9332,7 @@ public struct DescribeTableStatisticsOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         replicationTaskArn: Swift.String? = nil,
         tableStatistics: [DatabaseMigrationClientTypes.TableStatistics]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.replicationTaskArn = replicationTaskArn
         self.tableStatistics = tableStatistics
@@ -9649,8 +9385,7 @@ public struct ExportMetadataModelAssessmentInput: Swift.Sendable {
         fileName: Swift.String? = nil,
         migrationProjectIdentifier: Swift.String? = nil,
         selectionRules: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentReportTypes = assessmentReportTypes
         self.fileName = fileName
         self.migrationProjectIdentifier = migrationProjectIdentifier
@@ -9670,8 +9405,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             objectURL: Swift.String? = nil,
             s3ObjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.objectURL = objectURL
             self.s3ObjectKey = s3ObjectKey
         }
@@ -9687,8 +9421,7 @@ public struct ExportMetadataModelAssessmentOutput: Swift.Sendable {
     public init(
         csvReport: DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry? = nil,
         pdfReport: DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry? = nil
-    )
-    {
+    ) {
         self.csvReport = csvReport
         self.pdfReport = pdfReport
     }
@@ -9712,8 +9445,7 @@ public struct InvalidCertificateFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9734,8 +9466,7 @@ public struct ImportCertificateInput: Swift.Sendable {
         certificatePem: Swift.String? = nil,
         certificateWallet: Foundation.Data? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.certificateIdentifier = certificateIdentifier
         self.certificatePem = certificatePem
         self.certificateWallet = certificateWallet
@@ -9754,8 +9485,7 @@ public struct ImportCertificateOutput: Swift.Sendable {
 
     public init(
         certificate: DatabaseMigrationClientTypes.Certificate? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
     }
 }
@@ -9770,8 +9500,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         resourceArnList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceArnList = resourceArnList
     }
@@ -9784,8 +9513,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [DatabaseMigrationClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -9801,8 +9529,7 @@ public struct ModifyConversionConfigurationInput: Swift.Sendable {
     public init(
         conversionConfiguration: Swift.String? = nil,
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.conversionConfiguration = conversionConfiguration
         self.migrationProjectIdentifier = migrationProjectIdentifier
     }
@@ -9814,8 +9541,7 @@ public struct ModifyConversionConfigurationOutput: Swift.Sendable {
 
     public init(
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationProjectIdentifier = migrationProjectIdentifier
     }
 }
@@ -9848,8 +9574,7 @@ public struct ModifyDataMigrationInput: Swift.Sendable {
         selectionRules: Swift.String? = nil,
         serviceAccessRoleArn: Swift.String? = nil,
         sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]? = nil
-    )
-    {
+    ) {
         self.dataMigrationIdentifier = dataMigrationIdentifier
         self.dataMigrationName = dataMigrationName
         self.dataMigrationType = dataMigrationType
@@ -9872,8 +9597,7 @@ public struct ModifyDataMigrationOutput: Swift.Sendable {
 
     public init(
         dataMigration: DatabaseMigrationClientTypes.DataMigration? = nil
-    )
-    {
+    ) {
         self.dataMigration = dataMigration
     }
 }
@@ -9904,8 +9628,7 @@ public struct ModifyDataProviderInput: Swift.Sendable {
         engine: Swift.String? = nil,
         exactSettings: Swift.Bool? = nil,
         settings: DatabaseMigrationClientTypes.DataProviderSettings? = nil
-    )
-    {
+    ) {
         self.dataProviderIdentifier = dataProviderIdentifier
         self.dataProviderName = dataProviderName
         self.description = description
@@ -9921,8 +9644,7 @@ public struct ModifyDataProviderOutput: Swift.Sendable {
 
     public init(
         dataProvider: DatabaseMigrationClientTypes.DataProvider? = nil
-    )
-    {
+    ) {
         self.dataProvider = dataProvider
     }
 }
@@ -10048,8 +9770,7 @@ public struct ModifyEndpointInput: Swift.Sendable {
         sybaseSettings: DatabaseMigrationClientTypes.SybaseSettings? = nil,
         timestreamSettings: DatabaseMigrationClientTypes.TimestreamSettings? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.databaseName = databaseName
         self.dmsTransferSettings = dmsTransferSettings
@@ -10099,8 +9820,7 @@ public struct ModifyEndpointOutput: Swift.Sendable {
 
     public init(
         endpoint: DatabaseMigrationClientTypes.Endpoint? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
     }
 }
@@ -10125,8 +9845,7 @@ public struct ModifyEventSubscriptionInput: Swift.Sendable {
         snsTopicArn: Swift.String? = nil,
         sourceType: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.eventCategories = eventCategories
         self.snsTopicArn = snsTopicArn
@@ -10142,8 +9861,7 @@ public struct ModifyEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: DatabaseMigrationClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -10179,8 +9897,7 @@ public struct ModifyInstanceProfileInput: Swift.Sendable {
         publiclyAccessible: Swift.Bool? = nil,
         subnetGroupIdentifier: Swift.String? = nil,
         vpcSecurityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZone = availabilityZone
         self.description = description
         self.instanceProfileIdentifier = instanceProfileIdentifier
@@ -10199,8 +9916,7 @@ public struct ModifyInstanceProfileOutput: Swift.Sendable {
 
     public init(
         instanceProfile: DatabaseMigrationClientTypes.InstanceProfile? = nil
-    )
-    {
+    ) {
         self.instanceProfile = instanceProfile
     }
 }
@@ -10233,8 +9949,7 @@ public struct ModifyMigrationProjectInput: Swift.Sendable {
         sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]? = nil,
         targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]? = nil,
         transformationRules: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceProfileIdentifier = instanceProfileIdentifier
         self.migrationProjectIdentifier = migrationProjectIdentifier
@@ -10252,8 +9967,7 @@ public struct ModifyMigrationProjectOutput: Swift.Sendable {
 
     public init(
         migrationProject: DatabaseMigrationClientTypes.MigrationProject? = nil
-    )
-    {
+    ) {
         self.migrationProject = migrationProject
     }
 }
@@ -10290,8 +10004,7 @@ public struct ModifyReplicationConfigInput: Swift.Sendable {
         supplementalSettings: Swift.String? = nil,
         tableMappings: Swift.String? = nil,
         targetEndpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeConfig = computeConfig
         self.replicationConfigArn = replicationConfigArn
         self.replicationConfigIdentifier = replicationConfigIdentifier
@@ -10310,8 +10023,7 @@ public struct ModifyReplicationConfigOutput: Swift.Sendable {
 
     public init(
         replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig? = nil
-    )
-    {
+    ) {
         self.replicationConfig = replicationConfig
     }
 }
@@ -10335,8 +10047,7 @@ public struct UpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10391,8 +10102,7 @@ public struct ModifyReplicationInstanceInput: Swift.Sendable {
         replicationInstanceClass: Swift.String? = nil,
         replicationInstanceIdentifier: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.applyImmediately = applyImmediately
@@ -10416,8 +10126,7 @@ public struct ModifyReplicationInstanceOutput: Swift.Sendable {
 
     public init(
         replicationInstance: DatabaseMigrationClientTypes.ReplicationInstance? = nil
-    )
-    {
+    ) {
         self.replicationInstance = replicationInstance
     }
 }
@@ -10441,8 +10150,7 @@ public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10462,8 +10170,7 @@ public struct ModifyReplicationSubnetGroupInput: Swift.Sendable {
         replicationSubnetGroupDescription: Swift.String? = nil,
         replicationSubnetGroupIdentifier: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
         self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
         self.subnetIds = subnetIds
@@ -10477,8 +10184,7 @@ public struct ModifyReplicationSubnetGroupOutput: Swift.Sendable {
 
     public init(
         replicationSubnetGroup: DatabaseMigrationClientTypes.ReplicationSubnetGroup? = nil
-    )
-    {
+    ) {
         self.replicationSubnetGroup = replicationSubnetGroup
     }
 }
@@ -10521,8 +10227,7 @@ public struct ModifyReplicationTaskInput: Swift.Sendable {
         replicationTaskSettings: Swift.String? = nil,
         tableMappings: Swift.String? = nil,
         taskData: Swift.String? = nil
-    )
-    {
+    ) {
         self.cdcStartPosition = cdcStartPosition
         self.cdcStartTime = cdcStartTime
         self.cdcStopPosition = cdcStopPosition
@@ -10542,8 +10247,7 @@ public struct ModifyReplicationTaskOutput: Swift.Sendable {
 
     public init(
         replicationTask: DatabaseMigrationClientTypes.ReplicationTask? = nil
-    )
-    {
+    ) {
         self.replicationTask = replicationTask
     }
 }
@@ -10560,8 +10264,7 @@ public struct MoveReplicationTaskInput: Swift.Sendable {
     public init(
         replicationTaskArn: Swift.String? = nil,
         targetReplicationInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationTaskArn = replicationTaskArn
         self.targetReplicationInstanceArn = targetReplicationInstanceArn
     }
@@ -10574,8 +10277,7 @@ public struct MoveReplicationTaskOutput: Swift.Sendable {
 
     public init(
         replicationTask: DatabaseMigrationClientTypes.ReplicationTask? = nil
-    )
-    {
+    ) {
         self.replicationTask = replicationTask
     }
 }
@@ -10593,8 +10295,7 @@ public struct RebootReplicationInstanceInput: Swift.Sendable {
         forceFailover: Swift.Bool? = nil,
         forcePlannedFailover: Swift.Bool? = nil,
         replicationInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.forceFailover = forceFailover
         self.forcePlannedFailover = forcePlannedFailover
         self.replicationInstanceArn = replicationInstanceArn
@@ -10607,8 +10308,7 @@ public struct RebootReplicationInstanceOutput: Swift.Sendable {
 
     public init(
         replicationInstance: DatabaseMigrationClientTypes.ReplicationInstance? = nil
-    )
-    {
+    ) {
         self.replicationInstance = replicationInstance
     }
 }
@@ -10625,8 +10325,7 @@ public struct RefreshSchemasInput: Swift.Sendable {
     public init(
         endpointArn: Swift.String? = nil,
         replicationInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
         self.replicationInstanceArn = replicationInstanceArn
     }
@@ -10639,8 +10338,7 @@ public struct RefreshSchemasOutput: Swift.Sendable {
 
     public init(
         refreshSchemasStatus: DatabaseMigrationClientTypes.RefreshSchemasStatus? = nil
-    )
-    {
+    ) {
         self.refreshSchemasStatus = refreshSchemasStatus
     }
 }
@@ -10688,8 +10386,7 @@ extension DatabaseMigrationClientTypes {
         public init(
             schemaName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.schemaName = schemaName
             self.tableName = tableName
         }
@@ -10711,8 +10408,7 @@ public struct ReloadReplicationTablesInput: Swift.Sendable {
         reloadOption: DatabaseMigrationClientTypes.ReloadOptionValue? = nil,
         replicationConfigArn: Swift.String? = nil,
         tablesToReload: [DatabaseMigrationClientTypes.TableToReload]? = nil
-    )
-    {
+    ) {
         self.reloadOption = reloadOption
         self.replicationConfigArn = replicationConfigArn
         self.tablesToReload = tablesToReload
@@ -10726,8 +10422,7 @@ public struct ReloadReplicationTablesOutput: Swift.Sendable {
 
     public init(
         replicationConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationConfigArn = replicationConfigArn
     }
 }
@@ -10746,8 +10441,7 @@ public struct ReloadTablesInput: Swift.Sendable {
         reloadOption: DatabaseMigrationClientTypes.ReloadOptionValue? = nil,
         replicationTaskArn: Swift.String? = nil,
         tablesToReload: [DatabaseMigrationClientTypes.TableToReload]? = nil
-    )
-    {
+    ) {
         self.reloadOption = reloadOption
         self.replicationTaskArn = replicationTaskArn
         self.tablesToReload = tablesToReload
@@ -10760,8 +10454,7 @@ public struct ReloadTablesOutput: Swift.Sendable {
 
     public init(
         replicationTaskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationTaskArn = replicationTaskArn
     }
 }
@@ -10778,8 +10471,7 @@ public struct RemoveTagsFromResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -10800,8 +10492,7 @@ public struct RunFleetAdvisorLsaAnalysisOutput: Swift.Sendable {
     public init(
         lsaAnalysisId: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.lsaAnalysisId = lsaAnalysisId
         self.status = status
     }
@@ -10850,8 +10541,7 @@ public struct StartDataMigrationInput: Swift.Sendable {
     public init(
         dataMigrationIdentifier: Swift.String? = nil,
         startType: DatabaseMigrationClientTypes.StartReplicationMigrationTypeValue? = nil
-    )
-    {
+    ) {
         self.dataMigrationIdentifier = dataMigrationIdentifier
         self.startType = startType
     }
@@ -10863,8 +10553,7 @@ public struct StartDataMigrationOutput: Swift.Sendable {
 
     public init(
         dataMigration: DatabaseMigrationClientTypes.DataMigration? = nil
-    )
-    {
+    ) {
         self.dataMigration = dataMigration
     }
 }
@@ -10876,8 +10565,7 @@ public struct StartExtensionPackAssociationInput: Swift.Sendable {
 
     public init(
         migrationProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationProjectIdentifier = migrationProjectIdentifier
     }
 }
@@ -10888,8 +10576,7 @@ public struct StartExtensionPackAssociationOutput: Swift.Sendable {
 
     public init(
         requestIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestIdentifier = requestIdentifier
     }
 }
@@ -10905,8 +10592,7 @@ public struct StartMetadataModelAssessmentInput: Swift.Sendable {
     public init(
         migrationProjectIdentifier: Swift.String? = nil,
         selectionRules: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationProjectIdentifier = migrationProjectIdentifier
         self.selectionRules = selectionRules
     }
@@ -10918,8 +10604,7 @@ public struct StartMetadataModelAssessmentOutput: Swift.Sendable {
 
     public init(
         requestIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestIdentifier = requestIdentifier
     }
 }
@@ -10935,8 +10620,7 @@ public struct StartMetadataModelConversionInput: Swift.Sendable {
     public init(
         migrationProjectIdentifier: Swift.String? = nil,
         selectionRules: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationProjectIdentifier = migrationProjectIdentifier
         self.selectionRules = selectionRules
     }
@@ -10948,8 +10632,7 @@ public struct StartMetadataModelConversionOutput: Swift.Sendable {
 
     public init(
         requestIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestIdentifier = requestIdentifier
     }
 }
@@ -11001,8 +10684,7 @@ public struct StartMetadataModelExportAsScriptInput: Swift.Sendable {
         migrationProjectIdentifier: Swift.String? = nil,
         origin: DatabaseMigrationClientTypes.OriginTypeValue? = nil,
         selectionRules: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileName = fileName
         self.migrationProjectIdentifier = migrationProjectIdentifier
         self.origin = origin
@@ -11016,8 +10698,7 @@ public struct StartMetadataModelExportAsScriptOutput: Swift.Sendable {
 
     public init(
         requestIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestIdentifier = requestIdentifier
     }
 }
@@ -11036,8 +10717,7 @@ public struct StartMetadataModelExportToTargetInput: Swift.Sendable {
         migrationProjectIdentifier: Swift.String? = nil,
         overwriteExtensionPack: Swift.Bool? = nil,
         selectionRules: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationProjectIdentifier = migrationProjectIdentifier
         self.overwriteExtensionPack = overwriteExtensionPack
         self.selectionRules = selectionRules
@@ -11050,8 +10730,7 @@ public struct StartMetadataModelExportToTargetOutput: Swift.Sendable {
 
     public init(
         requestIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestIdentifier = requestIdentifier
     }
 }
@@ -11074,8 +10753,7 @@ public struct StartMetadataModelImportInput: Swift.Sendable {
         origin: DatabaseMigrationClientTypes.OriginTypeValue? = nil,
         refresh: Swift.Bool? = false,
         selectionRules: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationProjectIdentifier = migrationProjectIdentifier
         self.origin = origin
         self.refresh = refresh
@@ -11089,8 +10767,7 @@ public struct StartMetadataModelImportOutput: Swift.Sendable {
 
     public init(
         requestIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestIdentifier = requestIdentifier
     }
 }
@@ -11106,8 +10783,7 @@ public struct StartRecommendationsInput: Swift.Sendable {
     public init(
         databaseId: Swift.String? = nil,
         settings: DatabaseMigrationClientTypes.RecommendationSettings? = nil
-    )
-    {
+    ) {
         self.databaseId = databaseId
         self.settings = settings
     }
@@ -11134,8 +10810,7 @@ public struct StartReplicationInput: Swift.Sendable {
         cdcStopPosition: Swift.String? = nil,
         replicationConfigArn: Swift.String? = nil,
         startReplicationType: Swift.String? = nil
-    )
-    {
+    ) {
         self.cdcStartPosition = cdcStartPosition
         self.cdcStartTime = cdcStartTime
         self.cdcStopPosition = cdcStopPosition
@@ -11151,8 +10826,7 @@ public struct StartReplicationOutput: Swift.Sendable {
 
     public init(
         replication: DatabaseMigrationClientTypes.Replication? = nil
-    )
-    {
+    ) {
         self.replication = replication
     }
 }
@@ -11210,8 +10884,7 @@ public struct StartReplicationTaskInput: Swift.Sendable {
         cdcStopPosition: Swift.String? = nil,
         replicationTaskArn: Swift.String? = nil,
         startReplicationTaskType: DatabaseMigrationClientTypes.StartReplicationTaskTypeValue? = nil
-    )
-    {
+    ) {
         self.cdcStartPosition = cdcStartPosition
         self.cdcStartTime = cdcStartTime
         self.cdcStopPosition = cdcStopPosition
@@ -11227,8 +10900,7 @@ public struct StartReplicationTaskOutput: Swift.Sendable {
 
     public init(
         replicationTask: DatabaseMigrationClientTypes.ReplicationTask? = nil
-    )
-    {
+    ) {
         self.replicationTask = replicationTask
     }
 }
@@ -11241,8 +10913,7 @@ public struct StartReplicationTaskAssessmentInput: Swift.Sendable {
 
     public init(
         replicationTaskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationTaskArn = replicationTaskArn
     }
 }
@@ -11254,8 +10925,7 @@ public struct StartReplicationTaskAssessmentOutput: Swift.Sendable {
 
     public init(
         replicationTask: DatabaseMigrationClientTypes.ReplicationTask? = nil
-    )
-    {
+    ) {
         self.replicationTask = replicationTask
     }
 }
@@ -11278,8 +10948,7 @@ public struct KMSFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11326,8 +10995,7 @@ public struct StartReplicationTaskAssessmentRunInput: Swift.Sendable {
         resultLocationFolder: Swift.String? = nil,
         serviceAccessRoleArn: Swift.String? = nil,
         tags: [DatabaseMigrationClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.assessmentRunName = assessmentRunName
         self.exclude = exclude
         self.includeOnly = includeOnly
@@ -11348,8 +11016,7 @@ public struct StartReplicationTaskAssessmentRunOutput: Swift.Sendable {
 
     public init(
         replicationTaskAssessmentRun: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun? = nil
-    )
-    {
+    ) {
         self.replicationTaskAssessmentRun = replicationTaskAssessmentRun
     }
 }
@@ -11361,8 +11028,7 @@ public struct StopDataMigrationInput: Swift.Sendable {
 
     public init(
         dataMigrationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataMigrationIdentifier = dataMigrationIdentifier
     }
 }
@@ -11373,8 +11039,7 @@ public struct StopDataMigrationOutput: Swift.Sendable {
 
     public init(
         dataMigration: DatabaseMigrationClientTypes.DataMigration? = nil
-    )
-    {
+    ) {
         self.dataMigration = dataMigration
     }
 }
@@ -11387,8 +11052,7 @@ public struct StopReplicationInput: Swift.Sendable {
 
     public init(
         replicationConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationConfigArn = replicationConfigArn
     }
 }
@@ -11399,8 +11063,7 @@ public struct StopReplicationOutput: Swift.Sendable {
 
     public init(
         replication: DatabaseMigrationClientTypes.Replication? = nil
-    )
-    {
+    ) {
         self.replication = replication
     }
 }
@@ -11413,8 +11076,7 @@ public struct StopReplicationTaskInput: Swift.Sendable {
 
     public init(
         replicationTaskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationTaskArn = replicationTaskArn
     }
 }
@@ -11426,8 +11088,7 @@ public struct StopReplicationTaskOutput: Swift.Sendable {
 
     public init(
         replicationTask: DatabaseMigrationClientTypes.ReplicationTask? = nil
-    )
-    {
+    ) {
         self.replicationTask = replicationTask
     }
 }
@@ -11444,8 +11105,7 @@ public struct TestConnectionInput: Swift.Sendable {
     public init(
         endpointArn: Swift.String? = nil,
         replicationInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
         self.replicationInstanceArn = replicationInstanceArn
     }
@@ -11458,8 +11118,7 @@ public struct TestConnectionOutput: Swift.Sendable {
 
     public init(
         connection: DatabaseMigrationClientTypes.Connection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -11471,8 +11130,7 @@ public struct UpdateSubscriptionsToEventBridgeInput: Swift.Sendable {
 
     public init(
         forceMove: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.forceMove = forceMove
     }
 }
@@ -11484,8 +11142,7 @@ public struct UpdateSubscriptionsToEventBridgeOutput: Swift.Sendable {
 
     public init(
         result: Swift.String? = nil
-    )
-    {
+    ) {
         self.result = result
     }
 }

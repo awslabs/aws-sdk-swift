@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -91,8 +90,7 @@ extension TaxSettingsClientTypes {
             districtOrCounty: Swift.String? = nil,
             postalCode: Swift.String? = nil,
             stateOrRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
             self.addressLine3 = addressLine3
@@ -150,8 +148,7 @@ extension TaxSettingsClientTypes {
         public init(
             countryCode: Swift.String? = nil,
             stateOrRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.countryCode = countryCode
             self.stateOrRegion = stateOrRegion
         }
@@ -179,8 +176,7 @@ extension TaxSettingsClientTypes {
             addressRoleMap: [Swift.String: TaxSettingsClientTypes.Jurisdiction]? = nil,
             addressType: TaxSettingsClientTypes.AddressRoleType? = nil,
             seller: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountName = accountName
             self.address = address
             self.addressRoleMap = addressRoleMap
@@ -208,8 +204,7 @@ extension TaxSettingsClientTypes {
         public init(
             inheritanceObtainedReason: Swift.String? = nil,
             parentEntityId: Swift.String? = nil
-        )
-        {
+        ) {
             self.inheritanceObtainedReason = inheritanceObtainedReason
             self.parentEntityId = parentEntityId
         }
@@ -228,8 +223,7 @@ extension TaxSettingsClientTypes {
         public init(
             ccmCode: Swift.String? = nil,
             legalNatureCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.ccmCode = ccmCode
             self.legalNatureCode = legalNatureCode
         }
@@ -263,8 +257,7 @@ extension TaxSettingsClientTypes {
             canadaRetailSalesTaxNumber: Swift.String? = nil,
             isResellerAccount: Swift.Bool? = nil,
             provincialSalesTaxId: Swift.String? = nil
-        )
-        {
+        ) {
             self.canadaQuebecSalesTaxNumber = canadaQuebecSalesTaxNumber
             self.canadaRetailSalesTaxNumber = canadaRetailSalesTaxNumber
             self.isResellerAccount = isResellerAccount
@@ -283,8 +276,7 @@ extension TaxSettingsClientTypes {
 
         public init(
             registryCommercialCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.registryCommercialCode = registryCommercialCode
         }
     }
@@ -332,8 +324,7 @@ extension TaxSettingsClientTypes {
 
         public init(
             personType: TaxSettingsClientTypes.PersonType? = nil
-        )
-        {
+        ) {
             self.personType = personType
         }
     }
@@ -348,8 +339,7 @@ extension TaxSettingsClientTypes {
 
         public init(
             pan: Swift.String? = nil
-        )
-        {
+        ) {
             self.pan = pan
         }
     }
@@ -427,8 +417,7 @@ extension TaxSettingsClientTypes {
         public init(
             customerType: TaxSettingsClientTypes.IsraelCustomerType? = nil,
             dealerType: TaxSettingsClientTypes.IsraelDealerType? = nil
-        )
-        {
+        ) {
             self.customerType = customerType
             self.dealerType = dealerType
         }
@@ -453,8 +442,7 @@ extension TaxSettingsClientTypes {
             cupNumber: Swift.String? = nil,
             sdiAccountId: Swift.String? = nil,
             taxCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.cigNumber = cigNumber
             self.cupNumber = cupNumber
             self.sdiAccountId = sdiAccountId
@@ -473,8 +461,7 @@ extension TaxSettingsClientTypes {
 
         public init(
             personType: TaxSettingsClientTypes.PersonType? = nil
-        )
-        {
+        ) {
             self.personType = personType
         }
     }
@@ -530,8 +517,7 @@ extension TaxSettingsClientTypes {
             businessRegistrationNumber: Swift.String? = nil,
             serviceTaxCodes: [TaxSettingsClientTypes.MalaysiaServiceTaxCode]? = [],
             taxInformationNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.businessRegistrationNumber = businessRegistrationNumber
             self.serviceTaxCodes = serviceTaxCodes
             self.taxInformationNumber = taxInformationNumber
@@ -551,8 +537,7 @@ extension TaxSettingsClientTypes {
         public init(
             individualRegistrationNumber: Swift.String? = nil,
             isGroupVatEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.individualRegistrationNumber = individualRegistrationNumber
             self.isGroupVatEnabled = isGroupVatEnabled
         }
@@ -598,8 +583,7 @@ extension TaxSettingsClientTypes {
 
         public init(
             taxRegistrationNumberType: TaxSettingsClientTypes.TaxRegistrationNumberType? = nil
-        )
-        {
+        ) {
             self.taxRegistrationNumberType = taxRegistrationNumberType
         }
     }
@@ -646,8 +630,7 @@ extension TaxSettingsClientTypes {
 
         public init(
             taxRegistrationNumberType: TaxSettingsClientTypes.SaudiArabiaTaxRegistrationNumberType? = nil
-        )
-        {
+        ) {
             self.taxRegistrationNumberType = taxRegistrationNumberType
         }
     }
@@ -671,8 +654,7 @@ extension TaxSettingsClientTypes {
             businessRepresentativeName: Swift.String? = nil,
             itemOfBusiness: Swift.String? = nil,
             lineOfBusiness: Swift.String? = nil
-        )
-        {
+        ) {
             self.businessRepresentativeName = businessRepresentativeName
             self.itemOfBusiness = itemOfBusiness
             self.lineOfBusiness = lineOfBusiness
@@ -719,8 +701,7 @@ extension TaxSettingsClientTypes {
 
         public init(
             registrationType: TaxSettingsClientTypes.RegistrationType? = nil
-        )
-        {
+        ) {
             self.registrationType = registrationType
         }
     }
@@ -785,8 +766,7 @@ extension TaxSettingsClientTypes {
             kepEmailId: Swift.String? = nil,
             secondaryTaxId: Swift.String? = nil,
             taxOffice: Swift.String? = nil
-        )
-        {
+        ) {
             self.industries = industries
             self.kepEmailId = kepEmailId
             self.secondaryTaxId = secondaryTaxId
@@ -834,8 +814,7 @@ extension TaxSettingsClientTypes {
 
         public init(
             ukraineTrnType: TaxSettingsClientTypes.UkraineTrnType? = nil
-        )
-        {
+        ) {
             self.ukraineTrnType = ukraineTrnType
         }
     }
@@ -895,8 +874,7 @@ extension TaxSettingsClientTypes {
             spainAdditionalInfo: TaxSettingsClientTypes.SpainAdditionalInfo? = nil,
             turkeyAdditionalInfo: TaxSettingsClientTypes.TurkeyAdditionalInfo? = nil,
             ukraineAdditionalInfo: TaxSettingsClientTypes.UkraineAdditionalInfo? = nil
-        )
-        {
+        ) {
             self.brazilAdditionalInfo = brazilAdditionalInfo
             self.canadaAdditionalInfo = canadaAdditionalInfo
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
@@ -1042,8 +1020,7 @@ extension TaxSettingsClientTypes {
         public init(
             taxDocumentAccessToken: Swift.String? = nil,
             taxDocumentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.taxDocumentAccessToken = taxDocumentAccessToken
             self.taxDocumentName = taxDocumentName
         }
@@ -1088,8 +1065,7 @@ extension TaxSettingsClientTypes {
             sector: TaxSettingsClientTypes.Sector? = nil,
             status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil,
             taxDocumentMetadatas: [TaxSettingsClientTypes.TaxDocumentMetadata]? = nil
-        )
-        {
+        ) {
             self.additionalTaxInformation = additionalTaxInformation
             self.certifiedEmailId = certifiedEmailId
             self.jurisdiction = jurisdiction
@@ -1127,8 +1103,7 @@ extension TaxSettingsClientTypes {
             accountMetaData: TaxSettingsClientTypes.AccountMetaData? = nil,
             taxInheritanceDetails: TaxSettingsClientTypes.TaxInheritanceDetails? = nil,
             taxRegistration: TaxSettingsClientTypes.TaxRegistrationWithJurisdiction? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.accountMetaData = accountMetaData
             self.taxInheritanceDetails = taxInheritanceDetails
@@ -1191,8 +1166,7 @@ extension TaxSettingsClientTypes {
             spainAdditionalInfo: TaxSettingsClientTypes.SpainAdditionalInfo? = nil,
             turkeyAdditionalInfo: TaxSettingsClientTypes.TurkeyAdditionalInfo? = nil,
             ukraineAdditionalInfo: TaxSettingsClientTypes.UkraineAdditionalInfo? = nil
-        )
-        {
+        ) {
             self.canadaAdditionalInfo = canadaAdditionalInfo
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
             self.georgiaAdditionalInfo = georgiaAdditionalInfo
@@ -1230,8 +1204,7 @@ public struct AttachmentUploadException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1254,8 +1227,7 @@ extension TaxSettingsClientTypes {
         public init(
             country: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.country = country
             self.state = state
         }
@@ -1285,8 +1257,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1320,8 +1291,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1380,8 +1350,7 @@ extension TaxSettingsClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1413,8 +1382,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         errorCode: TaxSettingsClientTypes.ValidationExceptionErrorCode? = nil,
         fieldList: [TaxSettingsClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.fieldList = fieldList
         self.properties.message = message
@@ -1433,8 +1401,7 @@ public struct BatchDeleteTaxRegistrationInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -1456,8 +1423,7 @@ extension TaxSettingsClientTypes {
             accountId: Swift.String? = nil,
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.code = code
             self.message = message
@@ -1477,8 +1443,7 @@ public struct BatchDeleteTaxRegistrationOutput: Swift.Sendable {
 
     public init(
         errors: [TaxSettingsClientTypes.BatchDeleteTaxRegistrationError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1506,8 +1471,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1525,8 +1489,7 @@ public struct BatchGetTaxExemptionsInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -1581,8 +1544,7 @@ extension TaxSettingsClientTypes {
             applicableJurisdictions: [TaxSettingsClientTypes.Authority]? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicableJurisdictions = applicableJurisdictions
             self.description = description
             self.displayName = displayName
@@ -1616,8 +1578,7 @@ extension TaxSettingsClientTypes {
             status: TaxSettingsClientTypes.EntityExemptionAccountStatus? = nil,
             systemEffectiveDate: Foundation.Date? = nil,
             taxExemptionType: TaxSettingsClientTypes.TaxExemptionType? = nil
-        )
-        {
+        ) {
             self.authority = authority
             self.effectiveDate = effectiveDate
             self.expirationDate = expirationDate
@@ -1646,8 +1607,7 @@ extension TaxSettingsClientTypes {
             heritageObtainedParentEntity: Swift.String? = nil,
             heritageObtainedReason: Swift.String? = nil,
             taxExemptions: [TaxSettingsClientTypes.TaxExemption]? = nil
-        )
-        {
+        ) {
             self.heritageObtainedDetails = heritageObtainedDetails
             self.heritageObtainedParentEntity = heritageObtainedParentEntity
             self.heritageObtainedReason = heritageObtainedReason
@@ -1665,8 +1625,7 @@ public struct BatchGetTaxExemptionsOutput: Swift.Sendable {
     public init(
         failedAccounts: [Swift.String]? = nil,
         taxExemptionDetailsMap: [Swift.String: TaxSettingsClientTypes.TaxExemptionDetails]? = nil
-    )
-    {
+    ) {
         self.failedAccounts = failedAccounts
         self.taxExemptionDetailsMap = taxExemptionDetailsMap
     }
@@ -1686,8 +1645,7 @@ extension TaxSettingsClientTypes {
         public init(
             fileContent: Foundation.Data? = nil,
             fileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileContent = fileContent
             self.fileName = fileName
         }
@@ -1708,8 +1666,7 @@ extension TaxSettingsClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -1728,8 +1685,7 @@ extension TaxSettingsClientTypes {
         public init(
             file: TaxSettingsClientTypes.TaxRegistrationDocFile? = nil,
             s3Location: TaxSettingsClientTypes.SourceS3Location? = nil
-        )
-        {
+        ) {
             self.file = file
             self.s3Location = s3Location
         }
@@ -1748,8 +1704,7 @@ extension TaxSettingsClientTypes {
         public init(
             dateOfBirth: Swift.String? = nil,
             taxRegistrationDocuments: [TaxSettingsClientTypes.TaxRegistrationDocument]? = nil
-        )
-        {
+        ) {
             self.dateOfBirth = dateOfBirth
             self.taxRegistrationDocuments = taxRegistrationDocuments
         }
@@ -1788,8 +1743,7 @@ extension TaxSettingsClientTypes {
             registrationType: TaxSettingsClientTypes.TaxRegistrationType? = nil,
             sector: TaxSettingsClientTypes.Sector? = nil,
             verificationDetails: TaxSettingsClientTypes.VerificationDetails? = nil
-        )
-        {
+        ) {
             self.additionalTaxInformation = additionalTaxInformation
             self.certifiedEmailId = certifiedEmailId
             self.legalAddress = legalAddress
@@ -1819,8 +1773,7 @@ public struct BatchPutTaxRegistrationInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         taxRegistrationEntry: TaxSettingsClientTypes.TaxRegistrationEntry? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.taxRegistrationEntry = taxRegistrationEntry
     }
@@ -1848,8 +1801,7 @@ extension TaxSettingsClientTypes {
             accountId: Swift.String? = nil,
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.code = code
             self.message = message
@@ -1872,8 +1824,7 @@ public struct BatchPutTaxRegistrationOutput: Swift.Sendable {
     public init(
         errors: [TaxSettingsClientTypes.BatchPutTaxRegistrationError]? = nil,
         status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.status = status
     }
@@ -1898,8 +1849,7 @@ public struct CaseCreationLimitExceededException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1916,8 +1866,7 @@ public struct DeleteSupplementalTaxRegistrationInput: Swift.Sendable {
 
     public init(
         authorityId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorityId = authorityId
     }
 }
@@ -1933,8 +1882,7 @@ public struct DeleteTaxRegistrationInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -1957,8 +1905,7 @@ extension TaxSettingsClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -1979,8 +1926,7 @@ extension TaxSettingsClientTypes {
         public init(
             documentFile: Foundation.Data? = nil,
             documentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentFile = documentFile
             self.documentName = documentName
         }
@@ -1998,8 +1944,7 @@ public struct GetTaxExemptionTypesOutput: Swift.Sendable {
 
     public init(
         taxExemptionTypes: [TaxSettingsClientTypes.TaxExemptionType]? = nil
-    )
-    {
+    ) {
         self.taxExemptionTypes = taxExemptionTypes
     }
 }
@@ -2044,8 +1989,7 @@ public struct GetTaxInheritanceOutput: Swift.Sendable {
 
     public init(
         heritageStatus: TaxSettingsClientTypes.HeritageStatus? = nil
-    )
-    {
+    ) {
         self.heritageStatus = heritageStatus
     }
 }
@@ -2056,8 +2000,7 @@ public struct GetTaxRegistrationInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -2100,8 +2043,7 @@ extension TaxSettingsClientTypes {
             sector: TaxSettingsClientTypes.Sector? = nil,
             status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil,
             taxDocumentMetadatas: [TaxSettingsClientTypes.TaxDocumentMetadata]? = nil
-        )
-        {
+        ) {
             self.additionalTaxInformation = additionalTaxInformation
             self.certifiedEmailId = certifiedEmailId
             self.legalAddress = legalAddress
@@ -2127,8 +2069,7 @@ public struct GetTaxRegistrationOutput: Swift.Sendable {
 
     public init(
         taxRegistration: TaxSettingsClientTypes.TaxRegistration? = nil
-    )
-    {
+    ) {
         self.taxRegistration = taxRegistration
     }
 }
@@ -2148,8 +2089,7 @@ public struct GetTaxRegistrationDocumentInput: Swift.Sendable {
     public init(
         destinationS3Location: TaxSettingsClientTypes.DestinationS3Location? = nil,
         taxDocumentMetadata: TaxSettingsClientTypes.TaxDocumentMetadata? = nil
-    )
-    {
+    ) {
         self.destinationS3Location = destinationS3Location
         self.taxDocumentMetadata = taxDocumentMetadata
     }
@@ -2164,8 +2104,7 @@ public struct GetTaxRegistrationDocumentOutput: Swift.Sendable {
     public init(
         destinationFilePath: Swift.String? = nil,
         presignedS3Url: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationFilePath = destinationFilePath
         self.presignedS3Url = presignedS3Url
     }
@@ -2180,8 +2119,7 @@ public struct ListSupplementalTaxRegistrationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2243,8 +2181,7 @@ extension TaxSettingsClientTypes {
             registrationId: Swift.String? = nil,
             registrationType: TaxSettingsClientTypes.SupplementalTaxRegistrationType? = nil,
             status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil
-        )
-        {
+        ) {
             self.address = address
             self.authorityId = authorityId
             self.legalName = legalName
@@ -2271,8 +2208,7 @@ public struct ListSupplementalTaxRegistrationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taxRegistrations: [TaxSettingsClientTypes.SupplementalTaxRegistration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taxRegistrations = taxRegistrations
     }
@@ -2292,8 +2228,7 @@ public struct ListTaxExemptionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2308,8 +2243,7 @@ public struct ListTaxExemptionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taxExemptionDetailsMap: [Swift.String: TaxSettingsClientTypes.TaxExemptionDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taxExemptionDetailsMap = taxExemptionDetailsMap
     }
@@ -2324,8 +2258,7 @@ public struct ListTaxRegistrationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2341,8 +2274,7 @@ public struct ListTaxRegistrationsOutput: Swift.Sendable {
     public init(
         accountDetails: [TaxSettingsClientTypes.AccountDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountDetails = accountDetails
         self.nextToken = nextToken
     }
@@ -2375,8 +2307,7 @@ extension TaxSettingsClientTypes {
             legalName: Swift.String? = nil,
             registrationId: Swift.String? = nil,
             registrationType: TaxSettingsClientTypes.SupplementalTaxRegistrationType? = nil
-        )
-        {
+        ) {
             self.address = address
             self.legalName = legalName
             self.registrationId = registrationId
@@ -2398,8 +2329,7 @@ public struct PutSupplementalTaxRegistrationInput: Swift.Sendable {
 
     public init(
         taxRegistrationEntry: TaxSettingsClientTypes.SupplementalTaxRegistrationEntry? = nil
-    )
-    {
+    ) {
         self.taxRegistrationEntry = taxRegistrationEntry
     }
 }
@@ -2420,8 +2350,7 @@ public struct PutSupplementalTaxRegistrationOutput: Swift.Sendable {
     public init(
         authorityId: Swift.String? = nil,
         status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil
-    )
-    {
+    ) {
         self.authorityId = authorityId
         self.status = status
     }
@@ -2446,8 +2375,7 @@ public struct PutTaxExemptionInput: Swift.Sendable {
         authority: TaxSettingsClientTypes.Authority? = nil,
         exemptionCertificate: TaxSettingsClientTypes.ExemptionCertificate? = nil,
         exemptionType: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.authority = authority
         self.exemptionCertificate = exemptionCertificate
@@ -2461,8 +2389,7 @@ public struct PutTaxExemptionOutput: Swift.Sendable {
 
     public init(
         caseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
     }
 }
@@ -2473,8 +2400,7 @@ public struct PutTaxInheritanceInput: Swift.Sendable {
 
     public init(
         heritageStatus: TaxSettingsClientTypes.HeritageStatus? = nil
-    )
-    {
+    ) {
         self.heritageStatus = heritageStatus
     }
 }
@@ -2494,8 +2420,7 @@ public struct PutTaxRegistrationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         taxRegistrationEntry: TaxSettingsClientTypes.TaxRegistrationEntry? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.taxRegistrationEntry = taxRegistrationEntry
     }
@@ -2512,8 +2437,7 @@ public struct PutTaxRegistrationOutput: Swift.Sendable {
 
     public init(
         status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }

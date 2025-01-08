@@ -145,8 +145,7 @@ extension CloudFormationClientTypes {
         public init(
             status: CloudFormationClientTypes.AccountGateStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.statusReason = statusReason
         }
@@ -174,8 +173,7 @@ extension CloudFormationClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -200,8 +198,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -224,8 +221,7 @@ public struct OperationNotFoundException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -259,8 +255,7 @@ public struct CFNRegistryException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -284,8 +279,7 @@ public struct TypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -304,8 +298,7 @@ extension CloudFormationClientTypes {
         public init(
             logGroupName: Swift.String? = nil,
             logRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupName = logGroupName
             self.logRoleArn = logRoleArn
         }
@@ -410,8 +403,7 @@ public struct ActivateTypeInput: Swift.Sendable {
         typeName: Swift.String? = nil,
         typeNameAlias: Swift.String? = nil,
         versionBump: CloudFormationClientTypes.VersionBump? = nil
-    )
-    {
+    ) {
         self.autoUpdate = autoUpdate
         self.executionRoleArn = executionRoleArn
         self.loggingConfig = loggingConfig
@@ -431,8 +423,7 @@ public struct ActivateTypeOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -455,8 +446,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -505,8 +495,7 @@ extension CloudFormationClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             retainStacksOnAccountRemoval: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.retainStacksOnAccountRemoval = retainStacksOnAccountRemoval
         }
@@ -532,8 +521,7 @@ public struct TypeConfigurationNotFoundException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -559,8 +547,7 @@ extension CloudFormationClientTypes {
             typeConfigurationAlias: Swift.String? = nil,
             typeConfigurationArn: Swift.String? = nil,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.typeArn = typeArn
             self.typeConfigurationAlias = typeConfigurationAlias
@@ -577,8 +564,7 @@ public struct BatchDescribeTypeConfigurationsInput: Swift.Sendable {
 
     public init(
         typeConfigurationIdentifiers: [CloudFormationClientTypes.TypeConfigurationIdentifier]? = nil
-    )
-    {
+    ) {
         self.typeConfigurationIdentifiers = typeConfigurationIdentifiers
     }
 }
@@ -598,8 +584,7 @@ extension CloudFormationClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             typeConfigurationIdentifier: CloudFormationClientTypes.TypeConfigurationIdentifier? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.typeConfigurationIdentifier = typeConfigurationIdentifier
@@ -634,8 +619,7 @@ extension CloudFormationClientTypes {
             lastUpdated: Foundation.Date? = nil,
             typeArn: Swift.String? = nil,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.arn = arn
             self.configuration = configuration
@@ -659,8 +643,7 @@ public struct BatchDescribeTypeConfigurationsOutput: Swift.Sendable {
         errors: [CloudFormationClientTypes.BatchDescribeTypeConfigurationsError]? = nil,
         typeConfigurations: [CloudFormationClientTypes.TypeConfigurationDetails]? = nil,
         unprocessedTypeConfigurations: [CloudFormationClientTypes.TypeConfigurationIdentifier]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.typeConfigurations = typeConfigurations
         self.unprocessedTypeConfigurations = unprocessedTypeConfigurations
@@ -714,8 +697,7 @@ public struct TokenAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -731,8 +713,7 @@ public struct CancelUpdateStackInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.stackName = stackName
     }
@@ -1019,8 +1000,7 @@ extension CloudFormationClientTypes {
             name: Swift.String? = nil,
             path: Swift.String? = nil,
             requiresRecreation: CloudFormationClientTypes.RequiresRecreation? = nil
-        )
-        {
+        ) {
             self.afterValue = afterValue
             self.attribute = attribute
             self.attributeChangeType = attributeChangeType
@@ -1060,8 +1040,7 @@ extension CloudFormationClientTypes {
             changeSource: CloudFormationClientTypes.ChangeSource? = nil,
             evaluation: CloudFormationClientTypes.EvaluationType? = nil,
             target: CloudFormationClientTypes.ResourceTargetDefinition? = nil
-        )
-        {
+        ) {
             self.causingEntity = causingEntity
             self.changeSource = changeSource
             self.evaluation = evaluation
@@ -1082,8 +1061,7 @@ extension CloudFormationClientTypes {
         public init(
             logicalIdHierarchy: Swift.String? = nil,
             typeHierarchy: Swift.String? = nil
-        )
-        {
+        ) {
             self.logicalIdHierarchy = logicalIdHierarchy
             self.typeHierarchy = typeHierarchy
         }
@@ -1217,8 +1195,7 @@ extension CloudFormationClientTypes {
             replacement: CloudFormationClientTypes.Replacement? = nil,
             resourceType: Swift.String? = nil,
             scope: [CloudFormationClientTypes.ResourceAttribute]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.afterContext = afterContext
             self.beforeContext = beforeContext
@@ -1278,8 +1255,7 @@ extension CloudFormationClientTypes {
             hookInvocationCount: Swift.Int? = nil,
             resourceChange: CloudFormationClientTypes.ResourceChange? = nil,
             type: CloudFormationClientTypes.ChangeType? = nil
-        )
-        {
+        ) {
             self.hookInvocationCount = hookInvocationCount
             self.resourceChange = resourceChange
             self.type = type
@@ -1357,8 +1333,7 @@ extension CloudFormationClientTypes {
             logicalResourceId: Swift.String? = nil,
             resourceAction: CloudFormationClientTypes.ChangeAction? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.logicalResourceId = logicalResourceId
             self.resourceAction = resourceAction
             self.resourceType = resourceType
@@ -1404,8 +1379,7 @@ extension CloudFormationClientTypes {
         public init(
             resourceTargetDetails: CloudFormationClientTypes.ChangeSetHookResourceTargetDetails? = nil,
             targetType: CloudFormationClientTypes.HookTargetType? = nil
-        )
-        {
+        ) {
             self.resourceTargetDetails = resourceTargetDetails
             self.targetType = targetType
         }
@@ -1454,8 +1428,7 @@ extension CloudFormationClientTypes {
             typeConfigurationVersionId: Swift.String? = nil,
             typeName: Swift.String? = nil,
             typeVersionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureMode = failureMode
             self.invocationPoint = invocationPoint
             self.targetDetails = targetDetails
@@ -1516,8 +1489,7 @@ public struct ChangeSetNotFoundException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1655,8 +1627,7 @@ extension CloudFormationClientTypes {
             stackName: Swift.String? = nil,
             status: CloudFormationClientTypes.ChangeSetStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.changeSetId = changeSetId
             self.changeSetName = changeSetName
             self.creationTime = creationTime
@@ -1723,8 +1694,7 @@ public struct ContinueUpdateRollbackInput: Swift.Sendable {
         resourcesToSkip: [Swift.String]? = nil,
         roleARN: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.resourcesToSkip = resourcesToSkip
         self.roleARN = roleARN
@@ -1756,8 +1726,7 @@ public struct InsufficientCapabilitiesException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1780,8 +1749,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1836,8 +1804,7 @@ extension CloudFormationClientTypes {
             parameterValue: Swift.String? = nil,
             resolvedValue: Swift.String? = nil,
             usePreviousValue: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.parameterKey = parameterKey
             self.parameterValue = parameterValue
             self.resolvedValue = resolvedValue
@@ -1864,8 +1831,7 @@ extension CloudFormationClientTypes {
             logicalResourceId: Swift.String? = nil,
             resourceIdentifier: [Swift.String: Swift.String]? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.logicalResourceId = logicalResourceId
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -1887,8 +1853,7 @@ extension CloudFormationClientTypes {
         public init(
             arn: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.type = type
         }
@@ -1916,8 +1881,7 @@ extension CloudFormationClientTypes {
         public init(
             monitoringTimeInMinutes: Swift.Int? = nil,
             rollbackTriggers: [CloudFormationClientTypes.RollbackTrigger]? = nil
-        )
-        {
+        ) {
             self.monitoringTimeInMinutes = monitoringTimeInMinutes
             self.rollbackTriggers = rollbackTriggers
         }
@@ -1938,8 +1902,7 @@ extension CloudFormationClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2051,8 +2014,7 @@ public struct CreateChangeSetInput: Swift.Sendable {
         templateBody: Swift.String? = nil,
         templateURL: Swift.String? = nil,
         usePreviousTemplate: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.changeSetName = changeSetName
         self.changeSetType = changeSetType
@@ -2085,8 +2047,7 @@ public struct CreateChangeSetOutput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.stackId = stackId
     }
@@ -2110,8 +2071,7 @@ public struct ConcurrentResourcesLimitExceededException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2133,8 +2093,7 @@ extension CloudFormationClientTypes {
             logicalResourceId: Swift.String? = nil,
             resourceIdentifier: [Swift.String: Swift.String]? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.logicalResourceId = logicalResourceId
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -2226,8 +2185,7 @@ extension CloudFormationClientTypes {
         public init(
             deletionPolicy: CloudFormationClientTypes.GeneratedTemplateDeletionPolicy? = nil,
             updateReplacePolicy: CloudFormationClientTypes.GeneratedTemplateUpdateReplacePolicy? = nil
-        )
-        {
+        ) {
             self.deletionPolicy = deletionPolicy
             self.updateReplacePolicy = updateReplacePolicy
         }
@@ -2250,8 +2208,7 @@ public struct CreateGeneratedTemplateInput: Swift.Sendable {
         resources: [CloudFormationClientTypes.ResourceDefinition]? = nil,
         stackName: Swift.String? = nil,
         templateConfiguration: CloudFormationClientTypes.TemplateConfiguration? = nil
-    )
-    {
+    ) {
         self.generatedTemplateName = generatedTemplateName
         self.resources = resources
         self.stackName = stackName
@@ -2265,8 +2222,7 @@ public struct CreateGeneratedTemplateOutput: Swift.Sendable {
 
     public init(
         generatedTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.generatedTemplateId = generatedTemplateId
     }
 }
@@ -2395,8 +2351,7 @@ public struct CreateStackInput: Swift.Sendable {
         templateBody: Swift.String? = nil,
         templateURL: Swift.String? = nil,
         timeoutInMinutes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.clientRequestToken = clientRequestToken
         self.disableRollback = disableRollback
@@ -2425,8 +2380,7 @@ public struct CreateStackOutput: Swift.Sendable {
 
     public init(
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackId = stackId
     }
 }
@@ -2449,8 +2403,7 @@ public struct OperationIdAlreadyExistsException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2473,8 +2426,7 @@ public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2497,8 +2449,7 @@ public struct StackSetNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2521,8 +2472,7 @@ public struct StaleRequestException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2553,8 +2503,7 @@ extension CloudFormationClientTypes {
             accounts: [Swift.String]? = nil,
             accountsUrl: Swift.String? = nil,
             organizationalUnitIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.accountFilterType = accountFilterType
             self.accounts = accounts
             self.accountsUrl = accountsUrl
@@ -2652,8 +2601,7 @@ extension CloudFormationClientTypes {
             maxConcurrentPercentage: Swift.Int? = nil,
             regionConcurrencyType: CloudFormationClientTypes.RegionConcurrencyType? = nil,
             regionOrder: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.concurrencyMode = concurrencyMode
             self.failureToleranceCount = failureToleranceCount
             self.failureTolerancePercentage = failureTolerancePercentage
@@ -2709,8 +2657,7 @@ public struct CreateStackInstancesInput: Swift.Sendable {
         parameterOverrides: [CloudFormationClientTypes.Parameter]? = nil,
         regions: [Swift.String]? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.callAs = callAs
         self.deploymentTargets = deploymentTargets
@@ -2728,8 +2675,7 @@ public struct CreateStackInstancesOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2752,8 +2698,7 @@ public struct CreatedButModifiedException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2776,8 +2721,7 @@ public struct NameAlreadyExistsException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2791,8 +2735,7 @@ extension CloudFormationClientTypes {
 
         public init(
             active: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.active = active
         }
     }
@@ -2917,8 +2860,7 @@ public struct CreateStackSetInput: Swift.Sendable {
         tags: [CloudFormationClientTypes.Tag]? = nil,
         templateBody: Swift.String? = nil,
         templateURL: Swift.String? = nil
-    )
-    {
+    ) {
         self.administrationRoleARN = administrationRoleARN
         self.autoDeployment = autoDeployment
         self.callAs = callAs
@@ -2943,8 +2885,7 @@ public struct CreateStackSetOutput: Swift.Sendable {
 
     public init(
         stackSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackSetId = stackSetId
     }
 }
@@ -2971,8 +2912,7 @@ public struct DeactivateTypeInput: Swift.Sendable {
         arn: Swift.String? = nil,
         type: CloudFormationClientTypes.ThirdPartyType? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.type = type
         self.typeName = typeName
@@ -3002,8 +2942,7 @@ public struct InvalidChangeSetStatusException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3019,8 +2958,7 @@ public struct DeleteChangeSetInput: Swift.Sendable {
     public init(
         changeSetName: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeSetName = changeSetName
         self.stackName = stackName
     }
@@ -3050,8 +2988,7 @@ public struct GeneratedTemplateNotFoundException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3063,8 +3000,7 @@ public struct DeleteGeneratedTemplateInput: Swift.Sendable {
 
     public init(
         generatedTemplateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.generatedTemplateName = generatedTemplateName
     }
 }
@@ -3122,8 +3058,7 @@ public struct DeleteStackInput: Swift.Sendable {
         retainResources: [Swift.String]? = nil,
         roleARN: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.deletionMode = deletionMode
         self.retainResources = retainResources
@@ -3166,8 +3101,7 @@ public struct DeleteStackInstancesInput: Swift.Sendable {
         regions: [Swift.String]? = nil,
         retainStacks: Swift.Bool? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.callAs = callAs
         self.deploymentTargets = deploymentTargets
@@ -3185,8 +3119,7 @@ public struct DeleteStackInstancesOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -3209,8 +3142,7 @@ public struct StackSetNotEmptyException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3229,8 +3161,7 @@ public struct DeleteStackSetInput: Swift.Sendable {
     public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.stackSetName = stackSetName
     }
@@ -3288,8 +3219,7 @@ public struct DeregisterTypeInput: Swift.Sendable {
         type: CloudFormationClientTypes.RegistryType? = nil,
         typeName: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.type = type
         self.typeName = typeName
@@ -3309,8 +3239,7 @@ public struct DescribeAccountLimitsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -3325,8 +3254,7 @@ public struct DescribeAccountLimitsOutput: Swift.Sendable {
     public init(
         accountLimits: [CloudFormationClientTypes.AccountLimit]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountLimits = accountLimits
         self.nextToken = nextToken
     }
@@ -3349,8 +3277,7 @@ public struct DescribeChangeSetInput: Swift.Sendable {
         includePropertyValues: Swift.Bool? = nil,
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeSetName = changeSetName
         self.includePropertyValues = includePropertyValues
         self.nextToken = nextToken
@@ -3431,8 +3358,7 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
         status: CloudFormationClientTypes.ChangeSetStatus? = nil,
         statusReason: Swift.String? = nil,
         tags: [CloudFormationClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.changeSetId = changeSetId
         self.changeSetName = changeSetName
@@ -3473,8 +3399,7 @@ public struct DescribeChangeSetHooksInput: Swift.Sendable {
         logicalResourceId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeSetName = changeSetName
         self.logicalResourceId = logicalResourceId
         self.nextToken = nextToken
@@ -3506,8 +3431,7 @@ public struct DescribeChangeSetHooksOutput: Swift.Sendable {
         stackId: Swift.String? = nil,
         stackName: Swift.String? = nil,
         status: CloudFormationClientTypes.ChangeSetHooksStatus? = nil
-    )
-    {
+    ) {
         self.changeSetId = changeSetId
         self.changeSetName = changeSetName
         self.hooks = hooks
@@ -3525,8 +3449,7 @@ public struct DescribeGeneratedTemplateInput: Swift.Sendable {
 
     public init(
         generatedTemplateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.generatedTemplateName = generatedTemplateName
     }
 }
@@ -3549,8 +3472,7 @@ extension CloudFormationClientTypes {
             resourcesPending: Swift.Int? = nil,
             resourcesProcessing: Swift.Int? = nil,
             resourcesSucceeded: Swift.Int? = nil
-        )
-        {
+        ) {
             self.resourcesFailed = resourcesFailed
             self.resourcesPending = resourcesPending
             self.resourcesProcessing = resourcesProcessing
@@ -3609,8 +3531,7 @@ extension CloudFormationClientTypes {
             description: Swift.String? = nil,
             propertyPath: Swift.String? = nil,
             `required`: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.description = description
             self.propertyPath = propertyPath
             self.`required` = `required`
@@ -3671,8 +3592,7 @@ extension CloudFormationClientTypes {
         public init(
             properties: [CloudFormationClientTypes.WarningProperty]? = nil,
             type: CloudFormationClientTypes.WarningType? = nil
-        )
-        {
+        ) {
             self.properties = properties
             self.type = type
         }
@@ -3703,8 +3623,7 @@ extension CloudFormationClientTypes {
             resourceStatusReason: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             warnings: [CloudFormationClientTypes.WarningDetail]? = nil
-        )
-        {
+        ) {
             self.logicalResourceId = logicalResourceId
             self.resourceIdentifier = resourceIdentifier
             self.resourceStatus = resourceStatus
@@ -3814,8 +3733,7 @@ public struct DescribeGeneratedTemplateOutput: Swift.Sendable {
         statusReason: Swift.String? = nil,
         templateConfiguration: CloudFormationClientTypes.TemplateConfiguration? = nil,
         totalWarnings: Swift.Int? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.generatedTemplateId = generatedTemplateId
         self.generatedTemplateName = generatedTemplateName
@@ -3840,8 +3758,7 @@ public struct DescribeOrganizationsAccessInput: Swift.Sendable {
 
     public init(
         callAs: CloudFormationClientTypes.CallAs? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
     }
 }
@@ -3884,8 +3801,7 @@ public struct DescribeOrganizationsAccessOutput: Swift.Sendable {
 
     public init(
         status: CloudFormationClientTypes.OrganizationStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -3896,8 +3812,7 @@ public struct DescribePublisherInput: Swift.Sendable {
 
     public init(
         publisherId: Swift.String? = nil
-    )
-    {
+    ) {
         self.publisherId = publisherId
     }
 }
@@ -3978,8 +3893,7 @@ public struct DescribePublisherOutput: Swift.Sendable {
         publisherId: Swift.String? = nil,
         publisherProfile: Swift.String? = nil,
         publisherStatus: CloudFormationClientTypes.PublisherStatus? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
         self.publisherId = publisherId
         self.publisherProfile = publisherProfile
@@ -4005,8 +3919,7 @@ public struct ResourceScanNotFoundException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4018,8 +3931,7 @@ public struct DescribeResourceScanInput: Swift.Sendable {
 
     public init(
         resourceScanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceScanId = resourceScanId
     }
 }
@@ -4089,8 +4001,7 @@ public struct DescribeResourceScanOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         status: CloudFormationClientTypes.ResourceScanStatus? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.percentageCompleted = percentageCompleted
         self.resourceScanId = resourceScanId
@@ -4110,8 +4021,7 @@ public struct DescribeStackDriftDetectionStatusInput: Swift.Sendable {
 
     public init(
         stackDriftDetectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackDriftDetectionId = stackDriftDetectionId
     }
 }
@@ -4225,8 +4135,7 @@ public struct DescribeStackDriftDetectionStatusOutput: Swift.Sendable {
         stackDriftStatus: CloudFormationClientTypes.StackDriftStatus? = nil,
         stackId: Swift.String? = nil,
         timestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.detectionStatus = detectionStatus
         self.detectionStatusReason = detectionStatusReason
         self.driftedStackResourceCount = driftedStackResourceCount
@@ -4254,8 +4163,7 @@ public struct DescribeStackEventsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stackName = stackName
     }
@@ -4486,8 +4394,7 @@ extension CloudFormationClientTypes {
             stackId: Swift.String? = nil,
             stackName: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.clientRequestToken = clientRequestToken
             self.detailedStatus = detailedStatus
             self.eventId = eventId
@@ -4519,8 +4426,7 @@ public struct DescribeStackEventsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stackEvents: [CloudFormationClientTypes.StackEvent]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stackEvents = stackEvents
     }
@@ -4544,8 +4450,7 @@ public struct StackInstanceNotFoundException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4572,8 +4477,7 @@ public struct DescribeStackInstanceInput: Swift.Sendable {
         stackInstanceAccount: Swift.String? = nil,
         stackInstanceRegion: Swift.String? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.stackInstanceAccount = stackInstanceAccount
         self.stackInstanceRegion = stackInstanceRegion
@@ -4651,8 +4555,7 @@ extension CloudFormationClientTypes {
 
         public init(
             detailedStatus: CloudFormationClientTypes.StackInstanceDetailedStatus? = nil
-        )
-        {
+        ) {
             self.detailedStatus = detailedStatus
         }
     }
@@ -4753,8 +4656,7 @@ extension CloudFormationClientTypes {
             stackSetId: Swift.String? = nil,
             status: CloudFormationClientTypes.StackInstanceStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.account = account
             self.driftStatus = driftStatus
             self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
@@ -4777,8 +4679,7 @@ public struct DescribeStackInstanceOutput: Swift.Sendable {
 
     public init(
         stackInstance: CloudFormationClientTypes.StackInstance? = nil
-    )
-    {
+    ) {
         self.stackInstance = stackInstance
     }
 }
@@ -4802,8 +4703,7 @@ public struct DescribeStackResourceInput: Swift.Sendable {
     public init(
         logicalResourceId: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.logicalResourceId = logicalResourceId
         self.stackName = stackName
     }
@@ -4865,8 +4765,7 @@ extension CloudFormationClientTypes {
         public init(
             lastCheckTimestamp: Foundation.Date? = nil,
             stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus? = nil
-        )
-        {
+        ) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackResourceDriftStatus = stackResourceDriftStatus
         }
@@ -4919,8 +4818,7 @@ extension CloudFormationClientTypes {
             resourceType: Swift.String? = nil,
             stackId: Swift.String? = nil,
             stackName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.driftInformation = driftInformation
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -4944,8 +4842,7 @@ public struct DescribeStackResourceOutput: Swift.Sendable {
 
     public init(
         stackResourceDetail: CloudFormationClientTypes.StackResourceDetail? = nil
-    )
-    {
+    ) {
         self.stackResourceDetail = stackResourceDetail
     }
 }
@@ -4974,8 +4871,7 @@ public struct DescribeStackResourceDriftsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil,
         stackResourceDriftStatusFilters: [CloudFormationClientTypes.StackResourceDriftStatus]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.stackName = stackName
@@ -4997,8 +4893,7 @@ extension CloudFormationClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -5065,8 +4960,7 @@ extension CloudFormationClientTypes {
             differenceType: CloudFormationClientTypes.DifferenceType? = nil,
             expectedValue: Swift.String? = nil,
             propertyPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.actualValue = actualValue
             self.differenceType = differenceType
             self.expectedValue = expectedValue
@@ -5127,8 +5021,7 @@ extension CloudFormationClientTypes {
             stackId: Swift.String? = nil,
             stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.actualProperties = actualProperties
             self.expectedProperties = expectedProperties
             self.logicalResourceId = logicalResourceId
@@ -5154,8 +5047,7 @@ public struct DescribeStackResourceDriftsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stackResourceDrifts: [CloudFormationClientTypes.StackResourceDrift]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stackResourceDrifts = stackResourceDrifts
     }
@@ -5181,8 +5073,7 @@ public struct DescribeStackResourcesInput: Swift.Sendable {
         logicalResourceId: Swift.String? = nil,
         physicalResourceId: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.logicalResourceId = logicalResourceId
         self.physicalResourceId = physicalResourceId
         self.stackName = stackName
@@ -5232,8 +5123,7 @@ extension CloudFormationClientTypes {
             stackId: Swift.String? = nil,
             stackName: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.description = description
             self.driftInformation = driftInformation
             self.logicalResourceId = logicalResourceId
@@ -5256,8 +5146,7 @@ public struct DescribeStackResourcesOutput: Swift.Sendable {
 
     public init(
         stackResources: [CloudFormationClientTypes.StackResource]? = nil
-    )
-    {
+    ) {
         self.stackResources = stackResources
     }
 }
@@ -5279,8 +5168,7 @@ public struct DescribeStacksInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stackName = stackName
     }
@@ -5307,8 +5195,7 @@ extension CloudFormationClientTypes {
         public init(
             lastCheckTimestamp: Foundation.Date? = nil,
             stackDriftStatus: CloudFormationClientTypes.StackDriftStatus? = nil
-        )
-        {
+        ) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackDriftStatus = stackDriftStatus
         }
@@ -5333,8 +5220,7 @@ extension CloudFormationClientTypes {
             exportName: Swift.String? = nil,
             outputKey: Swift.String? = nil,
             outputValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.exportName = exportName
             self.outputKey = outputKey
@@ -5527,8 +5413,7 @@ extension CloudFormationClientTypes {
             stackStatusReason: Swift.String? = nil,
             tags: [CloudFormationClientTypes.Tag]? = nil,
             timeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.capabilities = capabilities
             self.changeSetId = changeSetId
             self.creationTime = creationTime
@@ -5568,8 +5453,7 @@ public struct DescribeStacksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stacks: [CloudFormationClientTypes.Stack]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stacks = stacks
     }
@@ -5589,8 +5473,7 @@ public struct DescribeStackSetInput: Swift.Sendable {
     public init(
         callAs: CloudFormationClientTypes.CallAs? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.stackSetName = stackSetName
     }
@@ -5720,8 +5603,7 @@ extension CloudFormationClientTypes {
             inSyncStackInstancesCount: Swift.Int? = nil,
             lastDriftCheckTimestamp: Foundation.Date? = nil,
             totalStackInstancesCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.driftDetectionStatus = driftDetectionStatus
             self.driftStatus = driftStatus
             self.driftedStackInstancesCount = driftedStackInstancesCount
@@ -5824,8 +5706,7 @@ extension CloudFormationClientTypes {
             status: CloudFormationClientTypes.StackSetStatus? = nil,
             tags: [CloudFormationClientTypes.Tag]? = nil,
             templateBody: Swift.String? = nil
-        )
-        {
+        ) {
             self.administrationRoleARN = administrationRoleARN
             self.autoDeployment = autoDeployment
             self.capabilities = capabilities
@@ -5853,8 +5734,7 @@ public struct DescribeStackSetOutput: Swift.Sendable {
 
     public init(
         stackSet: CloudFormationClientTypes.StackSet? = nil
-    )
-    {
+    ) {
         self.stackSet = stackSet
     }
 }
@@ -5877,8 +5757,7 @@ public struct DescribeStackSetOperationInput: Swift.Sendable {
         callAs: CloudFormationClientTypes.CallAs? = nil,
         operationId: Swift.String? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.operationId = operationId
         self.stackSetName = stackSetName
@@ -5970,8 +5849,7 @@ extension CloudFormationClientTypes {
 
         public init(
             failedStackInstancesCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failedStackInstancesCount = failedStackInstancesCount
         }
     }
@@ -6037,8 +5915,7 @@ extension CloudFormationClientTypes {
             status: CloudFormationClientTypes.StackSetOperationStatus? = nil,
             statusDetails: CloudFormationClientTypes.StackSetOperationStatusDetails? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.administrationRoleARN = administrationRoleARN
             self.creationTimestamp = creationTimestamp
@@ -6063,8 +5940,7 @@ public struct DescribeStackSetOperationOutput: Swift.Sendable {
 
     public init(
         stackSetOperation: CloudFormationClientTypes.StackSetOperation? = nil
-    )
-    {
+    ) {
         self.stackSetOperation = stackSetOperation
     }
 }
@@ -6090,8 +5966,7 @@ public struct DescribeTypeInput: Swift.Sendable {
         type: CloudFormationClientTypes.RegistryType? = nil,
         typeName: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.publicVersionNumber = publicVersionNumber
         self.publisherId = publisherId
@@ -6180,8 +6055,7 @@ extension CloudFormationClientTypes {
             publisherId: Swift.String? = nil,
             supportedMajorVersions: [Swift.Int]? = nil,
             typeNameAlias: Swift.String? = nil
-        )
-        {
+        ) {
             self.originalTypeName = originalTypeName
             self.publisherId = publisherId
             self.supportedMajorVersions = supportedMajorVersions
@@ -6373,8 +6247,7 @@ public struct DescribeTypeOutput: Swift.Sendable {
         typeTestsStatus: CloudFormationClientTypes.TypeTestsStatus? = nil,
         typeTestsStatusDescription: Swift.String? = nil,
         visibility: CloudFormationClientTypes.Visibility? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.autoUpdate = autoUpdate
         self.configurationSchema = configurationSchema
@@ -6412,8 +6285,7 @@ public struct DescribeTypeRegistrationInput: Swift.Sendable {
 
     public init(
         registrationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationToken = registrationToken
     }
 }
@@ -6465,8 +6337,7 @@ public struct DescribeTypeRegistrationOutput: Swift.Sendable {
         progressStatus: CloudFormationClientTypes.RegistrationStatus? = nil,
         typeArn: Swift.String? = nil,
         typeVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.progressStatus = progressStatus
         self.typeArn = typeArn
@@ -6484,8 +6355,7 @@ public struct DetectStackDriftInput: Swift.Sendable {
     public init(
         logicalResourceIds: [Swift.String]? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.logicalResourceIds = logicalResourceIds
         self.stackName = stackName
     }
@@ -6498,8 +6368,7 @@ public struct DetectStackDriftOutput: Swift.Sendable {
 
     public init(
         stackDriftDetectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackDriftDetectionId = stackDriftDetectionId
     }
 }
@@ -6515,8 +6384,7 @@ public struct DetectStackResourceDriftInput: Swift.Sendable {
     public init(
         logicalResourceId: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.logicalResourceId = logicalResourceId
         self.stackName = stackName
     }
@@ -6529,8 +6397,7 @@ public struct DetectStackResourceDriftOutput: Swift.Sendable {
 
     public init(
         stackResourceDrift: CloudFormationClientTypes.StackResourceDrift? = nil
-    )
-    {
+    ) {
         self.stackResourceDrift = stackResourceDrift
     }
 }
@@ -6555,8 +6422,7 @@ public struct DetectStackSetDriftInput: Swift.Sendable {
         operationId: Swift.String? = nil,
         operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.operationId = operationId
         self.operationPreferences = operationPreferences
@@ -6570,8 +6436,7 @@ public struct DetectStackSetDriftOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -6589,8 +6454,7 @@ public struct EstimateTemplateCostInput: Swift.Sendable {
         parameters: [CloudFormationClientTypes.Parameter]? = nil,
         templateBody: Swift.String? = nil,
         templateURL: Swift.String? = nil
-    )
-    {
+    ) {
         self.parameters = parameters
         self.templateBody = templateBody
         self.templateURL = templateURL
@@ -6604,8 +6468,7 @@ public struct EstimateTemplateCostOutput: Swift.Sendable {
 
     public init(
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.url = url
     }
 }
@@ -6637,8 +6500,7 @@ public struct ExecuteChangeSetInput: Swift.Sendable {
         disableRollback: Swift.Bool? = nil,
         retainExceptOnCreate: Swift.Bool? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeSetName = changeSetName
         self.clientRequestToken = clientRequestToken
         self.disableRollback = disableRollback
@@ -6696,8 +6558,7 @@ public struct GetGeneratedTemplateInput: Swift.Sendable {
     public init(
         format: CloudFormationClientTypes.TemplateFormat? = nil,
         generatedTemplateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.format = format
         self.generatedTemplateName = generatedTemplateName
     }
@@ -6728,8 +6589,7 @@ public struct GetGeneratedTemplateOutput: Swift.Sendable {
     public init(
         status: CloudFormationClientTypes.GeneratedTemplateStatus? = nil,
         templateBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.templateBody = templateBody
     }
@@ -6743,8 +6603,7 @@ public struct GetStackPolicyInput: Swift.Sendable {
 
     public init(
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackName = stackName
     }
 }
@@ -6756,8 +6615,7 @@ public struct GetStackPolicyOutput: Swift.Sendable {
 
     public init(
         stackPolicyBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackPolicyBody = stackPolicyBody
     }
 }
@@ -6811,8 +6669,7 @@ public struct GetTemplateInput: Swift.Sendable {
         changeSetName: Swift.String? = nil,
         stackName: Swift.String? = nil,
         templateStage: CloudFormationClientTypes.TemplateStage? = nil
-    )
-    {
+    ) {
         self.changeSetName = changeSetName
         self.stackName = stackName
         self.templateStage = templateStage
@@ -6829,8 +6686,7 @@ public struct GetTemplateOutput: Swift.Sendable {
     public init(
         stagesAvailable: [CloudFormationClientTypes.TemplateStage]? = nil,
         templateBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.stagesAvailable = stagesAvailable
         self.templateBody = templateBody
     }
@@ -6845,8 +6701,7 @@ extension CloudFormationClientTypes {
 
         public init(
             treatUnrecognizedResourceTypesAsWarnings: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.treatUnrecognizedResourceTypesAsWarnings = treatUnrecognizedResourceTypesAsWarnings
         }
     }
@@ -6878,8 +6733,7 @@ public struct GetTemplateSummaryInput: Swift.Sendable {
         templateBody: Swift.String? = nil,
         templateSummaryConfig: CloudFormationClientTypes.TemplateSummaryConfig? = nil,
         templateURL: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.stackName = stackName
         self.stackSetName = stackSetName
@@ -6898,8 +6752,7 @@ extension CloudFormationClientTypes {
 
         public init(
             allowedValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
         }
     }
@@ -6929,8 +6782,7 @@ extension CloudFormationClientTypes {
             parameterConstraints: CloudFormationClientTypes.ParameterConstraints? = nil,
             parameterKey: Swift.String? = nil,
             parameterType: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.noEcho = noEcho
@@ -6956,8 +6808,7 @@ extension CloudFormationClientTypes {
             logicalResourceIds: [Swift.String]? = nil,
             resourceIdentifiers: [Swift.String]? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.logicalResourceIds = logicalResourceIds
             self.resourceIdentifiers = resourceIdentifiers
             self.resourceType = resourceType
@@ -6974,8 +6825,7 @@ extension CloudFormationClientTypes {
 
         public init(
             unrecognizedResourceTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.unrecognizedResourceTypes = unrecognizedResourceTypes
         }
     }
@@ -7015,8 +6865,7 @@ public struct GetTemplateSummaryOutput: Swift.Sendable {
         resourceTypes: [Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: CloudFormationClientTypes.Warnings? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.capabilitiesReason = capabilitiesReason
         self.declaredTransforms = declaredTransforms
@@ -7048,8 +6897,7 @@ public struct StackNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7083,8 +6931,7 @@ public struct ImportStacksToStackSetInput: Swift.Sendable {
         stackIds: [Swift.String]? = nil,
         stackIdsUrl: Swift.String? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.operationId = operationId
         self.operationPreferences = operationPreferences
@@ -7101,8 +6948,7 @@ public struct ImportStacksToStackSetOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -7118,8 +6964,7 @@ public struct ListChangeSetsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stackName = stackName
     }
@@ -7135,8 +6980,7 @@ public struct ListChangeSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.ChangeSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -7148,8 +6992,7 @@ public struct ListExportsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -7169,8 +7012,7 @@ extension CloudFormationClientTypes {
             exportingStackId: Swift.String? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.exportingStackId = exportingStackId
             self.name = name
             self.value = value
@@ -7187,8 +7029,7 @@ public struct ListExportsOutput: Swift.Sendable {
     public init(
         exports: [CloudFormationClientTypes.Export]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exports = exports
         self.nextToken = nextToken
     }
@@ -7203,8 +7044,7 @@ public struct ListGeneratedTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7253,8 +7093,7 @@ extension CloudFormationClientTypes {
             numberOfResources: Swift.Int? = nil,
             status: CloudFormationClientTypes.GeneratedTemplateStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.generatedTemplateId = generatedTemplateId
             self.generatedTemplateName = generatedTemplateName
@@ -7275,8 +7114,7 @@ public struct ListGeneratedTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.TemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -7300,8 +7138,7 @@ public struct HookResultNotFoundException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7355,8 +7192,7 @@ public struct ListHookResultsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         targetId: Swift.String? = nil,
         targetType: CloudFormationClientTypes.ListHookResultsTargetType? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.targetId = targetId
         self.targetType = targetType
@@ -7394,8 +7230,7 @@ extension CloudFormationClientTypes {
             typeConfigurationVersionId: Swift.String? = nil,
             typeName: Swift.String? = nil,
             typeVersionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureMode = failureMode
             self.hookStatusReason = hookStatusReason
             self.invocationPoint = invocationPoint
@@ -7422,8 +7257,7 @@ public struct ListHookResultsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         targetId: Swift.String? = nil,
         targetType: CloudFormationClientTypes.ListHookResultsTargetType? = nil
-    )
-    {
+    ) {
         self.hookResults = hookResults
         self.nextToken = nextToken
         self.targetId = targetId
@@ -7441,8 +7275,7 @@ public struct ListImportsInput: Swift.Sendable {
     public init(
         exportName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportName = exportName
         self.nextToken = nextToken
     }
@@ -7457,8 +7290,7 @@ public struct ListImportsOutput: Swift.Sendable {
     public init(
         imports: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imports = imports
         self.nextToken = nextToken
     }
@@ -7482,8 +7314,7 @@ public struct ResourceScanInProgressException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7502,8 +7333,7 @@ extension CloudFormationClientTypes {
         public init(
             resourceIdentifier: [Swift.String: Swift.String]? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
         }
@@ -7527,8 +7357,7 @@ public struct ListResourceScanRelatedResourcesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceScanId: Swift.String? = nil,
         resources: [CloudFormationClientTypes.ScannedResourceIdentifier]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceScanId = resourceScanId
@@ -7551,8 +7380,7 @@ extension CloudFormationClientTypes {
             managedByStack: Swift.Bool? = nil,
             resourceIdentifier: [Swift.String: Swift.String]? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.managedByStack = managedByStack
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -7569,8 +7397,7 @@ public struct ListResourceScanRelatedResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         relatedResources: [CloudFormationClientTypes.ScannedResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.relatedResources = relatedResources
     }
@@ -7601,8 +7428,7 @@ public struct ListResourceScanResourcesInput: Swift.Sendable {
         resourceTypePrefix: Swift.String? = nil,
         tagKey: Swift.String? = nil,
         tagValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceIdentifier = resourceIdentifier
@@ -7622,8 +7448,7 @@ public struct ListResourceScanResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resources: [CloudFormationClientTypes.ScannedResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resources = resources
     }
@@ -7638,8 +7463,7 @@ public struct ListResourceScansInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7669,8 +7493,7 @@ extension CloudFormationClientTypes {
             startTime: Foundation.Date? = nil,
             status: CloudFormationClientTypes.ResourceScanStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.percentageCompleted = percentageCompleted
             self.resourceScanId = resourceScanId
@@ -7690,8 +7513,7 @@ public struct ListResourceScansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceScanSummaries: [CloudFormationClientTypes.ResourceScanSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceScanSummaries = resourceScanSummaries
     }
@@ -7740,8 +7562,7 @@ public struct ListStackInstanceResourceDriftsInput: Swift.Sendable {
         stackInstanceRegion: Swift.String? = nil,
         stackInstanceResourceDriftStatuses: [CloudFormationClientTypes.StackResourceDriftStatus]? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7796,8 +7617,7 @@ extension CloudFormationClientTypes {
             stackId: Swift.String? = nil,
             stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
             self.physicalResourceIdContext = physicalResourceIdContext
@@ -7819,8 +7639,7 @@ public struct ListStackInstanceResourceDriftsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.StackInstanceResourceDriftsSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -7870,8 +7689,7 @@ extension CloudFormationClientTypes {
         public init(
             name: CloudFormationClientTypes.StackInstanceFilterName? = nil,
             values: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -7907,8 +7725,7 @@ public struct ListStackInstancesInput: Swift.Sendable {
         stackInstanceAccount: Swift.String? = nil,
         stackInstanceRegion: Swift.String? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.filters = filters
         self.maxResults = maxResults
@@ -7979,8 +7796,7 @@ extension CloudFormationClientTypes {
             stackSetId: Swift.String? = nil,
             status: CloudFormationClientTypes.StackInstanceStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.account = account
             self.driftStatus = driftStatus
             self.lastDriftCheckTimestamp = lastDriftCheckTimestamp
@@ -8005,8 +7821,7 @@ public struct ListStackInstancesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.StackInstanceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -8030,8 +7845,7 @@ public struct ListStackResourcesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stackName = stackName
     }
@@ -8058,8 +7872,7 @@ extension CloudFormationClientTypes {
         public init(
             lastCheckTimestamp: Foundation.Date? = nil,
             stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus? = nil
-        )
-        {
+        ) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackResourceDriftStatus = stackResourceDriftStatus
         }
@@ -8100,8 +7913,7 @@ extension CloudFormationClientTypes {
             resourceStatus: CloudFormationClientTypes.ResourceStatus? = nil,
             resourceStatusReason: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.driftInformation = driftInformation
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.logicalResourceId = logicalResourceId
@@ -8124,8 +7936,7 @@ public struct ListStackResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stackResourceSummaries: [CloudFormationClientTypes.StackResourceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stackResourceSummaries = stackResourceSummaries
     }
@@ -8141,8 +7952,7 @@ public struct ListStacksInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stackStatusFilter: [CloudFormationClientTypes.StackStatus]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stackStatusFilter = stackStatusFilter
     }
@@ -8169,8 +7979,7 @@ extension CloudFormationClientTypes {
         public init(
             lastCheckTimestamp: Foundation.Date? = nil,
             stackDriftStatus: CloudFormationClientTypes.StackDriftStatus? = nil
-        )
-        {
+        ) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackDriftStatus = stackDriftStatus
         }
@@ -8219,8 +8028,7 @@ extension CloudFormationClientTypes {
             stackStatus: CloudFormationClientTypes.StackStatus? = nil,
             stackStatusReason: Swift.String? = nil,
             templateDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.deletionTime = deletionTime
             self.driftInformation = driftInformation
@@ -8246,8 +8054,7 @@ public struct ListStacksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stackSummaries: [CloudFormationClientTypes.StackSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stackSummaries = stackSummaries
     }
@@ -8273,8 +8080,7 @@ public struct ListStackSetAutoDeploymentTargetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8294,8 +8100,7 @@ extension CloudFormationClientTypes {
         public init(
             organizationalUnitId: Swift.String? = nil,
             regions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.organizationalUnitId = organizationalUnitId
             self.regions = regions
         }
@@ -8311,8 +8116,7 @@ public struct ListStackSetAutoDeploymentTargetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.StackSetAutoDeploymentTargetSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -8356,8 +8160,7 @@ extension CloudFormationClientTypes {
         public init(
             name: CloudFormationClientTypes.OperationResultFilterName? = nil,
             values: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -8391,8 +8194,7 @@ public struct ListStackSetOperationResultsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         operationId: Swift.String? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.filters = filters
         self.maxResults = maxResults
@@ -8474,8 +8276,7 @@ extension CloudFormationClientTypes {
             region: Swift.String? = nil,
             status: CloudFormationClientTypes.StackSetOperationResultStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.account = account
             self.accountGateResult = accountGateResult
             self.organizationalUnitId = organizationalUnitId
@@ -8495,8 +8296,7 @@ public struct ListStackSetOperationResultsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.StackSetOperationResultSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -8522,8 +8322,7 @@ public struct ListStackSetOperationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8573,8 +8372,7 @@ extension CloudFormationClientTypes {
             status: CloudFormationClientTypes.StackSetOperationStatus? = nil,
             statusDetails: CloudFormationClientTypes.StackSetOperationStatusDetails? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.creationTimestamp = creationTimestamp
             self.endTimestamp = endTimestamp
@@ -8596,8 +8394,7 @@ public struct ListStackSetOperationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.StackSetOperationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -8622,8 +8419,7 @@ public struct ListStackSetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: CloudFormationClientTypes.StackSetStatus? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8676,8 +8472,7 @@ extension CloudFormationClientTypes {
             stackSetId: Swift.String? = nil,
             stackSetName: Swift.String? = nil,
             status: CloudFormationClientTypes.StackSetStatus? = nil
-        )
-        {
+        ) {
             self.autoDeployment = autoDeployment
             self.description = description
             self.driftStatus = driftStatus
@@ -8700,8 +8495,7 @@ public struct ListStackSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [CloudFormationClientTypes.StackSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -8728,8 +8522,7 @@ public struct ListTypeRegistrationsInput: Swift.Sendable {
         type: CloudFormationClientTypes.RegistryType? = nil,
         typeArn: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.registrationStatusFilter = registrationStatusFilter
@@ -8748,8 +8541,7 @@ public struct ListTypeRegistrationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         registrationTokenList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registrationTokenList = registrationTokenList
     }
@@ -8785,8 +8577,7 @@ extension CloudFormationClientTypes {
             category: CloudFormationClientTypes.Category? = nil,
             publisherId: Swift.String? = nil,
             typeNamePrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.publisherId = publisherId
             self.typeNamePrefix = typeNamePrefix
@@ -8845,8 +8636,7 @@ public struct ListTypesInput: Swift.Sendable {
         provisioningType: CloudFormationClientTypes.ProvisioningType? = nil,
         type: CloudFormationClientTypes.RegistryType? = nil,
         visibility: CloudFormationClientTypes.Visibility? = nil
-    )
-    {
+    ) {
         self.deprecatedStatus = deprecatedStatus
         self.filters = filters
         self.maxResults = maxResults
@@ -8909,8 +8699,7 @@ extension CloudFormationClientTypes {
             type: CloudFormationClientTypes.RegistryType? = nil,
             typeArn: Swift.String? = nil,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultVersionId = defaultVersionId
             self.description = description
             self.isActivated = isActivated
@@ -8937,8 +8726,7 @@ public struct ListTypesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         typeSummaries: [CloudFormationClientTypes.TypeSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.typeSummaries = typeSummaries
     }
@@ -8975,8 +8763,7 @@ public struct ListTypeVersionsInput: Swift.Sendable {
         publisherId: Swift.String? = nil,
         type: CloudFormationClientTypes.RegistryType? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.deprecatedStatus = deprecatedStatus
         self.maxResults = maxResults
@@ -9017,8 +8804,7 @@ extension CloudFormationClientTypes {
             type: CloudFormationClientTypes.RegistryType? = nil,
             typeName: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.isDefaultVersion = isDefaultVersion
@@ -9040,8 +8826,7 @@ public struct ListTypeVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         typeVersionSummaries: [CloudFormationClientTypes.TypeVersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.typeVersionSummaries = typeVersionSummaries
     }
@@ -9062,8 +8847,7 @@ public struct PublishTypeInput: Swift.Sendable {
         publicVersionNumber: Swift.String? = nil,
         type: CloudFormationClientTypes.ThirdPartyType? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.publicVersionNumber = publicVersionNumber
         self.type = type
@@ -9077,8 +8861,7 @@ public struct PublishTypeOutput: Swift.Sendable {
 
     public init(
         publicTypeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.publicTypeArn = publicTypeArn
     }
 }
@@ -9101,8 +8884,7 @@ public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9125,8 +8907,7 @@ public struct OperationStatusCheckFailedException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9272,8 +9053,7 @@ public struct RecordHandlerProgressInput: Swift.Sendable {
         operationStatus: CloudFormationClientTypes.OperationStatus? = nil,
         resourceModel: Swift.String? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.bearerToken = bearerToken
         self.clientRequestToken = clientRequestToken
         self.currentOperationStatus = currentOperationStatus
@@ -9298,8 +9078,7 @@ public struct RegisterPublisherInput: Swift.Sendable {
     public init(
         acceptTermsAndConditions: Swift.Bool? = nil,
         connectionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptTermsAndConditions = acceptTermsAndConditions
         self.connectionArn = connectionArn
     }
@@ -9311,8 +9090,7 @@ public struct RegisterPublisherOutput: Swift.Sendable {
 
     public init(
         publisherId: Swift.String? = nil
-    )
-    {
+    ) {
         self.publisherId = publisherId
     }
 }
@@ -9361,8 +9139,7 @@ public struct RegisterTypeInput: Swift.Sendable {
         schemaHandlerPackage: Swift.String? = nil,
         type: CloudFormationClientTypes.RegistryType? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.executionRoleArn = executionRoleArn
         self.loggingConfig = loggingConfig
@@ -9378,8 +9155,7 @@ public struct RegisterTypeOutput: Swift.Sendable {
 
     public init(
         registrationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationToken = registrationToken
     }
 }
@@ -9400,8 +9176,7 @@ public struct RollbackStackInput: Swift.Sendable {
         retainExceptOnCreate: Swift.Bool? = nil,
         roleARN: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.retainExceptOnCreate = retainExceptOnCreate
         self.roleARN = roleARN
@@ -9415,8 +9190,7 @@ public struct RollbackStackOutput: Swift.Sendable {
 
     public init(
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackId = stackId
     }
 }
@@ -9435,8 +9209,7 @@ public struct SetStackPolicyInput: Swift.Sendable {
         stackName: Swift.String? = nil,
         stackPolicyBody: Swift.String? = nil,
         stackPolicyURL: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackName = stackName
         self.stackPolicyBody = stackPolicyBody
         self.stackPolicyURL = stackPolicyURL
@@ -9462,8 +9235,7 @@ public struct SetTypeConfigurationInput: Swift.Sendable {
         type: CloudFormationClientTypes.ThirdPartyType? = nil,
         typeArn: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.configurationAlias = configurationAlias
         self.type = type
@@ -9478,8 +9250,7 @@ public struct SetTypeConfigurationOutput: Swift.Sendable {
 
     public init(
         configurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationArn = configurationArn
     }
 }
@@ -9499,8 +9270,7 @@ public struct SetTypeDefaultVersionInput: Swift.Sendable {
         type: CloudFormationClientTypes.RegistryType? = nil,
         typeName: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.type = type
         self.typeName = typeName
@@ -9562,8 +9332,7 @@ public struct SignalResourceInput: Swift.Sendable {
         stackName: Swift.String? = nil,
         status: CloudFormationClientTypes.ResourceSignalStatus? = nil,
         uniqueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.logicalResourceId = logicalResourceId
         self.stackName = stackName
         self.status = status
@@ -9595,8 +9364,7 @@ public struct ResourceScanLimitExceededException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9607,8 +9375,7 @@ public struct StartResourceScanInput: Swift.Sendable {
 
     public init(
         clientRequestToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
     }
 }
@@ -9619,8 +9386,7 @@ public struct StartResourceScanOutput: Swift.Sendable {
 
     public init(
         resourceScanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceScanId = resourceScanId
     }
 }
@@ -9643,8 +9409,7 @@ public struct StopStackSetOperationInput: Swift.Sendable {
         callAs: CloudFormationClientTypes.CallAs? = nil,
         operationId: Swift.String? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAs = callAs
         self.operationId = operationId
         self.stackSetName = stackSetName
@@ -9681,8 +9446,7 @@ public struct TestTypeInput: Swift.Sendable {
         type: CloudFormationClientTypes.ThirdPartyType? = nil,
         typeName: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.logDeliveryBucket = logDeliveryBucket
         self.type = type
@@ -9697,8 +9461,7 @@ public struct TestTypeOutput: Swift.Sendable {
 
     public init(
         typeVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.typeVersionArn = typeVersionArn
     }
 }
@@ -9725,8 +9488,7 @@ public struct UpdateGeneratedTemplateInput: Swift.Sendable {
         refreshAllResources: Swift.Bool? = nil,
         removeResources: [Swift.String]? = nil,
         templateConfiguration: CloudFormationClientTypes.TemplateConfiguration? = nil
-    )
-    {
+    ) {
         self.addResources = addResources
         self.generatedTemplateName = generatedTemplateName
         self.newGeneratedTemplateName = newGeneratedTemplateName
@@ -9742,8 +9504,7 @@ public struct UpdateGeneratedTemplateOutput: Swift.Sendable {
 
     public init(
         generatedTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.generatedTemplateId = generatedTemplateId
     }
 }
@@ -9840,8 +9601,7 @@ public struct UpdateStackInput: Swift.Sendable {
         templateBody: Swift.String? = nil,
         templateURL: Swift.String? = nil,
         usePreviousTemplate: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.clientRequestToken = clientRequestToken
         self.disableRollback = disableRollback
@@ -9870,8 +9630,7 @@ public struct UpdateStackOutput: Swift.Sendable {
 
     public init(
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackId = stackId
     }
 }
@@ -9920,8 +9679,7 @@ public struct UpdateStackInstancesInput: Swift.Sendable {
         parameterOverrides: [CloudFormationClientTypes.Parameter]? = nil,
         regions: [Swift.String]? = nil,
         stackSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.callAs = callAs
         self.deploymentTargets = deploymentTargets
@@ -9939,8 +9697,7 @@ public struct UpdateStackInstancesOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -10053,8 +9810,7 @@ public struct UpdateStackSetInput: Swift.Sendable {
         templateBody: Swift.String? = nil,
         templateURL: Swift.String? = nil,
         usePreviousTemplate: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.administrationRoleARN = administrationRoleARN
         self.autoDeployment = autoDeployment
@@ -10083,8 +9839,7 @@ public struct UpdateStackSetOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -10100,8 +9855,7 @@ public struct UpdateTerminationProtectionInput: Swift.Sendable {
     public init(
         enableTerminationProtection: Swift.Bool? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.enableTerminationProtection = enableTerminationProtection
         self.stackName = stackName
     }
@@ -10113,8 +9867,7 @@ public struct UpdateTerminationProtectionOutput: Swift.Sendable {
 
     public init(
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackId = stackId
     }
 }
@@ -10129,8 +9882,7 @@ public struct ValidateTemplateInput: Swift.Sendable {
     public init(
         templateBody: Swift.String? = nil,
         templateURL: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateBody = templateBody
         self.templateURL = templateURL
     }
@@ -10154,8 +9906,7 @@ extension CloudFormationClientTypes {
             description: Swift.String? = nil,
             noEcho: Swift.Bool? = nil,
             parameterKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.noEcho = noEcho
@@ -10183,8 +9934,7 @@ public struct ValidateTemplateOutput: Swift.Sendable {
         declaredTransforms: [Swift.String]? = nil,
         description: Swift.String? = nil,
         parameters: [CloudFormationClientTypes.TemplateParameter]? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.capabilitiesReason = capabilitiesReason
         self.declaredTransforms = declaredTransforms

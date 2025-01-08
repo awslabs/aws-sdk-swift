@@ -47,8 +47,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -64,8 +63,7 @@ public struct GetDeploymentsInput: Swift.Sendable {
     public init(
         deviceFleetName: Swift.String? = nil,
         deviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.deviceName = deviceName
     }
@@ -109,8 +107,7 @@ extension SagemakerEdgeClientTypes {
         public init(
             sum: Swift.String? = nil,
             type: SagemakerEdgeClientTypes.ChecksumType? = nil
-        )
-        {
+        ) {
             self.sum = sum
             self.type = type
         }
@@ -164,8 +161,7 @@ extension SagemakerEdgeClientTypes {
             modelHandle: Swift.String? = nil,
             s3Url: Swift.String? = nil,
             state: SagemakerEdgeClientTypes.ModelState? = nil
-        )
-        {
+        ) {
             self.checksum = checksum
             self.modelHandle = modelHandle
             self.s3Url = s3Url
@@ -247,8 +243,7 @@ extension SagemakerEdgeClientTypes {
             deploymentName: Swift.String? = nil,
             failureHandlingPolicy: SagemakerEdgeClientTypes.FailureHandlingPolicy? = nil,
             type: SagemakerEdgeClientTypes.DeploymentType? = nil
-        )
-        {
+        ) {
             self.definitions = definitions
             self.deploymentName = deploymentName
             self.failureHandlingPolicy = failureHandlingPolicy
@@ -263,8 +258,7 @@ public struct GetDeploymentsOutput: Swift.Sendable {
 
     public init(
         deployments: [SagemakerEdgeClientTypes.EdgeDeployment]? = nil
-    )
-    {
+    ) {
         self.deployments = deployments
     }
 }
@@ -280,8 +274,7 @@ public struct GetDeviceRegistrationInput: Swift.Sendable {
     public init(
         deviceFleetName: Swift.String? = nil,
         deviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.deviceName = deviceName
     }
@@ -296,8 +289,7 @@ public struct GetDeviceRegistrationOutput: Swift.Sendable {
     public init(
         cacheTTL: Swift.String? = nil,
         deviceRegistration: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheTTL = cacheTTL
         self.deviceRegistration = deviceRegistration
     }
@@ -321,8 +313,7 @@ extension SagemakerEdgeClientTypes {
             metricName: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.dimension = dimension
             self.metricName = metricName
             self.timestamp = timestamp
@@ -390,8 +381,7 @@ extension SagemakerEdgeClientTypes {
             state: SagemakerEdgeClientTypes.ModelState? = nil,
             status: SagemakerEdgeClientTypes.DeploymentStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.desiredState = desiredState
             self.modelHandle = modelHandle
             self.modelName = modelName
@@ -428,8 +418,7 @@ extension SagemakerEdgeClientTypes {
             deploymentStartTime: Foundation.Date? = nil,
             deploymentStatus: Swift.String? = nil,
             deploymentStatusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentEndTime = deploymentEndTime
             self.deploymentModels = deploymentModels
             self.deploymentName = deploymentName
@@ -461,8 +450,7 @@ extension SagemakerEdgeClientTypes {
             modelMetrics: [SagemakerEdgeClientTypes.EdgeMetric]? = nil,
             modelName: Swift.String? = nil,
             modelVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestInference = latestInference
             self.latestSampleTime = latestSampleTime
             self.modelMetrics = modelMetrics
@@ -496,8 +484,7 @@ public struct SendHeartbeatInput: Swift.Sendable {
         deviceFleetName: Swift.String? = nil,
         deviceName: Swift.String? = nil,
         models: [SagemakerEdgeClientTypes.Model]? = nil
-    )
-    {
+    ) {
         self.agentMetrics = agentMetrics
         self.agentVersion = agentVersion
         self.deploymentResult = deploymentResult

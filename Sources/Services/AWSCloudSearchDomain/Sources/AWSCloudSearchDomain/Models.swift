@@ -47,8 +47,7 @@ public struct SearchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -177,8 +176,7 @@ public struct SearchInput: Swift.Sendable {
         sort: Swift.String? = nil,
         start: Swift.Int? = 0,
         stats: Swift.String? = nil
-    )
-    {
+    ) {
         self.cursor = cursor
         self.expr = expr
         self.facet = facet
@@ -208,8 +206,7 @@ extension CloudSearchDomainClientTypes {
         public init(
             count: Swift.Int = 0,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.value = value
         }
@@ -225,8 +222,7 @@ extension CloudSearchDomainClientTypes {
 
         public init(
             buckets: [CloudSearchDomainClientTypes.Bucket]? = nil
-        )
-        {
+        ) {
             self.buckets = buckets
         }
     }
@@ -250,8 +246,7 @@ extension CloudSearchDomainClientTypes {
             fields: [Swift.String: [Swift.String]]? = nil,
             highlights: [Swift.String: Swift.String]? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.exprs = exprs
             self.fields = fields
             self.highlights = highlights
@@ -278,8 +273,7 @@ extension CloudSearchDomainClientTypes {
             found: Swift.Int = 0,
             hit: [CloudSearchDomainClientTypes.Hit]? = nil,
             start: Swift.Int = 0
-        )
-        {
+        ) {
             self.cursor = cursor
             self.found = found
             self.hit = hit
@@ -318,8 +312,7 @@ extension CloudSearchDomainClientTypes {
             stddev: Swift.Double = 0.0,
             sum: Swift.Double = 0.0,
             sumOfSquares: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.count = count
             self.max = max
             self.mean = mean
@@ -344,8 +337,7 @@ extension CloudSearchDomainClientTypes {
         public init(
             rid: Swift.String? = nil,
             timems: Swift.Int = 0
-        )
-        {
+        ) {
             self.rid = rid
             self.timems = timems
         }
@@ -368,8 +360,7 @@ public struct SearchOutput: Swift.Sendable {
         hits: CloudSearchDomainClientTypes.Hits? = nil,
         stats: [Swift.String: CloudSearchDomainClientTypes.FieldStats]? = nil,
         status: CloudSearchDomainClientTypes.SearchStatus? = nil
-    )
-    {
+    ) {
         self.facets = facets
         self.hits = hits
         self.stats = stats
@@ -392,8 +383,7 @@ public struct SuggestInput: Swift.Sendable {
         query: Swift.String? = nil,
         size: Swift.Int? = 0,
         suggester: Swift.String? = nil
-    )
-    {
+    ) {
         self.query = query
         self.size = size
         self.suggester = suggester
@@ -412,8 +402,7 @@ extension CloudSearchDomainClientTypes {
         public init(
             rid: Swift.String? = nil,
             timems: Swift.Int = 0
-        )
-        {
+        ) {
             self.rid = rid
             self.timems = timems
         }
@@ -435,8 +424,7 @@ extension CloudSearchDomainClientTypes {
             id: Swift.String? = nil,
             score: Swift.Int = 0,
             suggestion: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.score = score
             self.suggestion = suggestion
@@ -459,8 +447,7 @@ extension CloudSearchDomainClientTypes {
             found: Swift.Int = 0,
             query: Swift.String? = nil,
             suggestions: [CloudSearchDomainClientTypes.SuggestionMatch]? = nil
-        )
-        {
+        ) {
             self.found = found
             self.query = query
             self.suggestions = suggestions
@@ -478,8 +465,7 @@ public struct SuggestOutput: Swift.Sendable {
     public init(
         status: CloudSearchDomainClientTypes.SuggestStatus? = nil,
         suggest: CloudSearchDomainClientTypes.SuggestModel? = nil
-    )
-    {
+    ) {
         self.status = status
         self.suggest = suggest
     }
@@ -507,8 +493,7 @@ public struct DocumentServiceException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.status = status
     }
@@ -559,8 +544,7 @@ public struct UploadDocumentsInput: Swift.Sendable {
     public init(
         contentType: CloudSearchDomainClientTypes.ContentType? = nil,
         documents: Smithy.ByteStream? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.documents = documents
     }
@@ -575,8 +559,7 @@ extension CloudSearchDomainClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -598,8 +581,7 @@ public struct UploadDocumentsOutput: Swift.Sendable {
         deletes: Swift.Int = 0,
         status: Swift.String? = nil,
         warnings: [CloudSearchDomainClientTypes.DocumentServiceWarning]? = nil
-    )
-    {
+    ) {
         self.adds = adds
         self.deletes = deletes
         self.status = status

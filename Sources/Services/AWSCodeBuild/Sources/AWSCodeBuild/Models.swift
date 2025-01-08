@@ -47,8 +47,7 @@ public struct AccountLimitExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -199,8 +198,7 @@ extension CodeBuildClientTypes {
             autoRetryNumber: Swift.Int? = nil,
             nextAutoRetry: Swift.String? = nil,
             previousAutoRetry: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoRetryLimit = autoRetryLimit
             self.autoRetryNumber = autoRetryNumber
             self.nextAutoRetry = nextAutoRetry
@@ -227,8 +225,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -240,8 +237,7 @@ public struct BatchDeleteBuildsInput: Swift.Sendable {
 
     public init(
         ids: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
     }
 }
@@ -258,8 +254,7 @@ extension CodeBuildClientTypes {
         public init(
             id: Swift.String? = nil,
             statusCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.statusCode = statusCode
         }
@@ -275,8 +270,7 @@ public struct BatchDeleteBuildsOutput: Swift.Sendable {
     public init(
         buildsDeleted: [Swift.String]? = nil,
         buildsNotDeleted: [CodeBuildClientTypes.BuildNotDeleted]? = nil
-    )
-    {
+    ) {
         self.buildsDeleted = buildsDeleted
         self.buildsNotDeleted = buildsNotDeleted
     }
@@ -289,8 +283,7 @@ public struct BatchGetBuildBatchesInput: Swift.Sendable {
 
     public init(
         ids: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
     }
 }
@@ -369,8 +362,7 @@ extension CodeBuildClientTypes {
             md5sum: Swift.String? = nil,
             overrideArtifactName: Swift.Bool? = nil,
             sha256sum: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactIdentifier = artifactIdentifier
             self.bucketOwnerAccess = bucketOwnerAccess
             self.encryptionDisabled = encryptionDisabled
@@ -423,8 +415,7 @@ extension CodeBuildClientTypes {
         public init(
             computeTypesAllowed: [Swift.String]? = nil,
             maximumBuildsAllowed: Swift.Int? = nil
-        )
-        {
+        ) {
             self.computeTypesAllowed = computeTypesAllowed
             self.maximumBuildsAllowed = maximumBuildsAllowed
         }
@@ -452,8 +443,7 @@ extension CodeBuildClientTypes {
             restrictions: CodeBuildClientTypes.BatchRestrictions? = nil,
             serviceRole: Swift.String? = nil,
             timeoutInMins: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchReportMode = batchReportMode
             self.combineArtifacts = combineArtifacts
             self.restrictions = restrictions
@@ -519,8 +509,7 @@ extension CodeBuildClientTypes {
             identifier: Swift.String? = nil,
             location: Swift.String? = nil,
             type: CodeBuildClientTypes.ArtifactsType? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.location = location
             self.type = type
@@ -549,8 +538,7 @@ extension CodeBuildClientTypes {
             primaryArtifact: CodeBuildClientTypes.ResolvedArtifact? = nil,
             requestedOn: Foundation.Date? = nil,
             secondaryArtifacts: [CodeBuildClientTypes.ResolvedArtifact]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.buildStatus = buildStatus
             self.primaryArtifact = primaryArtifact
@@ -581,8 +569,7 @@ extension CodeBuildClientTypes {
             identifier: Swift.String? = nil,
             ignoreFailure: Swift.Bool = false,
             priorBuildSummaryList: [CodeBuildClientTypes.BuildSummary]? = nil
-        )
-        {
+        ) {
             self.currentBuildSummary = currentBuildSummary
             self.dependsOn = dependsOn
             self.identifier = identifier
@@ -697,8 +684,7 @@ extension CodeBuildClientTypes {
             location: Swift.String? = nil,
             modes: [CodeBuildClientTypes.CacheMode]? = nil,
             type: CodeBuildClientTypes.CacheType? = nil
-        )
-        {
+        ) {
             self.location = location
             self.modes = modes
             self.type = type
@@ -753,8 +739,7 @@ extension CodeBuildClientTypes {
             machineType: CodeBuildClientTypes.MachineType? = nil,
             memory: Swift.Int? = nil,
             vCpu: Swift.Int? = nil
-        )
-        {
+        ) {
             self.disk = disk
             self.machineType = machineType
             self.memory = memory
@@ -874,8 +859,7 @@ extension CodeBuildClientTypes {
             name: Swift.String? = nil,
             type: CodeBuildClientTypes.EnvironmentVariableType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
             self.value = value
@@ -892,8 +876,7 @@ extension CodeBuildClientTypes {
 
         public init(
             fleetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.fleetArn = fleetArn
         }
     }
@@ -975,8 +958,7 @@ extension CodeBuildClientTypes {
         public init(
             credential: Swift.String? = nil,
             credentialProvider: CodeBuildClientTypes.CredentialProviderType? = nil
-        )
-        {
+        ) {
             self.credential = credential
             self.credentialProvider = credentialProvider
         }
@@ -1155,8 +1137,7 @@ extension CodeBuildClientTypes {
             privilegedMode: Swift.Bool? = nil,
             registryCredential: CodeBuildClientTypes.RegistryCredential? = nil,
             type: CodeBuildClientTypes.EnvironmentType? = nil
-        )
-        {
+        ) {
             self.certificate = certificate
             self.computeConfiguration = computeConfiguration
             self.computeType = computeType
@@ -1218,8 +1199,7 @@ extension CodeBuildClientTypes {
             mountOptions: Swift.String? = nil,
             mountPoint: Swift.String? = nil,
             type: CodeBuildClientTypes.FileSystemType? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.location = location
             self.mountOptions = mountOptions
@@ -1278,8 +1258,7 @@ extension CodeBuildClientTypes {
             groupName: Swift.String? = nil,
             status: CodeBuildClientTypes.LogsConfigStatusType? = nil,
             streamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupName = groupName
             self.status = status
             self.streamName = streamName
@@ -1317,8 +1296,7 @@ extension CodeBuildClientTypes {
             encryptionDisabled: Swift.Bool? = nil,
             location: Swift.String? = nil,
             status: CodeBuildClientTypes.LogsConfigStatusType? = nil
-        )
-        {
+        ) {
             self.bucketOwnerAccess = bucketOwnerAccess
             self.encryptionDisabled = encryptionDisabled
             self.location = location
@@ -1339,8 +1317,7 @@ extension CodeBuildClientTypes {
         public init(
             cloudWatchLogs: CodeBuildClientTypes.CloudWatchLogsConfig? = nil,
             s3Logs: CodeBuildClientTypes.S3LogsConfig? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogs = cloudWatchLogs
             self.s3Logs = s3Logs
         }
@@ -1359,8 +1336,7 @@ extension CodeBuildClientTypes {
         public init(
             message: Swift.String? = nil,
             statusCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.statusCode = statusCode
         }
@@ -1435,8 +1411,7 @@ extension CodeBuildClientTypes {
             phaseStatus: CodeBuildClientTypes.StatusType? = nil,
             phaseType: CodeBuildClientTypes.BuildBatchPhaseType? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.contexts = contexts
             self.durationInSeconds = durationInSeconds
             self.endTime = endTime
@@ -1492,8 +1467,7 @@ extension CodeBuildClientTypes {
         public init(
             resource: Swift.String? = nil,
             type: CodeBuildClientTypes.SourceAuthType? = nil
-        )
-        {
+        ) {
             self.resource = resource
             self.type = type
         }
@@ -1512,8 +1486,7 @@ extension CodeBuildClientTypes {
         public init(
             context: Swift.String? = nil,
             targetUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.context = context
             self.targetUrl = targetUrl
         }
@@ -1530,8 +1503,7 @@ extension CodeBuildClientTypes {
 
         public init(
             fetchSubmodules: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.fetchSubmodules = fetchSubmodules
         }
     }
@@ -1664,8 +1636,7 @@ extension CodeBuildClientTypes {
             reportBuildStatus: Swift.Bool? = nil,
             sourceIdentifier: Swift.String? = nil,
             type: CodeBuildClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.auth = auth
             self.buildStatusConfig = buildStatusConfig
             self.buildspec = buildspec
@@ -1707,8 +1678,7 @@ extension CodeBuildClientTypes {
         public init(
             sourceIdentifier: Swift.String? = nil,
             sourceVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceIdentifier = sourceIdentifier
             self.sourceVersion = sourceVersion
         }
@@ -1730,8 +1700,7 @@ extension CodeBuildClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
             self.vpcId = vpcId
@@ -1855,8 +1824,7 @@ extension CodeBuildClientTypes {
             sourceVersion: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.artifacts = artifacts
             self.buildBatchConfig = buildBatchConfig
@@ -1900,8 +1868,7 @@ public struct BatchGetBuildBatchesOutput: Swift.Sendable {
     public init(
         buildBatches: [CodeBuildClientTypes.BuildBatch]? = nil,
         buildBatchesNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.buildBatches = buildBatches
         self.buildBatchesNotFound = buildBatchesNotFound
     }
@@ -1914,8 +1881,7 @@ public struct BatchGetBuildsInput: Swift.Sendable {
 
     public init(
         ids: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
     }
 }
@@ -1932,8 +1898,7 @@ extension CodeBuildClientTypes {
         public init(
             sessionEnabled: Swift.Bool? = nil,
             sessionTarget: Swift.String? = nil
-        )
-        {
+        ) {
             self.sessionEnabled = sessionEnabled
             self.sessionTarget = sessionTarget
         }
@@ -1952,8 +1917,7 @@ extension CodeBuildClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1990,8 +1954,7 @@ extension CodeBuildClientTypes {
             s3Logs: CodeBuildClientTypes.S3LogsConfig? = nil,
             s3LogsArn: Swift.String? = nil,
             streamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogs = cloudWatchLogs
             self.cloudWatchLogsArn = cloudWatchLogsArn
             self.deepLink = deepLink
@@ -2016,8 +1979,7 @@ extension CodeBuildClientTypes {
         public init(
             networkInterfaceId: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.networkInterfaceId = networkInterfaceId
             self.subnetId = subnetId
         }
@@ -2104,8 +2066,7 @@ extension CodeBuildClientTypes {
             phaseStatus: CodeBuildClientTypes.StatusType? = nil,
             phaseType: CodeBuildClientTypes.BuildPhaseType? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.contexts = contexts
             self.durationInSeconds = durationInSeconds
             self.endTime = endTime
@@ -2253,8 +2214,7 @@ extension CodeBuildClientTypes {
             startTime: Foundation.Date? = nil,
             timeoutInMinutes: Swift.Int? = nil,
             vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.artifacts = artifacts
             self.autoRetryConfig = autoRetryConfig
@@ -2301,8 +2261,7 @@ public struct BatchGetBuildsOutput: Swift.Sendable {
     public init(
         builds: [CodeBuildClientTypes.Build]? = nil,
         buildsNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.builds = builds
         self.buildsNotFound = buildsNotFound
     }
@@ -2315,8 +2274,7 @@ public struct BatchGetFleetsInput: Swift.Sendable {
 
     public init(
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.names = names
     }
 }
@@ -2455,8 +2413,7 @@ extension CodeBuildClientTypes {
             effect: CodeBuildClientTypes.FleetProxyRuleEffectType? = nil,
             entities: [Swift.String]? = nil,
             type: CodeBuildClientTypes.FleetProxyRuleType? = nil
-        )
-        {
+        ) {
             self.effect = effect
             self.entities = entities
             self.type = type
@@ -2476,8 +2433,7 @@ extension CodeBuildClientTypes {
         public init(
             defaultBehavior: CodeBuildClientTypes.FleetProxyRuleBehavior? = nil,
             orderedProxyRules: [CodeBuildClientTypes.FleetProxyRule]? = nil
-        )
-        {
+        ) {
             self.defaultBehavior = defaultBehavior
             self.orderedProxyRules = orderedProxyRules
         }
@@ -2548,8 +2504,7 @@ extension CodeBuildClientTypes {
         public init(
             metricType: CodeBuildClientTypes.FleetScalingMetricType? = nil,
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metricType = metricType
             self.targetValue = targetValue
         }
@@ -2574,8 +2529,7 @@ extension CodeBuildClientTypes {
             maxCapacity: Swift.Int? = nil,
             scalingType: CodeBuildClientTypes.FleetScalingType? = nil,
             targetTrackingScalingConfigs: [CodeBuildClientTypes.TargetTrackingScalingConfiguration]? = nil
-        )
-        {
+        ) {
             self.desiredCapacity = desiredCapacity
             self.maxCapacity = maxCapacity
             self.scalingType = scalingType
@@ -2704,8 +2658,7 @@ extension CodeBuildClientTypes {
             context: CodeBuildClientTypes.FleetContextCode? = nil,
             message: Swift.String? = nil,
             statusCode: CodeBuildClientTypes.FleetStatusCode? = nil
-        )
-        {
+        ) {
             self.context = context
             self.message = message
             self.statusCode = statusCode
@@ -2725,8 +2678,7 @@ extension CodeBuildClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2860,8 +2812,7 @@ extension CodeBuildClientTypes {
             status: CodeBuildClientTypes.FleetStatus? = nil,
             tags: [CodeBuildClientTypes.Tag]? = nil,
             vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.baseCapacity = baseCapacity
             self.computeConfiguration = computeConfiguration
@@ -2892,8 +2843,7 @@ public struct BatchGetFleetsOutput: Swift.Sendable {
     public init(
         fleets: [CodeBuildClientTypes.Fleet]? = nil,
         fleetsNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.fleets = fleets
         self.fleetsNotFound = fleetsNotFound
     }
@@ -2906,8 +2856,7 @@ public struct BatchGetProjectsInput: Swift.Sendable {
 
     public init(
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.names = names
     }
 }
@@ -3018,8 +2967,7 @@ extension CodeBuildClientTypes {
             packaging: CodeBuildClientTypes.ArtifactPackaging? = nil,
             path: Swift.String? = nil,
             type: CodeBuildClientTypes.ArtifactsType? = nil
-        )
-        {
+        ) {
             self.artifactIdentifier = artifactIdentifier
             self.bucketOwnerAccess = bucketOwnerAccess
             self.encryptionDisabled = encryptionDisabled
@@ -3046,8 +2994,7 @@ extension CodeBuildClientTypes {
         public init(
             badgeEnabled: Swift.Bool = false,
             badgeRequestUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.badgeEnabled = badgeEnabled
             self.badgeRequestUrl = badgeRequestUrl
         }
@@ -3250,8 +3197,7 @@ extension CodeBuildClientTypes {
             excludeMatchedPattern: Swift.Bool? = nil,
             pattern: Swift.String? = nil,
             type: CodeBuildClientTypes.WebhookFilterType? = nil
-        )
-        {
+        ) {
             self.excludeMatchedPattern = excludeMatchedPattern
             self.pattern = pattern
             self.type = type
@@ -3308,8 +3254,7 @@ extension CodeBuildClientTypes {
             domain: Swift.String? = nil,
             name: Swift.String? = nil,
             scope: CodeBuildClientTypes.WebhookScopeType? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.name = name
             self.scope = scope
@@ -3350,8 +3295,7 @@ extension CodeBuildClientTypes {
             scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration? = nil,
             secret: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.branchFilter = branchFilter
             self.buildType = buildType
             self.filterGroups = filterGroups
@@ -3471,8 +3415,7 @@ extension CodeBuildClientTypes {
             timeoutInMinutes: Swift.Int? = nil,
             vpcConfig: CodeBuildClientTypes.VpcConfig? = nil,
             webhook: CodeBuildClientTypes.Webhook? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.artifacts = artifacts
             self.autoRetryLimit = autoRetryLimit
@@ -3515,8 +3458,7 @@ public struct BatchGetProjectsOutput: Swift.Sendable {
     public init(
         projects: [CodeBuildClientTypes.Project]? = nil,
         projectsNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.projects = projects
         self.projectsNotFound = projectsNotFound
     }
@@ -3529,8 +3471,7 @@ public struct BatchGetReportGroupsInput: Swift.Sendable {
 
     public init(
         reportGroupArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.reportGroupArns = reportGroupArns
     }
 }
@@ -3621,8 +3562,7 @@ extension CodeBuildClientTypes {
             encryptionKey: Swift.String? = nil,
             packaging: CodeBuildClientTypes.ReportPackagingType? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.bucketOwner = bucketOwner
             self.encryptionDisabled = encryptionDisabled
@@ -3649,8 +3589,7 @@ extension CodeBuildClientTypes {
         public init(
             exportConfigType: CodeBuildClientTypes.ReportExportConfigType? = nil,
             s3Destination: CodeBuildClientTypes.S3ReportExportConfig? = nil
-        )
-        {
+        ) {
             self.exportConfigType = exportConfigType
             self.s3Destination = s3Destination
         }
@@ -3745,8 +3684,7 @@ extension CodeBuildClientTypes {
             status: CodeBuildClientTypes.ReportGroupStatusType? = nil,
             tags: [CodeBuildClientTypes.Tag]? = nil,
             type: CodeBuildClientTypes.ReportType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.created = created
             self.exportConfig = exportConfig
@@ -3768,8 +3706,7 @@ public struct BatchGetReportGroupsOutput: Swift.Sendable {
     public init(
         reportGroups: [CodeBuildClientTypes.ReportGroup]? = nil,
         reportGroupsNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.reportGroups = reportGroups
         self.reportGroupsNotFound = reportGroupsNotFound
     }
@@ -3782,8 +3719,7 @@ public struct BatchGetReportsInput: Swift.Sendable {
 
     public init(
         reportArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.reportArns = reportArns
     }
 }
@@ -3812,8 +3748,7 @@ extension CodeBuildClientTypes {
             lineCoveragePercentage: Swift.Double? = nil,
             linesCovered: Swift.Int? = nil,
             linesMissed: Swift.Int? = nil
-        )
-        {
+        ) {
             self.branchCoveragePercentage = branchCoveragePercentage
             self.branchesCovered = branchesCovered
             self.branchesMissed = branchesMissed
@@ -3880,8 +3815,7 @@ extension CodeBuildClientTypes {
             durationInNanoSeconds: Swift.Int? = nil,
             statusCounts: [Swift.String: Swift.Int]? = nil,
             total: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInNanoSeconds = durationInNanoSeconds
             self.statusCounts = statusCounts
             self.total = total
@@ -3931,8 +3865,7 @@ extension CodeBuildClientTypes {
             testSummary: CodeBuildClientTypes.TestReportSummary? = nil,
             truncated: Swift.Bool? = nil,
             type: CodeBuildClientTypes.ReportType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.codeCoverageSummary = codeCoverageSummary
             self.created = created
@@ -3958,8 +3891,7 @@ public struct BatchGetReportsOutput: Swift.Sendable {
     public init(
         reports: [CodeBuildClientTypes.Report]? = nil,
         reportsNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.reports = reports
         self.reportsNotFound = reportsNotFound
     }
@@ -3974,8 +3906,7 @@ extension CodeBuildClientTypes {
 
         public init(
             status: CodeBuildClientTypes.StatusType? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -3999,8 +3930,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4020,8 +3950,7 @@ extension CodeBuildClientTypes {
             maxCapacity: Swift.Int? = nil,
             scalingType: CodeBuildClientTypes.FleetScalingType? = nil,
             targetTrackingScalingConfigs: [CodeBuildClientTypes.TargetTrackingScalingConfiguration]? = nil
-        )
-        {
+        ) {
             self.maxCapacity = maxCapacity
             self.scalingType = scalingType
             self.targetTrackingScalingConfigs = targetTrackingScalingConfigs
@@ -4142,8 +4071,7 @@ public struct CreateFleetInput: Swift.Sendable {
         scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
         tags: [CodeBuildClientTypes.Tag]? = nil,
         vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.baseCapacity = baseCapacity
         self.computeConfiguration = computeConfiguration
         self.computeType = computeType
@@ -4165,8 +4093,7 @@ public struct CreateFleetOutput: Swift.Sendable {
 
     public init(
         fleet: CodeBuildClientTypes.Fleet? = nil
-    )
-    {
+    ) {
         self.fleet = fleet
     }
 }
@@ -4258,8 +4185,7 @@ public struct CreateProjectInput: Swift.Sendable {
         tags: [CodeBuildClientTypes.Tag]? = nil,
         timeoutInMinutes: Swift.Int? = nil,
         vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.artifacts = artifacts
         self.autoRetryLimit = autoRetryLimit
         self.badgeEnabled = badgeEnabled
@@ -4291,8 +4217,7 @@ public struct CreateProjectOutput: Swift.Sendable {
 
     public init(
         project: CodeBuildClientTypes.Project? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -4315,8 +4240,7 @@ public struct CreateReportGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [CodeBuildClientTypes.Tag]? = nil,
         type: CodeBuildClientTypes.ReportType? = nil
-    )
-    {
+    ) {
         self.exportConfig = exportConfig
         self.name = name
         self.tags = tags
@@ -4330,8 +4254,7 @@ public struct CreateReportGroupOutput: Swift.Sendable {
 
     public init(
         reportGroup: CodeBuildClientTypes.ReportGroup? = nil
-    )
-    {
+    ) {
         self.reportGroup = reportGroup
     }
 }
@@ -4354,8 +4277,7 @@ public struct OAuthProviderException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4378,8 +4300,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4406,8 +4327,7 @@ public struct CreateWebhookInput: Swift.Sendable {
         manualCreation: Swift.Bool? = nil,
         projectName: Swift.String? = nil,
         scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration? = nil
-    )
-    {
+    ) {
         self.branchFilter = branchFilter
         self.buildType = buildType
         self.filterGroups = filterGroups
@@ -4423,8 +4343,7 @@ public struct CreateWebhookOutput: Swift.Sendable {
 
     public init(
         webhook: CodeBuildClientTypes.Webhook? = nil
-    )
-    {
+    ) {
         self.webhook = webhook
     }
 }
@@ -4436,8 +4355,7 @@ public struct DeleteBuildBatchInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4454,8 +4372,7 @@ public struct DeleteBuildBatchOutput: Swift.Sendable {
         buildsDeleted: [Swift.String]? = nil,
         buildsNotDeleted: [CodeBuildClientTypes.BuildNotDeleted]? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildsDeleted = buildsDeleted
         self.buildsNotDeleted = buildsNotDeleted
         self.statusCode = statusCode
@@ -4469,8 +4386,7 @@ public struct DeleteFleetInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -4487,8 +4403,7 @@ public struct DeleteProjectInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4505,8 +4420,7 @@ public struct DeleteReportInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -4526,8 +4440,7 @@ public struct DeleteReportGroupInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         deleteReports: Swift.Bool? = false
-    )
-    {
+    ) {
         self.arn = arn
         self.deleteReports = deleteReports
     }
@@ -4545,8 +4458,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4563,8 +4475,7 @@ public struct DeleteSourceCredentialsInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -4575,8 +4486,7 @@ public struct DeleteSourceCredentialsOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -4588,8 +4498,7 @@ public struct DeleteWebhookInput: Swift.Sendable {
 
     public init(
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectName = projectName
     }
 }
@@ -4682,8 +4591,7 @@ public struct DescribeCodeCoveragesInput: Swift.Sendable {
         reportArn: Swift.String? = nil,
         sortBy: CodeBuildClientTypes.ReportCodeCoverageSortByType? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.maxLineCoveragePercentage = maxLineCoveragePercentage
         self.maxResults = maxResults
         self.minLineCoveragePercentage = minLineCoveragePercentage
@@ -4730,8 +4638,7 @@ extension CodeBuildClientTypes {
             linesCovered: Swift.Int? = nil,
             linesMissed: Swift.Int? = nil,
             reportARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.branchCoveragePercentage = branchCoveragePercentage
             self.branchesCovered = branchesCovered
             self.branchesMissed = branchesMissed
@@ -4755,8 +4662,7 @@ public struct DescribeCodeCoveragesOutput: Swift.Sendable {
     public init(
         codeCoverages: [CodeBuildClientTypes.CodeCoverage]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeCoverages = codeCoverages
         self.nextToken = nextToken
     }
@@ -4784,8 +4690,7 @@ extension CodeBuildClientTypes {
         public init(
             keyword: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyword = keyword
             self.status = status
         }
@@ -4808,8 +4713,7 @@ public struct DescribeTestCasesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         reportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4847,8 +4751,7 @@ extension CodeBuildClientTypes {
             reportArn: Swift.String? = nil,
             status: Swift.String? = nil,
             testRawDataPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.durationInNanoSeconds = durationInNanoSeconds
             self.expired = expired
             self.message = message
@@ -4870,8 +4773,7 @@ public struct DescribeTestCasesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testCases: [CodeBuildClientTypes.TestCase]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testCases = testCases
     }
@@ -4941,8 +4843,7 @@ public struct GetReportGroupTrendInput: Swift.Sendable {
         numOfReports: Swift.Int? = nil,
         reportGroupArn: Swift.String? = nil,
         trendField: CodeBuildClientTypes.ReportGroupTrendFieldType? = nil
-    )
-    {
+    ) {
         self.numOfReports = numOfReports
         self.reportGroupArn = reportGroupArn
         self.trendField = trendField
@@ -4961,8 +4862,7 @@ extension CodeBuildClientTypes {
         public init(
             data: Swift.String? = nil,
             reportArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.reportArn = reportArn
         }
@@ -4984,8 +4884,7 @@ extension CodeBuildClientTypes {
             average: Swift.String? = nil,
             max: Swift.String? = nil,
             min: Swift.String? = nil
-        )
-        {
+        ) {
             self.average = average
             self.max = max
             self.min = min
@@ -5002,8 +4901,7 @@ public struct GetReportGroupTrendOutput: Swift.Sendable {
     public init(
         rawData: [CodeBuildClientTypes.ReportWithRawData]? = nil,
         stats: CodeBuildClientTypes.ReportGroupTrendStats? = nil
-    )
-    {
+    ) {
         self.rawData = rawData
         self.stats = stats
     }
@@ -5016,8 +4914,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5028,8 +4925,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -5093,8 +4989,7 @@ public struct ImportSourceCredentialsInput: Swift.Sendable {
         shouldOverwrite: Swift.Bool? = nil,
         token: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.serverType = serverType
         self.shouldOverwrite = shouldOverwrite
@@ -5114,8 +5009,7 @@ public struct ImportSourceCredentialsOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -5127,8 +5021,7 @@ public struct InvalidateProjectCacheInput: Swift.Sendable {
 
     public init(
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectName = projectName
     }
 }
@@ -5157,8 +5050,7 @@ public struct ListBuildBatchesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5175,8 +5067,7 @@ public struct ListBuildBatchesOutput: Swift.Sendable {
     public init(
         ids: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.nextToken = nextToken
     }
@@ -5204,8 +5095,7 @@ public struct ListBuildBatchesForProjectInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         projectName: Swift.String? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5223,8 +5113,7 @@ public struct ListBuildBatchesForProjectOutput: Swift.Sendable {
     public init(
         ids: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.nextToken = nextToken
     }
@@ -5243,8 +5132,7 @@ public struct ListBuildsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sortOrder = sortOrder
     }
@@ -5259,8 +5147,7 @@ public struct ListBuildsOutput: Swift.Sendable {
     public init(
         ids: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.nextToken = nextToken
     }
@@ -5286,8 +5173,7 @@ public struct ListBuildsForProjectInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         projectName: Swift.String? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projectName = projectName
         self.sortOrder = sortOrder
@@ -5303,8 +5189,7 @@ public struct ListBuildsForProjectOutput: Swift.Sendable {
     public init(
         ids: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.nextToken = nextToken
     }
@@ -5330,8 +5215,7 @@ extension CodeBuildClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             versions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.versions = versions
@@ -5404,8 +5288,7 @@ extension CodeBuildClientTypes {
         public init(
             images: [CodeBuildClientTypes.EnvironmentImage]? = nil,
             language: CodeBuildClientTypes.LanguageType? = nil
-        )
-        {
+        ) {
             self.images = images
             self.language = language
         }
@@ -5459,8 +5342,7 @@ extension CodeBuildClientTypes {
         public init(
             languages: [CodeBuildClientTypes.EnvironmentLanguage]? = nil,
             platform: CodeBuildClientTypes.PlatformType? = nil
-        )
-        {
+        ) {
             self.languages = languages
             self.platform = platform
         }
@@ -5473,8 +5355,7 @@ public struct ListCuratedEnvironmentImagesOutput: Swift.Sendable {
 
     public init(
         platforms: [CodeBuildClientTypes.EnvironmentPlatform]? = nil
-    )
-    {
+    ) {
         self.platforms = platforms
     }
 }
@@ -5542,8 +5423,7 @@ public struct ListFleetsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: CodeBuildClientTypes.FleetSortByType? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sortBy = sortBy
@@ -5565,8 +5445,7 @@ public struct ListFleetsOutput: Swift.Sendable {
     public init(
         fleets: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleets = fleets
         self.nextToken = nextToken
     }
@@ -5632,8 +5511,7 @@ public struct ListProjectsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: CodeBuildClientTypes.ProjectSortByType? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sortBy = sortBy
         self.sortOrder = sortOrder
@@ -5649,8 +5527,7 @@ public struct ListProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projects: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projects = projects
     }
@@ -5709,8 +5586,7 @@ public struct ListReportGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: CodeBuildClientTypes.ReportGroupSortByType? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sortBy = sortBy
@@ -5727,8 +5603,7 @@ public struct ListReportGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reportGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reportGroups = reportGroups
     }
@@ -5743,8 +5618,7 @@ extension CodeBuildClientTypes {
 
         public init(
             status: CodeBuildClientTypes.ReportStatusType? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -5769,8 +5643,7 @@ public struct ListReportsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5787,8 +5660,7 @@ public struct ListReportsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reports: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reports = reports
     }
@@ -5813,8 +5685,7 @@ public struct ListReportsForReportGroupInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         reportGroupArn: Swift.String? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5832,8 +5703,7 @@ public struct ListReportsForReportGroupOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reports: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reports = reports
     }
@@ -5891,8 +5761,7 @@ public struct ListSharedProjectsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: CodeBuildClientTypes.SharedResourceSortByType? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sortBy = sortBy
@@ -5909,8 +5778,7 @@ public struct ListSharedProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projects: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projects = projects
     }
@@ -5939,8 +5807,7 @@ public struct ListSharedReportGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: CodeBuildClientTypes.SharedResourceSortByType? = nil,
         sortOrder: CodeBuildClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sortBy = sortBy
@@ -5957,8 +5824,7 @@ public struct ListSharedReportGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reportGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reportGroups = reportGroups
     }
@@ -5987,8 +5853,7 @@ extension CodeBuildClientTypes {
             authType: CodeBuildClientTypes.AuthType? = nil,
             resource: Swift.String? = nil,
             serverType: CodeBuildClientTypes.ServerType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.authType = authType
             self.resource = resource
@@ -6003,8 +5868,7 @@ public struct ListSourceCredentialsOutput: Swift.Sendable {
 
     public init(
         sourceCredentialsInfos: [CodeBuildClientTypes.SourceCredentialsInfo]? = nil
-    )
-    {
+    ) {
         self.sourceCredentialsInfos = sourceCredentialsInfos
     }
 }
@@ -6020,8 +5884,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -6033,8 +5896,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -6048,8 +5910,7 @@ public struct RetryBuildInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.idempotencyToken = idempotencyToken
     }
@@ -6061,8 +5922,7 @@ public struct RetryBuildOutput: Swift.Sendable {
 
     public init(
         build: CodeBuildClientTypes.Build? = nil
-    )
-    {
+    ) {
         self.build = build
     }
 }
@@ -6108,8 +5968,7 @@ public struct RetryBuildBatchInput: Swift.Sendable {
         id: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil,
         retryType: CodeBuildClientTypes.RetryBuildBatchType? = nil
-    )
-    {
+    ) {
         self.id = id
         self.idempotencyToken = idempotencyToken
         self.retryType = retryType
@@ -6122,8 +5981,7 @@ public struct RetryBuildBatchOutput: Swift.Sendable {
 
     public init(
         buildBatch: CodeBuildClientTypes.BuildBatch? = nil
-    )
-    {
+    ) {
         self.buildBatch = buildBatch
     }
 }
@@ -6231,8 +6089,7 @@ public struct StartBuildInput: Swift.Sendable {
         sourceTypeOverride: CodeBuildClientTypes.SourceType? = nil,
         sourceVersion: Swift.String? = nil,
         timeoutInMinutesOverride: Swift.Int? = nil
-    )
-    {
+    ) {
         self.artifactsOverride = artifactsOverride
         self.autoRetryLimitOverride = autoRetryLimitOverride
         self.buildStatusConfigOverride = buildStatusConfigOverride
@@ -6275,8 +6132,7 @@ public struct StartBuildOutput: Swift.Sendable {
 
     public init(
         build: CodeBuildClientTypes.Build? = nil
-    )
-    {
+    ) {
         self.build = build
     }
 }
@@ -6378,8 +6234,7 @@ public struct StartBuildBatchInput: Swift.Sendable {
         sourceLocationOverride: Swift.String? = nil,
         sourceTypeOverride: CodeBuildClientTypes.SourceType? = nil,
         sourceVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactsOverride = artifactsOverride
         self.buildBatchConfigOverride = buildBatchConfigOverride
         self.buildTimeoutInMinutesOverride = buildTimeoutInMinutesOverride
@@ -6420,8 +6275,7 @@ public struct StartBuildBatchOutput: Swift.Sendable {
 
     public init(
         buildBatch: CodeBuildClientTypes.BuildBatch? = nil
-    )
-    {
+    ) {
         self.buildBatch = buildBatch
     }
 }
@@ -6433,8 +6287,7 @@ public struct StopBuildInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6445,8 +6298,7 @@ public struct StopBuildOutput: Swift.Sendable {
 
     public init(
         build: CodeBuildClientTypes.Build? = nil
-    )
-    {
+    ) {
         self.build = build
     }
 }
@@ -6458,8 +6310,7 @@ public struct StopBuildBatchInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6470,8 +6321,7 @@ public struct StopBuildBatchOutput: Swift.Sendable {
 
     public init(
         buildBatch: CodeBuildClientTypes.BuildBatch? = nil
-    )
-    {
+    ) {
         self.buildBatch = buildBatch
     }
 }
@@ -6586,8 +6436,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
         tags: [CodeBuildClientTypes.Tag]? = nil,
         vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.baseCapacity = baseCapacity
         self.computeConfiguration = computeConfiguration
@@ -6609,8 +6458,7 @@ public struct UpdateFleetOutput: Swift.Sendable {
 
     public init(
         fleet: CodeBuildClientTypes.Fleet? = nil
-    )
-    {
+    ) {
         self.fleet = fleet
     }
 }
@@ -6698,8 +6546,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         tags: [CodeBuildClientTypes.Tag]? = nil,
         timeoutInMinutes: Swift.Int? = nil,
         vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.artifacts = artifacts
         self.autoRetryLimit = autoRetryLimit
         self.badgeEnabled = badgeEnabled
@@ -6731,8 +6578,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
 
     public init(
         project: CodeBuildClientTypes.Project? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -6751,8 +6597,7 @@ public struct UpdateProjectVisibilityInput: Swift.Sendable {
         projectArn: Swift.String? = nil,
         projectVisibility: CodeBuildClientTypes.ProjectVisibilityType? = nil,
         resourceAccessRole: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
         self.projectVisibility = projectVisibility
         self.resourceAccessRole = resourceAccessRole
@@ -6771,8 +6616,7 @@ public struct UpdateProjectVisibilityOutput: Swift.Sendable {
         projectArn: Swift.String? = nil,
         projectVisibility: CodeBuildClientTypes.ProjectVisibilityType? = nil,
         publicProjectAlias: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
         self.projectVisibility = projectVisibility
         self.publicProjectAlias = publicProjectAlias
@@ -6796,8 +6640,7 @@ public struct UpdateReportGroupInput: Swift.Sendable {
         arn: Swift.String? = nil,
         exportConfig: CodeBuildClientTypes.ReportExportConfig? = nil,
         tags: [CodeBuildClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.exportConfig = exportConfig
         self.tags = tags
@@ -6810,8 +6653,7 @@ public struct UpdateReportGroupOutput: Swift.Sendable {
 
     public init(
         reportGroup: CodeBuildClientTypes.ReportGroup? = nil
-    )
-    {
+    ) {
         self.reportGroup = reportGroup
     }
 }
@@ -6835,8 +6677,7 @@ public struct UpdateWebhookInput: Swift.Sendable {
         filterGroups: [[CodeBuildClientTypes.WebhookFilter]]? = nil,
         projectName: Swift.String? = nil,
         rotateSecret: Swift.Bool? = false
-    )
-    {
+    ) {
         self.branchFilter = branchFilter
         self.buildType = buildType
         self.filterGroups = filterGroups
@@ -6851,8 +6692,7 @@ public struct UpdateWebhookOutput: Swift.Sendable {
 
     public init(
         webhook: CodeBuildClientTypes.Webhook? = nil
-    )
-    {
+    ) {
         self.webhook = webhook
     }
 }

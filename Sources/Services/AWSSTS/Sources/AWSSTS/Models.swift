@@ -62,8 +62,7 @@ extension STSClientTypes {
         public init(
             arn: Swift.String? = nil,
             assumedRoleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assumedRoleId = assumedRoleId
         }
@@ -88,8 +87,7 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -112,8 +110,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -136,8 +133,7 @@ public struct PackedPolicyTooLargeException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -160,8 +156,7 @@ public struct RegionDisabledException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -175,8 +170,7 @@ extension STSClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -194,8 +188,7 @@ extension STSClientTypes {
         public init(
             contextAssertion: Swift.String? = nil,
             providerArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.contextAssertion = contextAssertion
             self.providerArn = providerArn
         }
@@ -216,8 +209,7 @@ extension STSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -265,8 +257,7 @@ public struct AssumeRoleInput: Swift.Sendable {
         tags: [STSClientTypes.Tag]? = nil,
         tokenCode: Swift.String? = nil,
         transitiveTagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.externalId = externalId
         self.policy = policy
@@ -304,8 +295,7 @@ extension STSClientTypes {
             expiration: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretAccessKey = secretAccessKey
@@ -335,8 +325,7 @@ public struct AssumeRoleOutput: Swift.Sendable {
         credentials: STSClientTypes.Credentials? = nil,
         packedPolicySize: Swift.Int? = nil,
         sourceIdentity: Swift.String? = nil
-    )
-    {
+    ) {
         self.assumedRoleUser = assumedRoleUser
         self.credentials = credentials
         self.packedPolicySize = packedPolicySize
@@ -362,8 +351,7 @@ public struct IDPRejectedClaimException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -386,8 +374,7 @@ public struct InvalidIdentityTokenException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -416,8 +403,7 @@ public struct AssumeRoleWithSAMLInput: Swift.Sendable {
         principalArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         samlAssertion: Swift.String? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.policy = policy
         self.policyArns = policyArns
@@ -472,8 +458,7 @@ public struct AssumeRoleWithSAMLOutput: Swift.Sendable {
         sourceIdentity: Swift.String? = nil,
         subject: Swift.String? = nil,
         subjectType: Swift.String? = nil
-    )
-    {
+    ) {
         self.assumedRoleUser = assumedRoleUser
         self.audience = audience
         self.credentials = credentials
@@ -504,8 +489,7 @@ public struct IDPCommunicationErrorException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -537,8 +521,7 @@ public struct AssumeRoleWithWebIdentityInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         roleSessionName: Swift.String? = nil,
         webIdentityToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.policy = policy
         self.policyArns = policyArns
@@ -579,8 +562,7 @@ public struct AssumeRoleWithWebIdentityOutput: Swift.Sendable {
         provider: Swift.String? = nil,
         sourceIdentity: Swift.String? = nil,
         subjectFromWebIdentityToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assumedRoleUser = assumedRoleUser
         self.audience = audience
         self.credentials = credentials
@@ -615,8 +597,7 @@ public struct AssumeRootInput: Swift.Sendable {
         durationSeconds: Swift.Int? = nil,
         targetPrincipal: Swift.String? = nil,
         taskPolicyArn: STSClientTypes.PolicyDescriptorType? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.targetPrincipal = targetPrincipal
         self.taskPolicyArn = taskPolicyArn
@@ -632,8 +613,7 @@ public struct AssumeRootOutput: Swift.Sendable {
     public init(
         credentials: STSClientTypes.Credentials? = nil,
         sourceIdentity: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.sourceIdentity = sourceIdentity
     }
@@ -657,8 +637,7 @@ public struct InvalidAuthorizationMessageException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -670,8 +649,7 @@ public struct DecodeAuthorizationMessageInput: Swift.Sendable {
 
     public init(
         encodedMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.encodedMessage = encodedMessage
     }
 }
@@ -683,8 +661,7 @@ public struct DecodeAuthorizationMessageOutput: Swift.Sendable {
 
     public init(
         decodedMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.decodedMessage = decodedMessage
     }
 }
@@ -696,8 +673,7 @@ public struct GetAccessKeyInfoInput: Swift.Sendable {
 
     public init(
         accessKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKeyId = accessKeyId
     }
 }
@@ -708,8 +684,7 @@ public struct GetAccessKeyInfoOutput: Swift.Sendable {
 
     public init(
         account: Swift.String? = nil
-    )
-    {
+    ) {
         self.account = account
     }
 }
@@ -732,8 +707,7 @@ public struct GetCallerIdentityOutput: Swift.Sendable {
         account: Swift.String? = nil,
         arn: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.account = account
         self.arn = arn
         self.userId = userId
@@ -759,8 +733,7 @@ public struct GetFederationTokenInput: Swift.Sendable {
         policy: Swift.String? = nil,
         policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
         tags: [STSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.name = name
         self.policy = policy
@@ -783,8 +756,7 @@ extension STSClientTypes {
         public init(
             arn: Swift.String? = nil,
             federatedUserId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.federatedUserId = federatedUserId
         }
@@ -804,8 +776,7 @@ public struct GetFederationTokenOutput: Swift.Sendable {
         credentials: STSClientTypes.Credentials? = nil,
         federatedUser: STSClientTypes.FederatedUser? = nil,
         packedPolicySize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.federatedUser = federatedUser
         self.packedPolicySize = packedPolicySize
@@ -824,8 +795,7 @@ public struct GetSessionTokenInput: Swift.Sendable {
         durationSeconds: Swift.Int? = nil,
         serialNumber: Swift.String? = nil,
         tokenCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.serialNumber = serialNumber
         self.tokenCode = tokenCode
@@ -839,8 +809,7 @@ public struct GetSessionTokenOutput: Swift.Sendable {
 
     public init(
         credentials: STSClientTypes.Credentials? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
     }
 }

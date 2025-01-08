@@ -79,8 +79,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -104,8 +103,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -129,8 +127,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -154,8 +151,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -179,8 +175,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -204,8 +199,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -254,8 +248,7 @@ extension CodeGuruProfilerClientTypes {
             eventPublishers: [CodeGuruProfilerClientTypes.EventPublisher]? = nil,
             id: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventPublishers = eventPublishers
             self.id = id
             self.uri = uri
@@ -275,8 +268,7 @@ public struct AddNotificationChannelsInput: Swift.Sendable {
     public init(
         channels: [CodeGuruProfilerClientTypes.Channel]? = nil,
         profilingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.profilingGroupName = profilingGroupName
     }
@@ -291,8 +283,7 @@ extension CodeGuruProfilerClientTypes {
 
         public init(
             channels: [CodeGuruProfilerClientTypes.Channel]? = nil
-        )
-        {
+        ) {
             self.channels = channels
         }
     }
@@ -305,8 +296,7 @@ public struct AddNotificationChannelsOutput: Swift.Sendable {
 
     public init(
         notificationConfiguration: CodeGuruProfilerClientTypes.NotificationConfiguration? = nil
-    )
-    {
+    ) {
         self.notificationConfiguration = notificationConfiguration
     }
 }
@@ -381,8 +371,7 @@ extension CodeGuruProfilerClientTypes {
             agentParameters: [Swift.String: Swift.String]? = nil,
             periodInSeconds: Swift.Int? = nil,
             shouldProfile: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.agentParameters = agentParameters
             self.periodInSeconds = periodInSeconds
             self.shouldProfile = shouldProfile
@@ -400,8 +389,7 @@ extension CodeGuruProfilerClientTypes {
 
         public init(
             profilingEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.profilingEnabled = profilingEnabled
         }
     }
@@ -460,8 +448,7 @@ extension CodeGuruProfilerClientTypes {
         public init(
             period: CodeGuruProfilerClientTypes.AggregationPeriod? = nil,
             start: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.period = period
             self.start = start
         }
@@ -509,8 +496,7 @@ extension CodeGuruProfilerClientTypes {
 
         public init(
             type: CodeGuruProfilerClientTypes.FeedbackType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -536,8 +522,7 @@ extension CodeGuruProfilerClientTypes {
             id: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             userFeedback: CodeGuruProfilerClientTypes.UserFeedback? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.id = id
             self.startTime = startTime
@@ -591,8 +576,7 @@ extension CodeGuruProfilerClientTypes {
             frameName: Swift.String? = nil,
             threadStates: [Swift.String]? = nil,
             type: CodeGuruProfilerClientTypes.MetricType? = nil
-        )
-        {
+        ) {
             self.frameName = frameName
             self.threadStates = threadStates
             self.type = type
@@ -618,8 +602,7 @@ extension CodeGuruProfilerClientTypes {
             instances: [CodeGuruProfilerClientTypes.AnomalyInstance]? = nil,
             metric: CodeGuruProfilerClientTypes.Metric? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.instances = instances
             self.metric = metric
             self.reason = reason
@@ -645,8 +628,7 @@ extension CodeGuruProfilerClientTypes {
             frameName: Swift.String? = nil,
             threadStates: [Swift.String]? = nil,
             type: CodeGuruProfilerClientTypes.MetricType? = nil
-        )
-        {
+        ) {
             self.frameName = frameName
             self.threadStates = threadStates
             self.type = type
@@ -683,8 +665,7 @@ public struct BatchGetFrameMetricDataInput: Swift.Sendable {
         profilingGroupName: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         targetResolution: CodeGuruProfilerClientTypes.AggregationPeriod? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.frameMetrics = frameMetrics
         self.period = period
@@ -704,8 +685,7 @@ extension CodeGuruProfilerClientTypes {
 
         public init(
             value: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -725,8 +705,7 @@ extension CodeGuruProfilerClientTypes {
         public init(
             frameMetric: CodeGuruProfilerClientTypes.FrameMetric? = nil,
             values: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.frameMetric = frameMetric
             self.values = values
         }
@@ -767,8 +746,7 @@ public struct BatchGetFrameMetricDataOutput: Swift.Sendable {
         resolution: CodeGuruProfilerClientTypes.AggregationPeriod? = nil,
         startTime: Foundation.Date? = nil,
         unprocessedEndTimes: [Swift.String: [CodeGuruProfilerClientTypes.TimestampStructure]]? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.endTimes = endTimes
         self.frameMetricData = frameMetricData
@@ -791,8 +769,7 @@ public struct GetFindingsReportAccountSummaryInput: Swift.Sendable {
         dailyReportsOnly: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dailyReportsOnly = dailyReportsOnly
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -820,8 +797,7 @@ extension CodeGuruProfilerClientTypes {
             profileStartTime: Foundation.Date? = nil,
             profilingGroupName: Swift.String? = nil,
             totalNumberOfFindings: Swift.Int? = nil
-        )
-        {
+        ) {
             self.id = id
             self.profileEndTime = profileEndTime
             self.profileStartTime = profileStartTime
@@ -842,8 +818,7 @@ public struct GetFindingsReportAccountSummaryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reportSummaries: [CodeGuruProfilerClientTypes.FindingsReportSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reportSummaries = reportSummaries
     }
@@ -856,8 +831,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -868,8 +842,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -965,8 +938,7 @@ public struct ConfigureAgentInput: Swift.Sendable {
         fleetInstanceId: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         profilingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetInstanceId = fleetInstanceId
         self.metadata = metadata
         self.profilingGroupName = profilingGroupName
@@ -981,8 +953,7 @@ public struct ConfigureAgentOutput: Swift.Sendable {
 
     public init(
         configuration: CodeGuruProfilerClientTypes.AgentConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -1039,8 +1010,7 @@ public struct CreateProfilingGroupInput: Swift.Sendable {
         computePlatform: CodeGuruProfilerClientTypes.ComputePlatform? = nil,
         profilingGroupName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.agentOrchestrationConfig = agentOrchestrationConfig
         self.clientToken = clientToken
         self.computePlatform = computePlatform
@@ -1064,8 +1034,7 @@ extension CodeGuruProfilerClientTypes {
             latestAgentOrchestratedAt: Foundation.Date? = nil,
             latestAgentProfileReportedAt: Foundation.Date? = nil,
             latestAggregatedProfile: CodeGuruProfilerClientTypes.AggregatedProfileTime? = nil
-        )
-        {
+        ) {
             self.latestAgentOrchestratedAt = latestAgentOrchestratedAt
             self.latestAgentProfileReportedAt = latestAgentProfileReportedAt
             self.latestAggregatedProfile = latestAggregatedProfile
@@ -1103,8 +1072,7 @@ extension CodeGuruProfilerClientTypes {
             profilingStatus: CodeGuruProfilerClientTypes.ProfilingStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.agentOrchestrationConfig = agentOrchestrationConfig
             self.arn = arn
             self.computePlatform = computePlatform
@@ -1125,8 +1093,7 @@ public struct CreateProfilingGroupOutput: Swift.Sendable {
 
     public init(
         profilingGroup: CodeGuruProfilerClientTypes.ProfilingGroupDescription? = nil
-    )
-    {
+    ) {
         self.profilingGroup = profilingGroup
     }
 }
@@ -1139,8 +1106,7 @@ public struct DeleteProfilingGroupInput: Swift.Sendable {
 
     public init(
         profilingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.profilingGroupName = profilingGroupName
     }
 }
@@ -1159,8 +1125,7 @@ public struct DescribeProfilingGroupInput: Swift.Sendable {
 
     public init(
         profilingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.profilingGroupName = profilingGroupName
     }
 }
@@ -1173,8 +1138,7 @@ public struct DescribeProfilingGroupOutput: Swift.Sendable {
 
     public init(
         profilingGroup: CodeGuruProfilerClientTypes.ProfilingGroupDescription? = nil
-    )
-    {
+    ) {
         self.profilingGroup = profilingGroup
     }
 }
@@ -1187,8 +1151,7 @@ public struct GetNotificationConfigurationInput: Swift.Sendable {
 
     public init(
         profilingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.profilingGroupName = profilingGroupName
     }
 }
@@ -1201,8 +1164,7 @@ public struct GetNotificationConfigurationOutput: Swift.Sendable {
 
     public init(
         notificationConfiguration: CodeGuruProfilerClientTypes.NotificationConfiguration? = nil
-    )
-    {
+    ) {
         self.notificationConfiguration = notificationConfiguration
     }
 }
@@ -1215,8 +1177,7 @@ public struct GetPolicyInput: Swift.Sendable {
 
     public init(
         profilingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.profilingGroupName = profilingGroupName
     }
 }
@@ -1233,8 +1194,7 @@ public struct GetPolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.revisionId = revisionId
     }
@@ -1267,8 +1227,7 @@ public struct GetProfileInput: Swift.Sendable {
         period: Swift.String? = nil,
         profilingGroupName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.endTime = endTime
         self.maxDepth = maxDepth
@@ -1293,8 +1252,7 @@ public struct GetProfileOutput: Swift.Sendable {
         contentEncoding: Swift.String? = nil,
         contentType: Swift.String? = nil,
         profile: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.contentEncoding = contentEncoding
         self.contentType = contentType
         self.profile = profile
@@ -1342,8 +1300,7 @@ public struct GetRecommendationsInput: Swift.Sendable {
         locale: Swift.String? = nil,
         profilingGroupName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.locale = locale
         self.profilingGroupName = profilingGroupName
@@ -1378,8 +1335,7 @@ extension CodeGuruProfilerClientTypes {
             resolutionSteps: Swift.String? = nil,
             targetFrames: [[Swift.String]]? = nil,
             thresholdPercent: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.countersToAggregate = countersToAggregate
             self.description = description
             self.id = id
@@ -1406,8 +1362,7 @@ extension CodeGuruProfilerClientTypes {
             frameAddress: Swift.String? = nil,
             targetFramesIndex: Swift.Int? = nil,
             thresholdBreachValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.frameAddress = frameAddress
             self.targetFramesIndex = targetFramesIndex
             self.thresholdBreachValue = thresholdBreachValue
@@ -1445,8 +1400,7 @@ extension CodeGuruProfilerClientTypes {
             pattern: CodeGuruProfilerClientTypes.Pattern? = nil,
             startTime: Foundation.Date? = nil,
             topMatches: [CodeGuruProfilerClientTypes.Match]? = nil
-        )
-        {
+        ) {
             self.allMatchesCount = allMatchesCount
             self.allMatchesSum = allMatchesSum
             self.endTime = endTime
@@ -1481,8 +1435,7 @@ public struct GetRecommendationsOutput: Swift.Sendable {
         profileStartTime: Foundation.Date? = nil,
         profilingGroupName: Swift.String? = nil,
         recommendations: [CodeGuruProfilerClientTypes.Recommendation]? = nil
-    )
-    {
+    ) {
         self.anomalies = anomalies
         self.profileEndTime = profileEndTime
         self.profileStartTime = profileStartTime
@@ -1516,8 +1469,7 @@ public struct ListFindingsReportsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         profilingGroupName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.dailyReportsOnly = dailyReportsOnly
         self.endTime = endTime
         self.maxResults = maxResults
@@ -1538,8 +1490,7 @@ public struct ListFindingsReportsOutput: Swift.Sendable {
     public init(
         findingsReportSummaries: [CodeGuruProfilerClientTypes.FindingsReportSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingsReportSummaries = findingsReportSummaries
         self.nextToken = nextToken
     }
@@ -1611,8 +1562,7 @@ public struct ListProfileTimesInput: Swift.Sendable {
         period: CodeGuruProfilerClientTypes.AggregationPeriod? = nil,
         profilingGroupName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1632,8 +1582,7 @@ extension CodeGuruProfilerClientTypes {
 
         public init(
             start: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.start = start
         }
     }
@@ -1650,8 +1599,7 @@ public struct ListProfileTimesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profileTimes: [CodeGuruProfilerClientTypes.ProfileTime]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profileTimes = profileTimes
     }
@@ -1670,8 +1618,7 @@ public struct ListProfilingGroupsInput: Swift.Sendable {
         includeDescription: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeDescription = includeDescription
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1692,8 +1639,7 @@ public struct ListProfilingGroupsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         profilingGroupNames: [Swift.String]? = nil,
         profilingGroups: [CodeGuruProfilerClientTypes.ProfilingGroupDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profilingGroupNames = profilingGroupNames
         self.profilingGroups = profilingGroups
@@ -1723,8 +1669,7 @@ public struct PostAgentProfileInput: Swift.Sendable {
         contentType: Swift.String? = nil,
         profileToken: Swift.String? = nil,
         profilingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentProfile = agentProfile
         self.contentType = contentType
         self.profileToken = profileToken
@@ -1757,8 +1702,7 @@ public struct PutPermissionInput: Swift.Sendable {
         principals: [Swift.String]? = nil,
         profilingGroupName: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionGroup = actionGroup
         self.principals = principals
         self.profilingGroupName = profilingGroupName
@@ -1778,8 +1722,7 @@ public struct PutPermissionOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.revisionId = revisionId
     }
@@ -1797,8 +1740,7 @@ public struct RemoveNotificationChannelInput: Swift.Sendable {
     public init(
         channelId: Swift.String? = nil,
         profilingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelId = channelId
         self.profilingGroupName = profilingGroupName
     }
@@ -1811,8 +1753,7 @@ public struct RemoveNotificationChannelOutput: Swift.Sendable {
 
     public init(
         notificationConfiguration: CodeGuruProfilerClientTypes.NotificationConfiguration? = nil
-    )
-    {
+    ) {
         self.notificationConfiguration = notificationConfiguration
     }
 }
@@ -1833,8 +1774,7 @@ public struct RemovePermissionInput: Swift.Sendable {
         actionGroup: CodeGuruProfilerClientTypes.ActionGroup? = nil,
         profilingGroupName: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionGroup = actionGroup
         self.profilingGroupName = profilingGroupName
         self.revisionId = revisionId
@@ -1853,8 +1793,7 @@ public struct RemovePermissionOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.revisionId = revisionId
     }
@@ -1879,8 +1818,7 @@ public struct SubmitFeedbackInput: Swift.Sendable {
         comment: Swift.String? = nil,
         profilingGroupName: Swift.String? = nil,
         type: CodeGuruProfilerClientTypes.FeedbackType? = nil
-    )
-    {
+    ) {
         self.anomalyInstanceId = anomalyInstanceId
         self.comment = comment
         self.profilingGroupName = profilingGroupName
@@ -1906,8 +1844,7 @@ public struct UpdateProfilingGroupInput: Swift.Sendable {
     public init(
         agentOrchestrationConfig: CodeGuruProfilerClientTypes.AgentOrchestrationConfig? = nil,
         profilingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentOrchestrationConfig = agentOrchestrationConfig
         self.profilingGroupName = profilingGroupName
     }
@@ -1921,8 +1858,7 @@ public struct UpdateProfilingGroupOutput: Swift.Sendable {
 
     public init(
         profilingGroup: CodeGuruProfilerClientTypes.ProfilingGroupDescription? = nil
-    )
-    {
+    ) {
         self.profilingGroup = profilingGroup
     }
 }
@@ -1938,8 +1874,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1961,8 +1896,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

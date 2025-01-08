@@ -128,8 +128,7 @@ extension FMSClientTypes {
             accounts: [Swift.String]? = nil,
             allAccountsEnabled: Swift.Bool = false,
             excludeSpecifiedAccounts: Swift.Bool = false
-        )
-        {
+        ) {
             self.accounts = accounts
             self.allAccountsEnabled = allAccountsEnabled
             self.excludeSpecifiedAccounts = excludeSpecifiedAccounts
@@ -149,8 +148,7 @@ extension FMSClientTypes {
         public init(
             description: Swift.String? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.resourceId = resourceId
         }
@@ -215,8 +213,7 @@ extension FMSClientTypes {
             adminAccount: Swift.String? = nil,
             defaultAdmin: Swift.Bool = false,
             status: FMSClientTypes.OrganizationStatus? = nil
-        )
-        {
+        ) {
             self.adminAccount = adminAccount
             self.defaultAdmin = defaultAdmin
             self.status = status
@@ -239,8 +236,7 @@ extension FMSClientTypes {
             allOrganizationalUnitsEnabled: Swift.Bool = false,
             excludeSpecifiedOrganizationalUnits: Swift.Bool = false,
             organizationalUnits: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allOrganizationalUnitsEnabled = allOrganizationalUnitsEnabled
             self.excludeSpecifiedOrganizationalUnits = excludeSpecifiedOrganizationalUnits
             self.organizationalUnits = organizationalUnits
@@ -316,8 +312,7 @@ extension FMSClientTypes {
         public init(
             allPolicyTypesEnabled: Swift.Bool = false,
             policyTypes: [FMSClientTypes.SecurityServiceType]? = nil
-        )
-        {
+        ) {
             self.allPolicyTypesEnabled = allPolicyTypesEnabled
             self.policyTypes = policyTypes
         }
@@ -336,8 +331,7 @@ extension FMSClientTypes {
         public init(
             allRegionsEnabled: Swift.Bool = false,
             regions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allRegionsEnabled = allRegionsEnabled
             self.regions = regions
         }
@@ -362,8 +356,7 @@ extension FMSClientTypes {
             organizationalUnitScope: FMSClientTypes.OrganizationalUnitScope? = nil,
             policyTypeScope: FMSClientTypes.PolicyTypeScope? = nil,
             regionScope: FMSClientTypes.RegionScope? = nil
-        )
-        {
+        ) {
             self.accountScope = accountScope
             self.organizationalUnitScope = organizationalUnitScope
             self.policyTypeScope = policyTypeScope
@@ -390,8 +383,7 @@ extension FMSClientTypes {
             appName: Swift.String? = nil,
             port: Swift.Int? = nil,
             `protocol`: Swift.String? = nil
-        )
-        {
+        ) {
             self.appName = appName
             self.port = port
             self.`protocol` = `protocol`
@@ -428,8 +420,7 @@ extension FMSClientTypes {
             listName: Swift.String? = nil,
             listUpdateToken: Swift.String? = nil,
             previousAppsList: [Swift.String: [FMSClientTypes.App]]? = nil
-        )
-        {
+        ) {
             self.appsList = appsList
             self.createTime = createTime
             self.lastUpdateTime = lastUpdateTime
@@ -459,8 +450,7 @@ extension FMSClientTypes {
             listArn: Swift.String? = nil,
             listId: Swift.String? = nil,
             listName: Swift.String? = nil
-        )
-        {
+        ) {
             self.appsList = appsList
             self.listArn = listArn
             self.listId = listId
@@ -487,8 +477,7 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -511,8 +500,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -535,8 +523,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -559,8 +546,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -583,8 +569,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -596,8 +581,7 @@ public struct AssociateAdminAccountInput: Swift.Sendable {
 
     public init(
         adminAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccount = adminAccount
     }
 }
@@ -638,8 +622,7 @@ public struct AssociateThirdPartyFirewallInput: Swift.Sendable {
 
     public init(
         thirdPartyFirewall: FMSClientTypes.ThirdPartyFirewall? = nil
-    )
-    {
+    ) {
         self.thirdPartyFirewall = thirdPartyFirewall
     }
 }
@@ -698,8 +681,7 @@ public struct AssociateThirdPartyFirewallOutput: Swift.Sendable {
 
     public init(
         thirdPartyFirewallStatus: FMSClientTypes.ThirdPartyFirewallAssociationStatus? = nil
-    )
-    {
+    ) {
         self.thirdPartyFirewallStatus = thirdPartyFirewallStatus
     }
 }
@@ -716,8 +698,7 @@ extension FMSClientTypes {
         public init(
             violatingSecurityGroups: [Swift.String]? = nil,
             violationTarget: Swift.String? = nil
-        )
-        {
+        ) {
             self.violatingSecurityGroups = violatingSecurityGroups
             self.violationTarget = violationTarget
         }
@@ -736,8 +717,7 @@ extension FMSClientTypes {
         public init(
             awsEc2NetworkInterfaceViolations: [FMSClientTypes.AwsEc2NetworkInterfaceViolation]? = nil,
             violationTarget: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsEc2NetworkInterfaceViolations = awsEc2NetworkInterfaceViolations
             self.violationTarget = violationTarget
         }
@@ -755,8 +735,7 @@ public struct BatchAssociateResourceInput: Swift.Sendable {
     public init(
         items: [Swift.String]? = nil,
         resourceSetIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.resourceSetIdentifier = resourceSetIdentifier
     }
@@ -815,8 +794,7 @@ extension FMSClientTypes {
         public init(
             reason: FMSClientTypes.FailedItemReason? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.uri = uri
         }
@@ -834,8 +812,7 @@ public struct BatchAssociateResourceOutput: Swift.Sendable {
     public init(
         failedItems: [FMSClientTypes.FailedItem]? = nil,
         resourceSetIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.failedItems = failedItems
         self.resourceSetIdentifier = resourceSetIdentifier
     }
@@ -852,8 +829,7 @@ public struct BatchDisassociateResourceInput: Swift.Sendable {
     public init(
         items: [Swift.String]? = nil,
         resourceSetIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.resourceSetIdentifier = resourceSetIdentifier
     }
@@ -870,8 +846,7 @@ public struct BatchDisassociateResourceOutput: Swift.Sendable {
     public init(
         failedItems: [FMSClientTypes.FailedItem]? = nil,
         resourceSetIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.failedItems = failedItems
         self.resourceSetIdentifier = resourceSetIdentifier
     }
@@ -884,8 +859,7 @@ public struct DeleteAppsListInput: Swift.Sendable {
 
     public init(
         listId: Swift.String? = nil
-    )
-    {
+    ) {
         self.listId = listId
     }
 }
@@ -921,8 +895,7 @@ public struct DeletePolicyInput: Swift.Sendable {
     public init(
         deleteAllPolicyResources: Swift.Bool? = false,
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteAllPolicyResources = deleteAllPolicyResources
         self.policyId = policyId
     }
@@ -935,8 +908,7 @@ public struct DeleteProtocolsListInput: Swift.Sendable {
 
     public init(
         listId: Swift.String? = nil
-    )
-    {
+    ) {
         self.listId = listId
     }
 }
@@ -948,8 +920,7 @@ public struct DeleteResourceSetInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -966,8 +937,7 @@ public struct DisassociateThirdPartyFirewallInput: Swift.Sendable {
 
     public init(
         thirdPartyFirewall: FMSClientTypes.ThirdPartyFirewall? = nil
-    )
-    {
+    ) {
         self.thirdPartyFirewall = thirdPartyFirewall
     }
 }
@@ -978,8 +948,7 @@ public struct DisassociateThirdPartyFirewallOutput: Swift.Sendable {
 
     public init(
         thirdPartyFirewallStatus: FMSClientTypes.ThirdPartyFirewallAssociationStatus? = nil
-    )
-    {
+    ) {
         self.thirdPartyFirewallStatus = thirdPartyFirewallStatus
     }
 }
@@ -998,8 +967,7 @@ public struct GetAdminAccountOutput: Swift.Sendable {
     public init(
         adminAccount: Swift.String? = nil,
         roleStatus: FMSClientTypes.AccountRoleStatus? = nil
-    )
-    {
+    ) {
         self.adminAccount = adminAccount
         self.roleStatus = roleStatus
     }
@@ -1012,8 +980,7 @@ public struct GetAdminScopeInput: Swift.Sendable {
 
     public init(
         adminAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccount = adminAccount
     }
 }
@@ -1035,8 +1002,7 @@ public struct GetAdminScopeOutput: Swift.Sendable {
     public init(
         adminScope: FMSClientTypes.AdminScope? = nil,
         status: FMSClientTypes.OrganizationStatus? = nil
-    )
-    {
+    ) {
         self.adminScope = adminScope
         self.status = status
     }
@@ -1052,8 +1018,7 @@ public struct GetAppsListInput: Swift.Sendable {
     public init(
         defaultList: Swift.Bool? = false,
         listId: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultList = defaultList
         self.listId = listId
     }
@@ -1068,8 +1033,7 @@ public struct GetAppsListOutput: Swift.Sendable {
     public init(
         appsList: FMSClientTypes.AppsListData? = nil,
         appsListArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appsList = appsList
         self.appsListArn = appsListArn
     }
@@ -1086,8 +1050,7 @@ public struct GetComplianceDetailInput: Swift.Sendable {
     public init(
         memberAccount: Swift.String? = nil,
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberAccount = memberAccount
         self.policyId = policyId
     }
@@ -1259,8 +1222,7 @@ extension FMSClientTypes {
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             violationReason: FMSClientTypes.ViolationReason? = nil
-        )
-        {
+        ) {
             self.metadata = metadata
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -1296,8 +1258,7 @@ extension FMSClientTypes {
             policyId: Swift.String? = nil,
             policyOwner: Swift.String? = nil,
             violators: [FMSClientTypes.ComplianceViolator]? = nil
-        )
-        {
+        ) {
             self.evaluationLimitExceeded = evaluationLimitExceeded
             self.expiredAt = expiredAt
             self.issueInfoMap = issueInfoMap
@@ -1315,8 +1276,7 @@ public struct GetComplianceDetailOutput: Swift.Sendable {
 
     public init(
         policyComplianceDetail: FMSClientTypes.PolicyComplianceDetail? = nil
-    )
-    {
+    ) {
         self.policyComplianceDetail = policyComplianceDetail
     }
 }
@@ -1335,8 +1295,7 @@ public struct GetNotificationChannelOutput: Swift.Sendable {
     public init(
         snsRoleName: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.snsRoleName = snsRoleName
         self.snsTopicArn = snsTopicArn
     }
@@ -1360,8 +1319,7 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1373,8 +1331,7 @@ public struct GetPolicyInput: Swift.Sendable {
 
     public init(
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
     }
 }
@@ -1450,8 +1407,7 @@ extension FMSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1470,8 +1426,7 @@ extension FMSClientTypes {
         public init(
             code: Swift.Int? = nil,
             type: Swift.Int? = nil
-        )
-        {
+        ) {
             self.code = code
             self.type = type
         }
@@ -1490,8 +1445,7 @@ extension FMSClientTypes {
         public init(
             from: Swift.Int? = nil,
             to: Swift.Int? = nil
-        )
-        {
+        ) {
             self.from = from
             self.to = to
         }
@@ -1557,8 +1511,7 @@ extension FMSClientTypes {
             portRange: FMSClientTypes.NetworkAclPortRange? = nil,
             `protocol`: Swift.String? = nil,
             ruleAction: FMSClientTypes.NetworkAclRuleAction? = nil
-        )
-        {
+        ) {
             self.cidrBlock = cidrBlock
             self.egress = egress
             self.icmpTypeCode = icmpTypeCode
@@ -1590,8 +1543,7 @@ extension FMSClientTypes {
             forceRemediateForFirstEntries: Swift.Bool? = nil,
             forceRemediateForLastEntries: Swift.Bool? = nil,
             lastEntries: [FMSClientTypes.NetworkAclEntry]? = nil
-        )
-        {
+        ) {
             self.firstEntries = firstEntries
             self.forceRemediateForFirstEntries = forceRemediateForFirstEntries
             self.forceRemediateForLastEntries = forceRemediateForLastEntries
@@ -1610,8 +1562,7 @@ extension FMSClientTypes {
 
         public init(
             networkAclEntrySet: FMSClientTypes.NetworkAclEntrySet? = nil
-        )
-        {
+        ) {
             self.networkAclEntrySet = networkAclEntrySet
         }
     }
@@ -1655,8 +1606,7 @@ extension FMSClientTypes {
 
         public init(
             firewallDeploymentModel: FMSClientTypes.FirewallDeploymentModel? = nil
-        )
-        {
+        ) {
             self.firewallDeploymentModel = firewallDeploymentModel
         }
     }
@@ -1671,8 +1621,7 @@ extension FMSClientTypes {
 
         public init(
             firewallDeploymentModel: FMSClientTypes.FirewallDeploymentModel? = nil
-        )
-        {
+        ) {
             self.firewallDeploymentModel = firewallDeploymentModel
         }
     }
@@ -1693,8 +1642,7 @@ extension FMSClientTypes {
             networkAclCommonPolicy: FMSClientTypes.NetworkAclCommonPolicy? = nil,
             networkFirewallPolicy: FMSClientTypes.NetworkFirewallPolicy? = nil,
             thirdPartyFirewallPolicy: FMSClientTypes.ThirdPartyFirewallPolicy? = nil
-        )
-        {
+        ) {
             self.networkAclCommonPolicy = networkAclCommonPolicy
             self.networkFirewallPolicy = networkFirewallPolicy
             self.thirdPartyFirewallPolicy = thirdPartyFirewallPolicy
@@ -1776,8 +1724,7 @@ extension FMSClientTypes {
             managedServiceData: Swift.String? = nil,
             policyOption: FMSClientTypes.PolicyOption? = nil,
             type: FMSClientTypes.SecurityServiceType? = nil
-        )
-        {
+        ) {
             self.managedServiceData = managedServiceData
             self.policyOption = policyOption
             self.type = type
@@ -1871,8 +1818,7 @@ extension FMSClientTypes {
             resourceType: Swift.String? = nil,
             resourceTypeList: [Swift.String]? = nil,
             securityServicePolicyData: FMSClientTypes.SecurityServicePolicyData? = nil
-        )
-        {
+        ) {
             self.deleteUnusedFMManagedResources = deleteUnusedFMManagedResources
             self.excludeMap = excludeMap
             self.excludeResourceTags = excludeResourceTags
@@ -1901,8 +1847,7 @@ public struct GetPolicyOutput: Swift.Sendable {
     public init(
         policy: FMSClientTypes.Policy? = nil,
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.policyArn = policyArn
     }
@@ -1930,8 +1875,7 @@ public struct GetProtectionStatusInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         policyId: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.memberAccountId = memberAccountId
@@ -1969,8 +1913,7 @@ public struct GetProtectionStatusOutput: Swift.Sendable {
         data: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         serviceType: FMSClientTypes.SecurityServiceType? = nil
-    )
-    {
+    ) {
         self.adminAccountId = adminAccountId
         self.data = data
         self.nextToken = nextToken
@@ -1988,8 +1931,7 @@ public struct GetProtocolsListInput: Swift.Sendable {
     public init(
         defaultList: Swift.Bool? = false,
         listId: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultList = defaultList
         self.listId = listId
     }
@@ -2024,8 +1966,7 @@ extension FMSClientTypes {
             listUpdateToken: Swift.String? = nil,
             previousProtocolsList: [Swift.String: [Swift.String]]? = nil,
             protocolsList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.lastUpdateTime = lastUpdateTime
             self.listId = listId
@@ -2046,8 +1987,7 @@ public struct GetProtocolsListOutput: Swift.Sendable {
     public init(
         protocolsList: FMSClientTypes.ProtocolsListData? = nil,
         protocolsListArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.protocolsList = protocolsList
         self.protocolsListArn = protocolsListArn
     }
@@ -2060,8 +2000,7 @@ public struct GetResourceSetInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -2128,8 +2067,7 @@ extension FMSClientTypes {
             resourceSetStatus: FMSClientTypes.ResourceSetStatus? = nil,
             resourceTypeList: [Swift.String]? = nil,
             updateToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
             self.lastUpdateTime = lastUpdateTime
@@ -2152,8 +2090,7 @@ public struct GetResourceSetOutput: Swift.Sendable {
     public init(
         resourceSet: FMSClientTypes.ResourceSet? = nil,
         resourceSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceSet = resourceSet
         self.resourceSetArn = resourceSetArn
     }
@@ -2166,8 +2103,7 @@ public struct GetThirdPartyFirewallAssociationStatusInput: Swift.Sendable {
 
     public init(
         thirdPartyFirewall: FMSClientTypes.ThirdPartyFirewall? = nil
-    )
-    {
+    ) {
         self.thirdPartyFirewall = thirdPartyFirewall
     }
 }
@@ -2229,8 +2165,7 @@ public struct GetThirdPartyFirewallAssociationStatusOutput: Swift.Sendable {
     public init(
         marketplaceOnboardingStatus: FMSClientTypes.MarketplaceSubscriptionOnboardingStatus? = nil,
         thirdPartyFirewallStatus: FMSClientTypes.ThirdPartyFirewallAssociationStatus? = nil
-    )
-    {
+    ) {
         self.marketplaceOnboardingStatus = marketplaceOnboardingStatus
         self.thirdPartyFirewallStatus = thirdPartyFirewallStatus
     }
@@ -2269,8 +2204,7 @@ public struct GetViolationDetailsInput: Swift.Sendable {
         policyId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberAccount = memberAccount
         self.policyId = policyId
         self.resourceId = resourceId
@@ -2292,8 +2226,7 @@ extension FMSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2312,8 +2245,7 @@ extension FMSClientTypes {
         public init(
             reference: Swift.String? = nil,
             targetViolationReasons: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.reference = reference
             self.targetViolationReasons = targetViolationReasons
         }
@@ -2373,8 +2305,7 @@ extension FMSClientTypes {
             prefixListId: Swift.String? = nil,
             `protocol`: Swift.String? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.ipv4Range = ipv4Range
             self.ipv6Range = ipv6Range
@@ -2403,8 +2334,7 @@ extension FMSClientTypes {
             isDefaultAction: Swift.Bool = false,
             remediationActionType: FMSClientTypes.RemediationActionType? = nil,
             remediationResult: FMSClientTypes.SecurityGroupRuleDescription? = nil
-        )
-        {
+        ) {
             self.description = description
             self.isDefaultAction = isDefaultAction
             self.remediationActionType = remediationActionType
@@ -2431,8 +2361,7 @@ extension FMSClientTypes {
             possibleSecurityGroupRemediationActions: [FMSClientTypes.SecurityGroupRemediationAction]? = nil,
             violationTarget: Swift.String? = nil,
             violationTargetDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.partialMatches = partialMatches
             self.possibleSecurityGroupRemediationActions = possibleSecurityGroupRemediationActions
             self.violationTarget = violationTarget
@@ -2453,8 +2382,7 @@ extension FMSClientTypes {
         public init(
             violationTarget: Swift.String? = nil,
             violationTargetDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.violationTarget = violationTarget
             self.violationTargetDescription = violationTargetDescription
         }
@@ -2476,8 +2404,7 @@ extension FMSClientTypes {
             numberOfRuleGroupsAlreadyAssociated: Swift.Int = 0,
             violationTarget: Swift.String? = nil,
             violationTargetDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.numberOfRuleGroupsAlreadyAssociated = numberOfRuleGroupsAlreadyAssociated
             self.violationTarget = violationTarget
             self.violationTargetDescription = violationTargetDescription
@@ -2506,8 +2433,7 @@ extension FMSClientTypes {
             unavailablePriorities: [Swift.Int]? = nil,
             violationTarget: Swift.String? = nil,
             violationTargetDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.conflictingPolicyId = conflictingPolicyId
             self.conflictingPriority = conflictingPriority
             self.unavailablePriorities = unavailablePriorities
@@ -2538,8 +2464,7 @@ extension FMSClientTypes {
             subnetAvailabilityZoneId: Swift.String? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.firewallSubnetId = firewallSubnetId
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetAvailabilityZoneId = subnetAvailabilityZoneId
@@ -2567,8 +2492,7 @@ extension FMSClientTypes {
             subnetAvailabilityZone: Swift.String? = nil,
             subnetAvailabilityZoneId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.firewallSubnetId = firewallSubnetId
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetAvailabilityZoneId = subnetAvailabilityZoneId
@@ -2624,8 +2548,7 @@ extension FMSClientTypes {
             entryDetail: FMSClientTypes.NetworkAclEntry? = nil,
             entryRuleNumber: Swift.Int = 0,
             entryType: FMSClientTypes.EntryType? = nil
-        )
-        {
+        ) {
             self.entryDetail = entryDetail
             self.entryRuleNumber = entryRuleNumber
             self.entryType = entryType
@@ -2689,8 +2612,7 @@ extension FMSClientTypes {
             entryViolationReasons: [FMSClientTypes.EntryViolationReason]? = nil,
             expectedEntry: FMSClientTypes.EntryDescription? = nil,
             expectedEvaluationOrder: Swift.String? = nil
-        )
-        {
+        ) {
             self.actualEvaluationOrder = actualEvaluationOrder
             self.entriesWithConflicts = entriesWithConflicts
             self.entryAtExpectedEvaluationOrder = entryAtExpectedEvaluationOrder
@@ -2722,8 +2644,7 @@ extension FMSClientTypes {
             subnet: Swift.String? = nil,
             subnetAvailabilityZone: Swift.String? = nil,
             vpc: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentAssociatedNetworkAcl = currentAssociatedNetworkAcl
             self.entryViolations = entryViolations
             self.subnet = subnet
@@ -2836,8 +2757,7 @@ extension FMSClientTypes {
             destinationType: FMSClientTypes.DestinationType? = nil,
             target: Swift.String? = nil,
             targetType: FMSClientTypes.TargetType? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.destinationType = destinationType
             self.target = target
@@ -2864,8 +2784,7 @@ extension FMSClientTypes {
             violatingRoutes: [FMSClientTypes.Route]? = nil,
             violationTarget: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.routeTableId = routeTableId
             self.violatingRoutes = violatingRoutes
             self.violationTarget = violationTarget
@@ -2898,8 +2817,7 @@ extension FMSClientTypes {
             ipV6Cidr: Swift.String? = nil,
             prefixListId: Swift.String? = nil,
             routeTableId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedTargets = allowedTargets
             self.contributingSubnets = contributingSubnets
             self.ipV4Cidr = ipV4Cidr
@@ -2961,8 +2879,7 @@ extension FMSClientTypes {
             subnetId: Swift.String? = nil,
             violatingRoutes: [FMSClientTypes.Route]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actualFirewallSubnetRoutes = actualFirewallSubnetRoutes
             self.actualInternetGatewayRoutes = actualInternetGatewayRoutes
             self.currentFirewallSubnetRouteTable = currentFirewallSubnetRouteTable
@@ -3036,8 +2953,7 @@ extension FMSClientTypes {
             routeTableId: Swift.String? = nil,
             violatingRoute: FMSClientTypes.Route? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actualFirewallEndpoint = actualFirewallEndpoint
             self.actualFirewallSubnetId = actualFirewallSubnetId
             self.actualFirewallSubnetRoutes = actualFirewallSubnetRoutes
@@ -3073,8 +2989,7 @@ extension FMSClientTypes {
             expectedRoutes: [FMSClientTypes.ExpectedRoute]? = nil,
             violationTarget: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.expectedRoutes = expectedRoutes
             self.violationTarget = violationTarget
             self.vpcId = vpcId
@@ -3103,8 +3018,7 @@ extension FMSClientTypes {
             expectedRouteTable: Swift.String? = nil,
             violationTarget: Swift.String? = nil,
             vpc: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.currentRouteTable = currentRouteTable
             self.expectedRouteTable = expectedRouteTable
@@ -3132,8 +3046,7 @@ extension FMSClientTypes {
             targetViolationReason: Swift.String? = nil,
             violationTarget: Swift.String? = nil,
             vpc: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.targetViolationReason = targetViolationReason
             self.violationTarget = violationTarget
@@ -3160,8 +3073,7 @@ extension FMSClientTypes {
             targetViolationReason: Swift.String? = nil,
             violationTarget: Swift.String? = nil,
             vpc: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.targetViolationReason = targetViolationReason
             self.violationTarget = violationTarget
@@ -3257,8 +3169,7 @@ extension FMSClientTypes {
         public init(
             ruleOrder: FMSClientTypes.RuleOrder? = nil,
             streamExceptionPolicy: FMSClientTypes.StreamExceptionPolicy? = nil
-        )
-        {
+        ) {
             self.ruleOrder = ruleOrder
             self.streamExceptionPolicy = streamExceptionPolicy
         }
@@ -3300,8 +3211,7 @@ extension FMSClientTypes {
 
         public init(
             action: FMSClientTypes.NetworkFirewallOverrideAction? = nil
-        )
-        {
+        ) {
             self.action = action
         }
     }
@@ -3325,8 +3235,7 @@ extension FMSClientTypes {
             priority: Swift.Int? = nil,
             resourceId: Swift.String? = nil,
             ruleGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.`override` = `override`
             self.priority = priority
             self.resourceId = resourceId
@@ -3350,8 +3259,7 @@ extension FMSClientTypes {
             priority: Swift.Int? = nil,
             resourceId: Swift.String? = nil,
             ruleGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.resourceId = resourceId
             self.ruleGroupName = ruleGroupName
@@ -3394,8 +3302,7 @@ extension FMSClientTypes {
             statelessDefaultActions: [Swift.String]? = nil,
             statelessFragmentDefaultActions: [Swift.String]? = nil,
             statelessRuleGroups: [FMSClientTypes.StatelessRuleGroup]? = nil
-        )
-        {
+        ) {
             self.statefulDefaultActions = statefulDefaultActions
             self.statefulEngineOptions = statefulEngineOptions
             self.statefulRuleGroups = statefulRuleGroups
@@ -3422,8 +3329,7 @@ extension FMSClientTypes {
             currentPolicyDescription: FMSClientTypes.NetworkFirewallPolicyDescription? = nil,
             expectedPolicyDescription: FMSClientTypes.NetworkFirewallPolicyDescription? = nil,
             violationTarget: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentPolicyDescription = currentPolicyDescription
             self.expectedPolicyDescription = expectedPolicyDescription
             self.violationTarget = violationTarget
@@ -3452,8 +3358,7 @@ extension FMSClientTypes {
             routeTableId: Swift.String? = nil,
             violatingRoutes: [FMSClientTypes.Route]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.firewallEndpoint = firewallEndpoint
             self.firewallSubnetId = firewallSubnetId
             self.routeTableId = routeTableId
@@ -3481,8 +3386,7 @@ extension FMSClientTypes {
             routeTableId: Swift.String? = nil,
             violatingRoutes: [FMSClientTypes.Route]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.gatewayId = gatewayId
             self.routeTableId = routeTableId
             self.violatingRoutes = violatingRoutes
@@ -3506,8 +3410,7 @@ extension FMSClientTypes {
             description: Swift.String? = nil,
             fmsCanRemediate: Swift.Bool = false,
             vpc: FMSClientTypes.ActionTarget? = nil
-        )
-        {
+        ) {
             self.description = description
             self.fmsCanRemediate = fmsCanRemediate
             self.vpc = vpc
@@ -3533,8 +3436,7 @@ extension FMSClientTypes {
             fmsCanRemediate: Swift.Bool = false,
             networkAclEntriesToBeCreated: [FMSClientTypes.EntryDescription]? = nil,
             networkAclId: FMSClientTypes.ActionTarget? = nil
-        )
-        {
+        ) {
             self.description = description
             self.fmsCanRemediate = fmsCanRemediate
             self.networkAclEntriesToBeCreated = networkAclEntriesToBeCreated
@@ -3561,8 +3463,7 @@ extension FMSClientTypes {
             fmsCanRemediate: Swift.Bool = false,
             networkAclEntriesToBeDeleted: [FMSClientTypes.EntryDescription]? = nil,
             networkAclId: FMSClientTypes.ActionTarget? = nil
-        )
-        {
+        ) {
             self.description = description
             self.fmsCanRemediate = fmsCanRemediate
             self.networkAclEntriesToBeDeleted = networkAclEntriesToBeDeleted
@@ -3590,8 +3491,7 @@ extension FMSClientTypes {
             gatewayId: FMSClientTypes.ActionTarget? = nil,
             routeTableId: FMSClientTypes.ActionTarget? = nil,
             subnetId: FMSClientTypes.ActionTarget? = nil
-        )
-        {
+        ) {
             self.description = description
             self.gatewayId = gatewayId
             self.routeTableId = routeTableId
@@ -3617,8 +3517,7 @@ extension FMSClientTypes {
             description: Swift.String? = nil,
             routeTableId: FMSClientTypes.ActionTarget? = nil,
             vpcId: FMSClientTypes.ActionTarget? = nil
-        )
-        {
+        ) {
             self.description = description
             self.routeTableId = routeTableId
             self.vpcId = vpcId
@@ -3654,8 +3553,7 @@ extension FMSClientTypes {
             gatewayId: FMSClientTypes.ActionTarget? = nil,
             routeTableId: FMSClientTypes.ActionTarget? = nil,
             vpcEndpointId: FMSClientTypes.ActionTarget? = nil
-        )
-        {
+        ) {
             self.description = description
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
@@ -3680,8 +3578,7 @@ extension FMSClientTypes {
         public init(
             description: Swift.String? = nil,
             vpcId: FMSClientTypes.ActionTarget? = nil
-        )
-        {
+        ) {
             self.description = description
             self.vpcId = vpcId
         }
@@ -3710,8 +3607,7 @@ extension FMSClientTypes {
             destinationIpv6CidrBlock: Swift.String? = nil,
             destinationPrefixListId: Swift.String? = nil,
             routeTableId: FMSClientTypes.ActionTarget? = nil
-        )
-        {
+        ) {
             self.description = description
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
@@ -3746,8 +3642,7 @@ extension FMSClientTypes {
             destinationPrefixListId: Swift.String? = nil,
             gatewayId: FMSClientTypes.ActionTarget? = nil,
             routeTableId: FMSClientTypes.ActionTarget? = nil
-        )
-        {
+        ) {
             self.description = description
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
@@ -3775,8 +3670,7 @@ extension FMSClientTypes {
             associationId: FMSClientTypes.ActionTarget? = nil,
             description: Swift.String? = nil,
             routeTableId: FMSClientTypes.ActionTarget? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.description = description
             self.routeTableId = routeTableId
@@ -3796,8 +3690,7 @@ extension FMSClientTypes {
         public init(
             description: Swift.String? = nil,
             firewallCreationConfig: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.firewallCreationConfig = firewallCreationConfig
         }
@@ -3822,8 +3715,7 @@ extension FMSClientTypes {
             description: Swift.String? = nil,
             fmsCanRemediate: Swift.Bool = false,
             networkAclId: FMSClientTypes.ActionTarget? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.description = description
             self.fmsCanRemediate = fmsCanRemediate
@@ -3877,8 +3769,7 @@ extension FMSClientTypes {
             ec2ReplaceRouteTableAssociationAction: FMSClientTypes.EC2ReplaceRouteTableAssociationAction? = nil,
             fmsPolicyUpdateFirewallCreationConfigAction: FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction? = nil,
             replaceNetworkAclAssociationAction: FMSClientTypes.ReplaceNetworkAclAssociationAction? = nil
-        )
-        {
+        ) {
             self.createNetworkAclAction = createNetworkAclAction
             self.createNetworkAclEntriesAction = createNetworkAclEntriesAction
             self.deleteNetworkAclEntriesAction = deleteNetworkAclEntriesAction
@@ -3908,8 +3799,7 @@ extension FMSClientTypes {
         public init(
             order: Swift.Int = 0,
             remediationAction: FMSClientTypes.RemediationAction? = nil
-        )
-        {
+        ) {
             self.order = order
             self.remediationAction = remediationAction
         }
@@ -3932,8 +3822,7 @@ extension FMSClientTypes {
             description: Swift.String? = nil,
             isDefaultAction: Swift.Bool = false,
             orderedRemediationActions: [FMSClientTypes.RemediationActionWithOrder]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.isDefaultAction = isDefaultAction
             self.orderedRemediationActions = orderedRemediationActions
@@ -3953,8 +3842,7 @@ extension FMSClientTypes {
         public init(
             actions: [FMSClientTypes.PossibleRemediationAction]? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.description = description
         }
@@ -4003,8 +3891,7 @@ extension FMSClientTypes {
             subnetId: Swift.String? = nil,
             violatingRoutes: [FMSClientTypes.Route]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentFirewallSubnetRouteTable = currentFirewallSubnetRouteTable
             self.currentInternetGatewayRouteTable = currentInternetGatewayRouteTable
             self.firewallSubnetId = firewallSubnetId
@@ -4042,8 +3929,7 @@ extension FMSClientTypes {
             expectedRouteTable: Swift.String? = nil,
             violationTarget: Swift.String? = nil,
             vpc: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.currentRouteTable = currentRouteTable
             self.expectedRouteTable = expectedRouteTable
@@ -4071,8 +3957,7 @@ extension FMSClientTypes {
             targetViolationReason: Swift.String? = nil,
             violationTarget: Swift.String? = nil,
             vpc: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.targetViolationReason = targetViolationReason
             self.violationTarget = violationTarget
@@ -4099,8 +3984,7 @@ extension FMSClientTypes {
             targetViolationReason: Swift.String? = nil,
             violationTarget: Swift.String? = nil,
             vpc: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.targetViolationReason = targetViolationReason
             self.violationTarget = violationTarget
@@ -4121,8 +4005,7 @@ extension FMSClientTypes {
         public init(
             description: Swift.String? = nil,
             webACLArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.webACLArn = webACLArn
         }
@@ -4141,8 +4024,7 @@ extension FMSClientTypes {
         public init(
             outOfScopeResourceList: [Swift.String]? = nil,
             webACLArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.outOfScopeResourceList = outOfScopeResourceList
             self.webACLArn = webACLArn
         }
@@ -4233,8 +4115,7 @@ extension FMSClientTypes {
             thirdPartyFirewallMissingSubnetViolation: FMSClientTypes.ThirdPartyFirewallMissingSubnetViolation? = nil,
             webACLHasIncompatibleConfigurationViolation: FMSClientTypes.WebACLHasIncompatibleConfigurationViolation? = nil,
             webACLHasOutOfScopeResourcesViolation: FMSClientTypes.WebACLHasOutOfScopeResourcesViolation? = nil
-        )
-        {
+        ) {
             self.awsEc2InstanceViolation = awsEc2InstanceViolation
             self.awsEc2NetworkInterfaceViolation = awsEc2NetworkInterfaceViolation
             self.awsVPCSecurityGroupViolation = awsVPCSecurityGroupViolation
@@ -4297,8 +4178,7 @@ extension FMSClientTypes {
             resourceTags: [FMSClientTypes.Tag]? = nil,
             resourceType: Swift.String? = nil,
             resourceViolations: [FMSClientTypes.ResourceViolation]? = nil
-        )
-        {
+        ) {
             self.memberAccount = memberAccount
             self.policyId = policyId
             self.resourceDescription = resourceDescription
@@ -4316,8 +4196,7 @@ public struct GetViolationDetailsOutput: Swift.Sendable {
 
     public init(
         violationDetail: FMSClientTypes.ViolationDetail? = nil
-    )
-    {
+    ) {
         self.violationDetail = violationDetail
     }
 }
@@ -4331,8 +4210,7 @@ public struct ListAdminAccountsForOrganizationInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4347,8 +4225,7 @@ public struct ListAdminAccountsForOrganizationOutput: Swift.Sendable {
     public init(
         adminAccounts: [FMSClientTypes.AdminAccountSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccounts = adminAccounts
         self.nextToken = nextToken
     }
@@ -4363,8 +4240,7 @@ public struct ListAdminsManagingAccountInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4379,8 +4255,7 @@ public struct ListAdminsManagingAccountOutput: Swift.Sendable {
     public init(
         adminAccounts: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccounts = adminAccounts
         self.nextToken = nextToken
     }
@@ -4399,8 +4274,7 @@ public struct ListAppsListsInput: Swift.Sendable {
         defaultLists: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultLists = defaultLists
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4416,8 +4290,7 @@ public struct ListAppsListsOutput: Swift.Sendable {
     public init(
         appsLists: [FMSClientTypes.AppsListDataSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appsLists = appsLists
         self.nextToken = nextToken
     }
@@ -4436,8 +4309,7 @@ public struct ListComplianceStatusInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.policyId = policyId
@@ -4488,8 +4360,7 @@ extension FMSClientTypes {
             complianceStatus: FMSClientTypes.PolicyComplianceStatusType? = nil,
             evaluationLimitExceeded: Swift.Bool = false,
             violatorCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.complianceStatus = complianceStatus
             self.evaluationLimitExceeded = evaluationLimitExceeded
             self.violatorCount = violatorCount
@@ -4524,8 +4395,7 @@ extension FMSClientTypes {
             policyId: Swift.String? = nil,
             policyName: Swift.String? = nil,
             policyOwner: Swift.String? = nil
-        )
-        {
+        ) {
             self.evaluationResults = evaluationResults
             self.issueInfoMap = issueInfoMap
             self.lastUpdated = lastUpdated
@@ -4546,8 +4416,7 @@ public struct ListComplianceStatusOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policyComplianceStatusList: [FMSClientTypes.PolicyComplianceStatus]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.policyComplianceStatusList = policyComplianceStatusList
     }
@@ -4570,8 +4439,7 @@ public struct ListDiscoveredResourcesInput: Swift.Sendable {
         memberAccountIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.memberAccountIds = memberAccountIds
         self.nextToken = nextToken
@@ -4597,8 +4465,7 @@ extension FMSClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.name = name
             self.type = type
@@ -4616,8 +4483,7 @@ public struct ListDiscoveredResourcesOutput: Swift.Sendable {
     public init(
         items: [FMSClientTypes.DiscoveredResource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4632,8 +4498,7 @@ public struct ListMemberAccountsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4648,8 +4513,7 @@ public struct ListMemberAccountsOutput: Swift.Sendable {
     public init(
         memberAccounts: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberAccounts = memberAccounts
         self.nextToken = nextToken
     }
@@ -4664,8 +4528,7 @@ public struct ListPoliciesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4705,8 +4568,7 @@ extension FMSClientTypes {
             remediationEnabled: Swift.Bool = false,
             resourceType: Swift.String? = nil,
             securityServiceType: FMSClientTypes.SecurityServiceType? = nil
-        )
-        {
+        ) {
             self.deleteUnusedFMManagedResources = deleteUnusedFMManagedResources
             self.policyArn = policyArn
             self.policyId = policyId
@@ -4728,8 +4590,7 @@ public struct ListPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policyList: [FMSClientTypes.PolicySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.policyList = policyList
     }
@@ -4748,8 +4609,7 @@ public struct ListProtocolsListsInput: Swift.Sendable {
         defaultLists: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultLists = defaultLists
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4774,8 +4634,7 @@ extension FMSClientTypes {
             listId: Swift.String? = nil,
             listName: Swift.String? = nil,
             protocolsList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.listArn = listArn
             self.listId = listId
             self.listName = listName
@@ -4793,8 +4652,7 @@ public struct ListProtocolsListsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         protocolsLists: [FMSClientTypes.ProtocolsListDataSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.protocolsLists = protocolsLists
     }
@@ -4813,8 +4671,7 @@ public struct ListResourceSetResourcesInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4834,8 +4691,7 @@ extension FMSClientTypes {
         public init(
             accountId: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.uri = uri
         }
@@ -4852,8 +4708,7 @@ public struct ListResourceSetResourcesOutput: Swift.Sendable {
     public init(
         items: [FMSClientTypes.Resource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4868,8 +4723,7 @@ public struct ListResourceSetsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4900,8 +4754,7 @@ extension FMSClientTypes {
             lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             resourceSetStatus: FMSClientTypes.ResourceSetStatus? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
             self.lastUpdateTime = lastUpdateTime
@@ -4920,8 +4773,7 @@ public struct ListResourceSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceSets: [FMSClientTypes.ResourceSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceSets = resourceSets
     }
@@ -4934,8 +4786,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4946,8 +4797,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [FMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -4966,8 +4816,7 @@ public struct ListThirdPartyFirewallFirewallPoliciesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         thirdPartyFirewall: FMSClientTypes.ThirdPartyFirewall? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.thirdPartyFirewall = thirdPartyFirewall
@@ -4986,8 +4835,7 @@ extension FMSClientTypes {
         public init(
             firewallPolicyId: Swift.String? = nil,
             firewallPolicyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.firewallPolicyId = firewallPolicyId
             self.firewallPolicyName = firewallPolicyName
         }
@@ -5003,8 +4851,7 @@ public struct ListThirdPartyFirewallFirewallPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         thirdPartyFirewallFirewallPolicies: [FMSClientTypes.ThirdPartyFirewallFirewallPolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.thirdPartyFirewallFirewallPolicies = thirdPartyFirewallFirewallPolicies
     }
@@ -5020,8 +4867,7 @@ public struct PutAdminAccountInput: Swift.Sendable {
     public init(
         adminAccount: Swift.String? = nil,
         adminScope: FMSClientTypes.AdminScope? = nil
-    )
-    {
+    ) {
         self.adminAccount = adminAccount
         self.adminScope = adminScope
     }
@@ -5037,8 +4883,7 @@ public struct PutAppsListInput: Swift.Sendable {
     public init(
         appsList: FMSClientTypes.AppsListData? = nil,
         tagList: [FMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appsList = appsList
         self.tagList = tagList
     }
@@ -5053,8 +4898,7 @@ public struct PutAppsListOutput: Swift.Sendable {
     public init(
         appsList: FMSClientTypes.AppsListData? = nil,
         appsListArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appsList = appsList
         self.appsListArn = appsListArn
     }
@@ -5071,8 +4915,7 @@ public struct PutNotificationChannelInput: Swift.Sendable {
     public init(
         snsRoleName: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.snsRoleName = snsRoleName
         self.snsTopicArn = snsTopicArn
     }
@@ -5088,8 +4931,7 @@ public struct PutPolicyInput: Swift.Sendable {
     public init(
         policy: FMSClientTypes.Policy? = nil,
         tagList: [FMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.tagList = tagList
     }
@@ -5104,8 +4946,7 @@ public struct PutPolicyOutput: Swift.Sendable {
     public init(
         policy: FMSClientTypes.Policy? = nil,
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.policyArn = policyArn
     }
@@ -5121,8 +4962,7 @@ public struct PutProtocolsListInput: Swift.Sendable {
     public init(
         protocolsList: FMSClientTypes.ProtocolsListData? = nil,
         tagList: [FMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.protocolsList = protocolsList
         self.tagList = tagList
     }
@@ -5137,8 +4977,7 @@ public struct PutProtocolsListOutput: Swift.Sendable {
     public init(
         protocolsList: FMSClientTypes.ProtocolsListData? = nil,
         protocolsListArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.protocolsList = protocolsList
         self.protocolsListArn = protocolsListArn
     }
@@ -5154,8 +4993,7 @@ public struct PutResourceSetInput: Swift.Sendable {
     public init(
         resourceSet: FMSClientTypes.ResourceSet? = nil,
         tagList: [FMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceSet = resourceSet
         self.tagList = tagList
     }
@@ -5172,8 +5010,7 @@ public struct PutResourceSetOutput: Swift.Sendable {
     public init(
         resourceSet: FMSClientTypes.ResourceSet? = nil,
         resourceSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceSet = resourceSet
         self.resourceSetArn = resourceSetArn
     }
@@ -5190,8 +5027,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagList: [FMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagList = tagList
     }
@@ -5213,8 +5049,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

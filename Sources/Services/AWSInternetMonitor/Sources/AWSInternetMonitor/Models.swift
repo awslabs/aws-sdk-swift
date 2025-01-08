@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -68,8 +67,7 @@ extension InternetMonitorClientTypes {
             experienceScore: Swift.Double? = nil,
             percentOfClientLocationImpacted: Swift.Double? = nil,
             percentOfTotalTrafficImpacted: Swift.Double? = nil
-        )
-        {
+        ) {
             self.experienceScore = experienceScore
             self.percentOfClientLocationImpacted = percentOfClientLocationImpacted
             self.percentOfTotalTrafficImpacted = percentOfTotalTrafficImpacted
@@ -95,8 +93,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +134,7 @@ extension InternetMonitorClientTypes {
             longitude: Swift.Double? = nil,
             metro: Swift.String? = nil,
             subdivision: Swift.String? = nil
-        )
-        {
+        ) {
             self.asName = asName
             self.asNumber = asNumber
             self.city = city
@@ -169,8 +165,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -193,8 +188,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -217,8 +211,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -241,8 +234,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -265,8 +257,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -315,8 +306,7 @@ extension InternetMonitorClientTypes {
             healthScoreThreshold: Swift.Double = 0.0,
             minTrafficImpact: Swift.Double = 0.0,
             status: InternetMonitorClientTypes.LocalHealthEventsConfigStatus? = nil
-        )
-        {
+        ) {
             self.healthScoreThreshold = healthScoreThreshold
             self.minTrafficImpact = minTrafficImpact
             self.status = status
@@ -342,8 +332,7 @@ extension InternetMonitorClientTypes {
             availabilityScoreThreshold: Swift.Double = 0.0,
             performanceLocalHealthEventsConfig: InternetMonitorClientTypes.LocalHealthEventsConfig? = nil,
             performanceScoreThreshold: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.availabilityLocalHealthEventsConfig = availabilityLocalHealthEventsConfig
             self.availabilityScoreThreshold = availabilityScoreThreshold
             self.performanceLocalHealthEventsConfig = performanceLocalHealthEventsConfig
@@ -396,8 +385,7 @@ extension InternetMonitorClientTypes {
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             logDeliveryStatus: InternetMonitorClientTypes.LogDeliveryStatus? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
             self.logDeliveryStatus = logDeliveryStatus
@@ -414,8 +402,7 @@ extension InternetMonitorClientTypes {
 
         public init(
             s3Config: InternetMonitorClientTypes.S3Config? = nil
-        )
-        {
+        ) {
             self.s3Config = s3Config
         }
     }
@@ -449,8 +436,7 @@ public struct CreateMonitorInput: Swift.Sendable {
         resources: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         trafficPercentageToMonitor: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.healthEventsConfig = healthEventsConfig
         self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
@@ -508,8 +494,7 @@ public struct CreateMonitorOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         status: InternetMonitorClientTypes.MonitorConfigState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.status = status
     }
@@ -522,8 +507,7 @@ public struct DeleteMonitorInput: Swift.Sendable {
 
     public init(
         monitorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
     }
 }
@@ -577,8 +561,7 @@ extension InternetMonitorClientTypes {
             field: Swift.String? = nil,
             `operator`: InternetMonitorClientTypes.Operator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.field = field
             self.`operator` = `operator`
             self.values = values
@@ -600,8 +583,7 @@ public struct GetHealthEventInput: Swift.Sendable {
         eventId: Swift.String? = nil,
         linkedAccountId: Swift.String? = nil,
         monitorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventId = eventId
         self.linkedAccountId = linkedAccountId
         self.monitorName = monitorName
@@ -622,8 +604,7 @@ extension InternetMonitorClientTypes {
         public init(
             asName: Swift.String? = nil,
             asNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.asName = asName
             self.asNumber = asNumber
         }
@@ -677,8 +658,7 @@ extension InternetMonitorClientTypes {
             asPath: [InternetMonitorClientTypes.Network]? = nil,
             networkEventType: InternetMonitorClientTypes.TriangulationEventType? = nil,
             networks: [InternetMonitorClientTypes.Network]? = nil
-        )
-        {
+        ) {
             self.asPath = asPath
             self.networkEventType = networkEventType
             self.networks = networks
@@ -701,8 +681,7 @@ extension InternetMonitorClientTypes {
             p50: Swift.Double? = nil,
             p90: Swift.Double? = nil,
             p95: Swift.Double? = nil
-        )
-        {
+        ) {
             self.p50 = p50
             self.p90 = p90
             self.p95 = p95
@@ -728,8 +707,7 @@ extension InternetMonitorClientTypes {
             percentOfClientLocationImpacted: Swift.Double? = nil,
             percentOfTotalTrafficImpacted: Swift.Double? = nil,
             roundTripTime: InternetMonitorClientTypes.RoundTripTime? = nil
-        )
-        {
+        ) {
             self.experienceScore = experienceScore
             self.percentOfClientLocationImpacted = percentOfClientLocationImpacted
             self.percentOfTotalTrafficImpacted = percentOfTotalTrafficImpacted
@@ -750,8 +728,7 @@ extension InternetMonitorClientTypes {
         public init(
             availability: InternetMonitorClientTypes.AvailabilityMeasurement? = nil,
             performance: InternetMonitorClientTypes.PerformanceMeasurement? = nil
-        )
-        {
+        ) {
             self.availability = availability
             self.performance = performance
         }
@@ -842,8 +819,7 @@ extension InternetMonitorClientTypes {
             status: InternetMonitorClientTypes.HealthEventStatus? = nil,
             subdivision: Swift.String? = nil,
             subdivisionCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.asName = asName
             self.asNumber = asNumber
             self.causedBy = causedBy
@@ -941,8 +917,7 @@ public struct GetHealthEventOutput: Swift.Sendable {
         percentOfTotalTrafficImpacted: Swift.Double? = nil,
         startedAt: Foundation.Date? = nil,
         status: InternetMonitorClientTypes.HealthEventStatus? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.endedAt = endedAt
         self.eventArn = eventArn
@@ -964,8 +939,7 @@ public struct GetInternetEventInput: Swift.Sendable {
 
     public init(
         eventId: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventId = eventId
     }
 }
@@ -1058,8 +1032,7 @@ public struct GetInternetEventOutput: Swift.Sendable {
         eventStatus: InternetMonitorClientTypes.InternetEventStatus? = nil,
         eventType: InternetMonitorClientTypes.InternetEventType? = nil,
         startedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.clientLocation = clientLocation
         self.endedAt = endedAt
         self.eventArn = eventArn
@@ -1080,8 +1053,7 @@ public struct GetMonitorInput: Swift.Sendable {
     public init(
         linkedAccountId: Swift.String? = nil,
         monitorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.linkedAccountId = linkedAccountId
         self.monitorName = monitorName
     }
@@ -1176,8 +1148,7 @@ public struct GetMonitorOutput: Swift.Sendable {
         status: InternetMonitorClientTypes.MonitorConfigState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         trafficPercentageToMonitor: Swift.Int? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.healthEventsConfig = healthEventsConfig
         self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
@@ -1211,8 +1182,7 @@ public struct GetQueryResultsInput: Swift.Sendable {
         monitorName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.monitorName = monitorName
         self.nextToken = nextToken
@@ -1232,8 +1202,7 @@ extension InternetMonitorClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -1254,8 +1223,7 @@ public struct GetQueryResultsOutput: Swift.Sendable {
         data: [[Swift.String]]? = nil,
         fields: [InternetMonitorClientTypes.QueryField]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.data = data
         self.fields = fields
         self.nextToken = nextToken
@@ -1273,8 +1241,7 @@ public struct GetQueryStatusInput: Swift.Sendable {
     public init(
         monitorName: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
         self.queryId = queryId
     }
@@ -1325,8 +1292,7 @@ public struct GetQueryStatusOutput: Swift.Sendable {
 
     public init(
         status: InternetMonitorClientTypes.QueryStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -1377,8 +1343,7 @@ extension InternetMonitorClientTypes {
             percentOfTotalTrafficImpacted: Swift.Double? = nil,
             startedAt: Foundation.Date? = nil,
             status: InternetMonitorClientTypes.HealthEventStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.endedAt = endedAt
             self.eventArn = eventArn
@@ -1419,8 +1384,7 @@ public struct ListHealthEventsInput: Swift.Sendable {
         monitorName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.eventStatus = eventStatus
         self.linkedAccountId = linkedAccountId
@@ -1441,8 +1405,7 @@ public struct ListHealthEventsOutput: Swift.Sendable {
     public init(
         healthEvents: [InternetMonitorClientTypes.HealthEvent]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthEvents = healthEvents
         self.nextToken = nextToken
     }
@@ -1466,8 +1429,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1493,8 +1455,7 @@ public struct ListInternetEventsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.eventStatus = eventStatus
         self.eventType = eventType
@@ -1537,8 +1498,7 @@ extension InternetMonitorClientTypes {
             eventStatus: InternetMonitorClientTypes.InternetEventStatus? = nil,
             eventType: InternetMonitorClientTypes.InternetEventType? = nil,
             startedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.clientLocation = clientLocation
             self.endedAt = endedAt
             self.eventArn = eventArn
@@ -1560,8 +1520,7 @@ public struct ListInternetEventsOutput: Swift.Sendable {
     public init(
         internetEvents: [InternetMonitorClientTypes.InternetEventSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.internetEvents = internetEvents
         self.nextToken = nextToken
     }
@@ -1585,8 +1544,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1609,8 +1567,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1622,8 +1579,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1634,8 +1590,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1655,8 +1610,7 @@ public struct ListMonitorsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         monitorStatus: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeLinkedAccounts = includeLinkedAccounts
         self.maxResults = maxResults
         self.monitorStatus = monitorStatus
@@ -1685,8 +1639,7 @@ extension InternetMonitorClientTypes {
             monitorName: Swift.String? = nil,
             processingStatus: InternetMonitorClientTypes.MonitorProcessingStatusCode? = nil,
             status: InternetMonitorClientTypes.MonitorConfigState? = nil
-        )
-        {
+        ) {
             self.monitorArn = monitorArn
             self.monitorName = monitorName
             self.processingStatus = processingStatus
@@ -1705,8 +1658,7 @@ public struct ListMonitorsOutput: Swift.Sendable {
     public init(
         monitors: [InternetMonitorClientTypes.Monitor]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitors = monitors
         self.nextToken = nextToken
     }
@@ -1793,8 +1745,7 @@ public struct StartQueryInput: Swift.Sendable {
         monitorName: Swift.String? = nil,
         queryType: InternetMonitorClientTypes.QueryType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.filterParameters = filterParameters
         self.linkedAccountId = linkedAccountId
@@ -1811,8 +1762,7 @@ public struct StartQueryOutput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -1828,8 +1778,7 @@ public struct StopQueryInput: Swift.Sendable {
     public init(
         monitorName: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
         self.queryId = queryId
     }
@@ -1858,8 +1807,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1895,8 +1843,7 @@ public struct UpdateMonitorInput: Swift.Sendable {
         resourcesToRemove: [Swift.String]? = nil,
         status: InternetMonitorClientTypes.MonitorConfigState? = nil,
         trafficPercentageToMonitor: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.healthEventsConfig = healthEventsConfig
         self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
@@ -1920,8 +1867,7 @@ public struct UpdateMonitorOutput: Swift.Sendable {
     public init(
         monitorArn: Swift.String? = nil,
         status: InternetMonitorClientTypes.MonitorConfigState? = nil
-    )
-    {
+    ) {
         self.monitorArn = monitorArn
         self.status = status
     }
@@ -1938,8 +1884,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1961,8 +1906,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

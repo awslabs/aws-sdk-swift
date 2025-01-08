@@ -48,8 +48,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -73,8 +72,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -98,8 +96,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -123,8 +120,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -148,8 +144,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -173,8 +168,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -198,8 +192,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -218,8 +211,7 @@ extension MedicalImagingClientTypes {
         public init(
             imageSetId: Swift.String? = nil,
             latestVersionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageSetId = imageSetId
             self.latestVersionId = latestVersionId
         }
@@ -236,8 +228,7 @@ extension MedicalImagingClientTypes {
 
         public init(
             copiableAttributes: Swift.String? = nil
-        )
-        {
+        ) {
             self.copiableAttributes = copiableAttributes
         }
     }
@@ -261,8 +252,7 @@ extension MedicalImagingClientTypes {
         public init(
             dicomCopies: MedicalImagingClientTypes.MetadataCopies? = nil,
             latestVersionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dicomCopies = dicomCopies
             self.latestVersionId = latestVersionId
         }
@@ -282,8 +272,7 @@ extension MedicalImagingClientTypes {
         public init(
             destinationImageSet: MedicalImagingClientTypes.CopyDestinationImageSet? = nil,
             sourceImageSet: MedicalImagingClientTypes.CopySourceImageSetInformation? = nil
-        )
-        {
+        ) {
             self.destinationImageSet = destinationImageSet
             self.sourceImageSet = sourceImageSet
         }
@@ -308,8 +297,7 @@ public struct CopyImageSetInput: Swift.Sendable {
         datastoreId: Swift.String? = nil,
         force: Swift.Bool? = nil,
         sourceImageSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.copyImageSetInformation = copyImageSetInformation
         self.datastoreId = datastoreId
         self.force = force
@@ -431,8 +419,7 @@ extension MedicalImagingClientTypes {
             imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
             latestVersionId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.imageSetArn = imageSetArn
             self.imageSetId = imageSetId
@@ -473,8 +460,7 @@ extension MedicalImagingClientTypes {
             imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
             latestVersionId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.imageSetArn = imageSetArn
             self.imageSetId = imageSetId
@@ -501,8 +487,7 @@ public struct CopyImageSetOutput: Swift.Sendable {
         datastoreId: Swift.String? = nil,
         destinationImageSetProperties: MedicalImagingClientTypes.CopyDestinationImageSetProperties? = nil,
         sourceImageSetProperties: MedicalImagingClientTypes.CopySourceImageSetProperties? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.destinationImageSetProperties = destinationImageSetProperties
         self.sourceImageSetProperties = sourceImageSetProperties
@@ -525,8 +510,7 @@ public struct CreateDatastoreInput: Swift.Sendable {
         datastoreName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datastoreName = datastoreName
         self.kmsKeyArn = kmsKeyArn
@@ -583,8 +567,7 @@ public struct CreateDatastoreOutput: Swift.Sendable {
     public init(
         datastoreId: Swift.String? = nil,
         datastoreStatus: MedicalImagingClientTypes.DatastoreStatus? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.datastoreStatus = datastoreStatus
     }
@@ -597,8 +580,7 @@ public struct DeleteDatastoreInput: Swift.Sendable {
 
     public init(
         datastoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
     }
 }
@@ -614,8 +596,7 @@ public struct DeleteDatastoreOutput: Swift.Sendable {
     public init(
         datastoreId: Swift.String? = nil,
         datastoreStatus: MedicalImagingClientTypes.DatastoreStatus? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.datastoreStatus = datastoreStatus
     }
@@ -628,8 +609,7 @@ public struct GetDatastoreInput: Swift.Sendable {
 
     public init(
         datastoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
     }
 }
@@ -664,8 +644,7 @@ extension MedicalImagingClientTypes {
             datastoreStatus: MedicalImagingClientTypes.DatastoreStatus? = nil,
             kmsKeyArn: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
             self.datastoreId = datastoreId
@@ -684,8 +663,7 @@ public struct GetDatastoreOutput: Swift.Sendable {
 
     public init(
         datastoreProperties: MedicalImagingClientTypes.DatastoreProperties? = nil
-    )
-    {
+    ) {
         self.datastoreProperties = datastoreProperties
     }
 }
@@ -702,8 +680,7 @@ public struct ListDatastoresInput: Swift.Sendable {
         datastoreStatus: MedicalImagingClientTypes.DatastoreStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreStatus = datastoreStatus
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -737,8 +714,7 @@ extension MedicalImagingClientTypes {
             datastoreName: Swift.String? = nil,
             datastoreStatus: MedicalImagingClientTypes.DatastoreStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
             self.datastoreId = datastoreId
@@ -758,8 +734,7 @@ public struct ListDatastoresOutput: Swift.Sendable {
     public init(
         datastoreSummaries: [MedicalImagingClientTypes.DatastoreSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreSummaries = datastoreSummaries
         self.nextToken = nextToken
     }
@@ -776,8 +751,7 @@ public struct DeleteImageSetInput: Swift.Sendable {
     public init(
         datastoreId: Swift.String? = nil,
         imageSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.imageSetId = imageSetId
     }
@@ -802,8 +776,7 @@ public struct DeleteImageSetOutput: Swift.Sendable {
         imageSetId: Swift.String? = nil,
         imageSetState: MedicalImagingClientTypes.ImageSetState? = nil,
         imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.imageSetId = imageSetId
         self.imageSetState = imageSetState
@@ -822,8 +795,7 @@ public struct GetDICOMImportJobInput: Swift.Sendable {
     public init(
         datastoreId: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.jobId = jobId
     }
@@ -907,8 +879,7 @@ extension MedicalImagingClientTypes {
             message: Swift.String? = nil,
             outputS3Uri: Swift.String? = nil,
             submittedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
             self.endedAt = endedAt
@@ -930,8 +901,7 @@ public struct GetDICOMImportJobOutput: Swift.Sendable {
 
     public init(
         jobProperties: MedicalImagingClientTypes.DICOMImportJobProperties? = nil
-    )
-    {
+    ) {
         self.jobProperties = jobProperties
     }
 }
@@ -946,8 +916,7 @@ extension MedicalImagingClientTypes {
 
         public init(
             imageFrameId: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageFrameId = imageFrameId
         }
     }
@@ -968,8 +937,7 @@ public struct GetImageFrameInput: Swift.Sendable {
         datastoreId: Swift.String? = nil,
         imageFrameInformation: MedicalImagingClientTypes.ImageFrameInformation? = nil,
         imageSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.imageFrameInformation = imageFrameInformation
         self.imageSetId = imageSetId
@@ -986,8 +954,7 @@ public struct GetImageFrameOutput: Swift.Sendable {
     public init(
         contentType: Swift.String? = nil,
         imageFrameBlob: Smithy.ByteStream? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.imageFrameBlob = imageFrameBlob
     }
@@ -1007,8 +974,7 @@ public struct GetImageSetInput: Swift.Sendable {
         datastoreId: Swift.String? = nil,
         imageSetId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.imageSetId = imageSetId
         self.versionId = versionId
@@ -1024,8 +990,7 @@ extension MedicalImagingClientTypes {
 
         public init(
             forced: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.forced = forced
         }
     }
@@ -1071,8 +1036,7 @@ public struct GetImageSetOutput: Swift.Sendable {
         overrides: MedicalImagingClientTypes.Overrides? = nil,
         updatedAt: Foundation.Date? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.datastoreId = datastoreId
         self.deletedAt = deletedAt
@@ -1101,8 +1065,7 @@ public struct GetImageSetMetadataInput: Swift.Sendable {
         datastoreId: Swift.String? = nil,
         imageSetId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.imageSetId = imageSetId
         self.versionId = versionId
@@ -1122,8 +1085,7 @@ public struct GetImageSetMetadataOutput: Swift.Sendable {
         contentEncoding: Swift.String? = nil,
         contentType: Swift.String? = nil,
         imageSetMetadataBlob: Smithy.ByteStream? = nil
-    )
-    {
+    ) {
         self.contentEncoding = contentEncoding
         self.contentType = contentType
         self.imageSetMetadataBlob = imageSetMetadataBlob
@@ -1146,8 +1108,7 @@ public struct ListDICOMImportJobsInput: Swift.Sendable {
         jobStatus: MedicalImagingClientTypes.JobStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.jobStatus = jobStatus
         self.maxResults = maxResults
@@ -1189,8 +1150,7 @@ extension MedicalImagingClientTypes {
             jobStatus: MedicalImagingClientTypes.JobStatus? = nil,
             message: Swift.String? = nil,
             submittedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
             self.endedAt = endedAt
@@ -1213,8 +1173,7 @@ public struct ListDICOMImportJobsOutput: Swift.Sendable {
     public init(
         jobSummaries: [MedicalImagingClientTypes.DICOMImportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobSummaries = jobSummaries
         self.nextToken = nextToken
     }
@@ -1237,8 +1196,7 @@ public struct ListImageSetVersionsInput: Swift.Sendable {
         imageSetId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.imageSetId = imageSetId
         self.maxResults = maxResults
@@ -1282,8 +1240,7 @@ extension MedicalImagingClientTypes {
             overrides: MedicalImagingClientTypes.Overrides? = nil,
             updatedAt: Foundation.Date? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
             self.imageSetId = imageSetId
@@ -1307,8 +1264,7 @@ public struct ListImageSetVersionsOutput: Swift.Sendable {
     public init(
         imageSetPropertiesList: [MedicalImagingClientTypes.ImageSetProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageSetPropertiesList = imageSetPropertiesList
         self.nextToken = nextToken
     }
@@ -1321,8 +1277,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1334,8 +1289,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1382,8 +1336,7 @@ extension MedicalImagingClientTypes {
         public init(
             dicomStudyDate: Swift.String? = nil,
             dicomStudyTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.dicomStudyDate = dicomStudyDate
             self.dicomStudyTime = dicomStudyTime
         }
@@ -1433,8 +1386,7 @@ extension MedicalImagingClientTypes {
         public init(
             `operator`: MedicalImagingClientTypes.Operator? = nil,
             values: [MedicalImagingClientTypes.SearchByAttributeValue]? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.values = values
         }
@@ -1516,8 +1468,7 @@ extension MedicalImagingClientTypes {
         public init(
             sortField: MedicalImagingClientTypes.SortField? = nil,
             sortOrder: MedicalImagingClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortField = sortField
             self.sortOrder = sortOrder
         }
@@ -1536,8 +1487,7 @@ extension MedicalImagingClientTypes {
         public init(
             filters: [MedicalImagingClientTypes.SearchFilter]? = nil,
             sort: MedicalImagingClientTypes.Sort? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.sort = sort
         }
@@ -1566,8 +1516,7 @@ public struct SearchImageSetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchCriteria: MedicalImagingClientTypes.SearchCriteria? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1634,8 +1583,7 @@ extension MedicalImagingClientTypes {
             dicomStudyId: Swift.String? = nil,
             dicomStudyInstanceUID: Swift.String? = nil,
             dicomStudyTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.dicomAccessionNumber = dicomAccessionNumber
             self.dicomNumberOfStudyRelatedInstances = dicomNumberOfStudyRelatedInstances
             self.dicomNumberOfStudyRelatedSeries = dicomNumberOfStudyRelatedSeries
@@ -1683,8 +1631,7 @@ extension MedicalImagingClientTypes {
             imageSetId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.dicomTags = dicomTags
             self.imageSetId = imageSetId
@@ -1707,8 +1654,7 @@ public struct SearchImageSetsOutput: Swift.Sendable {
         imageSetsMetadataSummaries: [MedicalImagingClientTypes.ImageSetsMetadataSummary]? = nil,
         nextToken: Swift.String? = nil,
         sort: MedicalImagingClientTypes.Sort? = nil
-    )
-    {
+    ) {
         self.imageSetsMetadataSummaries = imageSetsMetadataSummaries
         self.nextToken = nextToken
         self.sort = sort
@@ -1744,8 +1690,7 @@ public struct StartDICOMImportJobInput: Swift.Sendable {
         inputS3Uri: Swift.String? = nil,
         jobName: Swift.String? = nil,
         outputS3Uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.datastoreId = datastoreId
@@ -1775,8 +1720,7 @@ public struct StartDICOMImportJobOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         jobStatus: MedicalImagingClientTypes.JobStatus? = nil,
         submittedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -1795,8 +1739,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1818,8 +1761,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1842,8 +1784,7 @@ extension MedicalImagingClientTypes {
         public init(
             removableAttributes: Foundation.Data? = nil,
             updatableAttributes: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.removableAttributes = removableAttributes
             self.updatableAttributes = updatableAttributes
         }
@@ -1893,8 +1834,7 @@ public struct UpdateImageSetMetadataInput: Swift.Sendable {
         imageSetId: Swift.String? = nil,
         latestVersionId: Swift.String? = nil,
         updateImageSetMetadataUpdates: MedicalImagingClientTypes.MetadataUpdates? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.force = force
         self.imageSetId = imageSetId
@@ -1934,8 +1874,7 @@ public struct UpdateImageSetMetadataOutput: Swift.Sendable {
         latestVersionId: Swift.String? = nil,
         message: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.datastoreId = datastoreId
         self.imageSetId = imageSetId

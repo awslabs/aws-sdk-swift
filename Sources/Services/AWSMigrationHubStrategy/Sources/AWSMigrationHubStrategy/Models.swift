@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -197,8 +196,7 @@ extension MigrationHubStrategyClientTypes {
             ipAddress: Swift.String? = nil,
             source: Swift.String? = nil,
             vmId: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
             self.ipAddress = ipAddress
             self.source = source
@@ -335,8 +333,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3key: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3key = s3key
         }
@@ -393,8 +390,7 @@ extension MigrationHubStrategyClientTypes {
             antiPatternReportS3Object: MigrationHubStrategyClientTypes.S3Object? = nil,
             antipatternReportStatus: MigrationHubStrategyClientTypes.AntipatternReportStatus? = nil,
             antipatternReportStatusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.analyzerName = analyzerName
             self.antiPatternReportS3Object = antiPatternReportS3Object
             self.antipatternReportStatus = antipatternReportStatus
@@ -447,8 +443,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             count: Swift.Int? = nil,
             severity: MigrationHubStrategyClientTypes.Severity? = nil
-        )
-        {
+        ) {
             self.count = count
             self.severity = severity
         }
@@ -638,8 +633,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             appUnitErrorCategory: MigrationHubStrategyClientTypes.AppUnitErrorCategory? = nil
-        )
-        {
+        ) {
             self.appUnitErrorCategory = appUnitErrorCategory
         }
     }
@@ -654,8 +648,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             secretName: Swift.String? = nil
-        )
-        {
+        ) {
             self.secretName = secretName
         }
     }
@@ -867,8 +860,7 @@ extension MigrationHubStrategyClientTypes {
             description: Swift.String? = nil,
             name: MigrationHubStrategyClientTypes.TransformationToolName? = nil,
             tranformationToolInstallationLink: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.tranformationToolInstallationLink = tranformationToolInstallationLink
@@ -891,8 +883,7 @@ extension MigrationHubStrategyClientTypes {
             strategy: MigrationHubStrategyClientTypes.Strategy? = nil,
             targetDestination: MigrationHubStrategyClientTypes.TargetDestination? = nil,
             transformationTool: MigrationHubStrategyClientTypes.TransformationTool? = nil
-        )
-        {
+        ) {
             self.strategy = strategy
             self.targetDestination = targetDestination
             self.transformationTool = transformationTool
@@ -950,8 +941,7 @@ extension MigrationHubStrategyClientTypes {
             analysisType: MigrationHubStrategyClientTypes.AnalysisType? = nil,
             antipatternReportResultList: [MigrationHubStrategyClientTypes.AntipatternReportResult]? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.analysisStatus = analysisStatus
             self.analysisType = analysisType
             self.antipatternReportResultList = antipatternReportResultList
@@ -978,8 +968,7 @@ extension MigrationHubStrategyClientTypes {
             projectName: Swift.String? = nil,
             repository: Swift.String? = nil,
             versionControlType: Swift.String? = nil
-        )
-        {
+        ) {
             self.branch = branch
             self.projectName = projectName
             self.repository = repository
@@ -1063,8 +1052,7 @@ extension MigrationHubStrategyClientTypes {
             runtimeStatusMessage: Swift.String? = nil,
             sourceCodeRepositories: [MigrationHubStrategyClientTypes.SourceCodeRepository]? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.analysisStatus = analysisStatus
             self.antipatternReportS3Object = antipatternReportS3Object
             self.antipatternReportStatus = antipatternReportStatus
@@ -1104,8 +1092,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             count: Swift.Int? = nil,
             srcCodeOrDbAnalysisStatus: MigrationHubStrategyClientTypes.SrcCodeOrDbAnalysisStatus? = nil
-        )
-        {
+        ) {
             self.count = count
             self.srcCodeOrDbAnalysisStatus = srcCodeOrDbAnalysisStatus
         }
@@ -1162,8 +1149,7 @@ extension MigrationHubStrategyClientTypes {
             isPreferred: Swift.Bool? = nil,
             recommendation: MigrationHubStrategyClientTypes.RecommendationSet? = nil,
             status: MigrationHubStrategyClientTypes.StrategyRecommendation? = nil
-        )
-        {
+        ) {
             self.isPreferred = isPreferred
             self.recommendation = recommendation
             self.status = status
@@ -1183,8 +1169,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             appType: MigrationHubStrategyClientTypes.AppType? = nil,
             count: Swift.Int? = nil
-        )
-        {
+        ) {
             self.appType = appType
             self.count = count
         }
@@ -1265,8 +1250,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             targetDestination: [MigrationHubStrategyClientTypes.AwsManagedTargetDestination]? = nil
-        )
-        {
+        ) {
             self.targetDestination = targetDestination
         }
     }
@@ -1323,8 +1307,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             targetDestination: [MigrationHubStrategyClientTypes.NoPreferenceTargetDestination]? = nil
-        )
-        {
+        ) {
             self.targetDestination = targetDestination
         }
     }
@@ -1375,8 +1358,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             targetDestination: [MigrationHubStrategyClientTypes.SelfManageTargetDestination]? = nil
-        )
-        {
+        ) {
             self.targetDestination = targetDestination
         }
     }
@@ -1405,8 +1387,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             managementPreference: MigrationHubStrategyClientTypes.ManagementPreference? = nil
-        )
-        {
+        ) {
             self.managementPreference = managementPreference
         }
     }
@@ -1491,8 +1472,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             count: Swift.Int? = nil,
             strategy: MigrationHubStrategyClientTypes.Strategy? = nil
-        )
-        {
+        ) {
             self.count = count
             self.strategy = strategy
         }
@@ -1555,8 +1535,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             count: Swift.Int? = nil,
             runTimeAssessmentStatus: MigrationHubStrategyClientTypes.RunTimeAssessmentStatus? = nil
-        )
-        {
+        ) {
             self.count = count
             self.runTimeAssessmentStatus = runTimeAssessmentStatus
         }
@@ -1613,8 +1592,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             count: Swift.Int? = nil,
             serverOsType: MigrationHubStrategyClientTypes.ServerOsType? = nil
-        )
-        {
+        ) {
             self.count = count
             self.serverOsType = serverOsType
         }
@@ -1660,8 +1638,7 @@ extension MigrationHubStrategyClientTypes {
             listServerStatusSummary: [MigrationHubStrategyClientTypes.ServerStatusSummary]? = nil,
             listServerStrategySummary: [MigrationHubStrategyClientTypes.StrategySummary]? = nil,
             listServerSummary: [MigrationHubStrategyClientTypes.ServerSummary]? = nil
-        )
-        {
+        ) {
             self.antipatternReportS3Object = antipatternReportS3Object
             self.antipatternReportStatus = antipatternReportStatus
             self.antipatternReportStatusMessage = antipatternReportStatusMessage
@@ -1730,8 +1707,7 @@ extension MigrationHubStrategyClientTypes {
             condition: MigrationHubStrategyClientTypes.Condition? = nil,
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.name = name
             self.values = values
@@ -1751,8 +1727,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -1809,8 +1784,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1833,8 +1807,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1857,8 +1830,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1870,8 +1842,7 @@ public struct GetApplicationComponentDetailsInput: Swift.Sendable {
 
     public init(
         applicationComponentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationComponentId = applicationComponentId
     }
 }
@@ -1891,8 +1862,7 @@ public struct GetApplicationComponentDetailsOutput: Swift.Sendable {
         associatedApplications: [MigrationHubStrategyClientTypes.AssociatedApplication]? = nil,
         associatedServerIds: [Swift.String]? = nil,
         moreApplicationResource: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.applicationComponentDetail = applicationComponentDetail
         self.associatedApplications = associatedApplications
         self.associatedServerIds = associatedServerIds
@@ -1907,8 +1877,7 @@ public struct GetApplicationComponentStrategiesInput: Swift.Sendable {
 
     public init(
         applicationComponentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationComponentId = applicationComponentId
     }
 }
@@ -1919,8 +1888,7 @@ public struct GetApplicationComponentStrategiesOutput: Swift.Sendable {
 
     public init(
         applicationComponentStrategies: [MigrationHubStrategyClientTypes.ApplicationComponentStrategy]? = nil
-    )
-    {
+    ) {
         self.applicationComponentStrategies = applicationComponentStrategies
     }
 }
@@ -1932,8 +1900,7 @@ public struct GetAssessmentInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1968,8 +1935,7 @@ extension MigrationHubStrategyClientTypes {
             status: MigrationHubStrategyClientTypes.AssessmentStatus? = nil,
             statusMessage: Swift.String? = nil,
             success: Swift.Int? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.failed = failed
             self.inProgress = inProgress
@@ -1994,8 +1960,7 @@ public struct GetAssessmentOutput: Swift.Sendable {
         assessmentTargets: [MigrationHubStrategyClientTypes.AssessmentTarget]? = nil,
         dataCollectionDetails: MigrationHubStrategyClientTypes.DataCollectionDetails? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTargets = assessmentTargets
         self.dataCollectionDetails = dataCollectionDetails
         self.id = id
@@ -2020,8 +1985,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2033,8 +1997,7 @@ public struct GetImportFileTaskInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2122,8 +2085,7 @@ public struct GetImportFileTaskOutput: Swift.Sendable {
         status: MigrationHubStrategyClientTypes.ImportFileTaskStatus? = nil,
         statusReportS3Bucket: Swift.String? = nil,
         statusReportS3Key: Swift.String? = nil
-    )
-    {
+    ) {
         self.completionTime = completionTime
         self.id = id
         self.importName = importName
@@ -2156,8 +2118,7 @@ public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2173,8 +2134,7 @@ public struct GetLatestAssessmentIdOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2279,8 +2239,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             targetDatabaseEngine: [MigrationHubStrategyClientTypes.HeterogeneousTargetDatabaseEngine]? = nil
-        )
-        {
+        ) {
             self.targetDatabaseEngine = targetDatabaseEngine
         }
     }
@@ -2321,8 +2280,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             targetDatabaseEngine: [MigrationHubStrategyClientTypes.HomogeneousTargetDatabaseEngine]? = nil
-        )
-        {
+        ) {
             self.targetDatabaseEngine = targetDatabaseEngine
         }
     }
@@ -2391,8 +2349,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             targetDatabaseEngine: [MigrationHubStrategyClientTypes.TargetDatabaseEngine]? = nil
-        )
-        {
+        ) {
             self.targetDatabaseEngine = targetDatabaseEngine
         }
     }
@@ -2424,8 +2381,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             databaseManagementPreference: MigrationHubStrategyClientTypes.DatabaseManagementPreference? = nil,
             databaseMigrationPreference: MigrationHubStrategyClientTypes.DatabaseMigrationPreference? = nil
-        )
-        {
+        ) {
             self.databaseManagementPreference = databaseManagementPreference
             self.databaseMigrationPreference = databaseMigrationPreference
         }
@@ -2450,8 +2406,7 @@ extension MigrationHubStrategyClientTypes {
             modernizeInfrastructureWithCloudNativeTechnologies: Swift.Int? = nil,
             reduceOperationalOverheadWithManagedServices: Swift.Int? = nil,
             speedOfMigration: Swift.Int? = nil
-        )
-        {
+        ) {
             self.licenseCostReduction = licenseCostReduction
             self.modernizeInfrastructureWithCloudNativeTechnologies = modernizeInfrastructureWithCloudNativeTechnologies
             self.reduceOperationalOverheadWithManagedServices = reduceOperationalOverheadWithManagedServices
@@ -2469,8 +2424,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             businessGoals: MigrationHubStrategyClientTypes.BusinessGoals? = nil
-        )
-        {
+        ) {
             self.businessGoals = businessGoals
         }
     }
@@ -2491,8 +2445,7 @@ public struct GetPortfolioPreferencesOutput: Swift.Sendable {
         applicationPreferences: MigrationHubStrategyClientTypes.ApplicationPreferences? = nil,
         databasePreferences: MigrationHubStrategyClientTypes.DatabasePreferences? = nil,
         prioritizeBusinessGoals: MigrationHubStrategyClientTypes.PrioritizeBusinessGoals? = nil
-    )
-    {
+    ) {
         self.applicationMode = applicationMode
         self.applicationPreferences = applicationPreferences
         self.databasePreferences = databasePreferences
@@ -2511,8 +2464,7 @@ public struct GetPortfolioSummaryOutput: Swift.Sendable {
 
     public init(
         assessmentSummary: MigrationHubStrategyClientTypes.AssessmentSummary? = nil
-    )
-    {
+    ) {
         self.assessmentSummary = assessmentSummary
     }
 }
@@ -2524,8 +2476,7 @@ public struct GetRecommendationReportDetailsInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2586,8 +2537,7 @@ extension MigrationHubStrategyClientTypes {
             startTime: Foundation.Date? = nil,
             status: MigrationHubStrategyClientTypes.RecommendationReportStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.s3Bucket = s3Bucket
             self.s3Keys = s3Keys
@@ -2607,8 +2557,7 @@ public struct GetRecommendationReportDetailsOutput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         recommendationReportDetails: MigrationHubStrategyClientTypes.RecommendationReportDetails? = nil
-    )
-    {
+    ) {
         self.id = id
         self.recommendationReportDetails = recommendationReportDetails
     }
@@ -2627,8 +2576,7 @@ public struct GetServerDetailsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serverId = serverId
@@ -2682,8 +2630,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             serverErrorCategory: MigrationHubStrategyClientTypes.ServerErrorCategory? = nil
-        )
-        {
+        ) {
             self.serverErrorCategory = serverErrorCategory
         }
     }
@@ -2711,8 +2658,7 @@ extension MigrationHubStrategyClientTypes {
             ipAddress: Swift.String? = nil,
             macAddress: Swift.String? = nil,
             netMask: Swift.String? = nil
-        )
-        {
+        ) {
             self.interfaceName = interfaceName
             self.ipAddress = ipAddress
             self.macAddress = macAddress
@@ -2762,8 +2708,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             type: MigrationHubStrategyClientTypes.OSType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.version = version
         }
@@ -2788,8 +2733,7 @@ extension MigrationHubStrategyClientTypes {
             fileSystemType: Swift.String? = nil,
             networkInfoList: [MigrationHubStrategyClientTypes.NetworkInfo]? = nil,
             osInfo: MigrationHubStrategyClientTypes.OSInfo? = nil
-        )
-        {
+        ) {
             self.cpuArchitecture = cpuArchitecture
             self.fileSystemType = fileSystemType
             self.networkInfoList = networkInfoList
@@ -2846,8 +2790,7 @@ extension MigrationHubStrategyClientTypes {
             serverType: Swift.String? = nil,
             statusMessage: Swift.String? = nil,
             systemInfo: MigrationHubStrategyClientTypes.SystemInfo? = nil
-        )
-        {
+        ) {
             self.antipatternReportS3Object = antipatternReportS3Object
             self.antipatternReportStatus = antipatternReportStatus
             self.antipatternReportStatusMessage = antipatternReportStatusMessage
@@ -2878,8 +2821,7 @@ public struct GetServerDetailsOutput: Swift.Sendable {
         associatedApplications: [MigrationHubStrategyClientTypes.AssociatedApplication]? = nil,
         nextToken: Swift.String? = nil,
         serverDetail: MigrationHubStrategyClientTypes.ServerDetail? = nil
-    )
-    {
+    ) {
         self.associatedApplications = associatedApplications
         self.nextToken = nextToken
         self.serverDetail = serverDetail
@@ -2893,8 +2835,7 @@ public struct GetServerStrategiesInput: Swift.Sendable {
 
     public init(
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
     }
 }
@@ -2917,8 +2858,7 @@ extension MigrationHubStrategyClientTypes {
             numberOfApplicationComponents: Swift.Int? = nil,
             recommendation: MigrationHubStrategyClientTypes.RecommendationSet? = nil,
             status: MigrationHubStrategyClientTypes.StrategyRecommendation? = nil
-        )
-        {
+        ) {
             self.isPreferred = isPreferred
             self.numberOfApplicationComponents = numberOfApplicationComponents
             self.recommendation = recommendation
@@ -2933,8 +2873,7 @@ public struct GetServerStrategiesOutput: Swift.Sendable {
 
     public init(
         serverStrategies: [MigrationHubStrategyClientTypes.ServerStrategy]? = nil
-    )
-    {
+    ) {
         self.serverStrategies = serverStrategies
     }
 }
@@ -2981,8 +2920,7 @@ public struct ListAnalyzableServersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sort: MigrationHubStrategyClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sort = sort
@@ -2999,8 +2937,7 @@ public struct ListAnalyzableServersOutput: Swift.Sendable {
     public init(
         analyzableServers: [MigrationHubStrategyClientTypes.AnalyzableServerSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzableServers = analyzableServers
         self.nextToken = nextToken
     }
@@ -3024,8 +2961,7 @@ public struct ServiceLinkedRoleLockClientException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3071,8 +3007,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             name: MigrationHubStrategyClientTypes.GroupName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -3100,8 +3035,7 @@ public struct ListApplicationComponentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sort: MigrationHubStrategyClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.applicationComponentCriteria = applicationComponentCriteria
         self.filterValue = filterValue
         self.groupIdFilter = groupIdFilter
@@ -3120,8 +3054,7 @@ public struct ListApplicationComponentsOutput: Swift.Sendable {
     public init(
         applicationComponentInfos: [MigrationHubStrategyClientTypes.ApplicationComponentDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationComponentInfos = applicationComponentInfos
         self.nextToken = nextToken
     }
@@ -3136,8 +3069,7 @@ public struct ListCollectorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3187,8 +3119,7 @@ extension MigrationHubStrategyClientTypes {
             authType: MigrationHubStrategyClientTypes.AuthType? = nil,
             ipAddressConfigurationTimeStamp: Swift.String? = nil,
             osType: MigrationHubStrategyClientTypes.OSType? = nil
-        )
-        {
+        ) {
             self.authType = authType
             self.ipAddressConfigurationTimeStamp = ipAddressConfigurationTimeStamp
             self.osType = osType
@@ -3234,8 +3165,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             pipelineConfigurationTimeStamp: Swift.String? = nil,
             pipelineType: MigrationHubStrategyClientTypes.PipelineType? = nil
-        )
-        {
+        ) {
             self.pipelineConfigurationTimeStamp = pipelineConfigurationTimeStamp
             self.pipelineType = pipelineType
         }
@@ -3251,8 +3181,7 @@ extension MigrationHubStrategyClientTypes {
 
         public init(
             remoteSourceCodeAnalysisServerConfigurationTimestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.remoteSourceCodeAnalysisServerConfigurationTimestamp = remoteSourceCodeAnalysisServerConfigurationTimestamp
         }
     }
@@ -3270,8 +3199,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             osType: MigrationHubStrategyClientTypes.OSType? = nil,
             vcenterConfigurationTimeStamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.osType = osType
             self.vcenterConfigurationTimeStamp = vcenterConfigurationTimeStamp
         }
@@ -3322,8 +3250,7 @@ extension MigrationHubStrategyClientTypes {
         public init(
             versionControlConfigurationTimeStamp: Swift.String? = nil,
             versionControlType: MigrationHubStrategyClientTypes.VersionControlType? = nil
-        )
-        {
+        ) {
             self.versionControlConfigurationTimeStamp = versionControlConfigurationTimeStamp
             self.versionControlType = versionControlType
         }
@@ -3351,8 +3278,7 @@ extension MigrationHubStrategyClientTypes {
             remoteSourceCodeAnalysisServerInfo: MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo? = nil,
             vcenterBasedRemoteInfoList: [MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo]? = nil,
             versionControlInfoList: [MigrationHubStrategyClientTypes.VersionControlInfo]? = nil
-        )
-        {
+        ) {
             self.ipAddressBasedRemoteInfoList = ipAddressBasedRemoteInfoList
             self.pipelineInfoList = pipelineInfoList
             self.remoteSourceCodeAnalysisServerInfo = remoteSourceCodeAnalysisServerInfo
@@ -3392,8 +3318,7 @@ extension MigrationHubStrategyClientTypes {
             ipAddress: Swift.String? = nil,
             lastActivityTimeStamp: Swift.String? = nil,
             registeredTimeStamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.collectorHealth = collectorHealth
             self.collectorId = collectorId
             self.collectorVersion = collectorVersion
@@ -3415,8 +3340,7 @@ public struct ListCollectorsOutput: Swift.Sendable {
     public init(
         collectors: [MigrationHubStrategyClientTypes.Collector]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectors = collectors
         self.nextToken = nextToken
     }
@@ -3431,8 +3355,7 @@ public struct ListImportFileTaskInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3477,8 +3400,7 @@ extension MigrationHubStrategyClientTypes {
             status: MigrationHubStrategyClientTypes.ImportFileTaskStatus? = nil,
             statusReportS3Bucket: Swift.String? = nil,
             statusReportS3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.id = id
             self.importName = importName
@@ -3503,8 +3425,7 @@ public struct ListImportFileTaskOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskInfos: [MigrationHubStrategyClientTypes.ImportFileTaskInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskInfos = taskInfos
     }
@@ -3575,8 +3496,7 @@ public struct ListServersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serverCriteria: MigrationHubStrategyClientTypes.ServerCriteria? = nil,
         sort: MigrationHubStrategyClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.filterValue = filterValue
         self.groupIdFilter = groupIdFilter
         self.maxResults = maxResults
@@ -3595,8 +3515,7 @@ public struct ListServersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serverInfos: [MigrationHubStrategyClientTypes.ServerDetail]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serverInfos = serverInfos
     }
@@ -3621,8 +3540,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3642,8 +3560,7 @@ public struct PutPortfolioPreferencesInput: Swift.Sendable {
         applicationPreferences: MigrationHubStrategyClientTypes.ApplicationPreferences? = nil,
         databasePreferences: MigrationHubStrategyClientTypes.DatabasePreferences? = nil,
         prioritizeBusinessGoals: MigrationHubStrategyClientTypes.PrioritizeBusinessGoals? = nil
-    )
-    {
+    ) {
         self.applicationMode = applicationMode
         self.applicationPreferences = applicationPreferences
         self.databasePreferences = databasePreferences
@@ -3675,8 +3592,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3696,8 +3612,7 @@ public struct StartAssessmentInput: Swift.Sendable {
         assessmentTargets: [MigrationHubStrategyClientTypes.AssessmentTarget]? = nil,
         s3bucketForAnalysisData: Swift.String? = nil,
         s3bucketForReportData: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentDataSourceType = assessmentDataSourceType
         self.assessmentTargets = assessmentTargets
         self.s3bucketForAnalysisData = s3bucketForAnalysisData
@@ -3711,8 +3626,7 @@ public struct StartAssessmentOutput: Swift.Sendable {
 
     public init(
         assessmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
     }
 }
@@ -3776,8 +3690,7 @@ public struct StartImportFileTaskInput: Swift.Sendable {
         s3Bucket: Swift.String? = nil,
         s3bucketForReportData: Swift.String? = nil,
         s3key: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceType = dataSourceType
         self.groupId = groupId
         self.name = name
@@ -3793,8 +3706,7 @@ public struct StartImportFileTaskOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3837,8 +3749,7 @@ public struct StartRecommendationReportGenerationInput: Swift.Sendable {
     public init(
         groupIdFilter: [MigrationHubStrategyClientTypes.Group]? = nil,
         outputFormat: MigrationHubStrategyClientTypes.OutputFormat? = nil
-    )
-    {
+    ) {
         self.groupIdFilter = groupIdFilter
         self.outputFormat = outputFormat
     }
@@ -3850,8 +3761,7 @@ public struct StartRecommendationReportGenerationOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3863,8 +3773,7 @@ public struct StopAssessmentInput: Swift.Sendable {
 
     public init(
         assessmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
     }
 }
@@ -3924,8 +3833,7 @@ extension MigrationHubStrategyClientTypes {
             projectName: Swift.String? = nil,
             sourceVersion: Swift.String? = nil,
             versionControl: MigrationHubStrategyClientTypes.VersionControl? = nil
-        )
-        {
+        ) {
             self.location = location
             self.projectName = projectName
             self.sourceVersion = sourceVersion
@@ -3952,8 +3860,7 @@ extension MigrationHubStrategyClientTypes {
             strategy: MigrationHubStrategyClientTypes.Strategy? = nil,
             targetDestination: MigrationHubStrategyClientTypes.TargetDestination? = nil,
             toolName: MigrationHubStrategyClientTypes.TransformationToolName? = nil
-        )
-        {
+        ) {
             self.isPreferred = isPreferred
             self.strategy = strategy
             self.targetDestination = targetDestination
@@ -3987,8 +3894,7 @@ public struct UpdateApplicationComponentConfigInput: Swift.Sendable {
         secretsManagerKey: Swift.String? = nil,
         sourceCodeList: [MigrationHubStrategyClientTypes.SourceCode]? = nil,
         strategyOption: MigrationHubStrategyClientTypes.StrategyOption? = nil
-    )
-    {
+    ) {
         self.appType = appType
         self.applicationComponentId = applicationComponentId
         self.configureOnly = configureOnly
@@ -4019,8 +3925,7 @@ public struct UpdateServerConfigInput: Swift.Sendable {
     public init(
         serverId: Swift.String? = nil,
         strategyOption: MigrationHubStrategyClientTypes.StrategyOption? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
         self.strategyOption = strategyOption
     }

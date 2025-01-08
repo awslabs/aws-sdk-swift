@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -74,8 +73,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -102,8 +100,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -127,8 +124,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -147,8 +143,7 @@ extension InvoicingClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -247,8 +242,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         reason: InvoicingClientTypes.ValidationExceptionReason? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -263,8 +257,7 @@ public struct BatchGetInvoiceProfileInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -302,8 +295,7 @@ extension InvoicingClientTypes {
             districtOrCounty: Swift.String? = nil,
             postalCode: Swift.String? = nil,
             stateOrRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
             self.addressLine3 = addressLine3
@@ -347,8 +339,7 @@ extension InvoicingClientTypes {
             receiverEmail: Swift.String? = nil,
             receiverName: Swift.String? = nil,
             taxRegistrationNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.issuer = issuer
             self.receiverAddress = receiverAddress
@@ -370,8 +361,7 @@ public struct BatchGetInvoiceProfileOutput: Swift.Sendable {
 
     public init(
         profiles: [InvoicingClientTypes.InvoiceProfile]? = nil
-    )
-    {
+    ) {
         self.profiles = profiles
     }
 }
@@ -390,8 +380,7 @@ extension InvoicingClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -407,8 +396,7 @@ extension InvoicingClientTypes {
 
         public init(
             linkedAccounts: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.linkedAccounts = linkedAccounts
         }
     }
@@ -438,8 +426,7 @@ public struct CreateInvoiceUnitInput: Swift.Sendable {
         resourceTags: [InvoicingClientTypes.ResourceTag]? = nil,
         rule: InvoicingClientTypes.InvoiceUnitRule? = nil,
         taxInheritanceDisabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.description = description
         self.invoiceReceiver = invoiceReceiver
         self.name = name
@@ -455,8 +442,7 @@ public struct CreateInvoiceUnitOutput: Swift.Sendable {
 
     public init(
         invoiceUnitArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.invoiceUnitArn = invoiceUnitArn
     }
 }
@@ -468,8 +454,7 @@ public struct DeleteInvoiceUnitInput: Swift.Sendable {
 
     public init(
         invoiceUnitArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.invoiceUnitArn = invoiceUnitArn
     }
 }
@@ -480,8 +465,7 @@ public struct DeleteInvoiceUnitOutput: Swift.Sendable {
 
     public init(
         invoiceUnitArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.invoiceUnitArn = invoiceUnitArn
     }
 }
@@ -501,8 +485,7 @@ extension InvoicingClientTypes {
             accounts: [Swift.String]? = nil,
             invoiceReceivers: [Swift.String]? = nil,
             names: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.accounts = accounts
             self.invoiceReceivers = invoiceReceivers
             self.names = names
@@ -520,8 +503,7 @@ public struct GetInvoiceUnitInput: Swift.Sendable {
     public init(
         asOf: Foundation.Date? = nil,
         invoiceUnitArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.asOf = asOf
         self.invoiceUnitArn = invoiceUnitArn
     }
@@ -551,8 +533,7 @@ public struct GetInvoiceUnitOutput: Swift.Sendable {
         name: Swift.String? = nil,
         rule: InvoicingClientTypes.InvoiceUnitRule? = nil,
         taxInheritanceDisabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.description = description
         self.invoiceReceiver = invoiceReceiver
         self.invoiceUnitArn = invoiceUnitArn
@@ -590,8 +571,7 @@ extension InvoicingClientTypes {
             name: Swift.String? = nil,
             rule: InvoicingClientTypes.InvoiceUnitRule? = nil,
             taxInheritanceDisabled: Swift.Bool? = false
-        )
-        {
+        ) {
             self.description = description
             self.invoiceReceiver = invoiceReceiver
             self.invoiceUnitArn = invoiceUnitArn
@@ -618,8 +598,7 @@ public struct ListInvoiceUnitsInput: Swift.Sendable {
         filters: InvoicingClientTypes.Filters? = nil,
         maxResults: Swift.Int? = 500,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.asOf = asOf
         self.filters = filters
         self.maxResults = maxResults
@@ -636,8 +615,7 @@ public struct ListInvoiceUnitsOutput: Swift.Sendable {
     public init(
         invoiceUnits: [InvoicingClientTypes.InvoiceUnit]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.invoiceUnits = invoiceUnits
         self.nextToken = nextToken
     }
@@ -650,8 +628,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -662,8 +639,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         resourceTags: [InvoicingClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.resourceTags = resourceTags
     }
 }
@@ -687,8 +663,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -704,8 +679,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         resourceTags: [InvoicingClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceTags = resourceTags
     }
@@ -727,8 +701,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         resourceTagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceTagKeys = resourceTagKeys
     }
@@ -755,8 +728,7 @@ public struct UpdateInvoiceUnitInput: Swift.Sendable {
         invoiceUnitArn: Swift.String? = nil,
         rule: InvoicingClientTypes.InvoiceUnitRule? = nil,
         taxInheritanceDisabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.description = description
         self.invoiceUnitArn = invoiceUnitArn
         self.rule = rule
@@ -770,8 +742,7 @@ public struct UpdateInvoiceUnitOutput: Swift.Sendable {
 
     public init(
         invoiceUnitArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.invoiceUnitArn = invoiceUnitArn
     }
 }

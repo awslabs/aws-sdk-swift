@@ -42,8 +42,7 @@ public struct DisabledApiException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -66,8 +65,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -90,8 +88,7 @@ public struct InvalidCustomerIdentifierException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -114,8 +111,7 @@ public struct InvalidProductCodeException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -138,8 +134,7 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -162,8 +157,7 @@ public struct InvalidUsageAllocationsException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -186,8 +180,7 @@ public struct InvalidUsageDimensionException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -210,8 +203,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -234,8 +226,7 @@ public struct TimestampOutOfBoundsException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -254,8 +245,7 @@ extension MarketplaceMeteringClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -275,8 +265,7 @@ extension MarketplaceMeteringClientTypes {
         public init(
             allocatedUsageQuantity: Swift.Int? = nil,
             tags: [MarketplaceMeteringClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.allocatedUsageQuantity = allocatedUsageQuantity
             self.tags = tags
         }
@@ -307,8 +296,7 @@ extension MarketplaceMeteringClientTypes {
             quantity: Swift.Int? = nil,
             timestamp: Foundation.Date? = nil,
             usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]? = nil
-        )
-        {
+        ) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.quantity = quantity
@@ -330,8 +318,7 @@ public struct BatchMeterUsageInput: Swift.Sendable {
     public init(
         productCode: Swift.String? = nil,
         usageRecords: [MarketplaceMeteringClientTypes.UsageRecord]? = nil
-    )
-    {
+    ) {
         self.productCode = productCode
         self.usageRecords = usageRecords
     }
@@ -399,8 +386,7 @@ extension MarketplaceMeteringClientTypes {
             meteringRecordId: Swift.String? = nil,
             status: MarketplaceMeteringClientTypes.UsageRecordResultStatus? = nil,
             usageRecord: MarketplaceMeteringClientTypes.UsageRecord? = nil
-        )
-        {
+        ) {
             self.meteringRecordId = meteringRecordId
             self.status = status
             self.usageRecord = usageRecord
@@ -418,8 +404,7 @@ public struct BatchMeterUsageOutput: Swift.Sendable {
     public init(
         results: [MarketplaceMeteringClientTypes.UsageRecordResult]? = nil,
         unprocessedRecords: [MarketplaceMeteringClientTypes.UsageRecord]? = nil
-    )
-    {
+    ) {
         self.results = results
         self.unprocessedRecords = unprocessedRecords
     }
@@ -443,8 +428,7 @@ public struct CustomerNotEntitledException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -467,8 +451,7 @@ public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -491,8 +474,7 @@ public struct InvalidEndpointRegionException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -521,8 +503,7 @@ public struct MeterUsageInput: Swift.Sendable {
         usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]? = nil,
         usageDimension: Swift.String? = nil,
         usageQuantity: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.productCode = productCode
         self.timestamp = timestamp
@@ -538,8 +519,7 @@ public struct MeterUsageOutput: Swift.Sendable {
 
     public init(
         meteringRecordId: Swift.String? = nil
-    )
-    {
+    ) {
         self.meteringRecordId = meteringRecordId
     }
 }
@@ -562,8 +542,7 @@ public struct InvalidPublicKeyVersionException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -586,8 +565,7 @@ public struct InvalidRegionException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -610,8 +588,7 @@ public struct PlatformNotSupportedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -630,8 +607,7 @@ public struct RegisterUsageInput: Swift.Sendable {
         nonce: Swift.String? = nil,
         productCode: Swift.String? = nil,
         publicKeyVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nonce = nonce
         self.productCode = productCode
         self.publicKeyVersion = publicKeyVersion
@@ -647,8 +623,7 @@ public struct RegisterUsageOutput: Swift.Sendable {
     public init(
         publicKeyRotationTimestamp: Foundation.Date? = nil,
         signature: Swift.String? = nil
-    )
-    {
+    ) {
         self.publicKeyRotationTimestamp = publicKeyRotationTimestamp
         self.signature = signature
     }
@@ -672,8 +647,7 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -696,8 +670,7 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -710,8 +683,7 @@ public struct ResolveCustomerInput: Swift.Sendable {
 
     public init(
         registrationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationToken = registrationToken
     }
 }
@@ -729,8 +701,7 @@ public struct ResolveCustomerOutput: Swift.Sendable {
         customerAWSAccountId: Swift.String? = nil,
         customerIdentifier: Swift.String? = nil,
         productCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerAWSAccountId = customerAWSAccountId
         self.customerIdentifier = customerIdentifier
         self.productCode = productCode

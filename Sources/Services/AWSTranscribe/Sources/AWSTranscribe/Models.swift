@@ -82,8 +82,7 @@ extension TranscribeClientTypes {
             first: Swift.Int? = nil,
             last: Swift.Int? = nil,
             startTime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.first = first
             self.last = last
@@ -110,8 +109,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -215,8 +213,7 @@ extension TranscribeClientTypes {
             feature: TranscribeClientTypes.CallAnalyticsFeature? = nil,
             message: Swift.String? = nil,
             reasonCode: TranscribeClientTypes.CallAnalyticsSkippedReasonCode? = nil
-        )
-        {
+        ) {
             self.feature = feature
             self.message = message
             self.reasonCode = reasonCode
@@ -233,8 +230,7 @@ extension TranscribeClientTypes {
 
         public init(
             skipped: [TranscribeClientTypes.CallAnalyticsSkippedFeature]? = nil
-        )
-        {
+        ) {
             self.skipped = skipped
         }
     }
@@ -316,8 +312,7 @@ extension TranscribeClientTypes {
         public init(
             channelId: Swift.Int = 0,
             participantRole: TranscribeClientTypes.ParticipantRole? = nil
-        )
-        {
+        ) {
             self.channelId = channelId
             self.participantRole = participantRole
         }
@@ -682,8 +677,7 @@ extension TranscribeClientTypes {
         public init(
             mediaFileUri: Swift.String? = nil,
             redactedMediaFileUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.mediaFileUri = mediaFileUri
             self.redactedMediaFileUri = redactedMediaFileUri
         }
@@ -868,8 +862,7 @@ extension TranscribeClientTypes {
             piiEntityTypes: [TranscribeClientTypes.PiiEntityType]? = nil,
             redactionOutput: TranscribeClientTypes.RedactionOutput? = nil,
             redactionType: TranscribeClientTypes.RedactionType? = nil
-        )
-        {
+        ) {
             self.piiEntityTypes = piiEntityTypes
             self.redactionOutput = redactionOutput
             self.redactionType = redactionType
@@ -892,8 +885,7 @@ extension TranscribeClientTypes {
             languageModelName: Swift.String? = nil,
             vocabularyFilterName: Swift.String? = nil,
             vocabularyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.languageModelName = languageModelName
             self.vocabularyFilterName = vocabularyFilterName
             self.vocabularyName = vocabularyName
@@ -911,8 +903,7 @@ extension TranscribeClientTypes {
 
         public init(
             generateAbstractiveSummary: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.generateAbstractiveSummary = generateAbstractiveSummary
         }
     }
@@ -980,8 +971,7 @@ extension TranscribeClientTypes {
             vocabularyFilterMethod: TranscribeClientTypes.VocabularyFilterMethod? = nil,
             vocabularyFilterName: Swift.String? = nil,
             vocabularyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentRedaction = contentRedaction
             self.languageIdSettings = languageIdSettings
             self.languageModelName = languageModelName
@@ -1006,8 +996,7 @@ extension TranscribeClientTypes {
         public init(
             redactedTranscriptFileUri: Swift.String? = nil,
             transcriptFileUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.redactedTranscriptFileUri = redactedTranscriptFileUri
             self.transcriptFileUri = transcriptFileUri
         }
@@ -1080,8 +1069,7 @@ extension TranscribeClientTypes {
             settings: TranscribeClientTypes.CallAnalyticsJobSettings? = nil,
             startTime: Foundation.Date? = nil,
             transcript: TranscribeClientTypes.Transcript? = nil
-        )
-        {
+        ) {
             self.callAnalyticsJobDetails = callAnalyticsJobDetails
             self.callAnalyticsJobName = callAnalyticsJobName
             self.callAnalyticsJobStatus = callAnalyticsJobStatus
@@ -1132,8 +1120,7 @@ extension TranscribeClientTypes {
             failureReason: Swift.String? = nil,
             languageCode: TranscribeClientTypes.LanguageCode? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.callAnalyticsJobDetails = callAnalyticsJobDetails
             self.callAnalyticsJobName = callAnalyticsJobName
             self.callAnalyticsJobStatus = callAnalyticsJobStatus
@@ -1193,8 +1180,7 @@ extension TranscribeClientTypes {
             first: Swift.Int? = nil,
             last: Swift.Int? = nil,
             startPercentage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endPercentage = endPercentage
             self.first = first
             self.last = last
@@ -1235,8 +1221,7 @@ extension TranscribeClientTypes {
             participantRole: TranscribeClientTypes.ParticipantRole? = nil,
             relativeTimeRange: TranscribeClientTypes.RelativeTimeRange? = nil,
             threshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.absoluteTimeRange = absoluteTimeRange
             self.negate = negate
             self.participantRole = participantRole
@@ -1271,8 +1256,7 @@ extension TranscribeClientTypes {
             negate: Swift.Bool? = nil,
             relativeTimeRange: TranscribeClientTypes.RelativeTimeRange? = nil,
             threshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.absoluteTimeRange = absoluteTimeRange
             self.negate = negate
             self.relativeTimeRange = relativeTimeRange
@@ -1349,8 +1333,7 @@ extension TranscribeClientTypes {
             participantRole: TranscribeClientTypes.ParticipantRole? = nil,
             relativeTimeRange: TranscribeClientTypes.RelativeTimeRange? = nil,
             sentiments: [TranscribeClientTypes.SentimentValue]? = nil
-        )
-        {
+        ) {
             self.absoluteTimeRange = absoluteTimeRange
             self.negate = negate
             self.participantRole = participantRole
@@ -1421,8 +1404,7 @@ extension TranscribeClientTypes {
             relativeTimeRange: TranscribeClientTypes.RelativeTimeRange? = nil,
             targets: [Swift.String]? = nil,
             transcriptFilterType: TranscribeClientTypes.TranscriptFilterType? = nil
-        )
-        {
+        ) {
             self.absoluteTimeRange = absoluteTimeRange
             self.negate = negate
             self.participantRole = participantRole
@@ -1470,8 +1452,7 @@ extension TranscribeClientTypes {
             inputType: TranscribeClientTypes.InputType? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             rules: [TranscribeClientTypes.Rule]? = nil
-        )
-        {
+        ) {
             self.categoryName = categoryName
             self.createTime = createTime
             self.inputType = inputType
@@ -1543,8 +1524,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1567,8 +1547,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1591,8 +1570,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1611,8 +1589,7 @@ public struct CreateCallAnalyticsCategoryInput: Swift.Sendable {
         categoryName: Swift.String? = nil,
         inputType: TranscribeClientTypes.InputType? = nil,
         rules: [TranscribeClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.categoryName = categoryName
         self.inputType = inputType
         self.rules = rules
@@ -1625,8 +1602,7 @@ public struct CreateCallAnalyticsCategoryOutput: Swift.Sendable {
 
     public init(
         categoryProperties: TranscribeClientTypes.CategoryProperties? = nil
-    )
-    {
+    ) {
         self.categoryProperties = categoryProperties
     }
 }
@@ -1648,8 +1624,7 @@ extension TranscribeClientTypes {
             dataAccessRoleArn: Swift.String? = nil,
             s3Uri: Swift.String? = nil,
             tuningDataS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.s3Uri = s3Uri
             self.tuningDataS3Uri = tuningDataS3Uri
@@ -1671,8 +1646,7 @@ extension TranscribeClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1701,8 +1675,7 @@ public struct CreateLanguageModelInput: Swift.Sendable {
         languageCode: TranscribeClientTypes.CLMLanguageCode? = nil,
         modelName: Swift.String? = nil,
         tags: [TranscribeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.baseModelName = baseModelName
         self.inputDataConfig = inputDataConfig
         self.languageCode = languageCode
@@ -1761,8 +1734,7 @@ public struct CreateLanguageModelOutput: Swift.Sendable {
         languageCode: TranscribeClientTypes.CLMLanguageCode? = nil,
         modelName: Swift.String? = nil,
         modelStatus: TranscribeClientTypes.ModelStatus? = nil
-    )
-    {
+    ) {
         self.baseModelName = baseModelName
         self.inputDataConfig = inputDataConfig
         self.languageCode = languageCode
@@ -1789,8 +1761,7 @@ public struct CreateMedicalVocabularyInput: Swift.Sendable {
         tags: [TranscribeClientTypes.Tag]? = nil,
         vocabularyFileUri: Swift.String? = nil,
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.tags = tags
         self.vocabularyFileUri = vocabularyFileUri
@@ -1848,8 +1819,7 @@ public struct CreateMedicalVocabularyOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
-    )
-    {
+    ) {
         self.failureReason = failureReason
         self.languageCode = languageCode
         self.lastModifiedTime = lastModifiedTime
@@ -1881,8 +1851,7 @@ public struct CreateVocabularyInput: Swift.Sendable {
         tags: [TranscribeClientTypes.Tag]? = nil,
         vocabularyFileUri: Swift.String? = nil,
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataAccessRoleArn = dataAccessRoleArn
         self.languageCode = languageCode
         self.phrases = phrases
@@ -1910,8 +1879,7 @@ public struct CreateVocabularyOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
-    )
-    {
+    ) {
         self.failureReason = failureReason
         self.languageCode = languageCode
         self.lastModifiedTime = lastModifiedTime
@@ -1943,8 +1911,7 @@ public struct CreateVocabularyFilterInput: Swift.Sendable {
         vocabularyFilterFileUri: Swift.String? = nil,
         vocabularyFilterName: Swift.String? = nil,
         words: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dataAccessRoleArn = dataAccessRoleArn
         self.languageCode = languageCode
         self.tags = tags
@@ -1966,8 +1933,7 @@ public struct CreateVocabularyFilterOutput: Swift.Sendable {
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         vocabularyFilterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.lastModifiedTime = lastModifiedTime
         self.vocabularyFilterName = vocabularyFilterName
@@ -1992,8 +1958,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2005,8 +1970,7 @@ public struct DeleteCallAnalyticsCategoryInput: Swift.Sendable {
 
     public init(
         categoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.categoryName = categoryName
     }
 }
@@ -2023,8 +1987,7 @@ public struct DeleteCallAnalyticsJobInput: Swift.Sendable {
 
     public init(
         callAnalyticsJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAnalyticsJobName = callAnalyticsJobName
     }
 }
@@ -2041,8 +2004,7 @@ public struct DeleteLanguageModelInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -2054,8 +2016,7 @@ public struct DeleteMedicalScribeJobInput: Swift.Sendable {
 
     public init(
         medicalScribeJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.medicalScribeJobName = medicalScribeJobName
     }
 }
@@ -2067,8 +2028,7 @@ public struct DeleteMedicalTranscriptionJobInput: Swift.Sendable {
 
     public init(
         medicalTranscriptionJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.medicalTranscriptionJobName = medicalTranscriptionJobName
     }
 }
@@ -2080,8 +2040,7 @@ public struct DeleteMedicalVocabularyInput: Swift.Sendable {
 
     public init(
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.vocabularyName = vocabularyName
     }
 }
@@ -2093,8 +2052,7 @@ public struct DeleteTranscriptionJobInput: Swift.Sendable {
 
     public init(
         transcriptionJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.transcriptionJobName = transcriptionJobName
     }
 }
@@ -2106,8 +2064,7 @@ public struct DeleteVocabularyInput: Swift.Sendable {
 
     public init(
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.vocabularyName = vocabularyName
     }
 }
@@ -2119,8 +2076,7 @@ public struct DeleteVocabularyFilterInput: Swift.Sendable {
 
     public init(
         vocabularyFilterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.vocabularyFilterName = vocabularyFilterName
     }
 }
@@ -2132,8 +2088,7 @@ public struct DescribeLanguageModelInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -2187,8 +2142,7 @@ extension TranscribeClientTypes {
             modelName: Swift.String? = nil,
             modelStatus: TranscribeClientTypes.ModelStatus? = nil,
             upgradeAvailability: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.baseModelName = baseModelName
             self.createTime = createTime
             self.failureReason = failureReason
@@ -2208,8 +2162,7 @@ public struct DescribeLanguageModelOutput: Swift.Sendable {
 
     public init(
         languageModel: TranscribeClientTypes.LanguageModel? = nil
-    )
-    {
+    ) {
         self.languageModel = languageModel
     }
 }
@@ -2221,8 +2174,7 @@ public struct GetCallAnalyticsCategoryInput: Swift.Sendable {
 
     public init(
         categoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.categoryName = categoryName
     }
 }
@@ -2233,8 +2185,7 @@ public struct GetCallAnalyticsCategoryOutput: Swift.Sendable {
 
     public init(
         categoryProperties: TranscribeClientTypes.CategoryProperties? = nil
-    )
-    {
+    ) {
         self.categoryProperties = categoryProperties
     }
 }
@@ -2246,8 +2197,7 @@ public struct GetCallAnalyticsJobInput: Swift.Sendable {
 
     public init(
         callAnalyticsJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAnalyticsJobName = callAnalyticsJobName
     }
 }
@@ -2258,8 +2208,7 @@ public struct GetCallAnalyticsJobOutput: Swift.Sendable {
 
     public init(
         callAnalyticsJob: TranscribeClientTypes.CallAnalyticsJob? = nil
-    )
-    {
+    ) {
         self.callAnalyticsJob = callAnalyticsJob
     }
 }
@@ -2271,8 +2220,7 @@ public struct GetMedicalScribeJobInput: Swift.Sendable {
 
     public init(
         medicalScribeJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.medicalScribeJobName = medicalScribeJobName
     }
 }
@@ -2320,8 +2268,7 @@ extension TranscribeClientTypes {
         public init(
             channelId: Swift.Int = 0,
             participantRole: TranscribeClientTypes.MedicalScribeParticipantRole? = nil
-        )
-        {
+        ) {
             self.channelId = channelId
             self.participantRole = participantRole
         }
@@ -2403,8 +2350,7 @@ extension TranscribeClientTypes {
         public init(
             clinicalDocumentUri: Swift.String? = nil,
             transcriptFileUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.clinicalDocumentUri = clinicalDocumentUri
             self.transcriptFileUri = transcriptFileUri
         }
@@ -2435,8 +2381,7 @@ extension TranscribeClientTypes {
             vocabularyFilterMethod: TranscribeClientTypes.VocabularyFilterMethod? = nil,
             vocabularyFilterName: Swift.String? = nil,
             vocabularyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelIdentification = channelIdentification
             self.maxSpeakerLabels = maxSpeakerLabels
             self.showSpeakerLabels = showSpeakerLabels
@@ -2492,8 +2437,7 @@ extension TranscribeClientTypes {
             settings: TranscribeClientTypes.MedicalScribeSettings? = nil,
             startTime: Foundation.Date? = nil,
             tags: [TranscribeClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.channelDefinitions = channelDefinitions
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -2517,8 +2461,7 @@ public struct GetMedicalScribeJobOutput: Swift.Sendable {
 
     public init(
         medicalScribeJob: TranscribeClientTypes.MedicalScribeJob? = nil
-    )
-    {
+    ) {
         self.medicalScribeJob = medicalScribeJob
     }
 }
@@ -2530,8 +2473,7 @@ public struct GetMedicalTranscriptionJobInput: Swift.Sendable {
 
     public init(
         medicalTranscriptionJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.medicalTranscriptionJobName = medicalTranscriptionJobName
     }
 }
@@ -2586,8 +2528,7 @@ extension TranscribeClientTypes {
             showAlternatives: Swift.Bool? = nil,
             showSpeakerLabels: Swift.Bool? = nil,
             vocabularyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelIdentification = channelIdentification
             self.maxAlternatives = maxAlternatives
             self.maxSpeakerLabels = maxSpeakerLabels
@@ -2633,8 +2574,7 @@ extension TranscribeClientTypes {
 
         public init(
             transcriptFileUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.transcriptFileUri = transcriptFileUri
         }
     }
@@ -2770,8 +2710,7 @@ extension TranscribeClientTypes {
             transcript: TranscribeClientTypes.MedicalTranscript? = nil,
             transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus? = nil,
             type: TranscribeClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.contentIdentificationType = contentIdentificationType
             self.creationTime = creationTime
@@ -2798,8 +2737,7 @@ public struct GetMedicalTranscriptionJobOutput: Swift.Sendable {
 
     public init(
         medicalTranscriptionJob: TranscribeClientTypes.MedicalTranscriptionJob? = nil
-    )
-    {
+    ) {
         self.medicalTranscriptionJob = medicalTranscriptionJob
     }
 }
@@ -2811,8 +2749,7 @@ public struct GetMedicalVocabularyInput: Swift.Sendable {
 
     public init(
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.vocabularyName = vocabularyName
     }
 }
@@ -2838,8 +2775,7 @@ public struct GetMedicalVocabularyOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
-    )
-    {
+    ) {
         self.downloadUri = downloadUri
         self.failureReason = failureReason
         self.languageCode = languageCode
@@ -2856,8 +2792,7 @@ public struct GetTranscriptionJobInput: Swift.Sendable {
 
     public init(
         transcriptionJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.transcriptionJobName = transcriptionJobName
     }
 }
@@ -2874,8 +2809,7 @@ extension TranscribeClientTypes {
         public init(
             allowDeferredExecution: Swift.Bool? = nil,
             dataAccessRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowDeferredExecution = allowDeferredExecution
             self.dataAccessRoleArn = dataAccessRoleArn
         }
@@ -2894,8 +2828,7 @@ extension TranscribeClientTypes {
         public init(
             durationInSeconds: Swift.Float? = nil,
             languageCode: TranscribeClientTypes.LanguageCode? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
             self.languageCode = languageCode
         }
@@ -2911,8 +2844,7 @@ extension TranscribeClientTypes {
 
         public init(
             languageModelName: Swift.String? = nil
-        )
-        {
+        ) {
             self.languageModelName = languageModelName
         }
     }
@@ -2948,8 +2880,7 @@ extension TranscribeClientTypes {
             vocabularyFilterMethod: TranscribeClientTypes.VocabularyFilterMethod? = nil,
             vocabularyFilterName: Swift.String? = nil,
             vocabularyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelIdentification = channelIdentification
             self.maxAlternatives = maxAlternatives
             self.maxSpeakerLabels = maxSpeakerLabels
@@ -3006,8 +2937,7 @@ extension TranscribeClientTypes {
             formats: [TranscribeClientTypes.SubtitleFormat]? = nil,
             outputStartIndex: Swift.Int? = nil,
             subtitleFileUris: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.formats = formats
             self.outputStartIndex = outputStartIndex
             self.subtitleFileUris = subtitleFileUris
@@ -3051,8 +2981,7 @@ extension TranscribeClientTypes {
 
         public init(
             toxicityCategories: [TranscribeClientTypes.ToxicityCategory]? = nil
-        )
-        {
+        ) {
             self.toxicityCategories = toxicityCategories
         }
     }
@@ -3148,8 +3077,7 @@ extension TranscribeClientTypes {
             transcript: TranscribeClientTypes.Transcript? = nil,
             transcriptionJobName: Swift.String? = nil,
             transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
@@ -3184,8 +3112,7 @@ public struct GetTranscriptionJobOutput: Swift.Sendable {
 
     public init(
         transcriptionJob: TranscribeClientTypes.TranscriptionJob? = nil
-    )
-    {
+    ) {
         self.transcriptionJob = transcriptionJob
     }
 }
@@ -3197,8 +3124,7 @@ public struct GetVocabularyInput: Swift.Sendable {
 
     public init(
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.vocabularyName = vocabularyName
     }
 }
@@ -3224,8 +3150,7 @@ public struct GetVocabularyOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
-    )
-    {
+    ) {
         self.downloadUri = downloadUri
         self.failureReason = failureReason
         self.languageCode = languageCode
@@ -3242,8 +3167,7 @@ public struct GetVocabularyFilterInput: Swift.Sendable {
 
     public init(
         vocabularyFilterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.vocabularyFilterName = vocabularyFilterName
     }
 }
@@ -3263,8 +3187,7 @@ public struct GetVocabularyFilterOutput: Swift.Sendable {
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         vocabularyFilterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.downloadUri = downloadUri
         self.languageCode = languageCode
         self.lastModifiedTime = lastModifiedTime
@@ -3281,8 +3204,7 @@ public struct ListCallAnalyticsCategoriesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3297,8 +3219,7 @@ public struct ListCallAnalyticsCategoriesOutput: Swift.Sendable {
     public init(
         categories: [TranscribeClientTypes.CategoryProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.categories = categories
         self.nextToken = nextToken
     }
@@ -3319,8 +3240,7 @@ public struct ListCallAnalyticsJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: TranscribeClientTypes.CallAnalyticsJobStatus? = nil
-    )
-    {
+    ) {
         self.jobNameContains = jobNameContains
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3340,8 +3260,7 @@ public struct ListCallAnalyticsJobsOutput: Swift.Sendable {
         callAnalyticsJobSummaries: [TranscribeClientTypes.CallAnalyticsJobSummary]? = nil,
         nextToken: Swift.String? = nil,
         status: TranscribeClientTypes.CallAnalyticsJobStatus? = nil
-    )
-    {
+    ) {
         self.callAnalyticsJobSummaries = callAnalyticsJobSummaries
         self.nextToken = nextToken
         self.status = status
@@ -3363,8 +3282,7 @@ public struct ListLanguageModelsInput: Swift.Sendable {
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         statusEquals: TranscribeClientTypes.ModelStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -3381,8 +3299,7 @@ public struct ListLanguageModelsOutput: Swift.Sendable {
     public init(
         models: [TranscribeClientTypes.LanguageModel]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.models = models
         self.nextToken = nextToken
     }
@@ -3403,8 +3320,7 @@ public struct ListMedicalScribeJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: TranscribeClientTypes.MedicalScribeJobStatus? = nil
-    )
-    {
+    ) {
         self.jobNameContains = jobNameContains
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3439,8 +3355,7 @@ extension TranscribeClientTypes {
             medicalScribeJobName: Swift.String? = nil,
             medicalScribeJobStatus: TranscribeClientTypes.MedicalScribeJobStatus? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -3464,8 +3379,7 @@ public struct ListMedicalScribeJobsOutput: Swift.Sendable {
         medicalScribeJobSummaries: [TranscribeClientTypes.MedicalScribeJobSummary]? = nil,
         nextToken: Swift.String? = nil,
         status: TranscribeClientTypes.MedicalScribeJobStatus? = nil
-    )
-    {
+    ) {
         self.medicalScribeJobSummaries = medicalScribeJobSummaries
         self.nextToken = nextToken
         self.status = status
@@ -3487,8 +3401,7 @@ public struct ListMedicalTranscriptionJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: TranscribeClientTypes.TranscriptionJobStatus? = nil
-    )
-    {
+    ) {
         self.jobNameContains = jobNameContains
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3564,8 +3477,7 @@ extension TranscribeClientTypes {
             startTime: Foundation.Date? = nil,
             transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus? = nil,
             type: TranscribeClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.contentIdentificationType = contentIdentificationType
             self.creationTime = creationTime
@@ -3593,8 +3505,7 @@ public struct ListMedicalTranscriptionJobsOutput: Swift.Sendable {
         medicalTranscriptionJobSummaries: [TranscribeClientTypes.MedicalTranscriptionJobSummary]? = nil,
         nextToken: Swift.String? = nil,
         status: TranscribeClientTypes.TranscriptionJobStatus? = nil
-    )
-    {
+    ) {
         self.medicalTranscriptionJobSummaries = medicalTranscriptionJobSummaries
         self.nextToken = nextToken
         self.status = status
@@ -3616,8 +3527,7 @@ public struct ListMedicalVocabulariesInput: Swift.Sendable {
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         stateEquals: TranscribeClientTypes.VocabularyState? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -3643,8 +3553,7 @@ extension TranscribeClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             vocabularyName: Swift.String? = nil,
             vocabularyState: TranscribeClientTypes.VocabularyState? = nil
-        )
-        {
+        ) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
             self.vocabularyName = vocabularyName
@@ -3665,8 +3574,7 @@ public struct ListMedicalVocabulariesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         status: TranscribeClientTypes.VocabularyState? = nil,
         vocabularies: [TranscribeClientTypes.VocabularyInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.status = status
         self.vocabularies = vocabularies
@@ -3680,8 +3588,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3695,8 +3602,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [TranscribeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3717,8 +3623,7 @@ public struct ListTranscriptionJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: TranscribeClientTypes.TranscriptionJobStatus? = nil
-    )
-    {
+    ) {
         self.jobNameContains = jobNameContains
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3777,8 +3682,7 @@ extension TranscribeClientTypes {
             toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]? = nil,
             transcriptionJobName: Swift.String? = nil,
             transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
@@ -3810,8 +3714,7 @@ public struct ListTranscriptionJobsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         status: TranscribeClientTypes.TranscriptionJobStatus? = nil,
         transcriptionJobSummaries: [TranscribeClientTypes.TranscriptionJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.status = status
         self.transcriptionJobSummaries = transcriptionJobSummaries
@@ -3833,8 +3736,7 @@ public struct ListVocabulariesInput: Swift.Sendable {
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         stateEquals: TranscribeClientTypes.VocabularyState? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -3854,8 +3756,7 @@ public struct ListVocabulariesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         status: TranscribeClientTypes.VocabularyState? = nil,
         vocabularies: [TranscribeClientTypes.VocabularyInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.status = status
         self.vocabularies = vocabularies
@@ -3874,8 +3775,7 @@ public struct ListVocabularyFiltersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -3897,8 +3797,7 @@ extension TranscribeClientTypes {
             languageCode: TranscribeClientTypes.LanguageCode? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             vocabularyFilterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
             self.vocabularyFilterName = vocabularyFilterName
@@ -3915,8 +3814,7 @@ public struct ListVocabularyFiltersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vocabularyFilters: [TranscribeClientTypes.VocabularyFilterInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vocabularyFilters = vocabularyFilters
     }
@@ -3975,8 +3873,7 @@ public struct StartCallAnalyticsJobInput: Swift.Sendable {
         outputEncryptionKMSKeyId: Swift.String? = nil,
         outputLocation: Swift.String? = nil,
         settings: TranscribeClientTypes.CallAnalyticsJobSettings? = nil
-    )
-    {
+    ) {
         self.callAnalyticsJobName = callAnalyticsJobName
         self.channelDefinitions = channelDefinitions
         self.dataAccessRoleArn = dataAccessRoleArn
@@ -3993,8 +3890,7 @@ public struct StartCallAnalyticsJobOutput: Swift.Sendable {
 
     public init(
         callAnalyticsJob: TranscribeClientTypes.CallAnalyticsJob? = nil
-    )
-    {
+    ) {
         self.callAnalyticsJob = callAnalyticsJob
     }
 }
@@ -4052,8 +3948,7 @@ public struct StartMedicalScribeJobInput: Swift.Sendable {
         outputEncryptionKMSKeyId: Swift.String? = nil,
         settings: TranscribeClientTypes.MedicalScribeSettings? = nil,
         tags: [TranscribeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.channelDefinitions = channelDefinitions
         self.dataAccessRoleArn = dataAccessRoleArn
         self.kmsEncryptionContext = kmsEncryptionContext
@@ -4072,8 +3967,7 @@ public struct StartMedicalScribeJobOutput: Swift.Sendable {
 
     public init(
         medicalScribeJob: TranscribeClientTypes.MedicalScribeJob? = nil
-    )
-    {
+    ) {
         self.medicalScribeJob = medicalScribeJob
     }
 }
@@ -4158,8 +4052,7 @@ public struct StartMedicalTranscriptionJobInput: Swift.Sendable {
         specialty: TranscribeClientTypes.Specialty? = nil,
         tags: [TranscribeClientTypes.Tag]? = nil,
         type: TranscribeClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.contentIdentificationType = contentIdentificationType
         self.kmsEncryptionContext = kmsEncryptionContext
         self.languageCode = languageCode
@@ -4183,8 +4076,7 @@ public struct StartMedicalTranscriptionJobOutput: Swift.Sendable {
 
     public init(
         medicalTranscriptionJob: TranscribeClientTypes.MedicalTranscriptionJob? = nil
-    )
-    {
+    ) {
         self.medicalTranscriptionJob = medicalTranscriptionJob
     }
 }
@@ -4201,8 +4093,7 @@ extension TranscribeClientTypes {
         public init(
             formats: [TranscribeClientTypes.SubtitleFormat]? = nil,
             outputStartIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.formats = formats
             self.outputStartIndex = outputStartIndex
         }
@@ -4303,8 +4194,7 @@ public struct StartTranscriptionJobInput: Swift.Sendable {
         tags: [TranscribeClientTypes.Tag]? = nil,
         toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]? = nil,
         transcriptionJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentRedaction = contentRedaction
         self.identifyLanguage = identifyLanguage
         self.identifyMultipleLanguages = identifyMultipleLanguages
@@ -4334,8 +4224,7 @@ public struct StartTranscriptionJobOutput: Swift.Sendable {
 
     public init(
         transcriptionJob: TranscribeClientTypes.TranscriptionJob? = nil
-    )
-    {
+    ) {
         self.transcriptionJob = transcriptionJob
     }
 }
@@ -4351,8 +4240,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [TranscribeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4374,8 +4262,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4400,8 +4287,7 @@ public struct UpdateCallAnalyticsCategoryInput: Swift.Sendable {
         categoryName: Swift.String? = nil,
         inputType: TranscribeClientTypes.InputType? = nil,
         rules: [TranscribeClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.categoryName = categoryName
         self.inputType = inputType
         self.rules = rules
@@ -4414,8 +4300,7 @@ public struct UpdateCallAnalyticsCategoryOutput: Swift.Sendable {
 
     public init(
         categoryProperties: TranscribeClientTypes.CategoryProperties? = nil
-    )
-    {
+    ) {
         self.categoryProperties = categoryProperties
     }
 }
@@ -4435,8 +4320,7 @@ public struct UpdateMedicalVocabularyInput: Swift.Sendable {
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         vocabularyFileUri: Swift.String? = nil,
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.vocabularyFileUri = vocabularyFileUri
         self.vocabularyName = vocabularyName
@@ -4458,8 +4342,7 @@ public struct UpdateMedicalVocabularyOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.lastModifiedTime = lastModifiedTime
         self.vocabularyName = vocabularyName
@@ -4487,8 +4370,7 @@ public struct UpdateVocabularyInput: Swift.Sendable {
         phrases: [Swift.String]? = nil,
         vocabularyFileUri: Swift.String? = nil,
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataAccessRoleArn = dataAccessRoleArn
         self.languageCode = languageCode
         self.phrases = phrases
@@ -4512,8 +4394,7 @@ public struct UpdateVocabularyOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.lastModifiedTime = lastModifiedTime
         self.vocabularyName = vocabularyName
@@ -4537,8 +4418,7 @@ public struct UpdateVocabularyFilterInput: Swift.Sendable {
         vocabularyFilterFileUri: Swift.String? = nil,
         vocabularyFilterName: Swift.String? = nil,
         words: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dataAccessRoleArn = dataAccessRoleArn
         self.vocabularyFilterFileUri = vocabularyFilterFileUri
         self.vocabularyFilterName = vocabularyFilterName
@@ -4558,8 +4438,7 @@ public struct UpdateVocabularyFilterOutput: Swift.Sendable {
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         vocabularyFilterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.lastModifiedTime = lastModifiedTime
         self.vocabularyFilterName = vocabularyFilterName
