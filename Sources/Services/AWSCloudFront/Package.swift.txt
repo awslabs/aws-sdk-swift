@@ -37,7 +37,7 @@ let package = Package(
                     package: "aws-sdk-swift.AWSSDKHTTPAuth"
                 ),
                 .product(
-                    name: "SmithyHTTPAuthAPI",
+                    name: "ClientRuntime",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -45,7 +45,11 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "ClientRuntime",
+                    name: "SmithyHTTPAPI",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyHTTPAuthAPI",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -53,11 +57,7 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyRetriesAPI",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "SmithyHTTPAPI",
+                    name: "SmithyReadWrite",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -65,11 +65,11 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyXML",
+                    name: "SmithyRetriesAPI",
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyReadWrite",
+                    name: "SmithyTestUtil",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -81,7 +81,7 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyTestUtil",
+                    name: "SmithyXML",
                     package: "smithy-swift"
                 ),
             ]

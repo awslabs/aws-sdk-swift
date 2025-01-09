@@ -95,8 +95,7 @@ extension GlobalAcceleratorClientTypes {
         public init(
             message: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.message = message
             self.timestamp = timestamp
         }
@@ -177,8 +176,7 @@ extension GlobalAcceleratorClientTypes {
             ipAddressFamily: GlobalAcceleratorClientTypes.IpAddressFamily? = nil,
             ipAddresses: [Swift.String]? = nil,
             ipFamily: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddressFamily = ipAddressFamily
             self.ipAddresses = ipAddresses
             self.ipFamily = ipFamily
@@ -254,8 +252,7 @@ extension GlobalAcceleratorClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: GlobalAcceleratorClientTypes.AcceleratorStatus? = nil
-        )
-        {
+        ) {
             self.acceleratorArn = acceleratorArn
             self.createdTime = createdTime
             self.dnsName = dnsName
@@ -286,8 +283,7 @@ extension GlobalAcceleratorClientTypes {
             flowLogsEnabled: Swift.Bool? = nil,
             flowLogsS3Bucket: Swift.String? = nil,
             flowLogsS3Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.flowLogsEnabled = flowLogsEnabled
             self.flowLogsS3Bucket = flowLogsS3Bucket
             self.flowLogsS3Prefix = flowLogsS3Prefix
@@ -313,8 +309,7 @@ public struct AcceleratorNotDisabledException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -337,8 +332,7 @@ public struct AcceleratorNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -361,8 +355,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -385,8 +378,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -409,8 +401,7 @@ public struct EndpointAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -433,8 +424,7 @@ public struct EndpointGroupNotFoundException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -457,8 +447,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -481,8 +470,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -505,8 +493,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -523,8 +510,7 @@ extension GlobalAcceleratorClientTypes {
         public init(
             attachmentArn: Swift.String? = nil,
             endpointId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentArn = attachmentArn
             self.endpointId = endpointId
         }
@@ -542,8 +528,7 @@ public struct AddCustomRoutingEndpointsInput: Swift.Sendable {
     public init(
         endpointConfigurations: [GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration]? = nil,
         endpointGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointConfigurations = endpointConfigurations
         self.endpointGroupArn = endpointGroupArn
     }
@@ -558,8 +543,7 @@ extension GlobalAcceleratorClientTypes {
 
         public init(
             endpointId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointId = endpointId
         }
     }
@@ -574,8 +558,7 @@ public struct AddCustomRoutingEndpointsOutput: Swift.Sendable {
     public init(
         endpointDescriptions: [GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription]? = nil,
         endpointGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointDescriptions = endpointDescriptions
         self.endpointGroupArn = endpointGroupArn
     }
@@ -599,8 +582,7 @@ public struct TransactionInProgressException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -623,8 +605,7 @@ extension GlobalAcceleratorClientTypes {
             clientIPPreservationEnabled: Swift.Bool? = nil,
             endpointId: Swift.String? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.attachmentArn = attachmentArn
             self.clientIPPreservationEnabled = clientIPPreservationEnabled
             self.endpointId = endpointId
@@ -644,8 +625,7 @@ public struct AddEndpointsInput: Swift.Sendable {
     public init(
         endpointConfigurations: [GlobalAcceleratorClientTypes.EndpointConfiguration]? = nil,
         endpointGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointConfigurations = endpointConfigurations
         self.endpointGroupArn = endpointGroupArn
     }
@@ -704,8 +684,7 @@ extension GlobalAcceleratorClientTypes {
             healthReason: Swift.String? = nil,
             healthState: GlobalAcceleratorClientTypes.HealthState? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.clientIPPreservationEnabled = clientIPPreservationEnabled
             self.endpointId = endpointId
             self.healthReason = healthReason
@@ -724,8 +703,7 @@ public struct AddEndpointsOutput: Swift.Sendable {
     public init(
         endpointDescriptions: [GlobalAcceleratorClientTypes.EndpointDescription]? = nil,
         endpointGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointDescriptions = endpointDescriptions
         self.endpointGroupArn = endpointGroupArn
     }
@@ -749,8 +727,7 @@ public struct ByoipCidrNotFoundException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -773,8 +750,7 @@ public struct IncorrectCidrStateException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -786,8 +762,7 @@ public struct AdvertiseByoipCidrInput: Swift.Sendable {
 
     public init(
         cidr: Swift.String? = nil
-    )
-    {
+    ) {
         self.cidr = cidr
     }
 }
@@ -804,8 +779,7 @@ extension GlobalAcceleratorClientTypes {
         public init(
             message: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.message = message
             self.timestamp = timestamp
         }
@@ -905,8 +879,7 @@ extension GlobalAcceleratorClientTypes {
             cidr: Swift.String? = nil,
             events: [GlobalAcceleratorClientTypes.ByoipCidrEvent]? = nil,
             state: GlobalAcceleratorClientTypes.ByoipCidrState? = nil
-        )
-        {
+        ) {
             self.cidr = cidr
             self.events = events
             self.state = state
@@ -920,8 +893,7 @@ public struct AdvertiseByoipCidrOutput: Swift.Sendable {
 
     public init(
         byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
-    )
-    {
+    ) {
         self.byoipCidr = byoipCidr
     }
 }
@@ -946,8 +918,7 @@ public struct AllowCustomRoutingTrafficInput: Swift.Sendable {
         destinationPorts: [Swift.Int]? = nil,
         endpointGroupArn: Swift.String? = nil,
         endpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowAllTrafficToEndpoint = allowAllTrafficToEndpoint
         self.destinationAddresses = destinationAddresses
         self.destinationPorts = destinationPorts
@@ -974,8 +945,7 @@ public struct AssociatedEndpointGroupFoundException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -998,8 +968,7 @@ public struct AssociatedListenerFoundException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1019,8 +988,7 @@ extension GlobalAcceleratorClientTypes {
             cidr: Swift.String? = nil,
             endpointId: Swift.String? = "",
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidr = cidr
             self.endpointId = endpointId
             self.region = region
@@ -1052,8 +1020,7 @@ extension GlobalAcceleratorClientTypes {
             name: Swift.String? = nil,
             principals: [Swift.String]? = nil,
             resources: [GlobalAcceleratorClientTypes.Resource]? = nil
-        )
-        {
+        ) {
             self.attachmentArn = attachmentArn
             self.createdTime = createdTime
             self.lastModifiedTime = lastModifiedTime
@@ -1082,8 +1049,7 @@ public struct AttachmentNotFoundException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1102,8 +1068,7 @@ extension GlobalAcceleratorClientTypes {
         public init(
             message: Swift.String? = nil,
             signature: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.signature = signature
         }
@@ -1153,8 +1118,7 @@ extension GlobalAcceleratorClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1184,8 +1148,7 @@ public struct CreateAcceleratorInput: Swift.Sendable {
         ipAddresses: [Swift.String]? = nil,
         name: Swift.String? = nil,
         tags: [GlobalAcceleratorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.idempotencyToken = idempotencyToken
         self.ipAddressType = ipAddressType
@@ -1201,8 +1164,7 @@ public struct CreateAcceleratorOutput: Swift.Sendable {
 
     public init(
         accelerator: GlobalAcceleratorClientTypes.Accelerator? = nil
-    )
-    {
+    ) {
         self.accelerator = accelerator
     }
 }
@@ -1227,8 +1189,7 @@ public struct CreateCrossAccountAttachmentInput: Swift.Sendable {
         principals: [Swift.String]? = nil,
         resources: [GlobalAcceleratorClientTypes.Resource]? = nil,
         tags: [GlobalAcceleratorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.idempotencyToken = idempotencyToken
         self.name = name
         self.principals = principals
@@ -1243,8 +1204,7 @@ public struct CreateCrossAccountAttachmentOutput: Swift.Sendable {
 
     public init(
         crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment? = nil
-    )
-    {
+    ) {
         self.crossAccountAttachment = crossAccountAttachment
     }
 }
@@ -1272,8 +1232,7 @@ public struct CreateCustomRoutingAcceleratorInput: Swift.Sendable {
         ipAddresses: [Swift.String]? = nil,
         name: Swift.String? = nil,
         tags: [GlobalAcceleratorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.idempotencyToken = idempotencyToken
         self.ipAddressType = ipAddressType
@@ -1345,8 +1304,7 @@ extension GlobalAcceleratorClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: GlobalAcceleratorClientTypes.CustomRoutingAcceleratorStatus? = nil
-        )
-        {
+        ) {
             self.acceleratorArn = acceleratorArn
             self.createdTime = createdTime
             self.dnsName = dnsName
@@ -1366,8 +1324,7 @@ public struct CreateCustomRoutingAcceleratorOutput: Swift.Sendable {
 
     public init(
         accelerator: GlobalAcceleratorClientTypes.CustomRoutingAccelerator? = nil
-    )
-    {
+    ) {
         self.accelerator = accelerator
     }
 }
@@ -1390,8 +1347,7 @@ public struct EndpointGroupAlreadyExistsException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1414,8 +1370,7 @@ public struct InvalidPortRangeException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1438,8 +1393,7 @@ public struct ListenerNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1491,8 +1445,7 @@ extension GlobalAcceleratorClientTypes {
             fromPort: Swift.Int? = nil,
             protocols: [GlobalAcceleratorClientTypes.CustomRoutingProtocol]? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.protocols = protocols
             self.toPort = toPort
@@ -1519,8 +1472,7 @@ public struct CreateCustomRoutingEndpointGroupInput: Swift.Sendable {
         endpointGroupRegion: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil,
         listenerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationConfigurations = destinationConfigurations
         self.endpointGroupRegion = endpointGroupRegion
         self.idempotencyToken = idempotencyToken
@@ -1572,8 +1524,7 @@ extension GlobalAcceleratorClientTypes {
             fromPort: Swift.Int? = nil,
             protocols: [GlobalAcceleratorClientTypes.ModelProtocol]? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.protocols = protocols
             self.toPort = toPort
@@ -1599,8 +1550,7 @@ extension GlobalAcceleratorClientTypes {
             endpointDescriptions: [GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription]? = nil,
             endpointGroupArn: Swift.String? = nil,
             endpointGroupRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationDescriptions = destinationDescriptions
             self.endpointDescriptions = endpointDescriptions
             self.endpointGroupArn = endpointGroupArn
@@ -1615,8 +1565,7 @@ public struct CreateCustomRoutingEndpointGroupOutput: Swift.Sendable {
 
     public init(
         endpointGroup: GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup? = nil
-    )
-    {
+    ) {
         self.endpointGroup = endpointGroup
     }
 }
@@ -1633,8 +1582,7 @@ extension GlobalAcceleratorClientTypes {
         public init(
             fromPort: Swift.Int? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.toPort = toPort
         }
@@ -1656,8 +1604,7 @@ public struct CreateCustomRoutingListenerInput: Swift.Sendable {
         acceleratorArn: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil,
         portRanges: [GlobalAcceleratorClientTypes.PortRange]? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
         self.idempotencyToken = idempotencyToken
         self.portRanges = portRanges
@@ -1676,8 +1623,7 @@ extension GlobalAcceleratorClientTypes {
         public init(
             listenerArn: Swift.String? = nil,
             portRanges: [GlobalAcceleratorClientTypes.PortRange]? = nil
-        )
-        {
+        ) {
             self.listenerArn = listenerArn
             self.portRanges = portRanges
         }
@@ -1690,8 +1636,7 @@ public struct CreateCustomRoutingListenerOutput: Swift.Sendable {
 
     public init(
         listener: GlobalAcceleratorClientTypes.CustomRoutingListener? = nil
-    )
-    {
+    ) {
         self.listener = listener
     }
 }
@@ -1740,8 +1685,7 @@ extension GlobalAcceleratorClientTypes {
         public init(
             endpointPort: Swift.Int? = nil,
             listenerPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endpointPort = endpointPort
             self.listenerPort = listenerPort
         }
@@ -1787,8 +1731,7 @@ public struct CreateEndpointGroupInput: Swift.Sendable {
         portOverrides: [GlobalAcceleratorClientTypes.PortOverride]? = nil,
         thresholdCount: Swift.Int? = nil,
         trafficDialPercentage: Swift.Float? = nil
-    )
-    {
+    ) {
         self.endpointConfigurations = endpointConfigurations
         self.endpointGroupRegion = endpointGroupRegion
         self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -1839,8 +1782,7 @@ extension GlobalAcceleratorClientTypes {
             portOverrides: [GlobalAcceleratorClientTypes.PortOverride]? = nil,
             thresholdCount: Swift.Int? = nil,
             trafficDialPercentage: Swift.Float? = nil
-        )
-        {
+        ) {
             self.endpointDescriptions = endpointDescriptions
             self.endpointGroupArn = endpointGroupArn
             self.endpointGroupRegion = endpointGroupRegion
@@ -1861,8 +1803,7 @@ public struct CreateEndpointGroupOutput: Swift.Sendable {
 
     public init(
         endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup? = nil
-    )
-    {
+    ) {
         self.endpointGroup = endpointGroup
     }
 }
@@ -1889,8 +1830,7 @@ public struct CreateListenerInput: Swift.Sendable {
         idempotencyToken: Swift.String? = nil,
         portRanges: [GlobalAcceleratorClientTypes.PortRange]? = nil,
         `protocol`: GlobalAcceleratorClientTypes.ModelProtocol? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
         self.clientAffinity = clientAffinity
         self.idempotencyToken = idempotencyToken
@@ -1917,8 +1857,7 @@ extension GlobalAcceleratorClientTypes {
             listenerArn: Swift.String? = nil,
             portRanges: [GlobalAcceleratorClientTypes.PortRange]? = nil,
             `protocol`: GlobalAcceleratorClientTypes.ModelProtocol? = nil
-        )
-        {
+        ) {
             self.clientAffinity = clientAffinity
             self.listenerArn = listenerArn
             self.portRanges = portRanges
@@ -1933,8 +1872,7 @@ public struct CreateListenerOutput: Swift.Sendable {
 
     public init(
         listener: GlobalAcceleratorClientTypes.Listener? = nil
-    )
-    {
+    ) {
         self.listener = listener
     }
 }
@@ -1954,8 +1892,7 @@ extension GlobalAcceleratorClientTypes {
             attachmentArn: Swift.String? = nil,
             cidr: Swift.String? = nil,
             endpointId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentArn = attachmentArn
             self.cidr = cidr
             self.endpointId = endpointId
@@ -1978,8 +1915,7 @@ extension GlobalAcceleratorClientTypes {
             flowLogsEnabled: Swift.Bool? = nil,
             flowLogsS3Bucket: Swift.String? = nil,
             flowLogsS3Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.flowLogsEnabled = flowLogsEnabled
             self.flowLogsS3Bucket = flowLogsS3Bucket
             self.flowLogsS3Prefix = flowLogsS3Prefix
@@ -2023,8 +1959,7 @@ public struct DeleteAcceleratorInput: Swift.Sendable {
 
     public init(
         acceleratorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
     }
 }
@@ -2036,8 +1971,7 @@ public struct DeleteCrossAccountAttachmentInput: Swift.Sendable {
 
     public init(
         attachmentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentArn = attachmentArn
     }
 }
@@ -2049,8 +1983,7 @@ public struct DeleteCustomRoutingAcceleratorInput: Swift.Sendable {
 
     public init(
         acceleratorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
     }
 }
@@ -2062,8 +1995,7 @@ public struct DeleteCustomRoutingEndpointGroupInput: Swift.Sendable {
 
     public init(
         endpointGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointGroupArn = endpointGroupArn
     }
 }
@@ -2075,8 +2007,7 @@ public struct DeleteCustomRoutingListenerInput: Swift.Sendable {
 
     public init(
         listenerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerArn = listenerArn
     }
 }
@@ -2088,8 +2019,7 @@ public struct DeleteEndpointGroupInput: Swift.Sendable {
 
     public init(
         endpointGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointGroupArn = endpointGroupArn
     }
 }
@@ -2101,8 +2031,7 @@ public struct DeleteListenerInput: Swift.Sendable {
 
     public init(
         listenerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerArn = listenerArn
     }
 }
@@ -2127,8 +2056,7 @@ public struct DenyCustomRoutingTrafficInput: Swift.Sendable {
         destinationPorts: [Swift.Int]? = nil,
         endpointGroupArn: Swift.String? = nil,
         endpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.denyAllTrafficToEndpoint = denyAllTrafficToEndpoint
         self.destinationAddresses = destinationAddresses
         self.destinationPorts = destinationPorts
@@ -2144,8 +2072,7 @@ public struct DeprovisionByoipCidrInput: Swift.Sendable {
 
     public init(
         cidr: Swift.String? = nil
-    )
-    {
+    ) {
         self.cidr = cidr
     }
 }
@@ -2156,8 +2083,7 @@ public struct DeprovisionByoipCidrOutput: Swift.Sendable {
 
     public init(
         byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
-    )
-    {
+    ) {
         self.byoipCidr = byoipCidr
     }
 }
@@ -2169,8 +2095,7 @@ public struct DescribeAcceleratorInput: Swift.Sendable {
 
     public init(
         acceleratorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
     }
 }
@@ -2181,8 +2106,7 @@ public struct DescribeAcceleratorOutput: Swift.Sendable {
 
     public init(
         accelerator: GlobalAcceleratorClientTypes.Accelerator? = nil
-    )
-    {
+    ) {
         self.accelerator = accelerator
     }
 }
@@ -2194,8 +2118,7 @@ public struct DescribeAcceleratorAttributesInput: Swift.Sendable {
 
     public init(
         acceleratorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
     }
 }
@@ -2206,8 +2129,7 @@ public struct DescribeAcceleratorAttributesOutput: Swift.Sendable {
 
     public init(
         acceleratorAttributes: GlobalAcceleratorClientTypes.AcceleratorAttributes? = nil
-    )
-    {
+    ) {
         self.acceleratorAttributes = acceleratorAttributes
     }
 }
@@ -2219,8 +2141,7 @@ public struct DescribeCrossAccountAttachmentInput: Swift.Sendable {
 
     public init(
         attachmentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentArn = attachmentArn
     }
 }
@@ -2231,8 +2152,7 @@ public struct DescribeCrossAccountAttachmentOutput: Swift.Sendable {
 
     public init(
         crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment? = nil
-    )
-    {
+    ) {
         self.crossAccountAttachment = crossAccountAttachment
     }
 }
@@ -2244,8 +2164,7 @@ public struct DescribeCustomRoutingAcceleratorInput: Swift.Sendable {
 
     public init(
         acceleratorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
     }
 }
@@ -2256,8 +2175,7 @@ public struct DescribeCustomRoutingAcceleratorOutput: Swift.Sendable {
 
     public init(
         accelerator: GlobalAcceleratorClientTypes.CustomRoutingAccelerator? = nil
-    )
-    {
+    ) {
         self.accelerator = accelerator
     }
 }
@@ -2269,8 +2187,7 @@ public struct DescribeCustomRoutingAcceleratorAttributesInput: Swift.Sendable {
 
     public init(
         acceleratorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
     }
 }
@@ -2281,8 +2198,7 @@ public struct DescribeCustomRoutingAcceleratorAttributesOutput: Swift.Sendable {
 
     public init(
         acceleratorAttributes: GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes? = nil
-    )
-    {
+    ) {
         self.acceleratorAttributes = acceleratorAttributes
     }
 }
@@ -2294,8 +2210,7 @@ public struct DescribeCustomRoutingEndpointGroupInput: Swift.Sendable {
 
     public init(
         endpointGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointGroupArn = endpointGroupArn
     }
 }
@@ -2306,8 +2221,7 @@ public struct DescribeCustomRoutingEndpointGroupOutput: Swift.Sendable {
 
     public init(
         endpointGroup: GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup? = nil
-    )
-    {
+    ) {
         self.endpointGroup = endpointGroup
     }
 }
@@ -2319,8 +2233,7 @@ public struct DescribeCustomRoutingListenerInput: Swift.Sendable {
 
     public init(
         listenerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerArn = listenerArn
     }
 }
@@ -2331,8 +2244,7 @@ public struct DescribeCustomRoutingListenerOutput: Swift.Sendable {
 
     public init(
         listener: GlobalAcceleratorClientTypes.CustomRoutingListener? = nil
-    )
-    {
+    ) {
         self.listener = listener
     }
 }
@@ -2344,8 +2256,7 @@ public struct DescribeEndpointGroupInput: Swift.Sendable {
 
     public init(
         endpointGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointGroupArn = endpointGroupArn
     }
 }
@@ -2356,8 +2267,7 @@ public struct DescribeEndpointGroupOutput: Swift.Sendable {
 
     public init(
         endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup? = nil
-    )
-    {
+    ) {
         self.endpointGroup = endpointGroup
     }
 }
@@ -2369,8 +2279,7 @@ public struct DescribeListenerInput: Swift.Sendable {
 
     public init(
         listenerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerArn = listenerArn
     }
 }
@@ -2381,8 +2290,7 @@ public struct DescribeListenerOutput: Swift.Sendable {
 
     public init(
         listener: GlobalAcceleratorClientTypes.Listener? = nil
-    )
-    {
+    ) {
         self.listener = listener
     }
 }
@@ -2399,8 +2307,7 @@ extension GlobalAcceleratorClientTypes {
         public init(
             ipAddress: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.port = port
         }
@@ -2437,8 +2344,7 @@ extension GlobalAcceleratorClientTypes {
             endpointGroupRegion: Swift.String? = nil,
             endpointId: Swift.String? = nil,
             ipAddressType: GlobalAcceleratorClientTypes.IpAddressType? = nil
-        )
-        {
+        ) {
             self.acceleratorArn = acceleratorArn
             self.acceleratorSocketAddresses = acceleratorSocketAddresses
             self.destinationSocketAddress = destinationSocketAddress
@@ -2464,8 +2370,7 @@ extension GlobalAcceleratorClientTypes {
         public init(
             clientIPPreservationEnabled: Swift.Bool? = nil,
             endpointId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIPPreservationEnabled = clientIPPreservationEnabled
             self.endpointId = endpointId
         }
@@ -2490,8 +2395,7 @@ public struct EndpointNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2514,8 +2418,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2529,8 +2432,7 @@ public struct ListAcceleratorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2545,8 +2447,7 @@ public struct ListAcceleratorsOutput: Swift.Sendable {
     public init(
         accelerators: [GlobalAcceleratorClientTypes.Accelerator]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accelerators = accelerators
         self.nextToken = nextToken
     }
@@ -2561,8 +2462,7 @@ public struct ListByoipCidrsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2577,8 +2477,7 @@ public struct ListByoipCidrsOutput: Swift.Sendable {
     public init(
         byoipCidrs: [GlobalAcceleratorClientTypes.ByoipCidr]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.byoipCidrs = byoipCidrs
         self.nextToken = nextToken
     }
@@ -2593,8 +2492,7 @@ public struct ListCrossAccountAttachmentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2609,8 +2507,7 @@ public struct ListCrossAccountAttachmentsOutput: Swift.Sendable {
     public init(
         crossAccountAttachments: [GlobalAcceleratorClientTypes.Attachment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossAccountAttachments = crossAccountAttachments
         self.nextToken = nextToken
     }
@@ -2627,8 +2524,7 @@ public struct ListCrossAccountResourceAccountsOutput: Swift.Sendable {
 
     public init(
         resourceOwnerAwsAccountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceOwnerAwsAccountIds = resourceOwnerAwsAccountIds
     }
 }
@@ -2649,8 +2545,7 @@ public struct ListCrossAccountResourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceOwnerAwsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2667,8 +2562,7 @@ public struct ListCrossAccountResourcesOutput: Swift.Sendable {
     public init(
         crossAccountResources: [GlobalAcceleratorClientTypes.CrossAccountResource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossAccountResources = crossAccountResources
         self.nextToken = nextToken
     }
@@ -2683,8 +2577,7 @@ public struct ListCustomRoutingAcceleratorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2699,8 +2592,7 @@ public struct ListCustomRoutingAcceleratorsOutput: Swift.Sendable {
     public init(
         accelerators: [GlobalAcceleratorClientTypes.CustomRoutingAccelerator]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accelerators = accelerators
         self.nextToken = nextToken
     }
@@ -2719,8 +2611,7 @@ public struct ListCustomRoutingEndpointGroupsInput: Swift.Sendable {
         listenerArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerArn = listenerArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2736,8 +2627,7 @@ public struct ListCustomRoutingEndpointGroupsOutput: Swift.Sendable {
     public init(
         endpointGroups: [GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointGroups = endpointGroups
         self.nextToken = nextToken
     }
@@ -2756,8 +2646,7 @@ public struct ListCustomRoutingListenersInput: Swift.Sendable {
         acceleratorArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2773,8 +2662,7 @@ public struct ListCustomRoutingListenersOutput: Swift.Sendable {
     public init(
         listeners: [GlobalAcceleratorClientTypes.CustomRoutingListener]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.listeners = listeners
         self.nextToken = nextToken
     }
@@ -2796,8 +2684,7 @@ public struct ListCustomRoutingPortMappingsInput: Swift.Sendable {
         endpointGroupArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
         self.endpointGroupArn = endpointGroupArn
         self.maxResults = maxResults
@@ -2829,8 +2716,7 @@ extension GlobalAcceleratorClientTypes {
             endpointGroupArn: Swift.String? = nil,
             endpointId: Swift.String? = nil,
             protocols: [GlobalAcceleratorClientTypes.CustomRoutingProtocol]? = nil
-        )
-        {
+        ) {
             self.acceleratorPort = acceleratorPort
             self.destinationSocketAddress = destinationSocketAddress
             self.destinationTrafficState = destinationTrafficState
@@ -2850,8 +2736,7 @@ public struct ListCustomRoutingPortMappingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         portMappings: [GlobalAcceleratorClientTypes.PortMapping]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.portMappings = portMappings
     }
@@ -2874,8 +2759,7 @@ public struct ListCustomRoutingPortMappingsByDestinationInput: Swift.Sendable {
         endpointId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationAddress = destinationAddress
         self.endpointId = endpointId
         self.maxResults = maxResults
@@ -2892,8 +2776,7 @@ public struct ListCustomRoutingPortMappingsByDestinationOutput: Swift.Sendable {
     public init(
         destinationPortMappings: [GlobalAcceleratorClientTypes.DestinationPortMapping]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationPortMappings = destinationPortMappings
         self.nextToken = nextToken
     }
@@ -2912,8 +2795,7 @@ public struct ListEndpointGroupsInput: Swift.Sendable {
         listenerArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerArn = listenerArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2929,8 +2811,7 @@ public struct ListEndpointGroupsOutput: Swift.Sendable {
     public init(
         endpointGroups: [GlobalAcceleratorClientTypes.EndpointGroup]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointGroups = endpointGroups
         self.nextToken = nextToken
     }
@@ -2949,8 +2830,7 @@ public struct ListListenersInput: Swift.Sendable {
         acceleratorArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2966,8 +2846,7 @@ public struct ListListenersOutput: Swift.Sendable {
     public init(
         listeners: [GlobalAcceleratorClientTypes.Listener]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.listeners = listeners
         self.nextToken = nextToken
     }
@@ -2980,8 +2859,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2992,8 +2870,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [GlobalAcceleratorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3009,8 +2886,7 @@ public struct ProvisionByoipCidrInput: Swift.Sendable {
     public init(
         cidr: Swift.String? = nil,
         cidrAuthorizationContext: GlobalAcceleratorClientTypes.CidrAuthorizationContext? = nil
-    )
-    {
+    ) {
         self.cidr = cidr
         self.cidrAuthorizationContext = cidrAuthorizationContext
     }
@@ -3022,8 +2898,7 @@ public struct ProvisionByoipCidrOutput: Swift.Sendable {
 
     public init(
         byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
-    )
-    {
+    ) {
         self.byoipCidr = byoipCidr
     }
 }
@@ -3039,8 +2914,7 @@ public struct RemoveCustomRoutingEndpointsInput: Swift.Sendable {
     public init(
         endpointGroupArn: Swift.String? = nil,
         endpointIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.endpointGroupArn = endpointGroupArn
         self.endpointIds = endpointIds
     }
@@ -3057,8 +2931,7 @@ public struct RemoveEndpointsInput: Swift.Sendable {
     public init(
         endpointGroupArn: Swift.String? = nil,
         endpointIdentifiers: [GlobalAcceleratorClientTypes.EndpointIdentifier]? = nil
-    )
-    {
+    ) {
         self.endpointGroupArn = endpointGroupArn
         self.endpointIdentifiers = endpointIdentifiers
     }
@@ -3075,8 +2948,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [GlobalAcceleratorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3098,8 +2970,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3129,8 +3000,7 @@ public struct UpdateAcceleratorInput: Swift.Sendable {
         ipAddressType: GlobalAcceleratorClientTypes.IpAddressType? = nil,
         ipAddresses: [Swift.String]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
         self.enabled = enabled
         self.ipAddressType = ipAddressType
@@ -3145,8 +3015,7 @@ public struct UpdateAcceleratorOutput: Swift.Sendable {
 
     public init(
         accelerator: GlobalAcceleratorClientTypes.Accelerator? = nil
-    )
-    {
+    ) {
         self.accelerator = accelerator
     }
 }
@@ -3167,8 +3036,7 @@ public struct UpdateAcceleratorAttributesInput: Swift.Sendable {
         flowLogsEnabled: Swift.Bool? = nil,
         flowLogsS3Bucket: Swift.String? = nil,
         flowLogsS3Prefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
         self.flowLogsEnabled = flowLogsEnabled
         self.flowLogsS3Bucket = flowLogsS3Bucket
@@ -3182,8 +3050,7 @@ public struct UpdateAcceleratorAttributesOutput: Swift.Sendable {
 
     public init(
         acceleratorAttributes: GlobalAcceleratorClientTypes.AcceleratorAttributes? = nil
-    )
-    {
+    ) {
         self.acceleratorAttributes = acceleratorAttributes
     }
 }
@@ -3210,8 +3077,7 @@ public struct UpdateCrossAccountAttachmentInput: Swift.Sendable {
         name: Swift.String? = nil,
         removePrincipals: [Swift.String]? = nil,
         removeResources: [GlobalAcceleratorClientTypes.Resource]? = nil
-    )
-    {
+    ) {
         self.addPrincipals = addPrincipals
         self.addResources = addResources
         self.attachmentArn = attachmentArn
@@ -3227,8 +3093,7 @@ public struct UpdateCrossAccountAttachmentOutput: Swift.Sendable {
 
     public init(
         crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment? = nil
-    )
-    {
+    ) {
         self.crossAccountAttachment = crossAccountAttachment
     }
 }
@@ -3252,8 +3117,7 @@ public struct UpdateCustomRoutingAcceleratorInput: Swift.Sendable {
         ipAddressType: GlobalAcceleratorClientTypes.IpAddressType? = nil,
         ipAddresses: [Swift.String]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
         self.enabled = enabled
         self.ipAddressType = ipAddressType
@@ -3268,8 +3132,7 @@ public struct UpdateCustomRoutingAcceleratorOutput: Swift.Sendable {
 
     public init(
         accelerator: GlobalAcceleratorClientTypes.CustomRoutingAccelerator? = nil
-    )
-    {
+    ) {
         self.accelerator = accelerator
     }
 }
@@ -3290,8 +3153,7 @@ public struct UpdateCustomRoutingAcceleratorAttributesInput: Swift.Sendable {
         flowLogsEnabled: Swift.Bool? = nil,
         flowLogsS3Bucket: Swift.String? = nil,
         flowLogsS3Prefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorArn = acceleratorArn
         self.flowLogsEnabled = flowLogsEnabled
         self.flowLogsS3Bucket = flowLogsS3Bucket
@@ -3305,8 +3167,7 @@ public struct UpdateCustomRoutingAcceleratorAttributesOutput: Swift.Sendable {
 
     public init(
         acceleratorAttributes: GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes? = nil
-    )
-    {
+    ) {
         self.acceleratorAttributes = acceleratorAttributes
     }
 }
@@ -3322,8 +3183,7 @@ public struct UpdateCustomRoutingListenerInput: Swift.Sendable {
     public init(
         listenerArn: Swift.String? = nil,
         portRanges: [GlobalAcceleratorClientTypes.PortRange]? = nil
-    )
-    {
+    ) {
         self.listenerArn = listenerArn
         self.portRanges = portRanges
     }
@@ -3335,8 +3195,7 @@ public struct UpdateCustomRoutingListenerOutput: Swift.Sendable {
 
     public init(
         listener: GlobalAcceleratorClientTypes.CustomRoutingListener? = nil
-    )
-    {
+    ) {
         self.listener = listener
     }
 }
@@ -3372,8 +3231,7 @@ public struct UpdateEndpointGroupInput: Swift.Sendable {
         portOverrides: [GlobalAcceleratorClientTypes.PortOverride]? = nil,
         thresholdCount: Swift.Int? = nil,
         trafficDialPercentage: Swift.Float? = nil
-    )
-    {
+    ) {
         self.endpointConfigurations = endpointConfigurations
         self.endpointGroupArn = endpointGroupArn
         self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -3392,8 +3250,7 @@ public struct UpdateEndpointGroupOutput: Swift.Sendable {
 
     public init(
         endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup? = nil
-    )
-    {
+    ) {
         self.endpointGroup = endpointGroup
     }
 }
@@ -3414,8 +3271,7 @@ public struct UpdateListenerInput: Swift.Sendable {
         listenerArn: Swift.String? = nil,
         portRanges: [GlobalAcceleratorClientTypes.PortRange]? = nil,
         `protocol`: GlobalAcceleratorClientTypes.ModelProtocol? = nil
-    )
-    {
+    ) {
         self.clientAffinity = clientAffinity
         self.listenerArn = listenerArn
         self.portRanges = portRanges
@@ -3429,8 +3285,7 @@ public struct UpdateListenerOutput: Swift.Sendable {
 
     public init(
         listener: GlobalAcceleratorClientTypes.Listener? = nil
-    )
-    {
+    ) {
         self.listener = listener
     }
 }
@@ -3442,8 +3297,7 @@ public struct WithdrawByoipCidrInput: Swift.Sendable {
 
     public init(
         cidr: Swift.String? = nil
-    )
-    {
+    ) {
         self.cidr = cidr
     }
 }
@@ -3454,8 +3308,7 @@ public struct WithdrawByoipCidrOutput: Swift.Sendable {
 
     public init(
         byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
-    )
-    {
+    ) {
         self.byoipCidr = byoipCidr
     }
 }

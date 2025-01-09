@@ -79,8 +79,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -91,8 +90,7 @@ public struct GetConnectionInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -110,8 +108,7 @@ extension ApiGatewayManagementApiClientTypes {
         public init(
             sourceIp: Swift.String? = nil,
             userAgent: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceIp = sourceIp
             self.userAgent = userAgent
         }
@@ -129,8 +126,7 @@ public struct GetConnectionOutput: Swift.Sendable {
         connectedAt: Foundation.Date? = nil,
         identity: ApiGatewayManagementApiClientTypes.Identity? = nil,
         lastActiveAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.connectedAt = connectedAt
         self.identity = identity
         self.lastActiveAt = lastActiveAt
@@ -155,8 +151,7 @@ public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -172,8 +167,7 @@ public struct PostToConnectionInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         data: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.data = data
     }

@@ -48,8 +48,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -75,8 +74,7 @@ public struct InvalidAccessException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -102,8 +100,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -129,8 +126,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -156,8 +152,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -174,8 +169,7 @@ public struct AcceptAdministratorInvitationInput: Swift.Sendable {
     public init(
         administratorId: Swift.String? = nil,
         invitationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.administratorId = administratorId
         self.invitationId = invitationId
     }
@@ -197,8 +191,7 @@ public struct AcceptInvitationInput: Swift.Sendable {
     public init(
         invitationId: Swift.String? = nil,
         masterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.invitationId = invitationId
         self.masterId = masterId
     }
@@ -229,8 +222,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -249,8 +241,7 @@ extension SecurityHubClientTypes {
         public init(
             accountId: Swift.String? = nil,
             email: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.email = email
         }
@@ -266,8 +257,7 @@ extension SecurityHubClientTypes {
 
         public init(
             domain: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
         }
     }
@@ -282,8 +272,7 @@ extension SecurityHubClientTypes {
 
         public init(
             cityName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cityName = cityName
         }
     }
@@ -301,8 +290,7 @@ extension SecurityHubClientTypes {
         public init(
             countryCode: Swift.String? = nil,
             countryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.countryCode = countryCode
             self.countryName = countryName
         }
@@ -321,8 +309,7 @@ extension SecurityHubClientTypes {
         public init(
             lat: Swift.Double? = nil,
             lon: Swift.Double? = nil
-        )
-        {
+        ) {
             self.lat = lat
             self.lon = lon
         }
@@ -347,8 +334,7 @@ extension SecurityHubClientTypes {
             asnOrg: Swift.String? = nil,
             isp: Swift.String? = nil,
             org: Swift.String? = nil
-        )
-        {
+        ) {
             self.asn = asn
             self.asnOrg = asnOrg
             self.isp = isp
@@ -378,8 +364,7 @@ extension SecurityHubClientTypes {
             geoLocation: SecurityHubClientTypes.GeoLocation? = nil,
             ipAddressV4: Swift.String? = nil,
             organization: SecurityHubClientTypes.IpOrganizationDetails? = nil
-        )
-        {
+        ) {
             self.city = city
             self.country = country
             self.geoLocation = geoLocation
@@ -419,8 +404,7 @@ extension SecurityHubClientTypes {
             lastSeen: Swift.String? = nil,
             remoteIpDetails: SecurityHubClientTypes.ActionRemoteIpDetails? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.affectedResources = affectedResources
             self.api = api
             self.callerType = callerType
@@ -448,8 +432,7 @@ extension SecurityHubClientTypes {
             blocked: Swift.Bool? = nil,
             domain: Swift.String? = nil,
             `protocol`: Swift.String? = nil
-        )
-        {
+        ) {
             self.blocked = blocked
             self.domain = domain
             self.`protocol` = `protocol`
@@ -469,8 +452,7 @@ extension SecurityHubClientTypes {
         public init(
             port: Swift.Int? = nil,
             portName: Swift.String? = nil
-        )
-        {
+        ) {
             self.port = port
             self.portName = portName
         }
@@ -489,8 +471,7 @@ extension SecurityHubClientTypes {
         public init(
             port: Swift.Int? = nil,
             portName: Swift.String? = nil
-        )
-        {
+        ) {
             self.port = port
             self.portName = portName
         }
@@ -521,8 +502,7 @@ extension SecurityHubClientTypes {
             `protocol`: Swift.String? = nil,
             remoteIpDetails: SecurityHubClientTypes.ActionRemoteIpDetails? = nil,
             remotePortDetails: SecurityHubClientTypes.ActionRemotePortDetails? = nil
-        )
-        {
+        ) {
             self.blocked = blocked
             self.connectionDirection = connectionDirection
             self.localPortDetails = localPortDetails
@@ -542,8 +522,7 @@ extension SecurityHubClientTypes {
 
         public init(
             ipAddressV4: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddressV4 = ipAddressV4
         }
     }
@@ -564,8 +543,7 @@ extension SecurityHubClientTypes {
             localIpDetails: SecurityHubClientTypes.ActionLocalIpDetails? = nil,
             localPortDetails: SecurityHubClientTypes.ActionLocalPortDetails? = nil,
             remoteIpDetails: SecurityHubClientTypes.ActionRemoteIpDetails? = nil
-        )
-        {
+        ) {
             self.localIpDetails = localIpDetails
             self.localPortDetails = localPortDetails
             self.remoteIpDetails = remoteIpDetails
@@ -585,8 +563,7 @@ extension SecurityHubClientTypes {
         public init(
             blocked: Swift.Bool? = nil,
             portProbeDetails: [SecurityHubClientTypes.PortProbeDetail]? = nil
-        )
-        {
+        ) {
             self.blocked = blocked
             self.portProbeDetails = portProbeDetails
         }
@@ -630,8 +607,7 @@ extension SecurityHubClientTypes {
             dnsRequestAction: SecurityHubClientTypes.DnsRequestAction? = nil,
             networkConnectionAction: SecurityHubClientTypes.NetworkConnectionAction? = nil,
             portProbeAction: SecurityHubClientTypes.PortProbeAction? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.awsApiCallAction = awsApiCallAction
             self.dnsRequestAction = dnsRequestAction
@@ -655,8 +631,7 @@ extension SecurityHubClientTypes {
         public init(
             text: Swift.String? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.updatedBy = updatedBy
         }
@@ -677,8 +652,7 @@ extension SecurityHubClientTypes {
         public init(
             id: Swift.String? = nil,
             productArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.productArn = productArn
         }
@@ -758,8 +732,7 @@ extension SecurityHubClientTypes {
             label: SecurityHubClientTypes.SeverityLabel? = nil,
             normalized: Swift.Int? = nil,
             product: Swift.Double? = nil
-        )
-        {
+        ) {
             self.label = label
             self.normalized = normalized
             self.product = product
@@ -861,8 +834,7 @@ extension SecurityHubClientTypes {
 
         public init(
             status: SecurityHubClientTypes.WorkflowStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -901,8 +873,7 @@ extension SecurityHubClientTypes {
             userDefinedFields: [Swift.String: Swift.String]? = nil,
             verificationState: SecurityHubClientTypes.VerificationState? = nil,
             workflow: SecurityHubClientTypes.WorkflowUpdate? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.criticality = criticality
             self.note = note
@@ -954,8 +925,7 @@ extension SecurityHubClientTypes {
         public init(
             findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate? = nil,
             type: SecurityHubClientTypes.AutomationRulesActionType? = nil
-        )
-        {
+        ) {
             self.findingFieldsUpdate = findingFieldsUpdate
             self.type = type
         }
@@ -980,8 +950,7 @@ extension SecurityHubClientTypes {
             actionTargetArn: Swift.String? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionTargetArn = actionTargetArn
             self.description = description
             self.name = name
@@ -1036,8 +1005,7 @@ extension SecurityHubClientTypes {
             issuer: Swift.String? = nil,
             mfaStatus: SecurityHubClientTypes.ActorSessionMfaStatus? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.issuer = issuer
             self.mfaStatus = mfaStatus
@@ -1058,8 +1026,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.uid = uid
         }
@@ -1087,8 +1054,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.account = account
             self.credentialUid = credentialUid
             self.name = name
@@ -1113,8 +1079,7 @@ extension SecurityHubClientTypes {
             id: Swift.String? = nil,
             session: SecurityHubClientTypes.ActorSession? = nil,
             user: SecurityHubClientTypes.ActorUser? = nil
-        )
-        {
+        ) {
             self.id = id
             self.session = session
             self.user = user
@@ -1134,8 +1099,7 @@ extension SecurityHubClientTypes {
         public init(
             metric: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.reason = reason
         }
@@ -1183,8 +1147,7 @@ extension SecurityHubClientTypes {
         public init(
             accountId: Swift.String? = nil,
             status: SecurityHubClientTypes.AdminStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.status = status
         }
@@ -1200,8 +1163,7 @@ extension SecurityHubClientTypes {
 
         public init(
             standardsId: Swift.String? = nil
-        )
-        {
+        ) {
             self.standardsId = standardsId
         }
     }
@@ -1283,8 +1245,7 @@ extension SecurityHubClientTypes {
             associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus? = nil,
             associationType: SecurityHubClientTypes.AssociationType? = nil,
             configurationPolicyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationStatus = associationStatus
             self.associationType = associationType
             self.configurationPolicyId = configurationPolicyId
@@ -1304,8 +1265,7 @@ extension SecurityHubClientTypes {
         public init(
             state: Swift.String? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.state = state
             self.statusMessage = statusMessage
         }
@@ -1336,8 +1296,7 @@ extension SecurityHubClientTypes {
             routeTableAssociationId: Swift.String? = nil,
             routeTableId: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationState = associationState
             self.gatewayId = gatewayId
             self.main = main
@@ -1488,8 +1447,7 @@ extension SecurityHubClientTypes {
         public init(
             comparison: SecurityHubClientTypes.StringFilterComparison? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.value = value
         }
@@ -1517,8 +1475,7 @@ extension SecurityHubClientTypes {
             gte: Swift.Double? = nil,
             lt: Swift.Double? = nil,
             lte: Swift.Double? = nil
-        )
-        {
+        ) {
             self.eq = eq
             self.gt = gt
             self.gte = gte
@@ -1566,8 +1523,7 @@ extension SecurityHubClientTypes {
         public init(
             unit: SecurityHubClientTypes.DateRangeUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -1589,8 +1545,7 @@ extension SecurityHubClientTypes {
             dateRange: SecurityHubClientTypes.DateRange? = nil,
             end: Swift.String? = nil,
             start: Swift.String? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
             self.end = end
             self.start = start
@@ -1662,8 +1617,7 @@ extension SecurityHubClientTypes {
             comparison: SecurityHubClientTypes.MapFilterComparison? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.key = key
             self.value = value
@@ -1791,8 +1745,7 @@ extension SecurityHubClientTypes {
             userDefinedFields: [SecurityHubClientTypes.MapFilter]? = nil,
             verificationState: [SecurityHubClientTypes.StringFilter]? = nil,
             workflowStatus: [SecurityHubClientTypes.StringFilter]? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.awsAccountName = awsAccountName
             self.companyName = companyName
@@ -1903,8 +1856,7 @@ extension SecurityHubClientTypes {
             ruleOrder: Swift.Int? = nil,
             ruleStatus: SecurityHubClientTypes.RuleStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -1953,8 +1905,7 @@ extension SecurityHubClientTypes {
             ruleOrder: Swift.Int? = nil,
             ruleStatus: SecurityHubClientTypes.RuleStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -1980,8 +1931,7 @@ extension SecurityHubClientTypes {
         public init(
             subnetId: Swift.String? = nil,
             zoneName: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetId = subnetId
             self.zoneName = zoneName
         }
@@ -2000,8 +1950,7 @@ extension SecurityHubClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             useAwsOwnedKey: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.useAwsOwnedKey = useAwsOwnedKey
         }
@@ -2044,8 +1993,7 @@ extension SecurityHubClientTypes {
             userRoleName: Swift.String? = nil,
             userSearchMatching: Swift.String? = nil,
             userSearchSubtree: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.hosts = hosts
             self.roleBase = roleBase
             self.roleName = roleName
@@ -2072,8 +2020,7 @@ extension SecurityHubClientTypes {
         public init(
             audit: Swift.Bool? = nil,
             general: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.audit = audit
             self.general = general
         }
@@ -2101,8 +2048,7 @@ extension SecurityHubClientTypes {
             general: Swift.Bool? = nil,
             generalLogGroup: Swift.String? = nil,
             pending: SecurityHubClientTypes.AwsAmazonMqBrokerLogsPendingDetails? = nil
-        )
-        {
+        ) {
             self.audit = audit
             self.auditLogGroup = auditLogGroup
             self.general = general
@@ -2127,8 +2073,7 @@ extension SecurityHubClientTypes {
             dayOfWeek: Swift.String? = nil,
             timeOfDay: Swift.String? = nil,
             timeZone: Swift.String? = nil
-        )
-        {
+        ) {
             self.dayOfWeek = dayOfWeek
             self.timeOfDay = timeOfDay
             self.timeZone = timeZone
@@ -2148,8 +2093,7 @@ extension SecurityHubClientTypes {
         public init(
             pendingChange: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.pendingChange = pendingChange
             self.username = username
         }
@@ -2216,8 +2160,7 @@ extension SecurityHubClientTypes {
             storageType: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil,
             users: [SecurityHubClientTypes.AwsAmazonMqBrokerUsersDetails]? = nil
-        )
-        {
+        ) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerArn = brokerArn
@@ -2252,8 +2195,7 @@ extension SecurityHubClientTypes {
         public init(
             destinationArn: Swift.String? = nil,
             format: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationArn = destinationArn
             self.format = format
         }
@@ -2278,8 +2220,7 @@ extension SecurityHubClientTypes {
             percentTraffic: Swift.Double? = nil,
             stageVariableOverrides: [Swift.String: Swift.String]? = nil,
             useStageCache: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.deploymentId = deploymentId
             self.percentTraffic = percentTraffic
             self.stageVariableOverrides = stageVariableOverrides
@@ -2297,8 +2238,7 @@ extension SecurityHubClientTypes {
 
         public init(
             types: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.types = types
         }
     }
@@ -2346,8 +2286,7 @@ extension SecurityHubClientTypes {
             throttlingBurstLimit: Swift.Int? = nil,
             throttlingRateLimit: Swift.Double? = nil,
             unauthorizedCacheControlHeaderStrategy: Swift.String? = nil
-        )
-        {
+        ) {
             self.cacheDataEncrypted = cacheDataEncrypted
             self.cacheTtlInSeconds = cacheTtlInSeconds
             self.cachingEnabled = cachingEnabled
@@ -2397,8 +2336,7 @@ extension SecurityHubClientTypes {
             minimumCompressionSize: Swift.Int? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
             self.createdDate = createdDate
@@ -2472,8 +2410,7 @@ extension SecurityHubClientTypes {
             tracingEnabled: Swift.Bool? = nil,
             variables: [Swift.String: Swift.String]? = nil,
             webAclArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessLogSettings = accessLogSettings
             self.cacheClusterEnabled = cacheClusterEnabled
             self.cacheClusterSize = cacheClusterSize
@@ -2518,8 +2455,7 @@ extension SecurityHubClientTypes {
             allowOrigins: [Swift.String]? = nil,
             exposeHeaders: [Swift.String]? = nil,
             maxAge: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowCredentials = allowCredentials
             self.allowHeaders = allowHeaders
             self.allowMethods = allowMethods
@@ -2566,8 +2502,7 @@ extension SecurityHubClientTypes {
             protocolType: Swift.String? = nil,
             routeSelectionExpression: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiEndpoint = apiEndpoint
             self.apiId = apiId
             self.apiKeySelectionExpression = apiKeySelectionExpression
@@ -2603,8 +2538,7 @@ extension SecurityHubClientTypes {
             loggingLevel: Swift.String? = nil,
             throttlingBurstLimit: Swift.Int? = nil,
             throttlingRateLimit: Swift.Double? = nil
-        )
-        {
+        ) {
             self.dataTraceEnabled = dataTraceEnabled
             self.detailedMetricsEnabled = detailedMetricsEnabled
             self.loggingLevel = loggingLevel
@@ -2665,8 +2599,7 @@ extension SecurityHubClientTypes {
             routeSettings: SecurityHubClientTypes.AwsApiGatewayV2RouteSettings? = nil,
             stageName: Swift.String? = nil,
             stageVariables: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
             self.autoDeploy = autoDeploy
@@ -2699,8 +2632,7 @@ extension SecurityHubClientTypes {
             authorizerResultTtlInSeconds: Swift.Int? = nil,
             authorizerUri: Swift.String? = nil,
             identityValidationExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
             self.authorizerUri = authorizerUri
             self.identityValidationExpression = identityValidationExpression
@@ -2726,8 +2658,7 @@ extension SecurityHubClientTypes {
             clientId: Swift.String? = nil,
             iatTtL: Swift.Int? = nil,
             issuer: Swift.String? = nil
-        )
-        {
+        ) {
             self.authTtL = authTtL
             self.clientId = clientId
             self.iatTtL = iatTtL
@@ -2754,8 +2685,7 @@ extension SecurityHubClientTypes {
             awsRegion: Swift.String? = nil,
             defaultAction: Swift.String? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.appIdClientRegex = appIdClientRegex
             self.awsRegion = awsRegion
             self.defaultAction = defaultAction
@@ -2782,8 +2712,7 @@ extension SecurityHubClientTypes {
             lambdaAuthorizerConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails? = nil,
             openIdConnectConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails? = nil,
             userPoolConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiUserPoolConfigDetails? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
             self.openIdConnectConfig = openIdConnectConfig
@@ -2807,8 +2736,7 @@ extension SecurityHubClientTypes {
             cloudWatchLogsRoleArn: Swift.String? = nil,
             excludeVerboseContent: Swift.Bool? = nil,
             fieldLogLevel: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.excludeVerboseContent = excludeVerboseContent
             self.fieldLogLevel = fieldLogLevel
@@ -2858,8 +2786,7 @@ extension SecurityHubClientTypes {
             userPoolConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiUserPoolConfigDetails? = nil,
             wafWebAclArn: Swift.String? = nil,
             xrayEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.arn = arn
@@ -2888,8 +2815,7 @@ extension SecurityHubClientTypes {
         public init(
             encryptionOption: Swift.String? = nil,
             kmsKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionOption = encryptionOption
             self.kmsKey = kmsKey
         }
@@ -2905,8 +2831,7 @@ extension SecurityHubClientTypes {
 
         public init(
             encryptionConfiguration: SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails? = nil
-        )
-        {
+        ) {
             self.encryptionConfiguration = encryptionConfiguration
         }
     }
@@ -2921,8 +2846,7 @@ extension SecurityHubClientTypes {
 
         public init(
             resultConfiguration: SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationDetails? = nil
-        )
-        {
+        ) {
             self.resultConfiguration = resultConfiguration
         }
     }
@@ -2946,8 +2870,7 @@ extension SecurityHubClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.description = description
             self.name = name
@@ -2965,8 +2888,7 @@ extension SecurityHubClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -2987,8 +2909,7 @@ extension SecurityHubClientTypes {
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.version = version
@@ -3026,8 +2947,7 @@ extension SecurityHubClientTypes {
             spotAllocationStrategy: Swift.String? = nil,
             spotInstancePools: Swift.Int? = nil,
             spotMaxPrice: Swift.String? = nil
-        )
-        {
+        ) {
             self.onDemandAllocationStrategy = onDemandAllocationStrategy
             self.onDemandBaseCapacity = onDemandBaseCapacity
             self.onDemandPercentageAboveBaseCapacity = onDemandPercentageAboveBaseCapacity
@@ -3053,8 +2973,7 @@ extension SecurityHubClientTypes {
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.version = version
@@ -3074,8 +2993,7 @@ extension SecurityHubClientTypes {
         public init(
             instanceType: Swift.String? = nil,
             weightedCapacity: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
             self.weightedCapacity = weightedCapacity
         }
@@ -3094,8 +3012,7 @@ extension SecurityHubClientTypes {
         public init(
             launchTemplateSpecification: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification? = nil,
             overrides: [SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails]? = nil
-        )
-        {
+        ) {
             self.launchTemplateSpecification = launchTemplateSpecification
             self.overrides = overrides
         }
@@ -3114,8 +3031,7 @@ extension SecurityHubClientTypes {
         public init(
             instancesDistribution: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails? = nil,
             launchTemplate: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails? = nil
-        )
-        {
+        ) {
             self.instancesDistribution = instancesDistribution
             self.launchTemplate = launchTemplate
         }
@@ -3155,8 +3071,7 @@ extension SecurityHubClientTypes {
             launchTemplate: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification? = nil,
             loadBalancerNames: [Swift.String]? = nil,
             mixedInstancesPolicy: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
             self.createdTime = createdTime
@@ -3217,8 +3132,7 @@ extension SecurityHubClientTypes {
             snapshotId: Swift.String? = nil,
             volumeSize: Swift.Int? = nil,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
             self.iops = iops
@@ -3247,8 +3161,7 @@ extension SecurityHubClientTypes {
             ebs: SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails? = nil,
             noDevice: Swift.Bool? = nil,
             virtualName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.ebs = ebs
             self.noDevice = noDevice
@@ -3266,8 +3179,7 @@ extension SecurityHubClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -3288,8 +3200,7 @@ extension SecurityHubClientTypes {
             httpEndpoint: Swift.String? = nil,
             httpPutResponseHopLimit: Swift.Int? = nil,
             httpTokens: Swift.String? = nil
-        )
-        {
+        ) {
             self.httpEndpoint = httpEndpoint
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
             self.httpTokens = httpTokens
@@ -3360,8 +3271,7 @@ extension SecurityHubClientTypes {
             securityGroups: [Swift.String]? = nil,
             spotPrice: Swift.String? = nil,
             userData: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.blockDeviceMappings = blockDeviceMappings
             self.classicLinkVpcId = classicLinkVpcId
@@ -3401,8 +3311,7 @@ extension SecurityHubClientTypes {
         public init(
             backupOptions: [Swift.String: Swift.String]? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupOptions = backupOptions
             self.resourceType = resourceType
         }
@@ -3421,8 +3330,7 @@ extension SecurityHubClientTypes {
         public init(
             deleteAfterDays: Swift.Int? = nil,
             moveToColdStorageAfterDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.deleteAfterDays = deleteAfterDays
             self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
         }
@@ -3441,8 +3349,7 @@ extension SecurityHubClientTypes {
         public init(
             destinationBackupVaultArn: Swift.String? = nil,
             lifecycle: SecurityHubClientTypes.AwsBackupBackupPlanLifecycleDetails? = nil
-        )
-        {
+        ) {
             self.destinationBackupVaultArn = destinationBackupVaultArn
             self.lifecycle = lifecycle
         }
@@ -3482,8 +3389,7 @@ extension SecurityHubClientTypes {
             scheduleExpression: Swift.String? = nil,
             startWindowMinutes: Swift.Int? = nil,
             targetBackupVault: Swift.String? = nil
-        )
-        {
+        ) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
             self.enableContinuousBackup = enableContinuousBackup
@@ -3512,8 +3418,7 @@ extension SecurityHubClientTypes {
             advancedBackupSettings: [SecurityHubClientTypes.AwsBackupBackupPlanAdvancedBackupSettingsDetails]? = nil,
             backupPlanName: Swift.String? = nil,
             backupPlanRule: [SecurityHubClientTypes.AwsBackupBackupPlanRuleDetails]? = nil
-        )
-        {
+        ) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
             self.backupPlanRule = backupPlanRule
@@ -3539,8 +3444,7 @@ extension SecurityHubClientTypes {
             backupPlanArn: Swift.String? = nil,
             backupPlanId: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupPlan = backupPlan
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -3569,8 +3473,7 @@ extension SecurityHubClientTypes {
         public init(
             backupVaultEvents: [Swift.String]? = nil,
             snsTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupVaultEvents = backupVaultEvents
             self.snsTopicArn = snsTopicArn
         }
@@ -3598,8 +3501,7 @@ extension SecurityHubClientTypes {
             backupVaultName: Swift.String? = nil,
             encryptionKeyArn: Swift.String? = nil,
             notifications: SecurityHubClientTypes.AwsBackupBackupVaultNotificationsDetails? = nil
-        )
-        {
+        ) {
             self.accessPolicy = accessPolicy
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -3621,8 +3523,7 @@ extension SecurityHubClientTypes {
         public init(
             deleteAt: Swift.String? = nil,
             moveToColdStorageAt: Swift.String? = nil
-        )
-        {
+        ) {
             self.deleteAt = deleteAt
             self.moveToColdStorageAt = moveToColdStorageAt
         }
@@ -3647,8 +3548,7 @@ extension SecurityHubClientTypes {
             backupPlanId: Swift.String? = nil,
             backupPlanVersion: Swift.String? = nil,
             backupRuleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
             self.backupPlanVersion = backupPlanVersion
@@ -3669,8 +3569,7 @@ extension SecurityHubClientTypes {
         public init(
             deleteAfterDays: Swift.Int? = nil,
             moveToColdStorageAfterDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.deleteAfterDays = deleteAfterDays
             self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
         }
@@ -3754,8 +3653,7 @@ extension SecurityHubClientTypes {
             status: Swift.String? = nil,
             statusMessage: Swift.String? = nil,
             storageClass: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -3794,8 +3692,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
             self.value = value
@@ -3831,8 +3728,7 @@ extension SecurityHubClientTypes {
             validationEmails: [Swift.String]? = nil,
             validationMethod: Swift.String? = nil,
             validationStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.resourceRecord = resourceRecord
             self.validationDomain = validationDomain
@@ -3855,8 +3751,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             oId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.oId = oId
         }
@@ -3872,8 +3767,7 @@ extension SecurityHubClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -3888,8 +3782,7 @@ extension SecurityHubClientTypes {
 
         public init(
             certificateTransparencyLoggingPreference: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
         }
     }
@@ -3913,8 +3806,7 @@ extension SecurityHubClientTypes {
             renewalStatus: Swift.String? = nil,
             renewalStatusReason: Swift.String? = nil,
             updatedAt: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainValidationOptions = domainValidationOptions
             self.renewalStatus = renewalStatus
             self.renewalStatusReason = renewalStatusReason
@@ -3998,8 +3890,7 @@ extension SecurityHubClientTypes {
             subject: Swift.String? = nil,
             subjectAlternativeNames: [Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.createdAt = createdAt
             self.domainName = domainName
@@ -4036,8 +3927,7 @@ extension SecurityHubClientTypes {
 
         public init(
             stackDriftStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.stackDriftStatus = stackDriftStatus
         }
     }
@@ -4058,8 +3948,7 @@ extension SecurityHubClientTypes {
             description: Swift.String? = nil,
             outputKey: Swift.String? = nil,
             outputValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.outputKey = outputKey
             self.outputValue = outputValue
@@ -4118,8 +4007,7 @@ extension SecurityHubClientTypes {
             stackStatus: Swift.String? = nil,
             stackStatusReason: Swift.String? = nil,
             timeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.capabilities = capabilities
             self.creationTime = creationTime
             self.description = description
@@ -4154,8 +4042,7 @@ extension SecurityHubClientTypes {
 
         public init(
             viewerProtocolPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.viewerProtocolPolicy = viewerProtocolPolicy
         }
     }
@@ -4170,8 +4057,7 @@ extension SecurityHubClientTypes {
 
         public init(
             items: [SecurityHubClientTypes.AwsCloudFrontDistributionCacheBehavior]? = nil
-        )
-        {
+        ) {
             self.items = items
         }
     }
@@ -4192,8 +4078,7 @@ extension SecurityHubClientTypes {
 
         public init(
             viewerProtocolPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.viewerProtocolPolicy = viewerProtocolPolicy
         }
     }
@@ -4217,8 +4102,7 @@ extension SecurityHubClientTypes {
             enabled: Swift.Bool? = nil,
             includeCookies: Swift.Bool? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.enabled = enabled
             self.includeCookies = includeCookies
@@ -4239,8 +4123,7 @@ extension SecurityHubClientTypes {
         public init(
             items: [Swift.Int]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -4256,8 +4139,7 @@ extension SecurityHubClientTypes {
 
         public init(
             statusCodes: SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroupFailoverStatusCodes? = nil
-        )
-        {
+        ) {
             self.statusCodes = statusCodes
         }
     }
@@ -4272,8 +4154,7 @@ extension SecurityHubClientTypes {
 
         public init(
             failoverCriteria: SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroupFailover? = nil
-        )
-        {
+        ) {
             self.failoverCriteria = failoverCriteria
         }
     }
@@ -4288,8 +4169,7 @@ extension SecurityHubClientTypes {
 
         public init(
             items: [SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroup]? = nil
-        )
-        {
+        ) {
             self.items = items
         }
     }
@@ -4307,8 +4187,7 @@ extension SecurityHubClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -4339,8 +4218,7 @@ extension SecurityHubClientTypes {
             originProtocolPolicy: Swift.String? = nil,
             originReadTimeout: Swift.Int? = nil,
             originSslProtocols: SecurityHubClientTypes.AwsCloudFrontDistributionOriginSslProtocols? = nil
-        )
-        {
+        ) {
             self.httpPort = httpPort
             self.httpsPort = httpsPort
             self.originKeepaliveTimeout = originKeepaliveTimeout
@@ -4360,8 +4238,7 @@ extension SecurityHubClientTypes {
 
         public init(
             originAccessIdentity: Swift.String? = nil
-        )
-        {
+        ) {
             self.originAccessIdentity = originAccessIdentity
         }
     }
@@ -4388,8 +4265,7 @@ extension SecurityHubClientTypes {
             id: Swift.String? = nil,
             originPath: Swift.String? = nil,
             s3OriginConfig: SecurityHubClientTypes.AwsCloudFrontDistributionOriginS3OriginConfig? = nil
-        )
-        {
+        ) {
             self.customOriginConfig = customOriginConfig
             self.domainName = domainName
             self.id = id
@@ -4408,8 +4284,7 @@ extension SecurityHubClientTypes {
 
         public init(
             items: [SecurityHubClientTypes.AwsCloudFrontDistributionOriginItem]? = nil
-        )
-        {
+        ) {
             self.items = items
         }
     }
@@ -4442,8 +4317,7 @@ extension SecurityHubClientTypes {
             iamCertificateId: Swift.String? = nil,
             minimumProtocolVersion: Swift.String? = nil,
             sslSupportMethod: Swift.String? = nil
-        )
-        {
+        ) {
             self.acmCertificateArn = acmCertificateArn
             self.certificate = certificate
             self.certificateSource = certificateSource
@@ -4497,8 +4371,7 @@ extension SecurityHubClientTypes {
             status: Swift.String? = nil,
             viewerCertificate: SecurityHubClientTypes.AwsCloudFrontDistributionViewerCertificate? = nil,
             webAclId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cacheBehaviors = cacheBehaviors
             self.defaultCacheBehavior = defaultCacheBehavior
             self.defaultRootObject = defaultRootObject
@@ -4566,8 +4439,7 @@ extension SecurityHubClientTypes {
             snsTopicArn: Swift.String? = nil,
             snsTopicName: Swift.String? = nil,
             trailArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.hasCustomEventSelectors = hasCustomEventSelectors
@@ -4599,8 +4471,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -4679,8 +4550,7 @@ extension SecurityHubClientTypes {
             thresholdMetricId: Swift.String? = nil,
             treatMissingData: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
@@ -4740,8 +4610,7 @@ extension SecurityHubClientTypes {
             packaging: Swift.String? = nil,
             path: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactIdentifier = artifactIdentifier
             self.encryptionDisabled = encryptionDisabled
             self.location = location
@@ -4770,8 +4639,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
             self.value = value
@@ -4791,8 +4659,7 @@ extension SecurityHubClientTypes {
         public init(
             credential: Swift.String? = nil,
             credentialProvider: Swift.String? = nil
-        )
-        {
+        ) {
             self.credential = credential
             self.credentialProvider = credentialProvider
         }
@@ -4830,8 +4697,7 @@ extension SecurityHubClientTypes {
             privilegedMode: Swift.Bool? = nil,
             registryCredential: SecurityHubClientTypes.AwsCodeBuildProjectEnvironmentRegistryCredential? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificate = certificate
             self.environmentVariables = environmentVariables
             self.imagePullCredentialsType = imagePullCredentialsType
@@ -4857,8 +4723,7 @@ extension SecurityHubClientTypes {
             groupName: Swift.String? = nil,
             status: Swift.String? = nil,
             streamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupName = groupName
             self.status = status
             self.streamName = streamName
@@ -4881,8 +4746,7 @@ extension SecurityHubClientTypes {
             encryptionDisabled: Swift.Bool? = nil,
             location: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionDisabled = encryptionDisabled
             self.location = location
             self.status = status
@@ -4902,8 +4766,7 @@ extension SecurityHubClientTypes {
         public init(
             cloudWatchLogs: SecurityHubClientTypes.AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails? = nil,
             s3Logs: SecurityHubClientTypes.AwsCodeBuildProjectLogsConfigS3LogsDetails? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogs = cloudWatchLogs
             self.s3Logs = s3Logs
         }
@@ -4959,8 +4822,7 @@ extension SecurityHubClientTypes {
             insecureSsl: Swift.Bool? = nil,
             location: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.gitCloneDepth = gitCloneDepth
             self.insecureSsl = insecureSsl
             self.location = location
@@ -4984,8 +4846,7 @@ extension SecurityHubClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
             self.vpcId = vpcId
@@ -5026,8 +4887,7 @@ extension SecurityHubClientTypes {
             serviceRole: Swift.String? = nil,
             source: SecurityHubClientTypes.AwsCodeBuildProjectSource? = nil,
             vpcConfig: SecurityHubClientTypes.AwsCodeBuildProjectVpcConfig? = nil
-        )
-        {
+        ) {
             self.artifacts = artifacts
             self.encryptionKey = encryptionKey
             self.environment = environment
@@ -5086,8 +4946,7 @@ extension SecurityHubClientTypes {
             serverName: Swift.String? = nil,
             sslMode: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.endpointArn = endpointArn
@@ -5114,8 +4973,7 @@ extension SecurityHubClientTypes {
 
         public init(
             replicationSubnetGroupIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
         }
     }
@@ -5130,8 +4988,7 @@ extension SecurityHubClientTypes {
 
         public init(
             vpcSecurityGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
     }
@@ -5179,8 +5036,7 @@ extension SecurityHubClientTypes {
             replicationInstanceIdentifier: Swift.String? = nil,
             replicationSubnetGroup: SecurityHubClientTypes.AwsDmsReplicationInstanceReplicationSubnetGroupDetails? = nil,
             vpcSecurityGroups: [SecurityHubClientTypes.AwsDmsReplicationInstanceVpcSecurityGroupsDetails]? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -5242,8 +5098,7 @@ extension SecurityHubClientTypes {
             tableMappings: Swift.String? = nil,
             targetEndpointArn: Swift.String? = nil,
             taskData: Swift.String? = nil
-        )
-        {
+        ) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
@@ -5273,8 +5128,7 @@ extension SecurityHubClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeType = attributeType
         }
@@ -5293,8 +5147,7 @@ extension SecurityHubClientTypes {
         public init(
             billingMode: Swift.String? = nil,
             lastUpdateToPayPerRequestDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.billingMode = billingMode
             self.lastUpdateToPayPerRequestDateTime = lastUpdateToPayPerRequestDateTime
         }
@@ -5313,8 +5166,7 @@ extension SecurityHubClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             keyType: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.keyType = keyType
         }
@@ -5339,8 +5191,7 @@ extension SecurityHubClientTypes {
         public init(
             nonKeyAttributes: [Swift.String]? = nil,
             projectionType: Swift.String? = nil
-        )
-        {
+        ) {
             self.nonKeyAttributes = nonKeyAttributes
             self.projectionType = projectionType
         }
@@ -5368,8 +5219,7 @@ extension SecurityHubClientTypes {
             numberOfDecreasesToday: Swift.Int? = nil,
             readCapacityUnits: Swift.Int? = nil,
             writeCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lastDecreaseDateTime = lastDecreaseDateTime
             self.lastIncreaseDateTime = lastIncreaseDateTime
             self.numberOfDecreasesToday = numberOfDecreasesToday
@@ -5420,8 +5270,7 @@ extension SecurityHubClientTypes {
             keySchema: [SecurityHubClientTypes.AwsDynamoDbTableKeySchema]? = nil,
             projection: SecurityHubClientTypes.AwsDynamoDbTableProjection? = nil,
             provisionedThroughput: SecurityHubClientTypes.AwsDynamoDbTableProvisionedThroughput? = nil
-        )
-        {
+        ) {
             self.backfilling = backfilling
             self.indexArn = indexArn
             self.indexName = indexName
@@ -5453,8 +5302,7 @@ extension SecurityHubClientTypes {
             indexName: Swift.String? = nil,
             keySchema: [SecurityHubClientTypes.AwsDynamoDbTableKeySchema]? = nil,
             projection: SecurityHubClientTypes.AwsDynamoDbTableProjection? = nil
-        )
-        {
+        ) {
             self.indexArn = indexArn
             self.indexName = indexName
             self.keySchema = keySchema
@@ -5472,8 +5320,7 @@ extension SecurityHubClientTypes {
 
         public init(
             readCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.readCapacityUnits = readCapacityUnits
         }
     }
@@ -5491,8 +5338,7 @@ extension SecurityHubClientTypes {
         public init(
             indexName: Swift.String? = nil,
             provisionedThroughputOverride: SecurityHubClientTypes.AwsDynamoDbTableProvisionedThroughputOverride? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.provisionedThroughputOverride = provisionedThroughputOverride
         }
@@ -5533,8 +5379,7 @@ extension SecurityHubClientTypes {
             regionName: Swift.String? = nil,
             replicaStatus: Swift.String? = nil,
             replicaStatusDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
             self.provisionedThroughputOverride = provisionedThroughputOverride
@@ -5563,8 +5408,7 @@ extension SecurityHubClientTypes {
             restoreInProgress: Swift.Bool? = nil,
             sourceBackupArn: Swift.String? = nil,
             sourceTableArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.restoreDateTime = restoreDateTime
             self.restoreInProgress = restoreInProgress
             self.sourceBackupArn = sourceBackupArn
@@ -5591,8 +5435,7 @@ extension SecurityHubClientTypes {
             kmsMasterKeyArn: Swift.String? = nil,
             sseType: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.inaccessibleEncryptionDateTime = inaccessibleEncryptionDateTime
             self.kmsMasterKeyArn = kmsMasterKeyArn
             self.sseType = sseType
@@ -5613,8 +5456,7 @@ extension SecurityHubClientTypes {
         public init(
             streamEnabled: Swift.Bool? = nil,
             streamViewType: Swift.String? = nil
-        )
-        {
+        ) {
             self.streamEnabled = streamEnabled
             self.streamViewType = streamViewType
         }
@@ -5701,8 +5543,7 @@ extension SecurityHubClientTypes {
             tableName: Swift.String? = nil,
             tableSizeBytes: Swift.Int? = nil,
             tableStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
             self.creationDateTime = creationDateTime
@@ -5736,8 +5577,7 @@ extension SecurityHubClientTypes {
 
         public init(
             directoryId: Swift.String? = nil
-        )
-        {
+        ) {
             self.directoryId = directoryId
         }
     }
@@ -5755,8 +5595,7 @@ extension SecurityHubClientTypes {
         public init(
             samlProviderArn: Swift.String? = nil,
             selfServiceSamlProviderArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.samlProviderArn = samlProviderArn
             self.selfServiceSamlProviderArn = selfServiceSamlProviderArn
         }
@@ -5772,8 +5611,7 @@ extension SecurityHubClientTypes {
 
         public init(
             clientRootCertificateChain: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientRootCertificateChain = clientRootCertificateChain
         }
     }
@@ -5797,8 +5635,7 @@ extension SecurityHubClientTypes {
             federatedAuthentication: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails? = nil,
             mutualAuthentication: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeDirectory = activeDirectory
             self.federatedAuthentication = federatedAuthentication
             self.mutualAuthentication = mutualAuthentication
@@ -5819,8 +5656,7 @@ extension SecurityHubClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -5842,8 +5678,7 @@ extension SecurityHubClientTypes {
             enabled: Swift.Bool? = nil,
             lambdaFunctionArn: Swift.String? = nil,
             status: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.lambdaFunctionArn = lambdaFunctionArn
             self.status = status
@@ -5863,8 +5698,7 @@ extension SecurityHubClientTypes {
         public init(
             bannerText: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.bannerText = bannerText
             self.enabled = enabled
         }
@@ -5886,8 +5720,7 @@ extension SecurityHubClientTypes {
             cloudwatchLogGroup: Swift.String? = nil,
             cloudwatchLogStream: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.cloudwatchLogGroup = cloudwatchLogGroup
             self.cloudwatchLogStream = cloudwatchLogStream
             self.enabled = enabled
@@ -5949,8 +5782,7 @@ extension SecurityHubClientTypes {
             transportProtocol: Swift.String? = nil,
             vpcId: Swift.String? = nil,
             vpnPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
             self.clientConnectOptions = clientConnectOptions
@@ -6007,8 +5839,7 @@ extension SecurityHubClientTypes {
             privateIpAddress: Swift.String? = nil,
             publicIp: Swift.String? = nil,
             publicIpv4Pool: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocationId = allocationId
             self.associationId = associationId
             self.domain = domain
@@ -6044,8 +5875,7 @@ extension SecurityHubClientTypes {
             httpPutResponseHopLimit: Swift.Int? = nil,
             httpTokens: Swift.String? = nil,
             instanceMetadataTags: Swift.String? = nil
-        )
-        {
+        ) {
             self.httpEndpoint = httpEndpoint
             self.httpProtocolIpv6 = httpProtocolIpv6
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
@@ -6064,8 +5894,7 @@ extension SecurityHubClientTypes {
 
         public init(
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -6080,8 +5909,7 @@ extension SecurityHubClientTypes {
 
         public init(
             networkInterfaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.networkInterfaceId = networkInterfaceId
         }
     }
@@ -6132,8 +5960,7 @@ extension SecurityHubClientTypes {
             type: Swift.String? = nil,
             virtualizationType: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.imageId = imageId
             self.ipV4Addresses = ipV4Addresses
@@ -6181,8 +6008,7 @@ extension SecurityHubClientTypes {
             throughput: Swift.Int? = nil,
             volumeSize: Swift.Int? = nil,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
             self.iops = iops
@@ -6213,8 +6039,7 @@ extension SecurityHubClientTypes {
             ebs: SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails? = nil,
             noDevice: Swift.String? = nil,
             virtualName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.ebs = ebs
             self.noDevice = noDevice
@@ -6235,8 +6060,7 @@ extension SecurityHubClientTypes {
         public init(
             capacityReservationId: Swift.String? = nil,
             capacityReservationResourceGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityReservationId = capacityReservationId
             self.capacityReservationResourceGroupArn = capacityReservationResourceGroupArn
         }
@@ -6255,8 +6079,7 @@ extension SecurityHubClientTypes {
         public init(
             capacityReservationPreference: Swift.String? = nil,
             capacityReservationTarget: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails? = nil
-        )
-        {
+        ) {
             self.capacityReservationPreference = capacityReservationPreference
             self.capacityReservationTarget = capacityReservationTarget
         }
@@ -6275,8 +6098,7 @@ extension SecurityHubClientTypes {
         public init(
             coreCount: Swift.Int? = nil,
             threadsPerCore: Swift.Int? = nil
-        )
-        {
+        ) {
             self.coreCount = coreCount
             self.threadsPerCore = threadsPerCore
         }
@@ -6292,8 +6114,7 @@ extension SecurityHubClientTypes {
 
         public init(
             cpuCredits: Swift.String? = nil
-        )
-        {
+        ) {
             self.cpuCredits = cpuCredits
         }
     }
@@ -6308,8 +6129,7 @@ extension SecurityHubClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -6327,8 +6147,7 @@ extension SecurityHubClientTypes {
         public init(
             count: Swift.Int? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.type = type
         }
@@ -6344,8 +6163,7 @@ extension SecurityHubClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -6360,8 +6178,7 @@ extension SecurityHubClientTypes {
 
         public init(
             configured: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.configured = configured
         }
     }
@@ -6379,8 +6196,7 @@ extension SecurityHubClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -6408,8 +6224,7 @@ extension SecurityHubClientTypes {
             maxPrice: Swift.String? = nil,
             spotInstanceType: Swift.String? = nil,
             validUntil: Swift.String? = nil
-        )
-        {
+        ) {
             self.blockDurationMinutes = blockDurationMinutes
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
             self.maxPrice = maxPrice
@@ -6431,8 +6246,7 @@ extension SecurityHubClientTypes {
         public init(
             marketType: Swift.String? = nil,
             spotOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails? = nil
-        )
-        {
+        ) {
             self.marketType = marketType
             self.spotOptions = spotOptions
         }
@@ -6451,8 +6265,7 @@ extension SecurityHubClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -6471,8 +6284,7 @@ extension SecurityHubClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -6491,8 +6303,7 @@ extension SecurityHubClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -6511,8 +6322,7 @@ extension SecurityHubClientTypes {
         public init(
             max: Swift.Double? = nil,
             min: Swift.Double? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -6531,8 +6341,7 @@ extension SecurityHubClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -6551,8 +6360,7 @@ extension SecurityHubClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -6571,8 +6379,7 @@ extension SecurityHubClientTypes {
         public init(
             max: Swift.Double? = nil,
             min: Swift.Double? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -6591,8 +6398,7 @@ extension SecurityHubClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -6668,8 +6474,7 @@ extension SecurityHubClientTypes {
             spotMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
             totalLocalStorageGB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails? = nil,
             vCpuCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails? = nil
-        )
-        {
+        ) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
             self.acceleratorNames = acceleratorNames
@@ -6704,8 +6509,7 @@ extension SecurityHubClientTypes {
 
         public init(
             licenseConfigurationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
     }
@@ -6720,8 +6524,7 @@ extension SecurityHubClientTypes {
 
         public init(
             autoRecovery: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoRecovery = autoRecovery
         }
     }
@@ -6748,8 +6551,7 @@ extension SecurityHubClientTypes {
             httpPutResponseHopLimit: Swift.Int? = nil,
             httpTokens: Swift.String? = nil,
             instanceMetadataTags: Swift.String? = nil
-        )
-        {
+        ) {
             self.httpEndpoint = httpEndpoint
             self.httpProtocolIpv6 = httpProtocolIpv6
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
@@ -6768,8 +6570,7 @@ extension SecurityHubClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -6784,8 +6585,7 @@ extension SecurityHubClientTypes {
 
         public init(
             ipv4Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipv4Prefix = ipv4Prefix
         }
     }
@@ -6800,8 +6600,7 @@ extension SecurityHubClientTypes {
 
         public init(
             ipv6Address: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipv6Address = ipv6Address
         }
     }
@@ -6816,8 +6615,7 @@ extension SecurityHubClientTypes {
 
         public init(
             ipv6Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipv6Prefix = ipv6Prefix
         }
     }
@@ -6835,8 +6633,7 @@ extension SecurityHubClientTypes {
         public init(
             primary: Swift.Bool? = nil,
             privateIpAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.primary = primary
             self.privateIpAddress = privateIpAddress
         }
@@ -6906,8 +6703,7 @@ extension SecurityHubClientTypes {
             privateIpAddresses: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails]? = nil,
             secondaryPrivateIpAddressCount: Swift.Int? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associateCarrierIpAddress = associateCarrierIpAddress
             self.associatePublicIpAddress = associatePublicIpAddress
             self.deleteOnTermination = deleteOnTermination
@@ -6961,8 +6757,7 @@ extension SecurityHubClientTypes {
             partitionNumber: Swift.Int? = nil,
             spreadDomain: Swift.String? = nil,
             tenancy: Swift.String? = nil
-        )
-        {
+        ) {
             self.affinity = affinity
             self.availabilityZone = availabilityZone
             self.groupName = groupName
@@ -6990,8 +6785,7 @@ extension SecurityHubClientTypes {
             enableResourceNameDnsAAAARecord: Swift.Bool? = nil,
             enableResourceNameDnsARecord: Swift.Bool? = nil,
             hostnameType: Swift.String? = nil
-        )
-        {
+        ) {
             self.enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecord
             self.enableResourceNameDnsARecord = enableResourceNameDnsARecord
             self.hostnameType = hostnameType
@@ -7095,8 +6889,7 @@ extension SecurityHubClientTypes {
             securityGroupIdSet: [Swift.String]? = nil,
             securityGroupSet: [Swift.String]? = nil,
             userData: Swift.String? = nil
-        )
-        {
+        ) {
             self.blockDeviceMappingSet = blockDeviceMappingSet
             self.capacityReservationSpecification = capacityReservationSpecification
             self.cpuOptions = cpuOptions
@@ -7152,8 +6945,7 @@ extension SecurityHubClientTypes {
             latestVersionNumber: Swift.Int? = nil,
             launchTemplateData: SecurityHubClientTypes.AwsEc2LaunchTemplateDataDetails? = nil,
             launchTemplateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultVersionNumber = defaultVersionNumber
             self.id = id
             self.latestVersionNumber = latestVersionNumber
@@ -7178,8 +6970,7 @@ extension SecurityHubClientTypes {
             networkAclAssociationId: Swift.String? = nil,
             networkAclId: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.networkAclAssociationId = networkAclAssociationId
             self.networkAclId = networkAclId
             self.subnetId = subnetId
@@ -7199,8 +6990,7 @@ extension SecurityHubClientTypes {
         public init(
             code: Swift.Int? = nil,
             type: Swift.Int? = nil
-        )
-        {
+        ) {
             self.code = code
             self.type = type
         }
@@ -7219,8 +7009,7 @@ extension SecurityHubClientTypes {
         public init(
             from: Swift.Int? = nil,
             to: Swift.Int? = nil
-        )
-        {
+        ) {
             self.from = from
             self.to = to
         }
@@ -7257,8 +7046,7 @@ extension SecurityHubClientTypes {
             `protocol`: Swift.String? = nil,
             ruleAction: Swift.String? = nil,
             ruleNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cidrBlock = cidrBlock
             self.egress = egress
             self.icmpTypeCode = icmpTypeCode
@@ -7295,8 +7083,7 @@ extension SecurityHubClientTypes {
             networkAclId: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associations = associations
             self.entries = entries
             self.isDefault = isDefault
@@ -7334,8 +7121,7 @@ extension SecurityHubClientTypes {
             instanceId: Swift.String? = nil,
             instanceOwnerId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachTime = attachTime
             self.attachmentId = attachmentId
             self.deleteOnTermination = deleteOnTermination
@@ -7356,8 +7142,7 @@ extension SecurityHubClientTypes {
 
         public init(
             ipV6Address: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipV6Address = ipV6Address
         }
     }
@@ -7375,8 +7160,7 @@ extension SecurityHubClientTypes {
         public init(
             privateDnsName: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.privateDnsName = privateDnsName
             self.privateIpAddress = privateIpAddress
         }
@@ -7395,8 +7179,7 @@ extension SecurityHubClientTypes {
         public init(
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
             self.groupName = groupName
         }
@@ -7433,8 +7216,7 @@ extension SecurityHubClientTypes {
             publicIp: Swift.String? = nil,
             securityGroups: [SecurityHubClientTypes.AwsEc2NetworkInterfaceSecurityGroup]? = nil,
             sourceDestCheck: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.attachment = attachment
             self.ipV6Addresses = ipV6Addresses
             self.networkInterfaceId = networkInterfaceId
@@ -7456,8 +7238,7 @@ extension SecurityHubClientTypes {
 
         public init(
             gatewayId: Swift.String? = nil
-        )
-        {
+        ) {
             self.gatewayId = gatewayId
         }
     }
@@ -7517,8 +7298,7 @@ extension SecurityHubClientTypes {
             state: Swift.String? = nil,
             transitGatewayId: Swift.String? = nil,
             vpcPeeringConnectionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
@@ -7563,8 +7343,7 @@ extension SecurityHubClientTypes {
             routeSet: [SecurityHubClientTypes.RouteSetDetails]? = nil,
             routeTableId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationSet = associationSet
             self.ownerId = ownerId
             self.propagatingVgwSet = propagatingVgwSet
@@ -7584,8 +7363,7 @@ extension SecurityHubClientTypes {
 
         public init(
             cidrIp: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidrIp = cidrIp
         }
     }
@@ -7600,8 +7378,7 @@ extension SecurityHubClientTypes {
 
         public init(
             cidrIpv6: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidrIpv6 = cidrIpv6
         }
     }
@@ -7616,8 +7393,7 @@ extension SecurityHubClientTypes {
 
         public init(
             prefixListId: Swift.String? = nil
-        )
-        {
+        ) {
             self.prefixListId = prefixListId
         }
     }
@@ -7647,8 +7423,7 @@ extension SecurityHubClientTypes {
             userId: Swift.String? = nil,
             vpcId: Swift.String? = nil,
             vpcPeeringConnectionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
             self.groupName = groupName
             self.peeringStatus = peeringStatus
@@ -7686,8 +7461,7 @@ extension SecurityHubClientTypes {
             prefixListIds: [SecurityHubClientTypes.AwsEc2SecurityGroupPrefixListId]? = nil,
             toPort: Swift.Int? = nil,
             userIdGroupPairs: [SecurityHubClientTypes.AwsEc2SecurityGroupUserIdGroupPair]? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.ipProtocol = ipProtocol
             self.ipRanges = ipRanges
@@ -7723,8 +7497,7 @@ extension SecurityHubClientTypes {
             ipPermissionsEgress: [SecurityHubClientTypes.AwsEc2SecurityGroupIpPermission]? = nil,
             ownerId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
             self.groupName = groupName
             self.ipPermissions = ipPermissions
@@ -7762,8 +7535,7 @@ extension SecurityHubClientTypes {
             associationId: Swift.String? = nil,
             cidrBlockState: Swift.String? = nil,
             ipv6CidrBlock: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.cidrBlockState = cidrBlockState
             self.ipv6CidrBlock = ipv6CidrBlock
@@ -7816,8 +7588,7 @@ extension SecurityHubClientTypes {
             subnetArn: Swift.String? = nil,
             subnetId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -7877,8 +7648,7 @@ extension SecurityHubClientTypes {
             propagationDefaultRouteTableId: Swift.String? = nil,
             transitGatewayCidrBlocks: [Swift.String]? = nil,
             vpnEcmpSupport: Swift.String? = nil
-        )
-        {
+        ) {
             self.amazonSideAsn = amazonSideAsn
             self.associationDefaultRouteTableId = associationDefaultRouteTableId
             self.autoAcceptSharedAttachments = autoAcceptSharedAttachments
@@ -7923,8 +7693,7 @@ extension SecurityHubClientTypes {
             deleteOnTermination: Swift.Bool? = nil,
             instanceId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachTime = attachTime
             self.deleteOnTermination = deleteOnTermination
             self.instanceId = instanceId
@@ -7984,8 +7753,7 @@ extension SecurityHubClientTypes {
             volumeId: Swift.String? = nil,
             volumeScanStatus: Swift.String? = nil,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachments = attachments
             self.createTime = createTime
             self.deviceName = deviceName
@@ -8016,8 +7784,7 @@ extension SecurityHubClientTypes {
             associationId: Swift.String? = nil,
             cidrBlock: Swift.String? = nil,
             cidrBlockState: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.cidrBlock = cidrBlock
             self.cidrBlockState = cidrBlockState
@@ -8043,8 +7810,7 @@ extension SecurityHubClientTypes {
             dhcpOptionsId: Swift.String? = nil,
             ipv6CidrBlockAssociationSet: [SecurityHubClientTypes.Ipv6CidrBlockAssociation]? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidrBlockAssociationSet = cidrBlockAssociationSet
             self.dhcpOptionsId = dhcpOptionsId
             self.ipv6CidrBlockAssociationSet = ipv6CidrBlockAssociationSet
@@ -8062,8 +7828,7 @@ extension SecurityHubClientTypes {
 
         public init(
             serviceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceType = serviceType
         }
     }
@@ -8118,8 +7883,7 @@ extension SecurityHubClientTypes {
             serviceName: Swift.String? = nil,
             serviceState: Swift.String? = nil,
             serviceType: [SecurityHubClientTypes.AwsEc2VpcEndpointServiceServiceTypeDetails]? = nil
-        )
-        {
+        ) {
             self.acceptanceRequired = acceptanceRequired
             self.availabilityZones = availabilityZones
             self.baseEndpointDnsNames = baseEndpointDnsNames
@@ -8144,8 +7908,7 @@ extension SecurityHubClientTypes {
 
         public init(
             cidrBlock: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidrBlock = cidrBlock
         }
     }
@@ -8160,8 +7923,7 @@ extension SecurityHubClientTypes {
 
         public init(
             ipv6CidrBlock: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipv6CidrBlock = ipv6CidrBlock
         }
     }
@@ -8182,8 +7944,7 @@ extension SecurityHubClientTypes {
             allowDnsResolutionFromRemoteVpc: Swift.Bool? = nil,
             allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool? = nil,
             allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
@@ -8218,8 +7979,7 @@ extension SecurityHubClientTypes {
             peeringOptions: SecurityHubClientTypes.VpcInfoPeeringOptionsDetails? = nil,
             region: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidrBlock = cidrBlock
             self.cidrBlockSet = cidrBlockSet
             self.ipv6CidrBlockSet = ipv6CidrBlockSet
@@ -8243,8 +8003,7 @@ extension SecurityHubClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -8272,8 +8031,7 @@ extension SecurityHubClientTypes {
             requesterVpcInfo: SecurityHubClientTypes.AwsEc2VpcPeeringConnectionVpcInfoDetails? = nil,
             status: SecurityHubClientTypes.AwsEc2VpcPeeringConnectionStatusDetails? = nil,
             vpcPeeringConnectionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accepterVpcInfo = accepterVpcInfo
             self.expirationTime = expirationTime
             self.requesterVpcInfo = requesterVpcInfo
@@ -8337,8 +8095,7 @@ extension SecurityHubClientTypes {
             rekeyMarginTimeSeconds: Swift.Int? = nil,
             replayWindowSize: Swift.Int? = nil,
             tunnelInsideCidr: Swift.String? = nil
-        )
-        {
+        ) {
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
             self.ikeVersions = ikeVersions
             self.outsideIpAddress = outsideIpAddress
@@ -8371,8 +8128,7 @@ extension SecurityHubClientTypes {
         public init(
             staticRoutesOnly: Swift.Bool? = nil,
             tunnelOptions: [SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails]? = nil
-        )
-        {
+        ) {
             self.staticRoutesOnly = staticRoutesOnly
             self.tunnelOptions = tunnelOptions
         }
@@ -8391,8 +8147,7 @@ extension SecurityHubClientTypes {
         public init(
             destinationCidrBlock: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationCidrBlock = destinationCidrBlock
             self.state = state
         }
@@ -8423,8 +8178,7 @@ extension SecurityHubClientTypes {
             outsideIpAddress: Swift.String? = nil,
             status: Swift.String? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.acceptedRouteCount = acceptedRouteCount
             self.certificateArn = certificateArn
             self.lastStatusChange = lastStatusChange
@@ -8482,8 +8236,7 @@ extension SecurityHubClientTypes {
             vgwTelemetry: [SecurityHubClientTypes.AwsEc2VpnConnectionVgwTelemetryDetails]? = nil,
             vpnConnectionId: Swift.String? = nil,
             vpnGatewayId: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.customerGatewayConfiguration = customerGatewayConfiguration
             self.customerGatewayId = customerGatewayId
@@ -8529,8 +8282,7 @@ extension SecurityHubClientTypes {
             imageTags: [Swift.String]? = nil,
             registryId: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.imageDigest = imageDigest
             self.imagePublishedAt = imagePublishedAt
@@ -8550,8 +8302,7 @@ extension SecurityHubClientTypes {
 
         public init(
             scanOnPush: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.scanOnPush = scanOnPush
         }
     }
@@ -8569,8 +8320,7 @@ extension SecurityHubClientTypes {
         public init(
             lifecyclePolicyText: Swift.String? = nil,
             registryId: Swift.String? = nil
-        )
-        {
+        ) {
             self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
         }
@@ -8601,8 +8351,7 @@ extension SecurityHubClientTypes {
             lifecyclePolicy: SecurityHubClientTypes.AwsEcrRepositoryLifecyclePolicyDetails? = nil,
             repositoryName: Swift.String? = nil,
             repositoryPolicyText: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTagMutability = imageTagMutability
@@ -8625,8 +8374,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -8654,8 +8402,7 @@ extension SecurityHubClientTypes {
             s3BucketName: Swift.String? = nil,
             s3EncryptionEnabled: Swift.Bool? = nil,
             s3KeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchEncryptionEnabled = cloudWatchEncryptionEnabled
             self.cloudWatchLogGroupName = cloudWatchLogGroupName
             self.s3BucketName = s3BucketName
@@ -8680,8 +8427,7 @@ extension SecurityHubClientTypes {
             kmsKeyId: Swift.String? = nil,
             logConfiguration: SecurityHubClientTypes.AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails? = nil,
             logging: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.logConfiguration = logConfiguration
             self.logging = logging
@@ -8698,8 +8444,7 @@ extension SecurityHubClientTypes {
 
         public init(
             executeCommandConfiguration: SecurityHubClientTypes.AwsEcsClusterConfigurationExecuteCommandConfigurationDetails? = nil
-        )
-        {
+        ) {
             self.executeCommandConfiguration = executeCommandConfiguration
         }
     }
@@ -8720,8 +8465,7 @@ extension SecurityHubClientTypes {
             base: Swift.Int? = nil,
             capacityProvider: Swift.String? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.base = base
             self.capacityProvider = capacityProvider
             self.weight = weight
@@ -8765,8 +8509,7 @@ extension SecurityHubClientTypes {
             registeredContainerInstancesCount: Swift.Int? = nil,
             runningTasksCount: Swift.Int? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeServicesCount = activeServicesCount
             self.capacityProviders = capacityProviders
             self.clusterArn = clusterArn
@@ -8793,8 +8536,7 @@ extension SecurityHubClientTypes {
         public init(
             containerPath: Swift.String? = nil,
             sourceVolume: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerPath = containerPath
             self.sourceVolume = sourceVolume
         }
@@ -8819,8 +8561,7 @@ extension SecurityHubClientTypes {
             mountPoints: [SecurityHubClientTypes.AwsMountPoint]? = nil,
             name: Swift.String? = nil,
             privileged: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.image = image
             self.mountPoints = mountPoints
             self.name = name
@@ -8844,8 +8585,7 @@ extension SecurityHubClientTypes {
             base: Swift.Int? = nil,
             capacityProvider: Swift.String? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.base = base
             self.capacityProvider = capacityProvider
             self.weight = weight
@@ -8865,8 +8605,7 @@ extension SecurityHubClientTypes {
         public init(
             enable: Swift.Bool? = nil,
             rollback: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enable = enable
             self.rollback = rollback
         }
@@ -8888,8 +8627,7 @@ extension SecurityHubClientTypes {
             deploymentCircuitBreaker: SecurityHubClientTypes.AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails? = nil,
             maximumPercent: Swift.Int? = nil,
             minimumHealthyPercent: Swift.Int? = nil
-        )
-        {
+        ) {
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
             self.maximumPercent = maximumPercent
             self.minimumHealthyPercent = minimumHealthyPercent
@@ -8906,8 +8644,7 @@ extension SecurityHubClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -8931,8 +8668,7 @@ extension SecurityHubClientTypes {
             containerPort: Swift.Int? = nil,
             loadBalancerName: Swift.String? = nil,
             targetGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.containerPort = containerPort
             self.loadBalancerName = loadBalancerName
@@ -8956,8 +8692,7 @@ extension SecurityHubClientTypes {
             assignPublicIp: Swift.String? = nil,
             securityGroups: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
             self.subnets = subnets
@@ -8974,8 +8709,7 @@ extension SecurityHubClientTypes {
 
         public init(
             awsVpcConfiguration: SecurityHubClientTypes.AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails? = nil
-        )
-        {
+        ) {
             self.awsVpcConfiguration = awsVpcConfiguration
         }
     }
@@ -8993,8 +8727,7 @@ extension SecurityHubClientTypes {
         public init(
             expression: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.type = type
         }
@@ -9013,8 +8746,7 @@ extension SecurityHubClientTypes {
         public init(
             field: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.field = field
             self.type = type
         }
@@ -9039,8 +8771,7 @@ extension SecurityHubClientTypes {
             containerPort: Swift.Int? = nil,
             port: Swift.Int? = nil,
             registryArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.containerPort = containerPort
             self.port = port
@@ -9121,8 +8852,7 @@ extension SecurityHubClientTypes {
             serviceName: Swift.String? = nil,
             serviceRegistries: [SecurityHubClientTypes.AwsEcsServiceServiceRegistriesDetails]? = nil,
             taskDefinition: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.cluster = cluster
             self.deploymentConfiguration = deploymentConfiguration
@@ -9169,8 +8899,7 @@ extension SecurityHubClientTypes {
         public init(
             condition: Swift.String? = nil,
             containerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.containerName = containerName
         }
@@ -9189,8 +8918,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -9209,8 +8937,7 @@ extension SecurityHubClientTypes {
         public init(
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -9229,8 +8956,7 @@ extension SecurityHubClientTypes {
         public init(
             hostname: Swift.String? = nil,
             ipAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
             self.ipAddress = ipAddress
         }
@@ -9255,8 +8981,7 @@ extension SecurityHubClientTypes {
         public init(
             options: [Swift.String: Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.options = options
             self.type = type
         }
@@ -9284,8 +9009,7 @@ extension SecurityHubClientTypes {
             retries: Swift.Int? = nil,
             startPeriod: Swift.Int? = nil,
             timeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.command = command
             self.interval = interval
             self.retries = retries
@@ -9307,8 +9031,7 @@ extension SecurityHubClientTypes {
         public init(
             add: [Swift.String]? = nil,
             drop: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.add = add
             self.drop = drop
         }
@@ -9330,8 +9053,7 @@ extension SecurityHubClientTypes {
             containerPath: Swift.String? = nil,
             hostPath: Swift.String? = nil,
             permissions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.containerPath = containerPath
             self.hostPath = hostPath
             self.permissions = permissions
@@ -9354,8 +9076,7 @@ extension SecurityHubClientTypes {
             containerPath: Swift.String? = nil,
             mountOptions: [Swift.String]? = nil,
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.containerPath = containerPath
             self.mountOptions = mountOptions
             self.size = size
@@ -9390,8 +9111,7 @@ extension SecurityHubClientTypes {
             sharedMemorySize: Swift.Int? = nil,
             swappiness: Swift.Int? = nil,
             tmpfs: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails]? = nil
-        )
-        {
+        ) {
             self.capabilities = capabilities
             self.devices = devices
             self.initProcessEnabled = initProcessEnabled
@@ -9415,8 +9135,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             valueFrom: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.valueFrom = valueFrom
         }
@@ -9465,8 +9184,7 @@ extension SecurityHubClientTypes {
             logDriver: Swift.String? = nil,
             options: [Swift.String: Swift.String]? = nil,
             secretOptions: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails]? = nil
-        )
-        {
+        ) {
             self.logDriver = logDriver
             self.options = options
             self.secretOptions = secretOptions
@@ -9489,8 +9207,7 @@ extension SecurityHubClientTypes {
             containerPath: Swift.String? = nil,
             readOnly: Swift.Bool? = nil,
             sourceVolume: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerPath = containerPath
             self.readOnly = readOnly
             self.sourceVolume = sourceVolume
@@ -9513,8 +9230,7 @@ extension SecurityHubClientTypes {
             containerPort: Swift.Int? = nil,
             hostPort: Swift.Int? = nil,
             `protocol`: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerPort = containerPort
             self.hostPort = hostPort
             self.`protocol` = `protocol`
@@ -9531,8 +9247,7 @@ extension SecurityHubClientTypes {
 
         public init(
             credentialsParameter: Swift.String? = nil
-        )
-        {
+        ) {
             self.credentialsParameter = credentialsParameter
         }
     }
@@ -9550,8 +9265,7 @@ extension SecurityHubClientTypes {
         public init(
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -9570,8 +9284,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             valueFrom: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.valueFrom = valueFrom
         }
@@ -9590,8 +9303,7 @@ extension SecurityHubClientTypes {
         public init(
             namespace: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
             self.value = value
         }
@@ -9643,8 +9355,7 @@ extension SecurityHubClientTypes {
             hardLimit: Swift.Int? = nil,
             name: Swift.String? = nil,
             softLimit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.hardLimit = hardLimit
             self.name = name
             self.softLimit = softLimit
@@ -9664,8 +9375,7 @@ extension SecurityHubClientTypes {
         public init(
             readOnly: Swift.Bool? = nil,
             sourceContainer: Swift.String? = nil
-        )
-        {
+        ) {
             self.readOnly = readOnly
             self.sourceContainer = sourceContainer
         }
@@ -9807,8 +9517,7 @@ extension SecurityHubClientTypes {
             user: Swift.String? = nil,
             volumesFrom: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails]? = nil,
             workingDirectory: Swift.String? = nil
-        )
-        {
+        ) {
             self.command = command
             self.cpu = cpu
             self.dependsOn = dependsOn
@@ -9864,8 +9573,7 @@ extension SecurityHubClientTypes {
         public init(
             deviceName: Swift.String? = nil,
             deviceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.deviceType = deviceType
         }
@@ -9884,8 +9592,7 @@ extension SecurityHubClientTypes {
         public init(
             expression: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.type = type
         }
@@ -9904,8 +9611,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -9927,8 +9633,7 @@ extension SecurityHubClientTypes {
             containerName: Swift.String? = nil,
             proxyConfigurationProperties: [SecurityHubClientTypes.AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.proxyConfigurationProperties = proxyConfigurationProperties
             self.type = type
@@ -9957,8 +9662,7 @@ extension SecurityHubClientTypes {
             driverOpts: [Swift.String: Swift.String]? = nil,
             labels: [Swift.String: Swift.String]? = nil,
             scope: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoprovision = autoprovision
             self.driver = driver
             self.driverOpts = driverOpts
@@ -9980,8 +9684,7 @@ extension SecurityHubClientTypes {
         public init(
             accessPointId: Swift.String? = nil,
             iam: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessPointId = accessPointId
             self.iam = iam
         }
@@ -10009,8 +9712,7 @@ extension SecurityHubClientTypes {
             rootDirectory: Swift.String? = nil,
             transitEncryption: Swift.String? = nil,
             transitEncryptionPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.authorizationConfig = authorizationConfig
             self.filesystemId = filesystemId
             self.rootDirectory = rootDirectory
@@ -10029,8 +9731,7 @@ extension SecurityHubClientTypes {
 
         public init(
             sourcePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourcePath = sourcePath
         }
     }
@@ -10054,8 +9755,7 @@ extension SecurityHubClientTypes {
             efsVolumeConfiguration: SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails? = nil,
             host: SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesHostDetails? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.dockerVolumeConfiguration = dockerVolumeConfiguration
             self.efsVolumeConfiguration = efsVolumeConfiguration
             self.host = host
@@ -10139,8 +9839,7 @@ extension SecurityHubClientTypes {
             status: Swift.String? = nil,
             taskRoleArn: Swift.String? = nil,
             volumes: [SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesDetails]? = nil
-        )
-        {
+        ) {
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
             self.executionRoleArn = executionRoleArn
@@ -10169,8 +9868,7 @@ extension SecurityHubClientTypes {
 
         public init(
             sourcePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourcePath = sourcePath
         }
     }
@@ -10188,8 +9886,7 @@ extension SecurityHubClientTypes {
         public init(
             host: SecurityHubClientTypes.AwsEcsTaskVolumeHostDetails? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.host = host
             self.name = name
         }
@@ -10229,8 +9926,7 @@ extension SecurityHubClientTypes {
             taskDefinitionArn: Swift.String? = nil,
             version: Swift.String? = nil,
             volumes: [SecurityHubClientTypes.AwsEcsTaskVolumeDetails]? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.containers = containers
             self.createdAt = createdAt
@@ -10259,8 +9955,7 @@ extension SecurityHubClientTypes {
             gid: Swift.String? = nil,
             secondaryGids: [Swift.String]? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.gid = gid
             self.secondaryGids = secondaryGids
             self.uid = uid
@@ -10283,8 +9978,7 @@ extension SecurityHubClientTypes {
             ownerGid: Swift.String? = nil,
             ownerUid: Swift.String? = nil,
             permissions: Swift.String? = nil
-        )
-        {
+        ) {
             self.ownerGid = ownerGid
             self.ownerUid = ownerUid
             self.permissions = permissions
@@ -10304,8 +9998,7 @@ extension SecurityHubClientTypes {
         public init(
             creationInfo: SecurityHubClientTypes.AwsEfsAccessPointRootDirectoryCreationInfoDetails? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationInfo = creationInfo
             self.path = path
         }
@@ -10336,8 +10029,7 @@ extension SecurityHubClientTypes {
             fileSystemId: Swift.String? = nil,
             posixUser: SecurityHubClientTypes.AwsEfsAccessPointPosixUserDetails? = nil,
             rootDirectory: SecurityHubClientTypes.AwsEfsAccessPointRootDirectoryDetails? = nil
-        )
-        {
+        ) {
             self.accessPointId = accessPointId
             self.arn = arn
             self.clientToken = clientToken
@@ -10370,8 +10062,7 @@ extension SecurityHubClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             types: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.types = types
         }
@@ -10387,8 +10078,7 @@ extension SecurityHubClientTypes {
 
         public init(
             clusterLogging: [SecurityHubClientTypes.AwsEksClusterLoggingClusterLoggingDetails]? = nil
-        )
-        {
+        ) {
             self.clusterLogging = clusterLogging
         }
     }
@@ -10409,8 +10099,7 @@ extension SecurityHubClientTypes {
             endpointPublicAccess: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.endpointPublicAccess = endpointPublicAccess
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -10463,8 +10152,7 @@ extension SecurityHubClientTypes {
             resourcesVpcConfig: SecurityHubClientTypes.AwsEksClusterResourcesVpcConfigDetails? = nil,
             roleArn: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.certificateAuthorityData = certificateAuthorityData
             self.clusterStatus = clusterStatus
@@ -10490,8 +10178,7 @@ extension SecurityHubClientTypes {
         public init(
             environmentName: Swift.String? = nil,
             linkName: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentName = environmentName
             self.linkName = linkName
         }
@@ -10516,8 +10203,7 @@ extension SecurityHubClientTypes {
             optionName: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
             self.optionName = optionName
             self.resourceName = resourceName
@@ -10541,8 +10227,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
             self.version = version
@@ -10620,8 +10305,7 @@ extension SecurityHubClientTypes {
             status: Swift.String? = nil,
             tier: SecurityHubClientTypes.AwsElasticBeanstalkEnvironmentTier? = nil,
             versionLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationName = applicationName
             self.cname = cname
             self.dateCreated = dateCreated
@@ -10658,8 +10342,7 @@ extension SecurityHubClientTypes {
         public init(
             enforceHTTPS: Swift.Bool? = nil,
             tlsSecurityPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.enforceHTTPS = enforceHTTPS
             self.tlsSecurityPolicy = tlsSecurityPolicy
         }
@@ -10675,8 +10358,7 @@ extension SecurityHubClientTypes {
 
         public init(
             availabilityZoneCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.availabilityZoneCount = availabilityZoneCount
         }
     }
@@ -10709,8 +10391,7 @@ extension SecurityHubClientTypes {
             instanceType: Swift.String? = nil,
             zoneAwarenessConfig: SecurityHubClientTypes.AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails? = nil,
             zoneAwarenessEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.dedicatedMasterCount = dedicatedMasterCount
             self.dedicatedMasterEnabled = dedicatedMasterEnabled
             self.dedicatedMasterType = dedicatedMasterType
@@ -10734,8 +10415,7 @@ extension SecurityHubClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.kmsKeyId = kmsKeyId
         }
@@ -10754,8 +10434,7 @@ extension SecurityHubClientTypes {
         public init(
             cloudWatchLogsLogGroupArn: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.enabled = enabled
         }
@@ -10777,8 +10456,7 @@ extension SecurityHubClientTypes {
             auditLogs: SecurityHubClientTypes.AwsElasticsearchDomainLogPublishingOptionsLogConfig? = nil,
             indexSlowLogs: SecurityHubClientTypes.AwsElasticsearchDomainLogPublishingOptionsLogConfig? = nil,
             searchSlowLogs: SecurityHubClientTypes.AwsElasticsearchDomainLogPublishingOptionsLogConfig? = nil
-        )
-        {
+        ) {
             self.auditLogs = auditLogs
             self.indexSlowLogs = indexSlowLogs
             self.searchSlowLogs = searchSlowLogs
@@ -10795,8 +10473,7 @@ extension SecurityHubClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -10839,8 +10516,7 @@ extension SecurityHubClientTypes {
             newVersion: Swift.String? = nil,
             updateAvailable: Swift.Bool? = nil,
             updateStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.automatedUpdateDate = automatedUpdateDate
             self.cancellable = cancellable
             self.currentVersion = currentVersion
@@ -10870,8 +10546,7 @@ extension SecurityHubClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -10925,8 +10600,7 @@ extension SecurityHubClientTypes {
             nodeToNodeEncryptionOptions: SecurityHubClientTypes.AwsElasticsearchDomainNodeToNodeEncryptionOptions? = nil,
             serviceSoftwareOptions: SecurityHubClientTypes.AwsElasticsearchDomainServiceSoftwareOptions? = nil,
             vpcOptions: SecurityHubClientTypes.AwsElasticsearchDomainVPCOptions? = nil
-        )
-        {
+        ) {
             self.accessPolicies = accessPolicies
             self.domainEndpointOptions = domainEndpointOptions
             self.domainId = domainId
@@ -10956,8 +10630,7 @@ extension SecurityHubClientTypes {
         public init(
             cookieName: Swift.String? = nil,
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cookieName = cookieName
             self.policyName = policyName
         }
@@ -10976,8 +10649,7 @@ extension SecurityHubClientTypes {
         public init(
             cookieExpirationPeriod: Swift.Int? = nil,
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cookieExpirationPeriod = cookieExpirationPeriod
             self.policyName = policyName
         }
@@ -11002,8 +10674,7 @@ extension SecurityHubClientTypes {
             enabled: Swift.Bool? = nil,
             s3BucketName: Swift.String? = nil,
             s3BucketPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.emitInterval = emitInterval
             self.enabled = enabled
             self.s3BucketName = s3BucketName
@@ -11024,8 +10695,7 @@ extension SecurityHubClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -11044,8 +10714,7 @@ extension SecurityHubClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             timeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.timeout = timeout
         }
@@ -11061,8 +10730,7 @@ extension SecurityHubClientTypes {
 
         public init(
             idleTimeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.idleTimeout = idleTimeout
         }
     }
@@ -11077,8 +10745,7 @@ extension SecurityHubClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -11105,8 +10772,7 @@ extension SecurityHubClientTypes {
             connectionDraining: SecurityHubClientTypes.AwsElbLoadBalancerConnectionDraining? = nil,
             connectionSettings: SecurityHubClientTypes.AwsElbLoadBalancerConnectionSettings? = nil,
             crossZoneLoadBalancing: SecurityHubClientTypes.AwsElbLoadBalancerCrossZoneLoadBalancing? = nil
-        )
-        {
+        ) {
             self.accessLog = accessLog
             self.additionalAttributes = additionalAttributes
             self.connectionDraining = connectionDraining
@@ -11128,8 +10794,7 @@ extension SecurityHubClientTypes {
         public init(
             instancePort: Swift.Int? = nil,
             policyNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.instancePort = instancePort
             self.policyNames = policyNames
         }
@@ -11157,8 +10822,7 @@ extension SecurityHubClientTypes {
             target: Swift.String? = nil,
             timeout: Swift.Int? = nil,
             unhealthyThreshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.healthyThreshold = healthyThreshold
             self.interval = interval
             self.target = target
@@ -11177,8 +10841,7 @@ extension SecurityHubClientTypes {
 
         public init(
             instanceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
         }
     }
@@ -11205,8 +10868,7 @@ extension SecurityHubClientTypes {
             loadBalancerPort: Swift.Int? = nil,
             `protocol`: Swift.String? = nil,
             sslCertificateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.instancePort = instancePort
             self.instanceProtocol = instanceProtocol
             self.loadBalancerPort = loadBalancerPort
@@ -11228,8 +10890,7 @@ extension SecurityHubClientTypes {
         public init(
             listener: SecurityHubClientTypes.AwsElbLoadBalancerListener? = nil,
             policyNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.listener = listener
             self.policyNames = policyNames
         }
@@ -11251,8 +10912,7 @@ extension SecurityHubClientTypes {
             appCookieStickinessPolicies: [SecurityHubClientTypes.AwsElbAppCookieStickinessPolicy]? = nil,
             lbCookieStickinessPolicies: [SecurityHubClientTypes.AwsElbLbCookieStickinessPolicy]? = nil,
             otherPolicies: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appCookieStickinessPolicies = appCookieStickinessPolicies
             self.lbCookieStickinessPolicies = lbCookieStickinessPolicies
             self.otherPolicies = otherPolicies
@@ -11272,8 +10932,7 @@ extension SecurityHubClientTypes {
         public init(
             groupName: Swift.String? = nil,
             ownerAlias: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupName = groupName
             self.ownerAlias = ownerAlias
         }
@@ -11337,8 +10996,7 @@ extension SecurityHubClientTypes {
             sourceSecurityGroup: SecurityHubClientTypes.AwsElbLoadBalancerSourceSecurityGroup? = nil,
             subnets: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.backendServerDescriptions = backendServerDescriptions
             self.canonicalHostedZoneName = canonicalHostedZoneName
@@ -11372,8 +11030,7 @@ extension SecurityHubClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -11392,8 +11049,7 @@ extension SecurityHubClientTypes {
         public init(
             code: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.reason = reason
         }
@@ -11439,8 +11095,7 @@ extension SecurityHubClientTypes {
             state: SecurityHubClientTypes.LoadBalancerState? = nil,
             type: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
             self.createdTime = createdTime
@@ -11471,8 +11126,7 @@ extension SecurityHubClientTypes {
             description: Swift.String? = nil,
             registryArn: Swift.String? = nil,
             registryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.registryArn = registryArn
             self.registryName = registryName
@@ -11489,8 +11143,7 @@ extension SecurityHubClientTypes {
 
         public init(
             eventBusArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventBusArn = eventBusArn
         }
     }
@@ -11505,8 +11158,7 @@ extension SecurityHubClientTypes {
 
         public init(
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -11521,8 +11173,7 @@ extension SecurityHubClientTypes {
 
         public init(
             healthCheck: Swift.String? = nil
-        )
-        {
+        ) {
             self.healthCheck = healthCheck
         }
     }
@@ -11537,8 +11188,7 @@ extension SecurityHubClientTypes {
 
         public init(
             route: Swift.String? = nil
-        )
-        {
+        ) {
             self.route = route
         }
     }
@@ -11556,8 +11206,7 @@ extension SecurityHubClientTypes {
         public init(
             primary: SecurityHubClientTypes.AwsEventsEndpointRoutingConfigFailoverConfigPrimaryDetails? = nil,
             secondary: SecurityHubClientTypes.AwsEventsEndpointRoutingConfigFailoverConfigSecondaryDetails? = nil
-        )
-        {
+        ) {
             self.primary = primary
             self.secondary = secondary
         }
@@ -11573,8 +11222,7 @@ extension SecurityHubClientTypes {
 
         public init(
             failoverConfig: SecurityHubClientTypes.AwsEventsEndpointRoutingConfigFailoverConfigDetails? = nil
-        )
-        {
+        ) {
             self.failoverConfig = failoverConfig
         }
     }
@@ -11619,8 +11267,7 @@ extension SecurityHubClientTypes {
             routingConfig: SecurityHubClientTypes.AwsEventsEndpointRoutingConfigDetails? = nil,
             state: Swift.String? = nil,
             stateReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.endpointId = endpointId
@@ -11651,8 +11298,7 @@ extension SecurityHubClientTypes {
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
             policy: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.policy = policy
@@ -11669,8 +11315,7 @@ extension SecurityHubClientTypes {
 
         public init(
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -11685,8 +11330,7 @@ extension SecurityHubClientTypes {
 
         public init(
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -11701,8 +11345,7 @@ extension SecurityHubClientTypes {
 
         public init(
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -11717,8 +11360,7 @@ extension SecurityHubClientTypes {
 
         public init(
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -11733,8 +11375,7 @@ extension SecurityHubClientTypes {
 
         public init(
             auditLogs: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails? = nil
-        )
-        {
+        ) {
             self.auditLogs = auditLogs
         }
     }
@@ -11752,8 +11393,7 @@ extension SecurityHubClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -11769,8 +11409,7 @@ extension SecurityHubClientTypes {
 
         public init(
             ebsVolumes: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails? = nil
-        )
-        {
+        ) {
             self.ebsVolumes = ebsVolumes
         }
     }
@@ -11788,8 +11427,7 @@ extension SecurityHubClientTypes {
         public init(
             scanEc2InstanceWithFindings: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails? = nil,
             serviceRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
             self.serviceRole = serviceRole
         }
@@ -11805,8 +11443,7 @@ extension SecurityHubClientTypes {
 
         public init(
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -11836,8 +11473,7 @@ extension SecurityHubClientTypes {
             kubernetes: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesDetails? = nil,
             malwareProtection: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails? = nil,
             s3Logs: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesS3LogsDetails? = nil
-        )
-        {
+        ) {
             self.cloudTrail = cloudTrail
             self.dnsLogs = dnsLogs
             self.flowLogs = flowLogs
@@ -11860,8 +11496,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
         }
@@ -11889,8 +11524,7 @@ extension SecurityHubClientTypes {
             findingPublishingFrequency: Swift.String? = nil,
             serviceRole: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSources = dataSources
             self.features = features
             self.findingPublishingFrequency = findingPublishingFrequency
@@ -11912,8 +11546,7 @@ extension SecurityHubClientTypes {
         public init(
             creationDate: Swift.String? = nil,
             mfaAuthenticated: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.mfaAuthenticated = mfaAuthenticated
         }
@@ -11941,8 +11574,7 @@ extension SecurityHubClientTypes {
             principalId: Swift.String? = nil,
             type: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.principalId = principalId
@@ -11964,8 +11596,7 @@ extension SecurityHubClientTypes {
         public init(
             attributes: SecurityHubClientTypes.AwsIamAccessKeySessionContextAttributes? = nil,
             sessionIssuer: SecurityHubClientTypes.AwsIamAccessKeySessionContextSessionIssuer? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.sessionIssuer = sessionIssuer
         }
@@ -12035,8 +11666,7 @@ extension SecurityHubClientTypes {
             sessionContext: SecurityHubClientTypes.AwsIamAccessKeySessionContext? = nil,
             status: SecurityHubClientTypes.AwsIamAccessKeyStatus? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.accountId = accountId
             self.createdAt = createdAt
@@ -12062,8 +11692,7 @@ extension SecurityHubClientTypes {
         public init(
             policyArn: Swift.String? = nil,
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyArn = policyArn
             self.policyName = policyName
         }
@@ -12079,8 +11708,7 @@ extension SecurityHubClientTypes {
 
         public init(
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyName = policyName
         }
     }
@@ -12110,8 +11738,7 @@ extension SecurityHubClientTypes {
             groupName: Swift.String? = nil,
             groupPolicyList: [SecurityHubClientTypes.AwsIamGroupPolicy]? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachedManagedPolicies = attachedManagedPolicies
             self.createDate = createDate
             self.groupId = groupId
@@ -12146,8 +11773,7 @@ extension SecurityHubClientTypes {
             path: Swift.String? = nil,
             roleId: Swift.String? = nil,
             roleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.createDate = createDate
@@ -12182,8 +11808,7 @@ extension SecurityHubClientTypes {
             instanceProfileName: Swift.String? = nil,
             path: Swift.String? = nil,
             roles: [SecurityHubClientTypes.AwsIamInstanceProfileRole]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createDate = createDate
             self.instanceProfileId = instanceProfileId
@@ -12206,8 +11831,7 @@ extension SecurityHubClientTypes {
         public init(
             permissionsBoundaryArn: Swift.String? = nil,
             permissionsBoundaryType: Swift.String? = nil
-        )
-        {
+        ) {
             self.permissionsBoundaryArn = permissionsBoundaryArn
             self.permissionsBoundaryType = permissionsBoundaryType
         }
@@ -12229,8 +11853,7 @@ extension SecurityHubClientTypes {
             createDate: Swift.String? = nil,
             isDefaultVersion: Swift.Bool? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createDate = createDate
             self.isDefaultVersion = isDefaultVersion
             self.versionId = versionId
@@ -12277,8 +11900,7 @@ extension SecurityHubClientTypes {
             policyName: Swift.String? = nil,
             policyVersionList: [SecurityHubClientTypes.AwsIamPolicyVersion]? = nil,
             updateDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentCount = attachmentCount
             self.createDate = createDate
             self.defaultVersionId = defaultVersionId
@@ -12303,8 +11925,7 @@ extension SecurityHubClientTypes {
 
         public init(
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyName = policyName
         }
     }
@@ -12346,8 +11967,7 @@ extension SecurityHubClientTypes {
             roleId: Swift.String? = nil,
             roleName: Swift.String? = nil,
             rolePolicyList: [SecurityHubClientTypes.AwsIamRolePolicy]? = nil
-        )
-        {
+        ) {
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.attachedManagedPolicies = attachedManagedPolicies
             self.createDate = createDate
@@ -12371,8 +11991,7 @@ extension SecurityHubClientTypes {
 
         public init(
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyName = policyName
         }
     }
@@ -12408,8 +12027,7 @@ extension SecurityHubClientTypes {
             userId: Swift.String? = nil,
             userName: Swift.String? = nil,
             userPolicyList: [SecurityHubClientTypes.AwsIamUserPolicy]? = nil
-        )
-        {
+        ) {
             self.attachedManagedPolicies = attachedManagedPolicies
             self.createDate = createDate
             self.groupList = groupList
@@ -12434,8 +12052,7 @@ extension SecurityHubClientTypes {
         public init(
             encryptionType: Swift.String? = nil,
             keyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
             self.keyId = keyId
         }
@@ -12463,8 +12080,7 @@ extension SecurityHubClientTypes {
             retentionPeriodHours: Swift.Int? = nil,
             shardCount: Swift.Int? = nil,
             streamEncryption: SecurityHubClientTypes.AwsKinesisStreamStreamEncryptionDetails? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.retentionPeriodHours = retentionPeriodHours
@@ -12514,8 +12130,7 @@ extension SecurityHubClientTypes {
             keyRotationStatus: Swift.Bool? = nil,
             keyState: Swift.String? = nil,
             origin: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.creationDate = creationDate
             self.description = description
@@ -12546,8 +12161,7 @@ extension SecurityHubClientTypes {
             s3Key: Swift.String? = nil,
             s3ObjectVersion: Swift.String? = nil,
             zipFile: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
             self.s3ObjectVersion = s3ObjectVersion
@@ -12565,8 +12179,7 @@ extension SecurityHubClientTypes {
 
         public init(
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.targetArn = targetArn
         }
     }
@@ -12584,8 +12197,7 @@ extension SecurityHubClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
         }
@@ -12604,8 +12216,7 @@ extension SecurityHubClientTypes {
         public init(
             error: SecurityHubClientTypes.AwsLambdaFunctionEnvironmentError? = nil,
             variables: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.error = error
             self.variables = variables
         }
@@ -12624,8 +12235,7 @@ extension SecurityHubClientTypes {
         public init(
             arn: Swift.String? = nil,
             codeSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.codeSize = codeSize
         }
@@ -12641,8 +12251,7 @@ extension SecurityHubClientTypes {
 
         public init(
             mode: Swift.String? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -12663,8 +12272,7 @@ extension SecurityHubClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -12738,8 +12346,7 @@ extension SecurityHubClientTypes {
             tracingConfig: SecurityHubClientTypes.AwsLambdaFunctionTracingConfig? = nil,
             version: Swift.String? = nil,
             vpcConfig: SecurityHubClientTypes.AwsLambdaFunctionVpcConfig? = nil
-        )
-        {
+        ) {
             self.architectures = architectures
             self.code = code
             self.codeSha256 = codeSha256
@@ -12779,8 +12386,7 @@ extension SecurityHubClientTypes {
             compatibleRuntimes: [Swift.String]? = nil,
             createdDate: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.compatibleRuntimes = compatibleRuntimes
             self.createdDate = createdDate
             self.version = version
@@ -12797,8 +12403,7 @@ extension SecurityHubClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -12813,8 +12418,7 @@ extension SecurityHubClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -12832,8 +12436,7 @@ extension SecurityHubClientTypes {
         public init(
             iam: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails? = nil,
             scram: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationSaslScramDetails? = nil
-        )
-        {
+        ) {
             self.iam = iam
             self.scram = scram
         }
@@ -12852,8 +12455,7 @@ extension SecurityHubClientTypes {
         public init(
             certificateAuthorityArnList: [Swift.String]? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityArnList = certificateAuthorityArnList
             self.enabled = enabled
         }
@@ -12869,8 +12471,7 @@ extension SecurityHubClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -12891,8 +12492,7 @@ extension SecurityHubClientTypes {
             sasl: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationSaslDetails? = nil,
             tls: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationTlsDetails? = nil,
             unauthenticated: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationUnauthenticatedDetails? = nil
-        )
-        {
+        ) {
             self.sasl = sasl
             self.tls = tls
             self.unauthenticated = unauthenticated
@@ -12909,8 +12509,7 @@ extension SecurityHubClientTypes {
 
         public init(
             dataVolumeKMSKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataVolumeKMSKeyId = dataVolumeKMSKeyId
         }
     }
@@ -12928,8 +12527,7 @@ extension SecurityHubClientTypes {
         public init(
             clientBroker: Swift.String? = nil,
             inCluster: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.clientBroker = clientBroker
             self.inCluster = inCluster
         }
@@ -12948,8 +12546,7 @@ extension SecurityHubClientTypes {
         public init(
             encryptionAtRest: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoEncryptionAtRestDetails? = nil,
             encryptionInTransit: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoEncryptionInTransitDetails? = nil
-        )
-        {
+        ) {
             self.encryptionAtRest = encryptionAtRest
             self.encryptionInTransit = encryptionInTransit
         }
@@ -12980,8 +12577,7 @@ extension SecurityHubClientTypes {
             encryptionInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails? = nil,
             enhancedMonitoring: Swift.String? = nil,
             numberOfBrokerNodes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.clientAuthentication = clientAuthentication
             self.clusterName = clusterName
             self.currentVersion = currentVersion
@@ -13001,8 +12597,7 @@ extension SecurityHubClientTypes {
 
         public init(
             clusterInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoDetails? = nil
-        )
-        {
+        ) {
             self.clusterInfo = clusterInfo
         }
     }
@@ -13017,8 +12612,7 @@ extension SecurityHubClientTypes {
 
         public init(
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetId = subnetId
         }
     }
@@ -13060,8 +12654,7 @@ extension SecurityHubClientTypes {
             subnetChangeProtection: Swift.Bool? = nil,
             subnetMappings: [SecurityHubClientTypes.AwsNetworkFirewallFirewallSubnetMappingsDetails]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.deleteProtection = deleteProtection
             self.description = description
             self.firewallArn = firewallArn
@@ -13085,8 +12678,7 @@ extension SecurityHubClientTypes {
 
         public init(
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceArn = resourceArn
         }
     }
@@ -13101,8 +12693,7 @@ extension SecurityHubClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -13117,8 +12708,7 @@ extension SecurityHubClientTypes {
 
         public init(
             dimensions: [SecurityHubClientTypes.StatelessCustomPublishMetricActionDimension]? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
         }
     }
@@ -13133,8 +12723,7 @@ extension SecurityHubClientTypes {
 
         public init(
             publishMetricAction: SecurityHubClientTypes.StatelessCustomPublishMetricAction? = nil
-        )
-        {
+        ) {
             self.publishMetricAction = publishMetricAction
         }
     }
@@ -13152,8 +12741,7 @@ extension SecurityHubClientTypes {
         public init(
             actionDefinition: SecurityHubClientTypes.StatelessCustomActionDefinition? = nil,
             actionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionDefinition = actionDefinition
             self.actionName = actionName
         }
@@ -13172,8 +12760,7 @@ extension SecurityHubClientTypes {
         public init(
             priority: Swift.Int? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.resourceArn = resourceArn
         }
@@ -13201,8 +12788,7 @@ extension SecurityHubClientTypes {
             statelessDefaultActions: [Swift.String]? = nil,
             statelessFragmentDefaultActions: [Swift.String]? = nil,
             statelessRuleGroupReferences: [SecurityHubClientTypes.FirewallPolicyStatelessRuleGroupReferencesDetails]? = nil
-        )
-        {
+        ) {
             self.statefulRuleGroupReferences = statefulRuleGroupReferences
             self.statelessCustomActions = statelessCustomActions
             self.statelessDefaultActions = statelessDefaultActions
@@ -13233,8 +12819,7 @@ extension SecurityHubClientTypes {
             firewallPolicyArn: Swift.String? = nil,
             firewallPolicyId: Swift.String? = nil,
             firewallPolicyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.firewallPolicy = firewallPolicy
             self.firewallPolicyArn = firewallPolicyArn
@@ -13259,8 +12844,7 @@ extension SecurityHubClientTypes {
             generatedRulesType: Swift.String? = nil,
             targetTypes: [Swift.String]? = nil,
             targets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.generatedRulesType = generatedRulesType
             self.targetTypes = targetTypes
             self.targets = targets
@@ -13292,8 +12876,7 @@ extension SecurityHubClientTypes {
             `protocol`: Swift.String? = nil,
             source: Swift.String? = nil,
             sourcePort: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.destinationPort = destinationPort
             self.direction = direction
@@ -13316,8 +12899,7 @@ extension SecurityHubClientTypes {
         public init(
             keyword: Swift.String? = nil,
             settings: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.keyword = keyword
             self.settings = settings
         }
@@ -13339,8 +12921,7 @@ extension SecurityHubClientTypes {
             action: Swift.String? = nil,
             header: SecurityHubClientTypes.RuleGroupSourceStatefulRulesHeaderDetails? = nil,
             ruleOptions: [SecurityHubClientTypes.RuleGroupSourceStatefulRulesOptionsDetails]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.header = header
             self.ruleOptions = ruleOptions
@@ -13360,8 +12941,7 @@ extension SecurityHubClientTypes {
         public init(
             actionDefinition: SecurityHubClientTypes.StatelessCustomActionDefinition? = nil,
             actionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionDefinition = actionDefinition
             self.actionName = actionName
         }
@@ -13380,8 +12960,7 @@ extension SecurityHubClientTypes {
         public init(
             fromPort: Swift.Int? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.toPort = toPort
         }
@@ -13397,8 +12976,7 @@ extension SecurityHubClientTypes {
 
         public init(
             addressDefinition: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressDefinition = addressDefinition
         }
     }
@@ -13416,8 +12994,7 @@ extension SecurityHubClientTypes {
         public init(
             fromPort: Swift.Int? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.toPort = toPort
         }
@@ -13433,8 +13010,7 @@ extension SecurityHubClientTypes {
 
         public init(
             addressDefinition: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressDefinition = addressDefinition
         }
     }
@@ -13452,8 +13028,7 @@ extension SecurityHubClientTypes {
         public init(
             flags: [Swift.String]? = nil,
             masks: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.flags = flags
             self.masks = masks
         }
@@ -13484,8 +13059,7 @@ extension SecurityHubClientTypes {
             sourcePorts: [SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributesSourcePorts]? = nil,
             sources: [SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributesSources]? = nil,
             tcpFlags: [SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributesTcpFlags]? = nil
-        )
-        {
+        ) {
             self.destinationPorts = destinationPorts
             self.destinations = destinations
             self.protocols = protocols
@@ -13508,8 +13082,7 @@ extension SecurityHubClientTypes {
         public init(
             actions: [Swift.String]? = nil,
             matchAttributes: SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributes? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.matchAttributes = matchAttributes
         }
@@ -13528,8 +13101,7 @@ extension SecurityHubClientTypes {
         public init(
             priority: Swift.Int? = nil,
             ruleDefinition: SecurityHubClientTypes.RuleGroupSourceStatelessRuleDefinition? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.ruleDefinition = ruleDefinition
         }
@@ -13548,8 +13120,7 @@ extension SecurityHubClientTypes {
         public init(
             customActions: [SecurityHubClientTypes.RuleGroupSourceCustomActionsDetails]? = nil,
             statelessRules: [SecurityHubClientTypes.RuleGroupSourceStatelessRulesDetails]? = nil
-        )
-        {
+        ) {
             self.customActions = customActions
             self.statelessRules = statelessRules
         }
@@ -13574,8 +13145,7 @@ extension SecurityHubClientTypes {
             rulesString: Swift.String? = nil,
             statefulRules: [SecurityHubClientTypes.RuleGroupSourceStatefulRulesDetails]? = nil,
             statelessRulesAndCustomActions: SecurityHubClientTypes.RuleGroupSourceStatelessRulesAndCustomActionsDetails? = nil
-        )
-        {
+        ) {
             self.rulesSourceList = rulesSourceList
             self.rulesString = rulesString
             self.statefulRules = statefulRules
@@ -13593,8 +13163,7 @@ extension SecurityHubClientTypes {
 
         public init(
             definition: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.definition = definition
         }
     }
@@ -13609,8 +13178,7 @@ extension SecurityHubClientTypes {
 
         public init(
             definition: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.definition = definition
         }
     }
@@ -13628,8 +13196,7 @@ extension SecurityHubClientTypes {
         public init(
             ipSets: SecurityHubClientTypes.RuleGroupVariablesIpSetsDetails? = nil,
             portSets: SecurityHubClientTypes.RuleGroupVariablesPortSetsDetails? = nil
-        )
-        {
+        ) {
             self.ipSets = ipSets
             self.portSets = portSets
         }
@@ -13648,8 +13215,7 @@ extension SecurityHubClientTypes {
         public init(
             ruleVariables: SecurityHubClientTypes.RuleGroupVariables? = nil,
             rulesSource: SecurityHubClientTypes.RuleGroupSource? = nil
-        )
-        {
+        ) {
             self.ruleVariables = ruleVariables
             self.rulesSource = rulesSource
         }
@@ -13683,8 +13249,7 @@ extension SecurityHubClientTypes {
             ruleGroupId: Swift.String? = nil,
             ruleGroupName: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
             self.description = description
             self.ruleGroup = ruleGroup
@@ -13711,8 +13276,7 @@ extension SecurityHubClientTypes {
             masterUserArn: Swift.String? = nil,
             masterUserName: Swift.String? = nil,
             masterUserPassword: Swift.String? = nil
-        )
-        {
+        ) {
             self.masterUserArn = masterUserArn
             self.masterUserName = masterUserName
             self.masterUserPassword = masterUserPassword
@@ -13735,8 +13299,7 @@ extension SecurityHubClientTypes {
             enabled: Swift.Bool? = nil,
             internalUserDatabaseEnabled: Swift.Bool? = nil,
             masterUserOptions: SecurityHubClientTypes.AwsOpenSearchServiceDomainMasterUserOptionsDetails? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
             self.masterUserOptions = masterUserOptions
@@ -13753,8 +13316,7 @@ extension SecurityHubClientTypes {
 
         public init(
             availabilityZoneCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.availabilityZoneCount = availabilityZoneCount
         }
     }
@@ -13796,8 +13358,7 @@ extension SecurityHubClientTypes {
             warmType: Swift.String? = nil,
             zoneAwarenessConfig: SecurityHubClientTypes.AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails? = nil,
             zoneAwarenessEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.dedicatedMasterCount = dedicatedMasterCount
             self.dedicatedMasterEnabled = dedicatedMasterEnabled
             self.dedicatedMasterType = dedicatedMasterType
@@ -13833,8 +13394,7 @@ extension SecurityHubClientTypes {
             customEndpointEnabled: Swift.Bool? = nil,
             enforceHTTPS: Swift.Bool? = nil,
             tlsSecurityPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.customEndpoint = customEndpoint
             self.customEndpointCertificateArn = customEndpointCertificateArn
             self.customEndpointEnabled = customEndpointEnabled
@@ -13856,8 +13416,7 @@ extension SecurityHubClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.kmsKeyId = kmsKeyId
         }
@@ -13876,8 +13435,7 @@ extension SecurityHubClientTypes {
         public init(
             cloudWatchLogsLogGroupArn: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.enabled = enabled
         }
@@ -13899,8 +13457,7 @@ extension SecurityHubClientTypes {
             auditLogs: SecurityHubClientTypes.AwsOpenSearchServiceDomainLogPublishingOption? = nil,
             indexSlowLogs: SecurityHubClientTypes.AwsOpenSearchServiceDomainLogPublishingOption? = nil,
             searchSlowLogs: SecurityHubClientTypes.AwsOpenSearchServiceDomainLogPublishingOption? = nil
-        )
-        {
+        ) {
             self.auditLogs = auditLogs
             self.indexSlowLogs = indexSlowLogs
             self.searchSlowLogs = searchSlowLogs
@@ -13917,8 +13474,7 @@ extension SecurityHubClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -13964,8 +13520,7 @@ extension SecurityHubClientTypes {
             optionalDeployment: Swift.Bool? = nil,
             updateAvailable: Swift.Bool? = nil,
             updateStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.automatedUpdateDate = automatedUpdateDate
             self.cancellable = cancellable
             self.currentVersion = currentVersion
@@ -13990,8 +13545,7 @@ extension SecurityHubClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -14049,8 +13603,7 @@ extension SecurityHubClientTypes {
             nodeToNodeEncryptionOptions: SecurityHubClientTypes.AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails? = nil,
             serviceSoftwareOptions: SecurityHubClientTypes.AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails? = nil,
             vpcOptions: SecurityHubClientTypes.AwsOpenSearchServiceDomainVpcOptionsDetails? = nil
-        )
-        {
+        ) {
             self.accessPolicies = accessPolicies
             self.advancedSecurityOptions = advancedSecurityOptions
             self.arn = arn
@@ -14088,8 +13641,7 @@ extension SecurityHubClientTypes {
         public init(
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.status = status
         }
@@ -14114,8 +13666,7 @@ extension SecurityHubClientTypes {
             dbInstanceIdentifier: Swift.String? = nil,
             isClusterWriter: Swift.Bool? = nil,
             promotionTier: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dbClusterParameterGroupStatus = dbClusterParameterGroupStatus
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.isClusterWriter = isClusterWriter
@@ -14136,8 +13687,7 @@ extension SecurityHubClientTypes {
         public init(
             dbClusterOptionGroupName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbClusterOptionGroupName = dbClusterOptionGroupName
             self.status = status
         }
@@ -14162,8 +13712,7 @@ extension SecurityHubClientTypes {
             fqdn: Swift.String? = nil,
             iamRoleName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.fqdn = fqdn
             self.iamRoleName = iamRoleName
@@ -14184,8 +13733,7 @@ extension SecurityHubClientTypes {
         public init(
             status: Swift.String? = nil,
             vpcSecurityGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
@@ -14336,8 +13884,7 @@ extension SecurityHubClientTypes {
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
             vpcSecurityGroups: [SecurityHubClientTypes.AwsRdsDbInstanceVpcSecurityGroup]? = nil
-        )
-        {
+        ) {
             self.activityStreamStatus = activityStreamStatus
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
@@ -14392,8 +13939,7 @@ extension SecurityHubClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
         }
@@ -14463,8 +14009,7 @@ extension SecurityHubClientTypes {
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
@@ -14509,8 +14054,7 @@ extension SecurityHubClientTypes {
             featureName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.featureName = featureName
             self.roleArn = roleArn
             self.status = status
@@ -14530,8 +14074,7 @@ extension SecurityHubClientTypes {
         public init(
             dbParameterGroupName: Swift.String? = nil,
             parameterApplyStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbParameterGroupName = dbParameterGroupName
             self.parameterApplyStatus = parameterApplyStatus
         }
@@ -14547,8 +14090,7 @@ extension SecurityHubClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -14569,8 +14111,7 @@ extension SecurityHubClientTypes {
             subnetAvailabilityZone: SecurityHubClientTypes.AwsRdsDbSubnetGroupSubnetAvailabilityZone? = nil,
             subnetIdentifier: Swift.String? = nil,
             subnetStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
             self.subnetStatus = subnetStatus
@@ -14602,8 +14143,7 @@ extension SecurityHubClientTypes {
             subnetGroupStatus: Swift.String? = nil,
             subnets: [SecurityHubClientTypes.AwsRdsDbSubnetGroupSubnet]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbSubnetGroupArn = dbSubnetGroupArn
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -14629,8 +14169,7 @@ extension SecurityHubClientTypes {
             address: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.address = address
             self.hostedZoneId = hostedZoneId
             self.port = port
@@ -14650,8 +14189,7 @@ extension SecurityHubClientTypes {
         public init(
             optionGroupName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.optionGroupName = optionGroupName
             self.status = status
         }
@@ -14670,8 +14208,7 @@ extension SecurityHubClientTypes {
         public init(
             logTypesToDisable: [Swift.String]? = nil,
             logTypesToEnable: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.logTypesToDisable = logTypesToDisable
             self.logTypesToEnable = logTypesToEnable
         }
@@ -14690,8 +14227,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -14749,8 +14285,7 @@ extension SecurityHubClientTypes {
             port: Swift.Int? = nil,
             processorFeatures: [SecurityHubClientTypes.AwsRdsDbProcessorFeature]? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
             self.caCertificateIdentifier = caCertificateIdentifier
@@ -14788,8 +14323,7 @@ extension SecurityHubClientTypes {
             normal: Swift.Bool? = nil,
             status: Swift.String? = nil,
             statusType: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.normal = normal
             self.status = status
@@ -14981,8 +14515,7 @@ extension SecurityHubClientTypes {
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
             vpcSecurityGroups: [SecurityHubClientTypes.AwsRdsDbInstanceVpcSecurityGroup]? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -15062,8 +14595,7 @@ extension SecurityHubClientTypes {
             ec2SecurityGroupName: Swift.String? = nil,
             ec2SecurityGroupOwnerId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.ec2SecurityGroupId = ec2SecurityGroupId
             self.ec2SecurityGroupName = ec2SecurityGroupName
             self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
@@ -15084,8 +14616,7 @@ extension SecurityHubClientTypes {
         public init(
             cidrIp: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidrIp = cidrIp
             self.status = status
         }
@@ -15119,8 +14650,7 @@ extension SecurityHubClientTypes {
             ipRanges: [SecurityHubClientTypes.AwsRdsDbSecurityGroupIpRange]? = nil,
             ownerId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbSecurityGroupArn = dbSecurityGroupArn
             self.dbSecurityGroupDescription = dbSecurityGroupDescription
             self.dbSecurityGroupName = dbSecurityGroupName
@@ -15253,8 +14783,7 @@ extension SecurityHubClientTypes {
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -15322,8 +14851,7 @@ extension SecurityHubClientTypes {
             sourceType: Swift.String? = nil,
             status: Swift.String? = nil,
             subscriptionCreationTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.custSubscriptionId = custSubscriptionId
             self.customerAwsId = customerAwsId
             self.enabled = enabled
@@ -15353,8 +14881,7 @@ extension SecurityHubClientTypes {
             nodeRole: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil,
             publicIpAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.nodeRole = nodeRole
             self.privateIpAddress = privateIpAddress
             self.publicIpAddress = publicIpAddress
@@ -15377,8 +14904,7 @@ extension SecurityHubClientTypes {
             parameterApplyErrorDescription: Swift.String? = nil,
             parameterApplyStatus: Swift.String? = nil,
             parameterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterApplyErrorDescription = parameterApplyErrorDescription
             self.parameterApplyStatus = parameterApplyStatus
             self.parameterName = parameterName
@@ -15401,8 +14927,7 @@ extension SecurityHubClientTypes {
             clusterParameterStatusList: [SecurityHubClientTypes.AwsRedshiftClusterClusterParameterStatus]? = nil,
             parameterApplyStatus: Swift.String? = nil,
             parameterGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterParameterStatusList = clusterParameterStatusList
             self.parameterApplyStatus = parameterApplyStatus
             self.parameterGroupName = parameterGroupName
@@ -15422,8 +14947,7 @@ extension SecurityHubClientTypes {
         public init(
             clusterSecurityGroupName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.status = status
         }
@@ -15448,8 +14972,7 @@ extension SecurityHubClientTypes {
             manualSnapshotRetentionPeriod: Swift.Int? = nil,
             retentionPeriod: Swift.Int? = nil,
             snapshotCopyGrantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationRegion = destinationRegion
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.retentionPeriod = retentionPeriod
@@ -15473,8 +14996,7 @@ extension SecurityHubClientTypes {
             deferMaintenanceEndTime: Swift.String? = nil,
             deferMaintenanceIdentifier: Swift.String? = nil,
             deferMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.deferMaintenanceEndTime = deferMaintenanceEndTime
             self.deferMaintenanceIdentifier = deferMaintenanceIdentifier
             self.deferMaintenanceStartTime = deferMaintenanceStartTime
@@ -15494,8 +15016,7 @@ extension SecurityHubClientTypes {
         public init(
             elasticIp: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.elasticIp = elasticIp
             self.status = status
         }
@@ -15514,8 +15035,7 @@ extension SecurityHubClientTypes {
         public init(
             address: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.address = address
             self.port = port
         }
@@ -15537,8 +15057,7 @@ extension SecurityHubClientTypes {
             hsmClientCertificateIdentifier: Swift.String? = nil,
             hsmConfigurationIdentifier: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
             self.status = status
@@ -15558,8 +15077,7 @@ extension SecurityHubClientTypes {
         public init(
             applyStatus: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.applyStatus = applyStatus
             self.iamRoleArn = iamRoleArn
         }
@@ -15590,8 +15108,7 @@ extension SecurityHubClientTypes {
             lastSuccessfulDeliveryTime: Swift.String? = nil,
             loggingEnabled: Swift.Bool? = nil,
             s3KeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.lastFailureMessage = lastFailureMessage
             self.lastFailureTime = lastFailureTime
@@ -15641,8 +15158,7 @@ extension SecurityHubClientTypes {
             nodeType: Swift.String? = nil,
             numberOfNodes: Swift.Int? = nil,
             publiclyAccessible: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.clusterIdentifier = clusterIdentifier
             self.clusterType = clusterType
@@ -15670,8 +15186,7 @@ extension SecurityHubClientTypes {
         public init(
             allowCancelResize: Swift.Bool? = nil,
             resizeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowCancelResize = allowCancelResize
             self.resizeType = resizeType
         }
@@ -15702,8 +15217,7 @@ extension SecurityHubClientTypes {
             progressInMegaBytes: Swift.Int? = nil,
             snapshotSizeInMegaBytes: Swift.Int? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentRestoreRateInMegaBytesPerSecond = currentRestoreRateInMegaBytesPerSecond
             self.elapsedTimeInSeconds = elapsedTimeInSeconds
             self.estimatedTimeToCompletionInSeconds = estimatedTimeToCompletionInSeconds
@@ -15726,8 +15240,7 @@ extension SecurityHubClientTypes {
         public init(
             status: Swift.String? = nil,
             vpcSecurityGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
@@ -15882,8 +15395,7 @@ extension SecurityHubClientTypes {
             snapshotScheduleState: Swift.String? = nil,
             vpcId: Swift.String? = nil,
             vpcSecurityGroups: [SecurityHubClientTypes.AwsRedshiftClusterVpcSecurityGroup]? = nil
-        )
-        {
+        ) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
@@ -15941,8 +15453,7 @@ extension SecurityHubClientTypes {
 
         public init(
             comment: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
         }
     }
@@ -15963,8 +15474,7 @@ extension SecurityHubClientTypes {
             config: SecurityHubClientTypes.AwsRoute53HostedZoneConfigDetails? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.config = config
             self.id = id
             self.name = name
@@ -15987,8 +15497,7 @@ extension SecurityHubClientTypes {
             cloudWatchLogsLogGroupArn: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.hostedZoneId = hostedZoneId
             self.id = id
@@ -16005,8 +15514,7 @@ extension SecurityHubClientTypes {
 
         public init(
             cloudWatchLogsLogGroupArn: SecurityHubClientTypes.CloudWatchLogsLogGroupArnConfigDetails? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
         }
     }
@@ -16024,8 +15532,7 @@ extension SecurityHubClientTypes {
         public init(
             id: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.region = region
         }
@@ -16050,8 +15557,7 @@ extension SecurityHubClientTypes {
             nameServers: [Swift.String]? = nil,
             queryLoggingConfig: SecurityHubClientTypes.AwsRoute53QueryLoggingConfigDetails? = nil,
             vpcs: [SecurityHubClientTypes.AwsRoute53HostedZoneVpcDetails]? = nil
-        )
-        {
+        ) {
             self.hostedZone = hostedZone
             self.nameServers = nameServers
             self.queryLoggingConfig = queryLoggingConfig
@@ -16078,8 +15584,7 @@ extension SecurityHubClientTypes {
             blockPublicPolicy: Swift.Bool? = nil,
             ignorePublicAcls: Swift.Bool? = nil,
             restrictPublicBuckets: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.blockPublicAcls = blockPublicAcls
             self.blockPublicPolicy = blockPublicPolicy
             self.ignorePublicAcls = ignorePublicAcls
@@ -16097,8 +15602,7 @@ extension SecurityHubClientTypes {
 
         public init(
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.vpcId = vpcId
         }
     }
@@ -16134,8 +15638,7 @@ extension SecurityHubClientTypes {
             networkOrigin: Swift.String? = nil,
             publicAccessBlockConfiguration: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails? = nil,
             vpcConfiguration: SecurityHubClientTypes.AwsS3AccessPointVpcConfigurationDetails? = nil
-        )
-        {
+        ) {
             self.accessPointArn = accessPointArn
             self.alias = alias
             self.bucket = bucket
@@ -16157,8 +15660,7 @@ extension SecurityHubClientTypes {
 
         public init(
             daysAfterInitiation: Swift.Int? = nil
-        )
-        {
+        ) {
             self.daysAfterInitiation = daysAfterInitiation
         }
     }
@@ -16176,8 +15678,7 @@ extension SecurityHubClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -16199,8 +15700,7 @@ extension SecurityHubClientTypes {
             `prefix`: Swift.String? = nil,
             tag: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.`prefix` = `prefix`
             self.tag = tag
             self.type = type
@@ -16220,8 +15720,7 @@ extension SecurityHubClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -16246,8 +15745,7 @@ extension SecurityHubClientTypes {
             `prefix`: Swift.String? = nil,
             tag: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.operands = operands
             self.`prefix` = `prefix`
             self.tag = tag
@@ -16265,8 +15763,7 @@ extension SecurityHubClientTypes {
 
         public init(
             predicate: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails? = nil
-        )
-        {
+        ) {
             self.predicate = predicate
         }
     }
@@ -16284,8 +15781,7 @@ extension SecurityHubClientTypes {
         public init(
             days: Swift.Int? = nil,
             storageClass: Swift.String? = nil
-        )
-        {
+        ) {
             self.days = days
             self.storageClass = storageClass
         }
@@ -16317,8 +15813,7 @@ extension SecurityHubClientTypes {
             date: Swift.String? = nil,
             days: Swift.Int? = nil,
             storageClass: Swift.String? = nil
-        )
-        {
+        ) {
             self.date = date
             self.days = days
             self.storageClass = storageClass
@@ -16365,8 +15860,7 @@ extension SecurityHubClientTypes {
             `prefix`: Swift.String? = nil,
             status: Swift.String? = nil,
             transitions: [SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails]? = nil
-        )
-        {
+        ) {
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expirationDate = expirationDate
             self.expirationInDays = expirationInDays
@@ -16391,8 +15885,7 @@ extension SecurityHubClientTypes {
 
         public init(
             rules: [SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesDetails]? = nil
-        )
-        {
+        ) {
             self.rules = rules
         }
     }
@@ -16410,8 +15903,7 @@ extension SecurityHubClientTypes {
         public init(
             isMfaDeleteEnabled: Swift.Bool? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.isMfaDeleteEnabled = isMfaDeleteEnabled
             self.status = status
         }
@@ -16430,8 +15922,7 @@ extension SecurityHubClientTypes {
         public init(
             destinationBucketName: Swift.String? = nil,
             logFilePrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationBucketName = destinationBucketName
             self.logFilePrefix = logFilePrefix
         }
@@ -16479,8 +15970,7 @@ extension SecurityHubClientTypes {
         public init(
             name: SecurityHubClientTypes.AwsS3BucketNotificationConfigurationS3KeyFilterRuleName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -16496,8 +15986,7 @@ extension SecurityHubClientTypes {
 
         public init(
             filterRules: [SecurityHubClientTypes.AwsS3BucketNotificationConfigurationS3KeyFilterRule]? = nil
-        )
-        {
+        ) {
             self.filterRules = filterRules
         }
     }
@@ -16512,8 +16001,7 @@ extension SecurityHubClientTypes {
 
         public init(
             s3KeyFilter: SecurityHubClientTypes.AwsS3BucketNotificationConfigurationS3KeyFilter? = nil
-        )
-        {
+        ) {
             self.s3KeyFilter = s3KeyFilter
         }
     }
@@ -16543,8 +16031,7 @@ extension SecurityHubClientTypes {
             events: [Swift.String]? = nil,
             filter: SecurityHubClientTypes.AwsS3BucketNotificationConfigurationFilter? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.events = events
             self.filter = filter
@@ -16562,8 +16049,7 @@ extension SecurityHubClientTypes {
 
         public init(
             configurations: [SecurityHubClientTypes.AwsS3BucketNotificationConfigurationDetail]? = nil
-        )
-        {
+        ) {
             self.configurations = configurations
         }
     }
@@ -16581,8 +16067,7 @@ extension SecurityHubClientTypes {
         public init(
             hostname: Swift.String? = nil,
             `protocol`: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
             self.`protocol` = `protocol`
         }
@@ -16601,8 +16086,7 @@ extension SecurityHubClientTypes {
         public init(
             httpErrorCodeReturnedEquals: Swift.String? = nil,
             keyPrefixEquals: Swift.String? = nil
-        )
-        {
+        ) {
             self.httpErrorCodeReturnedEquals = httpErrorCodeReturnedEquals
             self.keyPrefixEquals = keyPrefixEquals
         }
@@ -16630,8 +16114,7 @@ extension SecurityHubClientTypes {
             `protocol`: Swift.String? = nil,
             replaceKeyPrefixWith: Swift.String? = nil,
             replaceKeyWith: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
             self.httpRedirectCode = httpRedirectCode
             self.`protocol` = `protocol`
@@ -16653,8 +16136,7 @@ extension SecurityHubClientTypes {
         public init(
             condition: SecurityHubClientTypes.AwsS3BucketWebsiteConfigurationRoutingRuleCondition? = nil,
             redirect: SecurityHubClientTypes.AwsS3BucketWebsiteConfigurationRoutingRuleRedirect? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.redirect = redirect
         }
@@ -16679,8 +16161,7 @@ extension SecurityHubClientTypes {
             indexDocumentSuffix: Swift.String? = nil,
             redirectAllRequestsTo: SecurityHubClientTypes.AwsS3BucketWebsiteConfigurationRedirectTo? = nil,
             routingRules: [SecurityHubClientTypes.AwsS3BucketWebsiteConfigurationRoutingRule]? = nil
-        )
-        {
+        ) {
             self.errorDocument = errorDocument
             self.indexDocumentSuffix = indexDocumentSuffix
             self.redirectAllRequestsTo = redirectAllRequestsTo
@@ -16704,8 +16185,7 @@ extension SecurityHubClientTypes {
             days: Swift.Int? = nil,
             mode: Swift.String? = nil,
             years: Swift.Int? = nil
-        )
-        {
+        ) {
             self.days = days
             self.mode = mode
             self.years = years
@@ -16722,8 +16202,7 @@ extension SecurityHubClientTypes {
 
         public init(
             defaultRetention: SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails? = nil
-        )
-        {
+        ) {
             self.defaultRetention = defaultRetention
         }
     }
@@ -16741,8 +16220,7 @@ extension SecurityHubClientTypes {
         public init(
             objectLockEnabled: Swift.String? = nil,
             rule: SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDetails? = nil
-        )
-        {
+        ) {
             self.objectLockEnabled = objectLockEnabled
             self.rule = rule
         }
@@ -16761,8 +16239,7 @@ extension SecurityHubClientTypes {
         public init(
             kmsMasterKeyID: Swift.String? = nil,
             sseAlgorithm: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsMasterKeyID = kmsMasterKeyID
             self.sseAlgorithm = sseAlgorithm
         }
@@ -16778,8 +16255,7 @@ extension SecurityHubClientTypes {
 
         public init(
             applyServerSideEncryptionByDefault: SecurityHubClientTypes.AwsS3BucketServerSideEncryptionByDefault? = nil
-        )
-        {
+        ) {
             self.applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault
         }
     }
@@ -16794,8 +16270,7 @@ extension SecurityHubClientTypes {
 
         public init(
             rules: [SecurityHubClientTypes.AwsS3BucketServerSideEncryptionRule]? = nil
-        )
-        {
+        ) {
             self.rules = rules
         }
     }
@@ -16849,8 +16324,7 @@ extension SecurityHubClientTypes {
             ownerName: Swift.String? = nil,
             publicAccessBlockConfiguration: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails? = nil,
             serverSideEncryptionConfiguration: SecurityHubClientTypes.AwsS3BucketServerSideEncryptionConfiguration? = nil
-        )
-        {
+        ) {
             self.accessControlList = accessControlList
             self.bucketLifecycleConfiguration = bucketLifecycleConfiguration
             self.bucketLoggingConfiguration = bucketLoggingConfiguration
@@ -16893,8 +16367,7 @@ extension SecurityHubClientTypes {
             serverSideEncryption: Swift.String? = nil,
             ssekmsKeyId: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.eTag = eTag
             self.lastModified = lastModified
@@ -16914,8 +16387,7 @@ extension SecurityHubClientTypes {
 
         public init(
             minimumInstanceMetadataServiceVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.minimumInstanceMetadataServiceVersion = minimumInstanceMetadataServiceVersion
         }
     }
@@ -16987,8 +16459,7 @@ extension SecurityHubClientTypes {
             subnetId: Swift.String? = nil,
             url: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.defaultCodeRepository = defaultCodeRepository
@@ -17022,8 +16493,7 @@ extension SecurityHubClientTypes {
 
         public init(
             automaticallyAfterDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.automaticallyAfterDays = automaticallyAfterDays
         }
     }
@@ -17059,8 +16529,7 @@ extension SecurityHubClientTypes {
             rotationLambdaArn: Swift.String? = nil,
             rotationOccurredWithinFrequency: Swift.Bool? = nil,
             rotationRules: SecurityHubClientTypes.AwsSecretsManagerSecretRotationRules? = nil
-        )
-        {
+        ) {
             self.deleted = deleted
             self.description = description
             self.kmsKeyId = kmsKeyId
@@ -17085,8 +16554,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -17141,8 +16609,7 @@ extension SecurityHubClientTypes {
         public init(
             description: Swift.String? = nil,
             reasonCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.reasonCode = reasonCode
         }
@@ -17182,8 +16649,7 @@ extension SecurityHubClientTypes {
             securityControlParameters: [SecurityHubClientTypes.SecurityControlParameter]? = nil,
             status: SecurityHubClientTypes.ComplianceStatus? = nil,
             statusReasons: [SecurityHubClientTypes.StatusReason]? = nil
-        )
-        {
+        ) {
             self.associatedStandards = associatedStandards
             self.relatedRequirements = relatedRequirements
             self.securityControlId = securityControlId
@@ -17206,8 +16672,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             number: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.number = number
         }
@@ -17252,8 +16717,7 @@ extension SecurityHubClientTypes {
 
         public init(
             direction: SecurityHubClientTypes.ConnectionDirection? = nil
-        )
-        {
+        ) {
             self.direction = direction
         }
     }
@@ -17277,8 +16741,7 @@ extension SecurityHubClientTypes {
             country: Swift.String? = nil,
             lat: Swift.Double? = nil,
             lon: Swift.Double? = nil
-        )
-        {
+        ) {
             self.city = city
             self.country = country
             self.lat = lat
@@ -17314,8 +16777,7 @@ extension SecurityHubClientTypes {
             ip: Swift.String? = nil,
             location: SecurityHubClientTypes.NetworkGeoLocation? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.autonomousSystem = autonomousSystem
             self.connection = connection
             self.domain = domain
@@ -17345,8 +16807,7 @@ extension SecurityHubClientTypes {
             title: Swift.String? = nil,
             type: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.title = title
             self.type = type
@@ -17412,8 +16873,7 @@ extension SecurityHubClientTypes {
             title: Swift.String? = nil,
             type: Swift.String? = nil,
             updatedAt: Swift.Int? = nil
-        )
-        {
+        ) {
             self.actorIds = actorIds
             self.count = count
             self.createdAt = createdAt
@@ -17454,8 +16914,7 @@ extension SecurityHubClientTypes {
             sequenceIndicators: [SecurityHubClientTypes.Indicator]? = nil,
             signals: [SecurityHubClientTypes.Signal]? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.actors = actors
             self.endpoints = endpoints
             self.sequenceIndicators = sequenceIndicators
@@ -17474,8 +16933,7 @@ extension SecurityHubClientTypes {
 
         public init(
             sequence: SecurityHubClientTypes.Sequence? = nil
-        )
-        {
+        ) {
             self.sequence = sequence
         }
     }
@@ -17504,8 +16962,7 @@ extension SecurityHubClientTypes {
         public init(
             label: SecurityHubClientTypes.SeverityLabel? = nil,
             original: Swift.String? = nil
-        )
-        {
+        ) {
             self.label = label
             self.original = original
         }
@@ -17546,8 +17003,7 @@ extension SecurityHubClientTypes {
             relatedFindings: [SecurityHubClientTypes.RelatedFinding]? = nil,
             severity: SecurityHubClientTypes.FindingProviderSeverity? = nil,
             types: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.criticality = criticality
             self.relatedFindings = relatedFindings
@@ -17572,8 +17028,7 @@ extension SecurityHubClientTypes {
             description: Swift.String? = nil,
             labels: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.labels = labels
             self.name = name
@@ -17700,8 +17155,7 @@ extension SecurityHubClientTypes {
             path: Swift.String? = nil,
             state: SecurityHubClientTypes.MalwareState? = nil,
             type: SecurityHubClientTypes.MalwareType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.path = path
             self.state = state
@@ -17751,8 +17205,7 @@ extension SecurityHubClientTypes {
         public init(
             begin: Swift.Int? = nil,
             end: Swift.Int? = nil
-        )
-        {
+        ) {
             self.begin = begin
             self.end = end
         }
@@ -17801,8 +17254,7 @@ extension SecurityHubClientTypes {
             sourceIpV6: Swift.String? = nil,
             sourceMac: Swift.String? = nil,
             sourcePort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.destinationDomain = destinationDomain
             self.destinationIpV4 = destinationIpV4
             self.destinationIpV6 = destinationIpV6
@@ -17831,8 +17283,7 @@ extension SecurityHubClientTypes {
         public init(
             address: [Swift.String]? = nil,
             portRanges: [SecurityHubClientTypes.PortRange]? = nil
-        )
-        {
+        ) {
             self.address = address
             self.portRanges = portRanges
         }
@@ -17854,8 +17305,7 @@ extension SecurityHubClientTypes {
             destination: SecurityHubClientTypes.NetworkPathComponentDetails? = nil,
             `protocol`: Swift.String? = nil,
             source: SecurityHubClientTypes.NetworkPathComponentDetails? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.`protocol` = `protocol`
             self.source = source
@@ -17881,8 +17331,7 @@ extension SecurityHubClientTypes {
             componentType: Swift.String? = nil,
             egress: SecurityHubClientTypes.NetworkHeader? = nil,
             ingress: SecurityHubClientTypes.NetworkHeader? = nil
-        )
-        {
+        ) {
             self.componentId = componentId
             self.componentType = componentType
             self.egress = egress
@@ -17909,8 +17358,7 @@ extension SecurityHubClientTypes {
             text: Swift.String? = nil,
             updatedAt: Swift.String? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
@@ -17958,8 +17406,7 @@ extension SecurityHubClientTypes {
             operationEndTime: Swift.String? = nil,
             operationStartTime: Swift.String? = nil,
             rebootOption: Swift.String? = nil
-        )
-        {
+        ) {
             self.failedCount = failedCount
             self.id = id
             self.installedCount = installedCount
@@ -17999,8 +17446,7 @@ extension SecurityHubClientTypes {
             path: Swift.String? = nil,
             pid: Swift.Int? = nil,
             terminatedAt: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchedAt = launchedAt
             self.name = name
             self.parentPid = parentPid
@@ -18052,8 +17498,7 @@ extension SecurityHubClientTypes {
         public init(
             text: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.url = url
         }
@@ -18069,8 +17514,7 @@ extension SecurityHubClientTypes {
 
         public init(
             recommendation: SecurityHubClientTypes.Recommendation? = nil
-        )
-        {
+        ) {
             self.recommendation = recommendation
         }
     }
@@ -18094,8 +17538,7 @@ extension SecurityHubClientTypes {
             column: Swift.Int? = nil,
             columnName: Swift.String? = nil,
             row: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cellReference = cellReference
             self.column = column
             self.columnName = columnName
@@ -18119,8 +17562,7 @@ extension SecurityHubClientTypes {
             end: Swift.Int? = nil,
             start: Swift.Int? = nil,
             startColumn: Swift.Int? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
             self.startColumn = startColumn
@@ -18143,8 +17585,7 @@ extension SecurityHubClientTypes {
             lineRange: SecurityHubClientTypes.Range? = nil,
             offsetRange: SecurityHubClientTypes.Range? = nil,
             pageNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lineRange = lineRange
             self.offsetRange = offsetRange
             self.pageNumber = pageNumber
@@ -18164,8 +17605,7 @@ extension SecurityHubClientTypes {
         public init(
             jsonPath: Swift.String? = nil,
             recordIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.jsonPath = jsonPath
             self.recordIndex = recordIndex
         }
@@ -18193,8 +17633,7 @@ extension SecurityHubClientTypes {
             offsetRanges: [SecurityHubClientTypes.Range]? = nil,
             pages: [SecurityHubClientTypes.Page]? = nil,
             records: [SecurityHubClientTypes.Record]? = nil
-        )
-        {
+        ) {
             self.cells = cells
             self.lineRanges = lineRanges
             self.offsetRanges = offsetRanges
@@ -18222,8 +17661,7 @@ extension SecurityHubClientTypes {
             count: Swift.Int? = nil,
             name: Swift.String? = nil,
             occurrences: SecurityHubClientTypes.Occurrences? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.count = count
             self.name = name
@@ -18244,8 +17682,7 @@ extension SecurityHubClientTypes {
         public init(
             detections: [SecurityHubClientTypes.CustomDataIdentifiersDetections]? = nil,
             totalCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.detections = detections
             self.totalCount = totalCount
         }
@@ -18267,8 +17704,7 @@ extension SecurityHubClientTypes {
             count: Swift.Int? = nil,
             occurrences: SecurityHubClientTypes.Occurrences? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.occurrences = occurrences
             self.type = type
@@ -18291,8 +17727,7 @@ extension SecurityHubClientTypes {
             category: Swift.String? = nil,
             detections: [SecurityHubClientTypes.SensitiveDataDetections]? = nil,
             totalCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.category = category
             self.detections = detections
             self.totalCount = totalCount
@@ -18312,8 +17747,7 @@ extension SecurityHubClientTypes {
         public init(
             code: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.reason = reason
         }
@@ -18344,8 +17778,7 @@ extension SecurityHubClientTypes {
             sensitiveData: [SecurityHubClientTypes.SensitiveDataResult]? = nil,
             sizeClassified: Swift.Int? = nil,
             status: SecurityHubClientTypes.ClassificationStatus? = nil
-        )
-        {
+        ) {
             self.additionalOccurrences = additionalOccurrences
             self.customDataIdentifiers = customDataIdentifiers
             self.mimeType = mimeType
@@ -18368,8 +17801,7 @@ extension SecurityHubClientTypes {
         public init(
             detailedResultsLocation: Swift.String? = nil,
             result: SecurityHubClientTypes.ClassificationResult? = nil
-        )
-        {
+        ) {
             self.detailedResultsLocation = detailedResultsLocation
             self.result = result
         }
@@ -18388,8 +17820,7 @@ extension SecurityHubClientTypes {
         public init(
             endpoint: Swift.String? = nil,
             `protocol`: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.`protocol` = `protocol`
         }
@@ -18435,8 +17866,7 @@ extension SecurityHubClientTypes {
             sqsSuccessFeedbackRoleArn: Swift.String? = nil,
             subscription: [SecurityHubClientTypes.AwsSnsTopicSubscription]? = nil,
             topicName: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationSuccessFeedbackRoleArn = applicationSuccessFeedbackRoleArn
             self.firehoseFailureFeedbackRoleArn = firehoseFailureFeedbackRoleArn
             self.firehoseSuccessFeedbackRoleArn = firehoseSuccessFeedbackRoleArn
@@ -18470,8 +17900,7 @@ extension SecurityHubClientTypes {
             kmsDataKeyReusePeriodSeconds: Swift.Int? = nil,
             kmsMasterKeyId: Swift.String? = nil,
             queueName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deadLetterTargetArn = deadLetterTargetArn
             self.kmsDataKeyReusePeriodSeconds = kmsDataKeyReusePeriodSeconds
             self.kmsMasterKeyId = kmsMasterKeyId
@@ -18558,8 +17987,7 @@ extension SecurityHubClientTypes {
             patchBaselineId: Swift.String? = nil,
             patchGroup: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.complianceType = complianceType
             self.compliantCriticalCount = compliantCriticalCount
             self.compliantHighCount = compliantHighCount
@@ -18591,8 +18019,7 @@ extension SecurityHubClientTypes {
 
         public init(
             complianceSummary: SecurityHubClientTypes.AwsSsmComplianceSummary? = nil
-        )
-        {
+        ) {
             self.complianceSummary = complianceSummary
         }
     }
@@ -18607,8 +18034,7 @@ extension SecurityHubClientTypes {
 
         public init(
             patch: SecurityHubClientTypes.AwsSsmPatch? = nil
-        )
-        {
+        ) {
             self.patch = patch
         }
     }
@@ -18623,8 +18049,7 @@ extension SecurityHubClientTypes {
 
         public init(
             logGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupArn = logGroupArn
         }
     }
@@ -18639,8 +18064,7 @@ extension SecurityHubClientTypes {
 
         public init(
             cloudWatchLogsLogGroup: SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroup = cloudWatchLogsLogGroup
         }
     }
@@ -18661,8 +18085,7 @@ extension SecurityHubClientTypes {
             destinations: [SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails]? = nil,
             includeExecutionData: Swift.Bool? = nil,
             level: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinations = destinations
             self.includeExecutionData = includeExecutionData
             self.level = level
@@ -18679,8 +18102,7 @@ extension SecurityHubClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -18716,8 +18138,7 @@ extension SecurityHubClientTypes {
             status: Swift.String? = nil,
             tracingConfiguration: SecurityHubClientTypes.AwsStepFunctionStateMachineTracingConfigurationDetails? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.label = label
             self.loggingConfiguration = loggingConfiguration
             self.name = name
@@ -18759,8 +18180,7 @@ extension SecurityHubClientTypes {
             dataId: Swift.String? = nil,
             negated: Swift.Bool? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataId = dataId
             self.negated = negated
             self.type = type
@@ -18792,8 +18212,7 @@ extension SecurityHubClientTypes {
             rateKey: Swift.String? = nil,
             rateLimit: Swift.Int? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.matchPredicates = matchPredicates
             self.metricName = metricName
             self.name = name
@@ -18833,8 +18252,7 @@ extension SecurityHubClientTypes {
             dataId: Swift.String? = nil,
             negated: Swift.Bool? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataId = dataId
             self.negated = negated
             self.type = type
@@ -18866,8 +18284,7 @@ extension SecurityHubClientTypes {
             rateKey: Swift.String? = nil,
             rateLimit: Swift.Int? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.matchPredicates = matchPredicates
             self.metricName = metricName
             self.name = name
@@ -18893,8 +18310,7 @@ extension SecurityHubClientTypes {
             dataId: Swift.String? = nil,
             negated: Swift.Bool? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataId = dataId
             self.negated = negated
             self.type = type
@@ -18920,8 +18336,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             predicateList: [SecurityHubClientTypes.AwsWafRegionalRulePredicateListDetails]? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.name = name
             self.predicateList = predicateList
@@ -18939,8 +18354,7 @@ extension SecurityHubClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -18964,8 +18378,7 @@ extension SecurityHubClientTypes {
             priority: Swift.Int? = nil,
             ruleId: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.priority = priority
             self.ruleId = ruleId
@@ -18992,8 +18405,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             ruleGroupId: Swift.String? = nil,
             rules: [SecurityHubClientTypes.AwsWafRegionalRuleGroupRulesDetails]? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.name = name
             self.ruleGroupId = ruleGroupId
@@ -19011,8 +18423,7 @@ extension SecurityHubClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -19027,8 +18438,7 @@ extension SecurityHubClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -19055,8 +18465,7 @@ extension SecurityHubClientTypes {
             priority: Swift.Int? = nil,
             ruleId: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.overrideAction = overrideAction
             self.priority = priority
@@ -19087,8 +18496,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             rulesList: [SecurityHubClientTypes.AwsWafRegionalWebAclRulesListDetails]? = nil,
             webAclId: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultAction = defaultAction
             self.metricName = metricName
             self.name = name
@@ -19113,8 +18521,7 @@ extension SecurityHubClientTypes {
             dataId: Swift.String? = nil,
             negated: Swift.Bool? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataId = dataId
             self.negated = negated
             self.type = type
@@ -19140,8 +18547,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             predicateList: [SecurityHubClientTypes.AwsWafRulePredicateListDetails]? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.name = name
             self.predicateList = predicateList
@@ -19159,8 +18565,7 @@ extension SecurityHubClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -19184,8 +18589,7 @@ extension SecurityHubClientTypes {
             priority: Swift.Int? = nil,
             ruleId: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.priority = priority
             self.ruleId = ruleId
@@ -19212,8 +18616,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             ruleGroupId: Swift.String? = nil,
             rules: [SecurityHubClientTypes.AwsWafRuleGroupRulesDetails]? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.name = name
             self.ruleGroupId = ruleGroupId
@@ -19234,8 +18637,7 @@ extension SecurityHubClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -19251,8 +18653,7 @@ extension SecurityHubClientTypes {
 
         public init(
             insertHeaders: [SecurityHubClientTypes.AwsWafv2CustomHttpHeader]? = nil
-        )
-        {
+        ) {
             self.insertHeaders = insertHeaders
         }
     }
@@ -19267,8 +18668,7 @@ extension SecurityHubClientTypes {
 
         public init(
             customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails? = nil
-        )
-        {
+        ) {
             self.customRequestHandling = customRequestHandling
         }
     }
@@ -19289,8 +18689,7 @@ extension SecurityHubClientTypes {
             customResponseBodyKey: Swift.String? = nil,
             responseCode: Swift.Int? = nil,
             responseHeaders: [SecurityHubClientTypes.AwsWafv2CustomHttpHeader]? = nil
-        )
-        {
+        ) {
             self.customResponseBodyKey = customResponseBodyKey
             self.responseCode = responseCode
             self.responseHeaders = responseHeaders
@@ -19307,8 +18706,7 @@ extension SecurityHubClientTypes {
 
         public init(
             customResponse: SecurityHubClientTypes.AwsWafv2CustomResponseDetails? = nil
-        )
-        {
+        ) {
             self.customResponse = customResponse
         }
     }
@@ -19323,8 +18721,7 @@ extension SecurityHubClientTypes {
 
         public init(
             customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails? = nil
-        )
-        {
+        ) {
             self.customRequestHandling = customRequestHandling
         }
     }
@@ -19339,8 +18736,7 @@ extension SecurityHubClientTypes {
 
         public init(
             customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails? = nil
-        )
-        {
+        ) {
             self.customRequestHandling = customRequestHandling
         }
     }
@@ -19364,8 +18760,7 @@ extension SecurityHubClientTypes {
             block: SecurityHubClientTypes.AwsWafv2ActionBlockDetails? = nil,
             captcha: SecurityHubClientTypes.AwsWafv2RulesActionCaptchaDetails? = nil,
             count: SecurityHubClientTypes.AwsWafv2RulesActionCountDetails? = nil
-        )
-        {
+        ) {
             self.allow = allow
             self.block = block
             self.captcha = captcha
@@ -19389,8 +18784,7 @@ extension SecurityHubClientTypes {
             cloudWatchMetricsEnabled: Swift.Bool? = nil,
             metricName: Swift.String? = nil,
             sampledRequestsEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.metricName = metricName
             self.sampledRequestsEnabled = sampledRequestsEnabled
@@ -19419,8 +18813,7 @@ extension SecurityHubClientTypes {
             overrideAction: Swift.String? = nil,
             priority: Swift.Int? = nil,
             visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails? = nil
-        )
-        {
+        ) {
             self.action = action
             self.name = name
             self.overrideAction = overrideAction
@@ -19460,8 +18853,7 @@ extension SecurityHubClientTypes {
             rules: [SecurityHubClientTypes.AwsWafv2RulesDetails]? = nil,
             scope: Swift.String? = nil,
             visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.capacity = capacity
             self.description = description
@@ -19483,8 +18875,7 @@ extension SecurityHubClientTypes {
 
         public init(
             immunityTime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.immunityTime = immunityTime
         }
     }
@@ -19499,8 +18890,7 @@ extension SecurityHubClientTypes {
 
         public init(
             immunityTimeProperty: SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails? = nil
-        )
-        {
+        ) {
             self.immunityTimeProperty = immunityTimeProperty
         }
     }
@@ -19518,8 +18908,7 @@ extension SecurityHubClientTypes {
         public init(
             allow: SecurityHubClientTypes.AwsWafv2ActionAllowDetails? = nil,
             block: SecurityHubClientTypes.AwsWafv2ActionBlockDetails? = nil
-        )
-        {
+        ) {
             self.allow = allow
             self.block = block
         }
@@ -19562,8 +18951,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             rules: [SecurityHubClientTypes.AwsWafv2RulesDetails]? = nil,
             visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.capacity = capacity
             self.captchaConfig = captchaConfig
@@ -19593,8 +18981,7 @@ extension SecurityHubClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -19609,8 +18996,7 @@ extension SecurityHubClientTypes {
 
         public init(
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ruleId = ruleId
         }
     }
@@ -19625,8 +19011,7 @@ extension SecurityHubClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -19656,8 +19041,7 @@ extension SecurityHubClientTypes {
             priority: Swift.Int? = nil,
             ruleId: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.excludedRules = excludedRules
             self.overrideAction = overrideAction
@@ -19686,8 +19070,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             rules: [SecurityHubClientTypes.AwsWafWebAclRule]? = nil,
             webAclId: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultAction = defaultAction
             self.name = name
             self.rules = rules
@@ -19711,8 +19094,7 @@ extension SecurityHubClientTypes {
             keyId: Swift.String? = nil,
             status: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyId = keyId
             self.status = status
             self.type = type
@@ -19732,8 +19114,7 @@ extension SecurityHubClientTypes {
         public init(
             mountPath: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.mountPath = mountPath
             self.name = name
         }
@@ -19767,8 +19148,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             privileged: Swift.Bool? = nil,
             volumeMounts: [SecurityHubClientTypes.VolumeMount]? = nil
-        )
-        {
+        ) {
             self.containerRuntime = containerRuntime
             self.imageId = imageId
             self.imageName = imageName
@@ -20087,8 +19467,7 @@ extension SecurityHubClientTypes {
             awsXrayEncryptionConfig: SecurityHubClientTypes.AwsXrayEncryptionConfigDetails? = nil,
             container: SecurityHubClientTypes.ContainerDetails? = nil,
             other: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.awsAmazonMqBroker = awsAmazonMqBroker
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
@@ -20262,8 +19641,7 @@ extension SecurityHubClientTypes {
             resourceRole: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.applicationName = applicationName
             self.dataClassification = dataClassification
@@ -20329,8 +19707,7 @@ extension SecurityHubClientTypes {
             normalized: Swift.Int? = nil,
             original: Swift.String? = nil,
             product: Swift.Double? = nil
-        )
-        {
+        ) {
             self.label = label
             self.normalized = normalized
             self.original = original
@@ -20460,8 +19837,7 @@ extension SecurityHubClientTypes {
             sourceUrl: Swift.String? = nil,
             type: SecurityHubClientTypes.ThreatIntelIndicatorType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.lastObservedAt = lastObservedAt
             self.source = source
@@ -20490,8 +19866,7 @@ extension SecurityHubClientTypes {
             filePath: Swift.String? = nil,
             hash: Swift.String? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileName = fileName
             self.filePath = filePath
             self.hash = hash
@@ -20518,8 +19893,7 @@ extension SecurityHubClientTypes {
             itemCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             severity: Swift.String? = nil
-        )
-        {
+        ) {
             self.filePaths = filePaths
             self.itemCount = itemCount
             self.name = name
@@ -20546,8 +19920,7 @@ extension SecurityHubClientTypes {
             fileName: Swift.String? = nil,
             filePath: Swift.String? = nil,
             startLine: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endLine = endLine
             self.fileName = fileName
             self.filePath = filePath
@@ -20571,8 +19944,7 @@ extension SecurityHubClientTypes {
             cwes: [Swift.String]? = nil,
             filePath: SecurityHubClientTypes.CodeVulnerabilitiesFilePath? = nil,
             sourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cwes = cwes
             self.filePath = filePath
             self.sourceArn = sourceArn
@@ -20601,8 +19973,7 @@ extension SecurityHubClientTypes {
             baseVector: Swift.String? = nil,
             source: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.adjustments = adjustments
             self.baseScore = baseScore
             self.baseVector = baseVector
@@ -20695,8 +20066,7 @@ extension SecurityHubClientTypes {
             vendorCreatedAt: Swift.String? = nil,
             vendorSeverity: Swift.String? = nil,
             vendorUpdatedAt: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.url = url
             self.vendorCreatedAt = vendorCreatedAt
@@ -20745,8 +20115,7 @@ extension SecurityHubClientTypes {
             sourceLayerArn: Swift.String? = nil,
             sourceLayerHash: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.epoch = epoch
             self.filePath = filePath
@@ -20808,8 +20177,7 @@ extension SecurityHubClientTypes {
             relatedVulnerabilities: [Swift.String]? = nil,
             vendor: SecurityHubClientTypes.VulnerabilityVendor? = nil,
             vulnerablePackages: [SecurityHubClientTypes.SoftwarePackage]? = nil
-        )
-        {
+        ) {
             self.codeVulnerabilities = codeVulnerabilities
             self.cvss = cvss
             self.epssScore = epssScore
@@ -20849,8 +20217,7 @@ extension SecurityHubClientTypes {
 
         public init(
             status: SecurityHubClientTypes.WorkflowStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -21047,8 +20414,7 @@ extension SecurityHubClientTypes {
             vulnerabilities: [SecurityHubClientTypes.Vulnerability]? = nil,
             workflow: SecurityHubClientTypes.Workflow? = nil,
             workflowState: SecurityHubClientTypes.WorkflowState? = nil
-        )
-        {
+        ) {
             self.action = action
             self.awsAccountId = awsAccountId
             self.awsAccountName = awsAccountName
@@ -21107,8 +20473,7 @@ extension SecurityHubClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -21123,8 +20488,7 @@ extension SecurityHubClientTypes {
 
         public init(
             cidr: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidr = cidr
         }
     }
@@ -21139,8 +20503,7 @@ extension SecurityHubClientTypes {
 
         public init(
             value: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -21497,8 +20860,7 @@ extension SecurityHubClientTypes {
             vulnerabilitiesFixAvailable: [SecurityHubClientTypes.StringFilter]? = nil,
             workflowState: [SecurityHubClientTypes.StringFilter]? = nil,
             workflowStatus: [SecurityHubClientTypes.StringFilter]? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.awsAccountName = awsAccountName
             self.companyName = companyName
@@ -21621,8 +20983,7 @@ extension SecurityHubClientTypes {
         public init(
             id: Swift.String? = nil,
             productArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.productArn = productArn
         }
@@ -21636,8 +20997,7 @@ public struct BatchDeleteAutomationRulesInput: Swift.Sendable {
 
     public init(
         automationRulesArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.automationRulesArns = automationRulesArns
     }
 }
@@ -21657,8 +21017,7 @@ extension SecurityHubClientTypes {
             errorCode: Swift.Int? = nil,
             errorMessage: Swift.String? = nil,
             ruleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.ruleArn = ruleArn
@@ -21675,8 +21034,7 @@ public struct BatchDeleteAutomationRulesOutput: Swift.Sendable {
     public init(
         processedAutomationRules: [Swift.String]? = nil,
         unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]? = nil
-    )
-    {
+    ) {
         self.processedAutomationRules = processedAutomationRules
         self.unprocessedAutomationRules = unprocessedAutomationRules
     }
@@ -21689,8 +21047,7 @@ public struct BatchDisableStandardsInput: Swift.Sendable {
 
     public init(
         standardsSubscriptionArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.standardsSubscriptionArns = standardsSubscriptionArns
     }
 }
@@ -21772,8 +21129,7 @@ extension SecurityHubClientTypes {
 
         public init(
             statusReasonCode: SecurityHubClientTypes.StatusReasonCode? = nil
-        )
-        {
+        ) {
             self.statusReasonCode = statusReasonCode
         }
     }
@@ -21814,8 +21170,7 @@ extension SecurityHubClientTypes {
             standardsStatus: SecurityHubClientTypes.StandardsStatus? = nil,
             standardsStatusReason: SecurityHubClientTypes.StandardsStatusReason? = nil,
             standardsSubscriptionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.standardsArn = standardsArn
             self.standardsInput = standardsInput
             self.standardsStatus = standardsStatus
@@ -21831,8 +21186,7 @@ public struct BatchDisableStandardsOutput: Swift.Sendable {
 
     public init(
         standardsSubscriptions: [SecurityHubClientTypes.StandardsSubscription]? = nil
-    )
-    {
+    ) {
         self.standardsSubscriptions = standardsSubscriptions
     }
 }
@@ -21850,8 +21204,7 @@ extension SecurityHubClientTypes {
         public init(
             standardsArn: Swift.String? = nil,
             standardsInput: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.standardsArn = standardsArn
             self.standardsInput = standardsInput
         }
@@ -21865,8 +21218,7 @@ public struct BatchEnableStandardsInput: Swift.Sendable {
 
     public init(
         standardsSubscriptionRequests: [SecurityHubClientTypes.StandardsSubscriptionRequest]? = nil
-    )
-    {
+    ) {
         self.standardsSubscriptionRequests = standardsSubscriptionRequests
     }
 }
@@ -21877,8 +21229,7 @@ public struct BatchEnableStandardsOutput: Swift.Sendable {
 
     public init(
         standardsSubscriptions: [SecurityHubClientTypes.StandardsSubscription]? = nil
-    )
-    {
+    ) {
         self.standardsSubscriptions = standardsSubscriptions
     }
 }
@@ -21890,8 +21241,7 @@ public struct BatchGetAutomationRulesInput: Swift.Sendable {
 
     public init(
         automationRulesArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.automationRulesArns = automationRulesArns
     }
 }
@@ -21905,8 +21255,7 @@ public struct BatchGetAutomationRulesOutput: Swift.Sendable {
     public init(
         rules: [SecurityHubClientTypes.AutomationRulesConfig]? = nil,
         unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]? = nil
-    )
-    {
+    ) {
         self.rules = rules
         self.unprocessedAutomationRules = unprocessedAutomationRules
     }
@@ -21935,8 +21284,7 @@ extension SecurityHubClientTypes {
 
         public init(
             target: SecurityHubClientTypes.Target? = nil
-        )
-        {
+        ) {
             self.target = target
         }
     }
@@ -21949,8 +21297,7 @@ public struct BatchGetConfigurationPolicyAssociationsInput: Swift.Sendable {
 
     public init(
         configurationPolicyAssociationIdentifiers: [SecurityHubClientTypes.ConfigurationPolicyAssociation]? = nil
-    )
-    {
+    ) {
         self.configurationPolicyAssociationIdentifiers = configurationPolicyAssociationIdentifiers
     }
 }
@@ -22014,8 +21361,7 @@ extension SecurityHubClientTypes {
             targetId: Swift.String? = nil,
             targetType: SecurityHubClientTypes.TargetType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.associationStatus = associationStatus
             self.associationStatusMessage = associationStatusMessage
             self.associationType = associationType
@@ -22042,8 +21388,7 @@ extension SecurityHubClientTypes {
             configurationPolicyAssociationIdentifiers: SecurityHubClientTypes.ConfigurationPolicyAssociation? = nil,
             errorCode: Swift.String? = nil,
             errorReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationPolicyAssociationIdentifiers = configurationPolicyAssociationIdentifiers
             self.errorCode = errorCode
             self.errorReason = errorReason
@@ -22060,8 +21405,7 @@ public struct BatchGetConfigurationPolicyAssociationsOutput: Swift.Sendable {
     public init(
         configurationPolicyAssociations: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]? = nil,
         unprocessedConfigurationPolicyAssociations: [SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation]? = nil
-    )
-    {
+    ) {
         self.configurationPolicyAssociations = configurationPolicyAssociations
         self.unprocessedConfigurationPolicyAssociations = unprocessedConfigurationPolicyAssociations
     }
@@ -22074,8 +21418,7 @@ public struct BatchGetSecurityControlsInput: Swift.Sendable {
 
     public init(
         securityControlIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.securityControlIds = securityControlIds
     }
 }
@@ -22146,8 +21489,7 @@ extension SecurityHubClientTypes {
         public init(
             value: SecurityHubClientTypes.ParameterValue? = nil,
             valueType: SecurityHubClientTypes.ParameterValueType? = nil
-        )
-        {
+        ) {
             self.value = value
             self.valueType = valueType
         }
@@ -22290,8 +21632,7 @@ extension SecurityHubClientTypes {
             severityRating: SecurityHubClientTypes.SeverityRating? = nil,
             title: Swift.String? = nil,
             updateStatus: SecurityHubClientTypes.UpdateStatus? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastUpdateReason = lastUpdateReason
             self.parameters = parameters
@@ -22358,8 +21699,7 @@ extension SecurityHubClientTypes {
             errorCode: SecurityHubClientTypes.UnprocessedErrorCode? = nil,
             errorReason: Swift.String? = nil,
             securityControlId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorReason = errorReason
             self.securityControlId = securityControlId
@@ -22377,8 +21717,7 @@ public struct BatchGetSecurityControlsOutput: Swift.Sendable {
     public init(
         securityControls: [SecurityHubClientTypes.SecurityControl]? = nil,
         unprocessedIds: [SecurityHubClientTypes.UnprocessedSecurityControl]? = nil
-    )
-    {
+    ) {
         self.securityControls = securityControls
         self.unprocessedIds = unprocessedIds
     }
@@ -22398,8 +21737,7 @@ extension SecurityHubClientTypes {
         public init(
             securityControlId: Swift.String? = nil,
             standardsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityControlId = securityControlId
             self.standardsArn = standardsArn
         }
@@ -22413,8 +21751,7 @@ public struct BatchGetStandardsControlAssociationsInput: Swift.Sendable {
 
     public init(
         standardsControlAssociationIds: [SecurityHubClientTypes.StandardsControlAssociationId]? = nil
-    )
-    {
+    ) {
         self.standardsControlAssociationIds = standardsControlAssociationIds
     }
 }
@@ -22459,8 +21796,7 @@ extension SecurityHubClientTypes {
             standardsControlTitle: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationStatus = associationStatus
             self.relatedRequirements = relatedRequirements
             self.securityControlArn = securityControlArn
@@ -22492,8 +21828,7 @@ extension SecurityHubClientTypes {
             errorCode: SecurityHubClientTypes.UnprocessedErrorCode? = nil,
             errorReason: Swift.String? = nil,
             standardsControlAssociationId: SecurityHubClientTypes.StandardsControlAssociationId? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorReason = errorReason
             self.standardsControlAssociationId = standardsControlAssociationId
@@ -22511,8 +21846,7 @@ public struct BatchGetStandardsControlAssociationsOutput: Swift.Sendable {
     public init(
         standardsControlAssociationDetails: [SecurityHubClientTypes.StandardsControlAssociationDetail]? = nil,
         unprocessedAssociations: [SecurityHubClientTypes.UnprocessedStandardsControlAssociation]? = nil
-    )
-    {
+    ) {
         self.standardsControlAssociationDetails = standardsControlAssociationDetails
         self.unprocessedAssociations = unprocessedAssociations
     }
@@ -22525,8 +21859,7 @@ public struct BatchImportFindingsInput: Swift.Sendable {
 
     public init(
         findings: [SecurityHubClientTypes.AwsSecurityFinding]? = nil
-    )
-    {
+    ) {
         self.findings = findings
     }
 }
@@ -22549,8 +21882,7 @@ extension SecurityHubClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -22572,8 +21904,7 @@ public struct BatchImportFindingsOutput: Swift.Sendable {
         failedCount: Swift.Int? = nil,
         failedFindings: [SecurityHubClientTypes.ImportFindingsError]? = nil,
         successCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.failedCount = failedCount
         self.failedFindings = failedFindings
         self.successCount = successCount
@@ -22611,8 +21942,7 @@ extension SecurityHubClientTypes {
             ruleName: Swift.String? = nil,
             ruleOrder: Swift.Int? = nil,
             ruleStatus: SecurityHubClientTypes.RuleStatus? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.criteria = criteria
             self.description = description
@@ -22632,8 +21962,7 @@ public struct BatchUpdateAutomationRulesInput: Swift.Sendable {
 
     public init(
         updateAutomationRulesRequestItems: [SecurityHubClientTypes.UpdateAutomationRulesRequestItem]? = nil
-    )
-    {
+    ) {
         self.updateAutomationRulesRequestItems = updateAutomationRulesRequestItems
     }
 }
@@ -22647,8 +21976,7 @@ public struct BatchUpdateAutomationRulesOutput: Swift.Sendable {
     public init(
         processedAutomationRules: [Swift.String]? = nil,
         unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]? = nil
-    )
-    {
+    ) {
         self.processedAutomationRules = processedAutomationRules
         self.unprocessedAutomationRules = unprocessedAutomationRules
     }
@@ -22706,8 +22034,7 @@ public struct BatchUpdateFindingsInput: Swift.Sendable {
         userDefinedFields: [Swift.String: Swift.String]? = nil,
         verificationState: SecurityHubClientTypes.VerificationState? = nil,
         workflow: SecurityHubClientTypes.WorkflowUpdate? = nil
-    )
-    {
+    ) {
         self.confidence = confidence
         self.criticality = criticality
         self.findingIdentifiers = findingIdentifiers
@@ -22763,8 +22090,7 @@ extension SecurityHubClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             findingIdentifier: SecurityHubClientTypes.AwsSecurityFindingIdentifier? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.findingIdentifier = findingIdentifier
@@ -22783,8 +22109,7 @@ public struct BatchUpdateFindingsOutput: Swift.Sendable {
     public init(
         processedFindings: [SecurityHubClientTypes.AwsSecurityFindingIdentifier]? = nil,
         unprocessedFindings: [SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding]? = nil
-    )
-    {
+    ) {
         self.processedFindings = processedFindings
         self.unprocessedFindings = unprocessedFindings
     }
@@ -22811,8 +22136,7 @@ extension SecurityHubClientTypes {
             securityControlId: Swift.String? = nil,
             standardsArn: Swift.String? = nil,
             updatedReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationStatus = associationStatus
             self.securityControlId = securityControlId
             self.standardsArn = standardsArn
@@ -22828,8 +22152,7 @@ public struct BatchUpdateStandardsControlAssociationsInput: Swift.Sendable {
 
     public init(
         standardsControlAssociationUpdates: [SecurityHubClientTypes.StandardsControlAssociationUpdate]? = nil
-    )
-    {
+    ) {
         self.standardsControlAssociationUpdates = standardsControlAssociationUpdates
     }
 }
@@ -22851,8 +22174,7 @@ extension SecurityHubClientTypes {
             errorCode: SecurityHubClientTypes.UnprocessedErrorCode? = nil,
             errorReason: Swift.String? = nil,
             standardsControlAssociationUpdate: SecurityHubClientTypes.StandardsControlAssociationUpdate? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorReason = errorReason
             self.standardsControlAssociationUpdate = standardsControlAssociationUpdate
@@ -22866,8 +22188,7 @@ public struct BatchUpdateStandardsControlAssociationsOutput: Swift.Sendable {
 
     public init(
         unprocessedAssociationUpdates: [SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate]? = nil
-    )
-    {
+    ) {
         self.unprocessedAssociationUpdates = unprocessedAssociationUpdates
     }
 }
@@ -22881,8 +22202,7 @@ extension SecurityHubClientTypes {
 
         public init(
             defaultValue: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
         }
     }
@@ -22903,8 +22223,7 @@ extension SecurityHubClientTypes {
             defaultValue: Swift.Double? = nil,
             max: Swift.Double? = nil,
             min: Swift.Double? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.max = max
             self.min = min
@@ -22924,8 +22243,7 @@ extension SecurityHubClientTypes {
         public init(
             allowedValues: [Swift.String]? = nil,
             defaultValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
         }
@@ -22947,8 +22265,7 @@ extension SecurityHubClientTypes {
             allowedValues: [Swift.String]? = nil,
             defaultValue: [Swift.String]? = nil,
             maxItems: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
             self.maxItems = maxItems
@@ -22971,8 +22288,7 @@ extension SecurityHubClientTypes {
             defaultValue: Swift.Int? = nil,
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.max = max
             self.min = min
@@ -22998,8 +22314,7 @@ extension SecurityHubClientTypes {
             max: Swift.Int? = nil,
             maxItems: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.max = max
             self.maxItems = maxItems
@@ -23023,8 +22338,7 @@ extension SecurityHubClientTypes {
             defaultValue: Swift.String? = nil,
             expressionDescription: Swift.String? = nil,
             re2Expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.expressionDescription = expressionDescription
             self.re2Expression = re2Expression
@@ -23050,8 +22364,7 @@ extension SecurityHubClientTypes {
             expressionDescription: Swift.String? = nil,
             maxItems: Swift.Int? = nil,
             re2Expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.expressionDescription = expressionDescription
             self.maxItems = maxItems
@@ -23108,8 +22421,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             serviceEnabled: Swift.Bool? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -23169,8 +22481,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -23191,8 +22502,7 @@ public struct CreateActionTargetInput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.name = name
@@ -23206,8 +22516,7 @@ public struct CreateActionTargetOutput: Swift.Sendable {
 
     public init(
         actionTargetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionTargetArn = actionTargetArn
     }
 }
@@ -23244,8 +22553,7 @@ public struct CreateAutomationRuleInput: Swift.Sendable {
         ruleOrder: Swift.Int? = nil,
         ruleStatus: SecurityHubClientTypes.RuleStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.criteria = criteria
         self.description = description
@@ -23263,8 +22571,7 @@ public struct CreateAutomationRuleOutput: Swift.Sendable {
 
     public init(
         ruleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleArn = ruleArn
     }
 }
@@ -23281,8 +22588,7 @@ extension SecurityHubClientTypes {
         public init(
             parameters: [Swift.String: SecurityHubClientTypes.ParameterConfiguration]? = nil,
             securityControlId: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.securityControlId = securityControlId
         }
@@ -23304,8 +22610,7 @@ extension SecurityHubClientTypes {
             disabledSecurityControlIdentifiers: [Swift.String]? = nil,
             enabledSecurityControlIdentifiers: [Swift.String]? = nil,
             securityControlCustomParameters: [SecurityHubClientTypes.SecurityControlCustomParameter]? = nil
-        )
-        {
+        ) {
             self.disabledSecurityControlIdentifiers = disabledSecurityControlIdentifiers
             self.enabledSecurityControlIdentifiers = enabledSecurityControlIdentifiers
             self.securityControlCustomParameters = securityControlCustomParameters
@@ -23328,8 +22633,7 @@ extension SecurityHubClientTypes {
             enabledStandardIdentifiers: [Swift.String]? = nil,
             securityControlsConfiguration: SecurityHubClientTypes.SecurityControlsConfiguration? = nil,
             serviceEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabledStandardIdentifiers = enabledStandardIdentifiers
             self.securityControlsConfiguration = securityControlsConfiguration
             self.serviceEnabled = serviceEnabled
@@ -23364,8 +22668,7 @@ public struct CreateConfigurationPolicyInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configurationPolicy = configurationPolicy
         self.description = description
         self.name = name
@@ -23397,8 +22700,7 @@ public struct CreateConfigurationPolicyOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.configurationPolicy = configurationPolicy
         self.createdAt = createdAt
@@ -23427,8 +22729,7 @@ public struct CreateFindingAggregatorInput: Swift.Sendable {
     public init(
         regionLinkingMode: Swift.String? = nil,
         regions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.regionLinkingMode = regionLinkingMode
         self.regions = regions
     }
@@ -23449,8 +22750,7 @@ public struct CreateFindingAggregatorOutput: Swift.Sendable {
         findingAggregatorArn: Swift.String? = nil,
         regionLinkingMode: Swift.String? = nil,
         regions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.findingAggregationRegion = findingAggregationRegion
         self.findingAggregatorArn = findingAggregatorArn
         self.regionLinkingMode = regionLinkingMode
@@ -23473,8 +22773,7 @@ public struct CreateInsightInput: Swift.Sendable {
         filters: SecurityHubClientTypes.AwsSecurityFindingFilters? = nil,
         groupByAttribute: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.groupByAttribute = groupByAttribute
         self.name = name
@@ -23488,8 +22787,7 @@ public struct CreateInsightOutput: Swift.Sendable {
 
     public init(
         insightArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightArn = insightArn
     }
 }
@@ -23501,8 +22799,7 @@ public struct CreateMembersInput: Swift.Sendable {
 
     public init(
         accountDetails: [SecurityHubClientTypes.AccountDetails]? = nil
-    )
-    {
+    ) {
         self.accountDetails = accountDetails
     }
 }
@@ -23519,8 +22816,7 @@ extension SecurityHubClientTypes {
         public init(
             accountId: Swift.String? = nil,
             processingResult: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.processingResult = processingResult
         }
@@ -23533,8 +22829,7 @@ public struct CreateMembersOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [SecurityHubClientTypes.Result]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -23572,8 +22867,7 @@ public struct DeclineInvitationsInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -23584,8 +22878,7 @@ public struct DeclineInvitationsOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [SecurityHubClientTypes.Result]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -23597,8 +22890,7 @@ public struct DeleteActionTargetInput: Swift.Sendable {
 
     public init(
         actionTargetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionTargetArn = actionTargetArn
     }
 }
@@ -23610,8 +22902,7 @@ public struct DeleteActionTargetOutput: Swift.Sendable {
 
     public init(
         actionTargetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionTargetArn = actionTargetArn
     }
 }
@@ -23623,8 +22914,7 @@ public struct DeleteConfigurationPolicyInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -23641,8 +22931,7 @@ public struct DeleteFindingAggregatorInput: Swift.Sendable {
 
     public init(
         findingAggregatorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingAggregatorArn = findingAggregatorArn
     }
 }
@@ -23659,8 +22948,7 @@ public struct DeleteInsightInput: Swift.Sendable {
 
     public init(
         insightArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightArn = insightArn
     }
 }
@@ -23672,8 +22960,7 @@ public struct DeleteInsightOutput: Swift.Sendable {
 
     public init(
         insightArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightArn = insightArn
     }
 }
@@ -23685,8 +22972,7 @@ public struct DeleteInvitationsInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -23697,8 +22983,7 @@ public struct DeleteInvitationsOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [SecurityHubClientTypes.Result]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -23710,8 +22995,7 @@ public struct DeleteMembersInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -23722,8 +23006,7 @@ public struct DeleteMembersOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [SecurityHubClientTypes.Result]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -23740,8 +23023,7 @@ public struct DescribeActionTargetsInput: Swift.Sendable {
         actionTargetArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionTargetArns = actionTargetArns
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -23758,8 +23040,7 @@ public struct DescribeActionTargetsOutput: Swift.Sendable {
     public init(
         actionTargets: [SecurityHubClientTypes.ActionTarget]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionTargets = actionTargets
         self.nextToken = nextToken
     }
@@ -23771,8 +23052,7 @@ public struct DescribeHubInput: Swift.Sendable {
 
     public init(
         hubArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubArn = hubArn
     }
 }
@@ -23792,8 +23072,7 @@ public struct DescribeHubOutput: Swift.Sendable {
         controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator? = nil,
         hubArn: Swift.String? = nil,
         subscribedAt: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoEnableControls = autoEnableControls
         self.controlFindingGenerator = controlFindingGenerator
         self.hubArn = hubArn
@@ -23882,8 +23161,7 @@ extension SecurityHubClientTypes {
             configurationType: SecurityHubClientTypes.OrganizationConfigurationConfigurationType? = nil,
             status: SecurityHubClientTypes.OrganizationConfigurationStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationType = configurationType
             self.status = status
             self.statusMessage = statusMessage
@@ -23906,8 +23184,7 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Sendable {
         autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards? = nil,
         memberAccountLimitReached: Swift.Bool? = nil,
         organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration? = nil
-    )
-    {
+    ) {
         self.autoEnable = autoEnable
         self.autoEnableStandards = autoEnableStandards
         self.memberAccountLimitReached = memberAccountLimitReached
@@ -23927,8 +23204,7 @@ public struct DescribeProductsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         productArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.productArn = productArn
@@ -24007,8 +23283,7 @@ extension SecurityHubClientTypes {
             productArn: Swift.String? = nil,
             productName: Swift.String? = nil,
             productSubscriptionResourcePolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.activationUrl = activationUrl
             self.categories = categories
             self.companyName = companyName
@@ -24032,8 +23307,7 @@ public struct DescribeProductsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         products: [SecurityHubClientTypes.Product]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.products = products
     }
@@ -24048,8 +23322,7 @@ public struct DescribeStandardsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -24067,8 +23340,7 @@ extension SecurityHubClientTypes {
         public init(
             company: Swift.String? = nil,
             product: Swift.String? = nil
-        )
-        {
+        ) {
             self.company = company
             self.product = product
         }
@@ -24096,8 +23368,7 @@ extension SecurityHubClientTypes {
             name: Swift.String? = nil,
             standardsArn: Swift.String? = nil,
             standardsManagedBy: SecurityHubClientTypes.StandardsManagedBy? = nil
-        )
-        {
+        ) {
             self.description = description
             self.enabledByDefault = enabledByDefault
             self.name = name
@@ -24116,8 +23387,7 @@ public struct DescribeStandardsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         standards: [SecurityHubClientTypes.Standard]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.standards = standards
     }
@@ -24136,8 +23406,7 @@ public struct DescribeStandardsControlsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         standardsSubscriptionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.standardsSubscriptionArn = standardsSubscriptionArn
@@ -24180,8 +23449,7 @@ extension SecurityHubClientTypes {
             severityRating: SecurityHubClientTypes.SeverityRating? = nil,
             standardsControlArn: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.controlId = controlId
             self.controlStatus = controlStatus
             self.controlStatusUpdatedAt = controlStatusUpdatedAt
@@ -24205,8 +23473,7 @@ public struct DescribeStandardsControlsOutput: Swift.Sendable {
     public init(
         controls: [SecurityHubClientTypes.StandardsControl]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controls = controls
         self.nextToken = nextToken
     }
@@ -24219,8 +23486,7 @@ public struct DisableImportFindingsForProductInput: Swift.Sendable {
 
     public init(
         productSubscriptionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.productSubscriptionArn = productSubscriptionArn
     }
 }
@@ -24237,8 +23503,7 @@ public struct DisableOrganizationAdminAccountInput: Swift.Sendable {
 
     public init(
         adminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccountId = adminAccountId
     }
 }
@@ -24285,8 +23550,7 @@ public struct DisassociateMembersInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -24303,8 +23567,7 @@ public struct EnableImportFindingsForProductInput: Swift.Sendable {
 
     public init(
         productArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.productArn = productArn
     }
 }
@@ -24315,8 +23578,7 @@ public struct EnableImportFindingsForProductOutput: Swift.Sendable {
 
     public init(
         productSubscriptionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.productSubscriptionArn = productSubscriptionArn
     }
 }
@@ -24328,8 +23590,7 @@ public struct EnableOrganizationAdminAccountInput: Swift.Sendable {
 
     public init(
         adminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccountId = adminAccountId
     }
 }
@@ -24351,8 +23612,7 @@ public struct EnableSecurityHubInput: Swift.Sendable {
         controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator? = nil,
         enableDefaultStandards: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.controlFindingGenerator = controlFindingGenerator
         self.enableDefaultStandards = enableDefaultStandards
         self.tags = tags
@@ -24373,8 +23633,7 @@ extension SecurityHubClientTypes {
 
         public init(
             findingAggregatorArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.findingAggregatorArn = findingAggregatorArn
         }
     }
@@ -24395,8 +23654,7 @@ extension SecurityHubClientTypes {
             newValue: Swift.String? = nil,
             oldValue: Swift.String? = nil,
             updatedField: Swift.String? = nil
-        )
-        {
+        ) {
             self.newValue = newValue
             self.oldValue = oldValue
             self.updatedField = updatedField
@@ -24445,8 +23703,7 @@ extension SecurityHubClientTypes {
         public init(
             identity: Swift.String? = nil,
             type: SecurityHubClientTypes.FindingHistoryUpdateSourceType? = nil
-        )
-        {
+        ) {
             self.identity = identity
             self.type = type
         }
@@ -24477,8 +23734,7 @@ extension SecurityHubClientTypes {
             updateSource: SecurityHubClientTypes.FindingHistoryUpdateSource? = nil,
             updateTime: Foundation.Date? = nil,
             updates: [SecurityHubClientTypes.FindingHistoryUpdate]? = nil
-        )
-        {
+        ) {
             self.findingCreated = findingCreated
             self.findingIdentifier = findingIdentifier
             self.nextToken = nextToken
@@ -24512,8 +23768,7 @@ extension SecurityHubClientTypes {
             invitationId: Swift.String? = nil,
             invitedAt: Foundation.Date? = nil,
             memberStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.invitationId = invitationId
             self.invitedAt = invitedAt
@@ -24528,8 +23783,7 @@ public struct GetAdministratorAccountOutput: Swift.Sendable {
 
     public init(
         administrator: SecurityHubClientTypes.Invitation? = nil
-    )
-    {
+    ) {
         self.administrator = administrator
     }
 }
@@ -24541,8 +23795,7 @@ public struct GetConfigurationPolicyInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -24571,8 +23824,7 @@ public struct GetConfigurationPolicyOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.configurationPolicy = configurationPolicy
         self.createdAt = createdAt
@@ -24590,8 +23842,7 @@ public struct GetConfigurationPolicyAssociationInput: Swift.Sendable {
 
     public init(
         target: SecurityHubClientTypes.Target? = nil
-    )
-    {
+    ) {
         self.target = target
     }
 }
@@ -24620,8 +23871,7 @@ public struct GetConfigurationPolicyAssociationOutput: Swift.Sendable {
         targetId: Swift.String? = nil,
         targetType: SecurityHubClientTypes.TargetType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.associationStatus = associationStatus
         self.associationStatusMessage = associationStatusMessage
         self.associationType = associationType
@@ -24644,8 +23894,7 @@ public struct GetEnabledStandardsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         standardsSubscriptionArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.standardsSubscriptionArns = standardsSubscriptionArns
@@ -24661,8 +23910,7 @@ public struct GetEnabledStandardsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         standardsSubscriptions: [SecurityHubClientTypes.StandardsSubscription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.standardsSubscriptions = standardsSubscriptions
     }
@@ -24675,8 +23923,7 @@ public struct GetFindingAggregatorInput: Swift.Sendable {
 
     public init(
         findingAggregatorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingAggregatorArn = findingAggregatorArn
     }
 }
@@ -24696,8 +23943,7 @@ public struct GetFindingAggregatorOutput: Swift.Sendable {
         findingAggregatorArn: Swift.String? = nil,
         regionLinkingMode: Swift.String? = nil,
         regions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.findingAggregationRegion = findingAggregationRegion
         self.findingAggregatorArn = findingAggregatorArn
         self.regionLinkingMode = regionLinkingMode
@@ -24724,8 +23970,7 @@ public struct GetFindingHistoryInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.findingIdentifier = findingIdentifier
         self.maxResults = maxResults
@@ -24743,8 +23988,7 @@ public struct GetFindingHistoryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         records: [SecurityHubClientTypes.FindingHistoryRecord]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.records = records
     }
@@ -24791,8 +24035,7 @@ extension SecurityHubClientTypes {
         public init(
             field: Swift.String? = nil,
             sortOrder: SecurityHubClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.field = field
             self.sortOrder = sortOrder
         }
@@ -24814,8 +24057,7 @@ public struct GetFindingsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24833,8 +24075,7 @@ public struct GetFindingsOutput: Swift.Sendable {
     public init(
         findings: [SecurityHubClientTypes.AwsSecurityFinding]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findings = findings
         self.nextToken = nextToken
     }
@@ -24847,8 +24088,7 @@ public struct GetInsightResultsInput: Swift.Sendable {
 
     public init(
         insightArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightArn = insightArn
     }
 }
@@ -24867,8 +24107,7 @@ extension SecurityHubClientTypes {
         public init(
             count: Swift.Int? = nil,
             groupByAttributeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.groupByAttributeValue = groupByAttributeValue
         }
@@ -24893,8 +24132,7 @@ extension SecurityHubClientTypes {
             groupByAttribute: Swift.String? = nil,
             insightArn: Swift.String? = nil,
             resultValues: [SecurityHubClientTypes.InsightResultValue]? = nil
-        )
-        {
+        ) {
             self.groupByAttribute = groupByAttribute
             self.insightArn = insightArn
             self.resultValues = resultValues
@@ -24909,8 +24147,7 @@ public struct GetInsightResultsOutput: Swift.Sendable {
 
     public init(
         insightResults: SecurityHubClientTypes.InsightResults? = nil
-    )
-    {
+    ) {
         self.insightResults = insightResults
     }
 }
@@ -24927,8 +24164,7 @@ public struct GetInsightsInput: Swift.Sendable {
         insightArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightArns = insightArns
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24957,8 +24193,7 @@ extension SecurityHubClientTypes {
             groupByAttribute: Swift.String? = nil,
             insightArn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.groupByAttribute = groupByAttribute
             self.insightArn = insightArn
@@ -24977,8 +24212,7 @@ public struct GetInsightsOutput: Swift.Sendable {
     public init(
         insights: [SecurityHubClientTypes.Insight]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.insights = insights
         self.nextToken = nextToken
     }
@@ -24995,8 +24229,7 @@ public struct GetInvitationsCountOutput: Swift.Sendable {
 
     public init(
         invitationsCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.invitationsCount = invitationsCount
     }
 }
@@ -25012,8 +24245,7 @@ public struct GetMasterAccountOutput: Swift.Sendable {
 
     public init(
         master: SecurityHubClientTypes.Invitation? = nil
-    )
-    {
+    ) {
         self.master = master
     }
 }
@@ -25025,8 +24257,7 @@ public struct GetMembersInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -25073,8 +24304,7 @@ extension SecurityHubClientTypes {
             masterId: Swift.String? = nil,
             memberStatus: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.administratorId = administratorId
             self.email = email
@@ -25095,8 +24325,7 @@ public struct GetMembersOutput: Swift.Sendable {
     public init(
         members: [SecurityHubClientTypes.Member]? = nil,
         unprocessedAccounts: [SecurityHubClientTypes.Result]? = nil
-    )
-    {
+    ) {
         self.members = members
         self.unprocessedAccounts = unprocessedAccounts
     }
@@ -25109,8 +24338,7 @@ public struct GetSecurityControlDefinitionInput: Swift.Sendable {
 
     public init(
         securityControlId: Swift.String? = nil
-    )
-    {
+    ) {
         self.securityControlId = securityControlId
     }
 }
@@ -25158,8 +24386,7 @@ extension SecurityHubClientTypes {
         public init(
             configurationOptions: SecurityHubClientTypes.ConfigurationOptions? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationOptions = configurationOptions
             self.description = description
         }
@@ -25202,8 +24429,7 @@ extension SecurityHubClientTypes {
             securityControlId: Swift.String? = nil,
             severityRating: SecurityHubClientTypes.SeverityRating? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentRegionAvailability = currentRegionAvailability
             self.customizableProperties = customizableProperties
             self.description = description
@@ -25223,8 +24449,7 @@ public struct GetSecurityControlDefinitionOutput: Swift.Sendable {
 
     public init(
         securityControlDefinition: SecurityHubClientTypes.SecurityControlDefinition? = nil
-    )
-    {
+    ) {
         self.securityControlDefinition = securityControlDefinition
     }
 }
@@ -25236,8 +24461,7 @@ public struct InviteMembersInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -25248,8 +24472,7 @@ public struct InviteMembersOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [SecurityHubClientTypes.Result]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -25263,8 +24486,7 @@ public struct ListAutomationRulesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -25279,8 +24501,7 @@ public struct ListAutomationRulesOutput: Swift.Sendable {
     public init(
         automationRulesMetadata: [SecurityHubClientTypes.AutomationRulesMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.automationRulesMetadata = automationRulesMetadata
         self.nextToken = nextToken
     }
@@ -25295,8 +24516,7 @@ public struct ListConfigurationPoliciesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -25311,8 +24531,7 @@ public struct ListConfigurationPoliciesOutput: Swift.Sendable {
     public init(
         configurationPolicySummaries: [SecurityHubClientTypes.ConfigurationPolicySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationPolicySummaries = configurationPolicySummaries
         self.nextToken = nextToken
     }
@@ -25330,8 +24549,7 @@ public struct ListConfigurationPolicyAssociationsInput: Swift.Sendable {
         filters: SecurityHubClientTypes.AssociationFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25347,8 +24565,7 @@ public struct ListConfigurationPolicyAssociationsOutput: Swift.Sendable {
     public init(
         configurationPolicyAssociationSummaries: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationPolicyAssociationSummaries = configurationPolicyAssociationSummaries
         self.nextToken = nextToken
     }
@@ -25363,8 +24580,7 @@ public struct ListEnabledProductsForImportInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -25379,8 +24595,7 @@ public struct ListEnabledProductsForImportOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         productSubscriptions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.productSubscriptions = productSubscriptions
     }
@@ -25395,8 +24610,7 @@ public struct ListFindingAggregatorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -25411,8 +24625,7 @@ public struct ListFindingAggregatorsOutput: Swift.Sendable {
     public init(
         findingAggregators: [SecurityHubClientTypes.FindingAggregator]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingAggregators = findingAggregators
         self.nextToken = nextToken
     }
@@ -25427,8 +24640,7 @@ public struct ListInvitationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -25443,8 +24655,7 @@ public struct ListInvitationsOutput: Swift.Sendable {
     public init(
         invitations: [SecurityHubClientTypes.Invitation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.invitations = invitations
         self.nextToken = nextToken
     }
@@ -25462,8 +24673,7 @@ public struct ListMembersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         onlyAssociated: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.onlyAssociated = onlyAssociated
@@ -25479,8 +24689,7 @@ public struct ListMembersOutput: Swift.Sendable {
     public init(
         members: [SecurityHubClientTypes.Member]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.members = members
         self.nextToken = nextToken
     }
@@ -25495,8 +24704,7 @@ public struct ListOrganizationAdminAccountsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -25511,8 +24719,7 @@ public struct ListOrganizationAdminAccountsOutput: Swift.Sendable {
     public init(
         adminAccounts: [SecurityHubClientTypes.AdminAccount]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccounts = adminAccounts
         self.nextToken = nextToken
     }
@@ -25530,8 +24737,7 @@ public struct ListSecurityControlDefinitionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         standardsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.standardsArn = standardsArn
@@ -25548,8 +24754,7 @@ public struct ListSecurityControlDefinitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityControlDefinitions: [SecurityHubClientTypes.SecurityControlDefinition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityControlDefinitions = securityControlDefinitions
     }
@@ -25568,8 +24773,7 @@ public struct ListStandardsControlAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         securityControlId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.securityControlId = securityControlId
@@ -25613,8 +24817,7 @@ extension SecurityHubClientTypes {
             standardsControlTitle: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationStatus = associationStatus
             self.relatedRequirements = relatedRequirements
             self.securityControlArn = securityControlArn
@@ -25638,8 +24841,7 @@ public struct ListStandardsControlAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         standardsControlAssociationSummaries: [SecurityHubClientTypes.StandardsControlAssociationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.standardsControlAssociationSummaries = standardsControlAssociationSummaries
     }
@@ -25652,8 +24854,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -25664,8 +24865,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -25690,8 +24890,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -25708,8 +24907,7 @@ public struct StartConfigurationPolicyAssociationInput: Swift.Sendable {
     public init(
         configurationPolicyIdentifier: Swift.String? = nil,
         target: SecurityHubClientTypes.Target? = nil
-    )
-    {
+    ) {
         self.configurationPolicyIdentifier = configurationPolicyIdentifier
         self.target = target
     }
@@ -25739,8 +24937,7 @@ public struct StartConfigurationPolicyAssociationOutput: Swift.Sendable {
         targetId: Swift.String? = nil,
         targetType: SecurityHubClientTypes.TargetType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.associationStatus = associationStatus
         self.associationStatusMessage = associationStatusMessage
         self.associationType = associationType
@@ -25761,8 +24958,7 @@ public struct StartConfigurationPolicyDisassociationInput: Swift.Sendable {
     public init(
         configurationPolicyIdentifier: Swift.String? = nil,
         target: SecurityHubClientTypes.Target? = nil
-    )
-    {
+    ) {
         self.configurationPolicyIdentifier = configurationPolicyIdentifier
         self.target = target
     }
@@ -25784,8 +24980,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -25807,8 +25002,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -25832,8 +25026,7 @@ public struct UpdateActionTargetInput: Swift.Sendable {
         actionTargetArn: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionTargetArn = actionTargetArn
         self.description = description
         self.name = name
@@ -25864,8 +25057,7 @@ public struct UpdateConfigurationPolicyInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         name: Swift.String? = nil,
         updatedReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationPolicy = configurationPolicy
         self.description = description
         self.identifier = identifier
@@ -25898,8 +25090,7 @@ public struct UpdateConfigurationPolicyOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.configurationPolicy = configurationPolicy
         self.createdAt = createdAt
@@ -25932,8 +25123,7 @@ public struct UpdateFindingAggregatorInput: Swift.Sendable {
         findingAggregatorArn: Swift.String? = nil,
         regionLinkingMode: Swift.String? = nil,
         regions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.findingAggregatorArn = findingAggregatorArn
         self.regionLinkingMode = regionLinkingMode
         self.regions = regions
@@ -25955,8 +25145,7 @@ public struct UpdateFindingAggregatorOutput: Swift.Sendable {
         findingAggregatorArn: Swift.String? = nil,
         regionLinkingMode: Swift.String? = nil,
         regions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.findingAggregationRegion = findingAggregationRegion
         self.findingAggregatorArn = findingAggregatorArn
         self.regionLinkingMode = regionLinkingMode
@@ -25977,8 +25166,7 @@ public struct UpdateFindingsInput: Swift.Sendable {
         filters: SecurityHubClientTypes.AwsSecurityFindingFilters? = nil,
         note: SecurityHubClientTypes.NoteUpdate? = nil,
         recordState: SecurityHubClientTypes.RecordState? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.note = note
         self.recordState = recordState
@@ -26006,8 +25194,7 @@ public struct UpdateInsightInput: Swift.Sendable {
         groupByAttribute: Swift.String? = nil,
         insightArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.groupByAttribute = groupByAttribute
         self.insightArn = insightArn
@@ -26033,8 +25220,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Sendable {
         autoEnable: Swift.Bool? = nil,
         autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards? = nil,
         organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration? = nil
-    )
-    {
+    ) {
         self.autoEnable = autoEnable
         self.autoEnableStandards = autoEnableStandards
         self.organizationConfiguration = organizationConfiguration
@@ -26060,8 +25246,7 @@ public struct UpdateSecurityControlInput: Swift.Sendable {
         lastUpdateReason: Swift.String? = nil,
         parameters: [Swift.String: SecurityHubClientTypes.ParameterConfiguration]? = nil,
         securityControlId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastUpdateReason = lastUpdateReason
         self.parameters = parameters
         self.securityControlId = securityControlId
@@ -26082,8 +25267,7 @@ public struct UpdateSecurityHubConfigurationInput: Swift.Sendable {
     public init(
         autoEnableControls: Swift.Bool? = nil,
         controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator? = nil
-    )
-    {
+    ) {
         self.autoEnableControls = autoEnableControls
         self.controlFindingGenerator = controlFindingGenerator
     }
@@ -26107,8 +25291,7 @@ public struct UpdateStandardsControlInput: Swift.Sendable {
         controlStatus: SecurityHubClientTypes.ControlStatus? = nil,
         disabledReason: Swift.String? = nil,
         standardsControlArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlStatus = controlStatus
         self.disabledReason = disabledReason
         self.standardsControlArn = standardsControlArn

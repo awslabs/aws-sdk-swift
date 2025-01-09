@@ -63,8 +63,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -136,8 +135,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -180,8 +178,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -202,8 +199,7 @@ public struct CreateClusterInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.tags = tags
@@ -234,8 +230,7 @@ public struct CreateClusterOutput: Swift.Sendable {
         deletionProtectionEnabled: Swift.Bool? = nil,
         identifier: Swift.String? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -256,8 +251,7 @@ extension DSQLClientTypes {
         public init(
             deletionProtectionEnabled: Swift.Bool? = true,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.tags = tags
         }
@@ -281,8 +275,7 @@ public struct CreateMultiRegionClustersInput: Swift.Sendable {
         clusterProperties: [Swift.String: DSQLClientTypes.LinkedClusterProperties]? = nil,
         linkedRegionList: [Swift.String]? = nil,
         witnessRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterProperties = clusterProperties
         self.linkedRegionList = linkedRegionList
@@ -297,8 +290,7 @@ public struct CreateMultiRegionClustersOutput: Swift.Sendable {
 
     public init(
         linkedClusterArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.linkedClusterArns = linkedClusterArns
     }
 }
@@ -330,8 +322,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -348,8 +339,7 @@ public struct DeleteClusterInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.identifier = identifier
     }
@@ -379,8 +369,7 @@ public struct DeleteClusterOutput: Swift.Sendable {
         deletionProtectionEnabled: Swift.Bool? = nil,
         identifier: Swift.String? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -399,8 +388,7 @@ public struct DeleteMultiRegionClustersInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         linkedClusterArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.linkedClusterArns = linkedClusterArns
     }
@@ -413,8 +401,7 @@ public struct GetClusterInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -449,8 +436,7 @@ public struct GetClusterOutput: Swift.Sendable {
         linkedClusterArns: [Swift.String]? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil,
         witnessRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -470,8 +456,7 @@ public struct ListClustersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -491,8 +476,7 @@ extension DSQLClientTypes {
         public init(
             arn: Swift.String? = nil,
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.identifier = identifier
         }
@@ -509,8 +493,7 @@ public struct ListClustersOutput: Swift.Sendable {
     public init(
         clusters: [DSQLClientTypes.ClusterSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.nextToken = nextToken
     }
@@ -529,8 +512,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.identifier = identifier
@@ -567,8 +549,7 @@ public struct UpdateClusterOutput: Swift.Sendable {
         linkedClusterArns: [Swift.String]? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil,
         witnessRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -601,8 +582,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -615,8 +595,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -627,8 +606,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -644,8 +622,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -680,8 +657,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -700,8 +676,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -721,8 +696,7 @@ extension DSQLClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -794,8 +768,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [DSQLClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: DSQLClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason

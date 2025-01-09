@@ -57,8 +57,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -172,8 +171,7 @@ extension TrustedAdvisorClientTypes {
             updateReasonCode: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStageReasonCode? = nil,
             updatedOnBehalfOf: Swift.String? = nil,
             updatedOnBehalfOfJobTitle: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.accountRecommendationArn = accountRecommendationArn
             self.lastUpdatedAt = lastUpdatedAt
@@ -210,8 +208,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -235,8 +232,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -260,8 +256,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -285,8 +280,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -305,8 +299,7 @@ extension TrustedAdvisorClientTypes {
         public init(
             arn: Swift.String? = nil,
             isExcluded: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.isExcluded = isExcluded
         }
@@ -320,8 +313,7 @@ public struct BatchUpdateRecommendationResourceExclusionInput: Swift.Sendable {
 
     public init(
         recommendationResourceExclusions: [TrustedAdvisorClientTypes.RecommendationResourceExclusion]? = nil
-    )
-    {
+    ) {
         self.recommendationResourceExclusions = recommendationResourceExclusions
     }
 }
@@ -341,8 +333,7 @@ extension TrustedAdvisorClientTypes {
             arn: Swift.String? = nil,
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -357,8 +348,7 @@ public struct BatchUpdateRecommendationResourceExclusionOutput: Swift.Sendable {
 
     public init(
         batchUpdateRecommendationResourceExclusionErrors: [TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError]? = nil
-    )
-    {
+    ) {
         self.batchUpdateRecommendationResourceExclusionErrors = batchUpdateRecommendationResourceExclusionErrors
     }
 }
@@ -504,8 +494,7 @@ extension TrustedAdvisorClientTypes {
             name: Swift.String? = nil,
             pillars: [TrustedAdvisorClientTypes.RecommendationPillar]? = nil,
             source: TrustedAdvisorClientTypes.RecommendationSource? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsServices = awsServices
             self.description = description
@@ -566,8 +555,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -579,8 +567,7 @@ public struct GetOrganizationRecommendationInput: Swift.Sendable {
 
     public init(
         organizationRecommendationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationRecommendationIdentifier = organizationRecommendationIdentifier
     }
 }
@@ -599,8 +586,7 @@ extension TrustedAdvisorClientTypes {
         public init(
             estimatedMonthlySavings: Swift.Double? = nil,
             estimatedPercentMonthlySavings: Swift.Double? = nil
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.estimatedPercentMonthlySavings = estimatedPercentMonthlySavings
         }
@@ -616,8 +602,7 @@ extension TrustedAdvisorClientTypes {
 
         public init(
             costOptimizing: TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates? = nil
-        )
-        {
+        ) {
             self.costOptimizing = costOptimizing
         }
     }
@@ -641,8 +626,7 @@ extension TrustedAdvisorClientTypes {
             errorCount: Swift.Int? = nil,
             okCount: Swift.Int? = nil,
             warningCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.errorCount = errorCount
             self.okCount = okCount
             self.warningCount = warningCount
@@ -789,8 +773,7 @@ extension TrustedAdvisorClientTypes {
             updateReasonCode: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStageReasonCode? = nil,
             updatedOnBehalfOf: Swift.String? = nil,
             updatedOnBehalfOfJobTitle: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsServices = awsServices
             self.checkArn = checkArn
@@ -827,8 +810,7 @@ public struct GetOrganizationRecommendationOutput: Swift.Sendable {
 
     public init(
         organizationRecommendation: TrustedAdvisorClientTypes.OrganizationRecommendation? = nil
-    )
-    {
+    ) {
         self.organizationRecommendation = organizationRecommendation
     }
 }
@@ -840,8 +822,7 @@ public struct GetRecommendationInput: Swift.Sendable {
 
     public init(
         recommendationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommendationIdentifier = recommendationIdentifier
     }
 }
@@ -924,8 +905,7 @@ extension TrustedAdvisorClientTypes {
             updateReasonCode: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStageReasonCode? = nil,
             updatedOnBehalfOf: Swift.String? = nil,
             updatedOnBehalfOfJobTitle: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsServices = awsServices
             self.checkArn = checkArn
@@ -962,8 +942,7 @@ public struct GetRecommendationOutput: Swift.Sendable {
 
     public init(
         recommendation: TrustedAdvisorClientTypes.Recommendation? = nil
-    )
-    {
+    ) {
         self.recommendation = recommendation
     }
 }
@@ -1045,8 +1024,7 @@ public struct ListChecksInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pillar: TrustedAdvisorClientTypes.RecommendationPillar? = nil,
         source: TrustedAdvisorClientTypes.RecommendationSource? = nil
-    )
-    {
+    ) {
         self.awsService = awsService
         self.language = language
         self.maxResults = maxResults
@@ -1066,8 +1044,7 @@ public struct ListChecksOutput: Swift.Sendable {
     public init(
         checkSummaries: [TrustedAdvisorClientTypes.CheckSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.checkSummaries = checkSummaries
         self.nextToken = nextToken
     }
@@ -1089,8 +1066,7 @@ public struct ListOrganizationRecommendationAccountsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationRecommendationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.affectedAccountId = affectedAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1108,8 +1084,7 @@ public struct ListOrganizationRecommendationAccountsOutput: Swift.Sendable {
     public init(
         accountRecommendationLifecycleSummaries: [TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountRecommendationLifecycleSummaries = accountRecommendationLifecycleSummaries
         self.nextToken = nextToken
     }
@@ -1172,8 +1147,7 @@ public struct ListOrganizationRecommendationResourcesInput: Swift.Sendable {
         organizationRecommendationIdentifier: Swift.String? = nil,
         regionCode: Swift.String? = nil,
         status: TrustedAdvisorClientTypes.ResourceStatus? = nil
-    )
-    {
+    ) {
         self.affectedAccountId = affectedAccountId
         self.exclusionStatus = exclusionStatus
         self.maxResults = maxResults
@@ -1228,8 +1202,7 @@ extension TrustedAdvisorClientTypes {
             recommendationArn: Swift.String? = nil,
             regionCode: Swift.String? = nil,
             status: TrustedAdvisorClientTypes.ResourceStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.awsResourceId = awsResourceId
@@ -1254,8 +1227,7 @@ public struct ListOrganizationRecommendationResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         organizationRecommendationResourceSummaries: [TrustedAdvisorClientTypes.OrganizationRecommendationResourceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.organizationRecommendationResourceSummaries = organizationRecommendationResourceSummaries
     }
@@ -1294,8 +1266,7 @@ public struct ListOrganizationRecommendationsInput: Swift.Sendable {
         source: TrustedAdvisorClientTypes.RecommendationSource? = nil,
         status: TrustedAdvisorClientTypes.RecommendationStatus? = nil,
         type: TrustedAdvisorClientTypes.RecommendationType? = nil
-    )
-    {
+    ) {
         self.afterLastUpdatedAt = afterLastUpdatedAt
         self.awsService = awsService
         self.beforeLastUpdatedAt = beforeLastUpdatedAt
@@ -1365,8 +1336,7 @@ extension TrustedAdvisorClientTypes {
             source: TrustedAdvisorClientTypes.RecommendationSource? = nil,
             status: TrustedAdvisorClientTypes.RecommendationStatus? = nil,
             type: TrustedAdvisorClientTypes.RecommendationType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsServices = awsServices
             self.checkArn = checkArn
@@ -1395,8 +1365,7 @@ public struct ListOrganizationRecommendationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         organizationRecommendationSummaries: [TrustedAdvisorClientTypes.OrganizationRecommendationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.organizationRecommendationSummaries = organizationRecommendationSummaries
     }
@@ -1424,8 +1393,7 @@ public struct ListRecommendationResourcesInput: Swift.Sendable {
         recommendationIdentifier: Swift.String? = nil,
         regionCode: Swift.String? = nil,
         status: TrustedAdvisorClientTypes.ResourceStatus? = nil
-    )
-    {
+    ) {
         self.exclusionStatus = exclusionStatus
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1476,8 +1444,7 @@ extension TrustedAdvisorClientTypes {
             recommendationArn: Swift.String? = nil,
             regionCode: Swift.String? = nil,
             status: TrustedAdvisorClientTypes.ResourceStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsResourceId = awsResourceId
             self.exclusionStatus = exclusionStatus
@@ -1501,8 +1468,7 @@ public struct ListRecommendationResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recommendationResourceSummaries: [TrustedAdvisorClientTypes.RecommendationResourceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recommendationResourceSummaries = recommendationResourceSummaries
     }
@@ -1541,8 +1507,7 @@ public struct ListRecommendationsInput: Swift.Sendable {
         source: TrustedAdvisorClientTypes.RecommendationSource? = nil,
         status: TrustedAdvisorClientTypes.RecommendationStatus? = nil,
         type: TrustedAdvisorClientTypes.RecommendationType? = nil
-    )
-    {
+    ) {
         self.afterLastUpdatedAt = afterLastUpdatedAt
         self.awsService = awsService
         self.beforeLastUpdatedAt = beforeLastUpdatedAt
@@ -1612,8 +1577,7 @@ extension TrustedAdvisorClientTypes {
             source: TrustedAdvisorClientTypes.RecommendationSource? = nil,
             status: TrustedAdvisorClientTypes.RecommendationStatus? = nil,
             type: TrustedAdvisorClientTypes.RecommendationType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsServices = awsServices
             self.checkArn = checkArn
@@ -1642,8 +1606,7 @@ public struct ListRecommendationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recommendationSummaries: [TrustedAdvisorClientTypes.RecommendationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recommendationSummaries = recommendationSummaries
     }
@@ -1701,8 +1664,7 @@ public struct UpdateOrganizationRecommendationLifecycleInput: Swift.Sendable {
         organizationRecommendationIdentifier: Swift.String? = nil,
         updateReason: Swift.String? = nil,
         updateReasonCode: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStageReasonCode? = nil
-    )
-    {
+    ) {
         self.lifecycleStage = lifecycleStage
         self.organizationRecommendationIdentifier = organizationRecommendationIdentifier
         self.updateReason = updateReason
@@ -1732,8 +1694,7 @@ public struct UpdateRecommendationLifecycleInput: Swift.Sendable {
         recommendationIdentifier: Swift.String? = nil,
         updateReason: Swift.String? = nil,
         updateReasonCode: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStageReasonCode? = nil
-    )
-    {
+    ) {
         self.lifecycleStage = lifecycleStage
         self.recommendationIdentifier = recommendationIdentifier
         self.updateReason = updateReason

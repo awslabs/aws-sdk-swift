@@ -149,8 +149,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -201,8 +200,7 @@ public struct AccessDeniedForDependencyException: ClientRuntime.ModeledError, AW
     public init(
         message: Swift.String? = nil,
         reason: OrganizationsClientTypes.AccessDeniedForDependencyExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -226,8 +224,7 @@ public struct AWSOrganizationsNotInUseException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -250,8 +247,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -274,8 +270,7 @@ public struct HandshakeAlreadyInStateException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -371,8 +366,7 @@ public struct HandshakeConstraintViolationException: ClientRuntime.ModeledError,
     public init(
         message: Swift.String? = nil,
         reason: OrganizationsClientTypes.HandshakeConstraintViolationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -396,8 +390,7 @@ public struct HandshakeNotFoundException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -420,8 +413,7 @@ public struct InvalidHandshakeTransitionException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -611,8 +603,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         reason: OrganizationsClientTypes.InvalidInputExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -636,8 +627,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -662,8 +652,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -676,8 +665,7 @@ public struct AcceptHandshakeInput: Swift.Sendable {
 
     public init(
         handshakeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.handshakeId = handshakeId
     }
 }
@@ -763,8 +751,7 @@ extension OrganizationsClientTypes {
         public init(
             id: Swift.String? = nil,
             type: OrganizationsClientTypes.HandshakePartyType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -952,8 +939,7 @@ extension OrganizationsClientTypes {
             joinedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: OrganizationsClientTypes.AccountStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.email = email
             self.id = id
@@ -988,8 +974,7 @@ public struct AccountAlreadyClosedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1012,8 +997,7 @@ public struct AccountAlreadyRegisteredException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1036,8 +1020,7 @@ public struct AccountNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1060,8 +1043,7 @@ public struct AccountNotRegisteredException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1084,8 +1066,7 @@ public struct AccountOwnerNotVerifiedException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1108,8 +1089,7 @@ public struct AlreadyInOrganizationException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1335,8 +1315,7 @@ public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         reason: OrganizationsClientTypes.ConstraintViolationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -1360,8 +1339,7 @@ public struct DuplicatePolicyAttachmentException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1384,8 +1362,7 @@ public struct PolicyChangesInProgressException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1408,8 +1385,7 @@ public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1432,8 +1408,7 @@ public struct PolicyTypeNotEnabledException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1456,8 +1431,7 @@ public struct TargetNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1480,8 +1454,7 @@ public struct UnsupportedAPIEndpointException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1503,8 +1476,7 @@ public struct AttachPolicyInput: Swift.Sendable {
     public init(
         policyId: Swift.String? = nil,
         targetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
         self.targetId = targetId
     }
@@ -1517,8 +1489,7 @@ public struct CancelHandshakeInput: Swift.Sendable {
 
     public init(
         handshakeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.handshakeId = handshakeId
     }
 }
@@ -1541,8 +1512,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1554,8 +1524,7 @@ public struct CloseAccountInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -1578,8 +1547,7 @@ public struct FinalizingOrganizationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1635,8 +1603,7 @@ extension OrganizationsClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1689,8 +1656,7 @@ public struct CreateAccountInput: Swift.Sendable {
         iamUserAccessToBilling: OrganizationsClientTypes.IAMUserAccessToBilling? = nil,
         roleName: Swift.String? = nil,
         tags: [OrganizationsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accountName = accountName
         self.email = email
         self.iamUserAccessToBilling = iamUserAccessToBilling
@@ -1862,8 +1828,7 @@ extension OrganizationsClientTypes {
             id: Swift.String? = nil,
             requestedTimestamp: Foundation.Date? = nil,
             state: OrganizationsClientTypes.CreateAccountState? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.accountName = accountName
             self.completedTimestamp = completedTimestamp
@@ -1887,8 +1852,7 @@ public struct CreateAccountOutput: Swift.Sendable {
 
     public init(
         createAccountStatus: OrganizationsClientTypes.CreateAccountStatus? = nil
-    )
-    {
+    ) {
         self.createAccountStatus = createAccountStatus
     }
 }
@@ -1939,8 +1903,7 @@ public struct CreateGovCloudAccountInput: Swift.Sendable {
         iamUserAccessToBilling: OrganizationsClientTypes.IAMUserAccessToBilling? = nil,
         roleName: Swift.String? = nil,
         tags: [OrganizationsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accountName = accountName
         self.email = email
         self.iamUserAccessToBilling = iamUserAccessToBilling
@@ -1960,8 +1923,7 @@ public struct CreateGovCloudAccountOutput: Swift.Sendable {
 
     public init(
         createAccountStatus: OrganizationsClientTypes.CreateAccountStatus? = nil
-    )
-    {
+    ) {
         self.createAccountStatus = createAccountStatus
     }
 }
@@ -2005,8 +1967,7 @@ public struct CreateOrganizationInput: Swift.Sendable {
 
     public init(
         featureSet: OrganizationsClientTypes.OrganizationFeatureSet? = nil
-    )
-    {
+    ) {
         self.featureSet = featureSet
     }
 }
@@ -2099,8 +2060,7 @@ extension OrganizationsClientTypes {
         public init(
             status: OrganizationsClientTypes.PolicyTypeStatus? = nil,
             type: OrganizationsClientTypes.PolicyType? = nil
-        )
-        {
+        ) {
             self.status = status
             self.type = type
         }
@@ -2134,8 +2094,7 @@ extension OrganizationsClientTypes {
             masterAccountArn: Swift.String? = nil,
             masterAccountEmail: Swift.String? = nil,
             masterAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.availablePolicyTypes = availablePolicyTypes
             self.featureSet = featureSet
@@ -2158,8 +2117,7 @@ public struct CreateOrganizationOutput: Swift.Sendable {
 
     public init(
         organization: OrganizationsClientTypes.Organization? = nil
-    )
-    {
+    ) {
         self.organization = organization
     }
 }
@@ -2182,8 +2140,7 @@ public struct DuplicateOrganizationalUnitException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2206,8 +2163,7 @@ public struct ParentNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2230,8 +2186,7 @@ public struct CreateOrganizationalUnitInput: Swift.Sendable {
         name: Swift.String? = nil,
         parentId: Swift.String? = nil,
         tags: [OrganizationsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.parentId = parentId
         self.tags = tags
@@ -2253,8 +2208,7 @@ extension OrganizationsClientTypes {
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -2268,8 +2222,7 @@ public struct CreateOrganizationalUnitOutput: Swift.Sendable {
 
     public init(
         organizationalUnit: OrganizationsClientTypes.OrganizationalUnit? = nil
-    )
-    {
+    ) {
         self.organizationalUnit = organizationalUnit
     }
 }
@@ -2292,8 +2245,7 @@ public struct DuplicatePolicyException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2316,8 +2268,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2340,8 +2291,7 @@ public struct PolicyTypeNotAvailableForOrganizationException: ClientRuntime.Mode
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2382,8 +2332,7 @@ public struct CreatePolicyInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [OrganizationsClientTypes.Tag]? = nil,
         type: OrganizationsClientTypes.PolicyType? = nil
-    )
-    {
+    ) {
         self.content = content
         self.description = description
         self.name = name
@@ -2416,8 +2365,7 @@ extension OrganizationsClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             type: OrganizationsClientTypes.PolicyType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsManaged = awsManaged
             self.description = description
@@ -2440,8 +2388,7 @@ extension OrganizationsClientTypes {
         public init(
             content: Swift.String? = nil,
             policySummary: OrganizationsClientTypes.PolicySummary? = nil
-        )
-        {
+        ) {
             self.content = content
             self.policySummary = policySummary
         }
@@ -2454,8 +2401,7 @@ public struct CreatePolicyOutput: Swift.Sendable {
 
     public init(
         policy: OrganizationsClientTypes.Policy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -2467,8 +2413,7 @@ public struct DeclineHandshakeInput: Swift.Sendable {
 
     public init(
         handshakeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.handshakeId = handshakeId
     }
 }
@@ -2491,8 +2436,7 @@ public struct OrganizationNotEmptyException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2515,8 +2459,7 @@ public struct OrganizationalUnitNotEmptyException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2539,8 +2482,7 @@ public struct OrganizationalUnitNotFoundException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2552,8 +2494,7 @@ public struct DeleteOrganizationalUnitInput: Swift.Sendable {
 
     public init(
         organizationalUnitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationalUnitId = organizationalUnitId
     }
 }
@@ -2576,8 +2517,7 @@ public struct PolicyInUseException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2589,8 +2529,7 @@ public struct DeletePolicyInput: Swift.Sendable {
 
     public init(
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
     }
 }
@@ -2613,8 +2552,7 @@ public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2630,8 +2568,7 @@ public struct DeregisterDelegatedAdministratorInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         servicePrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.servicePrincipal = servicePrincipal
     }
@@ -2644,8 +2581,7 @@ public struct DescribeAccountInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -2656,8 +2592,7 @@ public struct DescribeAccountOutput: Swift.Sendable {
 
     public init(
         account: OrganizationsClientTypes.Account? = nil
-    )
-    {
+    ) {
         self.account = account
     }
 }
@@ -2680,8 +2615,7 @@ public struct CreateAccountStatusNotFoundException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2693,8 +2627,7 @@ public struct DescribeCreateAccountStatusInput: Swift.Sendable {
 
     public init(
         createAccountRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createAccountRequestId = createAccountRequestId
     }
 }
@@ -2705,8 +2638,7 @@ public struct DescribeCreateAccountStatusOutput: Swift.Sendable {
 
     public init(
         createAccountStatus: OrganizationsClientTypes.CreateAccountStatus? = nil
-    )
-    {
+    ) {
         self.createAccountStatus = createAccountStatus
     }
 }
@@ -2729,8 +2661,7 @@ public struct EffectivePolicyNotFoundException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2793,8 +2724,7 @@ public struct DescribeEffectivePolicyInput: Swift.Sendable {
     public init(
         policyType: OrganizationsClientTypes.EffectivePolicyType? = nil,
         targetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyType = policyType
         self.targetId = targetId
     }
@@ -2818,8 +2748,7 @@ extension OrganizationsClientTypes {
             policyContent: Swift.String? = nil,
             policyType: OrganizationsClientTypes.EffectivePolicyType? = nil,
             targetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.policyContent = policyContent
             self.policyType = policyType
@@ -2834,8 +2763,7 @@ public struct DescribeEffectivePolicyOutput: Swift.Sendable {
 
     public init(
         effectivePolicy: OrganizationsClientTypes.EffectivePolicy? = nil
-    )
-    {
+    ) {
         self.effectivePolicy = effectivePolicy
     }
 }
@@ -2847,8 +2775,7 @@ public struct DescribeHandshakeInput: Swift.Sendable {
 
     public init(
         handshakeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.handshakeId = handshakeId
     }
 }
@@ -2859,8 +2786,7 @@ public struct DescribeOrganizationOutput: Swift.Sendable {
 
     public init(
         organization: OrganizationsClientTypes.Organization? = nil
-    )
-    {
+    ) {
         self.organization = organization
     }
 }
@@ -2872,8 +2798,7 @@ public struct DescribeOrganizationalUnitInput: Swift.Sendable {
 
     public init(
         organizationalUnitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationalUnitId = organizationalUnitId
     }
 }
@@ -2884,8 +2809,7 @@ public struct DescribeOrganizationalUnitOutput: Swift.Sendable {
 
     public init(
         organizationalUnit: OrganizationsClientTypes.OrganizationalUnit? = nil
-    )
-    {
+    ) {
         self.organizationalUnit = organizationalUnit
     }
 }
@@ -2897,8 +2821,7 @@ public struct DescribePolicyInput: Swift.Sendable {
 
     public init(
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
     }
 }
@@ -2909,8 +2832,7 @@ public struct DescribePolicyOutput: Swift.Sendable {
 
     public init(
         policy: OrganizationsClientTypes.Policy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -2927,8 +2849,7 @@ extension OrganizationsClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
         }
@@ -2947,8 +2868,7 @@ extension OrganizationsClientTypes {
         public init(
             content: Swift.String? = nil,
             resourcePolicySummary: OrganizationsClientTypes.ResourcePolicySummary? = nil
-        )
-        {
+        ) {
             self.content = content
             self.resourcePolicySummary = resourcePolicySummary
         }
@@ -2961,8 +2881,7 @@ public struct DescribeResourcePolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: OrganizationsClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -2985,8 +2904,7 @@ public struct PolicyNotAttachedException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3008,8 +2926,7 @@ public struct DetachPolicyInput: Swift.Sendable {
     public init(
         policyId: Swift.String? = nil,
         targetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
         self.targetId = targetId
     }
@@ -3022,8 +2939,7 @@ public struct DisableAWSServiceAccessInput: Swift.Sendable {
 
     public init(
         servicePrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.servicePrincipal = servicePrincipal
     }
 }
@@ -3046,8 +2962,7 @@ public struct RootNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3077,8 +2992,7 @@ public struct DisablePolicyTypeInput: Swift.Sendable {
     public init(
         policyType: OrganizationsClientTypes.PolicyType? = nil,
         rootId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyType = policyType
         self.rootId = rootId
     }
@@ -3102,8 +3016,7 @@ extension OrganizationsClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             policyTypes: [OrganizationsClientTypes.PolicyTypeSummary]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -3118,8 +3031,7 @@ public struct DisablePolicyTypeOutput: Swift.Sendable {
 
     public init(
         root: OrganizationsClientTypes.Root? = nil
-    )
-    {
+    ) {
         self.root = root
     }
 }
@@ -3136,8 +3048,7 @@ public struct EnableAWSServiceAccessInput: Swift.Sendable {
 
     public init(
         servicePrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.servicePrincipal = servicePrincipal
     }
 }
@@ -3160,8 +3071,7 @@ public struct PolicyTypeAlreadyEnabledException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3191,8 +3101,7 @@ public struct EnablePolicyTypeInput: Swift.Sendable {
     public init(
         policyType: OrganizationsClientTypes.PolicyType? = nil,
         rootId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyType = policyType
         self.rootId = rootId
     }
@@ -3204,8 +3113,7 @@ public struct EnablePolicyTypeOutput: Swift.Sendable {
 
     public init(
         root: OrganizationsClientTypes.Root? = nil
-    )
-    {
+    ) {
         self.root = root
     }
 }
@@ -3228,8 +3136,7 @@ public struct DuplicateHandshakeException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3247,8 +3154,7 @@ public struct InviteAccountToOrganizationInput: Swift.Sendable {
         notes: Swift.String? = nil,
         tags: [OrganizationsClientTypes.Tag]? = nil,
         target: OrganizationsClientTypes.HandshakeParty? = nil
-    )
-    {
+    ) {
         self.notes = notes
         self.tags = tags
         self.target = target
@@ -3278,8 +3184,7 @@ public struct MasterCannotLeaveOrganizationException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3293,8 +3198,7 @@ public struct ListAccountsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3309,8 +3213,7 @@ public struct ListAccountsOutput: Swift.Sendable {
     public init(
         accounts: [OrganizationsClientTypes.Account]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.nextToken = nextToken
     }
@@ -3329,8 +3232,7 @@ public struct ListAccountsForParentInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.parentId = parentId
@@ -3346,8 +3248,7 @@ public struct ListAccountsForParentOutput: Swift.Sendable {
     public init(
         accounts: [OrganizationsClientTypes.Account]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.nextToken = nextToken
     }
@@ -3362,8 +3263,7 @@ public struct ListAWSServiceAccessForOrganizationInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3381,8 +3281,7 @@ extension OrganizationsClientTypes {
         public init(
             dateEnabled: Foundation.Date? = nil,
             servicePrincipal: Swift.String? = nil
-        )
-        {
+        ) {
             self.dateEnabled = dateEnabled
             self.servicePrincipal = servicePrincipal
         }
@@ -3398,8 +3297,7 @@ public struct ListAWSServiceAccessForOrganizationOutput: Swift.Sendable {
     public init(
         enabledServicePrincipals: [OrganizationsClientTypes.EnabledServicePrincipal]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledServicePrincipals = enabledServicePrincipals
         self.nextToken = nextToken
     }
@@ -3455,8 +3353,7 @@ public struct ListChildrenInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.childType = childType
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3480,8 +3377,7 @@ extension OrganizationsClientTypes {
         public init(
             id: Swift.String? = nil,
             type: OrganizationsClientTypes.ChildType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -3497,8 +3393,7 @@ public struct ListChildrenOutput: Swift.Sendable {
     public init(
         children: [OrganizationsClientTypes.Child]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.children = children
         self.nextToken = nextToken
     }
@@ -3516,8 +3411,7 @@ public struct ListCreateAccountStatusInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         states: [OrganizationsClientTypes.CreateAccountState]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.states = states
@@ -3533,8 +3427,7 @@ public struct ListCreateAccountStatusOutput: Swift.Sendable {
     public init(
         createAccountStatuses: [OrganizationsClientTypes.CreateAccountStatus]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.createAccountStatuses = createAccountStatuses
         self.nextToken = nextToken
     }
@@ -3552,8 +3445,7 @@ public struct ListDelegatedAdministratorsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         servicePrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.servicePrincipal = servicePrincipal
@@ -3590,8 +3482,7 @@ extension OrganizationsClientTypes {
             joinedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: OrganizationsClientTypes.AccountStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.delegationEnabledDate = delegationEnabledDate
             self.email = email
@@ -3618,8 +3509,7 @@ public struct ListDelegatedAdministratorsOutput: Swift.Sendable {
     public init(
         delegatedAdministrators: [OrganizationsClientTypes.DelegatedAdministrator]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegatedAdministrators = delegatedAdministrators
         self.nextToken = nextToken
     }
@@ -3638,8 +3528,7 @@ public struct ListDelegatedServicesForAccountInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3658,8 +3547,7 @@ extension OrganizationsClientTypes {
         public init(
             delegationEnabledDate: Foundation.Date? = nil,
             servicePrincipal: Swift.String? = nil
-        )
-        {
+        ) {
             self.delegationEnabledDate = delegationEnabledDate
             self.servicePrincipal = servicePrincipal
         }
@@ -3675,8 +3563,7 @@ public struct ListDelegatedServicesForAccountOutput: Swift.Sendable {
     public init(
         delegatedServices: [OrganizationsClientTypes.DelegatedService]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegatedServices = delegatedServices
         self.nextToken = nextToken
     }
@@ -3694,8 +3581,7 @@ extension OrganizationsClientTypes {
         public init(
             actionType: OrganizationsClientTypes.ActionType? = nil,
             parentHandshakeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.parentHandshakeId = parentHandshakeId
         }
@@ -3714,8 +3600,7 @@ public struct ListHandshakesForAccountInput: Swift.Sendable {
         filter: OrganizationsClientTypes.HandshakeFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3734,8 +3619,7 @@ public struct ListHandshakesForOrganizationInput: Swift.Sendable {
         filter: OrganizationsClientTypes.HandshakeFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3759,8 +3643,7 @@ public struct ListOrganizationalUnitsForParentInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.parentId = parentId
@@ -3776,8 +3659,7 @@ public struct ListOrganizationalUnitsForParentOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         organizationalUnits: [OrganizationsClientTypes.OrganizationalUnit]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.organizationalUnits = organizationalUnits
     }
@@ -3801,8 +3683,7 @@ public struct ChildNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3824,8 +3705,7 @@ public struct ListParentsInput: Swift.Sendable {
         childId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.childId = childId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3877,8 +3757,7 @@ extension OrganizationsClientTypes {
         public init(
             id: Swift.String? = nil,
             type: OrganizationsClientTypes.ParentType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -3894,8 +3773,7 @@ public struct ListParentsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parents: [OrganizationsClientTypes.Parent]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parents = parents
     }
@@ -3928,8 +3806,7 @@ public struct ListPoliciesInput: Swift.Sendable {
         filter: OrganizationsClientTypes.PolicyType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3945,8 +3822,7 @@ public struct ListPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policies: [OrganizationsClientTypes.PolicySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.policies = policies
     }
@@ -3989,8 +3865,7 @@ public struct ListPoliciesForTargetInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         targetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4007,8 +3882,7 @@ public struct ListPoliciesForTargetOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policies: [OrganizationsClientTypes.PolicySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.policies = policies
     }
@@ -4023,8 +3897,7 @@ public struct ListRootsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4039,8 +3912,7 @@ public struct ListRootsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         roots: [OrganizationsClientTypes.Root]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.roots = roots
     }
@@ -4064,8 +3936,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceId = resourceId
     }
@@ -4080,8 +3951,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [OrganizationsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -4100,8 +3970,7 @@ public struct ListTargetsForPolicyInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.policyId = policyId
@@ -4164,8 +4033,7 @@ extension OrganizationsClientTypes {
             name: Swift.String? = nil,
             targetId: Swift.String? = nil,
             type: OrganizationsClientTypes.TargetType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.targetId = targetId
@@ -4183,8 +4051,7 @@ public struct ListTargetsForPolicyOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         targets: [OrganizationsClientTypes.PolicyTargetSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.targets = targets
     }
@@ -4208,8 +4075,7 @@ public struct DestinationParentNotFoundException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4232,8 +4098,7 @@ public struct DuplicateAccountException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4256,8 +4121,7 @@ public struct SourceParentNotFoundException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4285,8 +4149,7 @@ public struct MoveAccountInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         destinationParentId: Swift.String? = nil,
         sourceParentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.destinationParentId = destinationParentId
         self.sourceParentId = sourceParentId
@@ -4303,8 +4166,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         content: Swift.String? = nil,
         tags: [OrganizationsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.content = content
         self.tags = tags
     }
@@ -4316,8 +4178,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: OrganizationsClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -4333,8 +4194,7 @@ public struct RegisterDelegatedAdministratorInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         servicePrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.servicePrincipal = servicePrincipal
     }
@@ -4347,8 +4207,7 @@ public struct RemoveAccountFromOrganizationInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -4372,8 +4231,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tags: [OrganizationsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tags = tags
     }
@@ -4398,8 +4256,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagKeys = tagKeys
     }
@@ -4415,8 +4272,7 @@ public struct UpdateOrganizationalUnitInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         organizationalUnitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.organizationalUnitId = organizationalUnitId
     }
@@ -4428,8 +4284,7 @@ public struct UpdateOrganizationalUnitOutput: Swift.Sendable {
 
     public init(
         organizationalUnit: OrganizationsClientTypes.OrganizationalUnit? = nil
-    )
-    {
+    ) {
         self.organizationalUnit = organizationalUnit
     }
 }
@@ -4450,8 +4305,7 @@ public struct UpdatePolicyInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.description = description
         self.name = name
@@ -4465,8 +4319,7 @@ public struct UpdatePolicyOutput: Swift.Sendable {
 
     public init(
         policy: OrganizationsClientTypes.Policy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -4498,8 +4351,7 @@ extension OrganizationsClientTypes {
             resources: [OrganizationsClientTypes.HandshakeResource]? = nil,
             type: OrganizationsClientTypes.HandshakeResourceType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.resources = resources
             self.type = type
             self.value = value
@@ -4560,8 +4412,7 @@ extension OrganizationsClientTypes {
             requestedTimestamp: Foundation.Date? = nil,
             resources: [OrganizationsClientTypes.HandshakeResource]? = nil,
             state: OrganizationsClientTypes.HandshakeState? = nil
-        )
-        {
+        ) {
             self.action = action
             self.arn = arn
             self.expirationTimestamp = expirationTimestamp
@@ -4580,8 +4431,7 @@ public struct AcceptHandshakeOutput: Swift.Sendable {
 
     public init(
         handshake: OrganizationsClientTypes.Handshake? = nil
-    )
-    {
+    ) {
         self.handshake = handshake
     }
 }
@@ -4592,8 +4442,7 @@ public struct CancelHandshakeOutput: Swift.Sendable {
 
     public init(
         handshake: OrganizationsClientTypes.Handshake? = nil
-    )
-    {
+    ) {
         self.handshake = handshake
     }
 }
@@ -4604,8 +4453,7 @@ public struct DeclineHandshakeOutput: Swift.Sendable {
 
     public init(
         handshake: OrganizationsClientTypes.Handshake? = nil
-    )
-    {
+    ) {
         self.handshake = handshake
     }
 }
@@ -4616,8 +4464,7 @@ public struct DescribeHandshakeOutput: Swift.Sendable {
 
     public init(
         handshake: OrganizationsClientTypes.Handshake? = nil
-    )
-    {
+    ) {
         self.handshake = handshake
     }
 }
@@ -4628,8 +4475,7 @@ public struct EnableAllFeaturesOutput: Swift.Sendable {
 
     public init(
         handshake: OrganizationsClientTypes.Handshake? = nil
-    )
-    {
+    ) {
         self.handshake = handshake
     }
 }
@@ -4640,8 +4486,7 @@ public struct InviteAccountToOrganizationOutput: Swift.Sendable {
 
     public init(
         handshake: OrganizationsClientTypes.Handshake? = nil
-    )
-    {
+    ) {
         self.handshake = handshake
     }
 }
@@ -4655,8 +4500,7 @@ public struct ListHandshakesForAccountOutput: Swift.Sendable {
     public init(
         handshakes: [OrganizationsClientTypes.Handshake]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.handshakes = handshakes
         self.nextToken = nextToken
     }
@@ -4671,8 +4515,7 @@ public struct ListHandshakesForOrganizationOutput: Swift.Sendable {
     public init(
         handshakes: [OrganizationsClientTypes.Handshake]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.handshakes = handshakes
         self.nextToken = nextToken
     }

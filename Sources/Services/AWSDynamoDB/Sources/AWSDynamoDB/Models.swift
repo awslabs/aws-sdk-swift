@@ -87,8 +87,7 @@ extension DynamoDBClientTypes {
             archivalBackupArn: Swift.String? = nil,
             archivalDateTime: Foundation.Date? = nil,
             archivalReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.archivalBackupArn = archivalBackupArn
             self.archivalDateTime = archivalDateTime
             self.archivalReason = archivalReason
@@ -180,8 +179,7 @@ extension DynamoDBClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeType: DynamoDBClientTypes.ScalarAttributeType? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeType = attributeType
         }
@@ -207,8 +205,7 @@ extension DynamoDBClientTypes {
             scaleInCooldown: Swift.Int? = nil,
             scaleOutCooldown: Swift.Int? = nil,
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.disableScaleIn = disableScaleIn
             self.scaleInCooldown = scaleInCooldown
             self.scaleOutCooldown = scaleOutCooldown
@@ -229,8 +226,7 @@ extension DynamoDBClientTypes {
         public init(
             policyName: Swift.String? = nil,
             targetTrackingScalingPolicyConfiguration: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationDescription? = nil
-        )
-        {
+        ) {
             self.policyName = policyName
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
         }
@@ -256,8 +252,7 @@ extension DynamoDBClientTypes {
             scaleInCooldown: Swift.Int? = nil,
             scaleOutCooldown: Swift.Int? = nil,
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.disableScaleIn = disableScaleIn
             self.scaleInCooldown = scaleInCooldown
             self.scaleOutCooldown = scaleOutCooldown
@@ -279,8 +274,7 @@ extension DynamoDBClientTypes {
         public init(
             policyName: Swift.String? = nil,
             targetTrackingScalingPolicyConfiguration: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationUpdate? = nil
-        )
-        {
+        ) {
             self.policyName = policyName
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
         }
@@ -308,8 +302,7 @@ extension DynamoDBClientTypes {
             maximumUnits: Swift.Int? = nil,
             minimumUnits: Swift.Int? = nil,
             scalingPolicies: [DynamoDBClientTypes.AutoScalingPolicyDescription]? = nil
-        )
-        {
+        ) {
             self.autoScalingDisabled = autoScalingDisabled
             self.autoScalingRoleArn = autoScalingRoleArn
             self.maximumUnits = maximumUnits
@@ -340,8 +333,7 @@ extension DynamoDBClientTypes {
             maximumUnits: Swift.Int? = nil,
             minimumUnits: Swift.Int? = nil,
             scalingPolicyUpdate: DynamoDBClientTypes.AutoScalingPolicyUpdate? = nil
-        )
-        {
+        ) {
             self.autoScalingDisabled = autoScalingDisabled
             self.autoScalingRoleArn = autoScalingRoleArn
             self.maximumUnits = maximumUnits
@@ -453,8 +445,7 @@ extension DynamoDBClientTypes {
             backupSizeBytes: Swift.Int? = nil,
             backupStatus: DynamoDBClientTypes.BackupStatus? = nil,
             backupType: DynamoDBClientTypes.BackupType? = nil
-        )
-        {
+        ) {
             self.backupArn = backupArn
             self.backupCreationDateTime = backupCreationDateTime
             self.backupExpiryDateTime = backupExpiryDateTime
@@ -545,8 +536,7 @@ extension DynamoDBClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             keyType: DynamoDBClientTypes.KeyType? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.keyType = keyType
         }
@@ -565,8 +555,7 @@ extension DynamoDBClientTypes {
         public init(
             maxReadRequestUnits: Swift.Int? = nil,
             maxWriteRequestUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxReadRequestUnits = maxReadRequestUnits
             self.maxWriteRequestUnits = maxWriteRequestUnits
         }
@@ -587,8 +576,7 @@ extension DynamoDBClientTypes {
         public init(
             readCapacityUnits: Swift.Int? = nil,
             writeCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.readCapacityUnits = readCapacityUnits
             self.writeCapacityUnits = writeCapacityUnits
         }
@@ -640,8 +628,7 @@ extension DynamoDBClientTypes {
             tableId: Swift.String? = nil,
             tableName: Swift.String? = nil,
             tableSizeBytes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.billingMode = billingMode
             self.itemCount = itemCount
             self.keySchema = keySchema
@@ -709,8 +696,7 @@ extension DynamoDBClientTypes {
         public init(
             nonKeyAttributes: [Swift.String]? = nil,
             projectionType: DynamoDBClientTypes.ProjectionType? = nil
-        )
-        {
+        ) {
             self.nonKeyAttributes = nonKeyAttributes
             self.projectionType = projectionType
         }
@@ -745,8 +731,7 @@ extension DynamoDBClientTypes {
             onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.keySchema = keySchema
             self.onDemandThroughput = onDemandThroughput
@@ -778,8 +763,7 @@ extension DynamoDBClientTypes {
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             projection: DynamoDBClientTypes.Projection? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.keySchema = keySchema
             self.projection = projection
@@ -878,8 +862,7 @@ extension DynamoDBClientTypes {
             kmsMasterKeyArn: Swift.String? = nil,
             sseType: DynamoDBClientTypes.SSEType? = nil,
             status: DynamoDBClientTypes.SSEStatus? = nil
-        )
-        {
+        ) {
             self.inaccessibleEncryptionDateTime = inaccessibleEncryptionDateTime
             self.kmsMasterKeyArn = kmsMasterKeyArn
             self.sseType = sseType
@@ -944,8 +927,7 @@ extension DynamoDBClientTypes {
         public init(
             streamEnabled: Swift.Bool? = nil,
             streamViewType: DynamoDBClientTypes.StreamViewType? = nil
-        )
-        {
+        ) {
             self.streamEnabled = streamEnabled
             self.streamViewType = streamViewType
         }
@@ -999,8 +981,7 @@ extension DynamoDBClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             timeToLiveStatus: DynamoDBClientTypes.TimeToLiveStatus? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.timeToLiveStatus = timeToLiveStatus
         }
@@ -1028,8 +1009,7 @@ extension DynamoDBClientTypes {
             sseDescription: DynamoDBClientTypes.SSEDescription? = nil,
             streamDescription: DynamoDBClientTypes.StreamSpecification? = nil,
             timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription? = nil
-        )
-        {
+        ) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.localSecondaryIndexes = localSecondaryIndexes
             self.sseDescription = sseDescription
@@ -1054,8 +1034,7 @@ extension DynamoDBClientTypes {
             backupDetails: DynamoDBClientTypes.BackupDetails? = nil,
             sourceTableDetails: DynamoDBClientTypes.SourceTableDetails? = nil,
             sourceTableFeatureDetails: DynamoDBClientTypes.SourceTableFeatureDetails? = nil
-        )
-        {
+        ) {
             self.backupDetails = backupDetails
             self.sourceTableDetails = sourceTableDetails
             self.sourceTableFeatureDetails = sourceTableFeatureDetails
@@ -1081,8 +1060,7 @@ public struct BackupInUseException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1105,8 +1083,7 @@ public struct BackupNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1153,8 +1130,7 @@ extension DynamoDBClientTypes {
             tableArn: Swift.String? = nil,
             tableId: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupArn = backupArn
             self.backupCreationDateTime = backupCreationDateTime
             self.backupExpiryDateTime = backupExpiryDateTime
@@ -1223,8 +1199,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1247,8 +1222,7 @@ public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1336,8 +1310,7 @@ extension DynamoDBClientTypes {
             capacityUnits: Swift.Double? = nil,
             readCapacityUnits: Swift.Double? = nil,
             writeCapacityUnits: Swift.Double? = nil
-        )
-        {
+        ) {
             self.capacityUnits = capacityUnits
             self.readCapacityUnits = readCapacityUnits
             self.writeCapacityUnits = writeCapacityUnits
@@ -1372,8 +1345,7 @@ extension DynamoDBClientTypes {
             table: DynamoDBClientTypes.Capacity? = nil,
             tableName: Swift.String? = nil,
             writeCapacityUnits: Swift.Double? = nil
-        )
-        {
+        ) {
             self.capacityUnits = capacityUnits
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.localSecondaryIndexes = localSecondaryIndexes
@@ -1458,8 +1430,7 @@ public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1483,8 +1454,7 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1508,8 +1478,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1533,8 +1502,7 @@ public struct ItemCollectionSizeLimitExceededException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1584,8 +1552,7 @@ extension DynamoDBClientTypes {
         public init(
             billingMode: DynamoDBClientTypes.BillingMode? = nil,
             lastUpdateToPayPerRequestDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.billingMode = billingMode
             self.lastUpdateToPayPerRequestDateTime = lastUpdateToPayPerRequestDateTime
         }
@@ -1763,8 +1730,7 @@ extension DynamoDBClientTypes {
             latestRestorableDateTime: Foundation.Date? = nil,
             pointInTimeRecoveryStatus: DynamoDBClientTypes.PointInTimeRecoveryStatus? = nil,
             recoveryPeriodInDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.earliestRestorableDateTime = earliestRestorableDateTime
             self.latestRestorableDateTime = latestRestorableDateTime
             self.pointInTimeRecoveryStatus = pointInTimeRecoveryStatus
@@ -1786,8 +1752,7 @@ extension DynamoDBClientTypes {
         public init(
             continuousBackupsStatus: DynamoDBClientTypes.ContinuousBackupsStatus? = nil,
             pointInTimeRecoveryDescription: DynamoDBClientTypes.PointInTimeRecoveryDescription? = nil
-        )
-        {
+        ) {
             self.continuousBackupsStatus = continuousBackupsStatus
             self.pointInTimeRecoveryDescription = pointInTimeRecoveryDescription
         }
@@ -1812,8 +1777,7 @@ public struct ContinuousBackupsUnavailableException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1900,8 +1864,7 @@ extension DynamoDBClientTypes {
             contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus? = nil,
             indexName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.contributorInsightsStatus = contributorInsightsStatus
             self.indexName = indexName
             self.tableName = tableName
@@ -1928,8 +1891,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1952,8 +1914,7 @@ public struct TableInUseException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1976,8 +1937,7 @@ public struct TableNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1993,8 +1953,7 @@ public struct CreateBackupInput: Swift.Sendable {
     public init(
         backupName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupName = backupName
         self.tableName = tableName
     }
@@ -2006,8 +1965,7 @@ public struct CreateBackupOutput: Swift.Sendable {
 
     public init(
         backupDetails: DynamoDBClientTypes.BackupDetails? = nil
-    )
-    {
+    ) {
         self.backupDetails = backupDetails
     }
 }
@@ -2024,8 +1982,7 @@ extension DynamoDBClientTypes {
         public init(
             readUnitsPerSecond: Swift.Int? = nil,
             writeUnitsPerSecond: Swift.Int? = nil
-        )
-        {
+        ) {
             self.readUnitsPerSecond = readUnitsPerSecond
             self.writeUnitsPerSecond = writeUnitsPerSecond
         }
@@ -2059,8 +2016,7 @@ extension DynamoDBClientTypes {
             projection: DynamoDBClientTypes.Projection? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
             warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.keySchema = keySchema
             self.onDemandThroughput = onDemandThroughput
@@ -2089,8 +2045,7 @@ public struct GlobalTableAlreadyExistsException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2104,8 +2059,7 @@ extension DynamoDBClientTypes {
 
         public init(
             regionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.regionName = regionName
         }
     }
@@ -2122,8 +2076,7 @@ public struct CreateGlobalTableInput: Swift.Sendable {
     public init(
         globalTableName: Swift.String? = nil,
         replicationGroup: [DynamoDBClientTypes.Replica]? = nil
-    )
-    {
+    ) {
         self.globalTableName = globalTableName
         self.replicationGroup = replicationGroup
     }
@@ -2173,8 +2126,7 @@ extension DynamoDBClientTypes {
 
         public init(
             maxReadRequestUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxReadRequestUnits = maxReadRequestUnits
         }
     }
@@ -2189,8 +2141,7 @@ extension DynamoDBClientTypes {
 
         public init(
             readCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.readCapacityUnits = readCapacityUnits
         }
     }
@@ -2246,8 +2197,7 @@ extension DynamoDBClientTypes {
             readUnitsPerSecond: Swift.Int? = nil,
             status: DynamoDBClientTypes.IndexStatus? = nil,
             writeUnitsPerSecond: Swift.Int? = nil
-        )
-        {
+        ) {
             self.readUnitsPerSecond = readUnitsPerSecond
             self.status = status
             self.writeUnitsPerSecond = writeUnitsPerSecond
@@ -2273,8 +2223,7 @@ extension DynamoDBClientTypes {
             onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
             warmThroughput: DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
@@ -2368,8 +2317,7 @@ extension DynamoDBClientTypes {
         public init(
             lastUpdateDateTime: Foundation.Date? = nil,
             tableClass: DynamoDBClientTypes.TableClass? = nil
-        )
-        {
+        ) {
             self.lastUpdateDateTime = lastUpdateDateTime
             self.tableClass = tableClass
         }
@@ -2435,8 +2383,7 @@ extension DynamoDBClientTypes {
             readUnitsPerSecond: Swift.Int? = nil,
             status: DynamoDBClientTypes.TableStatus? = nil,
             writeUnitsPerSecond: Swift.Int? = nil
-        )
-        {
+        ) {
             self.readUnitsPerSecond = readUnitsPerSecond
             self.status = status
             self.writeUnitsPerSecond = writeUnitsPerSecond
@@ -2495,8 +2442,7 @@ extension DynamoDBClientTypes {
             replicaStatusPercentProgress: Swift.String? = nil,
             replicaTableClassSummary: DynamoDBClientTypes.TableClassSummary? = nil,
             warmThroughput: DynamoDBClientTypes.TableWarmThroughputDescription? = nil
-        )
-        {
+        ) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
             self.onDemandThroughputOverride = onDemandThroughputOverride
@@ -2541,8 +2487,7 @@ extension DynamoDBClientTypes {
             globalTableName: Swift.String? = nil,
             globalTableStatus: DynamoDBClientTypes.GlobalTableStatus? = nil,
             replicationGroup: [DynamoDBClientTypes.ReplicaDescription]? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.globalTableArn = globalTableArn
             self.globalTableName = globalTableName
@@ -2558,8 +2503,7 @@ public struct CreateGlobalTableOutput: Swift.Sendable {
 
     public init(
         globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
-    )
-    {
+    ) {
         self.globalTableDescription = globalTableDescription
     }
 }
@@ -2574,8 +2518,7 @@ extension DynamoDBClientTypes {
 
         public init(
             regionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.regionName = regionName
         }
     }
@@ -2597,8 +2540,7 @@ extension DynamoDBClientTypes {
             indexName: Swift.String? = nil,
             onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
@@ -2631,8 +2573,7 @@ extension DynamoDBClientTypes {
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
             regionName: Swift.String? = nil,
             tableClassOverride: DynamoDBClientTypes.TableClass? = nil
-        )
-        {
+        ) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
             self.onDemandThroughputOverride = onDemandThroughputOverride
@@ -2671,8 +2612,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2711,8 +2651,7 @@ extension DynamoDBClientTypes {
             projection: DynamoDBClientTypes.Projection? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
             warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.keySchema = keySchema
             self.onDemandThroughput = onDemandThroughput
@@ -2748,8 +2687,7 @@ extension DynamoDBClientTypes {
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             projection: DynamoDBClientTypes.Projection? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.keySchema = keySchema
             self.projection = projection
@@ -2774,8 +2712,7 @@ extension DynamoDBClientTypes {
             enabled: Swift.Bool? = nil,
             kmsMasterKeyId: Swift.String? = nil,
             sseType: DynamoDBClientTypes.SSEType? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.kmsMasterKeyId = kmsMasterKeyId
             self.sseType = sseType
@@ -2797,8 +2734,7 @@ extension DynamoDBClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2930,8 +2866,7 @@ public struct CreateTableInput: Swift.Sendable {
         tableName: Swift.String? = nil,
         tags: [DynamoDBClientTypes.Tag]? = nil,
         warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
-    )
-    {
+    ) {
         self.attributeDefinitions = attributeDefinitions
         self.billingMode = billingMode
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -2971,8 +2906,7 @@ extension DynamoDBClientTypes {
             numberOfDecreasesToday: Swift.Int? = nil,
             readCapacityUnits: Swift.Int? = nil,
             writeCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lastDecreaseDateTime = lastDecreaseDateTime
             self.lastIncreaseDateTime = lastIncreaseDateTime
             self.numberOfDecreasesToday = numberOfDecreasesToday
@@ -3036,8 +2970,7 @@ extension DynamoDBClientTypes {
             projection: DynamoDBClientTypes.Projection? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughputDescription? = nil,
             warmThroughput: DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription? = nil
-        )
-        {
+        ) {
             self.backfilling = backfilling
             self.indexArn = indexArn
             self.indexName = indexName
@@ -3084,8 +3017,7 @@ extension DynamoDBClientTypes {
             itemCount: Swift.Int? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             projection: DynamoDBClientTypes.Projection? = nil
-        )
-        {
+        ) {
             self.indexArn = indexArn
             self.indexName = indexName
             self.indexSizeBytes = indexSizeBytes
@@ -3145,8 +3077,7 @@ extension DynamoDBClientTypes {
             restoreInProgress: Swift.Bool? = nil,
             sourceBackupArn: Swift.String? = nil,
             sourceTableArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.restoreDateTime = restoreDateTime
             self.restoreInProgress = restoreInProgress
             self.sourceBackupArn = sourceBackupArn
@@ -3359,8 +3290,7 @@ extension DynamoDBClientTypes {
             tableSizeBytes: Swift.Int? = nil,
             tableStatus: DynamoDBClientTypes.TableStatus? = nil,
             warmThroughput: DynamoDBClientTypes.TableWarmThroughputDescription? = nil
-        )
-        {
+        ) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
@@ -3398,8 +3328,7 @@ public struct CreateTableOutput: Swift.Sendable {
 
     public init(
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
-    )
-    {
+    ) {
         self.tableDescription = tableDescription
     }
 }
@@ -3416,8 +3345,7 @@ extension DynamoDBClientTypes {
         public init(
             delimiter: Swift.String? = nil,
             headerList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.delimiter = delimiter
             self.headerList = headerList
         }
@@ -3431,8 +3359,7 @@ public struct DeleteBackupInput: Swift.Sendable {
 
     public init(
         backupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupArn = backupArn
     }
 }
@@ -3443,8 +3370,7 @@ public struct DeleteBackupOutput: Swift.Sendable {
 
     public init(
         backupDescription: DynamoDBClientTypes.BackupDescription? = nil
-    )
-    {
+    ) {
         self.backupDescription = backupDescription
     }
 }
@@ -3459,8 +3385,7 @@ extension DynamoDBClientTypes {
 
         public init(
             indexName: Swift.String? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
         }
     }
@@ -3484,8 +3409,7 @@ public struct ReplicatedWriteConflictException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3508,8 +3432,7 @@ public struct TransactionConflictException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3562,8 +3485,7 @@ extension DynamoDBClientTypes {
 
         public init(
             regionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.regionName = regionName
         }
     }
@@ -3579,8 +3501,7 @@ extension DynamoDBClientTypes {
 
         public init(
             regionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.regionName = regionName
         }
     }
@@ -3604,8 +3525,7 @@ public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3620,8 +3540,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
     public init(
         expectedRevisionId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.expectedRevisionId = expectedRevisionId
         self.resourceArn = resourceArn
     }
@@ -3633,8 +3552,7 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
 
     public init(
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.revisionId = revisionId
     }
 }
@@ -3647,8 +3565,7 @@ public struct DeleteTableInput: Swift.Sendable {
 
     public init(
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableName = tableName
     }
 }
@@ -3660,8 +3577,7 @@ public struct DeleteTableOutput: Swift.Sendable {
 
     public init(
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
-    )
-    {
+    ) {
         self.tableDescription = tableDescription
     }
 }
@@ -3673,8 +3589,7 @@ public struct DescribeBackupInput: Swift.Sendable {
 
     public init(
         backupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupArn = backupArn
     }
 }
@@ -3685,8 +3600,7 @@ public struct DescribeBackupOutput: Swift.Sendable {
 
     public init(
         backupDescription: DynamoDBClientTypes.BackupDescription? = nil
-    )
-    {
+    ) {
         self.backupDescription = backupDescription
     }
 }
@@ -3698,8 +3612,7 @@ public struct DescribeContinuousBackupsInput: Swift.Sendable {
 
     public init(
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableName = tableName
     }
 }
@@ -3710,8 +3623,7 @@ public struct DescribeContinuousBackupsOutput: Swift.Sendable {
 
     public init(
         continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription? = nil
-    )
-    {
+    ) {
         self.continuousBackupsDescription = continuousBackupsDescription
     }
 }
@@ -3726,8 +3638,7 @@ public struct DescribeContributorInsightsInput: Swift.Sendable {
     public init(
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexName = indexName
         self.tableName = tableName
     }
@@ -3745,8 +3656,7 @@ extension DynamoDBClientTypes {
         public init(
             exceptionDescription: Swift.String? = nil,
             exceptionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.exceptionDescription = exceptionDescription
             self.exceptionName = exceptionName
         }
@@ -3782,8 +3692,7 @@ public struct DescribeContributorInsightsOutput: Swift.Sendable {
         indexName: Swift.String? = nil,
         lastUpdateDateTime: Foundation.Date? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.contributorInsightsRuleList = contributorInsightsRuleList
         self.contributorInsightsStatus = contributorInsightsStatus
         self.failureException = failureException
@@ -3812,8 +3721,7 @@ extension DynamoDBClientTypes {
         public init(
             address: Swift.String? = nil,
             cachePeriodInMinutes: Swift.Int = 0
-        )
-        {
+        ) {
             self.address = address
             self.cachePeriodInMinutes = cachePeriodInMinutes
         }
@@ -3827,8 +3735,7 @@ public struct DescribeEndpointsOutput: Swift.Sendable {
 
     public init(
         endpoints: [DynamoDBClientTypes.Endpoint]? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
     }
 }
@@ -3851,8 +3758,7 @@ public struct ExportNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3864,8 +3770,7 @@ public struct DescribeExportInput: Swift.Sendable {
 
     public init(
         exportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportArn = exportArn
     }
 }
@@ -4004,8 +3909,7 @@ extension DynamoDBClientTypes {
             exportFromTime: Foundation.Date? = nil,
             exportToTime: Foundation.Date? = nil,
             exportViewType: DynamoDBClientTypes.ExportViewType? = nil
-        )
-        {
+        ) {
             self.exportFromTime = exportFromTime
             self.exportToTime = exportToTime
             self.exportViewType = exportViewType
@@ -4115,8 +4019,7 @@ extension DynamoDBClientTypes {
             startTime: Foundation.Date? = nil,
             tableArn: Swift.String? = nil,
             tableId: Swift.String? = nil
-        )
-        {
+        ) {
             self.billedSizeBytes = billedSizeBytes
             self.clientToken = clientToken
             self.endTime = endTime
@@ -4148,8 +4051,7 @@ public struct DescribeExportOutput: Swift.Sendable {
 
     public init(
         exportDescription: DynamoDBClientTypes.ExportDescription? = nil
-    )
-    {
+    ) {
         self.exportDescription = exportDescription
     }
 }
@@ -4172,8 +4074,7 @@ public struct GlobalTableNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4185,8 +4086,7 @@ public struct DescribeGlobalTableInput: Swift.Sendable {
 
     public init(
         globalTableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalTableName = globalTableName
     }
 }
@@ -4197,8 +4097,7 @@ public struct DescribeGlobalTableOutput: Swift.Sendable {
 
     public init(
         globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
-    )
-    {
+    ) {
         self.globalTableDescription = globalTableDescription
     }
 }
@@ -4210,8 +4109,7 @@ public struct DescribeGlobalTableSettingsInput: Swift.Sendable {
 
     public init(
         globalTableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalTableName = globalTableName
     }
 }
@@ -4249,8 +4147,7 @@ extension DynamoDBClientTypes {
             provisionedReadCapacityUnits: Swift.Int? = nil,
             provisionedWriteCapacityAutoScalingSettings: DynamoDBClientTypes.AutoScalingSettingsDescription? = nil,
             provisionedWriteCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.indexStatus = indexStatus
             self.provisionedReadCapacityAutoScalingSettings = provisionedReadCapacityAutoScalingSettings
@@ -4303,8 +4200,7 @@ extension DynamoDBClientTypes {
             replicaProvisionedWriteCapacityUnits: Swift.Int? = nil,
             replicaStatus: DynamoDBClientTypes.ReplicaStatus? = nil,
             replicaTableClassSummary: DynamoDBClientTypes.TableClassSummary? = nil
-        )
-        {
+        ) {
             self.regionName = regionName
             self.replicaBillingModeSummary = replicaBillingModeSummary
             self.replicaGlobalSecondaryIndexSettings = replicaGlobalSecondaryIndexSettings
@@ -4327,8 +4223,7 @@ public struct DescribeGlobalTableSettingsOutput: Swift.Sendable {
     public init(
         globalTableName: Swift.String? = nil,
         replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]? = nil
-    )
-    {
+    ) {
         self.globalTableName = globalTableName
         self.replicaSettings = replicaSettings
     }
@@ -4352,8 +4247,7 @@ public struct ImportNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4365,8 +4259,7 @@ public struct DescribeImportInput: Swift.Sendable {
 
     public init(
         importArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.importArn = importArn
     }
 }
@@ -4482,8 +4375,7 @@ extension DynamoDBClientTypes {
 
         public init(
             csv: DynamoDBClientTypes.CsvOptions? = nil
-        )
-        {
+        ) {
             self.csv = csv
         }
     }
@@ -4505,8 +4397,7 @@ extension DynamoDBClientTypes {
             s3Bucket: Swift.String? = nil,
             s3BucketOwner: Swift.String? = nil,
             s3KeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
             self.s3KeyPrefix = s3KeyPrefix
@@ -4547,8 +4438,7 @@ extension DynamoDBClientTypes {
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
             sseSpecification: DynamoDBClientTypes.SSESpecification? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.globalSecondaryIndexes = globalSecondaryIndexes
@@ -4624,8 +4514,7 @@ extension DynamoDBClientTypes {
             tableArn: Swift.String? = nil,
             tableCreationParameters: DynamoDBClientTypes.TableCreationParameters? = nil,
             tableId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientToken = clientToken
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.endTime = endTime
@@ -4656,8 +4545,7 @@ public struct DescribeImportOutput: Swift.Sendable {
 
     public init(
         importTableDescription: DynamoDBClientTypes.ImportTableDescription? = nil
-    )
-    {
+    ) {
         self.importTableDescription = importTableDescription
     }
 }
@@ -4669,8 +4557,7 @@ public struct DescribeKinesisStreamingDestinationInput: Swift.Sendable {
 
     public init(
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableName = tableName
     }
 }
@@ -4734,8 +4621,7 @@ extension DynamoDBClientTypes {
             destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
             destinationStatusDescription: Swift.String? = nil,
             streamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.approximateCreationDateTimePrecision = approximateCreationDateTimePrecision
             self.destinationStatus = destinationStatus
             self.destinationStatusDescription = destinationStatusDescription
@@ -4753,8 +4639,7 @@ public struct DescribeKinesisStreamingDestinationOutput: Swift.Sendable {
     public init(
         kinesisDataStreamDestinations: [DynamoDBClientTypes.KinesisDataStreamDestination]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.kinesisDataStreamDestinations = kinesisDataStreamDestinations
         self.tableName = tableName
     }
@@ -4782,8 +4667,7 @@ public struct DescribeLimitsOutput: Swift.Sendable {
         accountMaxWriteCapacityUnits: Swift.Int? = nil,
         tableMaxReadCapacityUnits: Swift.Int? = nil,
         tableMaxWriteCapacityUnits: Swift.Int? = nil
-    )
-    {
+    ) {
         self.accountMaxReadCapacityUnits = accountMaxReadCapacityUnits
         self.accountMaxWriteCapacityUnits = accountMaxWriteCapacityUnits
         self.tableMaxReadCapacityUnits = tableMaxReadCapacityUnits
@@ -4799,8 +4683,7 @@ public struct DescribeTableInput: Swift.Sendable {
 
     public init(
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableName = tableName
     }
 }
@@ -4812,8 +4695,7 @@ public struct DescribeTableOutput: Swift.Sendable {
 
     public init(
         table: DynamoDBClientTypes.TableDescription? = nil
-    )
-    {
+    ) {
         self.table = table
     }
 }
@@ -4825,8 +4707,7 @@ public struct DescribeTableReplicaAutoScalingInput: Swift.Sendable {
 
     public init(
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableName = tableName
     }
 }
@@ -4857,8 +4738,7 @@ extension DynamoDBClientTypes {
             indexStatus: DynamoDBClientTypes.IndexStatus? = nil,
             provisionedReadCapacityAutoScalingSettings: DynamoDBClientTypes.AutoScalingSettingsDescription? = nil,
             provisionedWriteCapacityAutoScalingSettings: DynamoDBClientTypes.AutoScalingSettingsDescription? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.indexStatus = indexStatus
             self.provisionedReadCapacityAutoScalingSettings = provisionedReadCapacityAutoScalingSettings
@@ -4896,8 +4776,7 @@ extension DynamoDBClientTypes {
             replicaProvisionedReadCapacityAutoScalingSettings: DynamoDBClientTypes.AutoScalingSettingsDescription? = nil,
             replicaProvisionedWriteCapacityAutoScalingSettings: DynamoDBClientTypes.AutoScalingSettingsDescription? = nil,
             replicaStatus: DynamoDBClientTypes.ReplicaStatus? = nil
-        )
-        {
+        ) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.regionName = regionName
             self.replicaProvisionedReadCapacityAutoScalingSettings = replicaProvisionedReadCapacityAutoScalingSettings
@@ -4930,8 +4809,7 @@ extension DynamoDBClientTypes {
             replicas: [DynamoDBClientTypes.ReplicaAutoScalingDescription]? = nil,
             tableName: Swift.String? = nil,
             tableStatus: DynamoDBClientTypes.TableStatus? = nil
-        )
-        {
+        ) {
             self.replicas = replicas
             self.tableName = tableName
             self.tableStatus = tableStatus
@@ -4945,8 +4823,7 @@ public struct DescribeTableReplicaAutoScalingOutput: Swift.Sendable {
 
     public init(
         tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription? = nil
-    )
-    {
+    ) {
         self.tableAutoScalingDescription = tableAutoScalingDescription
     }
 }
@@ -4958,8 +4835,7 @@ public struct DescribeTimeToLiveInput: Swift.Sendable {
 
     public init(
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableName = tableName
     }
 }
@@ -4970,8 +4846,7 @@ public struct DescribeTimeToLiveOutput: Swift.Sendable {
 
     public init(
         timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription? = nil
-    )
-    {
+    ) {
         self.timeToLiveDescription = timeToLiveDescription
     }
 }
@@ -4985,8 +4860,7 @@ extension DynamoDBClientTypes {
 
         public init(
             approximateCreationDateTimePrecision: DynamoDBClientTypes.ApproximateCreationDateTimePrecision? = nil
-        )
-        {
+        ) {
             self.approximateCreationDateTimePrecision = approximateCreationDateTimePrecision
         }
     }
@@ -5006,8 +4880,7 @@ public struct DisableKinesisStreamingDestinationInput: Swift.Sendable {
         enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration? = nil,
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.enableKinesisStreamingConfiguration = enableKinesisStreamingConfiguration
         self.streamArn = streamArn
         self.tableName = tableName
@@ -5029,8 +4902,7 @@ public struct DisableKinesisStreamingDestinationOutput: Swift.Sendable {
         enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration? = nil,
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationStatus = destinationStatus
         self.enableKinesisStreamingConfiguration = enableKinesisStreamingConfiguration
         self.streamArn = streamArn
@@ -5056,8 +4928,7 @@ public struct DuplicateItemException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5076,8 +4947,7 @@ public struct EnableKinesisStreamingDestinationInput: Swift.Sendable {
         enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration? = nil,
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.enableKinesisStreamingConfiguration = enableKinesisStreamingConfiguration
         self.streamArn = streamArn
         self.tableName = tableName
@@ -5099,8 +4969,7 @@ public struct EnableKinesisStreamingDestinationOutput: Swift.Sendable {
         enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration? = nil,
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationStatus = destinationStatus
         self.enableKinesisStreamingConfiguration = enableKinesisStreamingConfiguration
         self.streamArn = streamArn
@@ -5126,8 +4995,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5175,8 +5043,7 @@ public struct TransactionInProgressException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5199,8 +5066,7 @@ public struct ExportConflictException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5223,8 +5089,7 @@ public struct InvalidExportTimeException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5247,8 +5112,7 @@ public struct PointInTimeRecoveryUnavailableException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5295,8 +5159,7 @@ public struct ExportTableToPointInTimeInput: Swift.Sendable {
         s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm? = nil,
         s3SseKmsKeyId: Swift.String? = nil,
         tableArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.exportFormat = exportFormat
         self.exportTime = exportTime
@@ -5317,8 +5180,7 @@ public struct ExportTableToPointInTimeOutput: Swift.Sendable {
 
     public init(
         exportDescription: DynamoDBClientTypes.ExportDescription? = nil
-    )
-    {
+    ) {
         self.exportDescription = exportDescription
     }
 }
@@ -5330,8 +5192,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5345,8 +5206,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.revisionId = revisionId
     }
@@ -5370,8 +5230,7 @@ public struct ImportConflictException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5400,8 +5259,7 @@ public struct ImportTableInput: Swift.Sendable {
         inputFormatOptions: DynamoDBClientTypes.InputFormatOptions? = nil,
         s3BucketSource: DynamoDBClientTypes.S3BucketSource? = nil,
         tableCreationParameters: DynamoDBClientTypes.TableCreationParameters? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.inputCompressionType = inputCompressionType
         self.inputFormat = inputFormat
@@ -5418,8 +5276,7 @@ public struct ImportTableOutput: Swift.Sendable {
 
     public init(
         importTableDescription: DynamoDBClientTypes.ImportTableDescription? = nil
-    )
-    {
+    ) {
         self.importTableDescription = importTableDescription
     }
 }
@@ -5451,8 +5308,7 @@ public struct ListBackupsInput: Swift.Sendable {
         tableName: Swift.String? = nil,
         timeRangeLowerBound: Foundation.Date? = nil,
         timeRangeUpperBound: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.backupType = backupType
         self.exclusiveStartBackupArn = exclusiveStartBackupArn
         self.limit = limit
@@ -5471,8 +5327,7 @@ public struct ListBackupsOutput: Swift.Sendable {
     public init(
         backupSummaries: [DynamoDBClientTypes.BackupSummary]? = nil,
         lastEvaluatedBackupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupSummaries = backupSummaries
         self.lastEvaluatedBackupArn = lastEvaluatedBackupArn
     }
@@ -5490,8 +5345,7 @@ public struct ListContributorInsightsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tableName = tableName
@@ -5507,8 +5361,7 @@ public struct ListContributorInsightsOutput: Swift.Sendable {
     public init(
         contributorInsightsSummaries: [DynamoDBClientTypes.ContributorInsightsSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contributorInsightsSummaries = contributorInsightsSummaries
         self.nextToken = nextToken
     }
@@ -5526,8 +5379,7 @@ public struct ListExportsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tableArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tableArn = tableArn
@@ -5549,8 +5401,7 @@ extension DynamoDBClientTypes {
             exportArn: Swift.String? = nil,
             exportStatus: DynamoDBClientTypes.ExportStatus? = nil,
             exportType: DynamoDBClientTypes.ExportType? = nil
-        )
-        {
+        ) {
             self.exportArn = exportArn
             self.exportStatus = exportStatus
             self.exportType = exportType
@@ -5567,8 +5418,7 @@ public struct ListExportsOutput: Swift.Sendable {
     public init(
         exportSummaries: [DynamoDBClientTypes.ExportSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportSummaries = exportSummaries
         self.nextToken = nextToken
     }
@@ -5586,8 +5436,7 @@ public struct ListGlobalTablesInput: Swift.Sendable {
         exclusiveStartGlobalTableName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         regionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.exclusiveStartGlobalTableName = exclusiveStartGlobalTableName
         self.limit = limit
         self.regionName = regionName
@@ -5606,8 +5455,7 @@ extension DynamoDBClientTypes {
         public init(
             globalTableName: Swift.String? = nil,
             replicationGroup: [DynamoDBClientTypes.Replica]? = nil
-        )
-        {
+        ) {
             self.globalTableName = globalTableName
             self.replicationGroup = replicationGroup
         }
@@ -5623,8 +5471,7 @@ public struct ListGlobalTablesOutput: Swift.Sendable {
     public init(
         globalTables: [DynamoDBClientTypes.GlobalTable]? = nil,
         lastEvaluatedGlobalTableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalTables = globalTables
         self.lastEvaluatedGlobalTableName = lastEvaluatedGlobalTableName
     }
@@ -5642,8 +5489,7 @@ public struct ListImportsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         tableArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
         self.tableArn = tableArn
@@ -5680,8 +5526,7 @@ extension DynamoDBClientTypes {
             s3BucketSource: DynamoDBClientTypes.S3BucketSource? = nil,
             startTime: Foundation.Date? = nil,
             tableArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.endTime = endTime
             self.importArn = importArn
@@ -5703,8 +5548,7 @@ public struct ListImportsOutput: Swift.Sendable {
     public init(
         importSummaryList: [DynamoDBClientTypes.ImportSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.importSummaryList = importSummaryList
         self.nextToken = nextToken
     }
@@ -5720,8 +5564,7 @@ public struct ListTablesInput: Swift.Sendable {
     public init(
         exclusiveStartTableName: Swift.String? = nil,
         limit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.exclusiveStartTableName = exclusiveStartTableName
         self.limit = limit
     }
@@ -5737,8 +5580,7 @@ public struct ListTablesOutput: Swift.Sendable {
     public init(
         lastEvaluatedTableName: Swift.String? = nil,
         tableNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.lastEvaluatedTableName = lastEvaluatedTableName
         self.tableNames = tableNames
     }
@@ -5754,8 +5596,7 @@ public struct ListTagsOfResourceInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceArn = resourceArn
     }
@@ -5770,8 +5611,7 @@ public struct ListTagsOfResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [DynamoDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -5801,8 +5641,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
         expectedRevisionId: Swift.String? = nil,
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.confirmRemoveSelfResourceAccess = confirmRemoveSelfResourceAccess
         self.expectedRevisionId = expectedRevisionId
         self.policy = policy
@@ -5816,8 +5655,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init(
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.revisionId = revisionId
     }
 }
@@ -5875,8 +5713,7 @@ public struct TableAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5910,8 +5747,7 @@ public struct RestoreTableFromBackupInput: Swift.Sendable {
         provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput? = nil,
         sseSpecificationOverride: DynamoDBClientTypes.SSESpecification? = nil,
         targetTableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupArn = backupArn
         self.billingModeOverride = billingModeOverride
         self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
@@ -5929,8 +5765,7 @@ public struct RestoreTableFromBackupOutput: Swift.Sendable {
 
     public init(
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
-    )
-    {
+    ) {
         self.tableDescription = tableDescription
     }
 }
@@ -5953,8 +5788,7 @@ public struct InvalidRestoreTimeException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5996,8 +5830,7 @@ public struct RestoreTableToPointInTimeInput: Swift.Sendable {
         sseSpecificationOverride: DynamoDBClientTypes.SSESpecification? = nil,
         targetTableName: Swift.String? = nil,
         useLatestRestorableTime: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.billingModeOverride = billingModeOverride
         self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
         self.localSecondaryIndexOverride = localSecondaryIndexOverride
@@ -6018,8 +5851,7 @@ public struct RestoreTableToPointInTimeOutput: Swift.Sendable {
 
     public init(
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
-    )
-    {
+    ) {
         self.tableDescription = tableDescription
     }
 }
@@ -6035,8 +5867,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [DynamoDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6053,8 +5884,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -6073,8 +5903,7 @@ extension DynamoDBClientTypes {
         public init(
             pointInTimeRecoveryEnabled: Swift.Bool? = nil,
             recoveryPeriodInDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.pointInTimeRecoveryEnabled = pointInTimeRecoveryEnabled
             self.recoveryPeriodInDays = recoveryPeriodInDays
         }
@@ -6092,8 +5921,7 @@ public struct UpdateContinuousBackupsInput: Swift.Sendable {
     public init(
         pointInTimeRecoverySpecification: DynamoDBClientTypes.PointInTimeRecoverySpecification? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pointInTimeRecoverySpecification = pointInTimeRecoverySpecification
         self.tableName = tableName
     }
@@ -6105,8 +5933,7 @@ public struct UpdateContinuousBackupsOutput: Swift.Sendable {
 
     public init(
         continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription? = nil
-    )
-    {
+    ) {
         self.continuousBackupsDescription = continuousBackupsDescription
     }
 }
@@ -6125,8 +5952,7 @@ public struct UpdateContributorInsightsInput: Swift.Sendable {
         contributorInsightsAction: DynamoDBClientTypes.ContributorInsightsAction? = nil,
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.contributorInsightsAction = contributorInsightsAction
         self.indexName = indexName
         self.tableName = tableName
@@ -6145,8 +5971,7 @@ public struct UpdateContributorInsightsOutput: Swift.Sendable {
         contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus? = nil,
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.contributorInsightsStatus = contributorInsightsStatus
         self.indexName = indexName
         self.tableName = tableName
@@ -6171,8 +5996,7 @@ public struct ReplicaAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6195,8 +6019,7 @@ public struct ReplicaNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6219,8 +6042,7 @@ extension DynamoDBClientTypes {
         public init(
             create: DynamoDBClientTypes.CreateReplicaAction? = nil,
             delete: DynamoDBClientTypes.DeleteReplicaAction? = nil
-        )
-        {
+        ) {
             self.create = create
             self.delete = delete
         }
@@ -6238,8 +6060,7 @@ public struct UpdateGlobalTableInput: Swift.Sendable {
     public init(
         globalTableName: Swift.String? = nil,
         replicaUpdates: [DynamoDBClientTypes.ReplicaUpdate]? = nil
-    )
-    {
+    ) {
         self.globalTableName = globalTableName
         self.replicaUpdates = replicaUpdates
     }
@@ -6251,8 +6072,7 @@ public struct UpdateGlobalTableOutput: Swift.Sendable {
 
     public init(
         globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
-    )
-    {
+    ) {
         self.globalTableDescription = globalTableDescription
     }
 }
@@ -6275,8 +6095,7 @@ public struct IndexNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6297,8 +6116,7 @@ extension DynamoDBClientTypes {
             indexName: Swift.String? = nil,
             provisionedWriteCapacityAutoScalingSettingsUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
             provisionedWriteCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.provisionedWriteCapacityAutoScalingSettingsUpdate = provisionedWriteCapacityAutoScalingSettingsUpdate
             self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
@@ -6322,8 +6140,7 @@ extension DynamoDBClientTypes {
             indexName: Swift.String? = nil,
             provisionedReadCapacityAutoScalingSettingsUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
             provisionedReadCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.provisionedReadCapacityAutoScalingSettingsUpdate = provisionedReadCapacityAutoScalingSettingsUpdate
             self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
@@ -6353,8 +6170,7 @@ extension DynamoDBClientTypes {
             replicaProvisionedReadCapacityAutoScalingSettingsUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
             replicaProvisionedReadCapacityUnits: Swift.Int? = nil,
             replicaTableClass: DynamoDBClientTypes.TableClass? = nil
-        )
-        {
+        ) {
             self.regionName = regionName
             self.replicaGlobalSecondaryIndexSettingsUpdate = replicaGlobalSecondaryIndexSettingsUpdate
             self.replicaProvisionedReadCapacityAutoScalingSettingsUpdate = replicaProvisionedReadCapacityAutoScalingSettingsUpdate
@@ -6390,8 +6206,7 @@ public struct UpdateGlobalTableSettingsInput: Swift.Sendable {
         globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
         globalTableProvisionedWriteCapacityUnits: Swift.Int? = nil,
         replicaSettingsUpdate: [DynamoDBClientTypes.ReplicaSettingsUpdate]? = nil
-    )
-    {
+    ) {
         self.globalTableBillingMode = globalTableBillingMode
         self.globalTableGlobalSecondaryIndexSettingsUpdate = globalTableGlobalSecondaryIndexSettingsUpdate
         self.globalTableName = globalTableName
@@ -6410,8 +6225,7 @@ public struct UpdateGlobalTableSettingsOutput: Swift.Sendable {
     public init(
         globalTableName: Swift.String? = nil,
         replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]? = nil
-    )
-    {
+    ) {
         self.globalTableName = globalTableName
         self.replicaSettings = replicaSettings
     }
@@ -6426,8 +6240,7 @@ extension DynamoDBClientTypes {
 
         public init(
             approximateCreationDateTimePrecision: DynamoDBClientTypes.ApproximateCreationDateTimePrecision? = nil
-        )
-        {
+        ) {
             self.approximateCreationDateTimePrecision = approximateCreationDateTimePrecision
         }
     }
@@ -6447,8 +6260,7 @@ public struct UpdateKinesisStreamingDestinationInput: Swift.Sendable {
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil,
         updateKinesisStreamingConfiguration: DynamoDBClientTypes.UpdateKinesisStreamingConfiguration? = nil
-    )
-    {
+    ) {
         self.streamArn = streamArn
         self.tableName = tableName
         self.updateKinesisStreamingConfiguration = updateKinesisStreamingConfiguration
@@ -6470,8 +6282,7 @@ public struct UpdateKinesisStreamingDestinationOutput: Swift.Sendable {
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil,
         updateKinesisStreamingConfiguration: DynamoDBClientTypes.UpdateKinesisStreamingConfiguration? = nil
-    )
-    {
+    ) {
         self.destinationStatus = destinationStatus
         self.streamArn = streamArn
         self.tableName = tableName
@@ -6498,8 +6309,7 @@ extension DynamoDBClientTypes {
             onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
             warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
@@ -6539,8 +6349,7 @@ extension DynamoDBClientTypes {
             create: DynamoDBClientTypes.CreateGlobalSecondaryIndexAction? = nil,
             delete: DynamoDBClientTypes.DeleteGlobalSecondaryIndexAction? = nil,
             update: DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction? = nil
-        )
-        {
+        ) {
             self.create = create
             self.delete = delete
             self.update = update
@@ -6573,8 +6382,7 @@ extension DynamoDBClientTypes {
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
             regionName: Swift.String? = nil,
             tableClassOverride: DynamoDBClientTypes.TableClass? = nil
-        )
-        {
+        ) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
             self.onDemandThroughputOverride = onDemandThroughputOverride
@@ -6609,8 +6417,7 @@ extension DynamoDBClientTypes {
             create: DynamoDBClientTypes.CreateReplicationGroupMemberAction? = nil,
             delete: DynamoDBClientTypes.DeleteReplicationGroupMemberAction? = nil,
             update: DynamoDBClientTypes.UpdateReplicationGroupMemberAction? = nil
-        )
-        {
+        ) {
             self.create = create
             self.delete = delete
             self.update = update
@@ -6682,8 +6489,7 @@ public struct UpdateTableInput: Swift.Sendable {
         tableClass: DynamoDBClientTypes.TableClass? = nil,
         tableName: Swift.String? = nil,
         warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
-    )
-    {
+    ) {
         self.attributeDefinitions = attributeDefinitions
         self.billingMode = billingMode
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -6707,8 +6513,7 @@ public struct UpdateTableOutput: Swift.Sendable {
 
     public init(
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
-    )
-    {
+    ) {
         self.tableDescription = tableDescription
     }
 }
@@ -6725,8 +6530,7 @@ extension DynamoDBClientTypes {
         public init(
             indexName: Swift.String? = nil,
             provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdate
         }
@@ -6745,8 +6549,7 @@ extension DynamoDBClientTypes {
         public init(
             indexName: Swift.String? = nil,
             provisionedReadCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.provisionedReadCapacityAutoScalingUpdate = provisionedReadCapacityAutoScalingUpdate
         }
@@ -6769,8 +6572,7 @@ extension DynamoDBClientTypes {
             regionName: Swift.String? = nil,
             replicaGlobalSecondaryIndexUpdates: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingUpdate]? = nil,
             replicaProvisionedReadCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil
-        )
-        {
+        ) {
             self.regionName = regionName
             self.replicaGlobalSecondaryIndexUpdates = replicaGlobalSecondaryIndexUpdates
             self.replicaProvisionedReadCapacityAutoScalingUpdate = replicaProvisionedReadCapacityAutoScalingUpdate
@@ -6794,8 +6596,7 @@ public struct UpdateTableReplicaAutoScalingInput: Swift.Sendable {
         provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
         replicaUpdates: [DynamoDBClientTypes.ReplicaAutoScalingUpdate]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
         self.provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdate
         self.replicaUpdates = replicaUpdates
@@ -6809,8 +6610,7 @@ public struct UpdateTableReplicaAutoScalingOutput: Swift.Sendable {
 
     public init(
         tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription? = nil
-    )
-    {
+    ) {
         self.tableAutoScalingDescription = tableAutoScalingDescription
     }
 }
@@ -6829,8 +6629,7 @@ extension DynamoDBClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.enabled = enabled
         }
@@ -6849,8 +6648,7 @@ public struct UpdateTimeToLiveInput: Swift.Sendable {
     public init(
         tableName: Swift.String? = nil,
         timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification? = nil
-    )
-    {
+    ) {
         self.tableName = tableName
         self.timeToLiveSpecification = timeToLiveSpecification
     }
@@ -6862,8 +6660,7 @@ public struct UpdateTimeToLiveOutput: Swift.Sendable {
 
     public init(
         timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification? = nil
-    )
-    {
+    ) {
         self.timeToLiveSpecification = timeToLiveSpecification
     }
 }
@@ -6930,8 +6727,7 @@ extension DynamoDBClientTypes {
         public init(
             action: DynamoDBClientTypes.AttributeAction? = nil,
             value: DynamoDBClientTypes.AttributeValue? = nil
-        )
-        {
+        ) {
             self.action = action
             self.value = value
         }
@@ -6953,8 +6749,7 @@ extension DynamoDBClientTypes {
             code: DynamoDBClientTypes.BatchStatementErrorCodeEnum? = nil,
             item: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.item = item
             self.message = message
@@ -6981,8 +6776,7 @@ extension DynamoDBClientTypes {
             parameters: [DynamoDBClientTypes.AttributeValue]? = nil,
             returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
             statement: Swift.String? = nil
-        )
-        {
+        ) {
             self.consistentRead = consistentRead
             self.parameters = parameters
             self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
@@ -7006,8 +6800,7 @@ extension DynamoDBClientTypes {
             code: Swift.String? = nil,
             item: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.item = item
             self.message = message
@@ -7061,8 +6854,7 @@ extension DynamoDBClientTypes {
         public init(
             attributeValueList: [DynamoDBClientTypes.AttributeValue]? = nil,
             comparisonOperator: DynamoDBClientTypes.ComparisonOperator? = nil
-        )
-        {
+        ) {
             self.attributeValueList = attributeValueList
             self.comparisonOperator = comparisonOperator
         }
@@ -7091,8 +6883,7 @@ public struct ConditionalCheckFailedException: ClientRuntime.ModeledError, AWSCl
     public init(
         item: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.item = item
         self.properties.message = message
     }
@@ -7108,8 +6899,7 @@ extension DynamoDBClientTypes {
 
         public init(
             key: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil
-        )
-        {
+        ) {
             self.key = key
         }
     }
@@ -7135,8 +6925,7 @@ extension DynamoDBClientTypes {
             key: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
             projectionExpression: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.expressionAttributeNames = expressionAttributeNames
             self.key = key
             self.projectionExpression = projectionExpression
@@ -7157,8 +6946,7 @@ extension DynamoDBClientTypes {
         public init(
             itemCollectionKey: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
             sizeEstimateRangeGB: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.itemCollectionKey = itemCollectionKey
             self.sizeEstimateRangeGB = sizeEstimateRangeGB
         }
@@ -7174,8 +6962,7 @@ extension DynamoDBClientTypes {
 
         public init(
             item: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil
-        )
-        {
+        ) {
             self.item = item
         }
     }
@@ -7197,8 +6984,7 @@ extension DynamoDBClientTypes {
             parameters: [DynamoDBClientTypes.AttributeValue]? = nil,
             returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
             statement: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
             self.statement = statement
@@ -7216,8 +7002,7 @@ extension DynamoDBClientTypes {
 
         public init(
             item: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil
-        )
-        {
+        ) {
             self.item = item
         }
     }
@@ -7254,8 +7039,7 @@ public struct ExecuteStatementInput: Swift.Sendable {
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
         statement: Swift.String? = nil
-    )
-    {
+    ) {
         self.consistentRead = consistentRead
         self.limit = limit
         self.nextToken = nextToken
@@ -7323,8 +7107,7 @@ public struct GetItemInput: Swift.Sendable {
         projectionExpression: Swift.String? = nil,
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributesToGet = attributesToGet
         self.consistentRead = consistentRead
         self.expressionAttributeNames = expressionAttributeNames
@@ -7345,8 +7128,7 @@ public struct GetItemOutput: Swift.Sendable {
     public init(
         consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
         item: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil
-    )
-    {
+    ) {
         self.consumedCapacity = consumedCapacity
         self.item = item
     }
@@ -7398,8 +7180,7 @@ extension DynamoDBClientTypes {
             expressionAttributeNames: [Swift.String: Swift.String]? = nil,
             keys: [[Swift.String: DynamoDBClientTypes.AttributeValue]]? = nil,
             projectionExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributesToGet = attributesToGet
             self.consistentRead = consistentRead
             self.expressionAttributeNames = expressionAttributeNames
@@ -7419,8 +7200,7 @@ extension DynamoDBClientTypes {
 
         public init(
             `get`: DynamoDBClientTypes.Get? = nil
-        )
-        {
+        ) {
             self.`get` = `get`
         }
     }
@@ -7569,8 +7349,7 @@ public struct TransactionCanceledException: ClientRuntime.ModeledError, AWSClien
     public init(
         cancellationReasons: [DynamoDBClientTypes.CancellationReason]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.cancellationReasons = cancellationReasons
         self.properties.message = message
     }
@@ -7592,8 +7371,7 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
     public init(
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         statements: [DynamoDBClientTypes.BatchStatementRequest]? = nil
-    )
-    {
+    ) {
         self.returnConsumedCapacity = returnConsumedCapacity
         self.statements = statements
     }
@@ -7612,8 +7390,7 @@ public struct ExecuteTransactionInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         transactStatements: [DynamoDBClientTypes.ParameterizedStatement]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.returnConsumedCapacity = returnConsumedCapacity
         self.transactStatements = transactStatements
@@ -7629,8 +7406,7 @@ public struct ExecuteTransactionOutput: Swift.Sendable {
     public init(
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         responses: [DynamoDBClientTypes.ItemResponse]? = nil
-    )
-    {
+    ) {
         self.consumedCapacity = consumedCapacity
         self.responses = responses
     }
@@ -7645,8 +7421,7 @@ public struct TransactGetItemsOutput: Swift.Sendable {
     public init(
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         responses: [DynamoDBClientTypes.ItemResponse]? = nil
-    )
-    {
+    ) {
         self.consumedCapacity = consumedCapacity
         self.responses = responses
     }
@@ -7714,8 +7489,7 @@ extension DynamoDBClientTypes {
             comparisonOperator: DynamoDBClientTypes.ComparisonOperator? = nil,
             exists: Swift.Bool? = nil,
             value: DynamoDBClientTypes.AttributeValue? = nil
-        )
-        {
+        ) {
             self.attributeValueList = attributeValueList
             self.comparisonOperator = comparisonOperator
             self.exists = exists
@@ -7775,8 +7549,7 @@ public struct BatchGetItemInput: Swift.Sendable {
     public init(
         requestItems: [Swift.String: DynamoDBClientTypes.KeysAndAttributes]? = nil,
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil
-    )
-    {
+    ) {
         self.requestItems = requestItems
         self.returnConsumedCapacity = returnConsumedCapacity
     }
@@ -7792,8 +7565,7 @@ public struct TransactGetItemsInput: Swift.Sendable {
     public init(
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         transactItems: [DynamoDBClientTypes.TransactGetItem]? = nil
-    )
-    {
+    ) {
         self.returnConsumedCapacity = returnConsumedCapacity
         self.transactItems = transactItems
     }
@@ -7808,8 +7580,7 @@ public struct TransactWriteItemsOutput: Swift.Sendable {
     public init(
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         itemCollectionMetrics: [Swift.String: [DynamoDBClientTypes.ItemCollectionMetrics]]? = nil
-    )
-    {
+    ) {
         self.consumedCapacity = consumedCapacity
         self.itemCollectionMetrics = itemCollectionMetrics
     }
@@ -7842,8 +7613,7 @@ extension DynamoDBClientTypes {
             key: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
             returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
             self.expressionAttributeValues = expressionAttributeValues
@@ -7880,8 +7650,7 @@ extension DynamoDBClientTypes {
             key: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
             returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
             self.expressionAttributeValues = expressionAttributeValues
@@ -7918,8 +7687,7 @@ extension DynamoDBClientTypes {
             item: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
             returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
             self.expressionAttributeValues = expressionAttributeValues
@@ -7960,8 +7728,7 @@ extension DynamoDBClientTypes {
             returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
             tableName: Swift.String? = nil,
             updateExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
             self.expressionAttributeValues = expressionAttributeValues
@@ -7988,8 +7755,7 @@ extension DynamoDBClientTypes {
             error: DynamoDBClientTypes.BatchStatementError? = nil,
             item: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.error = error
             self.item = item
             self.tableName = tableName
@@ -8014,8 +7780,7 @@ public struct DeleteItemOutput: Swift.Sendable {
         attributes: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
         consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
         itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.consumedCapacity = consumedCapacity
         self.itemCollectionMetrics = itemCollectionMetrics
@@ -8037,8 +7802,7 @@ public struct ExecuteStatementOutput: Swift.Sendable {
         items: [[Swift.String: DynamoDBClientTypes.AttributeValue]]? = nil,
         lastEvaluatedKey: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumedCapacity = consumedCapacity
         self.items = items
         self.lastEvaluatedKey = lastEvaluatedKey
@@ -8063,8 +7827,7 @@ public struct PutItemOutput: Swift.Sendable {
         attributes: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
         consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
         itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.consumedCapacity = consumedCapacity
         self.itemCollectionMetrics = itemCollectionMetrics
@@ -8090,8 +7853,7 @@ public struct QueryOutput: Swift.Sendable {
         items: [[Swift.String: DynamoDBClientTypes.AttributeValue]]? = nil,
         lastEvaluatedKey: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
         scannedCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.consumedCapacity = consumedCapacity
         self.count = count
         self.items = items
@@ -8119,8 +7881,7 @@ public struct ScanOutput: Swift.Sendable {
         items: [[Swift.String: DynamoDBClientTypes.AttributeValue]]? = nil,
         lastEvaluatedKey: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
         scannedCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.consumedCapacity = consumedCapacity
         self.count = count
         self.items = items
@@ -8146,8 +7907,7 @@ public struct UpdateItemOutput: Swift.Sendable {
         attributes: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
         consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
         itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.consumedCapacity = consumedCapacity
         self.itemCollectionMetrics = itemCollectionMetrics
@@ -8166,8 +7926,7 @@ extension DynamoDBClientTypes {
         public init(
             deleteRequest: DynamoDBClientTypes.DeleteRequest? = nil,
             putRequest: DynamoDBClientTypes.PutRequest? = nil
-        )
-        {
+        ) {
             self.deleteRequest = deleteRequest
             self.putRequest = putRequest
         }
@@ -8183,8 +7942,7 @@ public struct BatchExecuteStatementOutput: Swift.Sendable {
     public init(
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         responses: [DynamoDBClientTypes.BatchStatementResponse]? = nil
-    )
-    {
+    ) {
         self.consumedCapacity = consumedCapacity
         self.responses = responses
     }
@@ -8216,8 +7974,7 @@ public struct BatchGetItemOutput: Swift.Sendable {
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         responses: [Swift.String: [[Swift.String: DynamoDBClientTypes.AttributeValue]]]? = nil,
         unprocessedKeys: [Swift.String: DynamoDBClientTypes.KeysAndAttributes]? = nil
-    )
-    {
+    ) {
         self.consumedCapacity = consumedCapacity
         self.responses = responses
         self.unprocessedKeys = unprocessedKeys
@@ -8325,8 +8082,7 @@ public struct ScanInput: Swift.Sendable {
         select: DynamoDBClientTypes.Select? = nil,
         tableName: Swift.String? = nil,
         totalSegments: Swift.Int? = nil
-    )
-    {
+    ) {
         self.attributesToGet = attributesToGet
         self.conditionalOperator = conditionalOperator
         self.consistentRead = consistentRead
@@ -8377,8 +8133,7 @@ public struct BatchWriteItemInput: Swift.Sendable {
         requestItems: [Swift.String: [DynamoDBClientTypes.WriteRequest]]? = nil,
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics? = nil
-    )
-    {
+    ) {
         self.requestItems = requestItems
         self.returnConsumedCapacity = returnConsumedCapacity
         self.returnItemCollectionMetrics = returnItemCollectionMetrics
@@ -8470,8 +8225,7 @@ public struct DeleteItemInput: Swift.Sendable {
         returnValues: DynamoDBClientTypes.ReturnValue? = nil,
         returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.conditionExpression = conditionExpression
         self.conditionalOperator = conditionalOperator
         self.expected = expected
@@ -8571,8 +8325,7 @@ public struct PutItemInput: Swift.Sendable {
         returnValues: DynamoDBClientTypes.ReturnValue? = nil,
         returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.conditionExpression = conditionExpression
         self.conditionalOperator = conditionalOperator
         self.expected = expected
@@ -8726,8 +8479,7 @@ public struct QueryInput: Swift.Sendable {
         scanIndexForward: Swift.Bool? = nil,
         select: DynamoDBClientTypes.Select? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributesToGet = attributesToGet
         self.conditionalOperator = conditionalOperator
         self.consistentRead = consistentRead
@@ -8786,8 +8538,7 @@ public struct BatchWriteItemOutput: Swift.Sendable {
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         itemCollectionMetrics: [Swift.String: [DynamoDBClientTypes.ItemCollectionMetrics]]? = nil,
         unprocessedItems: [Swift.String: [DynamoDBClientTypes.WriteRequest]]? = nil
-    )
-    {
+    ) {
         self.consumedCapacity = consumedCapacity
         self.itemCollectionMetrics = itemCollectionMetrics
         self.unprocessedItems = unprocessedItems
@@ -8916,8 +8667,7 @@ public struct UpdateItemInput: Swift.Sendable {
         returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
         tableName: Swift.String? = nil,
         updateExpression: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeUpdates = attributeUpdates
         self.conditionExpression = conditionExpression
         self.conditionalOperator = conditionalOperator
@@ -8952,8 +8702,7 @@ extension DynamoDBClientTypes {
             delete: DynamoDBClientTypes.Delete? = nil,
             put: DynamoDBClientTypes.Put? = nil,
             update: DynamoDBClientTypes.Update? = nil
-        )
-        {
+        ) {
             self.conditionCheck = conditionCheck
             self.delete = delete
             self.put = put
@@ -8984,8 +8733,7 @@ public struct TransactWriteItemsInput: Swift.Sendable {
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics? = nil,
         transactItems: [DynamoDBClientTypes.TransactWriteItem]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.returnConsumedCapacity = returnConsumedCapacity
         self.returnItemCollectionMetrics = returnItemCollectionMetrics

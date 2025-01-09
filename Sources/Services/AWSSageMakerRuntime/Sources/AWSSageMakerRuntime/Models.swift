@@ -48,8 +48,7 @@ public struct InternalDependencyException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -72,8 +71,7 @@ public struct InternalFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -105,8 +103,7 @@ public struct ModelError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
         message: Swift.String? = nil,
         originalMessage: Swift.String? = nil,
         originalStatusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.logStreamArn = logStreamArn
         self.properties.message = message
         self.properties.originalMessage = originalMessage
@@ -132,8 +129,7 @@ public struct ModelNotReadyException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -156,8 +152,7 @@ public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -180,8 +175,7 @@ public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -234,8 +228,7 @@ public struct InvokeEndpointInput: Swift.Sendable {
         targetContainerHostname: Swift.String? = nil,
         targetModel: Swift.String? = nil,
         targetVariant: Swift.String? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.body = body
         self.contentType = contentType
@@ -278,8 +271,7 @@ public struct InvokeEndpointOutput: Swift.Sendable {
         customAttributes: Swift.String? = nil,
         invokedProductionVariant: Swift.String? = nil,
         newSessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.closedSessionId = closedSessionId
         self.contentType = contentType
@@ -323,8 +315,7 @@ public struct InvokeEndpointAsyncInput: Swift.Sendable {
         inputLocation: Swift.String? = nil,
         invocationTimeoutSeconds: Swift.Int? = nil,
         requestTTLSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.contentType = contentType
         self.customAttributes = customAttributes
@@ -353,8 +344,7 @@ public struct InvokeEndpointAsyncOutput: Swift.Sendable {
         failureLocation: Swift.String? = nil,
         inferenceId: Swift.String? = nil,
         outputLocation: Swift.String? = nil
-    )
-    {
+    ) {
         self.failureLocation = failureLocation
         self.inferenceId = inferenceId
         self.outputLocation = outputLocation
@@ -379,8 +369,7 @@ public struct InternalStreamFailure: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -406,8 +395,7 @@ public struct ModelStreamError: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -448,8 +436,7 @@ public struct InvokeEndpointWithResponseStreamInput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         targetContainerHostname: Swift.String? = nil,
         targetVariant: Swift.String? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.body = body
         self.contentType = contentType
@@ -477,8 +464,7 @@ extension SageMakerRuntimeClientTypes {
 
         public init(
             bytes: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.bytes = bytes
         }
     }
@@ -515,8 +501,7 @@ public struct InvokeEndpointWithResponseStreamOutput: Swift.Sendable {
         contentType: Swift.String? = nil,
         customAttributes: Swift.String? = nil,
         invokedProductionVariant: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.contentType = contentType
         self.customAttributes = customAttributes

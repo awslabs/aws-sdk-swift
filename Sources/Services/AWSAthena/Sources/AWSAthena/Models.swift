@@ -62,8 +62,7 @@ extension AthenaClientTypes {
 
         public init(
             s3AclOption: AthenaClientTypes.S3AclOption? = nil
-        )
-        {
+        ) {
             self.s3AclOption = s3AclOption
         }
     }
@@ -87,8 +86,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -114,8 +112,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         athenaErrorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.athenaErrorCode = athenaErrorCode
         self.properties.message = message
     }
@@ -129,8 +126,7 @@ public struct BatchGetNamedQueryInput: Swift.Sendable {
 
     public init(
         namedQueryIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.namedQueryIds = namedQueryIds
     }
 }
@@ -162,8 +158,7 @@ extension AthenaClientTypes {
             namedQueryId: Swift.String? = nil,
             queryString: Swift.String? = nil,
             workGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.description = description
             self.name = name
@@ -189,8 +184,7 @@ extension AthenaClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             namedQueryId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.namedQueryId = namedQueryId
@@ -207,8 +201,7 @@ public struct BatchGetNamedQueryOutput: Swift.Sendable {
     public init(
         namedQueries: [AthenaClientTypes.NamedQuery]? = nil,
         unprocessedNamedQueryIds: [AthenaClientTypes.UnprocessedNamedQueryId]? = nil
-    )
-    {
+    ) {
         self.namedQueries = namedQueries
         self.unprocessedNamedQueryIds = unprocessedNamedQueryIds
     }
@@ -225,8 +218,7 @@ public struct BatchGetPreparedStatementInput: Swift.Sendable {
     public init(
         preparedStatementNames: [Swift.String]? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.preparedStatementNames = preparedStatementNames
         self.workGroup = workGroup
     }
@@ -253,8 +245,7 @@ extension AthenaClientTypes {
             queryStatement: Swift.String? = nil,
             statementName: Swift.String? = nil,
             workGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastModifiedTime = lastModifiedTime
             self.queryStatement = queryStatement
@@ -285,8 +276,7 @@ extension AthenaClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             statementName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.statementName = statementName
@@ -303,8 +293,7 @@ public struct BatchGetPreparedStatementOutput: Swift.Sendable {
     public init(
         preparedStatements: [AthenaClientTypes.PreparedStatement]? = nil,
         unprocessedPreparedStatementNames: [AthenaClientTypes.UnprocessedPreparedStatementName]? = nil
-    )
-    {
+    ) {
         self.preparedStatements = preparedStatements
         self.unprocessedPreparedStatementNames = unprocessedPreparedStatementNames
     }
@@ -318,8 +307,7 @@ public struct BatchGetQueryExecutionInput: Swift.Sendable {
 
     public init(
         queryExecutionIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.queryExecutionIds = queryExecutionIds
     }
 }
@@ -336,8 +324,7 @@ extension AthenaClientTypes {
         public init(
             effectiveEngineVersion: Swift.String? = nil,
             selectedEngineVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.effectiveEngineVersion = effectiveEngineVersion
             self.selectedEngineVersion = selectedEngineVersion
         }
@@ -356,8 +343,7 @@ extension AthenaClientTypes {
         public init(
             catalog: Swift.String? = nil,
             database: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalog = catalog
             self.database = database
         }
@@ -407,8 +393,7 @@ extension AthenaClientTypes {
             authenticationType: AthenaClientTypes.AuthenticationType? = nil,
             createUserLevelPrefix: Swift.Bool? = nil,
             enableS3AccessGrants: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.createUserLevelPrefix = createUserLevelPrefix
             self.enableS3AccessGrants = enableS3AccessGrants
@@ -461,8 +446,7 @@ extension AthenaClientTypes {
         public init(
             encryptionOption: AthenaClientTypes.EncryptionOption? = nil,
             kmsKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionOption = encryptionOption
             self.kmsKey = kmsKey
         }
@@ -487,8 +471,7 @@ extension AthenaClientTypes {
             encryptionConfiguration: AthenaClientTypes.EncryptionConfiguration? = nil,
             expectedBucketOwner: Swift.String? = nil,
             outputLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.aclConfiguration = aclConfiguration
             self.encryptionConfiguration = encryptionConfiguration
             self.expectedBucketOwner = expectedBucketOwner
@@ -510,8 +493,7 @@ extension AthenaClientTypes {
         public init(
             enabled: Swift.Bool = false,
             maxAgeInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.maxAgeInMinutes = maxAgeInMinutes
         }
@@ -527,8 +509,7 @@ extension AthenaClientTypes {
 
         public init(
             resultReuseByAgeConfiguration: AthenaClientTypes.ResultReuseByAgeConfiguration? = nil
-        )
-        {
+        ) {
             self.resultReuseByAgeConfiguration = resultReuseByAgeConfiguration
         }
     }
@@ -576,8 +557,7 @@ extension AthenaClientTypes {
 
         public init(
             reusedPreviousResult: Swift.Bool = false
-        )
-        {
+        ) {
             self.reusedPreviousResult = reusedPreviousResult
         }
     }
@@ -616,8 +596,7 @@ extension AthenaClientTypes {
             servicePreProcessingTimeInMillis: Swift.Int? = nil,
             serviceProcessingTimeInMillis: Swift.Int? = nil,
             totalExecutionTimeInMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataManifestLocation = dataManifestLocation
             self.dataScannedInBytes = dataScannedInBytes
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
@@ -649,8 +628,7 @@ extension AthenaClientTypes {
             errorMessage: Swift.String? = nil,
             errorType: Swift.Int? = nil,
             retryable: Swift.Bool = false
-        )
-        {
+        ) {
             self.errorCategory = errorCategory
             self.errorMessage = errorMessage
             self.errorType = errorType
@@ -718,8 +696,7 @@ extension AthenaClientTypes {
             state: AthenaClientTypes.QueryExecutionState? = nil,
             stateChangeReason: Swift.String? = nil,
             submissionDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.athenaError = athenaError
             self.completionDateTime = completionDateTime
             self.state = state
@@ -774,8 +751,7 @@ extension AthenaClientTypes {
             status: AthenaClientTypes.QueryExecutionStatus? = nil,
             substatementType: Swift.String? = nil,
             workGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.engineVersion = engineVersion
             self.executionParameters = executionParameters
             self.query = query
@@ -808,8 +784,7 @@ extension AthenaClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             queryExecutionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.queryExecutionId = queryExecutionId
@@ -826,8 +801,7 @@ public struct BatchGetQueryExecutionOutput: Swift.Sendable {
     public init(
         queryExecutions: [AthenaClientTypes.QueryExecution]? = nil,
         unprocessedQueryExecutionIds: [AthenaClientTypes.UnprocessedQueryExecutionId]? = nil
-    )
-    {
+    ) {
         self.queryExecutions = queryExecutions
         self.unprocessedQueryExecutionIds = unprocessedQueryExecutionIds
     }
@@ -840,8 +814,7 @@ public struct CancelCapacityReservationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -863,8 +836,7 @@ extension AthenaClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -885,8 +857,7 @@ public struct CreateCapacityReservationInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [AthenaClientTypes.Tag]? = nil,
         targetDpus: Swift.Int? = nil
-    )
-    {
+    ) {
         self.name = name
         self.tags = tags
         self.targetDpus = targetDpus
@@ -983,8 +954,7 @@ public struct CreateDataCatalogInput: Swift.Sendable {
         parameters: [Swift.String: Swift.String]? = nil,
         tags: [AthenaClientTypes.Tag]? = nil,
         type: AthenaClientTypes.DataCatalogType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.parameters = parameters
@@ -1207,8 +1177,7 @@ extension AthenaClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             status: AthenaClientTypes.DataCatalogStatus? = nil,
             type: AthenaClientTypes.DataCatalogType? = nil
-        )
-        {
+        ) {
             self.connectionType = connectionType
             self.description = description
             self.error = error
@@ -1226,8 +1195,7 @@ public struct CreateDataCatalogOutput: Swift.Sendable {
 
     public init(
         dataCatalog: AthenaClientTypes.DataCatalog? = nil
-    )
-    {
+    ) {
         self.dataCatalog = dataCatalog
     }
 }
@@ -1256,8 +1224,7 @@ public struct CreateNamedQueryInput: Swift.Sendable {
         name: Swift.String? = nil,
         queryString: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.database = database
         self.description = description
@@ -1273,8 +1240,7 @@ public struct CreateNamedQueryOutput: Swift.Sendable {
 
     public init(
         namedQueryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.namedQueryId = namedQueryId
     }
 }
@@ -1327,8 +1293,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         reason: AthenaClientTypes.ThrottleReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -1348,8 +1313,7 @@ public struct CreateNotebookInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.workGroup = workGroup
@@ -1362,8 +1326,7 @@ public struct CreateNotebookOutput: Swift.Sendable {
 
     public init(
         notebookId: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookId = notebookId
     }
 }
@@ -1386,8 +1349,7 @@ public struct CreatePreparedStatementInput: Swift.Sendable {
         queryStatement: Swift.String? = nil,
         statementName: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.queryStatement = queryStatement
         self.statementName = statementName
@@ -1421,8 +1383,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -1435,8 +1396,7 @@ public struct CreatePresignedNotebookUrlInput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -1456,8 +1416,7 @@ public struct CreatePresignedNotebookUrlOutput: Swift.Sendable {
         authToken: Swift.String? = nil,
         authTokenExpirationTime: Swift.Int? = nil,
         notebookUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.authToken = authToken
         self.authTokenExpirationTime = authTokenExpirationTime
         self.notebookUrl = notebookUrl
@@ -1474,8 +1433,7 @@ extension AthenaClientTypes {
 
         public init(
             kmsKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKey = kmsKey
         }
     }
@@ -1493,8 +1451,7 @@ extension AthenaClientTypes {
         public init(
             enableIdentityCenter: Swift.Bool? = nil,
             identityCenterInstanceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enableIdentityCenter = enableIdentityCenter
             self.identityCenterInstanceArn = identityCenterInstanceArn
         }
@@ -1543,8 +1500,7 @@ extension AthenaClientTypes {
             queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             requesterPaysEnabled: Swift.Bool? = nil,
             resultConfiguration: AthenaClientTypes.ResultConfiguration? = nil
-        )
-        {
+        ) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
@@ -1577,8 +1533,7 @@ public struct CreateWorkGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [AthenaClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.description = description
         self.name = name
@@ -1598,8 +1553,7 @@ public struct DeleteCapacityReservationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1619,8 +1573,7 @@ public struct DeleteDataCatalogInput: Swift.Sendable {
     public init(
         deleteCatalogOnly: Swift.Bool? = false,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteCatalogOnly = deleteCatalogOnly
         self.name = name
     }
@@ -1632,8 +1585,7 @@ public struct DeleteDataCatalogOutput: Swift.Sendable {
 
     public init(
         dataCatalog: AthenaClientTypes.DataCatalog? = nil
-    )
-    {
+    ) {
         self.dataCatalog = dataCatalog
     }
 }
@@ -1645,8 +1597,7 @@ public struct DeleteNamedQueryInput: Swift.Sendable {
 
     public init(
         namedQueryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.namedQueryId = namedQueryId
     }
 }
@@ -1663,8 +1614,7 @@ public struct DeleteNotebookInput: Swift.Sendable {
 
     public init(
         notebookId: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookId = notebookId
     }
 }
@@ -1685,8 +1635,7 @@ public struct DeletePreparedStatementInput: Swift.Sendable {
     public init(
         statementName: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.statementName = statementName
         self.workGroup = workGroup
     }
@@ -1707,8 +1656,7 @@ public struct DeleteWorkGroupInput: Swift.Sendable {
     public init(
         recursiveDeleteOption: Swift.Bool? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.recursiveDeleteOption = recursiveDeleteOption
         self.workGroup = workGroup
     }
@@ -1726,8 +1674,7 @@ public struct ExportNotebookInput: Swift.Sendable {
 
     public init(
         notebookId: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookId = notebookId
     }
 }
@@ -1782,8 +1729,7 @@ extension AthenaClientTypes {
             notebookId: Swift.String? = nil,
             type: AthenaClientTypes.NotebookType? = nil,
             workGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.name = name
@@ -1803,8 +1749,7 @@ public struct ExportNotebookOutput: Swift.Sendable {
     public init(
         notebookMetadata: AthenaClientTypes.NotebookMetadata? = nil,
         payload: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookMetadata = notebookMetadata
         self.payload = payload
     }
@@ -1817,8 +1762,7 @@ public struct GetCalculationExecutionInput: Swift.Sendable {
 
     public init(
         calculationExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculationExecutionId = calculationExecutionId
     }
 }
@@ -1841,8 +1785,7 @@ extension AthenaClientTypes {
             resultType: Swift.String? = nil,
             stdErrorS3Uri: Swift.String? = nil,
             stdOutS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.resultS3Uri = resultS3Uri
             self.resultType = resultType
             self.stdErrorS3Uri = stdErrorS3Uri
@@ -1863,8 +1806,7 @@ extension AthenaClientTypes {
         public init(
             dpuExecutionInMillis: Swift.Int? = nil,
             progress: Swift.String? = nil
-        )
-        {
+        ) {
             self.dpuExecutionInMillis = dpuExecutionInMillis
             self.progress = progress
         }
@@ -1936,8 +1878,7 @@ extension AthenaClientTypes {
             state: AthenaClientTypes.CalculationExecutionState? = nil,
             stateChangeReason: Swift.String? = nil,
             submissionDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.completionDateTime = completionDateTime
             self.state = state
             self.stateChangeReason = stateChangeReason
@@ -1970,8 +1911,7 @@ public struct GetCalculationExecutionOutput: Swift.Sendable {
         statistics: AthenaClientTypes.CalculationStatistics? = nil,
         status: AthenaClientTypes.CalculationStatus? = nil,
         workingDirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculationExecutionId = calculationExecutionId
         self.description = description
         self.result = result
@@ -1989,8 +1929,7 @@ public struct GetCalculationExecutionCodeInput: Swift.Sendable {
 
     public init(
         calculationExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculationExecutionId = calculationExecutionId
     }
 }
@@ -2001,8 +1940,7 @@ public struct GetCalculationExecutionCodeOutput: Swift.Sendable {
 
     public init(
         codeBlock: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeBlock = codeBlock
     }
 }
@@ -2014,8 +1952,7 @@ public struct GetCalculationExecutionStatusInput: Swift.Sendable {
 
     public init(
         calculationExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculationExecutionId = calculationExecutionId
     }
 }
@@ -2029,8 +1966,7 @@ public struct GetCalculationExecutionStatusOutput: Swift.Sendable {
     public init(
         statistics: AthenaClientTypes.CalculationStatistics? = nil,
         status: AthenaClientTypes.CalculationStatus? = nil
-    )
-    {
+    ) {
         self.statistics = statistics
         self.status = status
     }
@@ -2043,8 +1979,7 @@ public struct GetCapacityAssignmentConfigurationInput: Swift.Sendable {
 
     public init(
         capacityReservationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityReservationName = capacityReservationName
     }
 }
@@ -2058,8 +1993,7 @@ extension AthenaClientTypes {
 
         public init(
             workGroupNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.workGroupNames = workGroupNames
         }
     }
@@ -2077,8 +2011,7 @@ extension AthenaClientTypes {
         public init(
             capacityAssignments: [AthenaClientTypes.CapacityAssignment]? = nil,
             capacityReservationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityAssignments = capacityAssignments
             self.capacityReservationName = capacityReservationName
         }
@@ -2092,8 +2025,7 @@ public struct GetCapacityAssignmentConfigurationOutput: Swift.Sendable {
 
     public init(
         capacityAssignmentConfiguration: AthenaClientTypes.CapacityAssignmentConfiguration? = nil
-    )
-    {
+    ) {
         self.capacityAssignmentConfiguration = capacityAssignmentConfiguration
     }
 }
@@ -2105,8 +2037,7 @@ public struct GetCapacityReservationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2163,8 +2094,7 @@ extension AthenaClientTypes {
             requestTime: Foundation.Date? = nil,
             status: AthenaClientTypes.CapacityAllocationStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.requestCompletionTime = requestCompletionTime
             self.requestTime = requestTime
             self.status = status
@@ -2246,8 +2176,7 @@ extension AthenaClientTypes {
             name: Swift.String? = nil,
             status: AthenaClientTypes.CapacityReservationStatus? = nil,
             targetDpus: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allocatedDpus = allocatedDpus
             self.creationTime = creationTime
             self.lastAllocation = lastAllocation
@@ -2266,8 +2195,7 @@ public struct GetCapacityReservationOutput: Swift.Sendable {
 
     public init(
         capacityReservation: AthenaClientTypes.CapacityReservation? = nil
-    )
-    {
+    ) {
         self.capacityReservation = capacityReservation
     }
 }
@@ -2290,8 +2218,7 @@ public struct MetadataException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2310,8 +2237,7 @@ public struct GetDatabaseInput: Swift.Sendable {
         catalogName: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogName = catalogName
         self.databaseName = databaseName
         self.workGroup = workGroup
@@ -2334,8 +2260,7 @@ extension AthenaClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.parameters = parameters
@@ -2349,8 +2274,7 @@ public struct GetDatabaseOutput: Swift.Sendable {
 
     public init(
         database: AthenaClientTypes.Database? = nil
-    )
-    {
+    ) {
         self.database = database
     }
 }
@@ -2365,8 +2289,7 @@ public struct GetDataCatalogInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.workGroup = workGroup
     }
@@ -2378,8 +2301,7 @@ public struct GetDataCatalogOutput: Swift.Sendable {
 
     public init(
         dataCatalog: AthenaClientTypes.DataCatalog? = nil
-    )
-    {
+    ) {
         self.dataCatalog = dataCatalog
     }
 }
@@ -2391,8 +2313,7 @@ public struct GetNamedQueryInput: Swift.Sendable {
 
     public init(
         namedQueryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.namedQueryId = namedQueryId
     }
 }
@@ -2403,8 +2324,7 @@ public struct GetNamedQueryOutput: Swift.Sendable {
 
     public init(
         namedQuery: AthenaClientTypes.NamedQuery? = nil
-    )
-    {
+    ) {
         self.namedQuery = namedQuery
     }
 }
@@ -2416,8 +2336,7 @@ public struct GetNotebookMetadataInput: Swift.Sendable {
 
     public init(
         notebookId: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookId = notebookId
     }
 }
@@ -2428,8 +2347,7 @@ public struct GetNotebookMetadataOutput: Swift.Sendable {
 
     public init(
         notebookMetadata: AthenaClientTypes.NotebookMetadata? = nil
-    )
-    {
+    ) {
         self.notebookMetadata = notebookMetadata
     }
 }
@@ -2445,8 +2363,7 @@ public struct GetPreparedStatementInput: Swift.Sendable {
     public init(
         statementName: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.statementName = statementName
         self.workGroup = workGroup
     }
@@ -2458,8 +2375,7 @@ public struct GetPreparedStatementOutput: Swift.Sendable {
 
     public init(
         preparedStatement: AthenaClientTypes.PreparedStatement? = nil
-    )
-    {
+    ) {
         self.preparedStatement = preparedStatement
     }
 }
@@ -2471,8 +2387,7 @@ public struct GetQueryExecutionInput: Swift.Sendable {
 
     public init(
         queryExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryExecutionId = queryExecutionId
     }
 }
@@ -2483,8 +2398,7 @@ public struct GetQueryExecutionOutput: Swift.Sendable {
 
     public init(
         queryExecution: AthenaClientTypes.QueryExecution? = nil
-    )
-    {
+    ) {
         self.queryExecution = queryExecution
     }
 }
@@ -2502,8 +2416,7 @@ public struct GetQueryResultsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queryExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queryExecutionId = queryExecutionId
@@ -2580,8 +2493,7 @@ extension AthenaClientTypes {
             schemaName: Swift.String? = nil,
             tableName: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.caseSensitive = caseSensitive
             self.catalogName = catalogName
             self.label = label
@@ -2605,8 +2517,7 @@ extension AthenaClientTypes {
 
         public init(
             columnInfo: [AthenaClientTypes.ColumnInfo]? = nil
-        )
-        {
+        ) {
             self.columnInfo = columnInfo
         }
     }
@@ -2621,8 +2532,7 @@ extension AthenaClientTypes {
 
         public init(
             varCharValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.varCharValue = varCharValue
         }
     }
@@ -2637,8 +2547,7 @@ extension AthenaClientTypes {
 
         public init(
             data: [AthenaClientTypes.Datum]? = nil
-        )
-        {
+        ) {
             self.data = data
         }
     }
@@ -2656,8 +2565,7 @@ extension AthenaClientTypes {
         public init(
             resultSetMetadata: AthenaClientTypes.ResultSetMetadata? = nil,
             rows: [AthenaClientTypes.Row]? = nil
-        )
-        {
+        ) {
             self.resultSetMetadata = resultSetMetadata
             self.rows = rows
         }
@@ -2676,8 +2584,7 @@ public struct GetQueryResultsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resultSet: AthenaClientTypes.ResultSet? = nil,
         updateCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resultSet = resultSet
         self.updateCount = updateCount
@@ -2691,8 +2598,7 @@ public struct GetQueryRuntimeStatisticsInput: Swift.Sendable {
 
     public init(
         queryExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryExecutionId = queryExecutionId
     }
 }
@@ -2715,8 +2621,7 @@ extension AthenaClientTypes {
             inputRows: Swift.Int? = nil,
             outputBytes: Swift.Int? = nil,
             outputRows: Swift.Int? = nil
-        )
-        {
+        ) {
             self.inputBytes = inputBytes
             self.inputRows = inputRows
             self.outputBytes = outputBytes
@@ -2749,8 +2654,7 @@ extension AthenaClientTypes {
             servicePreProcessingTimeInMillis: Swift.Int? = nil,
             serviceProcessingTimeInMillis: Swift.Int? = nil,
             totalExecutionTimeInMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
@@ -2768,8 +2672,7 @@ public struct GetSessionInput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -2796,8 +2699,7 @@ extension AthenaClientTypes {
             defaultExecutorDpuSize: Swift.Int? = nil,
             maxConcurrentDpus: Swift.Int? = nil,
             sparkProperties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.additionalConfigs = additionalConfigs
             self.coordinatorDpuSize = coordinatorDpuSize
             self.defaultExecutorDpuSize = defaultExecutorDpuSize
@@ -2825,8 +2727,7 @@ extension AthenaClientTypes {
             executionRole: Swift.String? = nil,
             idleTimeoutSeconds: Swift.Int? = nil,
             workingDirectory: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionConfiguration = encryptionConfiguration
             self.executionRole = executionRole
             self.idleTimeoutSeconds = idleTimeoutSeconds
@@ -2844,8 +2745,7 @@ extension AthenaClientTypes {
 
         public init(
             dpuExecutionInMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dpuExecutionInMillis = dpuExecutionInMillis
         }
     }
@@ -2922,8 +2822,7 @@ extension AthenaClientTypes {
             startDateTime: Foundation.Date? = nil,
             state: AthenaClientTypes.SessionState? = nil,
             stateChangeReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.endDateTime = endDateTime
             self.idleSinceDateTime = idleSinceDateTime
             self.lastModifiedDateTime = lastModifiedDateTime
@@ -2964,8 +2863,7 @@ public struct GetSessionOutput: Swift.Sendable {
         statistics: AthenaClientTypes.SessionStatistics? = nil,
         status: AthenaClientTypes.SessionStatus? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.engineConfiguration = engineConfiguration
         self.engineVersion = engineVersion
@@ -2985,8 +2883,7 @@ public struct GetSessionStatusInput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -3000,8 +2897,7 @@ public struct GetSessionStatusOutput: Swift.Sendable {
     public init(
         sessionId: Swift.String? = nil,
         status: AthenaClientTypes.SessionStatus? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
         self.status = status
     }
@@ -3025,8 +2921,7 @@ public struct GetTableMetadataInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogName = catalogName
         self.databaseName = databaseName
         self.tableName = tableName
@@ -3050,8 +2945,7 @@ extension AthenaClientTypes {
             comment: Swift.String? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.name = name
             self.type = type
@@ -3087,8 +2981,7 @@ extension AthenaClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             partitionKeys: [AthenaClientTypes.Column]? = nil,
             tableType: Swift.String? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.createTime = createTime
             self.lastAccessTime = lastAccessTime
@@ -3106,8 +2999,7 @@ public struct GetTableMetadataOutput: Swift.Sendable {
 
     public init(
         tableMetadata: AthenaClientTypes.TableMetadata? = nil
-    )
-    {
+    ) {
         self.tableMetadata = tableMetadata
     }
 }
@@ -3119,8 +3011,7 @@ public struct GetWorkGroupInput: Swift.Sendable {
 
     public init(
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.workGroup = workGroup
     }
 }
@@ -3179,8 +3070,7 @@ extension AthenaClientTypes {
             identityCenterApplicationArn: Swift.String? = nil,
             name: Swift.String? = nil,
             state: AthenaClientTypes.WorkGroupState? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.creationTime = creationTime
             self.description = description
@@ -3197,8 +3087,7 @@ public struct GetWorkGroupOutput: Swift.Sendable {
 
     public init(
         workGroup: AthenaClientTypes.WorkGroup? = nil
-    )
-    {
+    ) {
         self.workGroup = workGroup
     }
 }
@@ -3227,8 +3116,7 @@ public struct ImportNotebookInput: Swift.Sendable {
         payload: Swift.String? = nil,
         type: AthenaClientTypes.NotebookType? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.notebookS3LocationUri = notebookS3LocationUri
@@ -3244,8 +3132,7 @@ public struct ImportNotebookOutput: Swift.Sendable {
 
     public init(
         notebookId: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookId = notebookId
     }
 }
@@ -3259,8 +3146,7 @@ public struct ListApplicationDPUSizesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3278,8 +3164,7 @@ extension AthenaClientTypes {
         public init(
             applicationRuntimeId: Swift.String? = nil,
             supportedDPUSizes: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.applicationRuntimeId = applicationRuntimeId
             self.supportedDPUSizes = supportedDPUSizes
         }
@@ -3295,8 +3180,7 @@ public struct ListApplicationDPUSizesOutput: Swift.Sendable {
     public init(
         applicationDPUSizes: [AthenaClientTypes.ApplicationDPUSizes]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationDPUSizes = applicationDPUSizes
         self.nextToken = nextToken
     }
@@ -3318,8 +3202,7 @@ public struct ListCalculationExecutionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         stateFilter: AthenaClientTypes.CalculationExecutionState? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sessionId = sessionId
@@ -3342,8 +3225,7 @@ extension AthenaClientTypes {
             calculationExecutionId: Swift.String? = nil,
             description: Swift.String? = nil,
             status: AthenaClientTypes.CalculationStatus? = nil
-        )
-        {
+        ) {
             self.calculationExecutionId = calculationExecutionId
             self.description = description
             self.status = status
@@ -3360,8 +3242,7 @@ public struct ListCalculationExecutionsOutput: Swift.Sendable {
     public init(
         calculations: [AthenaClientTypes.CalculationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculations = calculations
         self.nextToken = nextToken
     }
@@ -3376,8 +3257,7 @@ public struct ListCapacityReservationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3393,8 +3273,7 @@ public struct ListCapacityReservationsOutput: Swift.Sendable {
     public init(
         capacityReservations: [AthenaClientTypes.CapacityReservation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityReservations = capacityReservations
         self.nextToken = nextToken
     }
@@ -3416,8 +3295,7 @@ public struct ListDatabasesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogName = catalogName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3434,8 +3312,7 @@ public struct ListDatabasesOutput: Swift.Sendable {
     public init(
         databaseList: [AthenaClientTypes.Database]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseList = databaseList
         self.nextToken = nextToken
     }
@@ -3453,8 +3330,7 @@ public struct ListDataCatalogsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workGroup = workGroup
@@ -3510,8 +3386,7 @@ extension AthenaClientTypes {
             error: Swift.String? = nil,
             status: AthenaClientTypes.DataCatalogStatus? = nil,
             type: AthenaClientTypes.DataCatalogType? = nil
-        )
-        {
+        ) {
             self.catalogName = catalogName
             self.connectionType = connectionType
             self.error = error
@@ -3530,8 +3405,7 @@ public struct ListDataCatalogsOutput: Swift.Sendable {
     public init(
         dataCatalogsSummary: [AthenaClientTypes.DataCatalogSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataCatalogsSummary = dataCatalogsSummary
         self.nextToken = nextToken
     }
@@ -3546,8 +3420,7 @@ public struct ListEngineVersionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3562,8 +3435,7 @@ public struct ListEngineVersionsOutput: Swift.Sendable {
     public init(
         engineVersions: [AthenaClientTypes.EngineVersion]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineVersions = engineVersions
         self.nextToken = nextToken
     }
@@ -3626,8 +3498,7 @@ public struct ListExecutorsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executorStateFilter = executorStateFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3692,8 +3563,7 @@ extension AthenaClientTypes {
             executorType: AthenaClientTypes.ExecutorType? = nil,
             startDateTime: Swift.Int? = nil,
             terminationDateTime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.executorId = executorId
             self.executorSize = executorSize
             self.executorState = executorState
@@ -3717,8 +3587,7 @@ public struct ListExecutorsOutput: Swift.Sendable {
         executorsSummary: [AthenaClientTypes.ExecutorsSummary]? = nil,
         nextToken: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executorsSummary = executorsSummary
         self.nextToken = nextToken
         self.sessionId = sessionId
@@ -3737,8 +3606,7 @@ public struct ListNamedQueriesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workGroup = workGroup
@@ -3754,8 +3622,7 @@ public struct ListNamedQueriesOutput: Swift.Sendable {
     public init(
         namedQueryIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.namedQueryIds = namedQueryIds
         self.nextToken = nextToken
     }
@@ -3770,8 +3637,7 @@ extension AthenaClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -3793,8 +3659,7 @@ public struct ListNotebookMetadataInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3811,8 +3676,7 @@ public struct ListNotebookMetadataOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notebookMetadataList: [AthenaClientTypes.NotebookMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notebookMetadataList = notebookMetadataList
     }
@@ -3831,8 +3695,7 @@ public struct ListNotebookSessionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         notebookId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.notebookId = notebookId
@@ -3851,8 +3714,7 @@ extension AthenaClientTypes {
         public init(
             creationTime: Foundation.Date? = nil,
             sessionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.sessionId = sessionId
         }
@@ -3869,8 +3731,7 @@ public struct ListNotebookSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notebookSessionsList: [AthenaClientTypes.NotebookSessionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notebookSessionsList = notebookSessionsList
     }
@@ -3889,8 +3750,7 @@ public struct ListPreparedStatementsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workGroup = workGroup
@@ -3909,8 +3769,7 @@ extension AthenaClientTypes {
         public init(
             lastModifiedTime: Foundation.Date? = nil,
             statementName: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModifiedTime = lastModifiedTime
             self.statementName = statementName
         }
@@ -3926,8 +3785,7 @@ public struct ListPreparedStatementsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         preparedStatements: [AthenaClientTypes.PreparedStatementSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.preparedStatements = preparedStatements
     }
@@ -3945,8 +3803,7 @@ public struct ListQueryExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workGroup = workGroup
@@ -3962,8 +3819,7 @@ public struct ListQueryExecutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queryExecutionIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queryExecutionIds = queryExecutionIds
     }
@@ -3985,8 +3841,7 @@ public struct ListSessionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         stateFilter: AthenaClientTypes.SessionState? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.stateFilter = stateFilter
@@ -4015,8 +3870,7 @@ extension AthenaClientTypes {
             notebookVersion: Swift.String? = nil,
             sessionId: Swift.String? = nil,
             status: AthenaClientTypes.SessionStatus? = nil
-        )
-        {
+        ) {
             self.description = description
             self.engineVersion = engineVersion
             self.notebookVersion = notebookVersion
@@ -4035,8 +3889,7 @@ public struct ListSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sessions: [AthenaClientTypes.SessionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessions = sessions
     }
@@ -4065,8 +3918,7 @@ public struct ListTableMetadataInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogName = catalogName
         self.databaseName = databaseName
         self.expression = expression
@@ -4085,8 +3937,7 @@ public struct ListTableMetadataOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tableMetadataList: [AthenaClientTypes.TableMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tableMetadataList = tableMetadataList
     }
@@ -4105,8 +3956,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceARN = resourceARN
@@ -4122,8 +3972,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [AthenaClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -4138,8 +3987,7 @@ public struct ListWorkGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4169,8 +4017,7 @@ extension AthenaClientTypes {
             identityCenterApplicationArn: Swift.String? = nil,
             name: Swift.String? = nil,
             state: AthenaClientTypes.WorkGroupState? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.engineVersion = engineVersion
@@ -4190,8 +4037,7 @@ public struct ListWorkGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workGroups: [AthenaClientTypes.WorkGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workGroups = workGroups
     }
@@ -4208,8 +4054,7 @@ public struct PutCapacityAssignmentConfigurationInput: Swift.Sendable {
     public init(
         capacityAssignments: [AthenaClientTypes.CapacityAssignment]? = nil,
         capacityReservationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityAssignments = capacityAssignments
         self.capacityReservationName = capacityReservationName
     }
@@ -4229,8 +4074,7 @@ extension AthenaClientTypes {
 
         public init(
             codeBlock: Swift.String? = nil
-        )
-        {
+        ) {
             self.codeBlock = codeBlock
         }
     }
@@ -4256,8 +4100,7 @@ public struct StartCalculationExecutionInput: Swift.Sendable {
         codeBlock: Swift.String? = nil,
         description: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculationConfiguration = calculationConfiguration
         self.clientRequestToken = clientRequestToken
         self.codeBlock = codeBlock
@@ -4275,8 +4118,7 @@ public struct StartCalculationExecutionOutput: Swift.Sendable {
     public init(
         calculationExecutionId: Swift.String? = nil,
         state: AthenaClientTypes.CalculationExecutionState? = nil
-    )
-    {
+    ) {
         self.calculationExecutionId = calculationExecutionId
         self.state = state
     }
@@ -4307,8 +4149,7 @@ public struct StartQueryExecutionInput: Swift.Sendable {
         resultConfiguration: AthenaClientTypes.ResultConfiguration? = nil,
         resultReuseConfiguration: AthenaClientTypes.ResultReuseConfiguration? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.executionParameters = executionParameters
         self.queryExecutionContext = queryExecutionContext
@@ -4325,8 +4166,7 @@ public struct StartQueryExecutionOutput: Swift.Sendable {
 
     public init(
         queryExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryExecutionId = queryExecutionId
     }
 }
@@ -4349,8 +4189,7 @@ public struct SessionAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4378,8 +4217,7 @@ public struct StartSessionInput: Swift.Sendable {
         notebookVersion: Swift.String? = nil,
         sessionIdleTimeoutInMinutes: Swift.Int? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.engineConfiguration = engineConfiguration
@@ -4398,8 +4236,7 @@ public struct StartSessionOutput: Swift.Sendable {
     public init(
         sessionId: Swift.String? = nil,
         state: AthenaClientTypes.SessionState? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
         self.state = state
     }
@@ -4412,8 +4249,7 @@ public struct StopCalculationExecutionInput: Swift.Sendable {
 
     public init(
         calculationExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculationExecutionId = calculationExecutionId
     }
 }
@@ -4424,8 +4260,7 @@ public struct StopCalculationExecutionOutput: Swift.Sendable {
 
     public init(
         state: AthenaClientTypes.CalculationExecutionState? = nil
-    )
-    {
+    ) {
         self.state = state
     }
 }
@@ -4437,8 +4272,7 @@ public struct StopQueryExecutionInput: Swift.Sendable {
 
     public init(
         queryExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryExecutionId = queryExecutionId
     }
 }
@@ -4459,8 +4293,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [AthenaClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -4478,8 +4311,7 @@ public struct TerminateSessionInput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -4490,8 +4322,7 @@ public struct TerminateSessionOutput: Swift.Sendable {
 
     public init(
         state: AthenaClientTypes.SessionState? = nil
-    )
-    {
+    ) {
         self.state = state
     }
 }
@@ -4507,8 +4338,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -4530,8 +4360,7 @@ public struct UpdateCapacityReservationInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         targetDpus: Swift.Int? = nil
-    )
-    {
+    ) {
         self.name = name
         self.targetDpus = targetDpus
     }
@@ -4567,8 +4396,7 @@ public struct UpdateDataCatalogInput: Swift.Sendable {
         name: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         type: AthenaClientTypes.DataCatalogType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.parameters = parameters
@@ -4599,8 +4427,7 @@ public struct UpdateNamedQueryInput: Swift.Sendable {
         name: Swift.String? = nil,
         namedQueryId: Swift.String? = nil,
         queryString: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.namedQueryId = namedQueryId
@@ -4634,8 +4461,7 @@ public struct UpdateNotebookInput: Swift.Sendable {
         payload: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         type: AthenaClientTypes.NotebookType? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.notebookId = notebookId
         self.payload = payload
@@ -4663,8 +4489,7 @@ public struct UpdateNotebookMetadataInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
         notebookId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.notebookId = notebookId
@@ -4694,8 +4519,7 @@ public struct UpdatePreparedStatementInput: Swift.Sendable {
         queryStatement: Swift.String? = nil,
         statementName: Swift.String? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.queryStatement = queryStatement
         self.statementName = statementName
@@ -4738,8 +4562,7 @@ extension AthenaClientTypes {
             removeEncryptionConfiguration: Swift.Bool? = nil,
             removeExpectedBucketOwner: Swift.Bool? = nil,
             removeOutputLocation: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.aclConfiguration = aclConfiguration
             self.encryptionConfiguration = encryptionConfiguration
             self.expectedBucketOwner = expectedBucketOwner
@@ -4797,8 +4620,7 @@ extension AthenaClientTypes {
             removeCustomerContentEncryptionConfiguration: Swift.Bool? = nil,
             requesterPaysEnabled: Swift.Bool? = nil,
             resultConfigurationUpdates: AthenaClientTypes.ResultConfigurationUpdates? = nil
-        )
-        {
+        ) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
@@ -4832,8 +4654,7 @@ public struct UpdateWorkGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         state: AthenaClientTypes.WorkGroupState? = nil,
         workGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationUpdates = configurationUpdates
         self.description = description
         self.state = state
@@ -4864,8 +4685,7 @@ extension AthenaClientTypes {
             identifier: Swift.String? = nil,
             name: Swift.String? = nil,
             remoteSources: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.children = children
             self.identifier = identifier
             self.name = name
@@ -4907,8 +4727,7 @@ extension AthenaClientTypes {
             stageId: Swift.Int? = nil,
             state: Swift.String? = nil,
             subStages: [AthenaClientTypes.QueryStage]? = nil
-        )
-        {
+        ) {
             self.executionTime = executionTime
             self.inputBytes = inputBytes
             self.inputRows = inputRows
@@ -4937,8 +4756,7 @@ extension AthenaClientTypes {
             outputStage: AthenaClientTypes.QueryStage? = nil,
             rows: AthenaClientTypes.QueryRuntimeStatisticsRows? = nil,
             timeline: AthenaClientTypes.QueryRuntimeStatisticsTimeline? = nil
-        )
-        {
+        ) {
             self.outputStage = outputStage
             self.rows = rows
             self.timeline = timeline
@@ -4952,8 +4770,7 @@ public struct GetQueryRuntimeStatisticsOutput: Swift.Sendable {
 
     public init(
         queryRuntimeStatistics: AthenaClientTypes.QueryRuntimeStatistics? = nil
-    )
-    {
+    ) {
         self.queryRuntimeStatistics = queryRuntimeStatistics
     }
 }

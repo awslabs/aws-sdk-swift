@@ -68,7 +68,7 @@ class AuthTokenGeneratorIntegration : SwiftIntegration {
                     username: String,
                     expiration: TimeInterval = 900
                 ) async throws -> String {
-                    return try await generator.generateAuthToken(
+                    return try await generator.generateRDSAuthToken(
                         endpoint: endpoint,
                         port: port,
                         region: region,

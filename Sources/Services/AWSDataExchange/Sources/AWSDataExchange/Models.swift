@@ -122,8 +122,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -195,8 +194,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: DataExchangeClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -223,8 +221,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -255,8 +252,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: DataExchangeClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -283,8 +279,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -341,8 +336,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         exceptionCause: DataExchangeClientTypes.ExceptionCause? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionCause = exceptionCause
         self.properties.message = message
     }
@@ -355,8 +349,7 @@ public struct AcceptDataGrantInput: Swift.Sendable {
 
     public init(
         dataGrantArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataGrantArn = dataGrantArn
     }
 }
@@ -470,8 +463,7 @@ public struct AcceptDataGrantOutput: Swift.Sendable {
         receiverPrincipal: Swift.String? = nil,
         senderPrincipal: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.acceptanceState = acceptanceState
         self.acceptedAt = acceptedAt
         self.arn = arn
@@ -530,8 +522,7 @@ extension DataExchangeClientTypes {
         public init(
             kmsKeyArn: Swift.String? = nil,
             type: DataExchangeClientTypes.ServerSideEncryptionTypes? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
             self.type = type
         }
@@ -551,8 +542,7 @@ extension DataExchangeClientTypes {
         public init(
             bucket: Swift.String? = nil,
             keyPattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPattern = keyPattern
         }
@@ -572,8 +562,7 @@ extension DataExchangeClientTypes {
         public init(
             encryption: DataExchangeClientTypes.ExportServerSideEncryption? = nil,
             revisionDestination: DataExchangeClientTypes.AutoExportRevisionDestinationEntry? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.revisionDestination = revisionDestination
         }
@@ -589,8 +578,7 @@ extension DataExchangeClientTypes {
 
         public init(
             exportRevisionToS3: DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails? = nil
-        )
-        {
+        ) {
             self.exportRevisionToS3 = exportRevisionToS3
         }
     }
@@ -655,8 +643,7 @@ extension DataExchangeClientTypes {
             apiSpecificationDownloadUrlExpiresAt: Foundation.Date? = nil,
             protocolType: DataExchangeClientTypes.ProtocolType? = nil,
             stage: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiDescription = apiDescription
             self.apiEndpoint = apiEndpoint
             self.apiId = apiId
@@ -687,8 +674,7 @@ extension DataExchangeClientTypes {
             assetId: Swift.String? = nil,
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.bucket = bucket
             self.key = key
@@ -710,8 +696,7 @@ extension DataExchangeClientTypes {
         public init(
             tagKey: Swift.String? = nil,
             tagValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
             self.tagValues = tagValues
         }
@@ -728,8 +713,7 @@ extension DataExchangeClientTypes {
 
         public init(
             expression: [DataExchangeClientTypes.LFTag]? = nil
-        )
-        {
+        ) {
             self.expression = expression
         }
     }
@@ -745,8 +729,7 @@ extension DataExchangeClientTypes {
 
         public init(
             expression: [DataExchangeClientTypes.LFTag]? = nil
-        )
-        {
+        ) {
             self.expression = expression
         }
     }
@@ -764,8 +747,7 @@ extension DataExchangeClientTypes {
         public init(
             database: DataExchangeClientTypes.DatabaseLFTagPolicy? = nil,
             table: DataExchangeClientTypes.TableLFTagPolicy? = nil
-        )
-        {
+        ) {
             self.database = database
             self.table = table
         }
@@ -819,8 +801,7 @@ extension DataExchangeClientTypes {
             catalogId: Swift.String? = nil,
             resourceDetails: DataExchangeClientTypes.LFResourceDetails? = nil,
             resourceType: DataExchangeClientTypes.LFResourceType? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.resourceDetails = resourceDetails
             self.resourceType = resourceType
@@ -837,8 +818,7 @@ extension DataExchangeClientTypes {
 
         public init(
             lfTagPolicy: DataExchangeClientTypes.LFTagPolicyDetails? = nil
-        )
-        {
+        ) {
             self.lfTagPolicy = lfTagPolicy
         }
     }
@@ -920,8 +900,7 @@ extension DataExchangeClientTypes {
             lakeFormationDataPermissionType: DataExchangeClientTypes.LakeFormationDataPermissionType? = nil,
             permissions: [DataExchangeClientTypes.LFPermission]? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.lakeFormationDataPermissionDetails = lakeFormationDataPermissionDetails
             self.lakeFormationDataPermissionType = lakeFormationDataPermissionType
             self.permissions = permissions
@@ -940,8 +919,7 @@ extension DataExchangeClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -957,8 +935,7 @@ extension DataExchangeClientTypes {
 
         public init(
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
         }
     }
@@ -989,8 +966,7 @@ extension DataExchangeClientTypes {
             kmsKeysToGrant: [DataExchangeClientTypes.KmsKeyToGrant]? = nil,
             s3AccessPointAlias: Swift.String? = nil,
             s3AccessPointArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefixes = keyPrefixes
             self.keys = keys
@@ -1011,8 +987,7 @@ extension DataExchangeClientTypes {
 
         public init(
             size: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.size = size
         }
     }
@@ -1039,8 +1014,7 @@ extension DataExchangeClientTypes {
             redshiftDataShareAsset: DataExchangeClientTypes.RedshiftDataShareAsset? = nil,
             s3DataAccessAsset: DataExchangeClientTypes.S3DataAccessAsset? = nil,
             s3SnapshotAsset: DataExchangeClientTypes.S3SnapshotAsset? = nil
-        )
-        {
+        ) {
             self.apiGatewayApiAsset = apiGatewayApiAsset
             self.lakeFormationDataPermissionAsset = lakeFormationDataPermissionAsset
             self.redshiftDataShareAsset = redshiftDataShareAsset
@@ -1133,8 +1107,7 @@ extension DataExchangeClientTypes {
             revisionId: Swift.String? = nil,
             sourceId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assetDetails = assetDetails
             self.assetType = assetType
@@ -1163,8 +1136,7 @@ extension DataExchangeClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -1178,8 +1150,7 @@ public struct CancelJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -1367,8 +1338,7 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
         limitName: DataExchangeClientTypes.LimitName? = nil,
         limitValue: Swift.Double? = 0.0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.limitName = limitName
         self.properties.limitValue = limitValue
         self.properties.message = message
@@ -1403,8 +1373,7 @@ public struct CreateDataGrantInput: Swift.Sendable {
         receiverPrincipal: Swift.String? = nil,
         sourceDataSetId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.endsAt = endsAt
         self.grantDistributionScope = grantDistributionScope
@@ -1474,8 +1443,7 @@ public struct CreateDataGrantOutput: Swift.Sendable {
         sourceDataSetId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.acceptanceState = acceptanceState
         self.acceptedAt = acceptedAt
         self.arn = arn
@@ -1512,8 +1480,7 @@ public struct CreateDataSetInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.assetType = assetType
         self.description = description
         self.name = name
@@ -1562,8 +1529,7 @@ extension DataExchangeClientTypes {
         public init(
             dataGrantId: Swift.String? = nil,
             productId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataGrantId = dataGrantId
             self.productId = productId
         }
@@ -1606,8 +1572,7 @@ public struct CreateDataSetOutput: Swift.Sendable {
         sourceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.assetType = assetType
         self.createdAt = createdAt
@@ -1632,8 +1597,7 @@ extension DataExchangeClientTypes {
 
         public init(
             dataSetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetId = dataSetId
         }
     }
@@ -1648,8 +1612,7 @@ extension DataExchangeClientTypes {
 
         public init(
             revisionPublished: DataExchangeClientTypes.RevisionPublished? = nil
-        )
-        {
+        ) {
             self.revisionPublished = revisionPublished
         }
     }
@@ -1666,8 +1629,7 @@ public struct CreateEventActionInput: Swift.Sendable {
     public init(
         action: DataExchangeClientTypes.Action? = nil,
         event: DataExchangeClientTypes.Event? = nil
-    )
-    {
+    ) {
         self.action = action
         self.event = event
     }
@@ -1694,8 +1656,7 @@ public struct CreateEventActionOutput: Swift.Sendable {
         event: DataExchangeClientTypes.Event? = nil,
         id: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arn = arn
         self.createdAt = createdAt
@@ -1724,8 +1685,7 @@ extension DataExchangeClientTypes {
             keyPrefixes: [Swift.String]? = nil,
             keys: [Swift.String]? = nil,
             kmsKeysToGrant: [DataExchangeClientTypes.KmsKeyToGrant]? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefixes = keyPrefixes
             self.keys = keys
@@ -1752,8 +1712,7 @@ extension DataExchangeClientTypes {
             assetSource: DataExchangeClientTypes.S3DataAccessAssetSourceEntry? = nil,
             dataSetId: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetSource = assetSource
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -1782,8 +1741,7 @@ extension DataExchangeClientTypes {
             dataSetId: Swift.String? = nil,
             encryption: DataExchangeClientTypes.ExportServerSideEncryption? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetDestinations = assetDestinations
             self.dataSetId = dataSetId
             self.encryption = encryption
@@ -1810,8 +1768,7 @@ extension DataExchangeClientTypes {
             assetId: Swift.String? = nil,
             dataSetId: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -1836,8 +1793,7 @@ extension DataExchangeClientTypes {
             bucket: Swift.String? = nil,
             keyPattern: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPattern = keyPattern
             self.revisionId = revisionId
@@ -1862,8 +1818,7 @@ extension DataExchangeClientTypes {
             dataSetId: Swift.String? = nil,
             encryption: DataExchangeClientTypes.ExportServerSideEncryption? = nil,
             revisionDestinations: [DataExchangeClientTypes.RevisionDestinationEntry]? = nil
-        )
-        {
+        ) {
             self.dataSetId = dataSetId
             self.encryption = encryption
             self.revisionDestinations = revisionDestinations
@@ -1911,8 +1866,7 @@ extension DataExchangeClientTypes {
             protocolType: DataExchangeClientTypes.ProtocolType? = nil,
             revisionId: Swift.String? = nil,
             stage: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiDescription = apiDescription
             self.apiId = apiId
             self.apiKey = apiKey
@@ -1948,8 +1902,7 @@ extension DataExchangeClientTypes {
             dataSetId: Swift.String? = nil,
             md5Hash: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetName = assetName
             self.dataSetId = dataSetId
             self.md5Hash = md5Hash
@@ -1998,8 +1951,7 @@ extension DataExchangeClientTypes {
         public init(
             expression: [DataExchangeClientTypes.LFTag]? = nil,
             permissions: [DataExchangeClientTypes.DatabaseLFTagPolicyPermission]? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.permissions = permissions
         }
@@ -2049,8 +2001,7 @@ extension DataExchangeClientTypes {
         public init(
             expression: [DataExchangeClientTypes.LFTag]? = nil,
             permissions: [DataExchangeClientTypes.TableTagPolicyLFPermission]? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.permissions = permissions
         }
@@ -2085,8 +2036,7 @@ extension DataExchangeClientTypes {
             revisionId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             table: DataExchangeClientTypes.TableLFTagPolicyAndPermissions? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.dataSetId = dataSetId
             self.database = database
@@ -2107,8 +2057,7 @@ extension DataExchangeClientTypes {
 
         public init(
             dataShareArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataShareArn = dataShareArn
         }
     }
@@ -2132,8 +2081,7 @@ extension DataExchangeClientTypes {
             assetSources: [DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry]? = nil,
             dataSetId: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetSources = assetSources
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -2159,8 +2107,7 @@ extension DataExchangeClientTypes {
             assetSources: [DataExchangeClientTypes.AssetSourceEntry]? = nil,
             dataSetId: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetSources = assetSources
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -2201,8 +2148,7 @@ extension DataExchangeClientTypes {
             importAssetsFromLakeFormationTagPolicy: DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyRequestDetails? = nil,
             importAssetsFromRedshiftDataShares: DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesRequestDetails? = nil,
             importAssetsFromS3: DataExchangeClientTypes.ImportAssetsFromS3RequestDetails? = nil
-        )
-        {
+        ) {
             self.createS3DataAccessFromS3Bucket = createS3DataAccessFromS3Bucket
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
             self.exportAssetsToS3 = exportAssetsToS3
@@ -2277,8 +2223,7 @@ public struct CreateJobInput: Swift.Sendable {
     public init(
         details: DataExchangeClientTypes.RequestDetails? = nil,
         type: DataExchangeClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.details = details
         self.type = type
     }
@@ -2302,8 +2247,7 @@ extension DataExchangeClientTypes {
             assetSource: DataExchangeClientTypes.S3DataAccessAssetSourceEntry? = nil,
             dataSetId: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetSource = assetSource
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -2332,8 +2276,7 @@ extension DataExchangeClientTypes {
             dataSetId: Swift.String? = nil,
             encryption: DataExchangeClientTypes.ExportServerSideEncryption? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetDestinations = assetDestinations
             self.dataSetId = dataSetId
             self.encryption = encryption
@@ -2366,8 +2309,7 @@ extension DataExchangeClientTypes {
             revisionId: Swift.String? = nil,
             signedUrl: Swift.String? = nil,
             signedUrlExpiresAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -2397,8 +2339,7 @@ extension DataExchangeClientTypes {
             encryption: DataExchangeClientTypes.ExportServerSideEncryption? = nil,
             eventActionArn: Swift.String? = nil,
             revisionDestinations: [DataExchangeClientTypes.RevisionDestinationEntry]? = nil
-        )
-        {
+        ) {
             self.dataSetId = dataSetId
             self.encryption = encryption
             self.eventActionArn = eventActionArn
@@ -2455,8 +2396,7 @@ extension DataExchangeClientTypes {
             protocolType: DataExchangeClientTypes.ProtocolType? = nil,
             revisionId: Swift.String? = nil,
             stage: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiDescription = apiDescription
             self.apiId = apiId
             self.apiKey = apiKey
@@ -2499,8 +2439,7 @@ extension DataExchangeClientTypes {
             revisionId: Swift.String? = nil,
             signedUrl: Swift.String? = nil,
             signedUrlExpiresAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.assetName = assetName
             self.dataSetId = dataSetId
             self.md5Hash = md5Hash
@@ -2539,8 +2478,7 @@ extension DataExchangeClientTypes {
             revisionId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             table: DataExchangeClientTypes.TableLFTagPolicyAndPermissions? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.dataSetId = dataSetId
             self.database = database
@@ -2569,8 +2507,7 @@ extension DataExchangeClientTypes {
             assetSources: [DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry]? = nil,
             dataSetId: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetSources = assetSources
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -2596,8 +2533,7 @@ extension DataExchangeClientTypes {
             assetSources: [DataExchangeClientTypes.AssetSourceEntry]? = nil,
             dataSetId: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetSources = assetSources
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -2638,8 +2574,7 @@ extension DataExchangeClientTypes {
             importAssetsFromLakeFormationTagPolicy: DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails? = nil,
             importAssetsFromRedshiftDataShares: DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDetails? = nil,
             importAssetsFromS3: DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails? = nil
-        )
-        {
+        ) {
             self.createS3DataAccessFromS3Bucket = createS3DataAccessFromS3Bucket
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
             self.exportAssetsToS3 = exportAssetsToS3
@@ -2663,8 +2598,7 @@ extension DataExchangeClientTypes {
 
         public init(
             assetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetName = assetName
         }
     }
@@ -2682,8 +2616,7 @@ extension DataExchangeClientTypes {
         public init(
             importAssetFromSignedUrlJobErrorDetails: DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails? = nil,
             importAssetsFromS3JobErrorDetails: [DataExchangeClientTypes.AssetSourceEntry]? = nil
-        )
-        {
+        ) {
             self.importAssetFromSignedUrlJobErrorDetails = importAssetFromSignedUrlJobErrorDetails
             self.importAssetsFromS3JobErrorDetails = importAssetsFromS3JobErrorDetails
         }
@@ -2789,8 +2722,7 @@ extension DataExchangeClientTypes {
             message: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceType: DataExchangeClientTypes.JobErrorResourceTypes? = nil
-        )
-        {
+        ) {
             self.code = code
             self.details = details
             self.limitName = limitName
@@ -2870,8 +2802,7 @@ public struct CreateJobOutput: Swift.Sendable {
         state: DataExchangeClientTypes.State? = nil,
         type: DataExchangeClientTypes.ModelType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.details = details
@@ -2896,8 +2827,7 @@ public struct CreateRevisionInput: Swift.Sendable {
         comment: Swift.String? = nil,
         dataSetId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.dataSetId = dataSetId
         self.tags = tags
@@ -2943,8 +2873,7 @@ public struct CreateRevisionOutput: Swift.Sendable {
         sourceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.comment = comment
         self.createdAt = createdAt
@@ -2975,8 +2904,7 @@ public struct DeleteAssetInput: Swift.Sendable {
         assetId: Swift.String? = nil,
         dataSetId: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.dataSetId = dataSetId
         self.revisionId = revisionId
@@ -2990,8 +2918,7 @@ public struct DeleteDataGrantInput: Swift.Sendable {
 
     public init(
         dataGrantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataGrantId = dataGrantId
     }
 }
@@ -3003,8 +2930,7 @@ public struct DeleteDataSetInput: Swift.Sendable {
 
     public init(
         dataSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
     }
 }
@@ -3016,8 +2942,7 @@ public struct DeleteEventActionInput: Swift.Sendable {
 
     public init(
         eventActionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventActionId = eventActionId
     }
 }
@@ -3033,8 +2958,7 @@ public struct DeleteRevisionInput: Swift.Sendable {
     public init(
         dataSetId: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.revisionId = revisionId
     }
@@ -3055,8 +2979,7 @@ public struct GetAssetInput: Swift.Sendable {
         assetId: Swift.String? = nil,
         dataSetId: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.dataSetId = dataSetId
         self.revisionId = revisionId
@@ -3096,8 +3019,7 @@ public struct GetAssetOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         sourceId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.assetDetails = assetDetails
         self.assetType = assetType
@@ -3118,8 +3040,7 @@ public struct GetDataGrantInput: Swift.Sendable {
 
     public init(
         dataGrantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataGrantId = dataGrantId
     }
 }
@@ -3183,8 +3104,7 @@ public struct GetDataGrantOutput: Swift.Sendable {
         sourceDataSetId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.acceptanceState = acceptanceState
         self.acceptedAt = acceptedAt
         self.arn = arn
@@ -3210,8 +3130,7 @@ public struct GetDataSetInput: Swift.Sendable {
 
     public init(
         dataSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
     }
 }
@@ -3252,8 +3171,7 @@ public struct GetDataSetOutput: Swift.Sendable {
         sourceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.assetType = assetType
         self.createdAt = createdAt
@@ -3275,8 +3193,7 @@ public struct GetEventActionInput: Swift.Sendable {
 
     public init(
         eventActionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventActionId = eventActionId
     }
 }
@@ -3302,8 +3219,7 @@ public struct GetEventActionOutput: Swift.Sendable {
         event: DataExchangeClientTypes.Event? = nil,
         id: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arn = arn
         self.createdAt = createdAt
@@ -3320,8 +3236,7 @@ public struct GetJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3353,8 +3268,7 @@ public struct GetJobOutput: Swift.Sendable {
         state: DataExchangeClientTypes.State? = nil,
         type: DataExchangeClientTypes.ModelType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.details = details
@@ -3373,8 +3287,7 @@ public struct GetReceivedDataGrantInput: Swift.Sendable {
 
     public init(
         dataGrantArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataGrantArn = dataGrantArn
     }
 }
@@ -3430,8 +3343,7 @@ public struct GetReceivedDataGrantOutput: Swift.Sendable {
         receiverPrincipal: Swift.String? = nil,
         senderPrincipal: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.acceptanceState = acceptanceState
         self.acceptedAt = acceptedAt
         self.arn = arn
@@ -3459,8 +3371,7 @@ public struct GetRevisionInput: Swift.Sendable {
     public init(
         dataSetId: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.revisionId = revisionId
     }
@@ -3505,8 +3416,7 @@ public struct GetRevisionOutput: Swift.Sendable {
         sourceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.comment = comment
         self.createdAt = createdAt
@@ -3531,8 +3441,7 @@ public struct ListDataGrantsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3590,8 +3499,7 @@ extension DataExchangeClientTypes {
             senderPrincipal: Swift.String? = nil,
             sourceDataSetId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.acceptanceState = acceptanceState
             self.acceptedAt = acceptedAt
             self.arn = arn
@@ -3617,8 +3525,7 @@ public struct ListDataGrantsOutput: Swift.Sendable {
     public init(
         dataGrantSummaries: [DataExchangeClientTypes.DataGrantSummaryEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataGrantSummaries = dataGrantSummaries
         self.nextToken = nextToken
     }
@@ -3637,8 +3544,7 @@ public struct ListDataSetRevisionsInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3689,8 +3595,7 @@ extension DataExchangeClientTypes {
             revokedAt: Foundation.Date? = nil,
             sourceId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
@@ -3715,8 +3620,7 @@ public struct ListDataSetRevisionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         revisions: [DataExchangeClientTypes.RevisionEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.revisions = revisions
     }
@@ -3734,8 +3638,7 @@ public struct ListDataSetsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         origin: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.origin = origin
@@ -3786,8 +3689,7 @@ extension DataExchangeClientTypes {
             originDetails: DataExchangeClientTypes.OriginDetails? = nil,
             sourceId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assetType = assetType
             self.createdAt = createdAt
@@ -3811,8 +3713,7 @@ public struct ListDataSetsOutput: Swift.Sendable {
     public init(
         dataSets: [DataExchangeClientTypes.DataSetEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSets = dataSets
         self.nextToken = nextToken
     }
@@ -3830,8 +3731,7 @@ public struct ListEventActionsInput: Swift.Sendable {
         eventSourceId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSourceId = eventSourceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3868,8 +3768,7 @@ extension DataExchangeClientTypes {
             event: DataExchangeClientTypes.Event? = nil,
             id: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.action = action
             self.arn = arn
             self.createdAt = createdAt
@@ -3889,8 +3788,7 @@ public struct ListEventActionsOutput: Swift.Sendable {
     public init(
         eventActions: [DataExchangeClientTypes.EventActionEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventActions = eventActions
         self.nextToken = nextToken
     }
@@ -3911,8 +3809,7 @@ public struct ListJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3957,8 +3854,7 @@ extension DataExchangeClientTypes {
             state: DataExchangeClientTypes.State? = nil,
             type: DataExchangeClientTypes.ModelType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.details = details
@@ -3980,8 +3876,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobs: [DataExchangeClientTypes.JobEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -3999,8 +3894,7 @@ public struct ListReceivedDataGrantsInput: Swift.Sendable {
         acceptanceState: [DataExchangeClientTypes.AcceptanceStateFilterValue]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptanceState = acceptanceState
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4055,8 +3949,7 @@ extension DataExchangeClientTypes {
             receiverPrincipal: Swift.String? = nil,
             senderPrincipal: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.acceptanceState = acceptanceState
             self.acceptedAt = acceptedAt
             self.arn = arn
@@ -4081,8 +3974,7 @@ public struct ListReceivedDataGrantsOutput: Swift.Sendable {
     public init(
         dataGrantSummaries: [DataExchangeClientTypes.ReceivedDataGrantSummariesEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataGrantSummaries = dataGrantSummaries
         self.nextToken = nextToken
     }
@@ -4105,8 +3997,7 @@ public struct ListRevisionAssetsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4123,8 +4014,7 @@ public struct ListRevisionAssetsOutput: Swift.Sendable {
     public init(
         assets: [DataExchangeClientTypes.AssetEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assets = assets
         self.nextToken = nextToken
     }
@@ -4137,8 +4027,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4149,8 +4038,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4170,8 +4058,7 @@ public struct RevokeRevisionInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         revocationComment: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.revisionId = revisionId
         self.revocationComment = revocationComment
@@ -4214,8 +4101,7 @@ public struct RevokeRevisionOutput: Swift.Sendable {
         revokedAt: Foundation.Date? = nil,
         sourceId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.comment = comment
         self.createdAt = createdAt
@@ -4260,8 +4146,7 @@ public struct SendApiAssetInput: Swift.Sendable {
         queryStringParameters: [Swift.String: Swift.String]? = nil,
         requestHeaders: [Swift.String: Swift.String]? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.body = body
         self.dataSetId = dataSetId
@@ -4282,8 +4167,7 @@ public struct SendApiAssetOutput: Swift.Sendable {
     public init(
         body: Swift.String? = nil,
         responseHeaders: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.body = body
         self.responseHeaders = responseHeaders
     }
@@ -4298,8 +4182,7 @@ extension DataExchangeClientTypes {
 
         public init(
             dataUpdatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataUpdatedAt = dataUpdatedAt
         }
     }
@@ -4315,8 +4198,7 @@ extension DataExchangeClientTypes {
 
         public init(
             deprecationAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.deprecationAt = deprecationAt
         }
     }
@@ -4371,8 +4253,7 @@ extension DataExchangeClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             type: DataExchangeClientTypes.SchemaChangeType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.type = type
@@ -4393,8 +4274,7 @@ extension DataExchangeClientTypes {
         public init(
             changes: [DataExchangeClientTypes.SchemaChangeDetails]? = nil,
             schemaChangeAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.changes = changes
             self.schemaChangeAt = schemaChangeAt
         }
@@ -4416,8 +4296,7 @@ extension DataExchangeClientTypes {
             dataUpdate: DataExchangeClientTypes.DataUpdateRequestDetails? = nil,
             deprecation: DataExchangeClientTypes.DeprecationRequestDetails? = nil,
             schemaChange: DataExchangeClientTypes.SchemaChangeRequestDetails? = nil
-        )
-        {
+        ) {
             self.dataUpdate = dataUpdate
             self.deprecation = deprecation
             self.schemaChange = schemaChange
@@ -4437,8 +4316,7 @@ extension DataExchangeClientTypes {
         public init(
             database: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.table = table
         }
@@ -4471,8 +4349,7 @@ extension DataExchangeClientTypes {
             schema: Swift.String? = nil,
             table: Swift.String? = nil,
             view: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.database = database
             self.function = function
@@ -4495,8 +4372,7 @@ extension DataExchangeClientTypes {
         public init(
             keyPrefixes: [Swift.String]? = nil,
             keys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.keyPrefixes = keyPrefixes
             self.keys = keys
         }
@@ -4518,8 +4394,7 @@ extension DataExchangeClientTypes {
             lakeFormationTagPolicies: [DataExchangeClientTypes.LakeFormationTagPolicyDetails]? = nil,
             redshiftDataShares: [DataExchangeClientTypes.RedshiftDataShareDetails]? = nil,
             s3DataAccesses: [DataExchangeClientTypes.S3DataAccessDetails]? = nil
-        )
-        {
+        ) {
             self.lakeFormationTagPolicies = lakeFormationTagPolicies
             self.redshiftDataShares = redshiftDataShares
             self.s3DataAccesses = s3DataAccesses
@@ -4585,8 +4460,7 @@ public struct SendDataSetNotificationInput: Swift.Sendable {
         details: DataExchangeClientTypes.NotificationDetails? = nil,
         scope: DataExchangeClientTypes.ScopeDetails? = nil,
         type: DataExchangeClientTypes.NotificationType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.comment = comment
         self.dataSetId = dataSetId
@@ -4608,8 +4482,7 @@ public struct StartJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -4630,8 +4503,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4648,8 +4520,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4674,8 +4545,7 @@ public struct UpdateAssetInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.dataSetId = dataSetId
         self.name = name
@@ -4716,8 +4586,7 @@ public struct UpdateAssetOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         sourceId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.assetDetails = assetDetails
         self.assetType = assetType
@@ -4744,8 +4613,7 @@ public struct UpdateDataSetInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.description = description
         self.name = name
@@ -4785,8 +4653,7 @@ public struct UpdateDataSetOutput: Swift.Sendable {
         originDetails: DataExchangeClientTypes.OriginDetails? = nil,
         sourceId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.assetType = assetType
         self.createdAt = createdAt
@@ -4810,8 +4677,7 @@ public struct UpdateEventActionInput: Swift.Sendable {
     public init(
         action: DataExchangeClientTypes.Action? = nil,
         eventActionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.eventActionId = eventActionId
     }
@@ -4838,8 +4704,7 @@ public struct UpdateEventActionOutput: Swift.Sendable {
         event: DataExchangeClientTypes.Event? = nil,
         id: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arn = arn
         self.createdAt = createdAt
@@ -4866,8 +4731,7 @@ public struct UpdateRevisionInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         finalized: Swift.Bool? = false,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.dataSetId = dataSetId
         self.finalized = finalized
@@ -4911,8 +4775,7 @@ public struct UpdateRevisionOutput: Swift.Sendable {
         revokedAt: Foundation.Date? = nil,
         sourceId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.comment = comment
         self.createdAt = createdAt

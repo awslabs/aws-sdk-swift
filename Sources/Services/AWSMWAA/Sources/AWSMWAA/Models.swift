@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -70,8 +69,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -83,8 +81,7 @@ public struct CreateCliTokenInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -98,8 +95,7 @@ public struct CreateCliTokenOutput: Swift.Sendable {
     public init(
         cliToken: Swift.String? = nil,
         webServerHostname: Swift.String? = nil
-    )
-    {
+    ) {
         self.cliToken = cliToken
         self.webServerHostname = webServerHostname
     }
@@ -128,8 +124,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -152,8 +147,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -239,8 +233,7 @@ extension MWAAClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             logLevel: MWAAClientTypes.LoggingLevel? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.logLevel = logLevel
         }
@@ -268,8 +261,7 @@ extension MWAAClientTypes {
             taskLogs: MWAAClientTypes.ModuleLoggingConfigurationInput? = nil,
             webserverLogs: MWAAClientTypes.ModuleLoggingConfigurationInput? = nil,
             workerLogs: MWAAClientTypes.ModuleLoggingConfigurationInput? = nil
-        )
-        {
+        ) {
             self.dagProcessingLogs = dagProcessingLogs
             self.schedulerLogs = schedulerLogs
             self.taskLogs = taskLogs
@@ -291,8 +283,7 @@ extension MWAAClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -416,8 +407,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.airflowConfigurationOptions = airflowConfigurationOptions
         self.airflowVersion = airflowVersion
         self.dagS3Path = dagS3Path
@@ -457,8 +447,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -470,8 +459,7 @@ public struct CreateWebLoginTokenInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -491,8 +479,7 @@ public struct CreateWebLoginTokenOutput: Swift.Sendable {
         iamIdentity: Swift.String? = nil,
         webServerHostname: Swift.String? = nil,
         webToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.airflowIdentity = airflowIdentity
         self.iamIdentity = iamIdentity
         self.webServerHostname = webServerHostname
@@ -512,8 +499,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -530,8 +516,7 @@ public struct GetEnvironmentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -548,8 +533,7 @@ extension MWAAClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -606,8 +590,7 @@ extension MWAAClientTypes {
             error: MWAAClientTypes.UpdateError? = nil,
             source: Swift.String? = nil,
             status: MWAAClientTypes.UpdateStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.error = error
             self.source = source
@@ -631,8 +614,7 @@ extension MWAAClientTypes {
             cloudWatchLogGroupArn: Swift.String? = nil,
             enabled: Swift.Bool? = nil,
             logLevel: MWAAClientTypes.LoggingLevel? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.enabled = enabled
             self.logLevel = logLevel
@@ -661,8 +643,7 @@ extension MWAAClientTypes {
             taskLogs: MWAAClientTypes.ModuleLoggingConfiguration? = nil,
             webserverLogs: MWAAClientTypes.ModuleLoggingConfiguration? = nil,
             workerLogs: MWAAClientTypes.ModuleLoggingConfiguration? = nil
-        )
-        {
+        ) {
             self.dagProcessingLogs = dagProcessingLogs
             self.schedulerLogs = schedulerLogs
             self.taskLogs = taskLogs
@@ -866,8 +847,7 @@ extension MWAAClientTypes {
             webserverUrl: Swift.String? = nil,
             webserverVpcEndpointService: Swift.String? = nil,
             weeklyMaintenanceWindowStart: Swift.String? = nil
-        )
-        {
+        ) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.arn = arn
@@ -917,8 +897,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
 
     public init(
         environment: MWAAClientTypes.Environment? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
@@ -945,8 +924,7 @@ public struct RestApiClientException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         restApiResponse: Smithy.Document? = nil,
         restApiStatusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.restApiResponse = restApiResponse
         self.properties.restApiStatusCode = restApiStatusCode
     }
@@ -979,8 +957,7 @@ public struct RestApiServerException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         restApiResponse: Smithy.Document? = nil,
         restApiStatusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.restApiResponse = restApiResponse
         self.properties.restApiStatusCode = restApiStatusCode
     }
@@ -1050,8 +1027,7 @@ public struct InvokeRestApiInput: Swift.Sendable {
         name: Swift.String? = nil,
         path: Swift.String? = nil,
         queryParameters: Smithy.Document? = nil
-    )
-    {
+    ) {
         self.body = body
         self.method = method
         self.name = name
@@ -1074,8 +1050,7 @@ public struct InvokeRestApiOutput: Swift.Sendable {
     public init(
         restApiResponse: Smithy.Document? = nil,
         restApiStatusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.restApiResponse = restApiResponse
         self.restApiStatusCode = restApiStatusCode
     }
@@ -1095,8 +1070,7 @@ public struct ListEnvironmentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1112,8 +1086,7 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     public init(
         environments: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environments = environments
         self.nextToken = nextToken
     }
@@ -1126,8 +1099,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1138,8 +1110,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1159,8 +1130,7 @@ extension MWAAClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1186,8 +1156,7 @@ extension MWAAClientTypes {
             minimum: Swift.Double? = nil,
             sampleCount: Swift.Int? = nil,
             sum: Swift.Double? = nil
-        )
-        {
+        ) {
             self.maximum = maximum
             self.minimum = minimum
             self.sampleCount = sampleCount
@@ -1329,8 +1298,7 @@ extension MWAAClientTypes {
             timestamp: Foundation.Date? = nil,
             unit: MWAAClientTypes.Unit? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.statisticValues = statisticValues
@@ -1354,8 +1322,7 @@ public struct PublishMetricsInput: Swift.Sendable {
     public init(
         environmentName: Swift.String? = nil,
         metricData: [MWAAClientTypes.MetricDatum]? = nil
-    )
-    {
+    ) {
         self.environmentName = environmentName
         self.metricData = metricData
     }
@@ -1378,8 +1345,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1401,8 +1367,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1423,8 +1388,7 @@ extension MWAAClientTypes {
 
         public init(
             securityGroupIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
         }
     }
@@ -1500,8 +1464,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         startupScriptS3Path: Swift.String? = nil,
         webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.airflowConfigurationOptions = airflowConfigurationOptions
         self.airflowVersion = airflowVersion
         self.dagS3Path = dagS3Path
@@ -1538,8 +1501,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }

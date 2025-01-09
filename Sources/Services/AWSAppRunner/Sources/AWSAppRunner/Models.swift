@@ -44,8 +44,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -68,8 +67,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -92,8 +90,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -112,8 +109,7 @@ public struct AssociateCustomDomainInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         enableWWWSubdomain: Swift.Bool? = nil,
         serviceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.enableWWWSubdomain = enableWWWSubdomain
         self.serviceArn = serviceArn
@@ -170,8 +166,7 @@ extension AppRunnerClientTypes {
             status: AppRunnerClientTypes.CertificateValidationRecordStatus? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
             self.type = type
@@ -245,8 +240,7 @@ extension AppRunnerClientTypes {
             domainName: Swift.String? = nil,
             enableWWWSubdomain: Swift.Bool? = nil,
             status: AppRunnerClientTypes.CustomDomainAssociationStatus? = nil
-        )
-        {
+        ) {
             self.certificateValidationRecords = certificateValidationRecords
             self.domainName = domainName
             self.enableWWWSubdomain = enableWWWSubdomain
@@ -270,8 +264,7 @@ extension AppRunnerClientTypes {
             domainName: Swift.String? = nil,
             vpcId: Swift.String? = nil,
             vpcIngressConnectionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.vpcId = vpcId
             self.vpcIngressConnectionArn = vpcIngressConnectionArn
@@ -298,8 +291,7 @@ public struct AssociateCustomDomainOutput: Swift.Sendable {
         dnsTarget: Swift.String? = nil,
         serviceArn: Swift.String? = nil,
         vpcDNSTargets: [AppRunnerClientTypes.VpcDNSTarget]? = nil
-    )
-    {
+    ) {
         self.customDomain = customDomain
         self.dnsTarget = dnsTarget
         self.serviceArn = serviceArn
@@ -325,8 +317,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -343,8 +334,7 @@ extension AppRunnerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -378,8 +368,7 @@ public struct CreateAutoScalingConfigurationInput: Swift.Sendable {
         maxSize: Swift.Int? = nil,
         minSize: Swift.Int? = nil,
         tags: [AppRunnerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.autoScalingConfigurationName = autoScalingConfigurationName
         self.maxConcurrency = maxConcurrency
         self.maxSize = maxSize
@@ -459,8 +448,7 @@ extension AppRunnerClientTypes {
             maxSize: Swift.Int? = nil,
             minSize: Swift.Int? = nil,
             status: AppRunnerClientTypes.AutoScalingConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.autoScalingConfigurationName = autoScalingConfigurationName
             self.autoScalingConfigurationRevision = autoScalingConfigurationRevision
@@ -484,8 +472,7 @@ public struct CreateAutoScalingConfigurationOutput: Swift.Sendable {
 
     public init(
         autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration? = nil
-    )
-    {
+    ) {
         self.autoScalingConfiguration = autoScalingConfiguration
     }
 }
@@ -533,8 +520,7 @@ public struct CreateConnectionInput: Swift.Sendable {
         connectionName: Swift.String? = nil,
         providerType: AppRunnerClientTypes.ProviderType? = nil,
         tags: [AppRunnerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.connectionName = connectionName
         self.providerType = providerType
         self.tags = tags
@@ -597,8 +583,7 @@ extension AppRunnerClientTypes {
             createdAt: Foundation.Date? = nil,
             providerType: AppRunnerClientTypes.ProviderType? = nil,
             status: AppRunnerClientTypes.ConnectionStatus? = nil
-        )
-        {
+        ) {
             self.connectionArn = connectionArn
             self.connectionName = connectionName
             self.createdAt = createdAt
@@ -615,8 +600,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
 
     public init(
         connection: AppRunnerClientTypes.Connection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -657,8 +641,7 @@ extension AppRunnerClientTypes {
 
         public init(
             vendor: AppRunnerClientTypes.TracingVendor? = nil
-        )
-        {
+        ) {
             self.vendor = vendor
         }
     }
@@ -677,8 +660,7 @@ public struct CreateObservabilityConfigurationInput: Swift.Sendable {
         observabilityConfigurationName: Swift.String? = nil,
         tags: [AppRunnerClientTypes.Tag]? = nil,
         traceConfiguration: AppRunnerClientTypes.TraceConfiguration? = nil
-    )
-    {
+    ) {
         self.observabilityConfigurationName = observabilityConfigurationName
         self.tags = tags
         self.traceConfiguration = traceConfiguration
@@ -744,8 +726,7 @@ extension AppRunnerClientTypes {
             observabilityConfigurationRevision: Swift.Int = 0,
             status: AppRunnerClientTypes.ObservabilityConfigurationStatus? = nil,
             traceConfiguration: AppRunnerClientTypes.TraceConfiguration? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
             self.latest = latest
@@ -765,8 +746,7 @@ public struct CreateObservabilityConfigurationOutput: Swift.Sendable {
 
     public init(
         observabilityConfiguration: AppRunnerClientTypes.ObservabilityConfiguration? = nil
-    )
-    {
+    ) {
         self.observabilityConfiguration = observabilityConfiguration
     }
 }
@@ -781,8 +761,7 @@ extension AppRunnerClientTypes {
 
         public init(
             kmsKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKey = kmsKey
         }
     }
@@ -841,8 +820,7 @@ extension AppRunnerClientTypes {
             `protocol`: AppRunnerClientTypes.HealthCheckProtocol? = nil,
             timeout: Swift.Int? = nil,
             unhealthyThreshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.healthyThreshold = healthyThreshold
             self.interval = interval
             self.path = path
@@ -868,8 +846,7 @@ extension AppRunnerClientTypes {
             cpu: Swift.String? = nil,
             instanceRoleArn: Swift.String? = nil,
             memory: Swift.String? = nil
-        )
-        {
+        ) {
             self.cpu = cpu
             self.instanceRoleArn = instanceRoleArn
             self.memory = memory
@@ -918,8 +895,7 @@ extension AppRunnerClientTypes {
         public init(
             egressType: AppRunnerClientTypes.EgressType? = nil,
             vpcConnectorArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.egressType = egressType
             self.vpcConnectorArn = vpcConnectorArn
         }
@@ -935,8 +911,7 @@ extension AppRunnerClientTypes {
 
         public init(
             isPubliclyAccessible: Swift.Bool = false
-        )
-        {
+        ) {
             self.isPubliclyAccessible = isPubliclyAccessible
         }
     }
@@ -986,8 +961,7 @@ extension AppRunnerClientTypes {
             egressConfiguration: AppRunnerClientTypes.EgressConfiguration? = nil,
             ingressConfiguration: AppRunnerClientTypes.IngressConfiguration? = nil,
             ipAddressType: AppRunnerClientTypes.IpAddressType? = nil
-        )
-        {
+        ) {
             self.egressConfiguration = egressConfiguration
             self.ingressConfiguration = ingressConfiguration
             self.ipAddressType = ipAddressType
@@ -1008,8 +982,7 @@ extension AppRunnerClientTypes {
         public init(
             observabilityConfigurationArn: Swift.String? = nil,
             observabilityEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.observabilityConfigurationArn = observabilityConfigurationArn
             self.observabilityEnabled = observabilityEnabled
         }
@@ -1028,8 +1001,7 @@ extension AppRunnerClientTypes {
         public init(
             accessRoleArn: Swift.String? = nil,
             connectionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessRoleArn = accessRoleArn
             self.connectionArn = connectionArn
         }
@@ -1124,8 +1096,7 @@ extension AppRunnerClientTypes {
             runtimeEnvironmentSecrets: [Swift.String: Swift.String]? = nil,
             runtimeEnvironmentVariables: [Swift.String: Swift.String]? = nil,
             startCommand: Swift.String? = nil
-        )
-        {
+        ) {
             self.buildCommand = buildCommand
             self.port = port
             self.runtime = runtime
@@ -1187,8 +1158,7 @@ extension AppRunnerClientTypes {
         public init(
             codeConfigurationValues: AppRunnerClientTypes.CodeConfigurationValues? = nil,
             configurationSource: AppRunnerClientTypes.ConfigurationSource? = nil
-        )
-        {
+        ) {
             self.codeConfigurationValues = codeConfigurationValues
             self.configurationSource = configurationSource
         }
@@ -1235,8 +1205,7 @@ extension AppRunnerClientTypes {
         public init(
             type: AppRunnerClientTypes.SourceCodeVersionType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1263,8 +1232,7 @@ extension AppRunnerClientTypes {
             repositoryUrl: Swift.String? = nil,
             sourceCodeVersion: AppRunnerClientTypes.SourceCodeVersion? = nil,
             sourceDirectory: Swift.String? = nil
-        )
-        {
+        ) {
             self.codeConfiguration = codeConfiguration
             self.repositoryUrl = repositoryUrl
             self.sourceCodeVersion = sourceCodeVersion
@@ -1295,8 +1263,7 @@ extension AppRunnerClientTypes {
             runtimeEnvironmentSecrets: [Swift.String: Swift.String]? = nil,
             runtimeEnvironmentVariables: [Swift.String: Swift.String]? = nil,
             startCommand: Swift.String? = nil
-        )
-        {
+        ) {
             self.port = port
             self.runtimeEnvironmentSecrets = runtimeEnvironmentSecrets
             self.runtimeEnvironmentVariables = runtimeEnvironmentVariables
@@ -1356,8 +1323,7 @@ extension AppRunnerClientTypes {
             imageConfiguration: AppRunnerClientTypes.ImageConfiguration? = nil,
             imageIdentifier: Swift.String? = nil,
             imageRepositoryType: AppRunnerClientTypes.ImageRepositoryType? = nil
-        )
-        {
+        ) {
             self.imageConfiguration = imageConfiguration
             self.imageIdentifier = imageIdentifier
             self.imageRepositoryType = imageRepositoryType
@@ -1383,8 +1349,7 @@ extension AppRunnerClientTypes {
             autoDeploymentsEnabled: Swift.Bool? = nil,
             codeRepository: AppRunnerClientTypes.CodeRepository? = nil,
             imageRepository: AppRunnerClientTypes.ImageRepository? = nil
-        )
-        {
+        ) {
             self.authenticationConfiguration = authenticationConfiguration
             self.autoDeploymentsEnabled = autoDeploymentsEnabled
             self.codeRepository = codeRepository
@@ -1425,8 +1390,7 @@ public struct CreateServiceInput: Swift.Sendable {
         serviceName: Swift.String? = nil,
         sourceConfiguration: AppRunnerClientTypes.SourceConfiguration? = nil,
         tags: [AppRunnerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.autoScalingConfigurationArn = autoScalingConfigurationArn
         self.encryptionConfiguration = encryptionConfiguration
         self.healthCheckConfiguration = healthCheckConfiguration
@@ -1466,8 +1430,7 @@ extension AppRunnerClientTypes {
             hasAssociatedService: Swift.Bool? = nil,
             isDefault: Swift.Bool? = nil,
             status: AppRunnerClientTypes.AutoScalingConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.autoScalingConfigurationName = autoScalingConfigurationName
             self.autoScalingConfigurationRevision = autoScalingConfigurationRevision
@@ -1585,8 +1548,7 @@ extension AppRunnerClientTypes {
             sourceConfiguration: AppRunnerClientTypes.SourceConfiguration? = nil,
             status: AppRunnerClientTypes.ServiceStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.autoScalingConfigurationSummary = autoScalingConfigurationSummary
             self.createdAt = createdAt
             self.deletedAt = deletedAt
@@ -1617,8 +1579,7 @@ public struct CreateServiceOutput: Swift.Sendable {
     public init(
         operationId: Swift.String? = nil,
         service: AppRunnerClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
         self.service = service
     }
@@ -1641,8 +1602,7 @@ public struct CreateVpcConnectorInput: Swift.Sendable {
         subnets: [Swift.String]? = nil,
         tags: [AppRunnerClientTypes.Tag]? = nil,
         vpcConnectorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.securityGroups = securityGroups
         self.subnets = subnets
         self.tags = tags
@@ -1709,8 +1669,7 @@ extension AppRunnerClientTypes {
             vpcConnectorArn: Swift.String? = nil,
             vpcConnectorName: Swift.String? = nil,
             vpcConnectorRevision: Swift.Int = 0
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
             self.securityGroups = securityGroups
@@ -1730,8 +1689,7 @@ public struct CreateVpcConnectorOutput: Swift.Sendable {
 
     public init(
         vpcConnector: AppRunnerClientTypes.VpcConnector? = nil
-    )
-    {
+    ) {
         self.vpcConnector = vpcConnector
     }
 }
@@ -1748,8 +1706,7 @@ extension AppRunnerClientTypes {
         public init(
             vpcEndpointId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.vpcEndpointId = vpcEndpointId
             self.vpcId = vpcId
         }
@@ -1774,8 +1731,7 @@ public struct CreateVpcIngressConnectionInput: Swift.Sendable {
         serviceArn: Swift.String? = nil,
         tags: [AppRunnerClientTypes.Tag]? = nil,
         vpcIngressConnectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressVpcConfiguration = ingressVpcConfiguration
         self.serviceArn = serviceArn
         self.tags = tags
@@ -1871,8 +1827,7 @@ extension AppRunnerClientTypes {
             status: AppRunnerClientTypes.VpcIngressConnectionStatus? = nil,
             vpcIngressConnectionArn: Swift.String? = nil,
             vpcIngressConnectionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.createdAt = createdAt
             self.deletedAt = deletedAt
@@ -1893,8 +1848,7 @@ public struct CreateVpcIngressConnectionOutput: Swift.Sendable {
 
     public init(
         vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection? = nil
-    )
-    {
+    ) {
         self.vpcIngressConnection = vpcIngressConnection
     }
 }
@@ -1917,8 +1871,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1933,8 +1886,7 @@ public struct DeleteAutoScalingConfigurationInput: Swift.Sendable {
     public init(
         autoScalingConfigurationArn: Swift.String? = nil,
         deleteAllRevisions: Swift.Bool? = false
-    )
-    {
+    ) {
         self.autoScalingConfigurationArn = autoScalingConfigurationArn
         self.deleteAllRevisions = deleteAllRevisions
     }
@@ -1947,8 +1899,7 @@ public struct DeleteAutoScalingConfigurationOutput: Swift.Sendable {
 
     public init(
         autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration? = nil
-    )
-    {
+    ) {
         self.autoScalingConfiguration = autoScalingConfiguration
     }
 }
@@ -1960,8 +1911,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
 
     public init(
         connectionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
     }
 }
@@ -1972,8 +1922,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
 
     public init(
         connection: AppRunnerClientTypes.Connection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -1985,8 +1934,7 @@ public struct DeleteObservabilityConfigurationInput: Swift.Sendable {
 
     public init(
         observabilityConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.observabilityConfigurationArn = observabilityConfigurationArn
     }
 }
@@ -1998,8 +1946,7 @@ public struct DeleteObservabilityConfigurationOutput: Swift.Sendable {
 
     public init(
         observabilityConfiguration: AppRunnerClientTypes.ObservabilityConfiguration? = nil
-    )
-    {
+    ) {
         self.observabilityConfiguration = observabilityConfiguration
     }
 }
@@ -2011,8 +1958,7 @@ public struct DeleteServiceInput: Swift.Sendable {
 
     public init(
         serviceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceArn = serviceArn
     }
 }
@@ -2028,8 +1974,7 @@ public struct DeleteServiceOutput: Swift.Sendable {
     public init(
         operationId: Swift.String? = nil,
         service: AppRunnerClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
         self.service = service
     }
@@ -2042,8 +1987,7 @@ public struct DeleteVpcConnectorInput: Swift.Sendable {
 
     public init(
         vpcConnectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.vpcConnectorArn = vpcConnectorArn
     }
 }
@@ -2055,8 +1999,7 @@ public struct DeleteVpcConnectorOutput: Swift.Sendable {
 
     public init(
         vpcConnector: AppRunnerClientTypes.VpcConnector? = nil
-    )
-    {
+    ) {
         self.vpcConnector = vpcConnector
     }
 }
@@ -2068,8 +2011,7 @@ public struct DeleteVpcIngressConnectionInput: Swift.Sendable {
 
     public init(
         vpcIngressConnectionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.vpcIngressConnectionArn = vpcIngressConnectionArn
     }
 }
@@ -2081,8 +2023,7 @@ public struct DeleteVpcIngressConnectionOutput: Swift.Sendable {
 
     public init(
         vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection? = nil
-    )
-    {
+    ) {
         self.vpcIngressConnection = vpcIngressConnection
     }
 }
@@ -2094,8 +2035,7 @@ public struct DescribeAutoScalingConfigurationInput: Swift.Sendable {
 
     public init(
         autoScalingConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingConfigurationArn = autoScalingConfigurationArn
     }
 }
@@ -2107,8 +2047,7 @@ public struct DescribeAutoScalingConfigurationOutput: Swift.Sendable {
 
     public init(
         autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration? = nil
-    )
-    {
+    ) {
         self.autoScalingConfiguration = autoScalingConfiguration
     }
 }
@@ -2126,8 +2065,7 @@ public struct DescribeCustomDomainsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceArn = serviceArn
@@ -2156,8 +2094,7 @@ public struct DescribeCustomDomainsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceArn: Swift.String? = nil,
         vpcDNSTargets: [AppRunnerClientTypes.VpcDNSTarget]? = nil
-    )
-    {
+    ) {
         self.customDomains = customDomains
         self.dnsTarget = dnsTarget
         self.nextToken = nextToken
@@ -2173,8 +2110,7 @@ public struct DescribeObservabilityConfigurationInput: Swift.Sendable {
 
     public init(
         observabilityConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.observabilityConfigurationArn = observabilityConfigurationArn
     }
 }
@@ -2186,8 +2122,7 @@ public struct DescribeObservabilityConfigurationOutput: Swift.Sendable {
 
     public init(
         observabilityConfiguration: AppRunnerClientTypes.ObservabilityConfiguration? = nil
-    )
-    {
+    ) {
         self.observabilityConfiguration = observabilityConfiguration
     }
 }
@@ -2199,8 +2134,7 @@ public struct DescribeServiceInput: Swift.Sendable {
 
     public init(
         serviceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceArn = serviceArn
     }
 }
@@ -2212,8 +2146,7 @@ public struct DescribeServiceOutput: Swift.Sendable {
 
     public init(
         service: AppRunnerClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.service = service
     }
 }
@@ -2225,8 +2158,7 @@ public struct DescribeVpcConnectorInput: Swift.Sendable {
 
     public init(
         vpcConnectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.vpcConnectorArn = vpcConnectorArn
     }
 }
@@ -2238,8 +2170,7 @@ public struct DescribeVpcConnectorOutput: Swift.Sendable {
 
     public init(
         vpcConnector: AppRunnerClientTypes.VpcConnector? = nil
-    )
-    {
+    ) {
         self.vpcConnector = vpcConnector
     }
 }
@@ -2251,8 +2182,7 @@ public struct DescribeVpcIngressConnectionInput: Swift.Sendable {
 
     public init(
         vpcIngressConnectionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.vpcIngressConnectionArn = vpcIngressConnectionArn
     }
 }
@@ -2264,8 +2194,7 @@ public struct DescribeVpcIngressConnectionOutput: Swift.Sendable {
 
     public init(
         vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection? = nil
-    )
-    {
+    ) {
         self.vpcIngressConnection = vpcIngressConnection
     }
 }
@@ -2281,8 +2210,7 @@ public struct DisassociateCustomDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         serviceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.serviceArn = serviceArn
     }
@@ -2307,8 +2235,7 @@ public struct DisassociateCustomDomainOutput: Swift.Sendable {
         dnsTarget: Swift.String? = nil,
         serviceArn: Swift.String? = nil,
         vpcDNSTargets: [AppRunnerClientTypes.VpcDNSTarget]? = nil
-    )
-    {
+    ) {
         self.customDomain = customDomain
         self.dnsTarget = dnsTarget
         self.serviceArn = serviceArn
@@ -2331,8 +2258,7 @@ public struct ListAutoScalingConfigurationsInput: Swift.Sendable {
         latestOnly: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingConfigurationName = autoScalingConfigurationName
         self.latestOnly = latestOnly
         self.maxResults = maxResults
@@ -2350,8 +2276,7 @@ public struct ListAutoScalingConfigurationsOutput: Swift.Sendable {
     public init(
         autoScalingConfigurationSummaryList: [AppRunnerClientTypes.AutoScalingConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingConfigurationSummaryList = autoScalingConfigurationSummaryList
         self.nextToken = nextToken
     }
@@ -2369,8 +2294,7 @@ public struct ListConnectionsInput: Swift.Sendable {
         connectionName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionName = connectionName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2398,8 +2322,7 @@ extension AppRunnerClientTypes {
             createdAt: Foundation.Date? = nil,
             providerType: AppRunnerClientTypes.ProviderType? = nil,
             status: AppRunnerClientTypes.ConnectionStatus? = nil
-        )
-        {
+        ) {
             self.connectionArn = connectionArn
             self.connectionName = connectionName
             self.createdAt = createdAt
@@ -2419,8 +2342,7 @@ public struct ListConnectionsOutput: Swift.Sendable {
     public init(
         connectionSummaryList: [AppRunnerClientTypes.ConnectionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionSummaryList = connectionSummaryList
         self.nextToken = nextToken
     }
@@ -2441,8 +2363,7 @@ public struct ListObservabilityConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         observabilityConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.latestOnly = latestOnly
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2465,8 +2386,7 @@ extension AppRunnerClientTypes {
             observabilityConfigurationArn: Swift.String? = nil,
             observabilityConfigurationName: Swift.String? = nil,
             observabilityConfigurationRevision: Swift.Int = 0
-        )
-        {
+        ) {
             self.observabilityConfigurationArn = observabilityConfigurationArn
             self.observabilityConfigurationName = observabilityConfigurationName
             self.observabilityConfigurationRevision = observabilityConfigurationRevision
@@ -2484,8 +2404,7 @@ public struct ListObservabilityConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         observabilityConfigurationSummaryList: [AppRunnerClientTypes.ObservabilityConfigurationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.observabilityConfigurationSummaryList = observabilityConfigurationSummaryList
     }
@@ -2504,8 +2423,7 @@ public struct ListOperationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceArn = serviceArn
@@ -2624,8 +2542,7 @@ extension AppRunnerClientTypes {
             targetArn: Swift.String? = nil,
             type: AppRunnerClientTypes.OperationType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endedAt = endedAt
             self.id = id
             self.startedAt = startedAt
@@ -2646,8 +2563,7 @@ public struct ListOperationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         operationSummaryList: [AppRunnerClientTypes.OperationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.operationSummaryList = operationSummaryList
     }
@@ -2662,8 +2578,7 @@ public struct ListServicesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2700,8 +2615,7 @@ extension AppRunnerClientTypes {
             serviceUrl: Swift.String? = nil,
             status: AppRunnerClientTypes.ServiceStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.serviceArn = serviceArn
             self.serviceId = serviceId
@@ -2723,8 +2637,7 @@ public struct ListServicesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceSummaryList: [AppRunnerClientTypes.ServiceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceSummaryList = serviceSummaryList
     }
@@ -2743,8 +2656,7 @@ public struct ListServicesForAutoScalingConfigurationInput: Swift.Sendable {
         autoScalingConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingConfigurationArn = autoScalingConfigurationArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2761,8 +2673,7 @@ public struct ListServicesForAutoScalingConfigurationOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceArnList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceArnList = serviceArnList
     }
@@ -2775,8 +2686,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2787,8 +2697,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [AppRunnerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2802,8 +2711,7 @@ public struct ListVpcConnectorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2819,8 +2727,7 @@ public struct ListVpcConnectorsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vpcConnectors: [AppRunnerClientTypes.VpcConnector]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vpcConnectors = vpcConnectors
     }
@@ -2838,8 +2745,7 @@ extension AppRunnerClientTypes {
         public init(
             serviceArn: Swift.String? = nil,
             vpcEndpointId: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceArn = serviceArn
             self.vpcEndpointId = vpcEndpointId
         }
@@ -2858,8 +2764,7 @@ public struct ListVpcIngressConnectionsInput: Swift.Sendable {
         filter: AppRunnerClientTypes.ListVpcIngressConnectionsFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2878,8 +2783,7 @@ extension AppRunnerClientTypes {
         public init(
             serviceArn: Swift.String? = nil,
             vpcIngressConnectionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceArn = serviceArn
             self.vpcIngressConnectionArn = vpcIngressConnectionArn
         }
@@ -2896,8 +2800,7 @@ public struct ListVpcIngressConnectionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vpcIngressConnectionSummaryList: [AppRunnerClientTypes.VpcIngressConnectionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vpcIngressConnectionSummaryList = vpcIngressConnectionSummaryList
     }
@@ -2910,8 +2813,7 @@ public struct PauseServiceInput: Swift.Sendable {
 
     public init(
         serviceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceArn = serviceArn
     }
 }
@@ -2926,8 +2828,7 @@ public struct PauseServiceOutput: Swift.Sendable {
     public init(
         operationId: Swift.String? = nil,
         service: AppRunnerClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
         self.service = service
     }
@@ -2940,8 +2841,7 @@ public struct ResumeServiceInput: Swift.Sendable {
 
     public init(
         serviceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceArn = serviceArn
     }
 }
@@ -2956,8 +2856,7 @@ public struct ResumeServiceOutput: Swift.Sendable {
     public init(
         operationId: Swift.String? = nil,
         service: AppRunnerClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
         self.service = service
     }
@@ -2970,8 +2869,7 @@ public struct StartDeploymentInput: Swift.Sendable {
 
     public init(
         serviceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceArn = serviceArn
     }
 }
@@ -2983,8 +2881,7 @@ public struct StartDeploymentOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -3000,8 +2897,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [AppRunnerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3023,8 +2919,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3042,8 +2937,7 @@ public struct UpdateDefaultAutoScalingConfigurationInput: Swift.Sendable {
 
     public init(
         autoScalingConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingConfigurationArn = autoScalingConfigurationArn
     }
 }
@@ -3055,8 +2949,7 @@ public struct UpdateDefaultAutoScalingConfigurationOutput: Swift.Sendable {
 
     public init(
         autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration? = nil
-    )
-    {
+    ) {
         self.autoScalingConfiguration = autoScalingConfiguration
     }
 }
@@ -3086,8 +2979,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         observabilityConfiguration: AppRunnerClientTypes.ServiceObservabilityConfiguration? = nil,
         serviceArn: Swift.String? = nil,
         sourceConfiguration: AppRunnerClientTypes.SourceConfiguration? = nil
-    )
-    {
+    ) {
         self.autoScalingConfigurationArn = autoScalingConfigurationArn
         self.healthCheckConfiguration = healthCheckConfiguration
         self.instanceConfiguration = instanceConfiguration
@@ -3109,8 +3001,7 @@ public struct UpdateServiceOutput: Swift.Sendable {
     public init(
         operationId: Swift.String? = nil,
         service: AppRunnerClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
         self.service = service
     }
@@ -3127,8 +3018,7 @@ public struct UpdateVpcIngressConnectionInput: Swift.Sendable {
     public init(
         ingressVpcConfiguration: AppRunnerClientTypes.IngressVpcConfiguration? = nil,
         vpcIngressConnectionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressVpcConfiguration = ingressVpcConfiguration
         self.vpcIngressConnectionArn = vpcIngressConnectionArn
     }
@@ -3141,8 +3031,7 @@ public struct UpdateVpcIngressConnectionOutput: Swift.Sendable {
 
     public init(
         vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection? = nil
-    )
-    {
+    ) {
         self.vpcIngressConnection = vpcIngressConnection
     }
 }

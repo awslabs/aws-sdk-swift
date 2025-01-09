@@ -106,8 +106,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -131,8 +130,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -156,8 +154,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -181,8 +178,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -194,8 +190,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -214,8 +209,7 @@ extension SchedulerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -228,8 +222,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [SchedulerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -253,8 +246,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -278,8 +270,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -326,8 +317,7 @@ extension SchedulerClientTypes {
         public init(
             maximumWindowInMinutes: Swift.Int? = nil,
             mode: SchedulerClientTypes.FlexibleTimeWindowMode? = nil
-        )
-        {
+        ) {
             self.maximumWindowInMinutes = maximumWindowInMinutes
             self.mode = mode
         }
@@ -372,8 +362,7 @@ extension SchedulerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -395,8 +384,7 @@ extension SchedulerClientTypes {
             base: Swift.Int = 0,
             capacityProvider: Swift.String? = nil,
             weight: Swift.Int = 0
-        )
-        {
+        ) {
             self.base = base
             self.capacityProvider = capacityProvider
             self.weight = weight
@@ -452,8 +440,7 @@ extension SchedulerClientTypes {
             assignPublicIp: SchedulerClientTypes.AssignPublicIp? = nil,
             securityGroups: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
             self.subnets = subnets
@@ -470,8 +457,7 @@ extension SchedulerClientTypes {
 
         public init(
             awsvpcConfiguration: SchedulerClientTypes.AwsVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.awsvpcConfiguration = awsvpcConfiguration
         }
     }
@@ -518,8 +504,7 @@ extension SchedulerClientTypes {
         public init(
             expression: Swift.String? = nil,
             type: SchedulerClientTypes.PlacementConstraintType? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.type = type
         }
@@ -570,8 +555,7 @@ extension SchedulerClientTypes {
         public init(
             field: Swift.String? = nil,
             type: SchedulerClientTypes.PlacementStrategyType? = nil
-        )
-        {
+        ) {
             self.field = field
             self.type = type
         }
@@ -653,8 +637,7 @@ extension SchedulerClientTypes {
             tags: [[Swift.String: Swift.String]]? = nil,
             taskCount: Swift.Int? = nil,
             taskDefinitionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.enableECSManagedTags = enableECSManagedTags
             self.enableExecuteCommand = enableExecuteCommand
@@ -687,8 +670,7 @@ extension SchedulerClientTypes {
         public init(
             detailType: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.detailType = detailType
             self.source = source
         }
@@ -705,8 +687,7 @@ extension SchedulerClientTypes {
 
         public init(
             partitionKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.partitionKey = partitionKey
         }
     }
@@ -724,8 +705,7 @@ extension SchedulerClientTypes {
         public init(
             maximumEventAgeInSeconds: Swift.Int? = nil,
             maximumRetryAttempts: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
         }
@@ -746,8 +726,7 @@ extension SchedulerClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -763,8 +742,7 @@ extension SchedulerClientTypes {
 
         public init(
             pipelineParameterList: [SchedulerClientTypes.SageMakerPipelineParameter]? = nil
-        )
-        {
+        ) {
             self.pipelineParameterList = pipelineParameterList
         }
     }
@@ -779,8 +757,7 @@ extension SchedulerClientTypes {
 
         public init(
             messageGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.messageGroupId = messageGroupId
         }
     }
@@ -824,8 +801,7 @@ extension SchedulerClientTypes {
             roleArn: Swift.String? = nil,
             sageMakerPipelineParameters: SchedulerClientTypes.SageMakerPipelineParameters? = nil,
             sqsParameters: SchedulerClientTypes.SqsParameters? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.deadLetterConfig = deadLetterConfig
             self.ecsParameters = ecsParameters
@@ -895,8 +871,7 @@ public struct CreateScheduleInput: Swift.Sendable {
         startDate: Foundation.Date? = nil,
         state: SchedulerClientTypes.ScheduleState? = nil,
         target: SchedulerClientTypes.Target? = nil
-    )
-    {
+    ) {
         self.actionAfterCompletion = actionAfterCompletion
         self.clientToken = clientToken
         self.description = description
@@ -920,8 +895,7 @@ public struct CreateScheduleOutput: Swift.Sendable {
 
     public init(
         scheduleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduleArn = scheduleArn
     }
 }
@@ -939,8 +913,7 @@ public struct DeleteScheduleInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         groupName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.groupName = groupName
         self.name = name
@@ -962,8 +935,7 @@ public struct GetScheduleInput: Swift.Sendable {
     public init(
         groupName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.name = name
     }
@@ -1026,8 +998,7 @@ public struct GetScheduleOutput: Swift.Sendable {
         startDate: Foundation.Date? = nil,
         state: SchedulerClientTypes.ScheduleState? = nil,
         target: SchedulerClientTypes.Target? = nil
-    )
-    {
+    ) {
         self.actionAfterCompletion = actionAfterCompletion
         self.arn = arn
         self.creationDate = creationDate
@@ -1064,8 +1035,7 @@ public struct ListSchedulesInput: Swift.Sendable {
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         state: SchedulerClientTypes.ScheduleState? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.maxResults = maxResults
         self.namePrefix = namePrefix
@@ -1084,8 +1054,7 @@ extension SchedulerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -1118,8 +1087,7 @@ extension SchedulerClientTypes {
             name: Swift.String? = nil,
             state: SchedulerClientTypes.ScheduleState? = nil,
             target: SchedulerClientTypes.TargetSummary? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.groupName = groupName
@@ -1141,8 +1109,7 @@ public struct ListSchedulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schedules: [SchedulerClientTypes.ScheduleSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schedules = schedules
     }
@@ -1203,8 +1170,7 @@ public struct UpdateScheduleInput: Swift.Sendable {
         startDate: Foundation.Date? = nil,
         state: SchedulerClientTypes.ScheduleState? = nil,
         target: SchedulerClientTypes.Target? = nil
-    )
-    {
+    ) {
         self.actionAfterCompletion = actionAfterCompletion
         self.clientToken = clientToken
         self.description = description
@@ -1228,8 +1194,7 @@ public struct UpdateScheduleOutput: Swift.Sendable {
 
     public init(
         scheduleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduleArn = scheduleArn
     }
 }
@@ -1247,8 +1212,7 @@ public struct CreateScheduleGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [SchedulerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.tags = tags
@@ -1262,8 +1226,7 @@ public struct CreateScheduleGroupOutput: Swift.Sendable {
 
     public init(
         scheduleGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduleGroupArn = scheduleGroupArn
     }
 }
@@ -1278,8 +1241,7 @@ public struct DeleteScheduleGroupInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
     }
@@ -1297,8 +1259,7 @@ public struct GetScheduleGroupInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1350,8 +1311,7 @@ public struct GetScheduleGroupOutput: Swift.Sendable {
         lastModificationDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         state: SchedulerClientTypes.ScheduleGroupState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDate = creationDate
         self.lastModificationDate = lastModificationDate
@@ -1372,8 +1332,7 @@ public struct ListScheduleGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.namePrefix = namePrefix
         self.nextToken = nextToken
@@ -1401,8 +1360,7 @@ extension SchedulerClientTypes {
             lastModificationDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             state: SchedulerClientTypes.ScheduleGroupState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.lastModificationDate = lastModificationDate
@@ -1422,8 +1380,7 @@ public struct ListScheduleGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scheduleGroups: [SchedulerClientTypes.ScheduleGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scheduleGroups = scheduleGroups
     }
@@ -1440,8 +1397,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [SchedulerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1463,8 +1419,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

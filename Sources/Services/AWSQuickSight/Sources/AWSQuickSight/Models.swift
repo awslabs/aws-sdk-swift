@@ -55,8 +55,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -74,8 +73,7 @@ extension QuickSightClientTypes {
         public init(
             defaultEmailCustomizationTemplate: Swift.String? = nil,
             defaultTheme: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultEmailCustomizationTemplate = defaultEmailCustomizationTemplate
             self.defaultTheme = defaultTheme
         }
@@ -148,8 +146,7 @@ extension QuickSightClientTypes {
             edition: QuickSightClientTypes.Edition? = nil,
             iamIdentityCenterInstanceArn: Swift.String? = nil,
             notificationEmail: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountName = accountName
             self.accountSubscriptionStatus = accountSubscriptionStatus
             self.authenticationType = authenticationType
@@ -184,8 +181,7 @@ extension QuickSightClientTypes {
             notificationEmail: Swift.String? = nil,
             publicSharingEnabled: Swift.Bool = false,
             terminationProtectionEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.accountName = accountName
             self.defaultNamespace = defaultNamespace
             self.edition = edition
@@ -208,8 +204,7 @@ extension QuickSightClientTypes {
         public init(
             assignmentName: Swift.String? = nil,
             policyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.assignmentName = assignmentName
             self.policyArn = policyArn
         }
@@ -254,8 +249,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -409,8 +403,7 @@ extension QuickSightClientTypes {
             aggregationFunctionParameters: [Swift.String: Swift.String]? = nil,
             period: QuickSightClientTypes.TopicTimeGranularity? = nil,
             periodField: Swift.String? = nil
-        )
-        {
+        ) {
             self.aggregation = aggregation
             self.aggregationFunctionParameters = aggregationFunctionParameters
             self.period = period
@@ -459,8 +452,7 @@ extension QuickSightClientTypes {
         public init(
             simpleAttributeAggregation: QuickSightClientTypes.SimpleAttributeAggregationFunction? = nil,
             valueForMultipleValues: Swift.String? = nil
-        )
-        {
+        ) {
             self.simpleAttributeAggregation = simpleAttributeAggregation
             self.valueForMultipleValues = valueForMultipleValues
         }
@@ -540,8 +532,7 @@ extension QuickSightClientTypes {
 
         public init(
             percentileValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.percentileValue = percentileValue
         }
     }
@@ -637,8 +628,7 @@ extension QuickSightClientTypes {
         public init(
             percentileAggregation: QuickSightClientTypes.PercentileAggregation? = nil,
             simpleNumericalAggregation: QuickSightClientTypes.SimpleNumericalAggregationFunction? = nil
-        )
-        {
+        ) {
             self.percentileAggregation = percentileAggregation
             self.simpleNumericalAggregation = simpleNumericalAggregation
         }
@@ -675,8 +665,7 @@ extension QuickSightClientTypes {
             categoricalAggregationFunction: QuickSightClientTypes.CategoricalAggregationFunction? = nil,
             dateAggregationFunction: QuickSightClientTypes.DateAggregationFunction? = nil,
             numericalAggregationFunction: QuickSightClientTypes.NumericalAggregationFunction? = nil
-        )
-        {
+        ) {
             self.attributeAggregationFunction = attributeAggregationFunction
             self.categoricalAggregationFunction = categoricalAggregationFunction
             self.dateAggregationFunction = dateAggregationFunction
@@ -747,8 +736,7 @@ extension QuickSightClientTypes {
         public init(
             fieldName: Swift.String? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.timeGranularity = timeGranularity
         }
@@ -769,8 +757,7 @@ extension QuickSightClientTypes {
         public init(
             columnName: Swift.String? = nil,
             dataSetIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.dataSetIdentifier = dataSetIdentifier
         }
@@ -827,8 +814,7 @@ extension QuickSightClientTypes {
             aggregationFunction: QuickSightClientTypes.AggregationFunction? = nil,
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             sortDirection: QuickSightClientTypes.SortDirection? = nil
-        )
-        {
+        ) {
             self.aggregationFunction = aggregationFunction
             self.column = column
             self.sortDirection = sortDirection
@@ -855,8 +841,7 @@ extension QuickSightClientTypes {
 
         public init(
             domain: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
         }
     }
@@ -872,8 +857,7 @@ extension QuickSightClientTypes {
 
         public init(
             domain: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
         }
     }
@@ -941,8 +925,7 @@ extension QuickSightClientTypes {
 
         public init(
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.path = path
         }
     }
@@ -963,8 +946,7 @@ extension QuickSightClientTypes {
             message: Swift.String? = nil,
             type: QuickSightClientTypes.AnalysisErrorType? = nil,
             violatedEntities: [QuickSightClientTypes.Entity]? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
             self.violatedEntities = violatedEntities
@@ -982,8 +964,7 @@ extension QuickSightClientTypes {
 
         public init(
             targetSheetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.targetSheetId = targetSheetId
         }
     }
@@ -998,8 +979,7 @@ extension QuickSightClientTypes {
 
         public init(
             localNavigationConfiguration: QuickSightClientTypes.LocalNavigationConfiguration? = nil
-        )
-        {
+        ) {
             self.localNavigationConfiguration = localNavigationConfiguration
         }
     }
@@ -1023,8 +1003,7 @@ extension QuickSightClientTypes {
             decimalValues: [Swift.Double]? = nil,
             integerValues: [Swift.Int]? = nil,
             stringValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dateTimeValues = dateTimeValues
             self.decimalValues = decimalValues
             self.integerValues = integerValues
@@ -1051,8 +1030,7 @@ extension QuickSightClientTypes {
         public init(
             customValues: QuickSightClientTypes.CustomParameterValues? = nil,
             includeNullValue: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.customValues = customValues
             self.includeNullValue = includeNullValue
         }
@@ -1106,8 +1084,7 @@ extension QuickSightClientTypes {
             sourceColumn: QuickSightClientTypes.ColumnIdentifier? = nil,
             sourceField: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.customValuesConfiguration = customValuesConfiguration
             self.selectAllValueOptions = selectAllValueOptions
             self.sourceColumn = sourceColumn
@@ -1131,8 +1108,7 @@ extension QuickSightClientTypes {
         public init(
             destinationParameterName: Swift.String? = nil,
             value: QuickSightClientTypes.DestinationParameterValueConfiguration? = nil
-        )
-        {
+        ) {
             self.destinationParameterName = destinationParameterName
             self.value = value
         }
@@ -1149,8 +1125,7 @@ extension QuickSightClientTypes {
 
         public init(
             parameterValueConfigurations: [QuickSightClientTypes.SetParameterValueConfiguration]? = nil
-        )
-        {
+        ) {
             self.parameterValueConfigurations = parameterValueConfigurations
         }
     }
@@ -1208,8 +1183,7 @@ extension QuickSightClientTypes {
         public init(
             urlTarget: QuickSightClientTypes.URLTargetConfiguration? = nil,
             urlTemplate: Swift.String? = nil
-        )
-        {
+        ) {
             self.urlTarget = urlTarget
             self.urlTemplate = urlTemplate
         }
@@ -1231,8 +1205,7 @@ extension QuickSightClientTypes {
             navigationOperation: QuickSightClientTypes.CustomActionNavigationOperation? = nil,
             setParametersOperation: QuickSightClientTypes.CustomActionSetParametersOperation? = nil,
             urlOperation: QuickSightClientTypes.CustomActionURLOperation? = nil
-        )
-        {
+        ) {
             self.navigationOperation = navigationOperation
             self.setParametersOperation = setParametersOperation
             self.urlOperation = urlOperation
@@ -1327,8 +1300,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             status: QuickSightClientTypes.WidgetStatus? = nil,
             trigger: QuickSightClientTypes.ImageCustomActionTrigger? = nil
-        )
-        {
+        ) {
             self.actionOperations = actionOperations
             self.customActionId = customActionId
             self.name = name
@@ -1347,8 +1319,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -1363,8 +1334,7 @@ extension QuickSightClientTypes {
 
         public init(
             imageMenuOption: QuickSightClientTypes.ImageMenuOption? = nil
-        )
-        {
+        ) {
             self.imageMenuOption = imageMenuOption
         }
     }
@@ -1422,8 +1392,7 @@ extension QuickSightClientTypes {
 
         public init(
             scalingType: QuickSightClientTypes.SheetImageScalingType? = nil
-        )
-        {
+        ) {
             self.scalingType = scalingType
         }
     }
@@ -1439,8 +1408,7 @@ extension QuickSightClientTypes {
 
         public init(
             staticFileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.staticFileId = staticFileId
         }
     }
@@ -1455,8 +1423,7 @@ extension QuickSightClientTypes {
 
         public init(
             sheetImageStaticFileSource: QuickSightClientTypes.SheetImageStaticFileSource? = nil
-        )
-        {
+        ) {
             self.sheetImageStaticFileSource = sheetImageStaticFileSource
         }
     }
@@ -1471,8 +1438,7 @@ extension QuickSightClientTypes {
 
         public init(
             plainText: Swift.String? = nil
-        )
-        {
+        ) {
             self.plainText = plainText
         }
     }
@@ -1519,8 +1485,7 @@ extension QuickSightClientTypes {
         public init(
             tooltipText: QuickSightClientTypes.SheetImageTooltipText? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.tooltipText = tooltipText
             self.visibility = visibility
         }
@@ -1556,8 +1521,7 @@ extension QuickSightClientTypes {
             sheetImageId: Swift.String? = nil,
             source: QuickSightClientTypes.SheetImageSource? = nil,
             tooltip: QuickSightClientTypes.SheetImageTooltipConfiguration? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.imageContentAltText = imageContentAltText
             self.interactions = interactions
@@ -1584,8 +1548,7 @@ extension QuickSightClientTypes {
             images: [QuickSightClientTypes.SheetImage]? = nil,
             name: Swift.String? = nil,
             sheetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.images = images
             self.name = name
             self.sheetId = sheetId
@@ -1673,8 +1636,7 @@ extension QuickSightClientTypes {
             sheets: [QuickSightClientTypes.Sheet]? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
             themeArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.analysisId = analysisId
             self.arn = arn
             self.createdTime = createdTime
@@ -1699,8 +1661,7 @@ extension QuickSightClientTypes {
 
         public init(
             optimizedViewPortWidth: Swift.String? = nil
-        )
-        {
+        ) {
             self.optimizedViewPortWidth = optimizedViewPortWidth
         }
     }
@@ -1715,8 +1676,7 @@ extension QuickSightClientTypes {
 
         public init(
             screenCanvasSizeOptions: QuickSightClientTypes.FreeFormLayoutScreenCanvasSizeOptions? = nil
-        )
-        {
+        ) {
             self.screenCanvasSizeOptions = screenCanvasSizeOptions
         }
     }
@@ -1732,8 +1692,7 @@ extension QuickSightClientTypes {
 
         public init(
             canvasSizeOptions: QuickSightClientTypes.FreeFormLayoutCanvasSizeOptions? = nil
-        )
-        {
+        ) {
             self.canvasSizeOptions = canvasSizeOptions
         }
     }
@@ -1785,8 +1744,7 @@ extension QuickSightClientTypes {
         public init(
             optimizedViewPortWidth: Swift.String? = nil,
             resizeOption: QuickSightClientTypes.ResizeOption? = nil
-        )
-        {
+        ) {
             self.optimizedViewPortWidth = optimizedViewPortWidth
             self.resizeOption = resizeOption
         }
@@ -1802,8 +1760,7 @@ extension QuickSightClientTypes {
 
         public init(
             screenCanvasSizeOptions: QuickSightClientTypes.GridLayoutScreenCanvasSizeOptions? = nil
-        )
-        {
+        ) {
             self.screenCanvasSizeOptions = screenCanvasSizeOptions
         }
     }
@@ -1819,8 +1776,7 @@ extension QuickSightClientTypes {
 
         public init(
             canvasSizeOptions: QuickSightClientTypes.GridLayoutCanvasSizeOptions? = nil
-        )
-        {
+        ) {
             self.canvasSizeOptions = canvasSizeOptions
         }
     }
@@ -1838,8 +1794,7 @@ extension QuickSightClientTypes {
         public init(
             freeForm: QuickSightClientTypes.DefaultFreeFormLayoutConfiguration? = nil,
             grid: QuickSightClientTypes.DefaultGridLayoutConfiguration? = nil
-        )
-        {
+        ) {
             self.freeForm = freeForm
             self.grid = grid
         }
@@ -1864,8 +1819,7 @@ extension QuickSightClientTypes {
             `left`: Swift.String? = nil,
             `right`: Swift.String? = nil,
             top: Swift.String? = nil
-        )
-        {
+        ) {
             self.bottom = bottom
             self.`left` = `left`
             self.`right` = `right`
@@ -1978,8 +1932,7 @@ extension QuickSightClientTypes {
             paperMargin: QuickSightClientTypes.Spacing? = nil,
             paperOrientation: QuickSightClientTypes.PaperOrientation? = nil,
             paperSize: QuickSightClientTypes.PaperSize? = nil
-        )
-        {
+        ) {
             self.paperMargin = paperMargin
             self.paperOrientation = paperOrientation
             self.paperSize = paperSize
@@ -1996,8 +1949,7 @@ extension QuickSightClientTypes {
 
         public init(
             paperCanvasSizeOptions: QuickSightClientTypes.SectionBasedLayoutPaperCanvasSizeOptions? = nil
-        )
-        {
+        ) {
             self.paperCanvasSizeOptions = paperCanvasSizeOptions
         }
     }
@@ -2013,8 +1965,7 @@ extension QuickSightClientTypes {
 
         public init(
             canvasSizeOptions: QuickSightClientTypes.SectionBasedLayoutCanvasSizeOptions? = nil
-        )
-        {
+        ) {
             self.canvasSizeOptions = canvasSizeOptions
         }
     }
@@ -2029,8 +1980,7 @@ extension QuickSightClientTypes {
 
         public init(
             sectionBased: QuickSightClientTypes.DefaultSectionBasedLayoutConfiguration? = nil
-        )
-        {
+        ) {
             self.sectionBased = sectionBased
         }
     }
@@ -2080,8 +2030,7 @@ extension QuickSightClientTypes {
             interactiveLayoutConfiguration: QuickSightClientTypes.DefaultInteractiveLayoutConfiguration? = nil,
             paginatedLayoutConfiguration: QuickSightClientTypes.DefaultPaginatedLayoutConfiguration? = nil,
             sheetContentType: QuickSightClientTypes.SheetContentType? = nil
-        )
-        {
+        ) {
             self.interactiveLayoutConfiguration = interactiveLayoutConfiguration
             self.paginatedLayoutConfiguration = paginatedLayoutConfiguration
             self.sheetContentType = sheetContentType
@@ -2099,8 +2048,7 @@ extension QuickSightClientTypes {
 
         public init(
             defaultNewSheetConfiguration: QuickSightClientTypes.DefaultNewSheetConfiguration? = nil
-        )
-        {
+        ) {
             self.defaultNewSheetConfiguration = defaultNewSheetConfiguration
         }
     }
@@ -2124,8 +2072,7 @@ extension QuickSightClientTypes {
             dataSetIdentifier: Swift.String? = nil,
             expression: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetIdentifier = dataSetIdentifier
             self.expression = expression
             self.name = name
@@ -2186,8 +2133,7 @@ extension QuickSightClientTypes {
             color: Swift.String? = nil,
             fieldValue: Swift.String? = nil,
             specialValue: QuickSightClientTypes.SpecialValue? = nil
-        )
-        {
+        ) {
             self.color = color
             self.fieldValue = fieldValue
             self.specialValue = specialValue
@@ -2209,8 +2155,7 @@ extension QuickSightClientTypes {
 
         public init(
             customColors: [QuickSightClientTypes.CustomColor]? = nil
-        )
-        {
+        ) {
             self.customColors = customColors
         }
     }
@@ -2226,8 +2171,7 @@ extension QuickSightClientTypes {
 
         public init(
             nullString: Swift.String? = nil
-        )
-        {
+        ) {
             self.nullString = nullString
         }
     }
@@ -2248,8 +2192,7 @@ extension QuickSightClientTypes {
 
         public init(
             decimalPlaces: Swift.Int? = nil
-        )
-        {
+        ) {
             self.decimalPlaces = decimalPlaces
         }
     }
@@ -2294,8 +2237,7 @@ extension QuickSightClientTypes {
 
         public init(
             displayMode: QuickSightClientTypes.NegativeValueDisplayMode? = nil
-        )
-        {
+        ) {
             self.displayMode = displayMode
         }
     }
@@ -2386,8 +2328,7 @@ extension QuickSightClientTypes {
         public init(
             symbol: QuickSightClientTypes.NumericSeparatorSymbol? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.symbol = symbol
             self.visibility = visibility
         }
@@ -2406,8 +2347,7 @@ extension QuickSightClientTypes {
         public init(
             decimalSeparator: QuickSightClientTypes.NumericSeparatorSymbol? = nil,
             thousandsSeparator: QuickSightClientTypes.ThousandSeparatorOptions? = nil
-        )
-        {
+        ) {
             self.decimalSeparator = decimalSeparator
             self.thousandsSeparator = thousandsSeparator
         }
@@ -2444,8 +2384,7 @@ extension QuickSightClientTypes {
             separatorConfiguration: QuickSightClientTypes.NumericSeparatorConfiguration? = nil,
             suffix: Swift.String? = nil,
             symbol: Swift.String? = nil
-        )
-        {
+        ) {
             self.decimalPlacesConfiguration = decimalPlacesConfiguration
             self.negativeValueConfiguration = negativeValueConfiguration
             self.nullValueFormatConfiguration = nullValueFormatConfiguration
@@ -2490,8 +2429,7 @@ extension QuickSightClientTypes {
             `prefix`: Swift.String? = nil,
             separatorConfiguration: QuickSightClientTypes.NumericSeparatorConfiguration? = nil,
             suffix: Swift.String? = nil
-        )
-        {
+        ) {
             self.decimalPlacesConfiguration = decimalPlacesConfiguration
             self.negativeValueConfiguration = negativeValueConfiguration
             self.nullValueFormatConfiguration = nullValueFormatConfiguration
@@ -2532,8 +2470,7 @@ extension QuickSightClientTypes {
             `prefix`: Swift.String? = nil,
             separatorConfiguration: QuickSightClientTypes.NumericSeparatorConfiguration? = nil,
             suffix: Swift.String? = nil
-        )
-        {
+        ) {
             self.decimalPlacesConfiguration = decimalPlacesConfiguration
             self.negativeValueConfiguration = negativeValueConfiguration
             self.nullValueFormatConfiguration = nullValueFormatConfiguration
@@ -2564,8 +2501,7 @@ extension QuickSightClientTypes {
             currencyDisplayFormatConfiguration: QuickSightClientTypes.CurrencyDisplayFormatConfiguration? = nil,
             numberDisplayFormatConfiguration: QuickSightClientTypes.NumberDisplayFormatConfiguration? = nil,
             percentageDisplayFormatConfiguration: QuickSightClientTypes.PercentageDisplayFormatConfiguration? = nil
-        )
-        {
+        ) {
             self.currencyDisplayFormatConfiguration = currencyDisplayFormatConfiguration
             self.numberDisplayFormatConfiguration = numberDisplayFormatConfiguration
             self.percentageDisplayFormatConfiguration = percentageDisplayFormatConfiguration
@@ -2588,8 +2524,7 @@ extension QuickSightClientTypes {
             dateTimeFormat: Swift.String? = nil,
             nullValueFormatConfiguration: QuickSightClientTypes.NullValueFormatConfiguration? = nil,
             numericFormatConfiguration: QuickSightClientTypes.NumericFormatConfiguration? = nil
-        )
-        {
+        ) {
             self.dateTimeFormat = dateTimeFormat
             self.nullValueFormatConfiguration = nullValueFormatConfiguration
             self.numericFormatConfiguration = numericFormatConfiguration
@@ -2606,8 +2541,7 @@ extension QuickSightClientTypes {
 
         public init(
             formatConfiguration: QuickSightClientTypes.NumericFormatConfiguration? = nil
-        )
-        {
+        ) {
             self.formatConfiguration = formatConfiguration
         }
     }
@@ -2625,8 +2559,7 @@ extension QuickSightClientTypes {
         public init(
             nullValueFormatConfiguration: QuickSightClientTypes.NullValueFormatConfiguration? = nil,
             numericFormatConfiguration: QuickSightClientTypes.NumericFormatConfiguration? = nil
-        )
-        {
+        ) {
             self.nullValueFormatConfiguration = nullValueFormatConfiguration
             self.numericFormatConfiguration = numericFormatConfiguration
         }
@@ -2648,8 +2581,7 @@ extension QuickSightClientTypes {
             dateTimeFormatConfiguration: QuickSightClientTypes.DateTimeFormatConfiguration? = nil,
             numberFormatConfiguration: QuickSightClientTypes.NumberFormatConfiguration? = nil,
             stringFormatConfiguration: QuickSightClientTypes.StringFormatConfiguration? = nil
-        )
-        {
+        ) {
             self.dateTimeFormatConfiguration = dateTimeFormatConfiguration
             self.numberFormatConfiguration = numberFormatConfiguration
             self.stringFormatConfiguration = stringFormatConfiguration
@@ -2705,8 +2637,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             formatConfiguration: QuickSightClientTypes.FormatConfiguration? = nil,
             role: QuickSightClientTypes.ColumnRole? = nil
-        )
-        {
+        ) {
             self.colorsConfiguration = colorsConfiguration
             self.column = column
             self.formatConfiguration = formatConfiguration
@@ -2729,8 +2660,7 @@ extension QuickSightClientTypes {
         public init(
             dataSetArn: Swift.String? = nil,
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetArn = dataSetArn
             self.identifier = identifier
         }
@@ -2896,8 +2826,7 @@ extension QuickSightClientTypes {
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             parameterName: Swift.String? = nil,
             selectAllOptions: QuickSightClientTypes.CategoryFilterSelectAllOptions? = nil
-        )
-        {
+        ) {
             self.categoryValue = categoryValue
             self.matchOperator = matchOperator
             self.nullOption = nullOption
@@ -2935,8 +2864,7 @@ extension QuickSightClientTypes {
             matchOperator: QuickSightClientTypes.CategoryFilterMatchOperator? = nil,
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             selectAllOptions: QuickSightClientTypes.CategoryFilterSelectAllOptions? = nil
-        )
-        {
+        ) {
             self.categoryValues = categoryValues
             self.matchOperator = matchOperator
             self.nullOption = nullOption
@@ -2972,8 +2900,7 @@ extension QuickSightClientTypes {
             matchOperator: QuickSightClientTypes.CategoryFilterMatchOperator? = nil,
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             selectAllOptions: QuickSightClientTypes.CategoryFilterSelectAllOptions? = nil
-        )
-        {
+        ) {
             self.categoryValues = categoryValues
             self.matchOperator = matchOperator
             self.nullOption = nullOption
@@ -2997,8 +2924,7 @@ extension QuickSightClientTypes {
             customFilterConfiguration: QuickSightClientTypes.CustomFilterConfiguration? = nil,
             customFilterListConfiguration: QuickSightClientTypes.CustomFilterListConfiguration? = nil,
             filterListConfiguration: QuickSightClientTypes.FilterListConfiguration? = nil
-        )
-        {
+        ) {
             self.customFilterConfiguration = customFilterConfiguration
             self.customFilterListConfiguration = customFilterListConfiguration
             self.filterListConfiguration = filterListConfiguration
@@ -3047,8 +2973,7 @@ extension QuickSightClientTypes {
         public init(
             infoIconText: Swift.String? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.infoIconText = infoIconText
             self.visibility = visibility
         }
@@ -3134,8 +3059,7 @@ extension QuickSightClientTypes {
         public init(
             absolute: Swift.String? = nil,
             relative: QuickSightClientTypes.RelativeFontSize? = nil
-        )
-        {
+        ) {
             self.absolute = absolute
             self.relative = relative
         }
@@ -3209,8 +3133,7 @@ extension QuickSightClientTypes {
 
         public init(
             name: QuickSightClientTypes.FontWeightName? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -3240,8 +3163,7 @@ extension QuickSightClientTypes {
             fontSize: QuickSightClientTypes.FontSize? = nil,
             fontStyle: QuickSightClientTypes.FontStyle? = nil,
             fontWeight: QuickSightClientTypes.FontWeight? = nil
-        )
-        {
+        ) {
             self.fontColor = fontColor
             self.fontDecoration = fontDecoration
             self.fontFamily = fontFamily
@@ -3267,8 +3189,7 @@ extension QuickSightClientTypes {
             customLabel: Swift.String? = nil,
             fontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.customLabel = customLabel
             self.fontConfiguration = fontConfiguration
             self.visibility = visibility
@@ -3297,8 +3218,7 @@ extension QuickSightClientTypes {
             helperTextVisibility: QuickSightClientTypes.Visibility? = nil,
             infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
-        )
-        {
+        ) {
             self.dateIconVisibility = dateIconVisibility
             self.dateTimeFormat = dateTimeFormat
             self.helperTextVisibility = helperTextVisibility
@@ -3356,8 +3276,7 @@ extension QuickSightClientTypes {
             commitMode: QuickSightClientTypes.CommitMode? = nil,
             displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions? = nil,
             type: QuickSightClientTypes.SheetControlDateTimePickerType? = nil
-        )
-        {
+        ) {
             self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.type = type
@@ -3374,8 +3293,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -3396,8 +3314,7 @@ extension QuickSightClientTypes {
             infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             selectAllOptions: QuickSightClientTypes.ListControlSelectAllOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
-        )
-        {
+        ) {
             self.infoIconLabelOptions = infoIconLabelOptions
             self.selectAllOptions = selectAllOptions
             self.titleOptions = titleOptions
@@ -3414,8 +3331,7 @@ extension QuickSightClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -3472,8 +3388,7 @@ extension QuickSightClientTypes {
             displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
             type: QuickSightClientTypes.SheetControlListType? = nil
-        )
-        {
+        ) {
             self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.selectableValues = selectableValues
@@ -3491,8 +3406,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -3516,8 +3430,7 @@ extension QuickSightClientTypes {
             searchOptions: QuickSightClientTypes.ListControlSearchOptions? = nil,
             selectAllOptions: QuickSightClientTypes.ListControlSelectAllOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
-        )
-        {
+        ) {
             self.infoIconLabelOptions = infoIconLabelOptions
             self.searchOptions = searchOptions
             self.selectAllOptions = selectAllOptions
@@ -3545,8 +3458,7 @@ extension QuickSightClientTypes {
             displayOptions: QuickSightClientTypes.ListControlDisplayOptions? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
             type: QuickSightClientTypes.SheetControlListType? = nil
-        )
-        {
+        ) {
             self.displayOptions = displayOptions
             self.selectableValues = selectableValues
             self.type = type
@@ -3569,8 +3481,7 @@ extension QuickSightClientTypes {
             dateTimeFormat: Swift.String? = nil,
             infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
-        )
-        {
+        ) {
             self.dateTimeFormat = dateTimeFormat
             self.infoIconLabelOptions = infoIconLabelOptions
             self.titleOptions = titleOptions
@@ -3590,8 +3501,7 @@ extension QuickSightClientTypes {
         public init(
             commitMode: QuickSightClientTypes.CommitMode? = nil,
             displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions? = nil
-        )
-        {
+        ) {
             self.commitMode = commitMode
             self.displayOptions = displayOptions
         }
@@ -3610,8 +3520,7 @@ extension QuickSightClientTypes {
         public init(
             infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
-        )
-        {
+        ) {
             self.infoIconLabelOptions = infoIconLabelOptions
             self.titleOptions = titleOptions
         }
@@ -3675,8 +3584,7 @@ extension QuickSightClientTypes {
             minimumValue: Swift.Double = 0.0,
             stepSize: Swift.Double = 0.0,
             type: QuickSightClientTypes.SheetControlSliderType? = nil
-        )
-        {
+        ) {
             self.displayOptions = displayOptions
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
@@ -3695,8 +3603,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -3717,8 +3624,7 @@ extension QuickSightClientTypes {
             infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             placeholderOptions: QuickSightClientTypes.TextControlPlaceholderOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
-        )
-        {
+        ) {
             self.infoIconLabelOptions = infoIconLabelOptions
             self.placeholderOptions = placeholderOptions
             self.titleOptions = titleOptions
@@ -3738,8 +3644,7 @@ extension QuickSightClientTypes {
         public init(
             delimiter: Swift.String? = nil,
             displayOptions: QuickSightClientTypes.TextAreaControlDisplayOptions? = nil
-        )
-        {
+        ) {
             self.delimiter = delimiter
             self.displayOptions = displayOptions
         }
@@ -3761,8 +3666,7 @@ extension QuickSightClientTypes {
             infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             placeholderOptions: QuickSightClientTypes.TextControlPlaceholderOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
-        )
-        {
+        ) {
             self.infoIconLabelOptions = infoIconLabelOptions
             self.placeholderOptions = placeholderOptions
             self.titleOptions = titleOptions
@@ -3779,8 +3683,7 @@ extension QuickSightClientTypes {
 
         public init(
             displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions? = nil
-        )
-        {
+        ) {
             self.displayOptions = displayOptions
         }
     }
@@ -3813,8 +3716,7 @@ extension QuickSightClientTypes {
             defaultSliderOptions: QuickSightClientTypes.DefaultSliderControlOptions? = nil,
             defaultTextAreaOptions: QuickSightClientTypes.DefaultTextAreaControlOptions? = nil,
             defaultTextFieldOptions: QuickSightClientTypes.DefaultTextFieldControlOptions? = nil
-        )
-        {
+        ) {
             self.defaultDateTimePickerOptions = defaultDateTimePickerOptions
             self.defaultDropdownOptions = defaultDropdownOptions
             self.defaultListOptions = defaultListOptions
@@ -3840,8 +3742,7 @@ extension QuickSightClientTypes {
         public init(
             controlOptions: QuickSightClientTypes.DefaultFilterControlOptions? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.controlOptions = controlOptions
             self.title = title
         }
@@ -3869,8 +3770,7 @@ extension QuickSightClientTypes {
             configuration: QuickSightClientTypes.CategoryFilterConfiguration? = nil,
             defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil
-        )
-        {
+        ) {
             self.column = column
             self.configuration = configuration
             self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
@@ -3896,8 +3796,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             configuration: QuickSightClientTypes.CategoryFilterConfiguration? = nil,
             defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil
-        )
-        {
+        ) {
             self.column = column
             self.configuration = configuration
             self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
@@ -3914,8 +3813,7 @@ extension QuickSightClientTypes {
 
         public init(
             categoryInnerFilter: QuickSightClientTypes.CategoryInnerFilter? = nil
-        )
-        {
+        ) {
             self.categoryInnerFilter = categoryInnerFilter
         }
     }
@@ -3943,8 +3841,7 @@ extension QuickSightClientTypes {
             filterId: Swift.String? = nil,
             includeInnerSet: Swift.Bool = false,
             innerFilter: QuickSightClientTypes.InnerFilter? = nil
-        )
-        {
+        ) {
             self.column = column
             self.filterId = filterId
             self.includeInnerSet = includeInnerSet
@@ -4053,8 +3950,7 @@ extension QuickSightClientTypes {
             parameterName: Swift.String? = nil,
             selectAllOptions: QuickSightClientTypes.NumericFilterSelectAllOptions? = nil,
             value: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.aggregationFunction = aggregationFunction
             self.column = column
             self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
@@ -4080,8 +3976,7 @@ extension QuickSightClientTypes {
         public init(
             parameter: Swift.String? = nil,
             staticValue: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.parameter = parameter
             self.staticValue = staticValue
         }
@@ -4135,8 +4030,7 @@ extension QuickSightClientTypes {
             rangeMaximum: QuickSightClientTypes.NumericRangeFilterValue? = nil,
             rangeMinimum: QuickSightClientTypes.NumericRangeFilterValue? = nil,
             selectAllOptions: QuickSightClientTypes.NumericFilterSelectAllOptions? = nil
-        )
-        {
+        ) {
             self.aggregationFunction = aggregationFunction
             self.column = column
             self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
@@ -4191,8 +4085,7 @@ extension QuickSightClientTypes {
         public init(
             anchorOption: QuickSightClientTypes.AnchorOption? = nil,
             parameterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.anchorOption = anchorOption
             self.parameterName = parameterName
         }
@@ -4220,8 +4113,7 @@ extension QuickSightClientTypes {
             amount: Swift.Int? = 0,
             granularity: QuickSightClientTypes.TimeGranularity? = nil,
             status: QuickSightClientTypes.WidgetStatus? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.granularity = granularity
             self.status = status
@@ -4328,8 +4220,7 @@ extension QuickSightClientTypes {
             relativeDateType: QuickSightClientTypes.RelativeDateType? = nil,
             relativeDateValue: Swift.Int? = 0,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
-        )
-        {
+        ) {
             self.anchorDateConfiguration = anchorDateConfiguration
             self.column = column
             self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
@@ -4358,8 +4249,7 @@ extension QuickSightClientTypes {
         public init(
             dataSetIdentifier: Swift.String? = nil,
             expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetIdentifier = dataSetIdentifier
             self.expression = expression
         }
@@ -4400,8 +4290,7 @@ extension QuickSightClientTypes {
             rollingDate: QuickSightClientTypes.RollingDateConfiguration? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil,
             value: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.column = column
             self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
@@ -4428,8 +4317,7 @@ extension QuickSightClientTypes {
             parameter: Swift.String? = nil,
             rollingDate: QuickSightClientTypes.RollingDateConfiguration? = nil,
             staticValue: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.parameter = parameter
             self.rollingDate = rollingDate
             self.staticValue = staticValue
@@ -4482,8 +4370,7 @@ extension QuickSightClientTypes {
             rangeMaximumValue: QuickSightClientTypes.TimeRangeFilterValue? = nil,
             rangeMinimumValue: QuickSightClientTypes.TimeRangeFilterValue? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
-        )
-        {
+        ) {
             self.column = column
             self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.excludePeriodConfiguration = excludePeriodConfiguration
@@ -4528,8 +4415,7 @@ extension QuickSightClientTypes {
             limit: Swift.Int? = 0,
             parameterName: Swift.String? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
-        )
-        {
+        ) {
             self.aggregationSortConfigurations = aggregationSortConfigurations
             self.column = column
             self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
@@ -4571,8 +4457,7 @@ extension QuickSightClientTypes {
             timeEqualityFilter: QuickSightClientTypes.TimeEqualityFilter? = nil,
             timeRangeFilter: QuickSightClientTypes.TimeRangeFilter? = nil,
             topBottomFilter: QuickSightClientTypes.TopBottomFilter? = nil
-        )
-        {
+        ) {
             self.categoryFilter = categoryFilter
             self.nestedFilter = nestedFilter
             self.numericEqualityFilter = numericEqualityFilter
@@ -4635,8 +4520,7 @@ extension QuickSightClientTypes {
             scope: QuickSightClientTypes.FilterVisualScope? = nil,
             sheetId: Swift.String? = nil,
             visualIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.scope = scope
             self.sheetId = sheetId
             self.visualIds = visualIds
@@ -4653,8 +4537,7 @@ extension QuickSightClientTypes {
 
         public init(
             sheetVisualScopingConfigurations: [QuickSightClientTypes.SheetVisualScopingConfiguration]? = nil
-        )
-        {
+        ) {
             self.sheetVisualScopingConfigurations = sheetVisualScopingConfigurations
         }
     }
@@ -4672,8 +4555,7 @@ extension QuickSightClientTypes {
         public init(
             allSheets: QuickSightClientTypes.AllSheetsFilterScopeConfiguration? = nil,
             selectedSheets: QuickSightClientTypes.SelectedSheetsFilterScopeConfiguration? = nil
-        )
-        {
+        ) {
             self.allSheets = allSheets
             self.selectedSheets = selectedSheets
         }
@@ -4709,8 +4591,7 @@ extension QuickSightClientTypes {
             filters: [QuickSightClientTypes.Filter]? = nil,
             scopeConfiguration: QuickSightClientTypes.FilterScopeConfiguration? = nil,
             status: QuickSightClientTypes.WidgetStatus? = nil
-        )
-        {
+        ) {
             self.crossDataset = crossDataset
             self.filterGroupId = filterGroupId
             self.filters = filters
@@ -4776,8 +4657,7 @@ extension QuickSightClientTypes {
         public init(
             timezone: Swift.String? = nil,
             weekStart: QuickSightClientTypes.DayOfTheWeek? = nil
-        )
-        {
+        ) {
             self.timezone = timezone
             self.weekStart = weekStart
         }
@@ -4800,8 +4680,7 @@ extension QuickSightClientTypes {
             defaultValueColumn: QuickSightClientTypes.ColumnIdentifier? = nil,
             groupNameColumn: QuickSightClientTypes.ColumnIdentifier? = nil,
             userNameColumn: QuickSightClientTypes.ColumnIdentifier? = nil
-        )
-        {
+        ) {
             self.defaultValueColumn = defaultValueColumn
             self.groupNameColumn = groupNameColumn
             self.userNameColumn = userNameColumn
@@ -4824,8 +4703,7 @@ extension QuickSightClientTypes {
             dynamicValue: QuickSightClientTypes.DynamicDefaultValue? = nil,
             rollingDate: QuickSightClientTypes.RollingDateConfiguration? = nil,
             staticValues: [Foundation.Date]? = nil
-        )
-        {
+        ) {
             self.dynamicValue = dynamicValue
             self.rollingDate = rollingDate
             self.staticValues = staticValues
@@ -4852,8 +4730,7 @@ extension QuickSightClientTypes {
         public init(
             dataSetIdentifier: Swift.String? = nil,
             dataSetParameterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetIdentifier = dataSetIdentifier
             self.dataSetParameterName = dataSetParameterName
         }
@@ -4905,8 +4782,7 @@ extension QuickSightClientTypes {
         public init(
             customValue: Foundation.Date? = nil,
             valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption? = nil
-        )
-        {
+        ) {
             self.customValue = customValue
             self.valueWhenUnsetOption = valueWhenUnsetOption
         }
@@ -4940,8 +4816,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil,
             valueWhenUnset: QuickSightClientTypes.DateTimeValueWhenUnsetConfiguration? = nil
-        )
-        {
+        ) {
             self.defaultValues = defaultValues
             self.mappedDataSetParameters = mappedDataSetParameters
             self.name = name
@@ -4963,8 +4838,7 @@ extension QuickSightClientTypes {
         public init(
             dynamicValue: QuickSightClientTypes.DynamicDefaultValue? = nil,
             staticValues: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.dynamicValue = dynamicValue
             self.staticValues = staticValues
         }
@@ -5021,8 +4895,7 @@ extension QuickSightClientTypes {
         public init(
             customValue: Swift.Double? = 0.0,
             valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption? = nil
-        )
-        {
+        ) {
             self.customValue = customValue
             self.valueWhenUnsetOption = valueWhenUnsetOption
         }
@@ -5057,8 +4930,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             parameterValueType: QuickSightClientTypes.ParameterValueType? = nil,
             valueWhenUnset: QuickSightClientTypes.DecimalValueWhenUnsetConfiguration? = nil
-        )
-        {
+        ) {
             self.defaultValues = defaultValues
             self.mappedDataSetParameters = mappedDataSetParameters
             self.name = name
@@ -5080,8 +4952,7 @@ extension QuickSightClientTypes {
         public init(
             dynamicValue: QuickSightClientTypes.DynamicDefaultValue? = nil,
             staticValues: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.dynamicValue = dynamicValue
             self.staticValues = staticValues
         }
@@ -5109,8 +4980,7 @@ extension QuickSightClientTypes {
         public init(
             customValue: Swift.Int? = 0,
             valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption? = nil
-        )
-        {
+        ) {
             self.customValue = customValue
             self.valueWhenUnsetOption = valueWhenUnsetOption
         }
@@ -5145,8 +5015,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             parameterValueType: QuickSightClientTypes.ParameterValueType? = nil,
             valueWhenUnset: QuickSightClientTypes.IntegerValueWhenUnsetConfiguration? = nil
-        )
-        {
+        ) {
             self.defaultValues = defaultValues
             self.mappedDataSetParameters = mappedDataSetParameters
             self.name = name
@@ -5168,8 +5037,7 @@ extension QuickSightClientTypes {
         public init(
             dynamicValue: QuickSightClientTypes.DynamicDefaultValue? = nil,
             staticValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dynamicValue = dynamicValue
             self.staticValues = staticValues
         }
@@ -5197,8 +5065,7 @@ extension QuickSightClientTypes {
         public init(
             customValue: Swift.String? = nil,
             valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption? = nil
-        )
-        {
+        ) {
             self.customValue = customValue
             self.valueWhenUnsetOption = valueWhenUnsetOption
         }
@@ -5233,8 +5100,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             parameterValueType: QuickSightClientTypes.ParameterValueType? = nil,
             valueWhenUnset: QuickSightClientTypes.StringValueWhenUnsetConfiguration? = nil
-        )
-        {
+        ) {
             self.defaultValues = defaultValues
             self.mappedDataSetParameters = mappedDataSetParameters
             self.name = name
@@ -5262,8 +5128,7 @@ extension QuickSightClientTypes {
             decimalParameterDeclaration: QuickSightClientTypes.DecimalParameterDeclaration? = nil,
             integerParameterDeclaration: QuickSightClientTypes.IntegerParameterDeclaration? = nil,
             stringParameterDeclaration: QuickSightClientTypes.StringParameterDeclaration? = nil
-        )
-        {
+        ) {
             self.dateTimeParameterDeclaration = dateTimeParameterDeclaration
             self.decimalParameterDeclaration = decimalParameterDeclaration
             self.integerParameterDeclaration = integerParameterDeclaration
@@ -5310,8 +5175,7 @@ extension QuickSightClientTypes {
 
         public init(
             queryExecutionMode: QuickSightClientTypes.QueryExecutionMode? = nil
-        )
-        {
+        ) {
             self.queryExecutionMode = queryExecutionMode
         }
     }
@@ -5329,8 +5193,7 @@ extension QuickSightClientTypes {
         public init(
             columnToMatch: QuickSightClientTypes.ColumnIdentifier? = nil,
             sourceSheetControlId: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnToMatch = columnToMatch
             self.sourceSheetControlId = sourceSheetControlId
         }
@@ -5346,8 +5209,7 @@ extension QuickSightClientTypes {
 
         public init(
             sourceControls: [QuickSightClientTypes.CascadingControlSource]? = nil
-        )
-        {
+        ) {
             self.sourceControls = sourceControls
         }
     }
@@ -5370,8 +5232,7 @@ extension QuickSightClientTypes {
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -5410,8 +5271,7 @@ extension QuickSightClientTypes {
             sourceFilterId: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QuickSightClientTypes.SheetControlDateTimePickerType? = nil
-        )
-        {
+        ) {
             self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
@@ -5459,8 +5319,7 @@ extension QuickSightClientTypes {
             sourceFilterId: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QuickSightClientTypes.SheetControlListType? = nil
-        )
-        {
+        ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.commitMode = commitMode
             self.displayOptions = displayOptions
@@ -5507,8 +5366,7 @@ extension QuickSightClientTypes {
             sourceFilterId: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QuickSightClientTypes.SheetControlListType? = nil
-        )
-        {
+        ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
@@ -5544,8 +5402,7 @@ extension QuickSightClientTypes {
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
@@ -5595,8 +5452,7 @@ extension QuickSightClientTypes {
             stepSize: Swift.Double = 0.0,
             title: Swift.String? = nil,
             type: QuickSightClientTypes.SheetControlSliderType? = nil
-        )
-        {
+        ) {
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.maximumValue = maximumValue
@@ -5633,8 +5489,7 @@ extension QuickSightClientTypes {
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.delimiter = delimiter
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
@@ -5665,8 +5520,7 @@ extension QuickSightClientTypes {
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -5705,8 +5559,7 @@ extension QuickSightClientTypes {
             slider: QuickSightClientTypes.FilterSliderControl? = nil,
             textArea: QuickSightClientTypes.FilterTextAreaControl? = nil,
             textField: QuickSightClientTypes.FilterTextFieldControl? = nil
-        )
-        {
+        ) {
             self.crossSheet = crossSheet
             self.dateTimePicker = dateTimePicker
             self.dropdown = dropdown
@@ -5731,8 +5584,7 @@ extension QuickSightClientTypes {
         public init(
             color: Swift.String? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.color = color
             self.visibility = visibility
         }
@@ -5751,8 +5603,7 @@ extension QuickSightClientTypes {
         public init(
             color: Swift.String? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.color = color
             self.visibility = visibility
         }
@@ -5806,8 +5657,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -5826,8 +5676,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -5847,8 +5696,7 @@ extension QuickSightClientTypes {
         public init(
             configurationOverrides: QuickSightClientTypes.SheetElementConfigurationOverrides? = nil,
             expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationOverrides = configurationOverrides
             self.expression = expression
         }
@@ -5908,8 +5756,7 @@ extension QuickSightClientTypes {
             width: Swift.String? = nil,
             xAxisLocation: Swift.String? = nil,
             yAxisLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.backgroundStyle = backgroundStyle
             self.borderStyle = borderStyle
             self.elementId = elementId
@@ -5939,8 +5786,7 @@ extension QuickSightClientTypes {
         public init(
             canvasSizeOptions: QuickSightClientTypes.FreeFormLayoutCanvasSizeOptions? = nil,
             elements: [QuickSightClientTypes.FreeFormLayoutElement]? = nil
-        )
-        {
+        ) {
             self.canvasSizeOptions = canvasSizeOptions
             self.elements = elements
         }
@@ -5975,8 +5821,7 @@ extension QuickSightClientTypes {
             elementType: QuickSightClientTypes.LayoutElementType? = nil,
             rowIndex: Swift.Int? = nil,
             rowSpan: Swift.Int? = nil
-        )
-        {
+        ) {
             self.columnIndex = columnIndex
             self.columnSpan = columnSpan
             self.elementId = elementId
@@ -6000,8 +5845,7 @@ extension QuickSightClientTypes {
         public init(
             canvasSizeOptions: QuickSightClientTypes.GridLayoutCanvasSizeOptions? = nil,
             elements: [QuickSightClientTypes.GridLayoutElement]? = nil
-        )
-        {
+        ) {
             self.canvasSizeOptions = canvasSizeOptions
             self.elements = elements
         }
@@ -6018,8 +5862,7 @@ extension QuickSightClientTypes {
 
         public init(
             elements: [QuickSightClientTypes.FreeFormLayoutElement]? = nil
-        )
-        {
+        ) {
             self.elements = elements
         }
     }
@@ -6035,8 +5878,7 @@ extension QuickSightClientTypes {
 
         public init(
             freeFormLayout: QuickSightClientTypes.FreeFormSectionLayoutConfiguration? = nil
-        )
-        {
+        ) {
             self.freeFormLayout = freeFormLayout
         }
     }
@@ -6051,8 +5893,7 @@ extension QuickSightClientTypes {
 
         public init(
             layout: QuickSightClientTypes.SectionLayoutConfiguration? = nil
-        )
-        {
+        ) {
             self.layout = layout
         }
     }
@@ -6096,8 +5937,7 @@ extension QuickSightClientTypes {
 
         public init(
             status: QuickSightClientTypes.SectionPageBreakStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -6112,8 +5952,7 @@ extension QuickSightClientTypes {
 
         public init(
             after: QuickSightClientTypes.SectionAfterPageBreak? = nil
-        )
-        {
+        ) {
             self.after = after
         }
     }
@@ -6136,8 +5975,7 @@ extension QuickSightClientTypes {
             aggregationFunction: QuickSightClientTypes.AggregationFunction? = nil,
             direction: QuickSightClientTypes.SortDirection? = nil,
             sortBy: QuickSightClientTypes.ColumnIdentifier? = nil
-        )
-        {
+        ) {
             self.aggregationFunction = aggregationFunction
             self.direction = direction
             self.sortBy = sortBy
@@ -6161,8 +5999,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             limit: Swift.Int? = nil,
             sortByMetrics: [QuickSightClientTypes.ColumnSort]? = nil
-        )
-        {
+        ) {
             self.column = column
             self.limit = limit
             self.sortByMetrics = sortByMetrics
@@ -6186,8 +6023,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             limit: Swift.Int? = nil,
             sortByMetrics: [QuickSightClientTypes.ColumnSort]? = nil
-        )
-        {
+        ) {
             self.column = column
             self.limit = limit
             self.sortByMetrics = sortByMetrics
@@ -6207,8 +6043,7 @@ extension QuickSightClientTypes {
         public init(
             dynamicCategoryDimensionConfiguration: QuickSightClientTypes.BodySectionDynamicCategoryDimensionConfiguration? = nil,
             dynamicNumericDimensionConfiguration: QuickSightClientTypes.BodySectionDynamicNumericDimensionConfiguration? = nil
-        )
-        {
+        ) {
             self.dynamicCategoryDimensionConfiguration = dynamicCategoryDimensionConfiguration
             self.dynamicNumericDimensionConfiguration = dynamicNumericDimensionConfiguration
         }
@@ -6224,8 +6059,7 @@ extension QuickSightClientTypes {
 
         public init(
             after: QuickSightClientTypes.SectionAfterPageBreak? = nil
-        )
-        {
+        ) {
             self.after = after
         }
     }
@@ -6246,8 +6080,7 @@ extension QuickSightClientTypes {
             dimensionConfigurations: [QuickSightClientTypes.BodySectionRepeatDimensionConfiguration]? = nil,
             nonRepeatingVisuals: [Swift.String]? = nil,
             pageBreakConfiguration: QuickSightClientTypes.BodySectionRepeatPageBreakConfiguration? = nil
-        )
-        {
+        ) {
             self.dimensionConfigurations = dimensionConfigurations
             self.nonRepeatingVisuals = nonRepeatingVisuals
             self.pageBreakConfiguration = pageBreakConfiguration
@@ -6267,8 +6100,7 @@ extension QuickSightClientTypes {
         public init(
             height: Swift.String? = nil,
             padding: QuickSightClientTypes.Spacing? = nil
-        )
-        {
+        ) {
             self.height = height
             self.padding = padding
         }
@@ -6298,8 +6130,7 @@ extension QuickSightClientTypes {
             repeatConfiguration: QuickSightClientTypes.BodySectionRepeatConfiguration? = nil,
             sectionId: Swift.String? = nil,
             style: QuickSightClientTypes.SectionStyle? = nil
-        )
-        {
+        ) {
             self.content = content
             self.pageBreakConfiguration = pageBreakConfiguration
             self.repeatConfiguration = repeatConfiguration
@@ -6326,8 +6157,7 @@ extension QuickSightClientTypes {
             layout: QuickSightClientTypes.SectionLayoutConfiguration? = nil,
             sectionId: Swift.String? = nil,
             style: QuickSightClientTypes.SectionStyle? = nil
-        )
-        {
+        ) {
             self.layout = layout
             self.sectionId = sectionId
             self.style = style
@@ -6357,8 +6187,7 @@ extension QuickSightClientTypes {
             canvasSizeOptions: QuickSightClientTypes.SectionBasedLayoutCanvasSizeOptions? = nil,
             footerSections: [QuickSightClientTypes.HeaderFooterSectionConfiguration]? = nil,
             headerSections: [QuickSightClientTypes.HeaderFooterSectionConfiguration]? = nil
-        )
-        {
+        ) {
             self.bodySections = bodySections
             self.canvasSizeOptions = canvasSizeOptions
             self.footerSections = footerSections
@@ -6382,8 +6211,7 @@ extension QuickSightClientTypes {
             freeFormLayout: QuickSightClientTypes.FreeFormLayoutConfiguration? = nil,
             gridLayout: QuickSightClientTypes.GridLayoutConfiguration? = nil,
             sectionBasedLayout: QuickSightClientTypes.SectionBasedLayoutConfiguration? = nil
-        )
-        {
+        ) {
             self.freeFormLayout = freeFormLayout
             self.gridLayout = gridLayout
             self.sectionBasedLayout = sectionBasedLayout
@@ -6401,8 +6229,7 @@ extension QuickSightClientTypes {
 
         public init(
             configuration: QuickSightClientTypes.LayoutConfiguration? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
         }
     }
@@ -6429,8 +6256,7 @@ extension QuickSightClientTypes {
             parameterControlId: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.sourceParameterName = sourceParameterName
@@ -6451,8 +6277,7 @@ extension QuickSightClientTypes {
         public init(
             linkToDataSetColumn: QuickSightClientTypes.ColumnIdentifier? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.linkToDataSetColumn = linkToDataSetColumn
             self.values = values
         }
@@ -6492,8 +6317,7 @@ extension QuickSightClientTypes {
             sourceParameterName: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QuickSightClientTypes.SheetControlListType? = nil
-        )
-        {
+        ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.commitMode = commitMode
             self.displayOptions = displayOptions
@@ -6536,8 +6360,7 @@ extension QuickSightClientTypes {
             sourceParameterName: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QuickSightClientTypes.SheetControlListType? = nil
-        )
-        {
+        ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
@@ -6582,8 +6405,7 @@ extension QuickSightClientTypes {
             sourceParameterName: Swift.String? = nil,
             stepSize: Swift.Double = 0.0,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayOptions = displayOptions
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
@@ -6619,8 +6441,7 @@ extension QuickSightClientTypes {
             parameterControlId: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.delimiter = delimiter
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
@@ -6651,8 +6472,7 @@ extension QuickSightClientTypes {
             parameterControlId: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.sourceParameterName = sourceParameterName
@@ -6685,8 +6505,7 @@ extension QuickSightClientTypes {
             slider: QuickSightClientTypes.ParameterSliderControl? = nil,
             textArea: QuickSightClientTypes.ParameterTextAreaControl? = nil,
             textField: QuickSightClientTypes.ParameterTextFieldControl? = nil
-        )
-        {
+        ) {
             self.dateTimePicker = dateTimePicker
             self.dropdown = dropdown
             self.list = list
@@ -6706,8 +6525,7 @@ extension QuickSightClientTypes {
 
         public init(
             gridLayout: QuickSightClientTypes.GridLayoutConfiguration? = nil
-        )
-        {
+        ) {
             self.gridLayout = gridLayout
         }
     }
@@ -6723,8 +6541,7 @@ extension QuickSightClientTypes {
 
         public init(
             configuration: QuickSightClientTypes.SheetControlLayoutConfiguration? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
         }
     }
@@ -6743,8 +6560,7 @@ extension QuickSightClientTypes {
         public init(
             content: Swift.String? = nil,
             sheetTextBoxId: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.sheetTextBoxId = sheetTextBoxId
         }
@@ -6794,8 +6610,7 @@ extension QuickSightClientTypes {
             selectedColumns: [QuickSightClientTypes.ColumnIdentifier]? = nil,
             selectedFieldOptions: QuickSightClientTypes.SelectedFieldOptions? = nil,
             selectedFields: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.selectedColumns = selectedColumns
             self.selectedFieldOptions = selectedFieldOptions
             self.selectedFields = selectedFields
@@ -6843,8 +6658,7 @@ extension QuickSightClientTypes {
         public init(
             targetVisualOptions: QuickSightClientTypes.TargetVisualOptions? = nil,
             targetVisuals: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.targetVisualOptions = targetVisualOptions
             self.targetVisuals = targetVisuals
         }
@@ -6860,8 +6674,7 @@ extension QuickSightClientTypes {
 
         public init(
             sameSheetTargetVisualConfiguration: QuickSightClientTypes.SameSheetTargetVisualConfiguration? = nil
-        )
-        {
+        ) {
             self.sameSheetTargetVisualConfiguration = sameSheetTargetVisualConfiguration
         }
     }
@@ -6881,8 +6694,7 @@ extension QuickSightClientTypes {
         public init(
             selectedFieldsConfiguration: QuickSightClientTypes.FilterOperationSelectedFieldsConfiguration? = nil,
             targetVisualsConfiguration: QuickSightClientTypes.FilterOperationTargetVisualsConfiguration? = nil
-        )
-        {
+        ) {
             self.selectedFieldsConfiguration = selectedFieldsConfiguration
             self.targetVisualsConfiguration = targetVisualsConfiguration
         }
@@ -6907,8 +6719,7 @@ extension QuickSightClientTypes {
             navigationOperation: QuickSightClientTypes.CustomActionNavigationOperation? = nil,
             setParametersOperation: QuickSightClientTypes.CustomActionSetParametersOperation? = nil,
             urlOperation: QuickSightClientTypes.CustomActionURLOperation? = nil
-        )
-        {
+        ) {
             self.filterOperation = filterOperation
             self.navigationOperation = navigationOperation
             self.setParametersOperation = setParametersOperation
@@ -6975,8 +6786,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             status: QuickSightClientTypes.WidgetStatus? = nil,
             trigger: QuickSightClientTypes.VisualCustomActionTrigger? = nil
-        )
-        {
+        ) {
             self.actionOperations = actionOperations
             self.customActionId = customActionId
             self.name = name
@@ -7027,8 +6837,7 @@ extension QuickSightClientTypes {
 
         public init(
             missingDateVisibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.missingDateVisibility = missingDateVisibility
         }
     }
@@ -7055,8 +6864,7 @@ extension QuickSightClientTypes {
         public init(
             maximum: Swift.Double? = 0.0,
             minimum: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.maximum = maximum
             self.minimum = minimum
         }
@@ -7075,8 +6883,7 @@ extension QuickSightClientTypes {
         public init(
             dataDriven: QuickSightClientTypes.AxisDisplayDataDrivenRange? = nil,
             minMax: QuickSightClientTypes.AxisDisplayMinMaxRange? = nil
-        )
-        {
+        ) {
             self.dataDriven = dataDriven
             self.minMax = minMax
         }
@@ -7095,8 +6902,7 @@ extension QuickSightClientTypes {
         public init(
             stepCount: Swift.Int? = 0,
             stepSize: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.stepCount = stepCount
             self.stepSize = stepSize
         }
@@ -7112,8 +6918,7 @@ extension QuickSightClientTypes {
 
         public init(
             base: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.base = base
         }
     }
@@ -7131,8 +6936,7 @@ extension QuickSightClientTypes {
         public init(
             linear: QuickSightClientTypes.AxisLinearScale? = nil,
             logarithmic: QuickSightClientTypes.AxisLogarithmicScale? = nil
-        )
-        {
+        ) {
             self.linear = linear
             self.logarithmic = logarithmic
         }
@@ -7151,8 +6955,7 @@ extension QuickSightClientTypes {
         public init(
             range: QuickSightClientTypes.AxisDisplayRange? = nil,
             scale: QuickSightClientTypes.AxisScale? = nil
-        )
-        {
+        ) {
             self.range = range
             self.scale = scale
         }
@@ -7171,8 +6974,7 @@ extension QuickSightClientTypes {
         public init(
             dateAxisOptions: QuickSightClientTypes.DateAxisOptions? = nil,
             numericAxisOptions: QuickSightClientTypes.NumericAxisOptions? = nil
-        )
-        {
+        ) {
             self.dateAxisOptions = dateAxisOptions
             self.numericAxisOptions = numericAxisOptions
         }
@@ -7191,8 +6993,7 @@ extension QuickSightClientTypes {
         public init(
             from: Swift.Double? = 0.0,
             to: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.from = from
             self.to = to
         }
@@ -7208,8 +7009,7 @@ extension QuickSightClientTypes {
 
         public init(
             percentRange: QuickSightClientTypes.PercentVisibleRange? = nil
-        )
-        {
+        ) {
             self.percentRange = percentRange
         }
     }
@@ -7227,8 +7027,7 @@ extension QuickSightClientTypes {
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil,
             visibleRange: QuickSightClientTypes.VisibleRangeOptions? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
             self.visibleRange = visibleRange
         }
@@ -7247,8 +7046,7 @@ extension QuickSightClientTypes {
         public init(
             labelOptions: QuickSightClientTypes.LabelOptions? = nil,
             rotationAngle: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.labelOptions = labelOptions
             self.rotationAngle = rotationAngle
         }
@@ -7279,8 +7077,7 @@ extension QuickSightClientTypes {
             gridLineVisibility: QuickSightClientTypes.Visibility? = nil,
             scrollbarOptions: QuickSightClientTypes.ScrollBarOptions? = nil,
             tickLabelOptions: QuickSightClientTypes.AxisTickLabelOptions? = nil
-        )
-        {
+        ) {
             self.axisLineVisibility = axisLineVisibility
             self.axisOffset = axisOffset
             self.dataOptions = dataOptions
@@ -7305,8 +7102,7 @@ extension QuickSightClientTypes {
         public init(
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             fieldId: Swift.String? = nil
-        )
-        {
+        ) {
             self.column = column
             self.fieldId = fieldId
         }
@@ -7328,8 +7124,7 @@ extension QuickSightClientTypes {
             applyTo: QuickSightClientTypes.AxisLabelReferenceOptions? = nil,
             customLabel: Swift.String? = nil,
             fontConfiguration: QuickSightClientTypes.FontConfiguration? = nil
-        )
-        {
+        ) {
             self.applyTo = applyTo
             self.customLabel = customLabel
             self.fontConfiguration = fontConfiguration
@@ -7356,8 +7151,7 @@ extension QuickSightClientTypes {
             axisLabelOptions: [QuickSightClientTypes.AxisLabelOptions]? = nil,
             sortIconVisibility: QuickSightClientTypes.Visibility? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.axisLabelOptions = axisLabelOptions
             self.sortIconVisibility = sortIconVisibility
             self.visibility = visibility
@@ -7379,8 +7173,7 @@ extension QuickSightClientTypes {
         public init(
             contributorDimensions: [QuickSightClientTypes.ColumnIdentifier]? = nil,
             measureFieldId: Swift.String? = nil
-        )
-        {
+        ) {
             self.contributorDimensions = contributorDimensions
             self.measureFieldId = measureFieldId
         }
@@ -7402,8 +7195,7 @@ extension QuickSightClientTypes {
             fieldId: Swift.String? = nil,
             fieldValue: Swift.String? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
             self.fieldValue = fieldValue
             self.visibility = visibility
@@ -7428,8 +7220,7 @@ extension QuickSightClientTypes {
         public init(
             fieldId: Swift.String? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
             self.visibility = visibility
         }
@@ -7445,8 +7236,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -7461,8 +7251,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -7477,8 +7266,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -7505,8 +7293,7 @@ extension QuickSightClientTypes {
             maximumLabelType: QuickSightClientTypes.MaximumLabelType? = nil,
             minimumLabelType: QuickSightClientTypes.MinimumLabelType? = nil,
             rangeEndsLabelType: QuickSightClientTypes.RangeEndsLabelType? = nil
-        )
-        {
+        ) {
             self.dataPathLabelType = dataPathLabelType
             self.fieldLabelType = fieldLabelType
             self.maximumLabelType = maximumLabelType
@@ -7654,8 +7441,7 @@ extension QuickSightClientTypes {
             position: QuickSightClientTypes.DataLabelPosition? = nil,
             totalsVisibility: QuickSightClientTypes.Visibility? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.categoryLabelVisibility = categoryLabelVisibility
             self.dataLabelTypes = dataLabelTypes
             self.labelColor = labelColor
@@ -7690,8 +7476,7 @@ extension QuickSightClientTypes {
             fieldId: Swift.String? = nil,
             formatConfiguration: QuickSightClientTypes.StringFormatConfiguration? = nil,
             hierarchyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.column = column
             self.fieldId = fieldId
             self.formatConfiguration = formatConfiguration
@@ -7741,8 +7526,7 @@ extension QuickSightClientTypes {
             fieldId: Swift.String? = nil,
             formatConfiguration: QuickSightClientTypes.DateTimeFormatConfiguration? = nil,
             hierarchyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.column = column
             self.dateGranularity = dateGranularity
             self.fieldId = fieldId
@@ -7772,8 +7556,7 @@ extension QuickSightClientTypes {
             fieldId: Swift.String? = nil,
             formatConfiguration: QuickSightClientTypes.NumberFormatConfiguration? = nil,
             hierarchyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.column = column
             self.fieldId = fieldId
             self.formatConfiguration = formatConfiguration
@@ -7797,8 +7580,7 @@ extension QuickSightClientTypes {
             categoricalDimensionField: QuickSightClientTypes.CategoricalDimensionField? = nil,
             dateDimensionField: QuickSightClientTypes.DateDimensionField? = nil,
             numericalDimensionField: QuickSightClientTypes.NumericalDimensionField? = nil
-        )
-        {
+        ) {
             self.categoricalDimensionField = categoricalDimensionField
             self.dateDimensionField = dateDimensionField
             self.numericalDimensionField = numericalDimensionField
@@ -7820,8 +7602,7 @@ extension QuickSightClientTypes {
         public init(
             expression: Swift.String? = nil,
             fieldId: Swift.String? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.fieldId = fieldId
         }
@@ -7853,8 +7634,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             fieldId: Swift.String? = nil,
             formatConfiguration: QuickSightClientTypes.StringFormatConfiguration? = nil
-        )
-        {
+        ) {
             self.aggregationFunction = aggregationFunction
             self.column = column
             self.fieldId = fieldId
@@ -7883,8 +7663,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             fieldId: Swift.String? = nil,
             formatConfiguration: QuickSightClientTypes.DateTimeFormatConfiguration? = nil
-        )
-        {
+        ) {
             self.aggregationFunction = aggregationFunction
             self.column = column
             self.fieldId = fieldId
@@ -7913,8 +7692,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             fieldId: Swift.String? = nil,
             formatConfiguration: QuickSightClientTypes.NumberFormatConfiguration? = nil
-        )
-        {
+        ) {
             self.aggregationFunction = aggregationFunction
             self.column = column
             self.fieldId = fieldId
@@ -7941,8 +7719,7 @@ extension QuickSightClientTypes {
             categoricalMeasureField: QuickSightClientTypes.CategoricalMeasureField? = nil,
             dateMeasureField: QuickSightClientTypes.DateMeasureField? = nil,
             numericalMeasureField: QuickSightClientTypes.NumericalMeasureField? = nil
-        )
-        {
+        ) {
             self.calculatedMeasureField = calculatedMeasureField
             self.categoricalMeasureField = categoricalMeasureField
             self.dateMeasureField = dateMeasureField
@@ -7969,8 +7746,7 @@ extension QuickSightClientTypes {
             colors: [QuickSightClientTypes.DimensionField]? = nil,
             smallMultiples: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.category = category
             self.colors = colors
             self.smallMultiples = smallMultiples
@@ -7988,8 +7764,7 @@ extension QuickSightClientTypes {
 
         public init(
             barChartAggregatedFieldWells: QuickSightClientTypes.BarChartAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.barChartAggregatedFieldWells = barChartAggregatedFieldWells
         }
     }
@@ -8004,8 +7779,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -8020,8 +7794,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -8039,8 +7812,7 @@ extension QuickSightClientTypes {
         public init(
             contextMenuOption: QuickSightClientTypes.ContextMenuOption? = nil,
             visualMenuOption: QuickSightClientTypes.VisualMenuOption? = nil
-        )
-        {
+        ) {
             self.contextMenuOption = contextMenuOption
             self.visualMenuOption = visualMenuOption
         }
@@ -8114,8 +7886,7 @@ extension QuickSightClientTypes {
             valueFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil,
             width: Swift.String? = nil
-        )
-        {
+        ) {
             self.height = height
             self.position = position
             self.title = title
@@ -8201,8 +7972,7 @@ extension QuickSightClientTypes {
             calculation: QuickSightClientTypes.NumericalAggregationFunction? = nil,
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             measureAggregationFunction: QuickSightClientTypes.AggregationFunction? = nil
-        )
-        {
+        ) {
             self.calculation = calculation
             self.column = column
             self.measureAggregationFunction = measureAggregationFunction
@@ -8249,8 +8019,7 @@ extension QuickSightClientTypes {
 
         public init(
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -8287,8 +8056,7 @@ extension QuickSightClientTypes {
             dynamicConfiguration: QuickSightClientTypes.ReferenceLineDynamicDataConfiguration? = nil,
             seriesType: QuickSightClientTypes.ReferenceLineSeriesType? = nil,
             staticConfiguration: QuickSightClientTypes.ReferenceLineStaticDataConfiguration? = nil
-        )
-        {
+        ) {
             self.axisBinding = axisBinding
             self.dynamicConfiguration = dynamicConfiguration
             self.seriesType = seriesType
@@ -8307,8 +8075,7 @@ extension QuickSightClientTypes {
 
         public init(
             customLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.customLabel = customLabel
         }
     }
@@ -8391,8 +8158,7 @@ extension QuickSightClientTypes {
         public init(
             formatConfiguration: QuickSightClientTypes.NumericFormatConfiguration? = nil,
             relativePosition: QuickSightClientTypes.ReferenceLineValueLabelRelativePosition? = nil
-        )
-        {
+        ) {
             self.formatConfiguration = formatConfiguration
             self.relativePosition = relativePosition
         }
@@ -8462,8 +8228,7 @@ extension QuickSightClientTypes {
             horizontalPosition: QuickSightClientTypes.ReferenceLineLabelHorizontalPosition? = nil,
             valueLabelConfiguration: QuickSightClientTypes.ReferenceLineValueLabelConfiguration? = nil,
             verticalPosition: QuickSightClientTypes.ReferenceLineLabelVerticalPosition? = nil
-        )
-        {
+        ) {
             self.customLabelConfiguration = customLabelConfiguration
             self.fontColor = fontColor
             self.fontConfiguration = fontConfiguration
@@ -8524,8 +8289,7 @@ extension QuickSightClientTypes {
         public init(
             color: Swift.String? = nil,
             pattern: QuickSightClientTypes.ReferenceLinePatternType? = nil
-        )
-        {
+        ) {
             self.color = color
             self.pattern = pattern
         }
@@ -8555,8 +8319,7 @@ extension QuickSightClientTypes {
             labelConfiguration: QuickSightClientTypes.ReferenceLineLabelConfiguration? = nil,
             status: QuickSightClientTypes.WidgetStatus? = nil,
             styleConfiguration: QuickSightClientTypes.ReferenceLineStyleConfiguration? = nil
-        )
-        {
+        ) {
             self.dataConfiguration = dataConfiguration
             self.labelConfiguration = labelConfiguration
             self.status = status
@@ -8647,8 +8410,7 @@ extension QuickSightClientTypes {
             fontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
             horizontalTextAlignment: QuickSightClientTypes.HorizontalTextAlignment? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.fontConfiguration = fontConfiguration
             self.horizontalTextAlignment = horizontalTextAlignment
             self.visibility = visibility
@@ -8689,8 +8451,7 @@ extension QuickSightClientTypes {
             gutterSpacing: Swift.String? = nil,
             gutterVisibility: QuickSightClientTypes.Visibility? = nil,
             title: QuickSightClientTypes.PanelTitleOptions? = nil
-        )
-        {
+        ) {
             self.backgroundColor = backgroundColor
             self.backgroundVisibility = backgroundVisibility
             self.borderColor = borderColor
@@ -8774,8 +8535,7 @@ extension QuickSightClientTypes {
         public init(
             placement: QuickSightClientTypes.SmallMultiplesAxisPlacement? = nil,
             scale: QuickSightClientTypes.SmallMultiplesAxisScale? = nil
-        )
-        {
+        ) {
             self.placement = placement
             self.scale = scale
         }
@@ -8803,8 +8563,7 @@ extension QuickSightClientTypes {
             panelConfiguration: QuickSightClientTypes.PanelConfiguration? = nil,
             xAxis: QuickSightClientTypes.SmallMultiplesAxisProperties? = nil,
             yAxis: QuickSightClientTypes.SmallMultiplesAxisProperties? = nil
-        )
-        {
+        ) {
             self.maxVisibleColumns = maxVisibleColumns
             self.maxVisibleRows = maxVisibleRows
             self.panelConfiguration = panelConfiguration
@@ -8859,8 +8618,7 @@ extension QuickSightClientTypes {
         public init(
             itemsLimit: Swift.Int? = 0,
             otherCategories: QuickSightClientTypes.OtherCategories? = nil
-        )
-        {
+        ) {
             self.itemsLimit = itemsLimit
             self.otherCategories = otherCategories
         }
@@ -8885,8 +8643,7 @@ extension QuickSightClientTypes {
         public init(
             direction: QuickSightClientTypes.SortDirection? = nil,
             fieldId: Swift.String? = nil
-        )
-        {
+        ) {
             self.direction = direction
             self.fieldId = fieldId
         }
@@ -8905,8 +8662,7 @@ extension QuickSightClientTypes {
         public init(
             columnSort: QuickSightClientTypes.ColumnSort? = nil,
             fieldSort: QuickSightClientTypes.FieldSort? = nil
-        )
-        {
+        ) {
             self.columnSort = columnSort
             self.fieldSort = fieldSort
         }
@@ -8937,8 +8693,7 @@ extension QuickSightClientTypes {
             colorSort: [QuickSightClientTypes.FieldSortOptions]? = nil,
             smallMultiplesLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             smallMultiplesSort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
             self.colorItemsLimit = colorItemsLimit
@@ -9003,8 +8758,7 @@ extension QuickSightClientTypes {
             label: Swift.String? = nil,
             tooltipTarget: QuickSightClientTypes.TooltipTarget? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.aggregation = aggregation
             self.column = column
             self.label = label
@@ -9033,8 +8787,7 @@ extension QuickSightClientTypes {
             label: Swift.String? = nil,
             tooltipTarget: QuickSightClientTypes.TooltipTarget? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
             self.label = label
             self.tooltipTarget = tooltipTarget
@@ -9055,8 +8808,7 @@ extension QuickSightClientTypes {
         public init(
             columnTooltipItem: QuickSightClientTypes.ColumnTooltipItem? = nil,
             fieldTooltipItem: QuickSightClientTypes.FieldTooltipItem? = nil
-        )
-        {
+        ) {
             self.columnTooltipItem = columnTooltipItem
             self.fieldTooltipItem = fieldTooltipItem
         }
@@ -9111,8 +8863,7 @@ extension QuickSightClientTypes {
             aggregationVisibility: QuickSightClientTypes.Visibility? = nil,
             tooltipFields: [QuickSightClientTypes.TooltipItem]? = nil,
             tooltipTitleType: QuickSightClientTypes.TooltipTitleType? = nil
-        )
-        {
+        ) {
             self.aggregationVisibility = aggregationVisibility
             self.tooltipFields = tooltipFields
             self.tooltipTitleType = tooltipTitleType
@@ -9168,8 +8919,7 @@ extension QuickSightClientTypes {
             fieldBasedTooltip: QuickSightClientTypes.FieldBasedTooltip? = nil,
             selectedTooltipType: QuickSightClientTypes.SelectedTooltipType? = nil,
             tooltipVisibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.fieldBasedTooltip = fieldBasedTooltip
             self.selectedTooltipType = selectedTooltipType
             self.tooltipVisibility = tooltipVisibility
@@ -9229,8 +8979,7 @@ extension QuickSightClientTypes {
 
         public init(
             pivotTableDataPathType: QuickSightClientTypes.PivotTableDataPathType? = nil
-        )
-        {
+        ) {
             self.pivotTableDataPathType = pivotTableDataPathType
         }
     }
@@ -9251,8 +9000,7 @@ extension QuickSightClientTypes {
             dataPathType: QuickSightClientTypes.DataPathType? = nil,
             fieldId: Swift.String? = nil,
             fieldValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataPathType = dataPathType
             self.fieldId = fieldId
             self.fieldValue = fieldValue
@@ -9282,8 +9030,7 @@ extension QuickSightClientTypes {
             color: Swift.String? = nil,
             element: QuickSightClientTypes.DataPathValue? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
-        )
-        {
+        ) {
             self.color = color
             self.element = element
             self.timeGranularity = timeGranularity
@@ -9303,8 +9050,7 @@ extension QuickSightClientTypes {
         public init(
             chartColor: Swift.String? = nil,
             colorMap: [QuickSightClientTypes.DataPathColor]? = nil
-        )
-        {
+        ) {
             self.chartColor = chartColor
             self.colorMap = colorMap
         }
@@ -9372,8 +9118,7 @@ extension QuickSightClientTypes {
             valueAxis: QuickSightClientTypes.AxisDisplayOptions? = nil,
             valueLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil
-        )
-        {
+        ) {
             self.barsArrangement = barsArrangement
             self.categoryAxis = categoryAxis
             self.categoryLabelOptions = categoryLabelOptions
@@ -9409,8 +9154,7 @@ extension QuickSightClientTypes {
         public init(
             categoryValues: [Swift.String]? = nil,
             column: QuickSightClientTypes.ColumnIdentifier? = nil
-        )
-        {
+        ) {
             self.categoryValues = categoryValues
             self.column = column
         }
@@ -9431,8 +9175,7 @@ extension QuickSightClientTypes {
         public init(
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.column = column
             self.value = value
         }
@@ -9461,8 +9204,7 @@ extension QuickSightClientTypes {
             rangeMaximum: Foundation.Date? = nil,
             rangeMinimum: Foundation.Date? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
-        )
-        {
+        ) {
             self.column = column
             self.rangeMaximum = rangeMaximum
             self.rangeMinimum = rangeMinimum
@@ -9486,8 +9228,7 @@ extension QuickSightClientTypes {
             categoryFilter: QuickSightClientTypes.CategoryDrillDownFilter? = nil,
             numericEqualityFilter: QuickSightClientTypes.NumericEqualityDrillDownFilter? = nil,
             timeRangeFilter: QuickSightClientTypes.TimeRangeDrillDownFilter? = nil
-        )
-        {
+        ) {
             self.categoryFilter = categoryFilter
             self.numericEqualityFilter = numericEqualityFilter
             self.timeRangeFilter = timeRangeFilter
@@ -9508,8 +9249,7 @@ extension QuickSightClientTypes {
         public init(
             drillDownFilters: [QuickSightClientTypes.DrillDownFilter]? = nil,
             hierarchyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.drillDownFilters = drillDownFilters
             self.hierarchyId = hierarchyId
         }
@@ -9533,8 +9273,7 @@ extension QuickSightClientTypes {
             columns: [QuickSightClientTypes.ColumnIdentifier]? = nil,
             drillDownFilters: [QuickSightClientTypes.DrillDownFilter]? = nil,
             hierarchyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.drillDownFilters = drillDownFilters
             self.hierarchyId = hierarchyId
@@ -9559,8 +9298,7 @@ extension QuickSightClientTypes {
             columns: [QuickSightClientTypes.ColumnIdentifier]? = nil,
             drillDownFilters: [QuickSightClientTypes.DrillDownFilter]? = nil,
             hierarchyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.drillDownFilters = drillDownFilters
             self.hierarchyId = hierarchyId
@@ -9583,8 +9321,7 @@ extension QuickSightClientTypes {
             dateTimeHierarchy: QuickSightClientTypes.DateTimeHierarchy? = nil,
             explicitHierarchy: QuickSightClientTypes.ExplicitHierarchy? = nil,
             predefinedHierarchy: QuickSightClientTypes.PredefinedHierarchy? = nil
-        )
-        {
+        ) {
             self.dateTimeHierarchy = dateTimeHierarchy
             self.explicitHierarchy = explicitHierarchy
             self.predefinedHierarchy = predefinedHierarchy
@@ -9604,8 +9341,7 @@ extension QuickSightClientTypes {
         public init(
             plainText: Swift.String? = nil,
             richText: Swift.String? = nil
-        )
-        {
+        ) {
             self.plainText = plainText
             self.richText = richText
         }
@@ -9624,8 +9360,7 @@ extension QuickSightClientTypes {
         public init(
             formatText: QuickSightClientTypes.LongFormatText? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.formatText = formatText
             self.visibility = visibility
         }
@@ -9644,8 +9379,7 @@ extension QuickSightClientTypes {
         public init(
             plainText: Swift.String? = nil,
             richText: Swift.String? = nil
-        )
-        {
+        ) {
             self.plainText = plainText
             self.richText = richText
         }
@@ -9664,8 +9398,7 @@ extension QuickSightClientTypes {
         public init(
             formatText: QuickSightClientTypes.ShortFormatText? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.formatText = formatText
             self.visibility = visibility
         }
@@ -9715,8 +9448,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -9766,8 +9498,7 @@ extension QuickSightClientTypes {
 
         public init(
             fillStyle: QuickSightClientTypes.BoxPlotFillStyle? = nil
-        )
-        {
+        ) {
             self.fillStyle = fillStyle
         }
     }
@@ -9788,8 +9519,7 @@ extension QuickSightClientTypes {
             allDataPointsVisibility: QuickSightClientTypes.Visibility? = nil,
             outlierVisibility: QuickSightClientTypes.Visibility? = nil,
             styleOptions: QuickSightClientTypes.BoxPlotStyleOptions? = nil
-        )
-        {
+        ) {
             self.allDataPointsVisibility = allDataPointsVisibility
             self.outlierVisibility = outlierVisibility
             self.styleOptions = styleOptions
@@ -9809,8 +9539,7 @@ extension QuickSightClientTypes {
         public init(
             groupBy: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.groupBy = groupBy
             self.values = values
         }
@@ -9826,8 +9555,7 @@ extension QuickSightClientTypes {
 
         public init(
             boxPlotAggregatedFieldWells: QuickSightClientTypes.BoxPlotAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.boxPlotAggregatedFieldWells = boxPlotAggregatedFieldWells
         }
     }
@@ -9847,8 +9575,7 @@ extension QuickSightClientTypes {
         public init(
             pageNumber: Swift.Int? = nil,
             pageSize: Swift.Int? = 0
-        )
-        {
+        ) {
             self.pageNumber = pageNumber
             self.pageSize = pageSize
         }
@@ -9867,8 +9594,7 @@ extension QuickSightClientTypes {
         public init(
             categorySort: [QuickSightClientTypes.FieldSortOptions]? = nil,
             paginationConfiguration: QuickSightClientTypes.PaginationConfiguration? = nil
-        )
-        {
+        ) {
             self.categorySort = categorySort
             self.paginationConfiguration = paginationConfiguration
         }
@@ -9917,8 +9643,7 @@ extension QuickSightClientTypes {
             sortConfiguration: QuickSightClientTypes.BoxPlotSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil
-        )
-        {
+        ) {
             self.boxPlotOptions = boxPlotOptions
             self.categoryAxis = categoryAxis
             self.categoryLabelOptions = categoryLabelOptions
@@ -9963,8 +9688,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -9994,8 +9718,7 @@ extension QuickSightClientTypes {
             category: [QuickSightClientTypes.DimensionField]? = nil,
             colors: [QuickSightClientTypes.DimensionField]? = nil,
             lineValues: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.barValues = barValues
             self.category = category
             self.colors = colors
@@ -10013,8 +9736,7 @@ extension QuickSightClientTypes {
 
         public init(
             comboChartAggregatedFieldWells: QuickSightClientTypes.ComboChartAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.comboChartAggregatedFieldWells = comboChartAggregatedFieldWells
         }
     }
@@ -10056,8 +9778,7 @@ extension QuickSightClientTypes {
 
         public init(
             yAxis: QuickSightClientTypes.SingleYAxisOption? = nil
-        )
-        {
+        ) {
             self.yAxis = yAxis
         }
     }
@@ -10072,8 +9793,7 @@ extension QuickSightClientTypes {
 
         public init(
             yAxisOptions: QuickSightClientTypes.YAxisOptions? = nil
-        )
-        {
+        ) {
             self.yAxisOptions = yAxisOptions
         }
     }
@@ -10097,8 +9817,7 @@ extension QuickSightClientTypes {
             categorySort: [QuickSightClientTypes.FieldSortOptions]? = nil,
             colorItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             colorSort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
             self.colorItemsLimit = colorItemsLimit
@@ -10173,8 +9892,7 @@ extension QuickSightClientTypes {
             sortConfiguration: QuickSightClientTypes.ComboChartSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil
-        )
-        {
+        ) {
             self.barDataLabels = barDataLabels
             self.barsArrangement = barsArrangement
             self.categoryAxis = categoryAxis
@@ -10225,8 +9943,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -10320,8 +10037,7 @@ extension QuickSightClientTypes {
             contentUrl: Swift.String? = nil,
             imageScaling: QuickSightClientTypes.CustomContentImageScalingConfiguration? = nil,
             interactions: QuickSightClientTypes.VisualInteractionOptions? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.contentUrl = contentUrl
             self.imageScaling = imageScaling
@@ -10359,8 +10075,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.dataSetIdentifier = dataSetIdentifier
@@ -10389,8 +10104,7 @@ extension QuickSightClientTypes {
             actions: [QuickSightClientTypes.VisualCustomAction]? = nil,
             dataSetIdentifier: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.dataSetIdentifier = dataSetIdentifier
             self.visualId = visualId
@@ -10410,8 +10124,7 @@ extension QuickSightClientTypes {
         public init(
             geospatial: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.geospatial = geospatial
             self.values = values
         }
@@ -10427,8 +10140,7 @@ extension QuickSightClientTypes {
 
         public init(
             filledMapAggregatedFieldWells: QuickSightClientTypes.FilledMapAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.filledMapAggregatedFieldWells = filledMapAggregatedFieldWells
         }
     }
@@ -10478,8 +10190,7 @@ extension QuickSightClientTypes {
 
         public init(
             baseMapStyle: QuickSightClientTypes.BaseMapStyleType? = nil
-        )
-        {
+        ) {
             self.baseMapStyle = baseMapStyle
         }
     }
@@ -10494,8 +10205,7 @@ extension QuickSightClientTypes {
 
         public init(
             categorySort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.categorySort = categorySort
         }
     }
@@ -10523,8 +10233,7 @@ extension QuickSightClientTypes {
             north: Swift.Double? = nil,
             south: Swift.Double? = nil,
             west: Swift.Double? = nil
-        )
-        {
+        ) {
             self.east = east
             self.north = north
             self.south = south
@@ -10574,8 +10283,7 @@ extension QuickSightClientTypes {
         public init(
             bounds: QuickSightClientTypes.GeospatialCoordinateBounds? = nil,
             mapZoomMode: QuickSightClientTypes.MapZoomMode? = nil
-        )
-        {
+        ) {
             self.bounds = bounds
             self.mapZoomMode = mapZoomMode
         }
@@ -10609,8 +10317,7 @@ extension QuickSightClientTypes {
             sortConfiguration: QuickSightClientTypes.FilledMapSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             windowOptions: QuickSightClientTypes.GeospatialWindowOptions? = nil
-        )
-        {
+        ) {
             self.fieldWells = fieldWells
             self.interactions = interactions
             self.legend = legend
@@ -10638,8 +10345,7 @@ extension QuickSightClientTypes {
             color: Swift.String? = nil,
             dataValue: Swift.Double? = 0.0,
             gradientOffset: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.color = color
             self.dataValue = dataValue
             self.gradientOffset = gradientOffset
@@ -10656,8 +10362,7 @@ extension QuickSightClientTypes {
 
         public init(
             stops: [QuickSightClientTypes.GradientStop]? = nil
-        )
-        {
+        ) {
             self.stops = stops
         }
     }
@@ -10677,8 +10382,7 @@ extension QuickSightClientTypes {
         public init(
             color: QuickSightClientTypes.GradientColor? = nil,
             expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.color = color
             self.expression = expression
         }
@@ -10703,8 +10407,7 @@ extension QuickSightClientTypes {
         public init(
             color: Swift.String? = nil,
             expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.color = color
             self.expression = expression
         }
@@ -10728,8 +10431,7 @@ extension QuickSightClientTypes {
         public init(
             gradient: QuickSightClientTypes.ConditionalFormattingGradientColor? = nil,
             solid: QuickSightClientTypes.ConditionalFormattingSolidColor? = nil
-        )
-        {
+        ) {
             self.gradient = gradient
             self.solid = solid
         }
@@ -10746,8 +10448,7 @@ extension QuickSightClientTypes {
 
         public init(
             backgroundColor: QuickSightClientTypes.ConditionalFormattingColor? = nil
-        )
-        {
+        ) {
             self.backgroundColor = backgroundColor
         }
     }
@@ -10766,8 +10467,7 @@ extension QuickSightClientTypes {
         public init(
             fieldId: Swift.String? = nil,
             format: QuickSightClientTypes.ShapeConditionalFormat? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
             self.format = format
         }
@@ -10784,8 +10484,7 @@ extension QuickSightClientTypes {
 
         public init(
             shape: QuickSightClientTypes.FilledMapShapeConditionalFormatting? = nil
-        )
-        {
+        ) {
             self.shape = shape
         }
     }
@@ -10801,8 +10500,7 @@ extension QuickSightClientTypes {
 
         public init(
             conditionalFormattingOptions: [QuickSightClientTypes.FilledMapConditionalFormattingOption]? = nil
-        )
-        {
+        ) {
             self.conditionalFormattingOptions = conditionalFormattingOptions
         }
     }
@@ -10839,8 +10537,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -10918,8 +10615,7 @@ extension QuickSightClientTypes {
             measureLabelVisibility: QuickSightClientTypes.Visibility? = nil,
             position: QuickSightClientTypes.DataLabelPosition? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.categoryLabelVisibility = categoryLabelVisibility
             self.labelColor = labelColor
             self.labelFontConfiguration = labelFontConfiguration
@@ -10943,8 +10639,7 @@ extension QuickSightClientTypes {
         public init(
             category: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.category = category
             self.values = values
         }
@@ -10960,8 +10655,7 @@ extension QuickSightClientTypes {
 
         public init(
             funnelChartAggregatedFieldWells: QuickSightClientTypes.FunnelChartAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.funnelChartAggregatedFieldWells = funnelChartAggregatedFieldWells
         }
     }
@@ -10979,8 +10673,7 @@ extension QuickSightClientTypes {
         public init(
             categoryItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             categorySort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
         }
@@ -11017,8 +10710,7 @@ extension QuickSightClientTypes {
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             valueLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil
-        )
-        {
+        ) {
             self.categoryLabelOptions = categoryLabelOptions
             self.dataLabelOptions = dataLabelOptions
             self.fieldWells = fieldWells
@@ -11059,8 +10751,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -11084,8 +10775,7 @@ extension QuickSightClientTypes {
         public init(
             backgroundColor: Swift.String? = nil,
             foregroundColor: Swift.String? = nil
-        )
-        {
+        ) {
             self.backgroundColor = backgroundColor
             self.foregroundColor = foregroundColor
         }
@@ -11104,8 +10794,7 @@ extension QuickSightClientTypes {
         public init(
             targetValues: [QuickSightClientTypes.MeasureField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.targetValues = targetValues
             self.values = values
         }
@@ -11156,8 +10845,7 @@ extension QuickSightClientTypes {
         public init(
             arcAngle: Swift.Double? = 0.0,
             arcThickness: QuickSightClientTypes.ArcThicknessOptions? = nil
-        )
-        {
+        ) {
             self.arcAngle = arcAngle
             self.arcThickness = arcThickness
         }
@@ -11176,8 +10864,7 @@ extension QuickSightClientTypes {
         public init(
             max: Swift.Double? = 0.0,
             min: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -11196,8 +10883,7 @@ extension QuickSightClientTypes {
         public init(
             range: QuickSightClientTypes.ArcAxisDisplayRange? = nil,
             reserveRange: Swift.Int = 0
-        )
-        {
+        ) {
             self.range = range
             self.reserveRange = reserveRange
         }
@@ -11216,8 +10902,7 @@ extension QuickSightClientTypes {
         public init(
             numberDisplayFormatConfiguration: QuickSightClientTypes.NumberDisplayFormatConfiguration? = nil,
             percentageDisplayFormatConfiguration: QuickSightClientTypes.PercentageDisplayFormatConfiguration? = nil
-        )
-        {
+        ) {
             self.numberDisplayFormatConfiguration = numberDisplayFormatConfiguration
             self.percentageDisplayFormatConfiguration = percentageDisplayFormatConfiguration
         }
@@ -11274,8 +10959,7 @@ extension QuickSightClientTypes {
         public init(
             comparisonFormat: QuickSightClientTypes.ComparisonFormatConfiguration? = nil,
             comparisonMethod: QuickSightClientTypes.ComparisonMethod? = nil
-        )
-        {
+        ) {
             self.comparisonFormat = comparisonFormat
             self.comparisonMethod = comparisonMethod
         }
@@ -11335,8 +11019,7 @@ extension QuickSightClientTypes {
             comparison: QuickSightClientTypes.ComparisonConfiguration? = nil,
             primaryValueDisplayType: QuickSightClientTypes.PrimaryValueDisplayType? = nil,
             primaryValueFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil
-        )
-        {
+        ) {
             self.arc = arc
             self.arcAxis = arcAxis
             self.comparison = comparison
@@ -11373,8 +11056,7 @@ extension QuickSightClientTypes {
             interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             tooltipOptions: QuickSightClientTypes.TooltipOptions? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil
-        )
-        {
+        ) {
             self.colorConfiguration = colorConfiguration
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
@@ -11395,8 +11077,7 @@ extension QuickSightClientTypes {
 
         public init(
             foregroundColor: QuickSightClientTypes.ConditionalFormattingColor? = nil
-        )
-        {
+        ) {
             self.foregroundColor = foregroundColor
         }
     }
@@ -11437,8 +11118,7 @@ extension QuickSightClientTypes {
 
         public init(
             iconDisplayOption: QuickSightClientTypes.ConditionalFormattingIconDisplayOption? = nil
-        )
-        {
+        ) {
             self.iconDisplayOption = iconDisplayOption
         }
     }
@@ -11557,8 +11237,7 @@ extension QuickSightClientTypes {
         public init(
             icon: QuickSightClientTypes.Icon? = nil,
             unicodeIcon: Swift.String? = nil
-        )
-        {
+        ) {
             self.icon = icon
             self.unicodeIcon = unicodeIcon
         }
@@ -11585,8 +11264,7 @@ extension QuickSightClientTypes {
             displayConfiguration: QuickSightClientTypes.ConditionalFormattingIconDisplayConfiguration? = nil,
             expression: Swift.String? = nil,
             iconOptions: QuickSightClientTypes.ConditionalFormattingCustomIconOptions? = nil
-        )
-        {
+        ) {
             self.color = color
             self.displayConfiguration = displayConfiguration
             self.expression = expression
@@ -11669,8 +11347,7 @@ extension QuickSightClientTypes {
         public init(
             expression: Swift.String? = nil,
             iconSetType: QuickSightClientTypes.ConditionalFormattingIconSetType? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.iconSetType = iconSetType
         }
@@ -11694,8 +11371,7 @@ extension QuickSightClientTypes {
         public init(
             customCondition: QuickSightClientTypes.ConditionalFormattingCustomIconCondition? = nil,
             iconSet: QuickSightClientTypes.ConditionalFormattingIconSet? = nil
-        )
-        {
+        ) {
             self.customCondition = customCondition
             self.iconSet = iconSet
         }
@@ -11714,8 +11390,7 @@ extension QuickSightClientTypes {
         public init(
             icon: QuickSightClientTypes.ConditionalFormattingIcon? = nil,
             textColor: QuickSightClientTypes.ConditionalFormattingColor? = nil
-        )
-        {
+        ) {
             self.icon = icon
             self.textColor = textColor
         }
@@ -11734,8 +11409,7 @@ extension QuickSightClientTypes {
         public init(
             arc: QuickSightClientTypes.GaugeChartArcConditionalFormatting? = nil,
             primaryValue: QuickSightClientTypes.GaugeChartPrimaryValueConditionalFormatting? = nil
-        )
-        {
+        ) {
             self.arc = arc
             self.primaryValue = primaryValue
         }
@@ -11751,8 +11425,7 @@ extension QuickSightClientTypes {
 
         public init(
             conditionalFormattingOptions: [QuickSightClientTypes.GaugeChartConditionalFormattingOption]? = nil
-        )
-        {
+        ) {
             self.conditionalFormattingOptions = conditionalFormattingOptions
         }
     }
@@ -11786,8 +11459,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.conditionalFormatting = conditionalFormatting
@@ -11814,8 +11486,7 @@ extension QuickSightClientTypes {
             colors: [QuickSightClientTypes.DimensionField]? = nil,
             geospatial: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.colors = colors
             self.geospatial = geospatial
             self.values = values
@@ -11832,8 +11503,7 @@ extension QuickSightClientTypes {
 
         public init(
             geospatialMapAggregatedFieldWells: QuickSightClientTypes.GeospatialMapAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.geospatialMapAggregatedFieldWells = geospatialMapAggregatedFieldWells
         }
     }
@@ -11848,8 +11518,7 @@ extension QuickSightClientTypes {
 
         public init(
             color: Swift.String? = nil
-        )
-        {
+        ) {
             self.color = color
         }
     }
@@ -11864,8 +11533,7 @@ extension QuickSightClientTypes {
 
         public init(
             simpleClusterMarker: QuickSightClientTypes.SimpleClusterMarker? = nil
-        )
-        {
+        ) {
             self.simpleClusterMarker = simpleClusterMarker
         }
     }
@@ -11880,8 +11548,7 @@ extension QuickSightClientTypes {
 
         public init(
             clusterMarker: QuickSightClientTypes.ClusterMarker? = nil
-        )
-        {
+        ) {
             self.clusterMarker = clusterMarker
         }
     }
@@ -11897,8 +11564,7 @@ extension QuickSightClientTypes {
 
         public init(
             color: Swift.String? = nil
-        )
-        {
+        ) {
             self.color = color
         }
     }
@@ -11913,8 +11579,7 @@ extension QuickSightClientTypes {
 
         public init(
             colors: [QuickSightClientTypes.GeospatialHeatmapDataColor]? = nil
-        )
-        {
+        ) {
             self.colors = colors
         }
     }
@@ -11929,8 +11594,7 @@ extension QuickSightClientTypes {
 
         public init(
             heatmapColor: QuickSightClientTypes.GeospatialHeatmapColorScale? = nil
-        )
-        {
+        ) {
             self.heatmapColor = heatmapColor
         }
     }
@@ -11983,8 +11647,7 @@ extension QuickSightClientTypes {
             clusterMarkerConfiguration: QuickSightClientTypes.ClusterMarkerConfiguration? = nil,
             heatmapConfiguration: QuickSightClientTypes.GeospatialHeatmapConfiguration? = nil,
             selectedPointStyle: QuickSightClientTypes.GeospatialSelectedPointStyle? = nil
-        )
-        {
+        ) {
             self.clusterMarkerConfiguration = clusterMarkerConfiguration
             self.heatmapConfiguration = heatmapConfiguration
             self.selectedPointStyle = selectedPointStyle
@@ -12022,8 +11685,7 @@ extension QuickSightClientTypes {
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil,
             windowOptions: QuickSightClientTypes.GeospatialWindowOptions? = nil
-        )
-        {
+        ) {
             self.fieldWells = fieldWells
             self.interactions = interactions
             self.legend = legend
@@ -12064,8 +11726,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -12118,8 +11779,7 @@ extension QuickSightClientTypes {
         public init(
             color: Swift.String? = nil,
             dataValue: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.color = color
             self.dataValue = dataValue
         }
@@ -12143,8 +11803,7 @@ extension QuickSightClientTypes {
             colorFillType: QuickSightClientTypes.ColorFillType? = nil,
             colors: [QuickSightClientTypes.DataColor]? = nil,
             nullValueColor: QuickSightClientTypes.DataColor? = nil
-        )
-        {
+        ) {
             self.colorFillType = colorFillType
             self.colors = colors
             self.nullValueColor = nullValueColor
@@ -12167,8 +11826,7 @@ extension QuickSightClientTypes {
             columns: [QuickSightClientTypes.DimensionField]? = nil,
             rows: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.rows = rows
             self.values = values
@@ -12185,8 +11843,7 @@ extension QuickSightClientTypes {
 
         public init(
             heatMapAggregatedFieldWells: QuickSightClientTypes.HeatMapAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.heatMapAggregatedFieldWells = heatMapAggregatedFieldWells
         }
     }
@@ -12210,8 +11867,7 @@ extension QuickSightClientTypes {
             heatMapColumnSort: [QuickSightClientTypes.FieldSortOptions]? = nil,
             heatMapRowItemsLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             heatMapRowSort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.heatMapColumnItemsLimitConfiguration = heatMapColumnItemsLimitConfiguration
             self.heatMapColumnSort = heatMapColumnSort
             self.heatMapRowItemsLimitConfiguration = heatMapRowItemsLimitConfiguration
@@ -12253,8 +11909,7 @@ extension QuickSightClientTypes {
             rowLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             sortConfiguration: QuickSightClientTypes.HeatMapSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil
-        )
-        {
+        ) {
             self.colorScale = colorScale
             self.columnLabelOptions = columnLabelOptions
             self.dataLabels = dataLabels
@@ -12296,8 +11951,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -12318,8 +11972,7 @@ extension QuickSightClientTypes {
 
         public init(
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -12337,8 +11990,7 @@ extension QuickSightClientTypes {
         public init(
             binCountLimit: Swift.Int? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.binCountLimit = binCountLimit
             self.value = value
         }
@@ -12392,8 +12044,7 @@ extension QuickSightClientTypes {
             binWidth: QuickSightClientTypes.BinWidthOptions? = nil,
             selectedBinType: QuickSightClientTypes.HistogramBinType? = nil,
             startValue: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.binCount = binCount
             self.binWidth = binWidth
             self.selectedBinType = selectedBinType
@@ -12411,8 +12062,7 @@ extension QuickSightClientTypes {
 
         public init(
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -12427,8 +12077,7 @@ extension QuickSightClientTypes {
 
         public init(
             histogramAggregatedFieldWells: QuickSightClientTypes.HistogramAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.histogramAggregatedFieldWells = histogramAggregatedFieldWells
         }
     }
@@ -12467,8 +12116,7 @@ extension QuickSightClientTypes {
             xAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
             xAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             yAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil
-        )
-        {
+        ) {
             self.binOptions = binOptions
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
@@ -12507,8 +12155,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.subtitle = subtitle
@@ -12592,8 +12239,7 @@ extension QuickSightClientTypes {
             time: QuickSightClientTypes.DimensionField? = nil,
             upperBoundary: Swift.Double? = 0.0,
             value: QuickSightClientTypes.MeasureField? = nil
-        )
-        {
+        ) {
             self.computationId = computationId
             self.customSeasonalityValue = customSeasonalityValue
             self.lowerBoundary = lowerBoundary
@@ -12631,8 +12277,7 @@ extension QuickSightClientTypes {
             periodSize: Swift.Int? = nil,
             time: QuickSightClientTypes.DimensionField? = nil,
             value: QuickSightClientTypes.MeasureField? = nil
-        )
-        {
+        ) {
             self.computationId = computationId
             self.name = name
             self.periodSize = periodSize
@@ -12698,8 +12343,7 @@ extension QuickSightClientTypes {
             time: QuickSightClientTypes.DimensionField? = nil,
             type: QuickSightClientTypes.MaximumMinimumComputationType? = nil,
             value: QuickSightClientTypes.MeasureField? = nil
-        )
-        {
+        ) {
             self.computationId = computationId
             self.name = name
             self.time = time
@@ -12731,8 +12375,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             targetValue: QuickSightClientTypes.MeasureField? = nil,
             time: QuickSightClientTypes.DimensionField? = nil
-        )
-        {
+        ) {
             self.computationId = computationId
             self.fromValue = fromValue
             self.name = name
@@ -12761,8 +12404,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             time: QuickSightClientTypes.DimensionField? = nil,
             value: QuickSightClientTypes.MeasureField? = nil
-        )
-        {
+        ) {
             self.computationId = computationId
             self.name = name
             self.time = time
@@ -12797,8 +12439,7 @@ extension QuickSightClientTypes {
             periodTimeGranularity: QuickSightClientTypes.TimeGranularity? = nil,
             time: QuickSightClientTypes.DimensionField? = nil,
             value: QuickSightClientTypes.MeasureField? = nil
-        )
-        {
+        ) {
             self.computationId = computationId
             self.name = name
             self.periodTimeGranularity = periodTimeGranularity
@@ -12902,8 +12543,7 @@ extension QuickSightClientTypes {
             time: QuickSightClientTypes.DimensionField? = nil,
             type: QuickSightClientTypes.TopBottomComputationType? = nil,
             value: QuickSightClientTypes.MeasureField? = nil
-        )
-        {
+        ) {
             self.category = category
             self.computationId = computationId
             self.moverSize = moverSize
@@ -12946,8 +12586,7 @@ extension QuickSightClientTypes {
             resultSize: Swift.Int? = nil,
             type: QuickSightClientTypes.TopBottomComputationType? = nil,
             value: QuickSightClientTypes.MeasureField? = nil
-        )
-        {
+        ) {
             self.category = category
             self.computationId = computationId
             self.name = name
@@ -12974,8 +12613,7 @@ extension QuickSightClientTypes {
             computationId: Swift.String? = nil,
             name: Swift.String? = nil,
             value: QuickSightClientTypes.MeasureField? = nil
-        )
-        {
+        ) {
             self.computationId = computationId
             self.name = name
             self.value = value
@@ -12999,8 +12637,7 @@ extension QuickSightClientTypes {
             category: QuickSightClientTypes.DimensionField? = nil,
             computationId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.computationId = computationId
             self.name = name
@@ -13044,8 +12681,7 @@ extension QuickSightClientTypes {
             topBottomRanked: QuickSightClientTypes.TopBottomRankedComputation? = nil,
             totalAggregation: QuickSightClientTypes.TotalAggregationComputation? = nil,
             uniqueValues: QuickSightClientTypes.UniqueValuesComputation? = nil
-        )
-        {
+        ) {
             self.forecast = forecast
             self.growthRate = growthRate
             self.maximumMinimum = maximumMinimum
@@ -13070,8 +12706,7 @@ extension QuickSightClientTypes {
 
         public init(
             narrative: Swift.String? = nil
-        )
-        {
+        ) {
             self.narrative = narrative
         }
     }
@@ -13092,8 +12727,7 @@ extension QuickSightClientTypes {
             computations: [QuickSightClientTypes.Computation]? = nil,
             customNarrative: QuickSightClientTypes.CustomNarrativeOptions? = nil,
             interactions: QuickSightClientTypes.VisualInteractionOptions? = nil
-        )
-        {
+        ) {
             self.computations = computations
             self.customNarrative = customNarrative
             self.interactions = interactions
@@ -13130,8 +12764,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.dataSetIdentifier = dataSetIdentifier
             self.insightConfiguration = insightConfiguration
@@ -13158,8 +12791,7 @@ extension QuickSightClientTypes {
             targetValues: [QuickSightClientTypes.MeasureField]? = nil,
             trendGroups: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.targetValues = targetValues
             self.trendGroups = trendGroups
             self.values = values
@@ -13176,8 +12808,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -13192,8 +12823,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -13247,8 +12877,7 @@ extension QuickSightClientTypes {
             tooltipVisibility: QuickSightClientTypes.Visibility? = nil,
             type: QuickSightClientTypes.KPISparklineType? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.color = color
             self.tooltipVisibility = tooltipVisibility
             self.type = type
@@ -13266,8 +12895,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -13312,8 +12940,7 @@ extension QuickSightClientTypes {
 
         public init(
             type: QuickSightClientTypes.KPIVisualStandardLayoutType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -13328,8 +12955,7 @@ extension QuickSightClientTypes {
 
         public init(
             standardLayout: QuickSightClientTypes.KPIVisualStandardLayout? = nil
-        )
-        {
+        ) {
             self.standardLayout = standardLayout
         }
     }
@@ -13368,8 +12994,7 @@ extension QuickSightClientTypes {
             sparkline: QuickSightClientTypes.KPISparklineOptions? = nil,
             trendArrows: QuickSightClientTypes.TrendArrowOptions? = nil,
             visualLayoutOptions: QuickSightClientTypes.KPIVisualLayoutOptions? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.primaryValueDisplayType = primaryValueDisplayType
             self.primaryValueFontConfiguration = primaryValueFontConfiguration
@@ -13392,8 +13017,7 @@ extension QuickSightClientTypes {
 
         public init(
             trendGroupSort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.trendGroupSort = trendGroupSort
         }
     }
@@ -13417,8 +13041,7 @@ extension QuickSightClientTypes {
             interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             kpiOptions: QuickSightClientTypes.KPIOptions? = nil,
             sortConfiguration: QuickSightClientTypes.KPISortConfiguration? = nil
-        )
-        {
+        ) {
             self.fieldWells = fieldWells
             self.interactions = interactions
             self.kpiOptions = kpiOptions
@@ -13439,8 +13062,7 @@ extension QuickSightClientTypes {
         public init(
             icon: QuickSightClientTypes.ConditionalFormattingIcon? = nil,
             textColor: QuickSightClientTypes.ConditionalFormattingColor? = nil
-        )
-        {
+        ) {
             self.icon = icon
             self.textColor = textColor
         }
@@ -13459,8 +13081,7 @@ extension QuickSightClientTypes {
         public init(
             icon: QuickSightClientTypes.ConditionalFormattingIcon? = nil,
             textColor: QuickSightClientTypes.ConditionalFormattingColor? = nil
-        )
-        {
+        ) {
             self.icon = icon
             self.textColor = textColor
         }
@@ -13479,8 +13100,7 @@ extension QuickSightClientTypes {
         public init(
             icon: QuickSightClientTypes.ConditionalFormattingIcon? = nil,
             textColor: QuickSightClientTypes.ConditionalFormattingColor? = nil
-        )
-        {
+        ) {
             self.icon = icon
             self.textColor = textColor
         }
@@ -13496,8 +13116,7 @@ extension QuickSightClientTypes {
 
         public init(
             foregroundColor: QuickSightClientTypes.ConditionalFormattingColor? = nil
-        )
-        {
+        ) {
             self.foregroundColor = foregroundColor
         }
     }
@@ -13521,8 +13140,7 @@ extension QuickSightClientTypes {
             comparisonValue: QuickSightClientTypes.KPIComparisonValueConditionalFormatting? = nil,
             primaryValue: QuickSightClientTypes.KPIPrimaryValueConditionalFormatting? = nil,
             progressBar: QuickSightClientTypes.KPIProgressBarConditionalFormatting? = nil
-        )
-        {
+        ) {
             self.actualValue = actualValue
             self.comparisonValue = comparisonValue
             self.primaryValue = primaryValue
@@ -13540,8 +13158,7 @@ extension QuickSightClientTypes {
 
         public init(
             conditionalFormattingOptions: [QuickSightClientTypes.KPIConditionalFormattingOption]? = nil
-        )
-        {
+        ) {
             self.conditionalFormattingOptions = conditionalFormattingOptions
         }
     }
@@ -13578,8 +13195,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -13610,8 +13226,7 @@ extension QuickSightClientTypes {
             navigationOperation: QuickSightClientTypes.CustomActionNavigationOperation? = nil,
             setParametersOperation: QuickSightClientTypes.CustomActionSetParametersOperation? = nil,
             urlOperation: QuickSightClientTypes.CustomActionURLOperation? = nil
-        )
-        {
+        ) {
             self.filterOperation = filterOperation
             self.navigationOperation = navigationOperation
             self.setParametersOperation = setParametersOperation
@@ -13678,8 +13293,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             status: QuickSightClientTypes.WidgetStatus? = nil,
             trigger: QuickSightClientTypes.LayerCustomActionTrigger? = nil
-        )
-        {
+        ) {
             self.actionOperations = actionOperations
             self.customActionId = customActionId
             self.name = name
@@ -13699,8 +13313,7 @@ extension QuickSightClientTypes {
 
         public init(
             staticFileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.staticFileId = staticFileId
         }
     }
@@ -13715,8 +13328,7 @@ extension QuickSightClientTypes {
 
         public init(
             staticFileDataSource: QuickSightClientTypes.GeospatialStaticFileSource? = nil
-        )
-        {
+        ) {
             self.staticFileDataSource = staticFileDataSource
         }
     }
@@ -13734,8 +13346,7 @@ extension QuickSightClientTypes {
         public init(
             colorDimensionsFields: [QuickSightClientTypes.DimensionField]? = nil,
             colorValuesFields: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.colorDimensionsFields = colorDimensionsFields
             self.colorValuesFields = colorValuesFields
         }
@@ -13759,8 +13370,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             fieldId: Swift.String? = nil,
             formatConfiguration: QuickSightClientTypes.FormatConfiguration? = nil
-        )
-        {
+        ) {
             self.column = column
             self.fieldId = fieldId
             self.formatConfiguration = formatConfiguration
@@ -13783,8 +13393,7 @@ extension QuickSightClientTypes {
             colorField: QuickSightClientTypes.GeospatialLayerColorField? = nil,
             datasetKeyField: QuickSightClientTypes.UnaggregatedField? = nil,
             shapeKeyField: Swift.String? = nil
-        )
-        {
+        ) {
             self.colorField = colorField
             self.datasetKeyField = datasetKeyField
             self.shapeKeyField = shapeKeyField
@@ -13806,8 +13415,7 @@ extension QuickSightClientTypes {
         public init(
             color: Swift.String? = nil,
             dataValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.color = color
             self.dataValue = dataValue
         }
@@ -13829,8 +13437,7 @@ extension QuickSightClientTypes {
             fillColor: Swift.String? = nil,
             strokeColor: Swift.String? = nil,
             strokeWidth: Swift.Double? = nil
-        )
-        {
+        ) {
             self.fillColor = fillColor
             self.strokeColor = strokeColor
             self.strokeWidth = strokeWidth
@@ -13848,8 +13455,7 @@ extension QuickSightClientTypes {
 
         public init(
             symbolStyle: QuickSightClientTypes.GeospatialNullSymbolStyle? = nil
-        )
-        {
+        ) {
             self.symbolStyle = symbolStyle
         }
     }
@@ -13874,8 +13480,7 @@ extension QuickSightClientTypes {
             defaultOpacity: Swift.Double? = nil,
             nullDataSettings: QuickSightClientTypes.GeospatialNullDataSettings? = nil,
             nullDataVisibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.categoryDataColors = categoryDataColors
             self.defaultOpacity = defaultOpacity
             self.nullDataSettings = nullDataSettings
@@ -13898,8 +13503,7 @@ extension QuickSightClientTypes {
         public init(
             color: Swift.String? = nil,
             dataValue: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.color = color
             self.dataValue = dataValue
         }
@@ -13925,8 +13529,7 @@ extension QuickSightClientTypes {
             nullDataSettings: QuickSightClientTypes.GeospatialNullDataSettings? = nil,
             nullDataVisibility: QuickSightClientTypes.Visibility? = nil,
             stepColors: [QuickSightClientTypes.GeospatialGradientStepColor]? = nil
-        )
-        {
+        ) {
             self.defaultOpacity = defaultOpacity
             self.nullDataSettings = nullDataSettings
             self.nullDataVisibility = nullDataVisibility
@@ -13977,8 +13580,7 @@ extension QuickSightClientTypes {
         public init(
             color: Swift.String? = nil,
             state: QuickSightClientTypes.GeospatialColorState? = nil
-        )
-        {
+        ) {
             self.color = color
             self.state = state
         }
@@ -14000,8 +13602,7 @@ extension QuickSightClientTypes {
             categorical: QuickSightClientTypes.GeospatialCategoricalColor? = nil,
             gradient: QuickSightClientTypes.GeospatialGradientColor? = nil,
             solid: QuickSightClientTypes.GeospatialSolidColor? = nil
-        )
-        {
+        ) {
             self.categorical = categorical
             self.gradient = gradient
             self.solid = solid
@@ -14018,8 +13619,7 @@ extension QuickSightClientTypes {
 
         public init(
             lineWidth: Swift.Double? = nil
-        )
-        {
+        ) {
             self.lineWidth = lineWidth
         }
     }
@@ -14037,8 +13637,7 @@ extension QuickSightClientTypes {
         public init(
             fillColor: QuickSightClientTypes.GeospatialColor? = nil,
             lineWidth: QuickSightClientTypes.GeospatialLineWidth? = nil
-        )
-        {
+        ) {
             self.fillColor = fillColor
             self.lineWidth = lineWidth
         }
@@ -14054,8 +13653,7 @@ extension QuickSightClientTypes {
 
         public init(
             lineSymbolStyle: QuickSightClientTypes.GeospatialLineSymbolStyle? = nil
-        )
-        {
+        ) {
             self.lineSymbolStyle = lineSymbolStyle
         }
     }
@@ -14071,8 +13669,7 @@ extension QuickSightClientTypes {
 
         public init(
             style: QuickSightClientTypes.GeospatialLineStyle? = nil
-        )
-        {
+        ) {
             self.style = style
         }
     }
@@ -14087,8 +13684,7 @@ extension QuickSightClientTypes {
 
         public init(
             radius: Swift.Double? = nil
-        )
-        {
+        ) {
             self.radius = radius
         }
     }
@@ -14112,8 +13708,7 @@ extension QuickSightClientTypes {
             fillColor: QuickSightClientTypes.GeospatialColor? = nil,
             strokeColor: QuickSightClientTypes.GeospatialColor? = nil,
             strokeWidth: QuickSightClientTypes.GeospatialLineWidth? = nil
-        )
-        {
+        ) {
             self.circleRadius = circleRadius
             self.fillColor = fillColor
             self.strokeColor = strokeColor
@@ -14131,8 +13726,7 @@ extension QuickSightClientTypes {
 
         public init(
             circleSymbolStyle: QuickSightClientTypes.GeospatialCircleSymbolStyle? = nil
-        )
-        {
+        ) {
             self.circleSymbolStyle = circleSymbolStyle
         }
     }
@@ -14148,8 +13742,7 @@ extension QuickSightClientTypes {
 
         public init(
             style: QuickSightClientTypes.GeospatialPointStyle? = nil
-        )
-        {
+        ) {
             self.style = style
         }
     }
@@ -14170,8 +13763,7 @@ extension QuickSightClientTypes {
             fillColor: QuickSightClientTypes.GeospatialColor? = nil,
             strokeColor: QuickSightClientTypes.GeospatialColor? = nil,
             strokeWidth: QuickSightClientTypes.GeospatialLineWidth? = nil
-        )
-        {
+        ) {
             self.fillColor = fillColor
             self.strokeColor = strokeColor
             self.strokeWidth = strokeWidth
@@ -14188,8 +13780,7 @@ extension QuickSightClientTypes {
 
         public init(
             polygonSymbolStyle: QuickSightClientTypes.GeospatialPolygonSymbolStyle? = nil
-        )
-        {
+        ) {
             self.polygonSymbolStyle = polygonSymbolStyle
         }
     }
@@ -14205,8 +13796,7 @@ extension QuickSightClientTypes {
 
         public init(
             style: QuickSightClientTypes.GeospatialPolygonStyle? = nil
-        )
-        {
+        ) {
             self.style = style
         }
     }
@@ -14227,8 +13817,7 @@ extension QuickSightClientTypes {
             lineLayer: QuickSightClientTypes.GeospatialLineLayer? = nil,
             pointLayer: QuickSightClientTypes.GeospatialPointLayer? = nil,
             polygonLayer: QuickSightClientTypes.GeospatialPolygonLayer? = nil
-        )
-        {
+        ) {
             self.lineLayer = lineLayer
             self.pointLayer = pointLayer
             self.polygonLayer = polygonLayer
@@ -14302,8 +13891,7 @@ extension QuickSightClientTypes {
             layerType: QuickSightClientTypes.GeospatialLayerType? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.dataSource = dataSource
             self.joinDefinition = joinDefinition
@@ -14358,8 +13946,7 @@ extension QuickSightClientTypes {
         public init(
             bounds: QuickSightClientTypes.GeospatialCoordinateBounds? = nil,
             mapNavigation: QuickSightClientTypes.GeospatialMapNavigation? = nil
-        )
-        {
+        ) {
             self.bounds = bounds
             self.mapNavigation = mapNavigation
         }
@@ -14381,8 +13968,7 @@ extension QuickSightClientTypes {
             backgroundColor: Swift.String? = nil,
             baseMapStyle: QuickSightClientTypes.BaseMapStyleType? = nil,
             baseMapVisibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.backgroundColor = backgroundColor
             self.baseMapStyle = baseMapStyle
             self.baseMapVisibility = baseMapVisibility
@@ -14411,8 +13997,7 @@ extension QuickSightClientTypes {
             mapLayers: [QuickSightClientTypes.GeospatialLayerItem]? = nil,
             mapState: QuickSightClientTypes.GeospatialMapState? = nil,
             mapStyle: QuickSightClientTypes.GeospatialMapStyle? = nil
-        )
-        {
+        ) {
             self.interactions = interactions
             self.legend = legend
             self.mapLayers = mapLayers
@@ -14448,8 +14033,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.chartConfiguration = chartConfiguration
             self.dataSetIdentifier = dataSetIdentifier
             self.subtitle = subtitle
@@ -14554,8 +14138,7 @@ extension QuickSightClientTypes {
             lineStyle: QuickSightClientTypes.LineChartLineStyle? = nil,
             lineVisibility: QuickSightClientTypes.Visibility? = nil,
             lineWidth: Swift.String? = nil
-        )
-        {
+        ) {
             self.lineInterpolation = lineInterpolation
             self.lineStyle = lineStyle
             self.lineVisibility = lineVisibility
@@ -14630,8 +14213,7 @@ extension QuickSightClientTypes {
             markerShape: QuickSightClientTypes.LineChartMarkerShape? = nil,
             markerSize: Swift.String? = nil,
             markerVisibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.markerColor = markerColor
             self.markerShape = markerShape
             self.markerSize = markerSize
@@ -14655,8 +14237,7 @@ extension QuickSightClientTypes {
             axisBinding: QuickSightClientTypes.AxisBinding? = nil,
             lineStyleSettings: QuickSightClientTypes.LineChartLineStyleSettings? = nil,
             markerStyleSettings: QuickSightClientTypes.LineChartMarkerStyleSettings? = nil
-        )
-        {
+        ) {
             self.axisBinding = axisBinding
             self.lineStyleSettings = lineStyleSettings
             self.markerStyleSettings = markerStyleSettings
@@ -14682,8 +14263,7 @@ extension QuickSightClientTypes {
             colors: [QuickSightClientTypes.DimensionField]? = nil,
             smallMultiples: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.category = category
             self.colors = colors
             self.smallMultiples = smallMultiples
@@ -14701,8 +14281,7 @@ extension QuickSightClientTypes {
 
         public init(
             lineChartAggregatedFieldWells: QuickSightClientTypes.LineChartAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.lineChartAggregatedFieldWells = lineChartAggregatedFieldWells
         }
     }
@@ -14736,8 +14315,7 @@ extension QuickSightClientTypes {
             predictionInterval: Swift.Int? = nil,
             seasonality: Swift.Int? = nil,
             upperBoundary: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.lowerBoundary = lowerBoundary
             self.periodsBackward = periodsBackward
             self.periodsForward = periodsForward
@@ -14762,8 +14340,7 @@ extension QuickSightClientTypes {
         public init(
             date: Foundation.Date? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.date = date
             self.value = value
         }
@@ -14788,8 +14365,7 @@ extension QuickSightClientTypes {
             endDate: Foundation.Date? = nil,
             startDate: Foundation.Date? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.endDate = endDate
             self.startDate = startDate
             self.value = value
@@ -14809,8 +14385,7 @@ extension QuickSightClientTypes {
         public init(
             whatIfPointScenario: QuickSightClientTypes.WhatIfPointScenario? = nil,
             whatIfRangeScenario: QuickSightClientTypes.WhatIfRangeScenario? = nil
-        )
-        {
+        ) {
             self.whatIfPointScenario = whatIfPointScenario
             self.whatIfRangeScenario = whatIfRangeScenario
         }
@@ -14829,8 +14404,7 @@ extension QuickSightClientTypes {
         public init(
             forecastProperties: QuickSightClientTypes.TimeBasedForecastProperties? = nil,
             scenario: QuickSightClientTypes.ForecastScenario? = nil
-        )
-        {
+        ) {
             self.forecastProperties = forecastProperties
             self.scenario = scenario
         }
@@ -14884,8 +14458,7 @@ extension QuickSightClientTypes {
 
         public init(
             treatmentOption: QuickSightClientTypes.MissingDataTreatmentOption? = nil
-        )
-        {
+        ) {
             self.treatmentOption = treatmentOption
         }
     }
@@ -14903,8 +14476,7 @@ extension QuickSightClientTypes {
         public init(
             axisOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
             missingDataConfigurations: [QuickSightClientTypes.MissingDataConfiguration]? = nil
-        )
-        {
+        ) {
             self.axisOptions = axisOptions
             self.missingDataConfigurations = missingDataConfigurations
         }
@@ -14923,8 +14495,7 @@ extension QuickSightClientTypes {
         public init(
             lineStyleSettings: QuickSightClientTypes.LineChartLineStyleSettings? = nil,
             markerStyleSettings: QuickSightClientTypes.LineChartMarkerStyleSettings? = nil
-        )
-        {
+        ) {
             self.lineStyleSettings = lineStyleSettings
             self.markerStyleSettings = markerStyleSettings
         }
@@ -14951,8 +14522,7 @@ extension QuickSightClientTypes {
             fieldId: Swift.String? = nil,
             fieldValue: Swift.String? = nil,
             settings: QuickSightClientTypes.LineChartSeriesSettings? = nil
-        )
-        {
+        ) {
             self.axisBinding = axisBinding
             self.fieldId = fieldId
             self.fieldValue = fieldValue
@@ -14983,8 +14553,7 @@ extension QuickSightClientTypes {
             axisBinding: QuickSightClientTypes.AxisBinding? = nil,
             fieldId: Swift.String? = nil,
             settings: QuickSightClientTypes.LineChartSeriesSettings? = nil
-        )
-        {
+        ) {
             self.axisBinding = axisBinding
             self.fieldId = fieldId
             self.settings = settings
@@ -15004,8 +14573,7 @@ extension QuickSightClientTypes {
         public init(
             dataFieldSeriesItem: QuickSightClientTypes.DataFieldSeriesItem? = nil,
             fieldSeriesItem: QuickSightClientTypes.FieldSeriesItem? = nil
-        )
-        {
+        ) {
             self.dataFieldSeriesItem = dataFieldSeriesItem
             self.fieldSeriesItem = fieldSeriesItem
         }
@@ -15033,8 +14601,7 @@ extension QuickSightClientTypes {
             colorItemsLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             smallMultiplesLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             smallMultiplesSort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.categoryItemsLimitConfiguration = categoryItemsLimitConfiguration
             self.categorySort = categorySort
             self.colorItemsLimitConfiguration = colorItemsLimitConfiguration
@@ -15145,8 +14712,7 @@ extension QuickSightClientTypes {
             visualPalette: QuickSightClientTypes.VisualPalette? = nil,
             xAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
             xAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil
-        )
-        {
+        ) {
             self.contributionAnalysisDefaults = contributionAnalysisDefaults
             self.dataLabels = dataLabels
             self.defaultSeriesSettings = defaultSeriesSettings
@@ -15200,8 +14766,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -15257,8 +14822,7 @@ extension QuickSightClientTypes {
 
         public init(
             arcThickness: QuickSightClientTypes.ArcThickness? = nil
-        )
-        {
+        ) {
             self.arcThickness = arcThickness
         }
     }
@@ -15273,8 +14837,7 @@ extension QuickSightClientTypes {
 
         public init(
             labelVisibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.labelVisibility = labelVisibility
         }
     }
@@ -15300,8 +14863,7 @@ extension QuickSightClientTypes {
         public init(
             arcOptions: QuickSightClientTypes.ArcOptions? = nil,
             donutCenterOptions: QuickSightClientTypes.DonutCenterOptions? = nil
-        )
-        {
+        ) {
             self.arcOptions = arcOptions
             self.donutCenterOptions = donutCenterOptions
         }
@@ -15323,8 +14885,7 @@ extension QuickSightClientTypes {
             category: [QuickSightClientTypes.DimensionField]? = nil,
             smallMultiples: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.category = category
             self.smallMultiples = smallMultiples
             self.values = values
@@ -15341,8 +14902,7 @@ extension QuickSightClientTypes {
 
         public init(
             pieChartAggregatedFieldWells: QuickSightClientTypes.PieChartAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.pieChartAggregatedFieldWells = pieChartAggregatedFieldWells
         }
     }
@@ -15366,8 +14926,7 @@ extension QuickSightClientTypes {
             categorySort: [QuickSightClientTypes.FieldSortOptions]? = nil,
             smallMultiplesLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             smallMultiplesSort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
             self.smallMultiplesLimitConfiguration = smallMultiplesLimitConfiguration
@@ -15418,8 +14977,7 @@ extension QuickSightClientTypes {
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             valueLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil
-        )
-        {
+        ) {
             self.categoryLabelOptions = categoryLabelOptions
             self.contributionAnalysisDefaults = contributionAnalysisDefaults
             self.dataLabels = dataLabels
@@ -15471,8 +15029,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -15525,8 +15082,7 @@ extension QuickSightClientTypes {
         public init(
             fieldDataPathValues: [QuickSightClientTypes.DataPathValue]? = nil,
             fieldId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldDataPathValues = fieldDataPathValues
             self.fieldId = fieldId
         }
@@ -15550,8 +15106,7 @@ extension QuickSightClientTypes {
         public init(
             state: QuickSightClientTypes.PivotTableFieldCollapseState? = nil,
             target: QuickSightClientTypes.PivotTableFieldCollapseStateTarget? = nil
-        )
-        {
+        ) {
             self.state = state
             self.target = target
         }
@@ -15571,8 +15126,7 @@ extension QuickSightClientTypes {
         public init(
             dataPathList: [QuickSightClientTypes.DataPathValue]? = nil,
             width: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataPathList = dataPathList
             self.width = width
         }
@@ -15595,8 +15149,7 @@ extension QuickSightClientTypes {
             customLabel: Swift.String? = nil,
             fieldId: Swift.String? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.customLabel = customLabel
             self.fieldId = fieldId
             self.visibility = visibility
@@ -15619,8 +15172,7 @@ extension QuickSightClientTypes {
             collapseStateOptions: [QuickSightClientTypes.PivotTableFieldCollapseStateOption]? = nil,
             dataPathOptions: [QuickSightClientTypes.PivotTableDataPathOption]? = nil,
             selectedFieldOptions: [QuickSightClientTypes.PivotTableFieldOption]? = nil
-        )
-        {
+        ) {
             self.collapseStateOptions = collapseStateOptions
             self.dataPathOptions = dataPathOptions
             self.selectedFieldOptions = selectedFieldOptions
@@ -15643,8 +15195,7 @@ extension QuickSightClientTypes {
             columns: [QuickSightClientTypes.DimensionField]? = nil,
             rows: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.rows = rows
             self.values = values
@@ -15661,8 +15212,7 @@ extension QuickSightClientTypes {
 
         public init(
             pivotTableAggregatedFieldWells: QuickSightClientTypes.PivotTableAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.pivotTableAggregatedFieldWells = pivotTableAggregatedFieldWells
         }
     }
@@ -15680,8 +15230,7 @@ extension QuickSightClientTypes {
         public init(
             overflowColumnHeaderVisibility: QuickSightClientTypes.Visibility? = nil,
             verticalOverflowVisibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.overflowColumnHeaderVisibility = overflowColumnHeaderVisibility
             self.verticalOverflowVisibility = verticalOverflowVisibility
         }
@@ -15702,8 +15251,7 @@ extension QuickSightClientTypes {
         public init(
             direction: QuickSightClientTypes.SortDirection? = nil,
             sortPaths: [QuickSightClientTypes.DataPathValue]? = nil
-        )
-        {
+        ) {
             self.direction = direction
             self.sortPaths = sortPaths
         }
@@ -15725,8 +15273,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnSort? = nil,
             dataPath: QuickSightClientTypes.DataPathSort? = nil,
             field: QuickSightClientTypes.FieldSort? = nil
-        )
-        {
+        ) {
             self.column = column
             self.dataPath = dataPath
             self.field = field
@@ -15748,8 +15295,7 @@ extension QuickSightClientTypes {
         public init(
             fieldId: Swift.String? = nil,
             sortBy: QuickSightClientTypes.PivotTableSortBy? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
             self.sortBy = sortBy
         }
@@ -15765,8 +15311,7 @@ extension QuickSightClientTypes {
 
         public init(
             fieldSortOptions: [QuickSightClientTypes.PivotFieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.fieldSortOptions = fieldSortOptions
         }
     }
@@ -15816,8 +15361,7 @@ extension QuickSightClientTypes {
             color: Swift.String? = nil,
             style: QuickSightClientTypes.TableBorderStyle? = nil,
             thickness: Swift.Int? = nil
-        )
-        {
+        ) {
             self.color = color
             self.style = style
             self.thickness = thickness
@@ -15849,8 +15393,7 @@ extension QuickSightClientTypes {
             `left`: QuickSightClientTypes.TableBorderOptions? = nil,
             `right`: QuickSightClientTypes.TableBorderOptions? = nil,
             top: QuickSightClientTypes.TableBorderOptions? = nil
-        )
-        {
+        ) {
             self.bottom = bottom
             self.innerHorizontal = innerHorizontal
             self.innerVertical = innerVertical
@@ -15873,8 +15416,7 @@ extension QuickSightClientTypes {
         public init(
             sideSpecificBorder: QuickSightClientTypes.TableSideBorderOptions? = nil,
             uniformBorder: QuickSightClientTypes.TableBorderOptions? = nil
-        )
-        {
+        ) {
             self.sideSpecificBorder = sideSpecificBorder
             self.uniformBorder = uniformBorder
         }
@@ -15975,8 +15517,7 @@ extension QuickSightClientTypes {
             textWrap: QuickSightClientTypes.TextWrap? = nil,
             verticalTextAlignment: QuickSightClientTypes.VerticalTextAlignment? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.backgroundColor = backgroundColor
             self.border = border
             self.fontConfiguration = fontConfiguration
@@ -16033,8 +15574,7 @@ extension QuickSightClientTypes {
             rowAlternateColors: [Swift.String]? = nil,
             status: QuickSightClientTypes.WidgetStatus? = nil,
             usePrimaryBackgroundColor: QuickSightClientTypes.WidgetStatus? = nil
-        )
-        {
+        ) {
             self.rowAlternateColors = rowAlternateColors
             self.status = status
             self.usePrimaryBackgroundColor = usePrimaryBackgroundColor
@@ -16054,8 +15594,7 @@ extension QuickSightClientTypes {
         public init(
             customLabel: Swift.String? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.customLabel = customLabel
             self.visibility = visibility
         }
@@ -16140,8 +15679,7 @@ extension QuickSightClientTypes {
             rowsLayout: QuickSightClientTypes.PivotTableRowsLayout? = nil,
             singleMetricVisibility: QuickSightClientTypes.Visibility? = nil,
             toggleButtonsVisibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.cellStyle = cellStyle
             self.collapsedRowDimensionsVisibility = collapsedRowDimensionsVisibility
             self.columnHeaderStyle = columnHeaderStyle
@@ -16200,8 +15738,7 @@ extension QuickSightClientTypes {
 
         public init(
             fieldId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
         }
     }
@@ -16249,8 +15786,7 @@ extension QuickSightClientTypes {
 
         public init(
             cellType: QuickSightClientTypes.StyledCellType? = nil
-        )
-        {
+        ) {
             self.cellType = cellType
         }
     }
@@ -16286,8 +15822,7 @@ extension QuickSightClientTypes {
             totalCellStyle: QuickSightClientTypes.TableCellStyle? = nil,
             totalsVisibility: QuickSightClientTypes.Visibility? = nil,
             valueCellStyle: QuickSightClientTypes.TableCellStyle? = nil
-        )
-        {
+        ) {
             self.customLabel = customLabel
             self.fieldLevel = fieldLevel
             self.fieldLevelOptions = fieldLevelOptions
@@ -16411,8 +15946,7 @@ extension QuickSightClientTypes {
 
         public init(
             simpleTotalAggregationFunction: QuickSightClientTypes.SimpleTotalAggregationFunction? = nil
-        )
-        {
+        ) {
             self.simpleTotalAggregationFunction = simpleTotalAggregationFunction
         }
     }
@@ -16432,8 +15966,7 @@ extension QuickSightClientTypes {
         public init(
             fieldId: Swift.String? = nil,
             totalAggregationFunction: QuickSightClientTypes.TotalAggregationFunction? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
             self.totalAggregationFunction = totalAggregationFunction
         }
@@ -16470,8 +16003,7 @@ extension QuickSightClientTypes {
             totalCellStyle: QuickSightClientTypes.TableCellStyle? = nil,
             totalsVisibility: QuickSightClientTypes.Visibility? = nil,
             valueCellStyle: QuickSightClientTypes.TableCellStyle? = nil
-        )
-        {
+        ) {
             self.customLabel = customLabel
             self.metricHeaderCellStyle = metricHeaderCellStyle
             self.placement = placement
@@ -16502,8 +16034,7 @@ extension QuickSightClientTypes {
             columnTotalOptions: QuickSightClientTypes.PivotTotalOptions? = nil,
             rowSubtotalOptions: QuickSightClientTypes.SubtotalOptions? = nil,
             rowTotalOptions: QuickSightClientTypes.PivotTotalOptions? = nil
-        )
-        {
+        ) {
             self.columnSubtotalOptions = columnSubtotalOptions
             self.columnTotalOptions = columnTotalOptions
             self.rowSubtotalOptions = rowSubtotalOptions
@@ -16539,8 +16070,7 @@ extension QuickSightClientTypes {
             sortConfiguration: QuickSightClientTypes.PivotTableSortConfiguration? = nil,
             tableOptions: QuickSightClientTypes.PivotTableOptions? = nil,
             totalOptions: QuickSightClientTypes.PivotTableTotalOptions? = nil
-        )
-        {
+        ) {
             self.fieldOptions = fieldOptions
             self.fieldWells = fieldWells
             self.interactions = interactions
@@ -16593,8 +16123,7 @@ extension QuickSightClientTypes {
 
         public init(
             role: QuickSightClientTypes.PivotTableConditionalFormattingScopeRole? = nil
-        )
-        {
+        ) {
             self.role = role
         }
     }
@@ -16615,8 +16144,7 @@ extension QuickSightClientTypes {
             backgroundColor: QuickSightClientTypes.ConditionalFormattingColor? = nil,
             icon: QuickSightClientTypes.ConditionalFormattingIcon? = nil,
             textColor: QuickSightClientTypes.ConditionalFormattingColor? = nil
-        )
-        {
+        ) {
             self.backgroundColor = backgroundColor
             self.icon = icon
             self.textColor = textColor
@@ -16643,8 +16171,7 @@ extension QuickSightClientTypes {
             scope: QuickSightClientTypes.PivotTableConditionalFormattingScope? = nil,
             scopes: [QuickSightClientTypes.PivotTableConditionalFormattingScope]? = nil,
             textFormat: QuickSightClientTypes.TextConditionalFormat? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
             self.scope = scope
             self.scopes = scopes
@@ -16662,8 +16189,7 @@ extension QuickSightClientTypes {
 
         public init(
             cell: QuickSightClientTypes.PivotTableCellConditionalFormatting? = nil
-        )
-        {
+        ) {
             self.cell = cell
         }
     }
@@ -16678,8 +16204,7 @@ extension QuickSightClientTypes {
 
         public init(
             conditionalFormattingOptions: [QuickSightClientTypes.PivotTableConditionalFormattingOption]? = nil
-        )
-        {
+        ) {
             self.conditionalFormattingOptions = conditionalFormattingOptions
         }
     }
@@ -16713,8 +16238,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.conditionalFormatting = conditionalFormatting
@@ -16773,8 +16297,7 @@ extension QuickSightClientTypes {
             dimensions: [QuickSightClientTypes.DimensionField]? = nil,
             measures: [QuickSightClientTypes.MeasureField]? = nil,
             unaggregated: [QuickSightClientTypes.UnaggregatedField]? = nil
-        )
-        {
+        ) {
             self.axisName = axisName
             self.dimensions = dimensions
             self.measures = measures
@@ -16792,8 +16315,7 @@ extension QuickSightClientTypes {
 
         public init(
             itemsLimit: Swift.Int? = 0
-        )
-        {
+        ) {
             self.itemsLimit = itemsLimit
         }
     }
@@ -16811,8 +16333,7 @@ extension QuickSightClientTypes {
         public init(
             itemsLimitConfiguration: QuickSightClientTypes.PluginVisualItemsLimitConfiguration? = nil,
             rowSort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.itemsLimitConfiguration = itemsLimitConfiguration
             self.rowSort = rowSort
         }
@@ -16828,8 +16349,7 @@ extension QuickSightClientTypes {
 
         public init(
             pluginVisualTableQuerySort: QuickSightClientTypes.PluginVisualTableQuerySort? = nil
-        )
-        {
+        ) {
             self.pluginVisualTableQuerySort = pluginVisualTableQuerySort
         }
     }
@@ -16847,8 +16367,7 @@ extension QuickSightClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -16864,8 +16383,7 @@ extension QuickSightClientTypes {
 
         public init(
             visualProperties: [QuickSightClientTypes.PluginVisualProperty]? = nil
-        )
-        {
+        ) {
             self.visualProperties = visualProperties
         }
     }
@@ -16886,8 +16404,7 @@ extension QuickSightClientTypes {
             fieldWells: [QuickSightClientTypes.PluginVisualFieldWell]? = nil,
             sortConfiguration: QuickSightClientTypes.PluginVisualSortConfiguration? = nil,
             visualOptions: QuickSightClientTypes.PluginVisualOptions? = nil
-        )
-        {
+        ) {
             self.fieldWells = fieldWells
             self.sortConfiguration = sortConfiguration
             self.visualOptions = visualOptions
@@ -16921,8 +16438,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.chartConfiguration = chartConfiguration
             self.pluginArn = pluginArn
             self.subtitle = subtitle
@@ -16974,8 +16490,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.visibility = visibility
         }
     }
@@ -16990,8 +16505,7 @@ extension QuickSightClientTypes {
 
         public init(
             areaStyleSettings: QuickSightClientTypes.RadarChartAreaStyleSettings? = nil
-        )
-        {
+        ) {
             self.areaStyleSettings = areaStyleSettings
         }
     }
@@ -17012,8 +16526,7 @@ extension QuickSightClientTypes {
             category: [QuickSightClientTypes.DimensionField]? = nil,
             color: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.category = category
             self.color = color
             self.values = values
@@ -17030,8 +16543,7 @@ extension QuickSightClientTypes {
 
         public init(
             radarChartAggregatedFieldWells: QuickSightClientTypes.RadarChartAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.radarChartAggregatedFieldWells = radarChartAggregatedFieldWells
         }
     }
@@ -17084,8 +16596,7 @@ extension QuickSightClientTypes {
             categorySort: [QuickSightClientTypes.FieldSortOptions]? = nil,
             colorItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             colorSort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
             self.colorItemsLimit = colorItemsLimit
@@ -17148,8 +16659,7 @@ extension QuickSightClientTypes {
             sortConfiguration: QuickSightClientTypes.RadarChartSortConfiguration? = nil,
             startAngle: Swift.Double? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil
-        )
-        {
+        ) {
             self.alternateBandColorsVisibility = alternateBandColorsVisibility
             self.alternateBandEvenColor = alternateBandEvenColor
             self.alternateBandOddColor = alternateBandOddColor
@@ -17198,8 +16708,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -17226,8 +16735,7 @@ extension QuickSightClientTypes {
             destination: [QuickSightClientTypes.DimensionField]? = nil,
             source: [QuickSightClientTypes.DimensionField]? = nil,
             weight: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.source = source
             self.weight = weight
@@ -17244,8 +16752,7 @@ extension QuickSightClientTypes {
 
         public init(
             sankeyDiagramAggregatedFieldWells: QuickSightClientTypes.SankeyDiagramAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.sankeyDiagramAggregatedFieldWells = sankeyDiagramAggregatedFieldWells
         }
     }
@@ -17266,8 +16773,7 @@ extension QuickSightClientTypes {
             destinationItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             sourceItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             weightSort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.destinationItemsLimit = destinationItemsLimit
             self.sourceItemsLimit = sourceItemsLimit
             self.weightSort = weightSort
@@ -17293,8 +16799,7 @@ extension QuickSightClientTypes {
             fieldWells: QuickSightClientTypes.SankeyDiagramFieldWells? = nil,
             interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             sortConfiguration: QuickSightClientTypes.SankeyDiagramSortConfiguration? = nil
-        )
-        {
+        ) {
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
             self.interactions = interactions
@@ -17328,8 +16833,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.subtitle = subtitle
@@ -17361,8 +16865,7 @@ extension QuickSightClientTypes {
             size: [QuickSightClientTypes.MeasureField]? = nil,
             xAxis: [QuickSightClientTypes.MeasureField]? = nil,
             yAxis: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.category = category
             self.label = label
             self.size = size
@@ -17393,8 +16896,7 @@ extension QuickSightClientTypes {
             size: [QuickSightClientTypes.MeasureField]? = nil,
             xAxis: [QuickSightClientTypes.DimensionField]? = nil,
             yAxis: [QuickSightClientTypes.DimensionField]? = nil
-        )
-        {
+        ) {
             self.category = category
             self.label = label
             self.size = size
@@ -17416,8 +16918,7 @@ extension QuickSightClientTypes {
         public init(
             scatterPlotCategoricallyAggregatedFieldWells: QuickSightClientTypes.ScatterPlotCategoricallyAggregatedFieldWells? = nil,
             scatterPlotUnaggregatedFieldWells: QuickSightClientTypes.ScatterPlotUnaggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.scatterPlotCategoricallyAggregatedFieldWells = scatterPlotCategoricallyAggregatedFieldWells
             self.scatterPlotUnaggregatedFieldWells = scatterPlotUnaggregatedFieldWells
         }
@@ -17433,8 +16934,7 @@ extension QuickSightClientTypes {
 
         public init(
             scatterPlotLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration? = nil
-        )
-        {
+        ) {
             self.scatterPlotLimitConfiguration = scatterPlotLimitConfiguration
         }
     }
@@ -17479,8 +16979,7 @@ extension QuickSightClientTypes {
             xAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             yAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
             yAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil
-        )
-        {
+        ) {
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
             self.interactions = interactions
@@ -17524,8 +17023,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -17546,8 +17044,7 @@ extension QuickSightClientTypes {
 
         public init(
             pinnedLeftFields: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.pinnedLeftFields = pinnedLeftFields
         }
     }
@@ -17594,8 +17091,7 @@ extension QuickSightClientTypes {
 
         public init(
             tableCellImageScalingConfiguration: QuickSightClientTypes.TableCellImageScalingConfiguration? = nil
-        )
-        {
+        ) {
             self.tableCellImageScalingConfiguration = tableCellImageScalingConfiguration
         }
     }
@@ -17610,8 +17106,7 @@ extension QuickSightClientTypes {
 
         public init(
             sizingOptions: QuickSightClientTypes.TableCellImageSizingConfiguration? = nil
-        )
-        {
+        ) {
             self.sizingOptions = sizingOptions
         }
     }
@@ -17652,8 +17147,7 @@ extension QuickSightClientTypes {
 
         public init(
             icon: QuickSightClientTypes.TableFieldIconSetType? = nil
-        )
-        {
+        ) {
             self.icon = icon
         }
     }
@@ -17672,8 +17166,7 @@ extension QuickSightClientTypes {
         public init(
             fontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.fontConfiguration = fontConfiguration
             self.value = value
         }
@@ -17692,8 +17185,7 @@ extension QuickSightClientTypes {
         public init(
             customIconContent: QuickSightClientTypes.TableFieldCustomIconContent? = nil,
             customTextContent: QuickSightClientTypes.TableFieldCustomTextContent? = nil
-        )
-        {
+        ) {
             self.customIconContent = customIconContent
             self.customTextContent = customTextContent
         }
@@ -17714,8 +17206,7 @@ extension QuickSightClientTypes {
         public init(
             content: QuickSightClientTypes.TableFieldLinkContentConfiguration? = nil,
             target: QuickSightClientTypes.URLTargetConfiguration? = nil
-        )
-        {
+        ) {
             self.content = content
             self.target = target
         }
@@ -17734,8 +17225,7 @@ extension QuickSightClientTypes {
         public init(
             imageConfiguration: QuickSightClientTypes.TableFieldImageConfiguration? = nil,
             linkConfiguration: QuickSightClientTypes.TableFieldLinkConfiguration? = nil
-        )
-        {
+        ) {
             self.imageConfiguration = imageConfiguration
             self.linkConfiguration = linkConfiguration
         }
@@ -17764,8 +17254,7 @@ extension QuickSightClientTypes {
             urlStyling: QuickSightClientTypes.TableFieldURLConfiguration? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil,
             width: Swift.String? = nil
-        )
-        {
+        ) {
             self.customLabel = customLabel
             self.fieldId = fieldId
             self.urlStyling = urlStyling
@@ -17790,8 +17279,7 @@ extension QuickSightClientTypes {
             order: [Swift.String]? = nil,
             pinnedFieldOptions: QuickSightClientTypes.TablePinnedFieldOptions? = nil,
             selectedFieldOptions: [QuickSightClientTypes.TableFieldOption]? = nil
-        )
-        {
+        ) {
             self.order = order
             self.pinnedFieldOptions = pinnedFieldOptions
             self.selectedFieldOptions = selectedFieldOptions
@@ -17811,8 +17299,7 @@ extension QuickSightClientTypes {
         public init(
             groupBy: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.groupBy = groupBy
             self.values = values
         }
@@ -17828,8 +17315,7 @@ extension QuickSightClientTypes {
 
         public init(
             values: [QuickSightClientTypes.UnaggregatedField]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -17847,8 +17333,7 @@ extension QuickSightClientTypes {
         public init(
             tableAggregatedFieldWells: QuickSightClientTypes.TableAggregatedFieldWells? = nil,
             tableUnaggregatedFieldWells: QuickSightClientTypes.TableUnaggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.tableAggregatedFieldWells = tableAggregatedFieldWells
             self.tableUnaggregatedFieldWells = tableUnaggregatedFieldWells
         }
@@ -17867,8 +17352,7 @@ extension QuickSightClientTypes {
         public init(
             overflowColumnHeaderVisibility: QuickSightClientTypes.Visibility? = nil,
             verticalOverflowVisibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.overflowColumnHeaderVisibility = overflowColumnHeaderVisibility
             self.verticalOverflowVisibility = verticalOverflowVisibility
         }
@@ -17887,8 +17371,7 @@ extension QuickSightClientTypes {
         public init(
             paginationConfiguration: QuickSightClientTypes.PaginationConfiguration? = nil,
             rowSort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.paginationConfiguration = paginationConfiguration
             self.rowSort = rowSort
         }
@@ -17911,8 +17394,7 @@ extension QuickSightClientTypes {
             fieldId: Swift.String? = nil,
             negativeColor: Swift.String? = nil,
             positiveColor: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
             self.negativeColor = negativeColor
             self.positiveColor = positiveColor
@@ -17929,8 +17411,7 @@ extension QuickSightClientTypes {
 
         public init(
             dataBars: QuickSightClientTypes.DataBarsOptions? = nil
-        )
-        {
+        ) {
             self.dataBars = dataBars
         }
     }
@@ -17983,8 +17464,7 @@ extension QuickSightClientTypes {
             headerStyle: QuickSightClientTypes.TableCellStyle? = nil,
             orientation: QuickSightClientTypes.TableOrientation? = nil,
             rowAlternateColorOptions: QuickSightClientTypes.RowAlternateColorOptions? = nil
-        )
-        {
+        ) {
             self.cellStyle = cellStyle
             self.headerStyle = headerStyle
             self.orientation = orientation
@@ -18017,8 +17497,7 @@ extension QuickSightClientTypes {
             totalAggregationOptions: [QuickSightClientTypes.TotalAggregationOption]? = nil,
             totalCellStyle: QuickSightClientTypes.TableCellStyle? = nil,
             totalsVisibility: QuickSightClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.customLabel = customLabel
             self.placement = placement
             self.scrollStatus = scrollStatus
@@ -18059,8 +17538,7 @@ extension QuickSightClientTypes {
             tableInlineVisualizations: [QuickSightClientTypes.TableInlineVisualization]? = nil,
             tableOptions: QuickSightClientTypes.TableOptions? = nil,
             totalOptions: QuickSightClientTypes.TotalOptions? = nil
-        )
-        {
+        ) {
             self.fieldOptions = fieldOptions
             self.fieldWells = fieldWells
             self.interactions = interactions
@@ -18086,8 +17564,7 @@ extension QuickSightClientTypes {
         public init(
             fieldId: Swift.String? = nil,
             textFormat: QuickSightClientTypes.TextConditionalFormat? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
             self.textFormat = textFormat
         }
@@ -18106,8 +17583,7 @@ extension QuickSightClientTypes {
         public init(
             backgroundColor: QuickSightClientTypes.ConditionalFormattingColor? = nil,
             textColor: QuickSightClientTypes.ConditionalFormattingColor? = nil
-        )
-        {
+        ) {
             self.backgroundColor = backgroundColor
             self.textColor = textColor
         }
@@ -18126,8 +17602,7 @@ extension QuickSightClientTypes {
         public init(
             cell: QuickSightClientTypes.TableCellConditionalFormatting? = nil,
             row: QuickSightClientTypes.TableRowConditionalFormatting? = nil
-        )
-        {
+        ) {
             self.cell = cell
             self.row = row
         }
@@ -18143,8 +17618,7 @@ extension QuickSightClientTypes {
 
         public init(
             conditionalFormattingOptions: [QuickSightClientTypes.TableConditionalFormattingOption]? = nil
-        )
-        {
+        ) {
             self.conditionalFormattingOptions = conditionalFormattingOptions
         }
     }
@@ -18178,8 +17652,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.conditionalFormatting = conditionalFormatting
@@ -18206,8 +17679,7 @@ extension QuickSightClientTypes {
             colors: [QuickSightClientTypes.MeasureField]? = nil,
             groups: [QuickSightClientTypes.DimensionField]? = nil,
             sizes: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.colors = colors
             self.groups = groups
             self.sizes = sizes
@@ -18224,8 +17696,7 @@ extension QuickSightClientTypes {
 
         public init(
             treeMapAggregatedFieldWells: QuickSightClientTypes.TreeMapAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.treeMapAggregatedFieldWells = treeMapAggregatedFieldWells
         }
     }
@@ -18243,8 +17714,7 @@ extension QuickSightClientTypes {
         public init(
             treeMapGroupItemsLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             treeMapSort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.treeMapGroupItemsLimitConfiguration = treeMapGroupItemsLimitConfiguration
             self.treeMapSort = treeMapSort
         }
@@ -18287,8 +17757,7 @@ extension QuickSightClientTypes {
             sizeLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             sortConfiguration: QuickSightClientTypes.TreeMapSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil
-        )
-        {
+        ) {
             self.colorLabelOptions = colorLabelOptions
             self.colorScale = colorScale
             self.dataLabels = dataLabels
@@ -18331,8 +17800,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -18359,8 +17827,7 @@ extension QuickSightClientTypes {
             negativeBarColor: Swift.String? = nil,
             positiveBarColor: Swift.String? = nil,
             totalBarColor: Swift.String? = nil
-        )
-        {
+        ) {
             self.negativeBarColor = negativeBarColor
             self.positiveBarColor = positiveBarColor
             self.totalBarColor = totalBarColor
@@ -18377,8 +17844,7 @@ extension QuickSightClientTypes {
 
         public init(
             groupColorConfiguration: QuickSightClientTypes.WaterfallChartGroupColorConfiguration? = nil
-        )
-        {
+        ) {
             self.groupColorConfiguration = groupColorConfiguration
         }
     }
@@ -18399,8 +17865,7 @@ extension QuickSightClientTypes {
             breakdowns: [QuickSightClientTypes.DimensionField]? = nil,
             categories: [QuickSightClientTypes.DimensionField]? = nil,
             values: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.breakdowns = breakdowns
             self.categories = categories
             self.values = values
@@ -18417,8 +17882,7 @@ extension QuickSightClientTypes {
 
         public init(
             waterfallChartAggregatedFieldWells: QuickSightClientTypes.WaterfallChartAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.waterfallChartAggregatedFieldWells = waterfallChartAggregatedFieldWells
         }
     }
@@ -18436,8 +17900,7 @@ extension QuickSightClientTypes {
         public init(
             breakdownItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             categorySort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.breakdownItemsLimit = breakdownItemsLimit
             self.categorySort = categorySort
         }
@@ -18453,8 +17916,7 @@ extension QuickSightClientTypes {
 
         public init(
             totalBarLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.totalBarLabel = totalBarLabel
         }
     }
@@ -18502,8 +17964,7 @@ extension QuickSightClientTypes {
             sortConfiguration: QuickSightClientTypes.WaterfallChartSortConfiguration? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil,
             waterfallChartOptions: QuickSightClientTypes.WaterfallChartOptions? = nil
-        )
-        {
+        ) {
             self.categoryAxisDisplayOptions = categoryAxisDisplayOptions
             self.categoryAxisLabelOptions = categoryAxisLabelOptions
             self.colorConfiguration = colorConfiguration
@@ -18548,8 +18009,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -18573,8 +18033,7 @@ extension QuickSightClientTypes {
         public init(
             groupBy: [QuickSightClientTypes.DimensionField]? = nil,
             size: [QuickSightClientTypes.MeasureField]? = nil
-        )
-        {
+        ) {
             self.groupBy = groupBy
             self.size = size
         }
@@ -18590,8 +18049,7 @@ extension QuickSightClientTypes {
 
         public init(
             wordCloudAggregatedFieldWells: QuickSightClientTypes.WordCloudAggregatedFieldWells? = nil
-        )
-        {
+        ) {
             self.wordCloudAggregatedFieldWells = wordCloudAggregatedFieldWells
         }
     }
@@ -18609,8 +18067,7 @@ extension QuickSightClientTypes {
         public init(
             categoryItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
             categorySort: [QuickSightClientTypes.FieldSortOptions]? = nil
-        )
-        {
+        ) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
         }
@@ -18792,8 +18249,7 @@ extension QuickSightClientTypes {
             wordOrientation: QuickSightClientTypes.WordCloudWordOrientation? = nil,
             wordPadding: QuickSightClientTypes.WordCloudWordPadding? = nil,
             wordScaling: QuickSightClientTypes.WordCloudWordScaling? = nil
-        )
-        {
+        ) {
             self.cloudLayout = cloudLayout
             self.maximumStringLength = maximumStringLength
             self.wordCasing = wordCasing
@@ -18825,8 +18281,7 @@ extension QuickSightClientTypes {
             interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             sortConfiguration: QuickSightClientTypes.WordCloudSortConfiguration? = nil,
             wordCloudOptions: QuickSightClientTypes.WordCloudOptions? = nil
-        )
-        {
+        ) {
             self.categoryLabelOptions = categoryLabelOptions
             self.fieldWells = fieldWells
             self.interactions = interactions
@@ -18864,8 +18319,7 @@ extension QuickSightClientTypes {
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
@@ -18958,8 +18412,7 @@ extension QuickSightClientTypes {
             treeMapVisual: QuickSightClientTypes.TreeMapVisual? = nil,
             waterfallVisual: QuickSightClientTypes.WaterfallVisual? = nil,
             wordCloudVisual: QuickSightClientTypes.WordCloudVisual? = nil
-        )
-        {
+        ) {
             self.barChartVisual = barChartVisual
             self.boxPlotVisual = boxPlotVisual
             self.comboChartVisual = comboChartVisual
@@ -19036,8 +18489,7 @@ extension QuickSightClientTypes {
             textBoxes: [QuickSightClientTypes.SheetTextBox]? = nil,
             title: Swift.String? = nil,
             visuals: [QuickSightClientTypes.Visual]? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.description = description
             self.filterControls = filterControls
@@ -19072,8 +18524,7 @@ extension QuickSightClientTypes {
             bucketName: Swift.String? = nil,
             objectKey: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.objectKey = objectKey
             self.region = region
@@ -19091,8 +18542,7 @@ extension QuickSightClientTypes {
 
         public init(
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.url = url
         }
     }
@@ -19110,8 +18560,7 @@ extension QuickSightClientTypes {
         public init(
             s3Options: QuickSightClientTypes.StaticFileS3SourceOptions? = nil,
             urlOptions: QuickSightClientTypes.StaticFileUrlSourceOptions? = nil
-        )
-        {
+        ) {
             self.s3Options = s3Options
             self.urlOptions = urlOptions
         }
@@ -19131,8 +18580,7 @@ extension QuickSightClientTypes {
         public init(
             source: QuickSightClientTypes.StaticFileSource? = nil,
             staticFileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
             self.staticFileId = staticFileId
         }
@@ -19152,8 +18600,7 @@ extension QuickSightClientTypes {
         public init(
             source: QuickSightClientTypes.StaticFileSource? = nil,
             staticFileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
             self.staticFileId = staticFileId
         }
@@ -19172,8 +18619,7 @@ extension QuickSightClientTypes {
         public init(
             imageStaticFile: QuickSightClientTypes.ImageStaticFile? = nil,
             spatialStaticFile: QuickSightClientTypes.SpatialStaticFile? = nil
-        )
-        {
+        ) {
             self.imageStaticFile = imageStaticFile
             self.spatialStaticFile = spatialStaticFile
         }
@@ -19217,8 +18663,7 @@ extension QuickSightClientTypes {
             queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
             staticFiles: [QuickSightClientTypes.StaticFile]? = nil
-        )
-        {
+        ) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
             self.columnConfigurations = columnConfigurations
@@ -19333,8 +18778,7 @@ extension QuickSightClientTypes {
             name: QuickSightClientTypes.AnalysisFilterAttribute? = nil,
             `operator`: QuickSightClientTypes.FilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -19356,8 +18800,7 @@ extension QuickSightClientTypes {
         public init(
             dataSetArn: Swift.String? = nil,
             dataSetPlaceholder: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetArn = dataSetArn
             self.dataSetPlaceholder = dataSetPlaceholder
         }
@@ -19378,8 +18821,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             dataSetReferences: [QuickSightClientTypes.DataSetReference]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dataSetReferences = dataSetReferences
         }
@@ -19395,8 +18837,7 @@ extension QuickSightClientTypes {
 
         public init(
             sourceTemplate: QuickSightClientTypes.AnalysisSourceTemplate? = nil
-        )
-        {
+        ) {
             self.sourceTemplate = sourceTemplate
         }
     }
@@ -19426,8 +18867,7 @@ extension QuickSightClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil
-        )
-        {
+        ) {
             self.analysisId = analysisId
             self.arn = arn
             self.createdTime = createdTime
@@ -19479,8 +18919,7 @@ extension QuickSightClientTypes {
             anchorType: QuickSightClientTypes.AnchorType? = nil,
             offset: Swift.Int = 0,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
-        )
-        {
+        ) {
             self.anchorType = anchorType
             self.offset = offset
             self.timeGranularity = timeGranularity
@@ -19550,8 +18989,7 @@ extension QuickSightClientTypes {
 
         public init(
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -19566,8 +19004,7 @@ extension QuickSightClientTypes {
 
         public init(
             sharedView: QuickSightClientTypes.SharedViewConfigurations? = nil
-        )
-        {
+        ) {
             self.sharedView = sharedView
         }
     }
@@ -19592,8 +19029,7 @@ extension QuickSightClientTypes {
             enabledFeatures: [QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfigurationEnabledFeature]? = nil,
             featureConfigurations: QuickSightClientTypes.AnonymousUserDashboardFeatureConfigurations? = nil,
             initialDashboardId: Swift.String? = nil
-        )
-        {
+        ) {
             self.disabledFeatures = disabledFeatures
             self.enabledFeatures = enabledFeatures
             self.featureConfigurations = featureConfigurations
@@ -19629,8 +19065,7 @@ extension QuickSightClientTypes {
             dashboardId: Swift.String? = nil,
             sheetId: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dashboardId = dashboardId
             self.sheetId = sheetId
             self.visualId = visualId
@@ -19648,8 +19083,7 @@ extension QuickSightClientTypes {
 
         public init(
             initialDashboardVisualId: QuickSightClientTypes.DashboardVisualId? = nil
-        )
-        {
+        ) {
             self.initialDashboardVisualId = initialDashboardVisualId
         }
     }
@@ -19665,8 +19099,7 @@ extension QuickSightClientTypes {
 
         public init(
             initialTopicId: Swift.String? = nil
-        )
-        {
+        ) {
             self.initialTopicId = initialTopicId
         }
     }
@@ -19682,8 +19115,7 @@ extension QuickSightClientTypes {
 
         public init(
             initialTopicId: Swift.String? = nil
-        )
-        {
+        ) {
             self.initialTopicId = initialTopicId
         }
     }
@@ -19707,8 +19139,7 @@ extension QuickSightClientTypes {
             dashboardVisual: QuickSightClientTypes.AnonymousUserDashboardVisualEmbeddingConfiguration? = nil,
             generativeQnA: QuickSightClientTypes.AnonymousUserGenerativeQnAEmbeddingConfiguration? = nil,
             qSearchBar: QuickSightClientTypes.AnonymousUserQSearchBarEmbeddingConfiguration? = nil
-        )
-        {
+        ) {
             self.dashboard = dashboard
             self.dashboardVisual = dashboardVisual
             self.generativeQnA = generativeQnA
@@ -19799,8 +19230,7 @@ extension QuickSightClientTypes {
             selectionScope: QuickSightClientTypes.SnapshotFileSheetSelectionScope? = nil,
             sheetId: Swift.String? = nil,
             visualIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.selectionScope = selectionScope
             self.sheetId = sheetId
             self.visualIds = visualIds
@@ -19822,8 +19252,7 @@ extension QuickSightClientTypes {
         public init(
             formatType: QuickSightClientTypes.SnapshotFileFormatType? = nil,
             sheetSelections: [QuickSightClientTypes.SnapshotFileSheetSelection]? = nil
-        )
-        {
+        ) {
             self.formatType = formatType
             self.sheetSelections = sheetSelections
         }
@@ -19842,8 +19271,7 @@ extension QuickSightClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             errorType: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.errorType = errorType
         }
@@ -19868,8 +19296,7 @@ extension QuickSightClientTypes {
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             bucketRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
             self.bucketRegion = bucketRegion
@@ -19887,8 +19314,7 @@ extension QuickSightClientTypes {
 
         public init(
             bucketConfiguration: QuickSightClientTypes.S3BucketConfiguration? = nil
-        )
-        {
+        ) {
             self.bucketConfiguration = bucketConfiguration
         }
     }
@@ -19909,8 +19335,7 @@ extension QuickSightClientTypes {
             errorInfo: [QuickSightClientTypes.SnapshotJobResultErrorInfo]? = nil,
             s3DestinationConfiguration: QuickSightClientTypes.SnapshotS3DestinationConfiguration? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorInfo = errorInfo
             self.s3DestinationConfiguration = s3DestinationConfiguration
             self.s3Uri = s3Uri
@@ -19935,8 +19360,7 @@ extension QuickSightClientTypes {
         public init(
             files: [QuickSightClientTypes.SnapshotFile]? = nil,
             s3Results: [QuickSightClientTypes.SnapshotJobS3Result]? = nil
-        )
-        {
+        ) {
             self.files = files
             self.s3Results = s3Results
         }
@@ -19952,8 +19376,7 @@ extension QuickSightClientTypes {
 
         public init(
             fileGroups: [QuickSightClientTypes.SnapshotJobResultFileGroup]? = nil
-        )
-        {
+        ) {
             self.fileGroups = fileGroups
         }
     }
@@ -19971,8 +19394,7 @@ extension QuickSightClientTypes {
         public init(
             background: Swift.String? = nil,
             foreground: Swift.String? = nil
-        )
-        {
+        ) {
             self.background = background
             self.foreground = foreground
         }
@@ -20012,8 +19434,7 @@ extension QuickSightClientTypes {
             secondary: QuickSightClientTypes.Palette? = nil,
             success: QuickSightClientTypes.Palette? = nil,
             warning: QuickSightClientTypes.Palette? = nil
-        )
-        {
+        ) {
             self.accent = accent
             self.danger = danger
             self.dimension = dimension
@@ -20039,8 +19460,7 @@ extension QuickSightClientTypes {
         public init(
             contextualNavbar: QuickSightClientTypes.Palette? = nil,
             globalNavbar: QuickSightClientTypes.Palette? = nil
-        )
-        {
+        ) {
             self.contextualNavbar = contextualNavbar
             self.globalNavbar = globalNavbar
         }
@@ -20056,8 +19476,7 @@ extension QuickSightClientTypes {
 
         public init(
             navbarStyle: QuickSightClientTypes.NavbarStyle? = nil
-        )
-        {
+        ) {
             self.navbarStyle = navbarStyle
         }
     }
@@ -20075,8 +19494,7 @@ extension QuickSightClientTypes {
         public init(
             brandColorPalette: QuickSightClientTypes.BrandColorPalette? = nil,
             brandElementStyle: QuickSightClientTypes.BrandElementStyle? = nil
-        )
-        {
+        ) {
             self.brandColorPalette = brandColorPalette
             self.brandElementStyle = brandElementStyle
         }
@@ -20123,8 +19541,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             properties: [QuickSightClientTypes.AssetBundleExportJobAnalysisPropertyToOverride]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.properties = properties
         }
@@ -20171,8 +19588,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             properties: [QuickSightClientTypes.AssetBundleExportJobDashboardPropertyToOverride]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.properties = properties
         }
@@ -20219,8 +19635,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             properties: [QuickSightClientTypes.AssetBundleExportJobDataSetPropertyToOverride]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.properties = properties
         }
@@ -20318,8 +19733,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             properties: [QuickSightClientTypes.AssetBundleExportJobDataSourcePropertyToOverride]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.properties = properties
         }
@@ -20369,8 +19783,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             properties: [QuickSightClientTypes.AssetBundleExportJobFolderPropertyToOverride]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.properties = properties
         }
@@ -20417,8 +19830,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             properties: [QuickSightClientTypes.AssetBundleExportJobRefreshSchedulePropertyToOverride]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.properties = properties
         }
@@ -20434,8 +19846,7 @@ extension QuickSightClientTypes {
 
         public init(
             prefixForAllResources: Swift.Bool = false
-        )
-        {
+        ) {
             self.prefixForAllResources = prefixForAllResources
         }
     }
@@ -20481,8 +19892,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             properties: [QuickSightClientTypes.AssetBundleExportJobThemePropertyToOverride]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.properties = properties
         }
@@ -20535,8 +19945,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             properties: [QuickSightClientTypes.AssetBundleExportJobVPCConnectionPropertyToOverride]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.properties = properties
         }
@@ -20576,8 +19985,7 @@ extension QuickSightClientTypes {
             resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleExportJobResourceIdOverrideConfiguration? = nil,
             themes: [QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties]? = nil,
             vpcConnections: [QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties]? = nil
-        )
-        {
+        ) {
             self.analyses = analyses
             self.dashboards = dashboards
             self.dataSets = dataSets
@@ -20635,8 +20043,7 @@ extension QuickSightClientTypes {
             arn: Swift.String? = nil,
             message: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.message = message
             self.type = type
@@ -20709,8 +20116,7 @@ extension QuickSightClientTypes {
             includePermissions: Swift.Bool = false,
             includeTags: Swift.Bool = false,
             jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assetBundleExportJobId = assetBundleExportJobId
             self.createdTime = createdTime
@@ -20732,8 +20138,7 @@ extension QuickSightClientTypes {
 
         public init(
             strictModeForAllResources: Swift.Bool = false
-        )
-        {
+        ) {
             self.strictModeForAllResources = strictModeForAllResources
         }
     }
@@ -20751,8 +20156,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.message = message
         }
@@ -20801,8 +20205,7 @@ extension QuickSightClientTypes {
         public init(
             analysisId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.analysisId = analysisId
             self.name = name
         }
@@ -20823,8 +20226,7 @@ extension QuickSightClientTypes {
         public init(
             actions: [Swift.String]? = nil,
             principals: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.principals = principals
         }
@@ -20845,8 +20247,7 @@ extension QuickSightClientTypes {
         public init(
             analysisIds: [Swift.String]? = nil,
             permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
-        )
-        {
+        ) {
             self.analysisIds = analysisIds
             self.permissions = permissions
         }
@@ -20867,8 +20268,7 @@ extension QuickSightClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -20889,8 +20289,7 @@ extension QuickSightClientTypes {
         public init(
             analysisIds: [Swift.String]? = nil,
             tags: [QuickSightClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.analysisIds = analysisIds
             self.tags = tags
         }
@@ -20910,8 +20309,7 @@ extension QuickSightClientTypes {
         public init(
             dashboardId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.dashboardId = dashboardId
             self.name = name
         }
@@ -20927,8 +20325,7 @@ extension QuickSightClientTypes {
 
         public init(
             permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
-        )
-        {
+        ) {
             self.permissions = permissions
         }
     }
@@ -20950,8 +20347,7 @@ extension QuickSightClientTypes {
             dashboardIds: [Swift.String]? = nil,
             linkSharingConfiguration: QuickSightClientTypes.AssetBundleResourceLinkSharingConfiguration? = nil,
             permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
-        )
-        {
+        ) {
             self.dashboardIds = dashboardIds
             self.linkSharingConfiguration = linkSharingConfiguration
             self.permissions = permissions
@@ -20973,8 +20369,7 @@ extension QuickSightClientTypes {
         public init(
             dashboardIds: [Swift.String]? = nil,
             tags: [QuickSightClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.dashboardIds = dashboardIds
             self.tags = tags
         }
@@ -20994,8 +20389,7 @@ extension QuickSightClientTypes {
         public init(
             dataSetId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetId = dataSetId
             self.name = name
         }
@@ -21016,8 +20410,7 @@ extension QuickSightClientTypes {
         public init(
             dataSetIds: [Swift.String]? = nil,
             permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
-        )
-        {
+        ) {
             self.dataSetIds = dataSetIds
             self.permissions = permissions
         }
@@ -21038,8 +20431,7 @@ extension QuickSightClientTypes {
         public init(
             dataSetIds: [Swift.String]? = nil,
             tags: [QuickSightClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.dataSetIds = dataSetIds
             self.tags = tags
         }
@@ -21060,8 +20452,7 @@ extension QuickSightClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -21086,8 +20477,7 @@ extension QuickSightClientTypes {
         public init(
             credentialPair: QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.credentialPair = credentialPair
             self.secretArn = secretArn
         }
@@ -21111,8 +20501,7 @@ extension QuickSightClientTypes {
         public init(
             roleArn: Swift.String? = nil,
             workGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.workGroup = workGroup
         }
@@ -21137,8 +20526,7 @@ extension QuickSightClientTypes {
             database: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.database = database
             self.host = host
             self.port = port
@@ -21164,8 +20552,7 @@ extension QuickSightClientTypes {
             database: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.database = database
             self.host = host
             self.port = port
@@ -21183,8 +20570,7 @@ extension QuickSightClientTypes {
 
         public init(
             dataSetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetName = dataSetName
         }
     }
@@ -21203,8 +20589,7 @@ extension QuickSightClientTypes {
         public init(
             dataSetRegion: Swift.String? = nil,
             projectId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetRegion = dataSetRegion
             self.projectId = projectId
         }
@@ -21229,8 +20614,7 @@ extension QuickSightClientTypes {
             host: Swift.String? = nil,
             port: Swift.Int? = nil,
             sqlEndpointPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.host = host
             self.port = port
             self.sqlEndpointPath = sqlEndpointPath
@@ -21252,8 +20636,7 @@ extension QuickSightClientTypes {
         public init(
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.host = host
             self.port = port
         }
@@ -21270,8 +20653,7 @@ extension QuickSightClientTypes {
 
         public init(
             siteBaseUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.siteBaseUrl = siteBaseUrl
         }
     }
@@ -21295,8 +20677,7 @@ extension QuickSightClientTypes {
             database: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.database = database
             self.host = host
             self.port = port
@@ -21322,8 +20703,7 @@ extension QuickSightClientTypes {
             database: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.database = database
             self.host = host
             self.port = port
@@ -21349,8 +20729,7 @@ extension QuickSightClientTypes {
             database: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.database = database
             self.host = host
             self.port = port
@@ -21376,8 +20755,7 @@ extension QuickSightClientTypes {
             database: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.database = database
             self.host = host
             self.port = port
@@ -21403,8 +20781,7 @@ extension QuickSightClientTypes {
             catalog: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.catalog = catalog
             self.host = host
             self.port = port
@@ -21426,8 +20803,7 @@ extension QuickSightClientTypes {
         public init(
             database: Swift.String? = nil,
             instanceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.instanceId = instanceId
         }
@@ -21453,8 +20829,7 @@ extension QuickSightClientTypes {
             databaseGroups: [Swift.String]? = nil,
             databaseUser: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoCreateDatabaseUser = autoCreateDatabaseUser
             self.databaseGroups = databaseGroups
             self.databaseUser = databaseUser
@@ -21472,8 +20847,7 @@ extension QuickSightClientTypes {
 
         public init(
             enableIdentityPropagation: Swift.Bool? = false
-        )
-        {
+        ) {
             self.enableIdentityPropagation = enableIdentityPropagation
         }
     }
@@ -21504,8 +20878,7 @@ extension QuickSightClientTypes {
             iamParameters: QuickSightClientTypes.RedshiftIAMParameters? = nil,
             identityCenterConfiguration: QuickSightClientTypes.IdentityCenterConfiguration? = nil,
             port: Swift.Int = 0
-        )
-        {
+        ) {
             self.clusterId = clusterId
             self.database = database
             self.host = host
@@ -21530,8 +20903,7 @@ extension QuickSightClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -21551,8 +20923,7 @@ extension QuickSightClientTypes {
         public init(
             manifestFileLocation: QuickSightClientTypes.ManifestFileLocation? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestFileLocation = manifestFileLocation
             self.roleArn = roleArn
         }
@@ -21569,8 +20940,7 @@ extension QuickSightClientTypes {
 
         public init(
             siteBaseUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.siteBaseUrl = siteBaseUrl
         }
     }
@@ -21618,8 +20988,7 @@ extension QuickSightClientTypes {
 
         public init(
             vpcConnectionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.vpcConnectionArn = vpcConnectionArn
         }
     }
@@ -21644,8 +21013,7 @@ extension QuickSightClientTypes {
             identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil,
             oAuthScope: Swift.String? = nil,
             tokenProviderUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.identityProviderResourceUri = identityProviderResourceUri
             self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
             self.oAuthScope = oAuthScope
@@ -21681,8 +21049,7 @@ extension QuickSightClientTypes {
             host: Swift.String? = nil,
             oAuthParameters: QuickSightClientTypes.OAuthParameters? = nil,
             warehouse: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.database = database
             self.databaseAccessControlRole = databaseAccessControlRole
@@ -21707,8 +21074,7 @@ extension QuickSightClientTypes {
         public init(
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.host = host
             self.port = port
         }
@@ -21733,8 +21099,7 @@ extension QuickSightClientTypes {
             database: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.database = database
             self.host = host
             self.port = port
@@ -21801,8 +21166,7 @@ extension QuickSightClientTypes {
             oAuthParameters: QuickSightClientTypes.OAuthParameters? = nil,
             port: Swift.Int? = nil,
             productType: QuickSightClientTypes.StarburstProductType? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.catalog = catalog
             self.databaseAccessControlRole = databaseAccessControlRole
@@ -21832,8 +21196,7 @@ extension QuickSightClientTypes {
             database: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.database = database
             self.host = host
             self.port = port
@@ -21859,8 +21222,7 @@ extension QuickSightClientTypes {
             catalog: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.catalog = catalog
             self.host = host
             self.port = port
@@ -21882,8 +21244,7 @@ extension QuickSightClientTypes {
         public init(
             maxRows: Swift.Int? = nil,
             query: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxRows = maxRows
             self.query = query
         }
@@ -21959,8 +21320,7 @@ extension QuickSightClientTypes {
 
         public init(
             disableSsl: Swift.Bool = false
-        )
-        {
+        ) {
             self.disableSsl = disableSsl
         }
     }
@@ -21991,8 +21351,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             sslProperties: QuickSightClientTypes.SslProperties? = nil,
             vpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil
-        )
-        {
+        ) {
             self.credentials = credentials
             self.dataSourceId = dataSourceId
             self.dataSourceParameters = dataSourceParameters
@@ -22017,8 +21376,7 @@ extension QuickSightClientTypes {
         public init(
             dataSourceIds: [Swift.String]? = nil,
             permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
-        )
-        {
+        ) {
             self.dataSourceIds = dataSourceIds
             self.permissions = permissions
         }
@@ -22039,8 +21397,7 @@ extension QuickSightClientTypes {
         public init(
             dataSourceIds: [Swift.String]? = nil,
             tags: [QuickSightClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.dataSourceIds = dataSourceIds
             self.tags = tags
         }
@@ -22062,8 +21419,7 @@ extension QuickSightClientTypes {
             arn: Swift.String? = nil,
             message: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.message = message
             self.type = type
@@ -22087,8 +21443,7 @@ extension QuickSightClientTypes {
             folderId: Swift.String? = nil,
             name: Swift.String? = nil,
             parentFolderArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.folderId = folderId
             self.name = name
             self.parentFolderArn = parentFolderArn
@@ -22109,8 +21464,7 @@ extension QuickSightClientTypes {
         public init(
             folderIds: [Swift.String]? = nil,
             permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
-        )
-        {
+        ) {
             self.folderIds = folderIds
             self.permissions = permissions
         }
@@ -22131,8 +21485,7 @@ extension QuickSightClientTypes {
         public init(
             folderIds: [Swift.String]? = nil,
             tags: [QuickSightClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.folderIds = folderIds
             self.tags = tags
         }
@@ -22156,8 +21509,7 @@ extension QuickSightClientTypes {
             dataSetId: Swift.String? = nil,
             scheduleId: Swift.String? = nil,
             startAfterDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataSetId = dataSetId
             self.scheduleId = scheduleId
             self.startAfterDateTime = startAfterDateTime
@@ -22174,8 +21526,7 @@ extension QuickSightClientTypes {
 
         public init(
             prefixForAllResources: Swift.String? = nil
-        )
-        {
+        ) {
             self.prefixForAllResources = prefixForAllResources
         }
     }
@@ -22194,8 +21545,7 @@ extension QuickSightClientTypes {
         public init(
             name: Swift.String? = nil,
             themeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.themeId = themeId
         }
@@ -22227,8 +21577,7 @@ extension QuickSightClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcConnectionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dnsResolvers = dnsResolvers
             self.name = name
             self.roleArn = roleArn
@@ -22272,8 +21621,7 @@ extension QuickSightClientTypes {
             resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfiguration? = nil,
             themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters]? = nil,
             vpcConnections: [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters]? = nil
-        )
-        {
+        ) {
             self.analyses = analyses
             self.dashboards = dashboards
             self.dataSets = dataSets
@@ -22301,8 +21649,7 @@ extension QuickSightClientTypes {
         public init(
             permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil,
             themeIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.permissions = permissions
             self.themeIds = themeIds
         }
@@ -22333,8 +21680,7 @@ extension QuickSightClientTypes {
             dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions]? = nil,
             folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions]? = nil,
             themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions]? = nil
-        )
-        {
+        ) {
             self.analyses = analyses
             self.dashboards = dashboards
             self.dataSets = dataSets
@@ -22359,8 +21705,7 @@ extension QuickSightClientTypes {
         public init(
             tags: [QuickSightClientTypes.Tag]? = nil,
             themeIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.tags = tags
             self.themeIds = themeIds
         }
@@ -22381,8 +21726,7 @@ extension QuickSightClientTypes {
         public init(
             tags: [QuickSightClientTypes.Tag]? = nil,
             vpcConnectionIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.tags = tags
             self.vpcConnectionIds = vpcConnectionIds
         }
@@ -22416,8 +21760,7 @@ extension QuickSightClientTypes {
             folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags]? = nil,
             themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags]? = nil,
             vpcConnections: [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags]? = nil
-        )
-        {
+        ) {
             self.analyses = analyses
             self.dashboards = dashboards
             self.dataSets = dataSets
@@ -22438,8 +21781,7 @@ extension QuickSightClientTypes {
 
         public init(
             strictModeForAllResources: Swift.Bool = false
-        )
-        {
+        ) {
             self.strictModeForAllResources = strictModeForAllResources
         }
     }
@@ -22510,8 +21852,7 @@ extension QuickSightClientTypes {
             createdTime: Foundation.Date? = nil,
             failureAction: QuickSightClientTypes.AssetBundleImportFailureAction? = nil,
             jobStatus: QuickSightClientTypes.AssetBundleImportJobStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assetBundleImportJobId = assetBundleImportJobId
             self.createdTime = createdTime
@@ -22533,8 +21874,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.message = message
         }
@@ -22553,8 +21893,7 @@ extension QuickSightClientTypes {
         public init(
             body: Foundation.Data? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.s3Uri = s3Uri
         }
@@ -22578,8 +21917,7 @@ extension QuickSightClientTypes {
         public init(
             body: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.s3Uri = s3Uri
         }
@@ -22699,8 +22037,7 @@ extension QuickSightClientTypes {
         public init(
             authorizedTargets: [Swift.String]? = nil,
             service: QuickSightClientTypes.ServiceType? = nil
-        )
-        {
+        ) {
             self.authorizedTargets = authorizedTargets
             self.service = service
         }
@@ -22787,8 +22124,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -22815,8 +22151,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -22896,8 +22231,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         requestId: Swift.String? = nil,
         resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
         self.properties.resourceType = resourceType
@@ -22925,8 +22259,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -22973,8 +22306,7 @@ extension QuickSightClientTypes {
 
         public init(
             fieldName: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
         }
     }
@@ -23025,8 +22357,7 @@ extension QuickSightClientTypes {
 
         public init(
             identity: Swift.String? = nil
-        )
-        {
+        ) {
             self.identity = identity
         }
     }
@@ -23076,8 +22407,7 @@ extension QuickSightClientTypes {
             function: QuickSightClientTypes.AggType? = nil,
             metricOperand: QuickSightClientTypes.Identifier? = nil,
             sortDirection: QuickSightClientTypes.TopicSortDirection? = nil
-        )
-        {
+        ) {
             self.function = function
             self.metricOperand = metricOperand
             self.sortDirection = sortDirection
@@ -23129,8 +22459,7 @@ extension QuickSightClientTypes {
         public init(
             constantType: QuickSightClientTypes.ConstantType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.constantType = constantType
             self.value = value
         }
@@ -23158,8 +22487,7 @@ extension QuickSightClientTypes {
             minimum: Swift.String? = nil,
             value: Swift.String? = nil,
             valueList: [QuickSightClientTypes.CollectiveConstantEntry]? = nil
-        )
-        {
+        ) {
             self.constantType = constantType
             self.maximum = maximum
             self.minimum = minimum
@@ -23396,8 +22724,7 @@ extension QuickSightClientTypes {
             sortDirection: QuickSightClientTypes.TopicSortDirection? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil,
             topBottomLimit: QuickSightClientTypes.TopicConstantValue? = nil
-        )
-        {
+        ) {
             self.aggMetrics = aggMetrics
             self.aggregation = aggregation
             self.aggregationFunctionParameters = aggregationFunctionParameters
@@ -23432,8 +22759,7 @@ extension QuickSightClientTypes {
         public init(
             endRange: QuickSightClientTypes.TopicIRFilterOption? = nil,
             startRange: QuickSightClientTypes.TopicIRFilterOption? = nil
-        )
-        {
+        ) {
             self.endRange = endRange
             self.startRange = startRange
         }
@@ -23458,8 +22784,7 @@ extension QuickSightClientTypes {
             factors: [QuickSightClientTypes.ContributionAnalysisFactor]? = nil,
             sortType: QuickSightClientTypes.ContributionAnalysisSortType? = nil,
             timeRanges: QuickSightClientTypes.ContributionAnalysisTimeRanges? = nil
-        )
-        {
+        ) {
             self.direction = direction
             self.factors = factors
             self.sortType = sortType
@@ -23550,8 +22875,7 @@ extension QuickSightClientTypes {
         public init(
             `prefix`: Swift.String? = nil,
             suffix: Swift.String? = nil
-        )
-        {
+        ) {
             self.`prefix` = `prefix`
             self.suffix = suffix
         }
@@ -23600,8 +22924,7 @@ extension QuickSightClientTypes {
             unitScaler: QuickSightClientTypes.NumberScale? = nil,
             useBlankCellFormat: Swift.Bool = false,
             useGrouping: Swift.Bool = false
-        )
-        {
+        ) {
             self.blankCellFormat = blankCellFormat
             self.currencySymbol = currencySymbol
             self.dateFormat = dateFormat
@@ -23627,8 +22950,7 @@ extension QuickSightClientTypes {
 
         public init(
             namedEntityName: Swift.String? = nil
-        )
-        {
+        ) {
             self.namedEntityName = namedEntityName
         }
     }
@@ -23646,8 +22968,7 @@ extension QuickSightClientTypes {
         public init(
             operand: QuickSightClientTypes.Identifier? = nil,
             sortDirection: QuickSightClientTypes.TopicSortDirection? = nil
-        )
-        {
+        ) {
             self.operand = operand
             self.sortDirection = sortDirection
         }
@@ -23678,8 +22999,7 @@ extension QuickSightClientTypes {
             namedEntity: QuickSightClientTypes.NamedEntityRef? = nil,
             sort: QuickSightClientTypes.TopicSortClause? = nil,
             timeGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil
-        )
-        {
+        ) {
             self.displayFormat = displayFormat
             self.displayFormatOptions = displayFormatOptions
             self.fieldName = fieldName
@@ -23758,8 +23078,7 @@ extension QuickSightClientTypes {
             period: QuickSightClientTypes.TopicTimeGranularity? = nil,
             type: QuickSightClientTypes.ComparisonMethodType? = nil,
             windowSize: Swift.Int = 0
-        )
-        {
+        ) {
             self.period = period
             self.type = type
             self.windowSize = windowSize
@@ -23800,8 +23119,7 @@ extension QuickSightClientTypes {
             metricId: QuickSightClientTypes.Identifier? = nil,
             namedEntity: QuickSightClientTypes.NamedEntityRef? = nil,
             operands: [QuickSightClientTypes.Identifier]? = nil
-        )
-        {
+        ) {
             self.calculatedFieldReferences = calculatedFieldReferences
             self.comparisonMethod = comparisonMethod
             self.displayFormat = displayFormat
@@ -23829,8 +23147,7 @@ extension QuickSightClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -23860,8 +23177,7 @@ extension QuickSightClientTypes {
             metrics: [QuickSightClientTypes.TopicIRMetric]? = nil,
             sort: QuickSightClientTypes.TopicSortClause? = nil,
             visual: QuickSightClientTypes.VisualOptions? = nil
-        )
-        {
+        ) {
             self.contributionAnalysis = contributionAnalysis
             self.filters = filters
             self.groupByList = groupByList
@@ -23922,8 +23238,7 @@ extension QuickSightClientTypes {
         public init(
             slotId: Swift.String? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.slotId = slotId
             self.visualId = visualId
         }
@@ -23942,8 +23257,7 @@ extension QuickSightClientTypes {
         public init(
             slots: [QuickSightClientTypes.Slot]? = nil,
             templateType: Swift.String? = nil
-        )
-        {
+        ) {
             self.slots = slots
             self.templateType = templateType
         }
@@ -24006,8 +23320,7 @@ extension QuickSightClientTypes {
         public init(
             answerId: Swift.String? = nil,
             error: QuickSightClientTypes.ReviewedAnswerErrorCode? = nil
-        )
-        {
+        ) {
             self.answerId = answerId
             self.error = error
         }
@@ -24023,8 +23336,7 @@ extension QuickSightClientTypes {
 
         public init(
             answerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.answerId = answerId
         }
     }
@@ -24051,8 +23363,7 @@ public struct BatchCreateTopicReviewedAnswerOutput: Swift.Sendable {
         succeededAnswers: [QuickSightClientTypes.SucceededTopicReviewedAnswer]? = nil,
         topicArn: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.invalidAnswers = invalidAnswers
         self.requestId = requestId
         self.status = status
@@ -24083,8 +23394,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -24104,8 +23414,7 @@ public struct BatchDeleteTopicReviewedAnswerInput: Swift.Sendable {
         answerIds: [Swift.String]? = nil,
         awsAccountId: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.answerIds = answerIds
         self.awsAccountId = awsAccountId
         self.topicId = topicId
@@ -24133,8 +23442,7 @@ public struct BatchDeleteTopicReviewedAnswerOutput: Swift.Sendable {
         succeededAnswers: [QuickSightClientTypes.SucceededTopicReviewedAnswer]? = nil,
         topicArn: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.invalidAnswers = invalidAnswers
         self.requestId = requestId
         self.status = status
@@ -24154,8 +23462,7 @@ extension QuickSightClientTypes {
 
         public init(
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -24170,8 +23477,7 @@ extension QuickSightClientTypes {
 
         public init(
             show: Swift.Bool? = false
-        )
-        {
+        ) {
             self.show = show
         }
     }
@@ -24198,8 +23504,7 @@ extension QuickSightClientTypes {
 
         public init(
             source: QuickSightClientTypes.ImageSource? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -24215,8 +23520,7 @@ extension QuickSightClientTypes {
 
         public init(
             original: QuickSightClientTypes.ImageConfiguration? = nil
-        )
-        {
+        ) {
             self.original = original
         }
     }
@@ -24235,8 +23539,7 @@ extension QuickSightClientTypes {
         public init(
             favicon: QuickSightClientTypes.ImageSetConfiguration? = nil,
             primary: QuickSightClientTypes.ImageSetConfiguration? = nil
-        )
-        {
+        ) {
             self.favicon = favicon
             self.primary = primary
         }
@@ -24257,8 +23560,7 @@ extension QuickSightClientTypes {
         public init(
             altText: Swift.String? = nil,
             logoSet: QuickSightClientTypes.LogoSetConfiguration? = nil
-        )
-        {
+        ) {
             self.altText = altText
             self.logoSet = logoSet
         }
@@ -24284,8 +23586,7 @@ extension QuickSightClientTypes {
             brandName: Swift.String? = nil,
             description: Swift.String? = nil,
             logoConfiguration: QuickSightClientTypes.LogoConfiguration? = nil
-        )
-        {
+        ) {
             self.applicationTheme = applicationTheme
             self.brandName = brandName
             self.description = description
@@ -24344,8 +23645,7 @@ extension QuickSightClientTypes {
         public init(
             generatedImageUrl: Swift.String? = nil,
             source: QuickSightClientTypes.ImageSource? = nil
-        )
-        {
+        ) {
             self.generatedImageUrl = generatedImageUrl
             self.source = source
         }
@@ -24368,8 +23668,7 @@ extension QuickSightClientTypes {
             height32: QuickSightClientTypes.Image? = nil,
             height64: QuickSightClientTypes.Image? = nil,
             original: QuickSightClientTypes.Image? = nil
-        )
-        {
+        ) {
             self.height32 = height32
             self.height64 = height64
             self.original = original
@@ -24390,8 +23689,7 @@ extension QuickSightClientTypes {
         public init(
             favicon: QuickSightClientTypes.ImageSet? = nil,
             primary: QuickSightClientTypes.ImageSet? = nil
-        )
-        {
+        ) {
             self.favicon = favicon
             self.primary = primary
         }
@@ -24412,8 +23710,7 @@ extension QuickSightClientTypes {
         public init(
             altText: Swift.String? = nil,
             logoSet: QuickSightClientTypes.LogoSet? = nil
-        )
-        {
+        ) {
             self.altText = altText
             self.logoSet = logoSet
         }
@@ -24486,8 +23783,7 @@ extension QuickSightClientTypes {
             logo: QuickSightClientTypes.Logo? = nil,
             versionId: Swift.String? = nil,
             versionStatus: QuickSightClientTypes.BrandVersionStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.brandId = brandId
             self.brandStatus = brandStatus
@@ -24528,8 +23824,7 @@ extension QuickSightClientTypes {
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.brandId = brandId
             self.brandName = brandName
@@ -24559,8 +23854,7 @@ extension QuickSightClientTypes {
             columnId: Swift.String? = nil,
             columnName: Swift.String? = nil,
             expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnId = columnId
             self.columnName = columnName
             self.expression = expression
@@ -24597,8 +23891,7 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
         message: Swift.String? = nil,
         requestId: Swift.String? = nil,
         resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
         self.properties.resourceType = resourceType
@@ -24620,8 +23913,7 @@ public struct CancelIngestionInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil,
         ingestionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
         self.ingestionId = ingestionId
@@ -24643,8 +23935,7 @@ public struct CancelIngestionOutput: Swift.Sendable {
         ingestionId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.ingestionId = ingestionId
         self.requestId = requestId
@@ -24735,8 +24026,7 @@ extension QuickSightClientTypes {
             shareDatasets: QuickSightClientTypes.CapabilityState? = nil,
             subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
             viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState? = nil
-        )
-        {
+        ) {
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
             self.createAndUpdateDashboardEmailReports = createAndUpdateDashboardEmailReports
             self.createAndUpdateDataSources = createAndUpdateDataSources
@@ -24842,8 +24132,7 @@ extension QuickSightClientTypes {
             format: Swift.String? = nil,
             newColumnType: QuickSightClientTypes.ColumnDataType? = nil,
             subType: QuickSightClientTypes.ColumnDataSubType? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.format = format
             self.newColumnType = newColumnType
@@ -24925,8 +24214,7 @@ extension QuickSightClientTypes {
         public init(
             cellValue: Swift.String? = nil,
             synonyms: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.cellValue = cellValue
             self.synonyms = synonyms
         }
@@ -24942,8 +24230,7 @@ extension QuickSightClientTypes {
 
         public init(
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -24987,8 +24274,7 @@ extension QuickSightClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -25042,8 +24328,7 @@ extension QuickSightClientTypes {
             columns: [Swift.String]? = nil,
             countryCode: QuickSightClientTypes.GeoSpatialCountryCode? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.countryCode = countryCode
             self.name = name
@@ -25060,8 +24345,7 @@ extension QuickSightClientTypes {
 
         public init(
             geoSpatialColumnGroup: QuickSightClientTypes.GeoSpatialColumnGroup? = nil
-        )
-        {
+        ) {
             self.geoSpatialColumnGroup = geoSpatialColumnGroup
         }
     }
@@ -25076,8 +24360,7 @@ extension QuickSightClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -25095,8 +24378,7 @@ extension QuickSightClientTypes {
         public init(
             columnGroupColumnSchemaList: [QuickSightClientTypes.ColumnGroupColumnSchema]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnGroupColumnSchemaList = columnGroupColumnSchemaList
             self.name = name
         }
@@ -25115,8 +24397,7 @@ extension QuickSightClientTypes {
         public init(
             columnNames: [Swift.String]? = nil,
             principals: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.columnNames = columnNames
             self.principals = principals
         }
@@ -25170,8 +24451,7 @@ extension QuickSightClientTypes {
             dataType: Swift.String? = nil,
             geographicRole: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.geographicRole = geographicRole
             self.name = name
@@ -25235,8 +24515,7 @@ extension QuickSightClientTypes {
         public init(
             columnDescription: QuickSightClientTypes.ColumnDescription? = nil,
             columnGeographicRole: QuickSightClientTypes.GeoSpatialDataRole? = nil
-        )
-        {
+        ) {
             self.columnDescription = columnDescription
             self.columnGeographicRole = columnGeographicRole
         }
@@ -25316,8 +24595,7 @@ extension QuickSightClientTypes {
             specifedOrder: [Swift.String]? = nil,
             treatUndefinedSpecifiedValues: QuickSightClientTypes.UndefinedSpecifiedValueType? = nil,
             useOrdering: QuickSightClientTypes.ColumnOrderingType? = nil
-        )
-        {
+        ) {
             self.specifedOrder = specifedOrder
             self.treatUndefinedSpecifiedValues = treatUndefinedSpecifiedValues
             self.useOrdering = useOrdering
@@ -25345,8 +24623,7 @@ public struct ConcurrentUpdatingException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -25376,8 +24653,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
         message: Swift.String? = nil,
         requestId: Swift.String? = nil,
         resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
         self.properties.resourceType = resourceType
@@ -25401,8 +24677,7 @@ public struct CreateAccountCustomizationInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accountCustomization = accountCustomization
         self.awsAccountId = awsAccountId
         self.namespace = namespace
@@ -25431,8 +24706,7 @@ public struct CreateAccountCustomizationOutput: Swift.Sendable {
         namespace: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.accountCustomization = accountCustomization
         self.arn = arn
         self.awsAccountId = awsAccountId
@@ -25463,8 +24737,7 @@ public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -25542,8 +24815,7 @@ public struct CreateAccountSubscriptionInput: Swift.Sendable {
         readerGroup: [Swift.String]? = nil,
         readerProGroup: [Swift.String]? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountName = accountName
         self.activeDirectoryName = activeDirectoryName
         self.adminGroup = adminGroup
@@ -25584,8 +24856,7 @@ extension QuickSightClientTypes {
             directoryType: Swift.String? = nil,
             iamUser: Swift.Bool = false,
             userLoginName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountName = accountName
             self.directoryType = directoryType
             self.iamUser = iamUser
@@ -25606,8 +24877,7 @@ public struct CreateAccountSubscriptionOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         signupResponse: QuickSightClientTypes.SignupResponse? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.signupResponse = signupResponse
         self.status = status
@@ -25638,8 +24908,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         message: Swift.String? = nil,
         requestId: Swift.String? = nil,
         resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
         self.properties.resourceType = resourceType
@@ -25667,8 +24936,7 @@ public struct UnsupportedUserEditionException: ClientRuntime.ModeledError, AWSCl
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -25688,8 +24956,7 @@ extension QuickSightClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Foundation.Date]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -25715,8 +24982,7 @@ extension QuickSightClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -25742,8 +25008,7 @@ extension QuickSightClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -25769,8 +25034,7 @@ extension QuickSightClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -25800,8 +25064,7 @@ extension QuickSightClientTypes {
             decimalParameters: [QuickSightClientTypes.DecimalParameter]? = nil,
             integerParameters: [QuickSightClientTypes.IntegerParameter]? = nil,
             stringParameters: [QuickSightClientTypes.StringParameter]? = nil
-        )
-        {
+        ) {
             self.dateTimeParameters = dateTimeParameters
             self.decimalParameters = decimalParameters
             self.integerParameters = integerParameters
@@ -25830,8 +25093,7 @@ extension QuickSightClientTypes {
         public init(
             actions: [Swift.String]? = nil,
             principal: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.principal = principal
         }
@@ -25877,8 +25139,7 @@ extension QuickSightClientTypes {
 
         public init(
             mode: QuickSightClientTypes.ValidationStrategyMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -25923,8 +25184,7 @@ public struct CreateAnalysisInput: Swift.Sendable {
         tags: [QuickSightClientTypes.Tag]? = nil,
         themeArn: Swift.String? = nil,
         validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.awsAccountId = awsAccountId
         self.definition = definition
@@ -25957,8 +25217,7 @@ public struct CreateAnalysisOutput: Swift.Sendable {
         creationStatus: QuickSightClientTypes.ResourceStatus? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.arn = arn
         self.creationStatus = creationStatus
@@ -25986,8 +25245,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -26013,8 +25271,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -26037,8 +25294,7 @@ public struct CreateBrandInput: Swift.Sendable {
         brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
         brandId: Swift.String? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.brandDefinition = brandDefinition
         self.brandId = brandId
@@ -26058,8 +25314,7 @@ public struct CreateBrandOutput: Swift.Sendable {
         brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
         brandDetail: QuickSightClientTypes.BrandDetail? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brandDefinition = brandDefinition
         self.brandDetail = brandDetail
         self.requestId = requestId
@@ -26076,8 +25331,7 @@ extension QuickSightClientTypes {
 
         public init(
             columns: [QuickSightClientTypes.CalculatedColumn]? = nil
-        )
-        {
+        ) {
             self.columns = columns
         }
     }
@@ -26100,8 +25354,7 @@ public struct CreateCustomPermissionsInput: Swift.Sendable {
         capabilities: QuickSightClientTypes.Capabilities? = nil,
         customPermissionsName: Swift.String? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.capabilities = capabilities
         self.customPermissionsName = customPermissionsName
@@ -26121,8 +25374,7 @@ public struct CreateCustomPermissionsOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.requestId = requestId
         self.status = status
@@ -26138,8 +25390,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -26154,8 +25405,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -26170,8 +25420,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -26186,8 +25435,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -26202,8 +25450,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -26247,8 +25494,7 @@ extension QuickSightClientTypes {
 
         public init(
             visibilityState: QuickSightClientTypes.DashboardUIState? = nil
-        )
-        {
+        ) {
             self.visibilityState = visibilityState
         }
     }
@@ -26263,8 +25509,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -26279,8 +25524,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -26295,8 +25539,7 @@ extension QuickSightClientTypes {
 
         public init(
             availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
-        )
-        {
+        ) {
             self.availabilityStatus = availabilityStatus
         }
     }
@@ -26311,8 +25554,7 @@ extension QuickSightClientTypes {
 
         public init(
             exportHiddenFieldsOption: QuickSightClientTypes.ExportHiddenFieldsOption? = nil
-        )
-        {
+        ) {
             self.exportHiddenFieldsOption = exportHiddenFieldsOption
         }
     }
@@ -26358,8 +25600,7 @@ extension QuickSightClientTypes {
             visualAxisSortOption: QuickSightClientTypes.VisualAxisSortOption? = nil,
             visualMenuOption: QuickSightClientTypes.VisualMenuOption? = nil,
             visualPublishOptions: QuickSightClientTypes.DashboardVisualPublishOptions? = nil
-        )
-        {
+        ) {
             self.adHocFilteringOption = adHocFilteringOption
             self.dataPointDrillUpDownOption = dataPointDrillUpDownOption
             self.dataPointMenuLabelOption = dataPointMenuLabelOption
@@ -26409,8 +25650,7 @@ extension QuickSightClientTypes {
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
             staticFiles: [QuickSightClientTypes.StaticFile]? = nil
-        )
-        {
+        ) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
             self.columnConfigurations = columnConfigurations
@@ -26433,8 +25673,7 @@ extension QuickSightClientTypes {
 
         public init(
             permissions: [QuickSightClientTypes.ResourcePermission]? = nil
-        )
-        {
+        ) {
             self.permissions = permissions
         }
     }
@@ -26454,8 +25693,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             dataSetReferences: [QuickSightClientTypes.DataSetReference]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dataSetReferences = dataSetReferences
         }
@@ -26471,8 +25709,7 @@ extension QuickSightClientTypes {
 
         public init(
             sourceTemplate: QuickSightClientTypes.DashboardSourceTemplate? = nil
-        )
-        {
+        ) {
             self.sourceTemplate = sourceTemplate
         }
     }
@@ -26535,8 +25772,7 @@ public struct CreateDashboardInput: Swift.Sendable {
         themeArn: Swift.String? = nil,
         validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.dashboardPublishOptions = dashboardPublishOptions
@@ -26576,8 +25812,7 @@ public struct CreateDashboardOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         versionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationStatus = creationStatus
         self.dashboardId = dashboardId
@@ -26596,8 +25831,7 @@ extension QuickSightClientTypes {
 
         public init(
             staticValues: [Foundation.Date]? = nil
-        )
-        {
+        ) {
             self.staticValues = staticValues
         }
     }
@@ -26657,8 +25891,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil,
             valueType: QuickSightClientTypes.DatasetParameterValueType? = nil
-        )
-        {
+        ) {
             self.defaultValues = defaultValues
             self.id = id
             self.name = name
@@ -26677,8 +25910,7 @@ extension QuickSightClientTypes {
 
         public init(
             staticValues: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.staticValues = staticValues
         }
     }
@@ -26705,8 +25937,7 @@ extension QuickSightClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             valueType: QuickSightClientTypes.DatasetParameterValueType? = nil
-        )
-        {
+        ) {
             self.defaultValues = defaultValues
             self.id = id
             self.name = name
@@ -26724,8 +25955,7 @@ extension QuickSightClientTypes {
 
         public init(
             staticValues: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.staticValues = staticValues
         }
     }
@@ -26752,8 +25982,7 @@ extension QuickSightClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             valueType: QuickSightClientTypes.DatasetParameterValueType? = nil
-        )
-        {
+        ) {
             self.defaultValues = defaultValues
             self.id = id
             self.name = name
@@ -26771,8 +26000,7 @@ extension QuickSightClientTypes {
 
         public init(
             staticValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.staticValues = staticValues
         }
     }
@@ -26799,8 +26027,7 @@ extension QuickSightClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             valueType: QuickSightClientTypes.DatasetParameterValueType? = nil
-        )
-        {
+        ) {
             self.defaultValues = defaultValues
             self.id = id
             self.name = name
@@ -26827,8 +26054,7 @@ extension QuickSightClientTypes {
             decimalDatasetParameter: QuickSightClientTypes.DecimalDatasetParameter? = nil,
             integerDatasetParameter: QuickSightClientTypes.IntegerDatasetParameter? = nil,
             stringDatasetParameter: QuickSightClientTypes.StringDatasetParameter? = nil
-        )
-        {
+        ) {
             self.dateTimeDatasetParameter = dateTimeDatasetParameter
             self.decimalDatasetParameter = decimalDatasetParameter
             self.integerDatasetParameter = integerDatasetParameter
@@ -26849,8 +26075,7 @@ extension QuickSightClientTypes {
         public init(
             disableUseAsDirectQuerySource: Swift.Bool = false,
             disableUseAsImportedSource: Swift.Bool = false
-        )
-        {
+        ) {
             self.disableUseAsDirectQuerySource = disableUseAsDirectQuerySource
             self.disableUseAsImportedSource = disableUseAsImportedSource
         }
@@ -26869,8 +26094,7 @@ extension QuickSightClientTypes {
         public init(
             columns: [Swift.String]? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.description = description
         }
@@ -26916,8 +26140,7 @@ extension QuickSightClientTypes {
 
         public init(
             conditionExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.conditionExpression = conditionExpression
         }
     }
@@ -26946,8 +26169,7 @@ extension QuickSightClientTypes {
             decimalStaticValues: [Swift.Double]? = nil,
             integerStaticValues: [Swift.Int]? = nil,
             stringStaticValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dateTimeStaticValues = dateTimeStaticValues
             self.decimalStaticValues = decimalStaticValues
             self.integerStaticValues = integerStaticValues
@@ -26972,8 +26194,7 @@ extension QuickSightClientTypes {
             newDefaultValues: QuickSightClientTypes.NewDefaultValues? = nil,
             newParameterName: Swift.String? = nil,
             parameterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.newDefaultValues = newDefaultValues
             self.newParameterName = newParameterName
             self.parameterName = parameterName
@@ -26991,8 +26212,7 @@ extension QuickSightClientTypes {
 
         public init(
             projectedColumns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.projectedColumns = projectedColumns
         }
     }
@@ -27012,8 +26232,7 @@ extension QuickSightClientTypes {
         public init(
             columnName: Swift.String? = nil,
             newColumnName: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.newColumnName = newColumnName
         }
@@ -27034,8 +26253,7 @@ extension QuickSightClientTypes {
         public init(
             columnName: Swift.String? = nil,
             tags: [QuickSightClientTypes.ColumnTag]? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.tags = tags
         }
@@ -27056,8 +26274,7 @@ extension QuickSightClientTypes {
         public init(
             columnName: Swift.String? = nil,
             tagNames: [QuickSightClientTypes.ColumnTagName]? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.tagNames = tagNames
         }
@@ -27097,8 +26314,7 @@ extension QuickSightClientTypes {
 
         public init(
             uniqueKey: Swift.Bool? = false
-        )
-        {
+        ) {
             self.uniqueKey = uniqueKey
         }
     }
@@ -27167,8 +26383,7 @@ extension QuickSightClientTypes {
             rightJoinKeyProperties: QuickSightClientTypes.JoinKeyProperties? = nil,
             rightOperand: Swift.String? = nil,
             type: QuickSightClientTypes.JoinType? = nil
-        )
-        {
+        ) {
             self.leftJoinKeyProperties = leftJoinKeyProperties
             self.leftOperand = leftOperand
             self.onClause = onClause
@@ -27194,8 +26409,7 @@ extension QuickSightClientTypes {
             dataSetArn: Swift.String? = nil,
             joinInstruction: QuickSightClientTypes.JoinInstruction? = nil,
             physicalTableId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetArn = dataSetArn
             self.joinInstruction = joinInstruction
             self.physicalTableId = physicalTableId
@@ -27220,8 +26434,7 @@ extension QuickSightClientTypes {
             alias: Swift.String? = nil,
             dataTransforms: [QuickSightClientTypes.TransformOperation]? = nil,
             source: QuickSightClientTypes.LogicalTableSource? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.dataTransforms = dataTransforms
             self.source = source
@@ -27239,8 +26452,7 @@ extension QuickSightClientTypes {
 
         public init(
             columnNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.columnNames = columnNames
         }
     }
@@ -27255,8 +26467,7 @@ extension QuickSightClientTypes {
 
         public init(
             uniqueKeys: [QuickSightClientTypes.UniqueKey]? = nil
-        )
-        {
+        ) {
             self.uniqueKeys = uniqueKeys
         }
     }
@@ -27323,8 +26534,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             subType: QuickSightClientTypes.ColumnDataSubType? = nil,
             type: QuickSightClientTypes.InputColumnDataType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.subType = subType
             self.type = type
@@ -27353,8 +26563,7 @@ extension QuickSightClientTypes {
             dataSourceArn: Swift.String? = nil,
             name: Swift.String? = nil,
             sqlQuery: Swift.String? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.dataSourceArn = dataSourceArn
             self.name = name
@@ -27387,8 +26596,7 @@ extension QuickSightClientTypes {
             inputColumns: [QuickSightClientTypes.InputColumn]? = nil,
             name: Swift.String? = nil,
             schema: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalog = catalog
             self.dataSourceArn = dataSourceArn
             self.inputColumns = inputColumns
@@ -27489,8 +26697,7 @@ extension QuickSightClientTypes {
             format: QuickSightClientTypes.FileFormat? = nil,
             startFromRow: Swift.Int? = nil,
             textQualifier: QuickSightClientTypes.TextQualifier? = nil
-        )
-        {
+        ) {
             self.containsHeader = containsHeader
             self.delimiter = delimiter
             self.format = format
@@ -27517,8 +26724,7 @@ extension QuickSightClientTypes {
             dataSourceArn: Swift.String? = nil,
             inputColumns: [QuickSightClientTypes.InputColumn]? = nil,
             uploadSettings: QuickSightClientTypes.UploadSettings? = nil
-        )
-        {
+        ) {
             self.dataSourceArn = dataSourceArn
             self.inputColumns = inputColumns
             self.uploadSettings = uploadSettings
@@ -27650,8 +26856,7 @@ extension QuickSightClientTypes {
             namespace: Swift.String? = nil,
             permissionPolicy: QuickSightClientTypes.RowLevelPermissionPolicy? = nil,
             status: QuickSightClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.formatVersion = formatVersion
             self.namespace = namespace
@@ -27681,8 +26886,7 @@ extension QuickSightClientTypes {
             matchAllValue: Swift.String? = nil,
             tagKey: Swift.String? = nil,
             tagMultiValueDelimiter: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.matchAllValue = matchAllValue
             self.tagKey = tagKey
@@ -27712,8 +26916,7 @@ extension QuickSightClientTypes {
             status: QuickSightClientTypes.Status? = nil,
             tagRuleConfigurations: [[Swift.String]]? = nil,
             tagRules: [QuickSightClientTypes.RowLevelPermissionTagRule]? = nil
-        )
-        {
+        ) {
             self.status = status
             self.tagRuleConfigurations = tagRuleConfigurations
             self.tagRules = tagRules
@@ -27780,8 +26983,7 @@ public struct CreateDataSetInput: Swift.Sendable {
         rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
         rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.columnGroups = columnGroups
         self.columnLevelPermissionRules = columnLevelPermissionRules
@@ -27823,8 +27025,7 @@ public struct CreateDataSetOutput: Swift.Sendable {
         ingestionId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.dataSetId = dataSetId
         self.ingestionArn = ingestionArn
@@ -27855,8 +27056,7 @@ public struct CustomerManagedKeyUnavailableException: ClientRuntime.ModeledError
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -27879,8 +27079,7 @@ extension QuickSightClientTypes {
             alternateDataSourceParameters: [QuickSightClientTypes.DataSourceParameters]? = nil,
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.alternateDataSourceParameters = alternateDataSourceParameters
             self.password = password
             self.username = username
@@ -27903,8 +27102,7 @@ extension QuickSightClientTypes {
             copySourceArn: Swift.String? = nil,
             credentialPair: QuickSightClientTypes.CredentialPair? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.copySourceArn = copySourceArn
             self.credentialPair = credentialPair
             self.secretArn = secretArn
@@ -28068,8 +27266,7 @@ public struct CreateDataSourceInput: Swift.Sendable {
         tags: [QuickSightClientTypes.Tag]? = nil,
         type: QuickSightClientTypes.DataSourceType? = nil,
         vpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.credentials = credentials
         self.dataSourceId = dataSourceId
@@ -28107,8 +27304,7 @@ public struct CreateDataSourceOutput: Swift.Sendable {
         dataSourceId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.creationStatus = creationStatus
         self.dataSourceId = dataSourceId
@@ -28204,8 +27400,7 @@ public struct CreateFolderInput: Swift.Sendable {
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         sharingModel: QuickSightClientTypes.SharingModel? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
         self.folderType = folderType
@@ -28232,8 +27427,7 @@ public struct CreateFolderOutput: Swift.Sendable {
         folderId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.folderId = folderId
         self.requestId = requestId
@@ -28298,8 +27492,7 @@ public struct CreateFolderMembershipInput: Swift.Sendable {
         folderId: Swift.String? = nil,
         memberId: Swift.String? = nil,
         memberType: QuickSightClientTypes.MemberType? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
         self.memberId = memberId
@@ -28319,8 +27512,7 @@ extension QuickSightClientTypes {
         public init(
             memberId: Swift.String? = nil,
             memberType: QuickSightClientTypes.MemberType? = nil
-        )
-        {
+        ) {
             self.memberId = memberId
             self.memberType = memberType
         }
@@ -28339,8 +27531,7 @@ public struct CreateFolderMembershipOutput: Swift.Sendable {
         folderMember: QuickSightClientTypes.FolderMember? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.folderMember = folderMember
         self.requestId = requestId
         self.status = status
@@ -28366,8 +27557,7 @@ public struct CreateGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         groupName: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.description = description
         self.groupName = groupName
@@ -28393,8 +27583,7 @@ extension QuickSightClientTypes {
             description: Swift.String? = nil,
             groupName: Swift.String? = nil,
             principalId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.groupName = groupName
@@ -28416,8 +27605,7 @@ public struct CreateGroupOutput: Swift.Sendable {
         group: QuickSightClientTypes.Group? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.group = group
         self.requestId = requestId
         self.status = status
@@ -28443,8 +27631,7 @@ public struct CreateGroupMembershipInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         memberName: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.groupName = groupName
         self.memberName = memberName
@@ -28464,8 +27651,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             memberName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.memberName = memberName
         }
@@ -28484,8 +27670,7 @@ public struct CreateGroupMembershipOutput: Swift.Sendable {
         groupMember: QuickSightClientTypes.GroupMember? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.groupMember = groupMember
         self.requestId = requestId
         self.status = status
@@ -28523,8 +27708,7 @@ public struct CreateIAMPolicyAssignmentInput: Swift.Sendable {
         identities: [Swift.String: [Swift.String]]? = nil,
         namespace: Swift.String? = nil,
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentName = assignmentName
         self.assignmentStatus = assignmentStatus
         self.awsAccountId = awsAccountId
@@ -28564,8 +27748,7 @@ public struct CreateIAMPolicyAssignmentOutput: Swift.Sendable {
         policyArn: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.assignmentId = assignmentId
         self.assignmentName = assignmentName
         self.assignmentStatus = assignmentStatus
@@ -28624,8 +27807,7 @@ public struct CreateIngestionInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         ingestionId: Swift.String? = nil,
         ingestionType: QuickSightClientTypes.IngestionType? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
         self.ingestionId = ingestionId
@@ -28692,8 +27874,7 @@ public struct CreateIngestionOutput: Swift.Sendable {
         ingestionStatus: QuickSightClientTypes.IngestionStatus? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.ingestionId = ingestionId
         self.ingestionStatus = ingestionStatus
@@ -28746,8 +27927,7 @@ public struct CreateNamespaceInput: Swift.Sendable {
         identityStore: QuickSightClientTypes.IdentityStore? = nil,
         namespace: Swift.String? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.identityStore = identityStore
         self.namespace = namespace
@@ -28817,8 +27997,7 @@ public struct CreateNamespaceOutput: Swift.Sendable {
         name: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.capacityRegion = capacityRegion
         self.creationStatus = creationStatus
@@ -28926,8 +28105,7 @@ extension QuickSightClientTypes {
         public init(
             dayOfMonth: Swift.String? = nil,
             dayOfWeek: QuickSightClientTypes.DayOfWeek? = nil
-        )
-        {
+        ) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
         }
@@ -28965,8 +28143,7 @@ extension QuickSightClientTypes {
             refreshOnDay: QuickSightClientTypes.ScheduleRefreshOnEntity? = nil,
             timeOfTheDay: Swift.String? = nil,
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.interval = interval
             self.refreshOnDay = refreshOnDay
             self.timeOfTheDay = timeOfTheDay
@@ -29006,8 +28183,7 @@ extension QuickSightClientTypes {
             scheduleFrequency: QuickSightClientTypes.RefreshFrequency? = nil,
             scheduleId: Swift.String? = nil,
             startAfterDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.refreshType = refreshType
             self.scheduleFrequency = scheduleFrequency
@@ -29032,8 +28208,7 @@ public struct CreateRefreshScheduleInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil,
         schedule: QuickSightClientTypes.RefreshSchedule? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
         self.schedule = schedule
@@ -29055,8 +28230,7 @@ public struct CreateRefreshScheduleOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         scheduleId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.requestId = requestId
         self.scheduleId = scheduleId
@@ -29124,8 +28298,7 @@ public struct CreateRoleMembershipInput: Swift.Sendable {
         memberName: Swift.String? = nil,
         namespace: Swift.String? = nil,
         role: QuickSightClientTypes.Role? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.memberName = memberName
         self.namespace = namespace
@@ -29142,8 +28315,7 @@ public struct CreateRoleMembershipOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -29158,8 +28330,7 @@ extension QuickSightClientTypes {
 
         public init(
             columnSchemaList: [QuickSightClientTypes.ColumnSchema]? = nil
-        )
-        {
+        ) {
             self.columnSchemaList = columnSchemaList
         }
     }
@@ -29180,8 +28351,7 @@ extension QuickSightClientTypes {
             columnGroupSchemaList: [QuickSightClientTypes.ColumnGroupSchema]? = nil,
             dataSetSchema: QuickSightClientTypes.DataSetSchema? = nil,
             placeholder: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnGroupSchemaList = columnGroupSchemaList
             self.dataSetSchema = dataSetSchema
             self.placeholder = placeholder
@@ -29226,8 +28396,7 @@ extension QuickSightClientTypes {
             queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
             staticFiles: [QuickSightClientTypes.StaticFile]? = nil
-        )
-        {
+        ) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
             self.columnConfigurations = columnConfigurations
@@ -29256,8 +28425,7 @@ extension QuickSightClientTypes {
         public init(
             arn: Swift.String? = nil,
             dataSetReferences: [QuickSightClientTypes.DataSetReference]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dataSetReferences = dataSetReferences
         }
@@ -29274,8 +28442,7 @@ extension QuickSightClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -29293,8 +28460,7 @@ extension QuickSightClientTypes {
         public init(
             sourceAnalysis: QuickSightClientTypes.TemplateSourceAnalysis? = nil,
             sourceTemplate: QuickSightClientTypes.TemplateSourceTemplate? = nil
-        )
-        {
+        ) {
             self.sourceAnalysis = sourceAnalysis
             self.sourceTemplate = sourceTemplate
         }
@@ -29333,8 +28499,7 @@ public struct CreateTemplateInput: Swift.Sendable {
         templateId: Swift.String? = nil,
         validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.definition = definition
         self.name = name
@@ -29368,8 +28533,7 @@ public struct CreateTemplateOutput: Swift.Sendable {
         status: Swift.Int = 0,
         templateId: Swift.String? = nil,
         versionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationStatus = creationStatus
         self.requestId = requestId
@@ -29398,8 +28562,7 @@ public struct CreateTemplateAliasInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         templateId: Swift.String? = nil,
         templateVersionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.templateId = templateId
@@ -29422,8 +28585,7 @@ extension QuickSightClientTypes {
             aliasName: Swift.String? = nil,
             arn: Swift.String? = nil,
             templateVersionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aliasName = aliasName
             self.arn = arn
             self.templateVersionNumber = templateVersionNumber
@@ -29443,8 +28605,7 @@ public struct CreateTemplateAliasOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         templateAlias: QuickSightClientTypes.TemplateAlias? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.templateAlias = templateAlias
@@ -29466,8 +28627,7 @@ extension QuickSightClientTypes {
             colors: [Swift.String]? = nil,
             emptyFillColor: Swift.String? = nil,
             minMaxGradient: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.colors = colors
             self.emptyFillColor = emptyFillColor
             self.minMaxGradient = minMaxGradient
@@ -29484,8 +28644,7 @@ extension QuickSightClientTypes {
 
         public init(
             border: QuickSightClientTypes.BorderStyle? = nil
-        )
-        {
+        ) {
             self.border = border
         }
     }
@@ -29500,8 +28659,7 @@ extension QuickSightClientTypes {
 
         public init(
             show: Swift.Bool? = false
-        )
-        {
+        ) {
             self.show = show
         }
     }
@@ -29516,8 +28674,7 @@ extension QuickSightClientTypes {
 
         public init(
             show: Swift.Bool? = false
-        )
-        {
+        ) {
             self.show = show
         }
     }
@@ -29535,8 +28692,7 @@ extension QuickSightClientTypes {
         public init(
             gutter: QuickSightClientTypes.GutterStyle? = nil,
             margin: QuickSightClientTypes.MarginStyle? = nil
-        )
-        {
+        ) {
             self.gutter = gutter
             self.margin = margin
         }
@@ -29555,8 +28711,7 @@ extension QuickSightClientTypes {
         public init(
             tile: QuickSightClientTypes.TileStyle? = nil,
             tileLayout: QuickSightClientTypes.TileLayoutStyle? = nil
-        )
-        {
+        ) {
             self.tile = tile
             self.tileLayout = tileLayout
         }
@@ -29572,8 +28727,7 @@ extension QuickSightClientTypes {
 
         public init(
             fontFamily: Swift.String? = nil
-        )
-        {
+        ) {
             self.fontFamily = fontFamily
         }
     }
@@ -29588,8 +28742,7 @@ extension QuickSightClientTypes {
 
         public init(
             fontFamilies: [QuickSightClientTypes.Font]? = nil
-        )
-        {
+        ) {
             self.fontFamilies = fontFamilies
         }
     }
@@ -29649,8 +28802,7 @@ extension QuickSightClientTypes {
             successForeground: Swift.String? = nil,
             warning: Swift.String? = nil,
             warningForeground: Swift.String? = nil
-        )
-        {
+        ) {
             self.accent = accent
             self.accentForeground = accentForeground
             self.danger = danger
@@ -29689,8 +28841,7 @@ extension QuickSightClientTypes {
             sheet: QuickSightClientTypes.SheetStyle? = nil,
             typography: QuickSightClientTypes.Typography? = nil,
             uiColorPalette: QuickSightClientTypes.UIColorPalette? = nil
-        )
-        {
+        ) {
             self.dataColorPalette = dataColorPalette
             self.sheet = sheet
             self.typography = typography
@@ -29731,8 +28882,7 @@ public struct CreateThemeInput: Swift.Sendable {
         tags: [QuickSightClientTypes.Tag]? = nil,
         themeId: Swift.String? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.baseThemeId = baseThemeId
         self.configuration = configuration
@@ -29765,8 +28915,7 @@ public struct CreateThemeOutput: Swift.Sendable {
         status: Swift.Int = 0,
         themeId: Swift.String? = nil,
         versionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationStatus = creationStatus
         self.requestId = requestId
@@ -29795,8 +28944,7 @@ public struct CreateThemeAliasInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         themeId: Swift.String? = nil,
         themeVersionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.themeId = themeId
@@ -29819,8 +28967,7 @@ extension QuickSightClientTypes {
             aliasName: Swift.String? = nil,
             arn: Swift.String? = nil,
             themeVersionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aliasName = aliasName
             self.arn = arn
             self.themeVersionNumber = themeVersionNumber
@@ -29840,8 +28987,7 @@ public struct CreateThemeAliasOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         themeAlias: QuickSightClientTypes.ThemeAlias? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.themeAlias = themeAlias
@@ -29857,8 +29003,7 @@ extension QuickSightClientTypes {
 
         public init(
             qBusinessInsightsEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.qBusinessInsightsEnabled = qBusinessInsightsEnabled
         }
     }
@@ -29932,8 +29077,7 @@ extension QuickSightClientTypes {
         public init(
             displayFormat: QuickSightClientTypes.DisplayFormat? = nil,
             displayFormatOptions: QuickSightClientTypes.DisplayFormatOptions? = nil
-        )
-        {
+        ) {
             self.displayFormat = displayFormat
             self.displayFormatOptions = displayFormatOptions
         }
@@ -29967,8 +29111,7 @@ extension QuickSightClientTypes {
             truthyCellValueSynonyms: [Swift.String]? = nil,
             typeName: Swift.String? = nil,
             typeParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.falseyCellValue = falseyCellValue
             self.falseyCellValueSynonyms = falseyCellValueSynonyms
             self.subTypeName = subTypeName
@@ -30044,8 +29187,7 @@ extension QuickSightClientTypes {
             notAllowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil,
             semanticType: QuickSightClientTypes.SemanticType? = nil,
             timeGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil
-        )
-        {
+        ) {
             self.aggregation = aggregation
             self.allowedAggregations = allowedAggregations
             self.calculatedFieldDescription = calculatedFieldDescription
@@ -30130,8 +29272,7 @@ extension QuickSightClientTypes {
             notAllowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil,
             semanticType: QuickSightClientTypes.SemanticType? = nil,
             timeGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil
-        )
-        {
+        ) {
             self.aggregation = aggregation
             self.allowedAggregations = allowedAggregations
             self.cellValueSynonyms = cellValueSynonyms
@@ -30165,8 +29306,7 @@ extension QuickSightClientTypes {
         public init(
             datasetRowDateGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil,
             defaultDateColumnName: Swift.String? = nil
-        )
-        {
+        ) {
             self.datasetRowDateGranularity = datasetRowDateGranularity
             self.defaultDateColumnName = defaultDateColumnName
         }
@@ -30188,8 +29328,7 @@ extension QuickSightClientTypes {
             collectiveConstant: QuickSightClientTypes.CollectiveConstant? = nil,
             constantType: QuickSightClientTypes.ConstantType? = nil,
             singularConstant: Swift.String? = nil
-        )
-        {
+        ) {
             self.collectiveConstant = collectiveConstant
             self.constantType = constantType
             self.singularConstant = singularConstant
@@ -30221,8 +29360,7 @@ extension QuickSightClientTypes {
             categoryFilterType: QuickSightClientTypes.CategoryFilterType? = nil,
             constant: QuickSightClientTypes.TopicCategoryFilterConstant? = nil,
             inverse: Swift.Bool = false
-        )
-        {
+        ) {
             self.categoryFilterFunction = categoryFilterFunction
             self.categoryFilterType = categoryFilterType
             self.constant = constant
@@ -30248,8 +29386,7 @@ extension QuickSightClientTypes {
         public init(
             maximum: Swift.String? = nil,
             minimum: Swift.String? = nil
-        )
-        {
+        ) {
             self.maximum = maximum
             self.minimum = minimum
         }
@@ -30268,8 +29405,7 @@ extension QuickSightClientTypes {
         public init(
             constantType: QuickSightClientTypes.ConstantType? = nil,
             rangeConstant: QuickSightClientTypes.RangeConstant? = nil
-        )
-        {
+        ) {
             self.constantType = constantType
             self.rangeConstant = rangeConstant
         }
@@ -30294,8 +29430,7 @@ extension QuickSightClientTypes {
         public init(
             constant: QuickSightClientTypes.TopicRangeFilterConstant? = nil,
             inclusive: Swift.Bool = false
-        )
-        {
+        ) {
             self.constant = constant
             self.inclusive = inclusive
         }
@@ -30416,8 +29551,7 @@ extension QuickSightClientTypes {
         public init(
             constantType: QuickSightClientTypes.ConstantType? = nil,
             singularConstant: Swift.String? = nil
-        )
-        {
+        ) {
             self.constantType = constantType
             self.singularConstant = singularConstant
         }
@@ -30442,8 +29576,7 @@ extension QuickSightClientTypes {
         public init(
             aggregation: QuickSightClientTypes.NamedFilterAggType? = nil,
             constant: QuickSightClientTypes.TopicSingularFilterConstant? = nil
-        )
-        {
+        ) {
             self.aggregation = aggregation
             self.constant = constant
         }
@@ -30470,8 +29603,7 @@ extension QuickSightClientTypes {
             aggregation: QuickSightClientTypes.NamedFilterAggType? = nil,
             constant: QuickSightClientTypes.TopicRangeFilterConstant? = nil,
             inclusive: Swift.Bool = false
-        )
-        {
+        ) {
             self.aggregation = aggregation
             self.constant = constant
             self.inclusive = inclusive
@@ -30537,8 +29669,7 @@ extension QuickSightClientTypes {
             constant: QuickSightClientTypes.TopicSingularFilterConstant? = nil,
             relativeDateFilterFunction: QuickSightClientTypes.TopicRelativeDateFilterFunction? = nil,
             timeGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil
-        )
-        {
+        ) {
             self.constant = constant
             self.relativeDateFilterFunction = relativeDateFilterFunction
             self.timeGranularity = timeGranularity
@@ -30592,8 +29723,7 @@ extension QuickSightClientTypes {
             numericRangeFilter: QuickSightClientTypes.TopicNumericRangeFilter? = nil,
             operandFieldName: Swift.String? = nil,
             relativeDateFilter: QuickSightClientTypes.TopicRelativeDateFilter? = nil
-        )
-        {
+        ) {
             self.categoryFilter = categoryFilter
             self.dateRangeFilter = dateRangeFilter
             self.filterClass = filterClass
@@ -30683,8 +29813,7 @@ extension QuickSightClientTypes {
         public init(
             aggregation: QuickSightClientTypes.NamedEntityAggType? = nil,
             aggregationFunctionParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.aggregation = aggregation
             self.aggregationFunctionParameters = aggregationFunctionParameters
         }
@@ -30773,8 +29902,7 @@ extension QuickSightClientTypes {
             propertyName: Swift.String? = nil,
             propertyRole: QuickSightClientTypes.PropertyRole? = nil,
             propertyUsage: QuickSightClientTypes.PropertyUsage? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.metric = metric
             self.propertyName = propertyName
@@ -30799,8 +29927,7 @@ extension QuickSightClientTypes {
             subTypeName: Swift.String? = nil,
             typeName: Swift.String? = nil,
             typeParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.subTypeName = subTypeName
             self.typeName = typeName
             self.typeParameters = typeParameters
@@ -30830,8 +29957,7 @@ extension QuickSightClientTypes {
             entityName: Swift.String? = nil,
             entitySynonyms: [Swift.String]? = nil,
             semanticEntityType: QuickSightClientTypes.SemanticEntityType? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.entityDescription = entityDescription
             self.entityName = entityName
@@ -30872,8 +29998,7 @@ extension QuickSightClientTypes {
             datasetName: Swift.String? = nil,
             filters: [QuickSightClientTypes.TopicFilter]? = nil,
             namedEntities: [QuickSightClientTypes.TopicNamedEntity]? = nil
-        )
-        {
+        ) {
             self.calculatedFields = calculatedFields
             self.columns = columns
             self.dataAggregation = dataAggregation
@@ -30936,8 +30061,7 @@ extension QuickSightClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             userExperienceVersion: QuickSightClientTypes.TopicUserExperienceVersion? = nil
-        )
-        {
+        ) {
             self.configOptions = configOptions
             self.dataSets = dataSets
             self.description = description
@@ -30968,8 +30092,7 @@ public struct CreateTopicInput: Swift.Sendable {
         tags: [QuickSightClientTypes.Tag]? = nil,
         topic: QuickSightClientTypes.TopicDetails? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.folderArns = folderArns
         self.tags = tags
@@ -30996,8 +30119,7 @@ public struct CreateTopicOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.refreshArn = refreshArn
         self.requestId = requestId
@@ -31067,8 +30189,7 @@ extension QuickSightClientTypes {
             startingAt: Foundation.Date? = nil,
             timezone: Swift.String? = nil,
             topicScheduleType: QuickSightClientTypes.TopicScheduleType? = nil
-        )
-        {
+        ) {
             self.basedOnSpiceSchedule = basedOnSpiceSchedule
             self.isEnabled = isEnabled
             self.repeatAt = repeatAt
@@ -31101,8 +30222,7 @@ public struct CreateTopicRefreshScheduleInput: Swift.Sendable {
         datasetName: Swift.String? = nil,
         refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.datasetArn = datasetArn
         self.datasetName = datasetName
@@ -31129,8 +30249,7 @@ public struct CreateTopicRefreshScheduleOutput: Swift.Sendable {
         status: Swift.Int = 0,
         topicArn: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.requestId = requestId
         self.status = status
@@ -31172,8 +30291,7 @@ public struct CreateVPCConnectionInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil,
         vpcConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dnsResolvers = dnsResolvers
         self.name = name
@@ -31288,8 +30406,7 @@ public struct CreateVPCConnectionOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         vpcConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.availabilityStatus = availabilityStatus
         self.creationStatus = creationStatus
@@ -31314,8 +30431,7 @@ extension QuickSightClientTypes {
             arn: Swift.String? = nil,
             capabilities: QuickSightClientTypes.Capabilities? = nil,
             customPermissionsName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.capabilities = capabilities
             self.customPermissionsName = customPermissionsName
@@ -31391,8 +30507,7 @@ extension QuickSightClientTypes {
             message: Swift.String? = nil,
             type: QuickSightClientTypes.DashboardErrorType? = nil,
             violatedEntities: [QuickSightClientTypes.Entity]? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
             self.violatedEntities = violatedEntities
@@ -31436,8 +30551,7 @@ extension QuickSightClientTypes {
             status: QuickSightClientTypes.ResourceStatus? = nil,
             themeArn: Swift.String? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.dataSetArns = dataSetArns
@@ -31482,8 +30596,7 @@ extension QuickSightClientTypes {
             linkEntities: [Swift.String]? = nil,
             name: Swift.String? = nil,
             version: QuickSightClientTypes.DashboardVersion? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.dashboardId = dashboardId
@@ -31568,8 +30681,7 @@ extension QuickSightClientTypes {
             name: QuickSightClientTypes.DashboardFilterAttribute? = nil,
             `operator`: QuickSightClientTypes.FilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -31633,8 +30745,7 @@ extension QuickSightClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             publishedVersionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.dashboardId = dashboardId
@@ -31670,8 +30781,7 @@ extension QuickSightClientTypes {
             sourceEntityArn: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -31712,8 +30822,7 @@ extension QuickSightClientTypes {
             visualId: Swift.String? = nil,
             visualSubtitle: Swift.String? = nil,
             visualTitle: Swift.String? = nil
-        )
-        {
+        ) {
             self.dashboardId = dashboardId
             self.dashboardName = dashboardName
             self.dashboardUrl = dashboardUrl
@@ -31744,8 +30853,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             subType: QuickSightClientTypes.ColumnDataSubType? = nil,
             type: QuickSightClientTypes.ColumnDataType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.subType = subType
@@ -31819,8 +30927,7 @@ extension QuickSightClientTypes {
             physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]? = nil,
             rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
             rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
@@ -31934,8 +31041,7 @@ extension QuickSightClientTypes {
             columnName: Swift.String? = nil,
             size: Swift.Int? = nil,
             sizeUnit: QuickSightClientTypes.LookbackWindowSizeUnit? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.size = size
             self.sizeUnit = sizeUnit
@@ -31953,8 +31059,7 @@ extension QuickSightClientTypes {
 
         public init(
             lookbackWindow: QuickSightClientTypes.LookbackWindow? = nil
-        )
-        {
+        ) {
             self.lookbackWindow = lookbackWindow
         }
     }
@@ -31970,8 +31075,7 @@ extension QuickSightClientTypes {
 
         public init(
             incrementalRefresh: QuickSightClientTypes.IncrementalRefresh? = nil
-        )
-        {
+        ) {
             self.incrementalRefresh = incrementalRefresh
         }
     }
@@ -31987,8 +31091,7 @@ extension QuickSightClientTypes {
 
         public init(
             refreshConfiguration: QuickSightClientTypes.RefreshConfiguration? = nil
-        )
-        {
+        ) {
             self.refreshConfiguration = refreshConfiguration
         }
     }
@@ -32024,8 +31127,7 @@ extension QuickSightClientTypes {
             name: QuickSightClientTypes.DataSetFilterAttribute? = nil,
             `operator`: QuickSightClientTypes.FilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -32066,8 +31168,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
             rowLevelPermissionTagConfigurationApplied: Swift.Bool = false
-        )
-        {
+        ) {
             self.arn = arn
             self.columnLevelPermissionRulesApplied = columnLevelPermissionRulesApplied
             self.createdTime = createdTime
@@ -32140,8 +31241,7 @@ extension QuickSightClientTypes {
         public init(
             message: Swift.String? = nil,
             type: QuickSightClientTypes.DataSourceErrorInfoType? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
         }
@@ -32193,8 +31293,7 @@ extension QuickSightClientTypes {
             status: QuickSightClientTypes.ResourceStatus? = nil,
             type: QuickSightClientTypes.DataSourceType? = nil,
             vpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil
-        )
-        {
+        ) {
             self.alternateDataSourceParameters = alternateDataSourceParameters
             self.arn = arn
             self.createdTime = createdTime
@@ -32273,8 +31372,7 @@ extension QuickSightClientTypes {
             name: QuickSightClientTypes.DataSourceFilterAttribute? = nil,
             `operator`: QuickSightClientTypes.FilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -32306,8 +31404,7 @@ extension QuickSightClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             type: QuickSightClientTypes.DataSourceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.dataSourceId = dataSourceId
@@ -32328,8 +31425,7 @@ public struct DeleteAccountCustomizationInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
     }
@@ -32344,8 +31440,7 @@ public struct DeleteAccountCustomizationOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -32358,8 +31453,7 @@ public struct DeleteAccountSubscriptionInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
     }
 }
@@ -32373,8 +31467,7 @@ public struct DeleteAccountSubscriptionOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -32397,8 +31490,7 @@ public struct DeleteAnalysisInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         forceDeleteWithoutRecovery: Swift.Bool? = false,
         recoveryWindowInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.awsAccountId = awsAccountId
         self.forceDeleteWithoutRecovery = forceDeleteWithoutRecovery
@@ -32424,8 +31516,7 @@ public struct DeleteAnalysisOutput: Swift.Sendable {
         deletionTime: Foundation.Date? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.arn = arn
         self.deletionTime = deletionTime
@@ -32445,8 +31536,7 @@ public struct DeleteBrandInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         brandId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.brandId = brandId
     }
@@ -32458,8 +31548,7 @@ public struct DeleteBrandOutput: Swift.Sendable {
 
     public init(
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
     }
 }
@@ -32471,8 +31560,7 @@ public struct DeleteBrandAssignmentInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
     }
 }
@@ -32483,8 +31571,7 @@ public struct DeleteBrandAssignmentOutput: Swift.Sendable {
 
     public init(
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
     }
 }
@@ -32500,8 +31587,7 @@ public struct DeleteCustomPermissionsInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         customPermissionsName: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.customPermissionsName = customPermissionsName
     }
@@ -32519,8 +31605,7 @@ public struct DeleteCustomPermissionsOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.requestId = requestId
         self.status = status
@@ -32541,8 +31626,7 @@ public struct DeleteDashboardInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dashboardId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.versionNumber = versionNumber
@@ -32564,8 +31648,7 @@ public struct DeleteDashboardOutput: Swift.Sendable {
         dashboardId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.dashboardId = dashboardId
         self.requestId = requestId
@@ -32584,8 +31667,7 @@ public struct DeleteDataSetInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
     }
@@ -32606,8 +31688,7 @@ public struct DeleteDataSetOutput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.dataSetId = dataSetId
         self.requestId = requestId
@@ -32626,8 +31707,7 @@ public struct DeleteDataSetRefreshPropertiesInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
     }
@@ -32642,8 +31722,7 @@ public struct DeleteDataSetRefreshPropertiesOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -32660,8 +31739,7 @@ public struct DeleteDataSourceInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         dataSourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSourceId = dataSourceId
     }
@@ -32682,8 +31760,7 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
         dataSourceId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.dataSourceId = dataSourceId
         self.requestId = requestId
@@ -32701,8 +31778,7 @@ public struct DeleteDefaultQBusinessApplicationInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
     }
@@ -32717,8 +31793,7 @@ public struct DeleteDefaultQBusinessApplicationOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -32735,8 +31810,7 @@ public struct DeleteFolderInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         folderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
     }
@@ -32757,8 +31831,7 @@ public struct DeleteFolderOutput: Swift.Sendable {
         folderId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.folderId = folderId
         self.requestId = requestId
@@ -32785,8 +31858,7 @@ public struct DeleteFolderMembershipInput: Swift.Sendable {
         folderId: Swift.String? = nil,
         memberId: Swift.String? = nil,
         memberType: QuickSightClientTypes.MemberType? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
         self.memberId = memberId
@@ -32803,8 +31875,7 @@ public struct DeleteFolderMembershipOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -32825,8 +31896,7 @@ public struct DeleteGroupInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         groupName: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.groupName = groupName
         self.namespace = namespace
@@ -32842,8 +31912,7 @@ public struct DeleteGroupOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -32868,8 +31937,7 @@ public struct DeleteGroupMembershipInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         memberName: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.groupName = groupName
         self.memberName = memberName
@@ -32886,8 +31954,7 @@ public struct DeleteGroupMembershipOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -32908,8 +31975,7 @@ public struct DeleteIAMPolicyAssignmentInput: Swift.Sendable {
         assignmentName: Swift.String? = nil,
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentName = assignmentName
         self.awsAccountId = awsAccountId
         self.namespace = namespace
@@ -32928,8 +31994,7 @@ public struct DeleteIAMPolicyAssignmentOutput: Swift.Sendable {
         assignmentName: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.assignmentName = assignmentName
         self.requestId = requestId
         self.status = status
@@ -32947,8 +32012,7 @@ public struct DeleteIdentityPropagationConfigInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         service: QuickSightClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.service = service
     }
@@ -32963,8 +32027,7 @@ public struct DeleteIdentityPropagationConfigOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -32981,8 +32044,7 @@ public struct DeleteNamespaceInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
     }
@@ -32997,8 +32059,7 @@ public struct DeleteNamespaceOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -33019,8 +32080,7 @@ public struct DeleteRefreshScheduleInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil,
         scheduleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
         self.scheduleId = scheduleId
@@ -33042,8 +32102,7 @@ public struct DeleteRefreshScheduleOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         scheduleId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.requestId = requestId
         self.scheduleId = scheduleId
@@ -33066,8 +32125,7 @@ public struct DeleteRoleCustomPermissionInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil,
         role: QuickSightClientTypes.Role? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
         self.role = role
@@ -33083,8 +32141,7 @@ public struct DeleteRoleCustomPermissionOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -33109,8 +32166,7 @@ public struct DeleteRoleMembershipInput: Swift.Sendable {
         memberName: Swift.String? = nil,
         namespace: Swift.String? = nil,
         role: QuickSightClientTypes.Role? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.memberName = memberName
         self.namespace = namespace
@@ -33127,8 +32183,7 @@ public struct DeleteRoleMembershipOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -33148,8 +32203,7 @@ public struct DeleteTemplateInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         templateId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.templateId = templateId
         self.versionNumber = versionNumber
@@ -33171,8 +32225,7 @@ public struct DeleteTemplateOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.requestId = requestId
         self.status = status
@@ -33195,8 +32248,7 @@ public struct DeleteTemplateAliasInput: Swift.Sendable {
         aliasName: Swift.String? = nil,
         awsAccountId: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.templateId = templateId
@@ -33221,8 +32273,7 @@ public struct DeleteTemplateAliasOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.arn = arn
         self.requestId = requestId
@@ -33245,8 +32296,7 @@ public struct DeleteThemeInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         themeId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.themeId = themeId
         self.versionNumber = versionNumber
@@ -33268,8 +32318,7 @@ public struct DeleteThemeOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         themeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.requestId = requestId
         self.status = status
@@ -33292,8 +32341,7 @@ public struct DeleteThemeAliasInput: Swift.Sendable {
         aliasName: Swift.String? = nil,
         awsAccountId: Swift.String? = nil,
         themeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.themeId = themeId
@@ -33318,8 +32366,7 @@ public struct DeleteThemeAliasOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         themeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.arn = arn
         self.requestId = requestId
@@ -33339,8 +32386,7 @@ public struct DeleteTopicInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.topicId = topicId
     }
@@ -33361,8 +32407,7 @@ public struct DeleteTopicOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.requestId = requestId
         self.status = status
@@ -33385,8 +32430,7 @@ public struct DeleteTopicRefreshScheduleInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         datasetId: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.datasetId = datasetId
         self.topicId = topicId
@@ -33411,8 +32455,7 @@ public struct DeleteTopicRefreshScheduleOutput: Swift.Sendable {
         status: Swift.Int = 0,
         topicArn: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.requestId = requestId
         self.status = status
@@ -33436,8 +32479,7 @@ public struct DeleteUserInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
         self.userName = userName
@@ -33453,8 +32495,7 @@ public struct DeleteUserOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -33476,8 +32517,7 @@ public struct DeleteUserByPrincipalIdInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil,
         principalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
         self.principalId = principalId
@@ -33493,8 +32533,7 @@ public struct DeleteUserByPrincipalIdOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -33515,8 +32554,7 @@ public struct DeleteUserCustomPermissionInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
         self.userName = userName
@@ -33532,8 +32570,7 @@ public struct DeleteUserCustomPermissionOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -33550,8 +32587,7 @@ public struct DeleteVPCConnectionInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         vpcConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.vpcConnectionId = vpcConnectionId
     }
@@ -33578,8 +32614,7 @@ public struct DeleteVPCConnectionOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         vpcConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.availabilityStatus = availabilityStatus
         self.deletionStatus = deletionStatus
@@ -33602,8 +32637,7 @@ public struct DescribeAccountCustomizationInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil,
         resolved: Swift.Bool? = false
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
         self.resolved = resolved
@@ -33631,8 +32665,7 @@ public struct DescribeAccountCustomizationOutput: Swift.Sendable {
         namespace: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.accountCustomization = accountCustomization
         self.arn = arn
         self.awsAccountId = awsAccountId
@@ -33649,8 +32682,7 @@ public struct DescribeAccountSettingsInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
     }
 }
@@ -33667,8 +32699,7 @@ public struct DescribeAccountSettingsOutput: Swift.Sendable {
         accountSettings: QuickSightClientTypes.AccountSettings? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.accountSettings = accountSettings
         self.requestId = requestId
         self.status = status
@@ -33682,8 +32713,7 @@ public struct DescribeAccountSubscriptionInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
     }
 }
@@ -33710,8 +32740,7 @@ public struct DescribeAccountSubscriptionOutput: Swift.Sendable {
         accountInfo: QuickSightClientTypes.AccountInfo? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.accountInfo = accountInfo
         self.requestId = requestId
         self.status = status
@@ -33729,8 +32758,7 @@ public struct DescribeAnalysisInput: Swift.Sendable {
     public init(
         analysisId: Swift.String? = nil,
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.awsAccountId = awsAccountId
     }
@@ -33748,8 +32776,7 @@ public struct DescribeAnalysisOutput: Swift.Sendable {
         analysis: QuickSightClientTypes.Analysis? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.analysis = analysis
         self.requestId = requestId
         self.status = status
@@ -33767,8 +32794,7 @@ public struct DescribeAnalysisDefinitionInput: Swift.Sendable {
     public init(
         analysisId: Swift.String? = nil,
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.awsAccountId = awsAccountId
     }
@@ -33815,8 +32841,7 @@ public struct DescribeAnalysisDefinitionOutput: Swift.Sendable {
         resourceStatus: QuickSightClientTypes.ResourceStatus? = nil,
         status: Swift.Int = 0,
         themeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.definition = definition
         self.errors = errors
@@ -33839,8 +32864,7 @@ public struct DescribeAnalysisPermissionsInput: Swift.Sendable {
     public init(
         analysisId: Swift.String? = nil,
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.awsAccountId = awsAccountId
     }
@@ -33864,8 +32888,7 @@ public struct DescribeAnalysisPermissionsOutput: Swift.Sendable {
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.analysisArn = analysisArn
         self.analysisId = analysisId
         self.permissions = permissions
@@ -33885,8 +32908,7 @@ public struct DescribeAssetBundleExportJobInput: Swift.Sendable {
     public init(
         assetBundleExportJobId: Swift.String? = nil,
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetBundleExportJobId = assetBundleExportJobId
         self.awsAccountId = awsAccountId
     }
@@ -33984,8 +33006,7 @@ public struct DescribeAssetBundleExportJobOutput: Swift.Sendable {
         status: Swift.Int = 0,
         validationStrategy: QuickSightClientTypes.AssetBundleExportJobValidationStrategy? = nil,
         warnings: [QuickSightClientTypes.AssetBundleExportJobWarning]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.assetBundleExportJobId = assetBundleExportJobId
         self.awsAccountId = awsAccountId
@@ -34024,8 +33045,7 @@ public struct DescribeAssetBundleImportJobInput: Swift.Sendable {
     public init(
         assetBundleImportJobId: Swift.String? = nil,
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetBundleImportJobId = assetBundleImportJobId
         self.awsAccountId = awsAccountId
     }
@@ -34090,8 +33110,7 @@ public struct DescribeAssetBundleImportJobOutput: Swift.Sendable {
         rollbackErrors: [QuickSightClientTypes.AssetBundleImportJobError]? = nil,
         status: Swift.Int = 0,
         warnings: [QuickSightClientTypes.AssetBundleImportJobWarning]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.assetBundleImportJobId = assetBundleImportJobId
         self.assetBundleImportSource = assetBundleImportSource
@@ -34125,8 +33144,7 @@ public struct DescribeBrandInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         brandId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.brandId = brandId
         self.versionId = versionId
@@ -34145,8 +33163,7 @@ public struct DescribeBrandOutput: Swift.Sendable {
         brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
         brandDetail: QuickSightClientTypes.BrandDetail? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brandDefinition = brandDefinition
         self.brandDetail = brandDetail
         self.requestId = requestId
@@ -34160,8 +33177,7 @@ public struct DescribeBrandAssignmentInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
     }
 }
@@ -34175,8 +33191,7 @@ public struct DescribeBrandAssignmentOutput: Swift.Sendable {
     public init(
         brandArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brandArn = brandArn
         self.requestId = requestId
     }
@@ -34193,8 +33208,7 @@ public struct DescribeBrandPublishedVersionInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         brandId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.brandId = brandId
     }
@@ -34212,8 +33226,7 @@ public struct DescribeBrandPublishedVersionOutput: Swift.Sendable {
         brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
         brandDetail: QuickSightClientTypes.BrandDetail? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brandDefinition = brandDefinition
         self.brandDetail = brandDetail
         self.requestId = requestId
@@ -34231,8 +33244,7 @@ public struct DescribeCustomPermissionsInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         customPermissionsName: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.customPermissionsName = customPermissionsName
     }
@@ -34250,8 +33262,7 @@ public struct DescribeCustomPermissionsOutput: Swift.Sendable {
         customPermissions: QuickSightClientTypes.CustomPermissions? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.customPermissions = customPermissions
         self.requestId = requestId
         self.status = status
@@ -34275,8 +33286,7 @@ public struct DescribeDashboardInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dashboardId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
@@ -34296,8 +33306,7 @@ public struct DescribeDashboardOutput: Swift.Sendable {
         dashboard: QuickSightClientTypes.Dashboard? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dashboard = dashboard
         self.requestId = requestId
         self.status = status
@@ -34321,8 +33330,7 @@ public struct DescribeDashboardDefinitionInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dashboardId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
@@ -34380,8 +33388,7 @@ public struct DescribeDashboardDefinitionOutput: Swift.Sendable {
         resourceStatus: QuickSightClientTypes.ResourceStatus? = nil,
         status: Swift.Int = 0,
         themeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashboardId = dashboardId
         self.dashboardPublishOptions = dashboardPublishOptions
         self.definition = definition
@@ -34405,8 +33412,7 @@ public struct DescribeDashboardPermissionsInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         dashboardId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
     }
@@ -34433,8 +33439,7 @@ public struct DescribeDashboardPermissionsOutput: Swift.Sendable {
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dashboardArn = dashboardArn
         self.dashboardId = dashboardId
         self.linkSharingConfiguration = linkSharingConfiguration
@@ -34459,8 +33464,7 @@ public struct DescribeDashboardSnapshotJobInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dashboardId: Swift.String? = nil,
         snapshotJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.snapshotJobId = snapshotJobId
@@ -34511,8 +33515,7 @@ extension QuickSightClientTypes {
 
         public init(
             s3Destinations: [QuickSightClientTypes.SnapshotS3DestinationConfiguration]? = nil
-        )
-        {
+        ) {
             self.s3Destinations = s3Destinations
         }
     }
@@ -34527,8 +33530,7 @@ extension QuickSightClientTypes {
 
         public init(
             files: [QuickSightClientTypes.SnapshotFile]? = nil
-        )
-        {
+        ) {
             self.files = files
         }
     }
@@ -34550,8 +33552,7 @@ extension QuickSightClientTypes {
             destinationConfiguration: QuickSightClientTypes.SnapshotDestinationConfiguration? = nil,
             fileGroups: [QuickSightClientTypes.SnapshotFileGroup]? = nil,
             parameters: QuickSightClientTypes.Parameters? = nil
-        )
-        {
+        ) {
             self.destinationConfiguration = destinationConfiguration
             self.fileGroups = fileGroups
             self.parameters = parameters
@@ -34568,8 +33569,7 @@ extension QuickSightClientTypes {
 
         public init(
             rowLevelPermissionTagKeys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.rowLevelPermissionTagKeys = rowLevelPermissionTagKeys
         }
     }
@@ -34584,8 +33584,7 @@ extension QuickSightClientTypes {
 
         public init(
             anonymousUsers: [QuickSightClientTypes.SnapshotAnonymousUserRedacted]? = nil
-        )
-        {
+        ) {
             self.anonymousUsers = anonymousUsers
         }
     }
@@ -34635,8 +33634,7 @@ public struct DescribeDashboardSnapshotJobOutput: Swift.Sendable {
         snapshotJobId: Swift.String? = nil,
         status: Swift.Int = 0,
         userConfiguration: QuickSightClientTypes.SnapshotUserConfigurationRedacted? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.awsAccountId = awsAccountId
         self.createdTime = createdTime
@@ -34666,8 +33664,7 @@ public struct DescribeDashboardSnapshotJobResultInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dashboardId: Swift.String? = nil,
         snapshotJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.snapshotJobId = snapshotJobId
@@ -34686,8 +33683,7 @@ extension QuickSightClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             errorType: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.errorType = errorType
         }
@@ -34703,8 +33699,7 @@ extension QuickSightClientTypes {
 
         public init(
             anonymousUsers: [QuickSightClientTypes.AnonymousUserSnapshotJobResult]? = nil
-        )
-        {
+        ) {
             self.anonymousUsers = anonymousUsers
         }
     }
@@ -34737,8 +33732,7 @@ public struct DescribeDashboardSnapshotJobResultOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         result: QuickSightClientTypes.SnapshotJobResult? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.createdTime = createdTime
         self.errorInfo = errorInfo
@@ -34757,8 +33751,7 @@ public struct DescribeDashboardsQAConfigurationInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
     }
 }
@@ -34775,8 +33768,7 @@ public struct DescribeDashboardsQAConfigurationOutput: Swift.Sendable {
         dashboardsQAStatus: QuickSightClientTypes.DashboardsQAStatus? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dashboardsQAStatus = dashboardsQAStatus
         self.requestId = requestId
         self.status = status
@@ -34794,8 +33786,7 @@ public struct DescribeDataSetInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
     }
@@ -34813,8 +33804,7 @@ public struct DescribeDataSetOutput: Swift.Sendable {
         dataSet: QuickSightClientTypes.DataSet? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dataSet = dataSet
         self.requestId = requestId
         self.status = status
@@ -34832,8 +33822,7 @@ public struct DescribeDataSetPermissionsInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
     }
@@ -34857,8 +33846,7 @@ public struct DescribeDataSetPermissionsOutput: Swift.Sendable {
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dataSetArn = dataSetArn
         self.dataSetId = dataSetId
         self.permissions = permissions
@@ -34878,8 +33866,7 @@ public struct DescribeDataSetRefreshPropertiesInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
     }
@@ -34897,8 +33884,7 @@ public struct DescribeDataSetRefreshPropertiesOutput: Swift.Sendable {
         dataSetRefreshProperties: QuickSightClientTypes.DataSetRefreshProperties? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dataSetRefreshProperties = dataSetRefreshProperties
         self.requestId = requestId
         self.status = status
@@ -34916,8 +33902,7 @@ public struct DescribeDataSourceInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         dataSourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSourceId = dataSourceId
     }
@@ -34935,8 +33920,7 @@ public struct DescribeDataSourceOutput: Swift.Sendable {
         dataSource: QuickSightClientTypes.DataSource? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dataSource = dataSource
         self.requestId = requestId
         self.status = status
@@ -34954,8 +33938,7 @@ public struct DescribeDataSourcePermissionsInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         dataSourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSourceId = dataSourceId
     }
@@ -34979,8 +33962,7 @@ public struct DescribeDataSourcePermissionsOutput: Swift.Sendable {
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dataSourceArn = dataSourceArn
         self.dataSourceId = dataSourceId
         self.permissions = permissions
@@ -34999,8 +33981,7 @@ public struct DescribeDefaultQBusinessApplicationInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
     }
@@ -35018,8 +33999,7 @@ public struct DescribeDefaultQBusinessApplicationOutput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.requestId = requestId
         self.status = status
@@ -35037,8 +34017,7 @@ public struct DescribeFolderInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         folderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
     }
@@ -35074,8 +34053,7 @@ extension QuickSightClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             sharingModel: QuickSightClientTypes.SharingModel? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.folderId = folderId
@@ -35100,8 +34078,7 @@ public struct DescribeFolderOutput: Swift.Sendable {
         folder: QuickSightClientTypes.Folder? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.folder = folder
         self.requestId = requestId
         self.status = status
@@ -35129,8 +34106,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -35156,8 +34132,7 @@ public struct DescribeFolderPermissionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
         self.maxResults = maxResults
@@ -35187,8 +34162,7 @@ public struct DescribeFolderPermissionsOutput: Swift.Sendable {
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.folderId = folderId
         self.nextToken = nextToken
@@ -35218,8 +34192,7 @@ public struct DescribeFolderResolvedPermissionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
         self.maxResults = maxResults
@@ -35249,8 +34222,7 @@ public struct DescribeFolderResolvedPermissionsOutput: Swift.Sendable {
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.folderId = folderId
         self.nextToken = nextToken
@@ -35275,8 +34247,7 @@ public struct DescribeGroupInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         groupName: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.groupName = groupName
         self.namespace = namespace
@@ -35295,8 +34266,7 @@ public struct DescribeGroupOutput: Swift.Sendable {
         group: QuickSightClientTypes.Group? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.group = group
         self.requestId = requestId
         self.status = status
@@ -35322,8 +34292,7 @@ public struct DescribeGroupMembershipInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         memberName: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.groupName = groupName
         self.memberName = memberName
@@ -35343,8 +34312,7 @@ public struct DescribeGroupMembershipOutput: Swift.Sendable {
         groupMember: QuickSightClientTypes.GroupMember? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.groupMember = groupMember
         self.requestId = requestId
         self.status = status
@@ -35366,8 +34334,7 @@ public struct DescribeIAMPolicyAssignmentInput: Swift.Sendable {
         assignmentName: Swift.String? = nil,
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentName = assignmentName
         self.awsAccountId = awsAccountId
         self.namespace = namespace
@@ -35398,8 +34365,7 @@ extension QuickSightClientTypes {
             awsAccountId: Swift.String? = nil,
             identities: [Swift.String: [Swift.String]]? = nil,
             policyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.assignmentId = assignmentId
             self.assignmentName = assignmentName
             self.assignmentStatus = assignmentStatus
@@ -35422,8 +34388,7 @@ public struct DescribeIAMPolicyAssignmentOutput: Swift.Sendable {
         iamPolicyAssignment: QuickSightClientTypes.IAMPolicyAssignment? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.iamPolicyAssignment = iamPolicyAssignment
         self.requestId = requestId
         self.status = status
@@ -35445,8 +34410,7 @@ public struct DescribeIngestionInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil,
         ingestionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
         self.ingestionId = ingestionId
@@ -35623,8 +34587,7 @@ extension QuickSightClientTypes {
         public init(
             message: Swift.String? = nil,
             type: QuickSightClientTypes.IngestionErrorType? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
         }
@@ -35645,8 +34608,7 @@ extension QuickSightClientTypes {
         public init(
             queuedIngestion: Swift.String? = nil,
             waitingOnIngestion: Swift.String? = nil
-        )
-        {
+        ) {
             self.queuedIngestion = queuedIngestion
             self.waitingOnIngestion = waitingOnIngestion
         }
@@ -35733,8 +34695,7 @@ extension QuickSightClientTypes {
             rowsDropped: Swift.Int? = 0,
             rowsIngested: Swift.Int? = 0,
             totalRowsInDataset: Swift.Int? = 0
-        )
-        {
+        ) {
             self.rowsDropped = rowsDropped
             self.rowsIngested = rowsIngested
             self.totalRowsInDataset = totalRowsInDataset
@@ -35784,8 +34745,7 @@ extension QuickSightClientTypes {
             requestSource: QuickSightClientTypes.IngestionRequestSource? = nil,
             requestType: QuickSightClientTypes.IngestionRequestType? = nil,
             rowInfo: QuickSightClientTypes.RowInfo? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.errorInfo = errorInfo
@@ -35813,8 +34773,7 @@ public struct DescribeIngestionOutput: Swift.Sendable {
         ingestion: QuickSightClientTypes.Ingestion? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.ingestion = ingestion
         self.requestId = requestId
         self.status = status
@@ -35828,8 +34787,7 @@ public struct DescribeIpRestrictionInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
     }
 }
@@ -35858,8 +34816,7 @@ public struct DescribeIpRestrictionOutput: Swift.Sendable {
         status: Swift.Int = 0,
         vpcEndpointIdRestrictionRuleMap: [Swift.String: Swift.String]? = nil,
         vpcIdRestrictionRuleMap: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.enabled = enabled
         self.ipRestrictionRuleMap = ipRestrictionRuleMap
@@ -35880,8 +34837,7 @@ public struct DescribeKeyRegistrationInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         defaultKeyOnly: Swift.Bool? = false
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.defaultKeyOnly = defaultKeyOnly
     }
@@ -35903,8 +34859,7 @@ extension QuickSightClientTypes {
         public init(
             defaultKey: Swift.Bool = false,
             keyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultKey = defaultKey
             self.keyArn = keyArn
         }
@@ -35926,8 +34881,7 @@ public struct DescribeKeyRegistrationOutput: Swift.Sendable {
         keyRegistration: [QuickSightClientTypes.RegisteredCustomerManagedKey]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.keyRegistration = keyRegistration
         self.requestId = requestId
@@ -35946,8 +34900,7 @@ public struct DescribeNamespaceInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
     }
@@ -35994,8 +34947,7 @@ extension QuickSightClientTypes {
         public init(
             message: Swift.String? = nil,
             type: QuickSightClientTypes.NamespaceErrorType? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
         }
@@ -36032,8 +34984,7 @@ extension QuickSightClientTypes {
             identityStore: QuickSightClientTypes.IdentityStore? = nil,
             name: Swift.String? = nil,
             namespaceError: QuickSightClientTypes.NamespaceError? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.capacityRegion = capacityRegion
             self.creationStatus = creationStatus
@@ -36058,8 +35009,7 @@ public struct DescribeNamespaceOutput: Swift.Sendable {
         namespace: QuickSightClientTypes.NamespaceInfoV2? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.namespace = namespace
         self.requestId = requestId
         self.status = status
@@ -36073,8 +35023,7 @@ public struct DescribeQPersonalizationConfigurationInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
     }
 }
@@ -36120,8 +35069,7 @@ public struct DescribeQPersonalizationConfigurationOutput: Swift.Sendable {
         personalizationMode: QuickSightClientTypes.PersonalizationMode? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.personalizationMode = personalizationMode
         self.requestId = requestId
         self.status = status
@@ -36135,8 +35083,7 @@ public struct DescribeQuickSightQSearchConfigurationInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
     }
 }
@@ -36182,8 +35129,7 @@ public struct DescribeQuickSightQSearchConfigurationOutput: Swift.Sendable {
         qSearchStatus: QuickSightClientTypes.QSearchStatus? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.qSearchStatus = qSearchStatus
         self.requestId = requestId
         self.status = status
@@ -36205,8 +35151,7 @@ public struct DescribeRefreshScheduleInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil,
         scheduleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
         self.scheduleId = scheduleId
@@ -36228,8 +35173,7 @@ public struct DescribeRefreshScheduleOutput: Swift.Sendable {
         refreshSchedule: QuickSightClientTypes.RefreshSchedule? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.refreshSchedule = refreshSchedule
         self.requestId = requestId
@@ -36252,8 +35196,7 @@ public struct DescribeRoleCustomPermissionInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil,
         role: QuickSightClientTypes.Role? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
         self.role = role
@@ -36272,8 +35215,7 @@ public struct DescribeRoleCustomPermissionOutput: Swift.Sendable {
         customPermissionsName: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.customPermissionsName = customPermissionsName
         self.requestId = requestId
         self.status = status
@@ -36297,8 +35239,7 @@ public struct DescribeTemplateInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         templateId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.templateId = templateId
@@ -36356,8 +35297,7 @@ extension QuickSightClientTypes {
             message: Swift.String? = nil,
             type: QuickSightClientTypes.TemplateErrorType? = nil,
             violatedEntities: [QuickSightClientTypes.Entity]? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
             self.violatedEntities = violatedEntities
@@ -36412,8 +35352,7 @@ extension QuickSightClientTypes {
             status: QuickSightClientTypes.ResourceStatus? = nil,
             themeArn: Swift.String? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.dataSetConfigurations = dataSetConfigurations
             self.description = description
@@ -36451,8 +35390,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             templateId: Swift.String? = nil,
             version: QuickSightClientTypes.TemplateVersion? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -36475,8 +35413,7 @@ public struct DescribeTemplateOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         template: QuickSightClientTypes.Template? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.template = template
@@ -36498,8 +35435,7 @@ public struct DescribeTemplateAliasInput: Swift.Sendable {
         aliasName: Swift.String? = nil,
         awsAccountId: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.templateId = templateId
@@ -36518,8 +35454,7 @@ public struct DescribeTemplateAliasOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         templateAlias: QuickSightClientTypes.TemplateAlias? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.templateAlias = templateAlias
@@ -36543,8 +35478,7 @@ public struct DescribeTemplateDefinitionInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         templateId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.templateId = templateId
@@ -36593,8 +35527,7 @@ public struct DescribeTemplateDefinitionOutput: Swift.Sendable {
         status: Swift.Int = 0,
         templateId: Swift.String? = nil,
         themeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.definition = definition
         self.errors = errors
         self.name = name
@@ -36617,8 +35550,7 @@ public struct DescribeTemplatePermissionsInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.templateId = templateId
     }
@@ -36642,8 +35574,7 @@ public struct DescribeTemplatePermissionsOutput: Swift.Sendable {
         status: Swift.Int = 0,
         templateArn: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
@@ -36669,8 +35600,7 @@ public struct DescribeThemeInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         themeId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.themeId = themeId
@@ -36748,8 +35678,7 @@ extension QuickSightClientTypes {
         public init(
             message: Swift.String? = nil,
             type: QuickSightClientTypes.ThemeErrorType? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
         }
@@ -36786,8 +35715,7 @@ extension QuickSightClientTypes {
             errors: [QuickSightClientTypes.ThemeError]? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.baseThemeId = baseThemeId
             self.configuration = configuration
@@ -36827,8 +35755,7 @@ extension QuickSightClientTypes {
             themeId: Swift.String? = nil,
             type: QuickSightClientTypes.ThemeType? = nil,
             version: QuickSightClientTypes.ThemeVersion? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -36852,8 +35779,7 @@ public struct DescribeThemeOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         theme: QuickSightClientTypes.Theme? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.theme = theme
@@ -36875,8 +35801,7 @@ public struct DescribeThemeAliasInput: Swift.Sendable {
         aliasName: Swift.String? = nil,
         awsAccountId: Swift.String? = nil,
         themeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.themeId = themeId
@@ -36895,8 +35820,7 @@ public struct DescribeThemeAliasOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         themeAlias: QuickSightClientTypes.ThemeAlias? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.themeAlias = themeAlias
@@ -36914,8 +35838,7 @@ public struct DescribeThemePermissionsInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         themeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.themeId = themeId
     }
@@ -36939,8 +35862,7 @@ public struct DescribeThemePermissionsOutput: Swift.Sendable {
         status: Swift.Int = 0,
         themeArn: Swift.String? = nil,
         themeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
@@ -36960,8 +35882,7 @@ public struct DescribeTopicInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.topicId = topicId
     }
@@ -36985,8 +35906,7 @@ public struct DescribeTopicOutput: Swift.Sendable {
         status: Swift.Int = 0,
         topic: QuickSightClientTypes.TopicDetails? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.requestId = requestId
         self.status = status
@@ -37006,8 +35926,7 @@ public struct DescribeTopicPermissionsInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.topicId = topicId
     }
@@ -37031,8 +35950,7 @@ public struct DescribeTopicPermissionsOutput: Swift.Sendable {
         status: Swift.Int = 0,
         topicArn: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
@@ -37056,8 +35974,7 @@ public struct DescribeTopicRefreshInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         refreshId: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.refreshId = refreshId
         self.topicId = topicId
@@ -37117,8 +36034,7 @@ extension QuickSightClientTypes {
             refreshArn: Swift.String? = nil,
             refreshId: Swift.String? = nil,
             refreshStatus: QuickSightClientTypes.TopicRefreshStatus? = nil
-        )
-        {
+        ) {
             self.refreshArn = refreshArn
             self.refreshId = refreshId
             self.refreshStatus = refreshStatus
@@ -37138,8 +36054,7 @@ public struct DescribeTopicRefreshOutput: Swift.Sendable {
         refreshDetails: QuickSightClientTypes.TopicRefreshDetails? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.refreshDetails = refreshDetails
         self.requestId = requestId
         self.status = status
@@ -37161,8 +36076,7 @@ public struct DescribeTopicRefreshScheduleInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         datasetId: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.datasetId = datasetId
         self.topicId = topicId
@@ -37190,8 +36104,7 @@ public struct DescribeTopicRefreshScheduleOutput: Swift.Sendable {
         status: Swift.Int = 0,
         topicArn: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.refreshSchedule = refreshSchedule
         self.requestId = requestId
@@ -37216,8 +36129,7 @@ public struct DescribeUserInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
         self.userName = userName
@@ -37362,8 +36274,7 @@ extension QuickSightClientTypes {
             principalId: Swift.String? = nil,
             role: QuickSightClientTypes.UserRole? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.active = active
             self.arn = arn
             self.customPermissionsName = customPermissionsName
@@ -37391,8 +36302,7 @@ public struct DescribeUserOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         user: QuickSightClientTypes.User? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.user = user
@@ -37410,8 +36320,7 @@ public struct DescribeVPCConnectionInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         vpcConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.vpcConnectionId = vpcConnectionId
     }
@@ -37491,8 +36400,7 @@ extension QuickSightClientTypes {
             networkInterfaceId: Swift.String? = nil,
             status: QuickSightClientTypes.NetworkInterfaceStatus? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.errorMessage = errorMessage
             self.networkInterfaceId = networkInterfaceId
@@ -37544,8 +36452,7 @@ extension QuickSightClientTypes {
             status: QuickSightClientTypes.VPCConnectionResourceStatus? = nil,
             vpcConnectionId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.availabilityStatus = availabilityStatus
             self.createdTime = createdTime
@@ -37574,8 +36481,7 @@ public struct DescribeVPCConnectionOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         vpcConnection: QuickSightClientTypes.VPCConnection? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.vpcConnection = vpcConnection
@@ -37603,8 +36509,7 @@ public struct DomainNotWhitelistedException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -37663,8 +36568,7 @@ extension QuickSightClientTypes {
             message: Swift.String? = nil,
             senderFault: Swift.Bool = false,
             statusCode: Swift.Int = 0
-        )
-        {
+        ) {
             self.keyArn = keyArn
             self.message = message
             self.senderFault = senderFault
@@ -37729,8 +36633,7 @@ extension QuickSightClientTypes {
         public init(
             memberArn: Swift.String? = nil,
             memberId: Swift.String? = nil
-        )
-        {
+        ) {
             self.memberArn = memberArn
             self.memberId = memberId
         }
@@ -37766,8 +36669,7 @@ extension QuickSightClientTypes {
             name: QuickSightClientTypes.FolderFilterAttribute? = nil,
             `operator`: QuickSightClientTypes.FilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -37802,8 +36704,7 @@ extension QuickSightClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             sharingModel: QuickSightClientTypes.SharingModel? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.folderId = folderId
@@ -37877,8 +36778,7 @@ extension QuickSightClientTypes {
             restatement: Swift.String? = nil,
             topicId: Swift.String? = nil,
             topicName: Swift.String? = nil
-        )
-        {
+        ) {
             self.answerId = answerId
             self.answerStatus = answerStatus
             self.questionId = questionId
@@ -37917,8 +36817,7 @@ public struct SessionLifetimeInMinutesInvalidException: ClientRuntime.ModeledErr
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -37945,8 +36844,7 @@ public struct UnsupportedPricingPlanException: ClientRuntime.ModeledError, AWSCl
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -37966,8 +36864,7 @@ extension QuickSightClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -38007,8 +36904,7 @@ public struct GenerateEmbedUrlForAnonymousUserInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         sessionLifetimeInMinutes: Swift.Int? = nil,
         sessionTags: [QuickSightClientTypes.SessionTag]? = nil
-    )
-    {
+    ) {
         self.allowedDomains = allowedDomains
         self.authorizedResourceArns = authorizedResourceArns
         self.awsAccountId = awsAccountId
@@ -38038,8 +36934,7 @@ public struct GenerateEmbedUrlForAnonymousUserOutput: Swift.Sendable {
         embedUrl: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.anonymousUserArn = anonymousUserArn
         self.embedUrl = embedUrl
         self.requestId = requestId
@@ -38073,8 +36968,7 @@ public struct QuickSightUserNotFoundException: ClientRuntime.ModeledError, AWSCl
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -38090,8 +36984,7 @@ extension QuickSightClientTypes {
 
         public init(
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -38112,8 +37005,7 @@ extension QuickSightClientTypes {
             bookmarks: QuickSightClientTypes.BookmarksConfigurations? = nil,
             sharedView: QuickSightClientTypes.SharedViewConfigurations? = nil,
             statePersistence: QuickSightClientTypes.StatePersistenceConfigurations? = nil
-        )
-        {
+        ) {
             self.bookmarks = bookmarks
             self.sharedView = sharedView
             self.statePersistence = statePersistence
@@ -38134,8 +37026,7 @@ extension QuickSightClientTypes {
         public init(
             featureConfigurations: QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations? = nil,
             initialDashboardId: Swift.String? = nil
-        )
-        {
+        ) {
             self.featureConfigurations = featureConfigurations
             self.initialDashboardId = initialDashboardId
         }
@@ -38152,8 +37043,7 @@ extension QuickSightClientTypes {
 
         public init(
             initialDashboardVisualId: QuickSightClientTypes.DashboardVisualId? = nil
-        )
-        {
+        ) {
             self.initialDashboardVisualId = initialDashboardVisualId
         }
     }
@@ -38168,8 +37058,7 @@ extension QuickSightClientTypes {
 
         public init(
             initialTopicId: Swift.String? = nil
-        )
-        {
+        ) {
             self.initialTopicId = initialTopicId
         }
     }
@@ -38184,8 +37073,7 @@ extension QuickSightClientTypes {
 
         public init(
             initialTopicId: Swift.String? = nil
-        )
-        {
+        ) {
             self.initialTopicId = initialTopicId
         }
     }
@@ -38203,8 +37091,7 @@ extension QuickSightClientTypes {
         public init(
             sharedView: QuickSightClientTypes.SharedViewConfigurations? = nil,
             statePersistence: QuickSightClientTypes.StatePersistenceConfigurations? = nil
-        )
-        {
+        ) {
             self.sharedView = sharedView
             self.statePersistence = statePersistence
         }
@@ -38235,8 +37122,7 @@ extension QuickSightClientTypes {
         public init(
             featureConfigurations: QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations? = nil,
             initialPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.featureConfigurations = featureConfigurations
             self.initialPath = initialPath
         }
@@ -38271,8 +37157,7 @@ extension QuickSightClientTypes {
             generativeQnA: QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration? = nil,
             qSearchBar: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration? = nil,
             quickSightConsole: QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration? = nil
-        )
-        {
+        ) {
             self.dashboard = dashboard
             self.dashboardVisual = dashboardVisual
             self.generativeQnA = generativeQnA
@@ -38303,8 +37188,7 @@ public struct GenerateEmbedUrlForRegisteredUserInput: Swift.Sendable {
         experienceConfiguration: QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration? = nil,
         sessionLifetimeInMinutes: Swift.Int? = nil,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedDomains = allowedDomains
         self.awsAccountId = awsAccountId
         self.experienceConfiguration = experienceConfiguration
@@ -38328,8 +37212,7 @@ public struct GenerateEmbedUrlForRegisteredUserOutput: Swift.Sendable {
         embedUrl: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.embedUrl = embedUrl
         self.requestId = requestId
         self.status = status
@@ -38358,8 +37241,7 @@ public struct GenerateEmbedUrlForRegisteredUserWithIdentityInput: Swift.Sendable
         awsAccountId: Swift.String? = nil,
         experienceConfiguration: QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration? = nil,
         sessionLifetimeInMinutes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.allowedDomains = allowedDomains
         self.awsAccountId = awsAccountId
         self.experienceConfiguration = experienceConfiguration
@@ -38382,8 +37264,7 @@ public struct GenerateEmbedUrlForRegisteredUserWithIdentityOutput: Swift.Sendabl
         embedUrl: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.embedUrl = embedUrl
         self.requestId = requestId
         self.status = status
@@ -38416,8 +37297,7 @@ public struct IdentityTypeNotSupportedException: ClientRuntime.ModeledError, AWS
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -38468,8 +37348,7 @@ public struct GetDashboardEmbedUrlInput: Swift.Sendable {
         statePersistenceEnabled: Swift.Bool? = false,
         undoRedoDisabled: Swift.Bool? = false,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalDashboardIds = additionalDashboardIds
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
@@ -38496,8 +37375,7 @@ public struct GetDashboardEmbedUrlOutput: Swift.Sendable {
         embedUrl: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.embedUrl = embedUrl
         self.requestId = requestId
         self.status = status
@@ -38546,8 +37424,7 @@ public struct GetSessionEmbedUrlInput: Swift.Sendable {
         entryPoint: Swift.String? = nil,
         sessionLifetimeInMinutes: Swift.Int? = nil,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.entryPoint = entryPoint
         self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
@@ -38567,8 +37444,7 @@ public struct GetSessionEmbedUrlOutput: Swift.Sendable {
         embedUrl: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.embedUrl = embedUrl
         self.requestId = requestId
         self.status = status
@@ -38650,8 +37526,7 @@ extension QuickSightClientTypes {
             name: QuickSightClientTypes.GroupFilterAttribute? = nil,
             `operator`: QuickSightClientTypes.GroupFilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -38671,8 +37546,7 @@ extension QuickSightClientTypes {
         public init(
             assignmentName: Swift.String? = nil,
             assignmentStatus: QuickSightClientTypes.AssignmentStatus? = nil
-        )
-        {
+        ) {
             self.assignmentName = assignmentName
             self.assignmentStatus = assignmentStatus
         }
@@ -38750,8 +37624,7 @@ public struct ListAnalysesInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -38773,8 +37646,7 @@ public struct ListAnalysesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.analysisSummaryList = analysisSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -38795,8 +37667,7 @@ public struct ListAssetBundleExportJobsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -38818,8 +37689,7 @@ public struct ListAssetBundleExportJobsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.assetBundleExportJobSummaryList = assetBundleExportJobSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -38840,8 +37710,7 @@ public struct ListAssetBundleImportJobsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -38863,8 +37732,7 @@ public struct ListAssetBundleImportJobsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.assetBundleImportJobSummaryList = assetBundleImportJobSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -38885,8 +37753,7 @@ public struct ListBrandsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -38902,8 +37769,7 @@ public struct ListBrandsOutput: Swift.Sendable {
     public init(
         brands: [QuickSightClientTypes.BrandSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.brands = brands
         self.nextToken = nextToken
     }
@@ -38922,8 +37788,7 @@ public struct ListCustomPermissionsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -38945,8 +37810,7 @@ public struct ListCustomPermissionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.customPermissionsList = customPermissionsList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -38967,8 +37831,7 @@ public struct ListDashboardsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -38990,8 +37853,7 @@ public struct ListDashboardsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dashboardSummaryList = dashboardSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39016,8 +37878,7 @@ public struct ListDashboardVersionsInput: Swift.Sendable {
         dashboardId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.maxResults = maxResults
@@ -39040,8 +37901,7 @@ public struct ListDashboardVersionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dashboardVersionSummaryList = dashboardVersionSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39062,8 +37922,7 @@ public struct ListDataSetsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -39085,8 +37944,7 @@ public struct ListDataSetsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dataSetSummaries = dataSetSummaries
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39107,8 +37965,7 @@ public struct ListDataSourcesInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -39130,8 +37987,7 @@ public struct ListDataSourcesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dataSources = dataSources
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39156,8 +38012,7 @@ public struct ListFolderMembersInput: Swift.Sendable {
         folderId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
         self.maxResults = maxResults
@@ -39180,8 +38035,7 @@ public struct ListFolderMembersOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.folderMemberList = folderMemberList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39202,8 +38056,7 @@ public struct ListFoldersInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -39225,8 +38078,7 @@ public struct ListFoldersOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.folderSummaryList = folderSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39251,8 +38103,7 @@ public struct ListFoldersForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -39275,8 +38126,7 @@ public struct ListFoldersForResourceOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.folders = folders
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39305,8 +38155,7 @@ public struct ListGroupMembershipsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.groupName = groupName
         self.maxResults = maxResults
@@ -39330,8 +38179,7 @@ public struct ListGroupMembershipsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.groupMemberList = groupMemberList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39356,8 +38204,7 @@ public struct ListGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.namespace = namespace
@@ -39380,8 +38227,7 @@ public struct ListGroupsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.groupList = groupList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39409,8 +38255,7 @@ public struct ListIAMPolicyAssignmentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentStatus = assignmentStatus
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
@@ -39434,8 +38279,7 @@ public struct ListIAMPolicyAssignmentsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.iamPolicyAssignments = iamPolicyAssignments
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39464,8 +38308,7 @@ public struct ListIAMPolicyAssignmentsForUserInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.namespace = namespace
@@ -39489,8 +38332,7 @@ public struct ListIAMPolicyAssignmentsForUserOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.activeAssignments = activeAssignments
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39511,8 +38353,7 @@ public struct ListIdentityPropagationConfigsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -39534,8 +38375,7 @@ public struct ListIdentityPropagationConfigsOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         services: [QuickSightClientTypes.AuthorizedTargetsByService]? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestId = requestId
         self.services = services
@@ -39560,8 +38400,7 @@ public struct ListIngestionsInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
         self.maxResults = maxResults
@@ -39584,8 +38423,7 @@ public struct ListIngestionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.ingestions = ingestions
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39606,8 +38444,7 @@ public struct ListNamespacesInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -39629,8 +38466,7 @@ public struct ListNamespacesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.namespaces = namespaces
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39649,8 +38485,7 @@ public struct ListRefreshSchedulesInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
     }
@@ -39668,8 +38503,7 @@ public struct ListRefreshSchedulesOutput: Swift.Sendable {
         refreshSchedules: [QuickSightClientTypes.RefreshSchedule]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.refreshSchedules = refreshSchedules
         self.requestId = requestId
         self.status = status
@@ -39697,8 +38531,7 @@ public struct ListRoleMembershipsInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         role: QuickSightClientTypes.Role? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.namespace = namespace
@@ -39722,8 +38555,7 @@ public struct ListRoleMembershipsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.membersList = membersList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -39738,8 +38570,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -39756,8 +38587,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         tags: [QuickSightClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.tags = tags
@@ -39781,8 +38611,7 @@ public struct ListTemplateAliasesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -39805,8 +38634,7 @@ public struct ListTemplateAliasesOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         templateAliasList: [QuickSightClientTypes.TemplateAlias]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -39827,8 +38655,7 @@ public struct ListTemplatesInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -39859,8 +38686,7 @@ extension QuickSightClientTypes {
             latestVersionNumber: Swift.Int? = nil,
             name: Swift.String? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -39886,8 +38712,7 @@ public struct ListTemplatesOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         templateSummaryList: [QuickSightClientTypes.TemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -39912,8 +38737,7 @@ public struct ListTemplateVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -39942,8 +38766,7 @@ extension QuickSightClientTypes {
             description: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -39968,8 +38791,7 @@ public struct ListTemplateVersionsOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         templateVersionSummaryList: [QuickSightClientTypes.TemplateVersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -39994,8 +38816,7 @@ public struct ListThemeAliasesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         themeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -40018,8 +38839,7 @@ public struct ListThemeAliasesOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         themeAliasList: [QuickSightClientTypes.ThemeAlias]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -40049,8 +38869,7 @@ public struct ListThemesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: QuickSightClientTypes.ThemeType? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -40082,8 +38901,7 @@ extension QuickSightClientTypes {
             latestVersionNumber: Swift.Int? = nil,
             name: Swift.String? = nil,
             themeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -40109,8 +38927,7 @@ public struct ListThemesOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         themeSummaryList: [QuickSightClientTypes.ThemeSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -40135,8 +38952,7 @@ public struct ListThemeVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         themeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -40165,8 +38981,7 @@ extension QuickSightClientTypes {
             description: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -40191,8 +39006,7 @@ public struct ListThemeVersionsOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         themeVersionSummaryList: [QuickSightClientTypes.ThemeVersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -40211,8 +39025,7 @@ public struct ListTopicRefreshSchedulesInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.topicId = topicId
     }
@@ -40236,8 +39049,7 @@ extension QuickSightClientTypes {
             datasetId: Swift.String? = nil,
             datasetName: Swift.String? = nil,
             refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule? = nil
-        )
-        {
+        ) {
             self.datasetArn = datasetArn
             self.datasetId = datasetId
             self.datasetName = datasetName
@@ -40264,8 +39076,7 @@ public struct ListTopicRefreshSchedulesOutput: Swift.Sendable {
         status: Swift.Int = 0,
         topicArn: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.refreshSchedules = refreshSchedules
         self.requestId = requestId
         self.status = status
@@ -40285,8 +39096,7 @@ public struct ListTopicReviewedAnswersInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.topicId = topicId
     }
@@ -40305,8 +39115,7 @@ public struct ListTopicsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -40331,8 +39140,7 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             topicId: Swift.String? = nil,
             userExperienceVersion: QuickSightClientTypes.TopicUserExperienceVersion? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.topicId = topicId
@@ -40356,8 +39164,7 @@ public struct ListTopicsOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         topicsSummaries: [QuickSightClientTypes.TopicSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -40386,8 +39193,7 @@ public struct ListUserGroupsInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.namespace = namespace
@@ -40411,8 +39217,7 @@ public struct ListUserGroupsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.groupList = groupList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -40437,8 +39242,7 @@ public struct ListUsersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.namespace = namespace
@@ -40461,8 +39265,7 @@ public struct ListUsersOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         userList: [QuickSightClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -40483,8 +39286,7 @@ public struct ListVPCConnectionsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -40533,8 +39335,7 @@ extension QuickSightClientTypes {
             status: QuickSightClientTypes.VPCConnectionResourceStatus? = nil,
             vpcConnectionId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.availabilityStatus = availabilityStatus
             self.createdTime = createdTime
@@ -40566,8 +39367,7 @@ public struct ListVPCConnectionsOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         vpcConnectionSummaries: [QuickSightClientTypes.VPCConnectionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -40595,8 +39395,7 @@ public struct PredictQAResultsInput: Swift.Sendable {
         includeQuickSightQIndex: QuickSightClientTypes.IncludeQuickSightQIndex? = nil,
         maxTopicsToConsider: Swift.Int? = nil,
         queryText: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.includeGeneratedAnswer = includeGeneratedAnswer
         self.includeQuickSightQIndex = includeQuickSightQIndex
@@ -40657,8 +39456,7 @@ extension QuickSightClientTypes {
             dashboardVisual: QuickSightClientTypes.DashboardVisualResult? = nil,
             generatedAnswer: QuickSightClientTypes.GeneratedAnswerResult? = nil,
             resultType: QuickSightClientTypes.QAResultType? = nil
-        )
-        {
+        ) {
             self.dashboardVisual = dashboardVisual
             self.generatedAnswer = generatedAnswer
             self.resultType = resultType
@@ -40681,8 +39479,7 @@ public struct PredictQAResultsOutput: Swift.Sendable {
         primaryResult: QuickSightClientTypes.QAResult? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.additionalResults = additionalResults
         self.primaryResult = primaryResult
         self.requestId = requestId
@@ -40734,8 +39531,7 @@ public struct PutDataSetRefreshPropertiesInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil,
         dataSetRefreshProperties: QuickSightClientTypes.DataSetRefreshProperties? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
         self.dataSetRefreshProperties = dataSetRefreshProperties
@@ -40751,8 +39547,7 @@ public struct PutDataSetRefreshPropertiesOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -40836,8 +39631,7 @@ public struct RegisterUserInput: Swift.Sendable {
         tags: [QuickSightClientTypes.Tag]? = nil,
         userName: Swift.String? = nil,
         userRole: QuickSightClientTypes.UserRole? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.customFederationProviderUrl = customFederationProviderUrl
         self.customPermissionsName = customPermissionsName
@@ -40869,8 +39663,7 @@ public struct RegisterUserOutput: Swift.Sendable {
         status: Swift.Int = 0,
         user: QuickSightClientTypes.User? = nil,
         userInvitationUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.user = user
@@ -40892,8 +39685,7 @@ public struct RestoreAnalysisInput: Swift.Sendable {
         analysisId: Swift.String? = nil,
         awsAccountId: Swift.String? = nil,
         restoreToFolders: Swift.Bool? = false
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.awsAccountId = awsAccountId
         self.restoreToFolders = restoreToFolders
@@ -40918,8 +39710,7 @@ public struct RestoreAnalysisOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         restorationFailedFolderArns: [Swift.String]? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.arn = arn
         self.requestId = requestId
@@ -40945,8 +39736,7 @@ public struct SearchAnalysesInput: Swift.Sendable {
         filters: [QuickSightClientTypes.AnalysisSearchFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.filters = filters
         self.maxResults = maxResults
@@ -40969,8 +39759,7 @@ public struct SearchAnalysesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.analysisSummaryList = analysisSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -40995,8 +39784,7 @@ public struct SearchDashboardsInput: Swift.Sendable {
         filters: [QuickSightClientTypes.DashboardSearchFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.filters = filters
         self.maxResults = maxResults
@@ -41019,8 +39807,7 @@ public struct SearchDashboardsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dashboardSummaryList = dashboardSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -41045,8 +39832,7 @@ public struct SearchDataSetsInput: Swift.Sendable {
         filters: [QuickSightClientTypes.DataSetSearchFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.filters = filters
         self.maxResults = maxResults
@@ -41069,8 +39855,7 @@ public struct SearchDataSetsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dataSetSummaries = dataSetSummaries
         self.nextToken = nextToken
         self.requestId = requestId
@@ -41095,8 +39880,7 @@ public struct SearchDataSourcesInput: Swift.Sendable {
         filters: [QuickSightClientTypes.DataSourceSearchFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.filters = filters
         self.maxResults = maxResults
@@ -41119,8 +39903,7 @@ public struct SearchDataSourcesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dataSourceSummaries = dataSourceSummaries
         self.nextToken = nextToken
         self.requestId = requestId
@@ -41145,8 +39928,7 @@ public struct SearchFoldersInput: Swift.Sendable {
         filters: [QuickSightClientTypes.FolderSearchFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.filters = filters
         self.maxResults = maxResults
@@ -41169,8 +39951,7 @@ public struct SearchFoldersOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.folderSummaryList = folderSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -41199,8 +39980,7 @@ public struct SearchGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.filters = filters
         self.maxResults = maxResults
@@ -41224,8 +40004,7 @@ public struct SearchGroupsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.groupList = groupList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -41324,8 +40103,7 @@ extension QuickSightClientTypes {
             name: QuickSightClientTypes.TopicFilterAttribute? = nil,
             `operator`: QuickSightClientTypes.TopicFilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -41350,8 +40128,7 @@ public struct SearchTopicsInput: Swift.Sendable {
         filters: [QuickSightClientTypes.TopicSearchFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.filters = filters
         self.maxResults = maxResults
@@ -41374,8 +40151,7 @@ public struct SearchTopicsOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         topicSummaryList: [QuickSightClientTypes.TopicSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -41440,8 +40216,7 @@ public struct StartAssetBundleExportJobInput: Swift.Sendable {
         includeTags: Swift.Bool? = false,
         resourceArns: [Swift.String]? = nil,
         validationStrategy: QuickSightClientTypes.AssetBundleExportJobValidationStrategy? = nil
-    )
-    {
+    ) {
         self.assetBundleExportJobId = assetBundleExportJobId
         self.awsAccountId = awsAccountId
         self.cloudFormationOverridePropertyConfiguration = cloudFormationOverridePropertyConfiguration
@@ -41471,8 +40246,7 @@ public struct StartAssetBundleExportJobOutput: Swift.Sendable {
         assetBundleExportJobId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.assetBundleExportJobId = assetBundleExportJobId
         self.requestId = requestId
@@ -41510,8 +40284,7 @@ public struct StartAssetBundleImportJobInput: Swift.Sendable {
         overridePermissions: QuickSightClientTypes.AssetBundleImportJobOverridePermissions? = nil,
         overrideTags: QuickSightClientTypes.AssetBundleImportJobOverrideTags? = nil,
         overrideValidationStrategy: QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy? = nil
-    )
-    {
+    ) {
         self.assetBundleImportJobId = assetBundleImportJobId
         self.assetBundleImportSource = assetBundleImportSource
         self.awsAccountId = awsAccountId
@@ -41538,8 +40311,7 @@ public struct StartAssetBundleImportJobOutput: Swift.Sendable {
         assetBundleImportJobId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.assetBundleImportJobId = assetBundleImportJobId
         self.requestId = requestId
@@ -41556,8 +40328,7 @@ extension QuickSightClientTypes {
 
         public init(
             rowLevelPermissionTags: [QuickSightClientTypes.SessionTag]? = nil
-        )
-        {
+        ) {
             self.rowLevelPermissionTags = rowLevelPermissionTags
         }
     }
@@ -41572,8 +40343,7 @@ extension QuickSightClientTypes {
 
         public init(
             anonymousUsers: [QuickSightClientTypes.SnapshotAnonymousUser]? = nil
-        )
-        {
+        ) {
             self.anonymousUsers = anonymousUsers
         }
     }
@@ -41602,8 +40372,7 @@ public struct StartDashboardSnapshotJobInput: Swift.Sendable {
         snapshotConfiguration: QuickSightClientTypes.SnapshotConfiguration? = nil,
         snapshotJobId: Swift.String? = nil,
         userConfiguration: QuickSightClientTypes.SnapshotUserConfiguration? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.snapshotConfiguration = snapshotConfiguration
@@ -41627,8 +40396,7 @@ public struct StartDashboardSnapshotJobOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         snapshotJobId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.requestId = requestId
         self.snapshotJobId = snapshotJobId
@@ -41651,8 +40419,7 @@ public struct StartDashboardSnapshotJobScheduleInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dashboardId: Swift.String? = nil,
         scheduleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.scheduleId = scheduleId
@@ -41668,8 +40435,7 @@ public struct StartDashboardSnapshotJobScheduleOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -41686,8 +40452,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -41702,8 +40467,7 @@ public struct TagResourceOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -41720,8 +40484,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -41736,8 +40499,7 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -41757,8 +40519,7 @@ public struct UpdateAccountCustomizationInput: Swift.Sendable {
         accountCustomization: QuickSightClientTypes.AccountCustomization? = nil,
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountCustomization = accountCustomization
         self.awsAccountId = awsAccountId
         self.namespace = namespace
@@ -41786,8 +40547,7 @@ public struct UpdateAccountCustomizationOutput: Swift.Sendable {
         namespace: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.accountCustomization = accountCustomization
         self.arn = arn
         self.awsAccountId = awsAccountId
@@ -41814,8 +40574,7 @@ public struct UpdateAccountSettingsInput: Swift.Sendable {
         defaultNamespace: Swift.String? = nil,
         notificationEmail: Swift.String? = nil,
         terminationProtectionEnabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.defaultNamespace = defaultNamespace
         self.notificationEmail = notificationEmail
@@ -41832,8 +40591,7 @@ public struct UpdateAccountSettingsOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -41869,8 +40627,7 @@ public struct UpdateAnalysisInput: Swift.Sendable {
         sourceEntity: QuickSightClientTypes.AnalysisSourceEntity? = nil,
         themeArn: Swift.String? = nil,
         validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.awsAccountId = awsAccountId
         self.definition = definition
@@ -41900,8 +40657,7 @@ public struct UpdateAnalysisOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         updateStatus: QuickSightClientTypes.ResourceStatus? = nil
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.arn = arn
         self.requestId = requestId
@@ -41927,8 +40683,7 @@ public struct UpdateAnalysisPermissionsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.awsAccountId = awsAccountId
         self.grantPermissions = grantPermissions
@@ -41954,8 +40709,7 @@ public struct UpdateAnalysisPermissionsOutput: Swift.Sendable {
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.analysisArn = analysisArn
         self.analysisId = analysisId
         self.permissions = permissions
@@ -41975,8 +40729,7 @@ public struct UpdateApplicationWithTokenExchangeGrantInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.namespace = namespace
     }
@@ -41991,8 +40744,7 @@ public struct UpdateApplicationWithTokenExchangeGrantOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -42012,8 +40764,7 @@ public struct UpdateBrandInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
         brandId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.brandDefinition = brandDefinition
         self.brandId = brandId
@@ -42032,8 +40783,7 @@ public struct UpdateBrandOutput: Swift.Sendable {
         brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
         brandDetail: QuickSightClientTypes.BrandDetail? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brandDefinition = brandDefinition
         self.brandDetail = brandDetail
         self.requestId = requestId
@@ -42051,8 +40801,7 @@ public struct UpdateBrandAssignmentInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         brandArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.brandArn = brandArn
     }
@@ -42067,8 +40816,7 @@ public struct UpdateBrandAssignmentOutput: Swift.Sendable {
     public init(
         brandArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brandArn = brandArn
         self.requestId = requestId
     }
@@ -42089,8 +40837,7 @@ public struct UpdateBrandPublishedVersionInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         brandId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.brandId = brandId
         self.versionId = versionId
@@ -42106,8 +40853,7 @@ public struct UpdateBrandPublishedVersionOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.versionId = versionId
     }
@@ -42127,8 +40873,7 @@ public struct UpdateCustomPermissionsInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         capabilities: QuickSightClientTypes.Capabilities? = nil,
         customPermissionsName: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.capabilities = capabilities
         self.customPermissionsName = customPermissionsName
@@ -42147,8 +40892,7 @@ public struct UpdateCustomPermissionsOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.requestId = requestId
         self.status = status
@@ -42197,8 +40941,7 @@ public struct UpdateDashboardInput: Swift.Sendable {
         themeArn: Swift.String? = nil,
         validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.dashboardPublishOptions = dashboardPublishOptions
@@ -42233,8 +40976,7 @@ public struct UpdateDashboardOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         versionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationStatus = creationStatus
         self.dashboardId = dashboardId
@@ -42259,8 +41001,7 @@ public struct UpdateDashboardLinksInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dashboardId: Swift.String? = nil,
         linkEntities: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.linkEntities = linkEntities
@@ -42282,8 +41023,7 @@ public struct UpdateDashboardLinksOutput: Swift.Sendable {
         linkEntities: [Swift.String]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dashboardArn = dashboardArn
         self.linkEntities = linkEntities
         self.requestId = requestId
@@ -42314,8 +41054,7 @@ public struct UpdateDashboardPermissionsInput: Swift.Sendable {
         grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         revokeLinkPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.grantLinkPermissions = grantLinkPermissions
@@ -42346,8 +41085,7 @@ public struct UpdateDashboardPermissionsOutput: Swift.Sendable {
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dashboardArn = dashboardArn
         self.dashboardId = dashboardId
         self.linkSharingConfiguration = linkSharingConfiguration
@@ -42372,8 +41110,7 @@ public struct UpdateDashboardPublishedVersionInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dashboardId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.versionNumber = versionNumber
@@ -42395,8 +41132,7 @@ public struct UpdateDashboardPublishedVersionOutput: Swift.Sendable {
         dashboardId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dashboardArn = dashboardArn
         self.dashboardId = dashboardId
         self.requestId = requestId
@@ -42415,8 +41151,7 @@ public struct UpdateDashboardsQAConfigurationInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         dashboardsQAStatus: QuickSightClientTypes.DashboardsQAStatus? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dashboardsQAStatus = dashboardsQAStatus
     }
@@ -42434,8 +41169,7 @@ public struct UpdateDashboardsQAConfigurationOutput: Swift.Sendable {
         dashboardsQAStatus: QuickSightClientTypes.DashboardsQAStatus? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dashboardsQAStatus = dashboardsQAStatus
         self.requestId = requestId
         self.status = status
@@ -42492,8 +41226,7 @@ public struct UpdateDataSetInput: Swift.Sendable {
         physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]? = nil,
         rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
         rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.columnGroups = columnGroups
         self.columnLevelPermissionRules = columnLevelPermissionRules
@@ -42532,8 +41265,7 @@ public struct UpdateDataSetOutput: Swift.Sendable {
         ingestionId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.dataSetId = dataSetId
         self.ingestionArn = ingestionArn
@@ -42560,8 +41292,7 @@ public struct UpdateDataSetPermissionsInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
         self.grantPermissions = grantPermissions
@@ -42584,8 +41315,7 @@ public struct UpdateDataSetPermissionsOutput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dataSetArn = dataSetArn
         self.dataSetId = dataSetId
         self.requestId = requestId
@@ -42620,8 +41350,7 @@ public struct UpdateDataSourceInput: Swift.Sendable {
         name: Swift.String? = nil,
         sslProperties: QuickSightClientTypes.SslProperties? = nil,
         vpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.credentials = credentials
         self.dataSourceId = dataSourceId
@@ -42655,8 +41384,7 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         updateStatus: QuickSightClientTypes.ResourceStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.dataSourceId = dataSourceId
         self.requestId = requestId
@@ -42682,8 +41410,7 @@ public struct UpdateDataSourcePermissionsInput: Swift.Sendable {
         dataSourceId: Swift.String? = nil,
         grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSourceId = dataSourceId
         self.grantPermissions = grantPermissions
@@ -42706,8 +41433,7 @@ public struct UpdateDataSourcePermissionsOutput: Swift.Sendable {
         dataSourceId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.dataSourceArn = dataSourceArn
         self.dataSourceId = dataSourceId
         self.requestId = requestId
@@ -42729,8 +41455,7 @@ public struct UpdateDefaultQBusinessApplicationInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.awsAccountId = awsAccountId
         self.namespace = namespace
@@ -42746,8 +41471,7 @@ public struct UpdateDefaultQBusinessApplicationOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -42768,8 +41492,7 @@ public struct UpdateFolderInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         folderId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
         self.name = name
@@ -42791,8 +41514,7 @@ public struct UpdateFolderOutput: Swift.Sendable {
         folderId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.folderId = folderId
         self.requestId = requestId
@@ -42817,8 +41539,7 @@ public struct UpdateFolderPermissionsInput: Swift.Sendable {
         folderId: Swift.String? = nil,
         grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
         self.grantPermissions = grantPermissions
@@ -42844,8 +41565,7 @@ public struct UpdateFolderPermissionsOutput: Swift.Sendable {
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.folderId = folderId
         self.permissions = permissions
@@ -42872,8 +41592,7 @@ public struct UpdateGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         groupName: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.description = description
         self.groupName = groupName
@@ -42893,8 +41612,7 @@ public struct UpdateGroupOutput: Swift.Sendable {
         group: QuickSightClientTypes.Group? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.group = group
         self.requestId = requestId
         self.status = status
@@ -42931,8 +41649,7 @@ public struct UpdateIAMPolicyAssignmentInput: Swift.Sendable {
         identities: [Swift.String: [Swift.String]]? = nil,
         namespace: Swift.String? = nil,
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignmentName = assignmentName
         self.assignmentStatus = assignmentStatus
         self.awsAccountId = awsAccountId
@@ -42972,8 +41689,7 @@ public struct UpdateIAMPolicyAssignmentOutput: Swift.Sendable {
         policyArn: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.assignmentId = assignmentId
         self.assignmentName = assignmentName
         self.assignmentStatus = assignmentStatus
@@ -42998,8 +41714,7 @@ public struct UpdateIdentityPropagationConfigInput: Swift.Sendable {
         authorizedTargets: [Swift.String]? = nil,
         awsAccountId: Swift.String? = nil,
         service: QuickSightClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.authorizedTargets = authorizedTargets
         self.awsAccountId = awsAccountId
         self.service = service
@@ -43015,8 +41730,7 @@ public struct UpdateIdentityPropagationConfigOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -43041,8 +41755,7 @@ public struct UpdateIpRestrictionInput: Swift.Sendable {
         ipRestrictionRuleMap: [Swift.String: Swift.String]? = nil,
         vpcEndpointIdRestrictionRuleMap: [Swift.String: Swift.String]? = nil,
         vpcIdRestrictionRuleMap: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.enabled = enabled
         self.ipRestrictionRuleMap = ipRestrictionRuleMap
@@ -43063,8 +41776,7 @@ public struct UpdateIpRestrictionOutput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.requestId = requestId
         self.status = status
@@ -43082,8 +41794,7 @@ public struct UpdateKeyRegistrationInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         keyRegistration: [QuickSightClientTypes.RegisteredCustomerManagedKey]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.keyRegistration = keyRegistration
     }
@@ -43103,8 +41814,7 @@ extension QuickSightClientTypes {
         public init(
             keyArn: Swift.String? = nil,
             statusCode: Swift.Int = 0
-        )
-        {
+        ) {
             self.keyArn = keyArn
             self.statusCode = statusCode
         }
@@ -43123,8 +41833,7 @@ public struct UpdateKeyRegistrationOutput: Swift.Sendable {
         failedKeyRegistration: [QuickSightClientTypes.FailedKeyRegistrationEntry]? = nil,
         requestId: Swift.String? = nil,
         successfulKeyRegistration: [QuickSightClientTypes.SuccessfulKeyRegistrationEntry]? = nil
-    )
-    {
+    ) {
         self.failedKeyRegistration = failedKeyRegistration
         self.requestId = requestId
         self.successfulKeyRegistration = successfulKeyRegistration
@@ -43141,8 +41850,7 @@ public struct UpdatePublicSharingSettingsInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         publicSharingEnabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.publicSharingEnabled = publicSharingEnabled
     }
@@ -43157,8 +41865,7 @@ public struct UpdatePublicSharingSettingsOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -43175,8 +41882,7 @@ public struct UpdateQPersonalizationConfigurationInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         personalizationMode: QuickSightClientTypes.PersonalizationMode? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.personalizationMode = personalizationMode
     }
@@ -43194,8 +41900,7 @@ public struct UpdateQPersonalizationConfigurationOutput: Swift.Sendable {
         personalizationMode: QuickSightClientTypes.PersonalizationMode? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.personalizationMode = personalizationMode
         self.requestId = requestId
         self.status = status
@@ -43213,8 +41918,7 @@ public struct UpdateQuickSightQSearchConfigurationInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         qSearchStatus: QuickSightClientTypes.QSearchStatus? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.qSearchStatus = qSearchStatus
     }
@@ -43232,8 +41936,7 @@ public struct UpdateQuickSightQSearchConfigurationOutput: Swift.Sendable {
         qSearchStatus: QuickSightClientTypes.QSearchStatus? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.qSearchStatus = qSearchStatus
         self.requestId = requestId
         self.status = status
@@ -43255,8 +41958,7 @@ public struct UpdateRefreshScheduleInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         dataSetId: Swift.String? = nil,
         schedule: QuickSightClientTypes.RefreshSchedule? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dataSetId = dataSetId
         self.schedule = schedule
@@ -43278,8 +41980,7 @@ public struct UpdateRefreshScheduleOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         scheduleId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.requestId = requestId
         self.scheduleId = scheduleId
@@ -43306,8 +42007,7 @@ public struct UpdateRoleCustomPermissionInput: Swift.Sendable {
         customPermissionsName: Swift.String? = nil,
         namespace: Swift.String? = nil,
         role: QuickSightClientTypes.Role? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.customPermissionsName = customPermissionsName
         self.namespace = namespace
@@ -43324,8 +42024,7 @@ public struct UpdateRoleCustomPermissionOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -43346,8 +42045,7 @@ public struct UpdateSPICECapacityConfigurationInput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         purchaseMode: QuickSightClientTypes.PurchaseMode? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.purchaseMode = purchaseMode
     }
@@ -43362,8 +42060,7 @@ public struct UpdateSPICECapacityConfigurationOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -43395,8 +42092,7 @@ public struct UpdateTemplateInput: Swift.Sendable {
         templateId: Swift.String? = nil,
         validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.definition = definition
         self.name = name
@@ -43428,8 +42124,7 @@ public struct UpdateTemplateOutput: Swift.Sendable {
         status: Swift.Int = 0,
         templateId: Swift.String? = nil,
         versionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationStatus = creationStatus
         self.requestId = requestId
@@ -43458,8 +42153,7 @@ public struct UpdateTemplateAliasInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         templateId: Swift.String? = nil,
         templateVersionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.templateId = templateId
@@ -43479,8 +42173,7 @@ public struct UpdateTemplateAliasOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         templateAlias: QuickSightClientTypes.TemplateAlias? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.templateAlias = templateAlias
@@ -43504,8 +42197,7 @@ public struct UpdateTemplatePermissionsInput: Swift.Sendable {
         grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.grantPermissions = grantPermissions
         self.revokePermissions = revokePermissions
@@ -43531,8 +42223,7 @@ public struct UpdateTemplatePermissionsOutput: Swift.Sendable {
         status: Swift.Int = 0,
         templateArn: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
@@ -43565,8 +42256,7 @@ public struct UpdateThemeInput: Swift.Sendable {
         name: Swift.String? = nil,
         themeId: Swift.String? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.baseThemeId = baseThemeId
         self.configuration = configuration
@@ -43597,8 +42287,7 @@ public struct UpdateThemeOutput: Swift.Sendable {
         status: Swift.Int = 0,
         themeId: Swift.String? = nil,
         versionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationStatus = creationStatus
         self.requestId = requestId
@@ -43627,8 +42316,7 @@ public struct UpdateThemeAliasInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         themeId: Swift.String? = nil,
         themeVersionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.awsAccountId = awsAccountId
         self.themeId = themeId
@@ -43648,8 +42336,7 @@ public struct UpdateThemeAliasOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         themeAlias: QuickSightClientTypes.ThemeAlias? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.themeAlias = themeAlias
@@ -43673,8 +42360,7 @@ public struct UpdateThemePermissionsInput: Swift.Sendable {
         grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         themeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.grantPermissions = grantPermissions
         self.revokePermissions = revokePermissions
@@ -43700,8 +42386,7 @@ public struct UpdateThemePermissionsOutput: Swift.Sendable {
         status: Swift.Int = 0,
         themeArn: Swift.String? = nil,
         themeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
@@ -43725,8 +42410,7 @@ public struct UpdateTopicInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         topic: QuickSightClientTypes.TopicDetails? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.topic = topic
         self.topicId = topicId
@@ -43751,8 +42435,7 @@ public struct UpdateTopicOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.refreshArn = refreshArn
         self.requestId = requestId
@@ -43778,8 +42461,7 @@ public struct UpdateTopicPermissionsInput: Swift.Sendable {
         grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.grantPermissions = grantPermissions
         self.revokePermissions = revokePermissions
@@ -43805,8 +42487,7 @@ public struct UpdateTopicPermissionsOutput: Swift.Sendable {
         status: Swift.Int = 0,
         topicArn: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
@@ -43834,8 +42515,7 @@ public struct UpdateTopicRefreshScheduleInput: Swift.Sendable {
         datasetId: Swift.String? = nil,
         refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.datasetId = datasetId
         self.refreshSchedule = refreshSchedule
@@ -43861,8 +42541,7 @@ public struct UpdateTopicRefreshScheduleOutput: Swift.Sendable {
         status: Swift.Int = 0,
         topicArn: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.requestId = requestId
         self.status = status
@@ -43941,8 +42620,7 @@ public struct UpdateUserInput: Swift.Sendable {
         role: QuickSightClientTypes.UserRole? = nil,
         unapplyCustomPermissions: Swift.Bool? = false,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.customFederationProviderUrl = customFederationProviderUrl
         self.customPermissionsName = customPermissionsName
@@ -43968,8 +42646,7 @@ public struct UpdateUserOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         user: QuickSightClientTypes.User? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
         self.user = user
@@ -43995,8 +42672,7 @@ public struct UpdateUserCustomPermissionInput: Swift.Sendable {
         customPermissionsName: Swift.String? = nil,
         namespace: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.customPermissionsName = customPermissionsName
         self.namespace = namespace
@@ -44013,8 +42689,7 @@ public struct UpdateUserCustomPermissionOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.requestId = requestId
         self.status = status
     }
@@ -44050,8 +42725,7 @@ public struct UpdateVPCConnectionInput: Swift.Sendable {
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
         vpcConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.dnsResolvers = dnsResolvers
         self.name = name
@@ -44083,8 +42757,7 @@ public struct UpdateVPCConnectionOutput: Swift.Sendable {
         status: Swift.Int = 0,
         updateStatus: QuickSightClientTypes.VPCConnectionResourceStatus? = nil,
         vpcConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.availabilityStatus = availabilityStatus
         self.requestId = requestId
@@ -44112,8 +42785,7 @@ extension QuickSightClientTypes {
             role: QuickSightClientTypes.VisualRole? = nil,
             supportingVisuals: [QuickSightClientTypes.TopicVisual]? = nil,
             visualId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ir = ir
             self.role = role
             self.supportingVisuals = supportingVisuals
@@ -44149,8 +42821,7 @@ extension QuickSightClientTypes {
             primaryVisual: QuickSightClientTypes.TopicVisual? = nil,
             question: Swift.String? = nil,
             template: QuickSightClientTypes.TopicTemplate? = nil
-        )
-        {
+        ) {
             self.answerId = answerId
             self.datasetArn = datasetArn
             self.mir = mir
@@ -44191,8 +42862,7 @@ extension QuickSightClientTypes {
             primaryVisual: QuickSightClientTypes.TopicVisual? = nil,
             question: Swift.String? = nil,
             template: QuickSightClientTypes.TopicTemplate? = nil
-        )
-        {
+        ) {
             self.answerId = answerId
             self.arn = arn
             self.datasetArn = datasetArn
@@ -44219,8 +42889,7 @@ public struct BatchCreateTopicReviewedAnswerInput: Swift.Sendable {
         answers: [QuickSightClientTypes.CreateTopicReviewedAnswer]? = nil,
         awsAccountId: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.answers = answers
         self.awsAccountId = awsAccountId
         self.topicId = topicId
@@ -44245,8 +42914,7 @@ public struct ListTopicReviewedAnswersOutput: Swift.Sendable {
         status: Swift.Int = 0,
         topicArn: Swift.String? = nil,
         topicId: Swift.String? = nil
-    )
-    {
+    ) {
         self.answers = answers
         self.requestId = requestId
         self.status = status

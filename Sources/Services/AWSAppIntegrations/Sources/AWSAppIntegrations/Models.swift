@@ -49,8 +49,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -73,8 +72,7 @@ public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -97,8 +95,7 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -121,8 +118,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -145,8 +141,7 @@ public struct ResourceQuotaExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -169,8 +164,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -193,8 +187,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -212,8 +205,7 @@ extension AppIntegrationsClientTypes {
         public init(
             accessUrl: Swift.String? = nil,
             approvedOrigins: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.accessUrl = accessUrl
             self.approvedOrigins = approvedOrigins
         }
@@ -229,8 +221,7 @@ extension AppIntegrationsClientTypes {
 
         public init(
             externalUrlConfig: AppIntegrationsClientTypes.ExternalUrlConfig? = nil
-        )
-        {
+        ) {
             self.externalUrlConfig = externalUrlConfig
         }
     }
@@ -253,8 +244,7 @@ extension AppIntegrationsClientTypes {
             description: Swift.String? = nil,
             event: Swift.String? = nil,
             schema: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.event = event
             self.schema = schema
@@ -275,8 +265,7 @@ extension AppIntegrationsClientTypes {
         public init(
             description: Swift.String? = nil,
             event: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.event = event
         }
@@ -318,8 +307,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         publications: [AppIntegrationsClientTypes.Publication]? = nil,
         subscriptions: [AppIntegrationsClientTypes.Subscription]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationSourceConfig = applicationSourceConfig
         self.clientToken = clientToken
         self.description = description
@@ -341,8 +329,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -361,8 +348,7 @@ extension AppIntegrationsClientTypes {
         public init(
             filters: [Swift.String: [Swift.String]]? = nil,
             folders: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.folders = folders
         }
@@ -385,8 +371,7 @@ extension AppIntegrationsClientTypes {
             firstExecutionFrom: Swift.String? = nil,
             object: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.firstExecutionFrom = firstExecutionFrom
             self.object = object
             self.scheduleExpression = scheduleExpression
@@ -426,8 +411,7 @@ public struct CreateDataIntegrationInput: Swift.Sendable {
         scheduleConfig: AppIntegrationsClientTypes.ScheduleConfiguration? = nil,
         sourceURI: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.fileConfiguration = fileConfiguration
@@ -476,8 +460,7 @@ public struct CreateDataIntegrationOutput: Swift.Sendable {
         scheduleConfiguration: AppIntegrationsClientTypes.ScheduleConfiguration? = nil,
         sourceURI: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientToken = clientToken
         self.description = description
@@ -510,8 +493,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -558,8 +540,7 @@ extension AppIntegrationsClientTypes {
         public init(
             endTime: Swift.String? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -582,8 +563,7 @@ extension AppIntegrationsClientTypes {
             executionMode: AppIntegrationsClientTypes.ExecutionMode? = nil,
             onDemandConfiguration: AppIntegrationsClientTypes.OnDemandConfiguration? = nil,
             scheduleConfiguration: AppIntegrationsClientTypes.ScheduleConfiguration? = nil
-        )
-        {
+        ) {
             self.executionMode = executionMode
             self.onDemandConfiguration = onDemandConfiguration
             self.scheduleConfiguration = scheduleConfiguration
@@ -616,8 +596,7 @@ public struct CreateDataIntegrationAssociationInput: Swift.Sendable {
         destinationURI: Swift.String? = nil,
         executionConfiguration: AppIntegrationsClientTypes.ExecutionConfiguration? = nil,
         objectConfiguration: [Swift.String: [Swift.String: [Swift.String]]]? = nil
-    )
-    {
+    ) {
         self.clientAssociationMetadata = clientAssociationMetadata
         self.clientId = clientId
         self.clientToken = clientToken
@@ -637,8 +616,7 @@ public struct CreateDataIntegrationAssociationOutput: Swift.Sendable {
     public init(
         dataIntegrationArn: Swift.String? = nil,
         dataIntegrationAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataIntegrationArn = dataIntegrationArn
         self.dataIntegrationAssociationId = dataIntegrationAssociationId
     }
@@ -654,8 +632,7 @@ extension AppIntegrationsClientTypes {
 
         public init(
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -685,8 +662,7 @@ public struct CreateEventIntegrationInput: Swift.Sendable {
         eventFilter: AppIntegrationsClientTypes.EventFilter? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.eventBridgeBus = eventBridgeBus
@@ -702,8 +678,7 @@ public struct CreateEventIntegrationOutput: Swift.Sendable {
 
     public init(
         eventIntegrationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventIntegrationArn = eventIntegrationArn
     }
 }
@@ -715,8 +690,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -733,8 +707,7 @@ public struct DeleteDataIntegrationInput: Swift.Sendable {
 
     public init(
         dataIntegrationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataIntegrationIdentifier = dataIntegrationIdentifier
     }
 }
@@ -751,8 +724,7 @@ public struct DeleteEventIntegrationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -769,8 +741,7 @@ public struct GetApplicationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -816,8 +787,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         publications: [AppIntegrationsClientTypes.Publication]? = nil,
         subscriptions: [AppIntegrationsClientTypes.Subscription]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationSourceConfig = applicationSourceConfig
         self.arn = arn
         self.createdTime = createdTime
@@ -840,8 +810,7 @@ public struct GetDataIntegrationInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -879,8 +848,7 @@ public struct GetDataIntegrationOutput: Swift.Sendable {
         scheduleConfiguration: AppIntegrationsClientTypes.ScheduleConfiguration? = nil,
         sourceURI: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.fileConfiguration = fileConfiguration
@@ -901,8 +869,7 @@ public struct GetEventIntegrationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -928,8 +895,7 @@ public struct GetEventIntegrationOutput: Swift.Sendable {
         eventIntegrationArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventBridgeBus = eventBridgeBus
         self.eventFilter = eventFilter
@@ -952,8 +918,7 @@ public struct ListApplicationAssociationsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -975,8 +940,7 @@ extension AppIntegrationsClientTypes {
             applicationArn: Swift.String? = nil,
             applicationAssociationArn: Swift.String? = nil,
             clientId: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.applicationAssociationArn = applicationAssociationArn
             self.clientId = clientId
@@ -993,8 +957,7 @@ public struct ListApplicationAssociationsOutput: Swift.Sendable {
     public init(
         applicationAssociations: [AppIntegrationsClientTypes.ApplicationAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationAssociations = applicationAssociations
         self.nextToken = nextToken
     }
@@ -1009,8 +972,7 @@ public struct ListApplicationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1040,8 +1002,7 @@ extension AppIntegrationsClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -1061,8 +1022,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applications: [AppIntegrationsClientTypes.ApplicationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.nextToken = nextToken
     }
@@ -1081,8 +1041,7 @@ public struct ListDataIntegrationAssociationsInput: Swift.Sendable {
         dataIntegrationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataIntegrationIdentifier = dataIntegrationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1133,8 +1092,7 @@ extension AppIntegrationsClientTypes {
         public init(
             executionStatus: AppIntegrationsClientTypes.ExecutionStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionStatus = executionStatus
             self.statusMessage = statusMessage
         }
@@ -1165,8 +1123,7 @@ extension AppIntegrationsClientTypes {
             destinationURI: Swift.String? = nil,
             executionConfiguration: AppIntegrationsClientTypes.ExecutionConfiguration? = nil,
             lastExecutionStatus: AppIntegrationsClientTypes.LastExecutionStatus? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.dataIntegrationArn = dataIntegrationArn
             self.dataIntegrationAssociationArn = dataIntegrationAssociationArn
@@ -1186,8 +1143,7 @@ public struct ListDataIntegrationAssociationsOutput: Swift.Sendable {
     public init(
         dataIntegrationAssociations: [AppIntegrationsClientTypes.DataIntegrationAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataIntegrationAssociations = dataIntegrationAssociations
         self.nextToken = nextToken
     }
@@ -1202,8 +1158,7 @@ public struct ListDataIntegrationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1224,8 +1179,7 @@ extension AppIntegrationsClientTypes {
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
             sourceURI: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.sourceURI = sourceURI
@@ -1242,8 +1196,7 @@ public struct ListDataIntegrationsOutput: Swift.Sendable {
     public init(
         dataIntegrations: [AppIntegrationsClientTypes.DataIntegrationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataIntegrations = dataIntegrations
         self.nextToken = nextToken
     }
@@ -1262,8 +1215,7 @@ public struct ListEventIntegrationAssociationsInput: Swift.Sendable {
         eventIntegrationName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventIntegrationName = eventIntegrationName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1294,8 +1246,7 @@ extension AppIntegrationsClientTypes {
             eventIntegrationAssociationArn: Swift.String? = nil,
             eventIntegrationAssociationId: Swift.String? = nil,
             eventIntegrationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientAssociationMetadata = clientAssociationMetadata
             self.clientId = clientId
             self.eventBridgeRuleName = eventBridgeRuleName
@@ -1315,8 +1266,7 @@ public struct ListEventIntegrationAssociationsOutput: Swift.Sendable {
     public init(
         eventIntegrationAssociations: [AppIntegrationsClientTypes.EventIntegrationAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventIntegrationAssociations = eventIntegrationAssociations
         self.nextToken = nextToken
     }
@@ -1331,8 +1281,7 @@ public struct ListEventIntegrationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1362,8 +1311,7 @@ extension AppIntegrationsClientTypes {
             eventIntegrationArn: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.eventBridgeBus = eventBridgeBus
             self.eventFilter = eventFilter
@@ -1383,8 +1331,7 @@ public struct ListEventIntegrationsOutput: Swift.Sendable {
     public init(
         eventIntegrations: [AppIntegrationsClientTypes.EventIntegration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventIntegrations = eventIntegrations
         self.nextToken = nextToken
     }
@@ -1397,8 +1344,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1409,8 +1355,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1426,8 +1371,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1449,8 +1393,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1488,8 +1431,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         permissions: [Swift.String]? = nil,
         publications: [AppIntegrationsClientTypes.Publication]? = nil,
         subscriptions: [AppIntegrationsClientTypes.Subscription]? = nil
-    )
-    {
+    ) {
         self.applicationSourceConfig = applicationSourceConfig
         self.arn = arn
         self.description = description
@@ -1518,8 +1460,7 @@ public struct UpdateDataIntegrationInput: Swift.Sendable {
         description: Swift.String? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.identifier = identifier
         self.name = name
@@ -1546,8 +1487,7 @@ public struct UpdateDataIntegrationAssociationInput: Swift.Sendable {
         dataIntegrationAssociationIdentifier: Swift.String? = nil,
         dataIntegrationIdentifier: Swift.String? = nil,
         executionConfiguration: AppIntegrationsClientTypes.ExecutionConfiguration? = nil
-    )
-    {
+    ) {
         self.dataIntegrationAssociationIdentifier = dataIntegrationAssociationIdentifier
         self.dataIntegrationIdentifier = dataIntegrationIdentifier
         self.executionConfiguration = executionConfiguration
@@ -1569,8 +1509,7 @@ public struct UpdateEventIntegrationInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
     }

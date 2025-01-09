@@ -110,8 +110,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -126,8 +125,7 @@ extension ConnectCampaignsClientTypes {
 
         public init(
             dialingCapacity: Swift.Double? = nil
-        )
-        {
+        ) {
             self.dialingCapacity = dialingCapacity
         }
     }
@@ -155,8 +153,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -184,8 +181,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -213,8 +209,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -242,8 +237,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -271,8 +265,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -300,8 +293,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -320,8 +312,7 @@ extension ConnectCampaignsClientTypes {
         public init(
             bandwidthAllocation: Swift.Double? = nil,
             dialingCapacity: Swift.Double? = nil
-        )
-        {
+        ) {
             self.bandwidthAllocation = bandwidthAllocation
             self.dialingCapacity = dialingCapacity
         }
@@ -341,8 +332,7 @@ extension ConnectCampaignsClientTypes {
         public init(
             bandwidthAllocation: Swift.Double? = nil,
             dialingCapacity: Swift.Double? = nil
-        )
-        {
+        ) {
             self.bandwidthAllocation = bandwidthAllocation
             self.dialingCapacity = dialingCapacity
         }
@@ -376,8 +366,7 @@ extension ConnectCampaignsClientTypes {
         public init(
             awaitAnswerMachinePrompt: Swift.Bool? = nil,
             enableAnswerMachineDetection: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
         }
@@ -403,8 +392,7 @@ extension ConnectCampaignsClientTypes {
             connectContactFlowId: Swift.String? = nil,
             connectQueueId: Swift.String? = nil,
             connectSourcePhoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.connectContactFlowId = connectContactFlowId
             self.connectQueueId = connectQueueId
@@ -436,8 +424,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         name: Swift.String? = nil,
         outboundCallConfig: ConnectCampaignsClientTypes.OutboundCallConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
         self.dialerConfig = dialerConfig
         self.name = name
@@ -459,8 +446,7 @@ public struct CreateCampaignOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.tags = tags
@@ -475,8 +461,7 @@ public struct DeleteCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -503,8 +488,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -518,8 +502,7 @@ public struct DeleteConnectInstanceConfigInput: Swift.Sendable {
 
     public init(
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
     }
 }
@@ -532,8 +515,7 @@ public struct DeleteInstanceOnboardingJobInput: Swift.Sendable {
 
     public init(
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
     }
 }
@@ -546,8 +528,7 @@ public struct DescribeCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -585,8 +566,7 @@ extension ConnectCampaignsClientTypes {
             name: Swift.String? = nil,
             outboundCallConfig: ConnectCampaignsClientTypes.OutboundCallConfig? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectInstanceId = connectInstanceId
             self.dialerConfig = dialerConfig
@@ -605,8 +585,7 @@ public struct DescribeCampaignOutput: Swift.Sendable {
 
     public init(
         campaign: ConnectCampaignsClientTypes.Campaign? = nil
-    )
-    {
+    ) {
         self.campaign = campaign
     }
 }
@@ -619,8 +598,7 @@ public struct GetCampaignStateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -676,8 +654,7 @@ public struct GetCampaignStateOutput: Swift.Sendable {
 
     public init(
         state: ConnectCampaignsClientTypes.CampaignState? = nil
-    )
-    {
+    ) {
         self.state = state
     }
 }
@@ -690,8 +667,7 @@ public struct GetCampaignStateBatchInput: Swift.Sendable {
 
     public init(
         campaignIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.campaignIds = campaignIds
     }
 }
@@ -740,8 +716,7 @@ extension ConnectCampaignsClientTypes {
         public init(
             campaignId: Swift.String? = nil,
             failureCode: ConnectCampaignsClientTypes.GetCampaignStateBatchFailureCode? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
             self.failureCode = failureCode
         }
@@ -760,8 +735,7 @@ extension ConnectCampaignsClientTypes {
         public init(
             campaignId: Swift.String? = nil,
             state: ConnectCampaignsClientTypes.CampaignState? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
             self.state = state
         }
@@ -778,8 +752,7 @@ public struct GetCampaignStateBatchOutput: Swift.Sendable {
     public init(
         failedRequests: [ConnectCampaignsClientTypes.FailedCampaignStateResponse]? = nil,
         successfulRequests: [ConnectCampaignsClientTypes.SuccessfulCampaignStateResponse]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
         self.successfulRequests = successfulRequests
     }
@@ -793,8 +766,7 @@ public struct GetConnectInstanceConfigInput: Swift.Sendable {
 
     public init(
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
     }
 }
@@ -842,8 +814,7 @@ extension ConnectCampaignsClientTypes {
             enabled: Swift.Bool = false,
             encryptionType: ConnectCampaignsClientTypes.EncryptionType? = nil,
             keyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.encryptionType = encryptionType
             self.keyArn = keyArn
@@ -869,8 +840,7 @@ extension ConnectCampaignsClientTypes {
             connectInstanceId: Swift.String? = nil,
             encryptionConfig: ConnectCampaignsClientTypes.EncryptionConfig? = nil,
             serviceLinkedRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectInstanceId = connectInstanceId
             self.encryptionConfig = encryptionConfig
             self.serviceLinkedRoleArn = serviceLinkedRoleArn
@@ -885,8 +855,7 @@ public struct GetConnectInstanceConfigOutput: Swift.Sendable {
 
     public init(
         connectInstanceConfig: ConnectCampaignsClientTypes.InstanceConfig? = nil
-    )
-    {
+    ) {
         self.connectInstanceConfig = connectInstanceConfig
     }
 }
@@ -899,8 +868,7 @@ public struct GetInstanceOnboardingJobStatusInput: Swift.Sendable {
 
     public init(
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
     }
 }
@@ -997,8 +965,7 @@ extension ConnectCampaignsClientTypes {
             connectInstanceId: Swift.String? = nil,
             failureCode: ConnectCampaignsClientTypes.InstanceOnboardingJobFailureCode? = nil,
             status: ConnectCampaignsClientTypes.InstanceOnboardingJobStatusCode? = nil
-        )
-        {
+        ) {
             self.connectInstanceId = connectInstanceId
             self.failureCode = failureCode
             self.status = status
@@ -1013,8 +980,7 @@ public struct GetInstanceOnboardingJobStatusOutput: Swift.Sendable {
 
     public init(
         connectInstanceOnboardingJobStatus: ConnectCampaignsClientTypes.InstanceOnboardingJobStatus? = nil
-    )
-    {
+    ) {
         self.connectInstanceOnboardingJobStatus = connectInstanceOnboardingJobStatus
     }
 }
@@ -1061,8 +1027,7 @@ extension ConnectCampaignsClientTypes {
         public init(
             `operator`: ConnectCampaignsClientTypes.InstanceIdFilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.value = value
         }
@@ -1078,8 +1043,7 @@ extension ConnectCampaignsClientTypes {
 
         public init(
             instanceIdFilter: ConnectCampaignsClientTypes.InstanceIdFilter? = nil
-        )
-        {
+        ) {
             self.instanceIdFilter = instanceIdFilter
         }
     }
@@ -1098,8 +1062,7 @@ public struct ListCampaignsInput: Swift.Sendable {
         filters: ConnectCampaignsClientTypes.CampaignFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1128,8 +1091,7 @@ extension ConnectCampaignsClientTypes {
             connectInstanceId: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectInstanceId = connectInstanceId
             self.id = id
@@ -1148,8 +1110,7 @@ public struct ListCampaignsOutput: Swift.Sendable {
     public init(
         campaignSummaryList: [ConnectCampaignsClientTypes.CampaignSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignSummaryList = campaignSummaryList
         self.nextToken = nextToken
     }
@@ -1163,8 +1124,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1176,8 +1136,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1208,8 +1167,7 @@ public struct InvalidCampaignStateException: ClientRuntime.ModeledError, AWSClie
         message: Swift.String? = nil,
         state: ConnectCampaignsClientTypes.CampaignState? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.state = state
         self.properties.xAmzErrorType = xAmzErrorType
@@ -1224,8 +1182,7 @@ public struct PauseCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1252,8 +1209,7 @@ extension ConnectCampaignsClientTypes {
             clientToken: Swift.String? = nil,
             expirationTime: Foundation.Date? = nil,
             phoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.clientToken = clientToken
             self.expirationTime = expirationTime
@@ -1279,8 +1235,7 @@ public struct PutDialRequestBatchInput: Swift.Sendable {
     public init(
         dialRequests: [ConnectCampaignsClientTypes.DialRequest]? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.dialRequests = dialRequests
         self.id = id
     }
@@ -1337,8 +1292,7 @@ extension ConnectCampaignsClientTypes {
             clientToken: Swift.String? = nil,
             failureCode: ConnectCampaignsClientTypes.FailureCode? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientToken = clientToken
             self.failureCode = failureCode
             self.id = id
@@ -1358,8 +1312,7 @@ extension ConnectCampaignsClientTypes {
         public init(
             clientToken: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientToken = clientToken
             self.id = id
         }
@@ -1376,8 +1329,7 @@ public struct PutDialRequestBatchOutput: Swift.Sendable {
     public init(
         failedRequests: [ConnectCampaignsClientTypes.FailedRequest]? = nil,
         successfulRequests: [ConnectCampaignsClientTypes.SuccessfulRequest]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
         self.successfulRequests = successfulRequests
     }
@@ -1391,8 +1343,7 @@ public struct ResumeCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1405,8 +1356,7 @@ public struct StartCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1423,8 +1373,7 @@ public struct StartInstanceOnboardingJobInput: Swift.Sendable {
     public init(
         connectInstanceId: Swift.String? = nil,
         encryptionConfig: ConnectCampaignsClientTypes.EncryptionConfig? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
         self.encryptionConfig = encryptionConfig
     }
@@ -1437,8 +1386,7 @@ public struct StartInstanceOnboardingJobOutput: Swift.Sendable {
 
     public init(
         connectInstanceOnboardingJobStatus: ConnectCampaignsClientTypes.InstanceOnboardingJobStatus? = nil
-    )
-    {
+    ) {
         self.connectInstanceOnboardingJobStatus = connectInstanceOnboardingJobStatus
     }
 }
@@ -1451,8 +1399,7 @@ public struct StopCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1469,8 +1416,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -1488,8 +1434,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -1507,8 +1452,7 @@ public struct UpdateCampaignDialerConfigInput: Swift.Sendable {
     public init(
         dialerConfig: ConnectCampaignsClientTypes.DialerConfig? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.dialerConfig = dialerConfig
         self.id = id
     }
@@ -1526,8 +1470,7 @@ public struct UpdateCampaignNameInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
     }
@@ -1550,8 +1493,7 @@ public struct UpdateCampaignOutboundCallConfigInput: Swift.Sendable {
         connectContactFlowId: Swift.String? = nil,
         connectSourcePhoneNumber: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.answerMachineDetectionConfig = answerMachineDetectionConfig
         self.connectContactFlowId = connectContactFlowId
         self.connectSourcePhoneNumber = connectSourcePhoneNumber

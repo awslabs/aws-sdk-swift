@@ -41,8 +41,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -65,8 +64,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -89,8 +87,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -113,8 +110,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +133,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -163,8 +158,7 @@ public struct QueryForecastInput: Swift.Sendable {
         forecastArn: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         startDate: Swift.String? = nil
-    )
-    {
+    ) {
         self.endDate = endDate
         self.filters = filters
         self.forecastArn = forecastArn
@@ -185,8 +179,7 @@ extension ForecastqueryClientTypes {
         public init(
             timestamp: Swift.String? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.timestamp = timestamp
             self.value = value
         }
@@ -211,8 +204,7 @@ extension ForecastqueryClientTypes {
 
         public init(
             predictions: [Swift.String: [ForecastqueryClientTypes.DataPoint]]? = nil
-        )
-        {
+        ) {
             self.predictions = predictions
         }
     }
@@ -224,8 +216,7 @@ public struct QueryForecastOutput: Swift.Sendable {
 
     public init(
         forecast: ForecastqueryClientTypes.Forecast? = nil
-    )
-    {
+    ) {
         self.forecast = forecast
     }
 }
@@ -250,8 +241,7 @@ public struct QueryWhatIfForecastInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         startDate: Swift.String? = nil,
         whatIfForecastArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endDate = endDate
         self.filters = filters
         self.nextToken = nextToken
@@ -266,8 +256,7 @@ public struct QueryWhatIfForecastOutput: Swift.Sendable {
 
     public init(
         forecast: ForecastqueryClientTypes.Forecast? = nil
-    )
-    {
+    ) {
         self.forecast = forecast
     }
 }

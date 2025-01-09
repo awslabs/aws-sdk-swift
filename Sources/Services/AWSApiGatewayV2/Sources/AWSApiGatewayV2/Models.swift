@@ -139,8 +139,7 @@ extension ApiGatewayV2ClientTypes {
             allowOrigins: [Swift.String]? = nil,
             exposeHeaders: [Swift.String]? = nil,
             maxAge: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowCredentials = allowCredentials
             self.allowHeaders = allowHeaders
             self.allowMethods = allowMethods
@@ -238,8 +237,7 @@ extension ApiGatewayV2ClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             version: Swift.String? = nil,
             warnings: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -280,8 +278,7 @@ extension ApiGatewayV2ClientTypes {
             apiMappingId: Swift.String? = nil,
             apiMappingKey: Swift.String? = nil,
             stage: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
             self.apiMappingKey = apiMappingKey
@@ -332,8 +329,7 @@ extension ApiGatewayV2ClientTypes {
         public init(
             audience: [Swift.String]? = nil,
             issuer: Swift.String? = nil
-        )
-        {
+        ) {
             self.audience = audience
             self.issuer = issuer
         }
@@ -380,8 +376,7 @@ extension ApiGatewayV2ClientTypes {
             identityValidationExpression: Swift.String? = nil,
             jwtConfiguration: ApiGatewayV2ClientTypes.JWTConfiguration? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
             self.authorizerPayloadFormatVersion = authorizerPayloadFormatVersion
@@ -454,8 +449,7 @@ extension ApiGatewayV2ClientTypes {
             deploymentStatus: ApiGatewayV2ClientTypes.DeploymentStatus? = nil,
             deploymentStatusMessage: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoDeployed = autoDeployed
             self.createdDate = createdDate
             self.deploymentId = deploymentId
@@ -598,8 +592,7 @@ extension ApiGatewayV2ClientTypes {
             hostedZoneId: Swift.String? = nil,
             ownershipVerificationCertificateArn: Swift.String? = nil,
             securityPolicy: ApiGatewayV2ClientTypes.SecurityPolicy? = nil
-        )
-        {
+        ) {
             self.apiGatewayDomainName = apiGatewayDomainName
             self.certificateArn = certificateArn
             self.certificateName = certificateName
@@ -628,8 +621,7 @@ extension ApiGatewayV2ClientTypes {
             truststoreUri: Swift.String? = nil,
             truststoreVersion: Swift.String? = nil,
             truststoreWarnings: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.truststoreUri = truststoreUri
             self.truststoreVersion = truststoreVersion
             self.truststoreWarnings = truststoreWarnings
@@ -659,8 +651,7 @@ extension ApiGatewayV2ClientTypes {
             domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
             mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
@@ -811,8 +802,7 @@ extension ApiGatewayV2ClientTypes {
 
         public init(
             serverNameToVerify: Swift.String? = nil
-        )
-        {
+        ) {
             self.serverNameToVerify = serverNameToVerify
         }
     }
@@ -884,8 +874,7 @@ extension ApiGatewayV2ClientTypes {
             templateSelectionExpression: Swift.String? = nil,
             timeoutInMillis: Swift.Int? = nil,
             tlsConfig: ApiGatewayV2ClientTypes.TlsConfig? = nil
-        )
-        {
+        ) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -935,8 +924,7 @@ extension ApiGatewayV2ClientTypes {
             responseParameters: [Swift.String: Swift.String]? = nil,
             responseTemplates: [Swift.String: Swift.String]? = nil,
             templateSelectionExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseId = integrationResponseId
             self.integrationResponseKey = integrationResponseKey
@@ -969,8 +957,7 @@ extension ApiGatewayV2ClientTypes {
             modelId: Swift.String? = nil,
             name: Swift.String? = nil,
             schema: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.description = description
             self.modelId = modelId
@@ -1025,8 +1012,7 @@ extension ApiGatewayV2ClientTypes {
 
         public init(
             `required`: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.`required` = `required`
         }
     }
@@ -1078,8 +1064,7 @@ extension ApiGatewayV2ClientTypes {
             routeKey: Swift.String? = nil,
             routeResponseSelectionExpression: Swift.String? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiGatewayManaged = apiGatewayManaged
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
@@ -1119,8 +1104,7 @@ extension ApiGatewayV2ClientTypes {
             responseParameters: [Swift.String: ApiGatewayV2ClientTypes.ParameterConstraints]? = nil,
             routeResponseId: Swift.String? = nil,
             routeResponseKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
             self.responseParameters = responseParameters
@@ -1142,8 +1126,7 @@ extension ApiGatewayV2ClientTypes {
         public init(
             destinationArn: Swift.String? = nil,
             format: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationArn = destinationArn
             self.format = format
         }
@@ -1204,8 +1187,7 @@ extension ApiGatewayV2ClientTypes {
             loggingLevel: ApiGatewayV2ClientTypes.LoggingLevel? = nil,
             throttlingBurstLimit: Swift.Int? = nil,
             throttlingRateLimit: Swift.Double? = nil
-        )
-        {
+        ) {
             self.dataTraceEnabled = dataTraceEnabled
             self.detailedMetricsEnabled = detailedMetricsEnabled
             self.loggingLevel = loggingLevel
@@ -1264,8 +1246,7 @@ extension ApiGatewayV2ClientTypes {
             stageName: Swift.String? = nil,
             stageVariables: [Swift.String: Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
             self.autoDeploy = autoDeploy
@@ -1387,8 +1368,7 @@ extension ApiGatewayV2ClientTypes {
             vpcLinkStatus: ApiGatewayV2ClientTypes.VpcLinkStatus? = nil,
             vpcLinkStatusMessage: Swift.String? = nil,
             vpcLinkVersion: ApiGatewayV2ClientTypes.VpcLinkVersion? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.name = name
             self.securityGroupIds = securityGroupIds
@@ -1419,8 +1399,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1444,8 +1423,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1469,8 +1447,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1497,8 +1474,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
@@ -1526,8 +1502,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         limitType: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.limitType = limitType
         self.properties.message = message
     }
@@ -1578,8 +1553,7 @@ public struct CreateApiInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         target: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKeySelectionExpression = apiKeySelectionExpression
         self.corsConfiguration = corsConfiguration
         self.credentialsArn = credentialsArn
@@ -1647,8 +1621,7 @@ public struct CreateApiOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiEndpoint = apiEndpoint
         self.apiGatewayManaged = apiGatewayManaged
         self.apiId = apiId
@@ -1687,8 +1660,7 @@ public struct CreateApiMappingInput: Swift.Sendable {
         apiMappingKey: Swift.String? = nil,
         domainName: Swift.String? = nil,
         stage: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.apiMappingKey = apiMappingKey
         self.domainName = domainName
@@ -1711,8 +1683,7 @@ public struct CreateApiMappingOutput: Swift.Sendable {
         apiMappingId: Swift.String? = nil,
         apiMappingKey: Swift.String? = nil,
         stage: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.apiMappingId = apiMappingId
         self.apiMappingKey = apiMappingKey
@@ -1761,8 +1732,7 @@ public struct CreateAuthorizerInput: Swift.Sendable {
         identityValidationExpression: Swift.String? = nil,
         jwtConfiguration: ApiGatewayV2ClientTypes.JWTConfiguration? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.authorizerCredentialsArn = authorizerCredentialsArn
         self.authorizerPayloadFormatVersion = authorizerPayloadFormatVersion
@@ -1813,8 +1783,7 @@ public struct CreateAuthorizerOutput: Swift.Sendable {
         identityValidationExpression: Swift.String? = nil,
         jwtConfiguration: ApiGatewayV2ClientTypes.JWTConfiguration? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerCredentialsArn = authorizerCredentialsArn
         self.authorizerId = authorizerId
         self.authorizerPayloadFormatVersion = authorizerPayloadFormatVersion
@@ -1843,8 +1812,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         description: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.description = description
         self.stageName = stageName
@@ -1872,8 +1840,7 @@ public struct CreateDeploymentOutput: Swift.Sendable {
         deploymentStatus: ApiGatewayV2ClientTypes.DeploymentStatus? = nil,
         deploymentStatusMessage: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoDeployed = autoDeployed
         self.createdDate = createdDate
         self.deploymentId = deploymentId
@@ -1894,8 +1861,7 @@ extension ApiGatewayV2ClientTypes {
         public init(
             truststoreUri: Swift.String? = nil,
             truststoreVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.truststoreUri = truststoreUri
             self.truststoreVersion = truststoreVersion
         }
@@ -1919,8 +1885,7 @@ public struct CreateDomainNameInput: Swift.Sendable {
         domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
         mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.domainNameConfigurations = domainNameConfigurations
         self.mutualTlsAuthentication = mutualTlsAuthentication
@@ -1946,8 +1911,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
         domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
         mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiMappingSelectionExpression = apiMappingSelectionExpression
         self.domainName = domainName
         self.domainNameConfigurations = domainNameConfigurations
@@ -1965,8 +1929,7 @@ extension ApiGatewayV2ClientTypes {
 
         public init(
             serverNameToVerify: Swift.String? = nil
-        )
-        {
+        ) {
             self.serverNameToVerify = serverNameToVerify
         }
     }
@@ -2032,8 +1995,7 @@ public struct CreateIntegrationInput: Swift.Sendable {
         templateSelectionExpression: Swift.String? = nil,
         timeoutInMillis: Swift.Int? = nil,
         tlsConfig: ApiGatewayV2ClientTypes.TlsConfigInput? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.connectionId = connectionId
         self.connectionType = connectionType
@@ -2118,8 +2080,7 @@ public struct CreateIntegrationOutput: Swift.Sendable {
         templateSelectionExpression: Swift.String? = nil,
         timeoutInMillis: Swift.Int? = nil,
         tlsConfig: ApiGatewayV2ClientTypes.TlsConfig? = nil
-    )
-    {
+    ) {
         self.apiGatewayManaged = apiGatewayManaged
         self.connectionId = connectionId
         self.connectionType = connectionType
@@ -2171,8 +2132,7 @@ public struct CreateIntegrationResponseInput: Swift.Sendable {
         responseParameters: [Swift.String: Swift.String]? = nil,
         responseTemplates: [Swift.String: Swift.String]? = nil,
         templateSelectionExpression: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.contentHandlingStrategy = contentHandlingStrategy
         self.integrationId = integrationId
@@ -2204,8 +2164,7 @@ public struct CreateIntegrationResponseOutput: Swift.Sendable {
         responseParameters: [Swift.String: Swift.String]? = nil,
         responseTemplates: [Swift.String: Swift.String]? = nil,
         templateSelectionExpression: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentHandlingStrategy = contentHandlingStrategy
         self.integrationResponseId = integrationResponseId
         self.integrationResponseKey = integrationResponseKey
@@ -2237,8 +2196,7 @@ public struct CreateModelInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.contentType = contentType
         self.description = description
@@ -2265,8 +2223,7 @@ public struct CreateModelOutput: Swift.Sendable {
         modelId: Swift.String? = nil,
         name: Swift.String? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.description = description
         self.modelId = modelId
@@ -2317,8 +2274,7 @@ public struct CreateRouteInput: Swift.Sendable {
         routeKey: Swift.String? = nil,
         routeResponseSelectionExpression: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.apiKeyRequired = apiKeyRequired
         self.authorizationScopes = authorizationScopes
@@ -2376,8 +2332,7 @@ public struct CreateRouteOutput: Swift.Sendable {
         routeKey: Swift.String? = nil,
         routeResponseSelectionExpression: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiGatewayManaged = apiGatewayManaged
         self.apiKeyRequired = apiKeyRequired
         self.authorizationScopes = authorizationScopes
@@ -2419,8 +2374,7 @@ public struct CreateRouteResponseInput: Swift.Sendable {
         responseParameters: [Swift.String: ApiGatewayV2ClientTypes.ParameterConstraints]? = nil,
         routeId: Swift.String? = nil,
         routeResponseKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.modelSelectionExpression = modelSelectionExpression
         self.responseModels = responseModels
@@ -2448,8 +2402,7 @@ public struct CreateRouteResponseOutput: Swift.Sendable {
         responseParameters: [Swift.String: ApiGatewayV2ClientTypes.ParameterConstraints]? = nil,
         routeResponseId: Swift.String? = nil,
         routeResponseKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelSelectionExpression = modelSelectionExpression
         self.responseModels = responseModels
         self.responseParameters = responseParameters
@@ -2497,8 +2450,7 @@ public struct CreateStageInput: Swift.Sendable {
         stageName: Swift.String? = nil,
         stageVariables: [Swift.String: Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessLogSettings = accessLogSettings
         self.apiId = apiId
         self.autoDeploy = autoDeploy
@@ -2558,8 +2510,7 @@ public struct CreateStageOutput: Swift.Sendable {
         stageName: Swift.String? = nil,
         stageVariables: [Swift.String: Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessLogSettings = accessLogSettings
         self.apiGatewayManaged = apiGatewayManaged
         self.autoDeploy = autoDeploy
@@ -2595,8 +2546,7 @@ public struct CreateVpcLinkInput: Swift.Sendable {
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
@@ -2634,8 +2584,7 @@ public struct CreateVpcLinkOutput: Swift.Sendable {
         vpcLinkStatus: ApiGatewayV2ClientTypes.VpcLinkStatus? = nil,
         vpcLinkStatusMessage: Swift.String? = nil,
         vpcLinkVersion: ApiGatewayV2ClientTypes.VpcLinkVersion? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.name = name
         self.securityGroupIds = securityGroupIds
@@ -2659,8 +2608,7 @@ public struct DeleteAccessLogSettingsInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.stageName = stageName
     }
@@ -2673,8 +2621,7 @@ public struct DeleteApiInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -2690,8 +2637,7 @@ public struct DeleteApiMappingInput: Swift.Sendable {
     public init(
         apiMappingId: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiMappingId = apiMappingId
         self.domainName = domainName
     }
@@ -2708,8 +2654,7 @@ public struct DeleteAuthorizerInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         authorizerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.authorizerId = authorizerId
     }
@@ -2722,8 +2667,7 @@ public struct DeleteCorsConfigurationInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -2739,8 +2683,7 @@ public struct DeleteDeploymentInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.deploymentId = deploymentId
     }
@@ -2753,8 +2696,7 @@ public struct DeleteDomainNameInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -2770,8 +2712,7 @@ public struct DeleteIntegrationInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         integrationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.integrationId = integrationId
     }
@@ -2792,8 +2733,7 @@ public struct DeleteIntegrationResponseInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         integrationId: Swift.String? = nil,
         integrationResponseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.integrationId = integrationId
         self.integrationResponseId = integrationResponseId
@@ -2811,8 +2751,7 @@ public struct DeleteModelInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         modelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.modelId = modelId
     }
@@ -2829,8 +2768,7 @@ public struct DeleteRouteInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         routeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.routeId = routeId
     }
@@ -2851,8 +2789,7 @@ public struct DeleteRouteRequestParameterInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         requestParameterKey: Swift.String? = nil,
         routeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.requestParameterKey = requestParameterKey
         self.routeId = routeId
@@ -2874,8 +2811,7 @@ public struct DeleteRouteResponseInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         routeId: Swift.String? = nil,
         routeResponseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.routeId = routeId
         self.routeResponseId = routeResponseId
@@ -2897,8 +2833,7 @@ public struct DeleteRouteSettingsInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         routeKey: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.routeKey = routeKey
         self.stageName = stageName
@@ -2916,8 +2851,7 @@ public struct DeleteStageInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.stageName = stageName
     }
@@ -2930,8 +2864,7 @@ public struct DeleteVpcLinkInput: Swift.Sendable {
 
     public init(
         vpcLinkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.vpcLinkId = vpcLinkId
     }
 }
@@ -2965,8 +2898,7 @@ public struct ExportApiInput: Swift.Sendable {
         outputType: Swift.String? = nil,
         specification: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.exportVersion = exportVersion
         self.includeExtensions = includeExtensions
@@ -2982,8 +2914,7 @@ public struct ExportApiOutput: Swift.Sendable {
 
     public init(
         body: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.body = body
     }
 }
@@ -2995,8 +2926,7 @@ public struct GetApiInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -3052,8 +2982,7 @@ public struct GetApiOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiEndpoint = apiEndpoint
         self.apiGatewayManaged = apiGatewayManaged
         self.apiId = apiId
@@ -3084,8 +3013,7 @@ public struct GetApiMappingInput: Swift.Sendable {
     public init(
         apiMappingId: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiMappingId = apiMappingId
         self.domainName = domainName
     }
@@ -3106,8 +3034,7 @@ public struct GetApiMappingOutput: Swift.Sendable {
         apiMappingId: Swift.String? = nil,
         apiMappingKey: Swift.String? = nil,
         stage: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.apiMappingId = apiMappingId
         self.apiMappingKey = apiMappingKey
@@ -3128,8 +3055,7 @@ public struct GetApiMappingsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3145,8 +3071,7 @@ public struct GetApiMappingsOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.ApiMapping]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3161,8 +3086,7 @@ public struct GetApisInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3177,8 +3101,7 @@ public struct GetApisOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.Api]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3195,8 +3118,7 @@ public struct GetAuthorizerInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         authorizerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.authorizerId = authorizerId
     }
@@ -3238,8 +3160,7 @@ public struct GetAuthorizerOutput: Swift.Sendable {
         identityValidationExpression: Swift.String? = nil,
         jwtConfiguration: ApiGatewayV2ClientTypes.JWTConfiguration? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerCredentialsArn = authorizerCredentialsArn
         self.authorizerId = authorizerId
         self.authorizerPayloadFormatVersion = authorizerPayloadFormatVersion
@@ -3267,8 +3188,7 @@ public struct GetAuthorizersInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3284,8 +3204,7 @@ public struct GetAuthorizersOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.Authorizer]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3302,8 +3221,7 @@ public struct GetDeploymentInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.deploymentId = deploymentId
     }
@@ -3330,8 +3248,7 @@ public struct GetDeploymentOutput: Swift.Sendable {
         deploymentStatus: ApiGatewayV2ClientTypes.DeploymentStatus? = nil,
         deploymentStatusMessage: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoDeployed = autoDeployed
         self.createdDate = createdDate
         self.deploymentId = deploymentId
@@ -3354,8 +3271,7 @@ public struct GetDeploymentsInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3371,8 +3287,7 @@ public struct GetDeploymentsOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.Deployment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3385,8 +3300,7 @@ public struct GetDomainNameInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -3409,8 +3323,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
         domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
         mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiMappingSelectionExpression = apiMappingSelectionExpression
         self.domainName = domainName
         self.domainNameConfigurations = domainNameConfigurations
@@ -3428,8 +3341,7 @@ public struct GetDomainNamesInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3444,8 +3356,7 @@ public struct GetDomainNamesOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.DomainName]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3462,8 +3373,7 @@ public struct GetIntegrationInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         integrationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.integrationId = integrationId
     }
@@ -3532,8 +3442,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         templateSelectionExpression: Swift.String? = nil,
         timeoutInMillis: Swift.Int? = nil,
         tlsConfig: ApiGatewayV2ClientTypes.TlsConfig? = nil
-    )
-    {
+    ) {
         self.apiGatewayManaged = apiGatewayManaged
         self.connectionId = connectionId
         self.connectionType = connectionType
@@ -3572,8 +3481,7 @@ public struct GetIntegrationResponseInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         integrationId: Swift.String? = nil,
         integrationResponseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.integrationId = integrationId
         self.integrationResponseId = integrationResponseId
@@ -3601,8 +3509,7 @@ public struct GetIntegrationResponseOutput: Swift.Sendable {
         responseParameters: [Swift.String: Swift.String]? = nil,
         responseTemplates: [Swift.String: Swift.String]? = nil,
         templateSelectionExpression: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentHandlingStrategy = contentHandlingStrategy
         self.integrationResponseId = integrationResponseId
         self.integrationResponseKey = integrationResponseKey
@@ -3629,8 +3536,7 @@ public struct GetIntegrationResponsesInput: Swift.Sendable {
         integrationId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.integrationId = integrationId
         self.maxResults = maxResults
@@ -3647,8 +3553,7 @@ public struct GetIntegrationResponsesOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.IntegrationResponse]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3667,8 +3572,7 @@ public struct GetIntegrationsInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3684,8 +3588,7 @@ public struct GetIntegrationsOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.Integration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3702,8 +3605,7 @@ public struct GetModelInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         modelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.modelId = modelId
     }
@@ -3727,8 +3629,7 @@ public struct GetModelOutput: Swift.Sendable {
         modelId: Swift.String? = nil,
         name: Swift.String? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.description = description
         self.modelId = modelId
@@ -3750,8 +3651,7 @@ public struct GetModelsInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3767,8 +3667,7 @@ public struct GetModelsOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.Model]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3785,8 +3684,7 @@ public struct GetModelTemplateInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         modelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.modelId = modelId
     }
@@ -3798,8 +3696,7 @@ public struct GetModelTemplateOutput: Swift.Sendable {
 
     public init(
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.value = value
     }
 }
@@ -3815,8 +3712,7 @@ public struct GetRouteInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         routeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.routeId = routeId
     }
@@ -3864,8 +3760,7 @@ public struct GetRouteOutput: Swift.Sendable {
         routeKey: Swift.String? = nil,
         routeResponseSelectionExpression: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiGatewayManaged = apiGatewayManaged
         self.apiKeyRequired = apiKeyRequired
         self.authorizationScopes = authorizationScopes
@@ -3897,8 +3792,7 @@ public struct GetRouteResponseInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         routeId: Swift.String? = nil,
         routeResponseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.routeId = routeId
         self.routeResponseId = routeResponseId
@@ -3923,8 +3817,7 @@ public struct GetRouteResponseOutput: Swift.Sendable {
         responseParameters: [Swift.String: ApiGatewayV2ClientTypes.ParameterConstraints]? = nil,
         routeResponseId: Swift.String? = nil,
         routeResponseKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelSelectionExpression = modelSelectionExpression
         self.responseModels = responseModels
         self.responseParameters = responseParameters
@@ -3950,8 +3843,7 @@ public struct GetRouteResponsesInput: Swift.Sendable {
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         routeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3968,8 +3860,7 @@ public struct GetRouteResponsesOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.RouteResponse]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3988,8 +3879,7 @@ public struct GetRoutesInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4005,8 +3895,7 @@ public struct GetRoutesOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.Route]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4023,8 +3912,7 @@ public struct GetStageInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.stageName = stageName
     }
@@ -4075,8 +3963,7 @@ public struct GetStageOutput: Swift.Sendable {
         stageName: Swift.String? = nil,
         stageVariables: [Swift.String: Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessLogSettings = accessLogSettings
         self.apiGatewayManaged = apiGatewayManaged
         self.autoDeploy = autoDeploy
@@ -4107,8 +3994,7 @@ public struct GetStagesInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4124,8 +4010,7 @@ public struct GetStagesOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.Stage]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4138,8 +4023,7 @@ public struct GetTagsInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4150,8 +4034,7 @@ public struct GetTagsOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4163,8 +4046,7 @@ public struct GetVpcLinkInput: Swift.Sendable {
 
     public init(
         vpcLinkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.vpcLinkId = vpcLinkId
     }
 }
@@ -4199,8 +4081,7 @@ public struct GetVpcLinkOutput: Swift.Sendable {
         vpcLinkStatus: ApiGatewayV2ClientTypes.VpcLinkStatus? = nil,
         vpcLinkStatusMessage: Swift.String? = nil,
         vpcLinkVersion: ApiGatewayV2ClientTypes.VpcLinkVersion? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.name = name
         self.securityGroupIds = securityGroupIds
@@ -4222,8 +4103,7 @@ public struct GetVpcLinksInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4238,8 +4118,7 @@ public struct GetVpcLinksOutput: Swift.Sendable {
     public init(
         items: [ApiGatewayV2ClientTypes.VpcLink]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4259,8 +4138,7 @@ public struct ImportApiInput: Swift.Sendable {
         basepath: Swift.String? = nil,
         body: Swift.String? = nil,
         failOnWarnings: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.basepath = basepath
         self.body = body
         self.failOnWarnings = failOnWarnings
@@ -4318,8 +4196,7 @@ public struct ImportApiOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiEndpoint = apiEndpoint
         self.apiGatewayManaged = apiGatewayManaged
         self.apiId = apiId
@@ -4357,8 +4234,7 @@ public struct ReimportApiInput: Swift.Sendable {
         basepath: Swift.String? = nil,
         body: Swift.String? = nil,
         failOnWarnings: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.basepath = basepath
         self.body = body
@@ -4417,8 +4293,7 @@ public struct ReimportApiOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiEndpoint = apiEndpoint
         self.apiGatewayManaged = apiGatewayManaged
         self.apiId = apiId
@@ -4449,8 +4324,7 @@ public struct ResetAuthorizersCacheInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.stageName = stageName
     }
@@ -4467,8 +4341,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4490,8 +4363,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4538,8 +4410,7 @@ public struct UpdateApiInput: Swift.Sendable {
         routeSelectionExpression: Swift.String? = nil,
         target: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.apiKeySelectionExpression = apiKeySelectionExpression
         self.corsConfiguration = corsConfiguration
@@ -4606,8 +4477,7 @@ public struct UpdateApiOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiEndpoint = apiEndpoint
         self.apiGatewayManaged = apiGatewayManaged
         self.apiId = apiId
@@ -4649,8 +4519,7 @@ public struct UpdateApiMappingInput: Swift.Sendable {
         apiMappingKey: Swift.String? = nil,
         domainName: Swift.String? = nil,
         stage: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.apiMappingId = apiMappingId
         self.apiMappingKey = apiMappingKey
@@ -4674,8 +4543,7 @@ public struct UpdateApiMappingOutput: Swift.Sendable {
         apiMappingId: Swift.String? = nil,
         apiMappingKey: Swift.String? = nil,
         stage: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.apiMappingId = apiMappingId
         self.apiMappingKey = apiMappingKey
@@ -4725,8 +4593,7 @@ public struct UpdateAuthorizerInput: Swift.Sendable {
         identityValidationExpression: Swift.String? = nil,
         jwtConfiguration: ApiGatewayV2ClientTypes.JWTConfiguration? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.authorizerCredentialsArn = authorizerCredentialsArn
         self.authorizerId = authorizerId
@@ -4778,8 +4645,7 @@ public struct UpdateAuthorizerOutput: Swift.Sendable {
         identityValidationExpression: Swift.String? = nil,
         jwtConfiguration: ApiGatewayV2ClientTypes.JWTConfiguration? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerCredentialsArn = authorizerCredentialsArn
         self.authorizerId = authorizerId
         self.authorizerPayloadFormatVersion = authorizerPayloadFormatVersion
@@ -4809,8 +4675,7 @@ public struct UpdateDeploymentInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         deploymentId: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.deploymentId = deploymentId
         self.description = description
@@ -4838,8 +4703,7 @@ public struct UpdateDeploymentOutput: Swift.Sendable {
         deploymentStatus: ApiGatewayV2ClientTypes.DeploymentStatus? = nil,
         deploymentStatusMessage: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoDeployed = autoDeployed
         self.createdDate = createdDate
         self.deploymentId = deploymentId
@@ -4863,8 +4727,7 @@ public struct UpdateDomainNameInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
         mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.domainNameConfigurations = domainNameConfigurations
         self.mutualTlsAuthentication = mutualTlsAuthentication
@@ -4889,8 +4752,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
         domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
         mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiMappingSelectionExpression = apiMappingSelectionExpression
         self.domainName = domainName
         self.domainNameConfigurations = domainNameConfigurations
@@ -4962,8 +4824,7 @@ public struct UpdateIntegrationInput: Swift.Sendable {
         templateSelectionExpression: Swift.String? = nil,
         timeoutInMillis: Swift.Int? = nil,
         tlsConfig: ApiGatewayV2ClientTypes.TlsConfigInput? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.connectionId = connectionId
         self.connectionType = connectionType
@@ -5049,8 +4910,7 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
         templateSelectionExpression: Swift.String? = nil,
         timeoutInMillis: Swift.Int? = nil,
         tlsConfig: ApiGatewayV2ClientTypes.TlsConfig? = nil
-    )
-    {
+    ) {
         self.apiGatewayManaged = apiGatewayManaged
         self.connectionId = connectionId
         self.connectionType = connectionType
@@ -5105,8 +4965,7 @@ public struct UpdateIntegrationResponseInput: Swift.Sendable {
         responseParameters: [Swift.String: Swift.String]? = nil,
         responseTemplates: [Swift.String: Swift.String]? = nil,
         templateSelectionExpression: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.contentHandlingStrategy = contentHandlingStrategy
         self.integrationId = integrationId
@@ -5139,8 +4998,7 @@ public struct UpdateIntegrationResponseOutput: Swift.Sendable {
         responseParameters: [Swift.String: Swift.String]? = nil,
         responseTemplates: [Swift.String: Swift.String]? = nil,
         templateSelectionExpression: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentHandlingStrategy = contentHandlingStrategy
         self.integrationResponseId = integrationResponseId
         self.integrationResponseKey = integrationResponseKey
@@ -5174,8 +5032,7 @@ public struct UpdateModelInput: Swift.Sendable {
         modelId: Swift.String? = nil,
         name: Swift.String? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.contentType = contentType
         self.description = description
@@ -5203,8 +5060,7 @@ public struct UpdateModelOutput: Swift.Sendable {
         modelId: Swift.String? = nil,
         name: Swift.String? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.description = description
         self.modelId = modelId
@@ -5258,8 +5114,7 @@ public struct UpdateRouteInput: Swift.Sendable {
         routeKey: Swift.String? = nil,
         routeResponseSelectionExpression: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.apiKeyRequired = apiKeyRequired
         self.authorizationScopes = authorizationScopes
@@ -5318,8 +5173,7 @@ public struct UpdateRouteOutput: Swift.Sendable {
         routeKey: Swift.String? = nil,
         routeResponseSelectionExpression: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiGatewayManaged = apiGatewayManaged
         self.apiKeyRequired = apiKeyRequired
         self.authorizationScopes = authorizationScopes
@@ -5364,8 +5218,7 @@ public struct UpdateRouteResponseInput: Swift.Sendable {
         routeId: Swift.String? = nil,
         routeResponseId: Swift.String? = nil,
         routeResponseKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.modelSelectionExpression = modelSelectionExpression
         self.responseModels = responseModels
@@ -5394,8 +5247,7 @@ public struct UpdateRouteResponseOutput: Swift.Sendable {
         responseParameters: [Swift.String: ApiGatewayV2ClientTypes.ParameterConstraints]? = nil,
         routeResponseId: Swift.String? = nil,
         routeResponseKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelSelectionExpression = modelSelectionExpression
         self.responseModels = responseModels
         self.responseParameters = responseParameters
@@ -5440,8 +5292,7 @@ public struct UpdateStageInput: Swift.Sendable {
         routeSettings: [Swift.String: ApiGatewayV2ClientTypes.RouteSettings]? = nil,
         stageName: Swift.String? = nil,
         stageVariables: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessLogSettings = accessLogSettings
         self.apiId = apiId
         self.autoDeploy = autoDeploy
@@ -5500,8 +5351,7 @@ public struct UpdateStageOutput: Swift.Sendable {
         stageName: Swift.String? = nil,
         stageVariables: [Swift.String: Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessLogSettings = accessLogSettings
         self.apiGatewayManaged = apiGatewayManaged
         self.autoDeploy = autoDeploy
@@ -5530,8 +5380,7 @@ public struct UpdateVpcLinkInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         vpcLinkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.vpcLinkId = vpcLinkId
     }
@@ -5567,8 +5416,7 @@ public struct UpdateVpcLinkOutput: Swift.Sendable {
         vpcLinkStatus: ApiGatewayV2ClientTypes.VpcLinkStatus? = nil,
         vpcLinkStatusMessage: Swift.String? = nil,
         vpcLinkVersion: ApiGatewayV2ClientTypes.VpcLinkVersion? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.name = name
         self.securityGroupIds = securityGroupIds

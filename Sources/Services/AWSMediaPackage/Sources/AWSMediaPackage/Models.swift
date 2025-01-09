@@ -120,8 +120,7 @@ extension MediaPackageClientTypes {
 
         public init(
             logGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupName = logGroupName
         }
     }
@@ -145,8 +144,7 @@ extension MediaPackageClientTypes {
             password: Swift.String? = nil,
             url: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.password = password
             self.url = url
@@ -169,8 +167,7 @@ extension MediaPackageClientTypes {
 
         public init(
             ingestEndpoints: [MediaPackageClientTypes.IngestEndpoint]? = nil
-        )
-        {
+        ) {
             self.ingestEndpoints = ingestEndpoints
         }
     }
@@ -185,8 +182,7 @@ extension MediaPackageClientTypes {
 
         public init(
             logGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupName = logGroupName
         }
     }
@@ -222,8 +218,7 @@ extension MediaPackageClientTypes {
             id: Swift.String? = nil,
             ingressAccessLogs: MediaPackageClientTypes.IngressAccessLogs? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -254,8 +249,7 @@ extension MediaPackageClientTypes {
             bucketName: Swift.String? = nil,
             manifestKey: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.manifestKey = manifestKey
             self.roleArn = roleArn
@@ -328,8 +322,7 @@ extension MediaPackageClientTypes {
             s3Destination: MediaPackageClientTypes.S3Destination? = nil,
             startTime: Swift.String? = nil,
             status: MediaPackageClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelId = channelId
             self.createdAt = createdAt
@@ -483,8 +476,7 @@ extension MediaPackageClientTypes {
             playlistWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.adMarkers = adMarkers
             self.adTriggers = adTriggers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
@@ -533,8 +525,7 @@ extension MediaPackageClientTypes {
             playlistType: MediaPackageClientTypes.PlaylistType? = nil,
             playlistWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.adMarkers = adMarkers
             self.adTriggers = adTriggers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
@@ -562,8 +553,7 @@ extension MediaPackageClientTypes {
         public init(
             cdnIdentifierSecret: Swift.String? = nil,
             secretsRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cdnIdentifierSecret = cdnIdentifierSecret
             self.secretsRoleArn = secretsRoleArn
         }
@@ -705,8 +695,7 @@ extension MediaPackageClientTypes {
         public init(
             presetSpeke20Audio: MediaPackageClientTypes.PresetSpeke20Audio? = nil,
             presetSpeke20Video: MediaPackageClientTypes.PresetSpeke20Video? = nil
-        )
-        {
+        ) {
             self.presetSpeke20Audio = presetSpeke20Audio
             self.presetSpeke20Video = presetSpeke20Video
         }
@@ -741,8 +730,7 @@ extension MediaPackageClientTypes {
             roleArn: Swift.String? = nil,
             systemIds: [Swift.String]? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.encryptionContractConfiguration = encryptionContractConfiguration
             self.resourceId = resourceId
@@ -772,8 +760,7 @@ extension MediaPackageClientTypes {
             encryptionMethod: MediaPackageClientTypes.CmafEncryptionMethod? = nil,
             keyRotationIntervalSeconds: Swift.Int? = nil,
             spekeKeyProvider: MediaPackageClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
@@ -829,8 +816,7 @@ extension MediaPackageClientTypes {
             maxVideoBitsPerSecond: Swift.Int? = nil,
             minVideoBitsPerSecond: Swift.Int? = nil,
             streamOrder: MediaPackageClientTypes.StreamOrder? = nil
-        )
-        {
+        ) {
             self.maxVideoBitsPerSecond = maxVideoBitsPerSecond
             self.minVideoBitsPerSecond = minVideoBitsPerSecond
             self.streamOrder = streamOrder
@@ -859,8 +845,7 @@ extension MediaPackageClientTypes {
             segmentDurationSeconds: Swift.Int? = nil,
             segmentPrefix: Swift.String? = nil,
             streamSelection: MediaPackageClientTypes.StreamSelection? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
             self.segmentDurationSeconds = segmentDurationSeconds
@@ -883,8 +868,7 @@ extension MediaPackageClientTypes {
         public init(
             keyRotationIntervalSeconds: Swift.Int? = nil,
             spekeKeyProvider: MediaPackageClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -1079,8 +1063,7 @@ extension MediaPackageClientTypes {
             suggestedPresentationDelaySeconds: Swift.Int? = nil,
             utcTiming: MediaPackageClientTypes.UtcTiming? = nil,
             utcTimingUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.adTriggers = adTriggers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.encryption = encryption
@@ -1152,8 +1135,7 @@ extension MediaPackageClientTypes {
             keyRotationIntervalSeconds: Swift.Int? = nil,
             repeatExtXKey: Swift.Bool? = nil,
             spekeKeyProvider: MediaPackageClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
@@ -1205,8 +1187,7 @@ extension MediaPackageClientTypes {
             segmentDurationSeconds: Swift.Int? = nil,
             streamSelection: MediaPackageClientTypes.StreamSelection? = nil,
             useAudioRenditionGroup: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.adMarkers = adMarkers
             self.adTriggers = adTriggers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
@@ -1233,8 +1214,7 @@ extension MediaPackageClientTypes {
 
         public init(
             spekeKeyProvider: MediaPackageClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.spekeKeyProvider = spekeKeyProvider
         }
     }
@@ -1258,8 +1238,7 @@ extension MediaPackageClientTypes {
             manifestWindowSeconds: Swift.Int? = nil,
             segmentDurationSeconds: Swift.Int? = nil,
             streamSelection: MediaPackageClientTypes.StreamSelection? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.manifestWindowSeconds = manifestWindowSeconds
             self.segmentDurationSeconds = segmentDurationSeconds
@@ -1354,8 +1333,7 @@ extension MediaPackageClientTypes {
             timeDelaySeconds: Swift.Int? = nil,
             url: Swift.String? = nil,
             whitelist: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.authorization = authorization
             self.channelId = channelId
@@ -1398,8 +1376,7 @@ extension MediaPackageClientTypes {
             segmentDurationSeconds: Swift.Int? = nil,
             segmentPrefix: Swift.String? = nil,
             streamSelection: MediaPackageClientTypes.StreamSelection? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
             self.segmentDurationSeconds = segmentDurationSeconds
@@ -1427,8 +1404,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1451,8 +1427,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1475,8 +1450,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1499,8 +1473,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1523,8 +1496,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1547,8 +1519,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1567,8 +1538,7 @@ public struct ConfigureLogsInput: Swift.Sendable {
         egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
         ingressAccessLogs: MediaPackageClientTypes.IngressAccessLogs? = nil
-    )
-    {
+    ) {
         self.egressAccessLogs = egressAccessLogs
         self.id = id
         self.ingressAccessLogs = ingressAccessLogs
@@ -1602,8 +1572,7 @@ public struct ConfigureLogsOutput: Swift.Sendable {
         id: Swift.String? = nil,
         ingressAccessLogs: MediaPackageClientTypes.IngressAccessLogs? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.description = description
@@ -1629,8 +1598,7 @@ public struct CreateChannelInput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.tags = tags
@@ -1664,8 +1632,7 @@ public struct CreateChannelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         ingressAccessLogs: MediaPackageClientTypes.IngressAccessLogs? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.description = description
@@ -1701,8 +1668,7 @@ public struct CreateHarvestJobInput: Swift.Sendable {
         originEndpointId: Swift.String? = nil,
         s3Destination: MediaPackageClientTypes.S3Destination? = nil,
         startTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.id = id
         self.originEndpointId = originEndpointId
@@ -1741,8 +1707,7 @@ public struct CreateHarvestJobOutput: Swift.Sendable {
         s3Destination: MediaPackageClientTypes.S3Destination? = nil,
         startTime: Swift.String? = nil,
         status: MediaPackageClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelId = channelId
         self.createdAt = createdAt
@@ -1803,8 +1768,7 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         timeDelaySeconds: Swift.Int? = nil,
         whitelist: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.authorization = authorization
         self.channelId = channelId
         self.cmafPackage = cmafPackage
@@ -1876,8 +1840,7 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
         timeDelaySeconds: Swift.Int? = nil,
         url: Swift.String? = nil,
         whitelist: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authorization = authorization
         self.channelId = channelId
@@ -1905,8 +1868,7 @@ public struct DeleteChannelInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1923,8 +1885,7 @@ public struct DeleteOriginEndpointInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1941,8 +1902,7 @@ public struct DescribeChannelInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1974,8 +1934,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         ingressAccessLogs: MediaPackageClientTypes.IngressAccessLogs? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.description = description
@@ -1994,8 +1953,7 @@ public struct DescribeHarvestJobInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2030,8 +1988,7 @@ public struct DescribeHarvestJobOutput: Swift.Sendable {
         s3Destination: MediaPackageClientTypes.S3Destination? = nil,
         startTime: Swift.String? = nil,
         status: MediaPackageClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelId = channelId
         self.createdAt = createdAt
@@ -2051,8 +2008,7 @@ public struct DescribeOriginEndpointInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2111,8 +2067,7 @@ public struct DescribeOriginEndpointOutput: Swift.Sendable {
         timeDelaySeconds: Swift.Int? = nil,
         url: Swift.String? = nil,
         whitelist: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authorization = authorization
         self.channelId = channelId
@@ -2142,8 +2097,7 @@ public struct ListChannelsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2158,8 +2112,7 @@ public struct ListChannelsOutput: Swift.Sendable {
     public init(
         channels: [MediaPackageClientTypes.Channel]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.nextToken = nextToken
     }
@@ -2180,8 +2133,7 @@ public struct ListHarvestJobsInput: Swift.Sendable {
         includeStatus: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeChannelId = includeChannelId
         self.includeStatus = includeStatus
         self.maxResults = maxResults
@@ -2198,8 +2150,7 @@ public struct ListHarvestJobsOutput: Swift.Sendable {
     public init(
         harvestJobs: [MediaPackageClientTypes.HarvestJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.harvestJobs = harvestJobs
         self.nextToken = nextToken
     }
@@ -2217,8 +2168,7 @@ public struct ListOriginEndpointsInput: Swift.Sendable {
         channelId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelId = channelId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2234,8 +2184,7 @@ public struct ListOriginEndpointsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         originEndpoints: [MediaPackageClientTypes.OriginEndpoint]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.originEndpoints = originEndpoints
     }
@@ -2247,8 +2196,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2258,8 +2206,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2272,8 +2219,7 @@ public struct RotateChannelCredentialsInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2306,8 +2252,7 @@ public struct RotateChannelCredentialsOutput: Swift.Sendable {
         id: Swift.String? = nil,
         ingressAccessLogs: MediaPackageClientTypes.IngressAccessLogs? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.description = description
@@ -2330,8 +2275,7 @@ public struct RotateIngestEndpointCredentialsInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ingestEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ingestEndpointId = ingestEndpointId
     }
@@ -2364,8 +2308,7 @@ public struct RotateIngestEndpointCredentialsOutput: Swift.Sendable {
         id: Swift.String? = nil,
         ingressAccessLogs: MediaPackageClientTypes.IngressAccessLogs? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.description = description
@@ -2386,8 +2329,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2403,8 +2345,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2421,8 +2362,7 @@ public struct UpdateChannelInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
     }
@@ -2455,8 +2395,7 @@ public struct UpdateChannelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         ingressAccessLogs: MediaPackageClientTypes.IngressAccessLogs? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.description = description
@@ -2509,8 +2448,7 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
         startoverWindowSeconds: Swift.Int? = nil,
         timeDelaySeconds: Swift.Int? = nil,
         whitelist: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.authorization = authorization
         self.cmafPackage = cmafPackage
         self.dashPackage = dashPackage
@@ -2580,8 +2518,7 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         timeDelaySeconds: Swift.Int? = nil,
         url: Swift.String? = nil,
         whitelist: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authorization = authorization
         self.channelId = channelId

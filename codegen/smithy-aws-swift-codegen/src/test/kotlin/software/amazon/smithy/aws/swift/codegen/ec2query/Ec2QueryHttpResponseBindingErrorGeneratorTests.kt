@@ -88,8 +88,7 @@ public struct ComplexError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     public init(
         nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil,
         topLevel: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.nested = nested
         self.properties.topLevel = topLevel
     }
