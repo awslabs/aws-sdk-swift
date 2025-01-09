@@ -10,8 +10,8 @@ import SmithyChecksumsAPI
 
 public class AWSS3TransferManagerConfig {
     var s3ClientConfig: S3Client.S3ClientConfiguration
-    var targetPartSizeBytes: UInt64
-    var multipartUploadThresholdBytes: UInt64
+    var targetPartSizeBytes: Int
+    var multipartUploadThresholdBytes: Int
     var checksumValidationEnabled: Bool
     var checksumAlgorithm: SmithyChecksumsAPI.ChecksumAlgorithm
     var multipartDownloadType: MultipartyDownloadType
@@ -27,8 +27,8 @@ public class AWSS3TransferManagerConfig {
     ///    - multipartDownloadTypes: Specifies the behavior of getObject for multipart download operations. Default value is `.part`, which configures getObject to use part numbers for multipart download. The other option is `.range`, which uses the actual byte range of the S3 object to download. If what you want to download was uploaded without using MPU (therefore there's no part number available), then you must use `.range`.
     public init(
         s3ClientConfig: S3Client.S3ClientConfiguration? = nil,
-        targetPartSizeBytes: UInt64 = 8_000_000,
-        multipartUploadThresholdBytes: UInt64 = 16_000_000,
+        targetPartSizeBytes: Int = 8_000_000,
+        multipartUploadThresholdBytes: Int = 16_000_000,
         checksumValidationEnabled: Bool = true,
         checksumAlgorithm: SmithyChecksumsAPI.ChecksumAlgorithm = .crc32,
         multipartDownloadType: MultipartyDownloadType = .part
