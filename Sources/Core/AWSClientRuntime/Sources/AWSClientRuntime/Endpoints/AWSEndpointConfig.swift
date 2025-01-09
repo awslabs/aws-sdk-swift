@@ -7,6 +7,7 @@
 
 import class Foundation.ProcessInfo
 import struct Foundation.Locale
+import struct Smithy.SwiftLogger
 @_spi(FileBasedConfig) import AWSSDKCommon
 
 public enum AWSEndpointConfig {
@@ -29,15 +30,19 @@ public enum AWSEndpointConfig {
         if disableFlag {
             return nil
         } else {
+            let logger = SwiftLogger(label: "ConfiguredEndpointResolver")
             let removedSpaceID = sdkID.replacingOccurrences(of: " ", with: "_")
             // 1. Environment variable
             let env = ProcessInfo.processInfo.environment
             //  a. Service-specific configured endpoint from `AWS_ENDPOINT_URL_<SERVICE>`
-            if let val = env["AWS_ENDPOINT_URL_\(removedSpaceID.uppercased(with: Locale(identifier: "en_US")))"] {
+            let uppercasedID = removedSpaceID.uppercased(with: Locale(identifier: "en_US"))
+            if let val = env["AWS_ENDPOINT_URL_\(uppercasedID)"] {
+                logger.trace("Resolved configured endpoint from AWS_ENDPOINT_URL_\(uppercasedID): \(val)")
                 return val
             }
             //  b. Global configured endpoint from `AWS_ENDPOINT_URL`
             if let val = env["AWS_ENDPOINT_URL"] {
+                logger.trace("Resolved configured endpoint from AWS_ENDPOINT_URL: \(val)")
                 return val
             }
             // 2. Shared config property
@@ -59,6 +64,7 @@ public enum AWSEndpointConfig {
                     for: FileBasedConfigurationKey(rawValue: removedSpaceID.lowercased(with: Locale(identifier: "en_US")))
                 )
                 if let val = serviceSubsection?.value(for: configuredEndpointKey) {
+                    logger.trace("Resolved configured endpoint from service-specific field in shared config file: \(val)")
                     return val
                 }
             }
@@ -69,9 +75,11 @@ public enum AWSEndpointConfig {
                   endpoint_url = http://localhost:5567
              */
             if let configValue = fileBasedConfig.section(for: profileName)?.string(for: configuredEndpointKey) {
+                logger.trace("Resolved configured endpoint from global field in shared config file: \(configValue)")
                 return configValue
             }
             // 3. Configured endpoint not found anywhere; return nil.
+            logger.trace("No configured endpoint found. Defaulting to SDK logic for resolving endpoint...")
             return nil
         }
     }
