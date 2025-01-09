@@ -52,8 +52,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -167,8 +166,7 @@ extension CodeartifactClientTypes {
             hashes: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.hashes = hashes
             self.name = name
             self.size = size
@@ -278,8 +276,7 @@ extension CodeartifactClientTypes {
             format: CodeartifactClientTypes.PackageFormat? = nil,
             namespace: Swift.String? = nil,
             package: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationType = associationType
             self.format = format
             self.namespace = namespace
@@ -351,8 +348,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: CodeartifactClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -378,8 +374,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -409,8 +404,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: CodeartifactClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -442,8 +436,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: CodeartifactClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -472,8 +465,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -539,8 +531,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: CodeartifactClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -584,8 +575,7 @@ public struct AssociateExternalConnectionInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         externalConnection: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.externalConnection = externalConnection
@@ -650,8 +640,7 @@ extension CodeartifactClientTypes {
             externalConnectionName: Swift.String? = nil,
             packageFormat: CodeartifactClientTypes.PackageFormat? = nil,
             status: CodeartifactClientTypes.ExternalConnectionStatus? = nil
-        )
-        {
+        ) {
             self.externalConnectionName = externalConnectionName
             self.packageFormat = packageFormat
             self.status = status
@@ -668,8 +657,7 @@ extension CodeartifactClientTypes {
 
         public init(
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.repositoryName = repositoryName
         }
     }
@@ -708,8 +696,7 @@ extension CodeartifactClientTypes {
             externalConnections: [CodeartifactClientTypes.RepositoryExternalConnectionInfo]? = nil,
             name: Swift.String? = nil,
             upstreams: [CodeartifactClientTypes.UpstreamRepositoryInfo]? = nil
-        )
-        {
+        ) {
             self.administratorAccount = administratorAccount
             self.arn = arn
             self.createdTime = createdTime
@@ -729,8 +716,7 @@ public struct AssociateExternalConnectionOutput: Swift.Sendable {
 
     public init(
         repository: CodeartifactClientTypes.RepositoryDescription? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }
@@ -793,8 +779,7 @@ public struct CopyPackageVersionsInput: Swift.Sendable {
         sourceRepository: Swift.String? = nil,
         versionRevisions: [Swift.String: Swift.String]? = nil,
         versions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowOverwrite = allowOverwrite
         self.destinationRepository = destinationRepository
         self.domain = domain
@@ -874,8 +859,7 @@ extension CodeartifactClientTypes {
         public init(
             errorCode: CodeartifactClientTypes.PackageVersionErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -935,8 +919,7 @@ extension CodeartifactClientTypes {
         public init(
             revision: Swift.String? = nil,
             status: CodeartifactClientTypes.PackageVersionStatus? = nil
-        )
-        {
+        ) {
             self.revision = revision
             self.status = status
         }
@@ -964,8 +947,7 @@ public struct CopyPackageVersionsOutput: Swift.Sendable {
     public init(
         failedVersions: [Swift.String: CodeartifactClientTypes.PackageVersionError]? = nil,
         successfulVersions: [Swift.String: CodeartifactClientTypes.SuccessfulPackageVersionInfo]? = nil
-    )
-    {
+    ) {
         self.failedVersions = failedVersions
         self.successfulVersions = successfulVersions
     }
@@ -985,8 +967,7 @@ extension CodeartifactClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1006,8 +987,7 @@ public struct CreateDomainInput: Swift.Sendable {
         domain: Swift.String? = nil,
         encryptionKey: Swift.String? = nil,
         tags: [CodeartifactClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.encryptionKey = encryptionKey
         self.tags = tags
@@ -1076,8 +1056,7 @@ extension CodeartifactClientTypes {
             repositoryCount: Swift.Int = 0,
             s3BucketArn: Swift.String? = nil,
             status: CodeartifactClientTypes.DomainStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assetSizeBytes = assetSizeBytes
             self.createdTime = createdTime
@@ -1097,8 +1076,7 @@ public struct CreateDomainOutput: Swift.Sendable {
 
     public init(
         domain: CodeartifactClientTypes.DomainDescription? = nil
-    )
-    {
+    ) {
         self.domain = domain
     }
 }
@@ -1126,8 +1104,7 @@ public struct CreatePackageGroupInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         packageGroup: Swift.String? = nil,
         tags: [CodeartifactClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.contactInfo = contactInfo
         self.description = description
         self.domain = domain
@@ -1216,8 +1193,7 @@ extension CodeartifactClientTypes {
         public init(
             arn: Swift.String? = nil,
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.pattern = pattern
         }
@@ -1242,8 +1218,7 @@ extension CodeartifactClientTypes {
             inheritedFrom: CodeartifactClientTypes.PackageGroupReference? = nil,
             mode: CodeartifactClientTypes.PackageGroupOriginRestrictionMode? = nil,
             repositoriesCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.effectiveMode = effectiveMode
             self.inheritedFrom = inheritedFrom
             self.mode = mode
@@ -1261,8 +1236,7 @@ extension CodeartifactClientTypes {
 
         public init(
             restrictions: [Swift.String: CodeartifactClientTypes.PackageGroupOriginRestriction]? = nil
-        )
-        {
+        ) {
             self.restrictions = restrictions
         }
     }
@@ -1301,8 +1275,7 @@ extension CodeartifactClientTypes {
             originConfiguration: CodeartifactClientTypes.PackageGroupOriginConfiguration? = nil,
             parent: CodeartifactClientTypes.PackageGroupReference? = nil,
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.contactInfo = contactInfo
             self.createdTime = createdTime
@@ -1322,8 +1295,7 @@ public struct CreatePackageGroupOutput: Swift.Sendable {
 
     public init(
         packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
-    )
-    {
+    ) {
         self.packageGroup = packageGroup
     }
 }
@@ -1338,8 +1310,7 @@ extension CodeartifactClientTypes {
 
         public init(
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.repositoryName = repositoryName
         }
     }
@@ -1368,8 +1339,7 @@ public struct CreateRepositoryInput: Swift.Sendable {
         repository: Swift.String? = nil,
         tags: [CodeartifactClientTypes.Tag]? = nil,
         upstreams: [CodeartifactClientTypes.UpstreamRepository]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domain = domain
         self.domainOwner = domainOwner
@@ -1385,8 +1355,7 @@ public struct CreateRepositoryOutput: Swift.Sendable {
 
     public init(
         repository: CodeartifactClientTypes.RepositoryDescription? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }
@@ -1401,8 +1370,7 @@ public struct DeleteDomainInput: Swift.Sendable {
     public init(
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
     }
@@ -1414,8 +1382,7 @@ public struct DeleteDomainOutput: Swift.Sendable {
 
     public init(
         domain: CodeartifactClientTypes.DomainDescription? = nil
-    )
-    {
+    ) {
         self.domain = domain
     }
 }
@@ -1433,8 +1400,7 @@ public struct DeleteDomainPermissionsPolicyInput: Swift.Sendable {
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil,
         policyRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.policyRevision = policyRevision
@@ -1456,8 +1422,7 @@ extension CodeartifactClientTypes {
             document: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             revision: Swift.String? = nil
-        )
-        {
+        ) {
             self.document = document
             self.resourceArn = resourceArn
             self.revision = revision
@@ -1471,8 +1436,7 @@ public struct DeleteDomainPermissionsPolicyOutput: Swift.Sendable {
 
     public init(
         policy: CodeartifactClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1519,8 +1483,7 @@ public struct DeletePackageInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         package: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
@@ -1544,8 +1507,7 @@ extension CodeartifactClientTypes {
         public init(
             publish: CodeartifactClientTypes.AllowPublish? = nil,
             upstream: CodeartifactClientTypes.AllowUpstream? = nil
-        )
-        {
+        ) {
             self.publish = publish
             self.upstream = upstream
         }
@@ -1561,8 +1523,7 @@ extension CodeartifactClientTypes {
 
         public init(
             restrictions: CodeartifactClientTypes.PackageOriginRestrictions? = nil
-        )
-        {
+        ) {
             self.restrictions = restrictions
         }
     }
@@ -1594,8 +1555,7 @@ extension CodeartifactClientTypes {
             namespace: Swift.String? = nil,
             originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration? = nil,
             package: Swift.String? = nil
-        )
-        {
+        ) {
             self.format = format
             self.namespace = namespace
             self.originConfiguration = originConfiguration
@@ -1610,8 +1570,7 @@ public struct DeletePackageOutput: Swift.Sendable {
 
     public init(
         deletedPackage: CodeartifactClientTypes.PackageSummary? = nil
-    )
-    {
+    ) {
         self.deletedPackage = deletedPackage
     }
 }
@@ -1630,8 +1589,7 @@ public struct DeletePackageGroupInput: Swift.Sendable {
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil,
         packageGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.packageGroup = packageGroup
@@ -1644,8 +1602,7 @@ public struct DeletePackageGroupOutput: Swift.Sendable {
 
     public init(
         packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
-    )
-    {
+    ) {
         self.packageGroup = packageGroup
     }
 }
@@ -1699,8 +1656,7 @@ public struct DeletePackageVersionsInput: Swift.Sendable {
         package: Swift.String? = nil,
         repository: Swift.String? = nil,
         versions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.expectedStatus = expectedStatus
@@ -1733,8 +1689,7 @@ public struct DeletePackageVersionsOutput: Swift.Sendable {
     public init(
         failedVersions: [Swift.String: CodeartifactClientTypes.PackageVersionError]? = nil,
         successfulVersions: [Swift.String: CodeartifactClientTypes.SuccessfulPackageVersionInfo]? = nil
-    )
-    {
+    ) {
         self.failedVersions = failedVersions
         self.successfulVersions = successfulVersions
     }
@@ -1754,8 +1709,7 @@ public struct DeleteRepositoryInput: Swift.Sendable {
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.repository = repository
@@ -1768,8 +1722,7 @@ public struct DeleteRepositoryOutput: Swift.Sendable {
 
     public init(
         repository: CodeartifactClientTypes.RepositoryDescription? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }
@@ -1791,8 +1744,7 @@ public struct DeleteRepositoryPermissionsPolicyInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         policyRevision: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.policyRevision = policyRevision
@@ -1806,8 +1758,7 @@ public struct DeleteRepositoryPermissionsPolicyOutput: Swift.Sendable {
 
     public init(
         policy: CodeartifactClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1822,8 +1773,7 @@ public struct DescribeDomainInput: Swift.Sendable {
     public init(
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
     }
@@ -1835,8 +1785,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
 
     public init(
         domain: CodeartifactClientTypes.DomainDescription? = nil
-    )
-    {
+    ) {
         self.domain = domain
     }
 }
@@ -1883,8 +1832,7 @@ public struct DescribePackageInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         package: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
@@ -1920,8 +1868,7 @@ extension CodeartifactClientTypes {
             name: Swift.String? = nil,
             namespace: Swift.String? = nil,
             originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration? = nil
-        )
-        {
+        ) {
             self.format = format
             self.name = name
             self.namespace = namespace
@@ -1937,8 +1884,7 @@ public struct DescribePackageOutput: Swift.Sendable {
 
     public init(
         package: CodeartifactClientTypes.PackageDescription? = nil
-    )
-    {
+    ) {
         self.package = package
     }
 }
@@ -1957,8 +1903,7 @@ public struct DescribePackageGroupInput: Swift.Sendable {
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil,
         packageGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.packageGroup = packageGroup
@@ -1971,8 +1916,7 @@ public struct DescribePackageGroupOutput: Swift.Sendable {
 
     public init(
         packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
-    )
-    {
+    ) {
         self.packageGroup = packageGroup
     }
 }
@@ -2023,8 +1967,7 @@ public struct DescribePackageVersionInput: Swift.Sendable {
         package: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
@@ -2047,8 +1990,7 @@ extension CodeartifactClientTypes {
         public init(
             name: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.url = url
         }
@@ -2067,8 +2009,7 @@ extension CodeartifactClientTypes {
         public init(
             externalConnectionName: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.externalConnectionName = externalConnectionName
             self.repositoryName = repositoryName
         }
@@ -2119,8 +2060,7 @@ extension CodeartifactClientTypes {
         public init(
             domainEntryPoint: CodeartifactClientTypes.DomainEntryPoint? = nil,
             originType: CodeartifactClientTypes.PackageVersionOriginType? = nil
-        )
-        {
+        ) {
             self.domainEntryPoint = domainEntryPoint
             self.originType = originType
         }
@@ -2180,8 +2120,7 @@ extension CodeartifactClientTypes {
             status: CodeartifactClientTypes.PackageVersionStatus? = nil,
             summary: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.format = format
             self.homePage = homePage
@@ -2206,8 +2145,7 @@ public struct DescribePackageVersionOutput: Swift.Sendable {
 
     public init(
         packageVersion: CodeartifactClientTypes.PackageVersionDescription? = nil
-    )
-    {
+    ) {
         self.packageVersion = packageVersion
     }
 }
@@ -2226,8 +2164,7 @@ public struct DescribeRepositoryInput: Swift.Sendable {
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.repository = repository
@@ -2240,8 +2177,7 @@ public struct DescribeRepositoryOutput: Swift.Sendable {
 
     public init(
         repository: CodeartifactClientTypes.RepositoryDescription? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }
@@ -2264,8 +2200,7 @@ public struct DisassociateExternalConnectionInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         externalConnection: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.externalConnection = externalConnection
@@ -2279,8 +2214,7 @@ public struct DisassociateExternalConnectionOutput: Swift.Sendable {
 
     public init(
         repository: CodeartifactClientTypes.RepositoryDescription? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }
@@ -2337,8 +2271,7 @@ public struct DisposePackageVersionsInput: Swift.Sendable {
         repository: Swift.String? = nil,
         versionRevisions: [Swift.String: Swift.String]? = nil,
         versions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.expectedStatus = expectedStatus
@@ -2372,8 +2305,7 @@ public struct DisposePackageVersionsOutput: Swift.Sendable {
     public init(
         failedVersions: [Swift.String: CodeartifactClientTypes.PackageVersionError]? = nil,
         successfulVersions: [Swift.String: CodeartifactClientTypes.SuccessfulPackageVersionInfo]? = nil
-    )
-    {
+    ) {
         self.failedVersions = failedVersions
         self.successfulVersions = successfulVersions
     }
@@ -2417,8 +2349,7 @@ public struct GetAssociatedPackageGroupInput: Swift.Sendable {
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
         package: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
@@ -2436,8 +2367,7 @@ public struct GetAssociatedPackageGroupOutput: Swift.Sendable {
     public init(
         associationType: CodeartifactClientTypes.PackageGroupAssociationType? = nil,
         packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
-    )
-    {
+    ) {
         self.associationType = associationType
         self.packageGroup = packageGroup
     }
@@ -2456,8 +2386,7 @@ public struct GetAuthorizationTokenInput: Swift.Sendable {
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil,
         durationSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.durationSeconds = durationSeconds
@@ -2473,8 +2402,7 @@ public struct GetAuthorizationTokenOutput: Swift.Sendable {
     public init(
         authorizationToken: Swift.String? = nil,
         expiration: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.authorizationToken = authorizationToken
         self.expiration = expiration
     }
@@ -2496,8 +2424,7 @@ public struct GetDomainPermissionsPolicyInput: Swift.Sendable {
     public init(
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
     }
@@ -2509,8 +2436,7 @@ public struct GetDomainPermissionsPolicyOutput: Swift.Sendable {
 
     public init(
         policy: CodeartifactClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -2568,8 +2494,7 @@ public struct GetPackageVersionAssetInput: Swift.Sendable {
         packageVersion: Swift.String? = nil,
         packageVersionRevision: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.asset = asset
         self.domain = domain
         self.domainOwner = domainOwner
@@ -2597,8 +2522,7 @@ public struct GetPackageVersionAssetOutput: Swift.Sendable {
         assetName: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         packageVersionRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.asset = asset
         self.assetName = assetName
         self.packageVersion = packageVersion
@@ -2652,8 +2576,7 @@ public struct GetPackageVersionReadmeInput: Swift.Sendable {
         package: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
@@ -2693,8 +2616,7 @@ public struct GetPackageVersionReadmeOutput: Swift.Sendable {
         readme: Swift.String? = nil,
         version: Swift.String? = nil,
         versionRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.format = format
         self.namespace = namespace
         self.package = package
@@ -2754,8 +2676,7 @@ public struct GetRepositoryEndpointInput: Swift.Sendable {
         endpointType: CodeartifactClientTypes.EndpointType? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.endpointType = endpointType
@@ -2770,8 +2691,7 @@ public struct GetRepositoryEndpointOutput: Swift.Sendable {
 
     public init(
         repositoryEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.repositoryEndpoint = repositoryEndpoint
     }
 }
@@ -2790,8 +2710,7 @@ public struct GetRepositoryPermissionsPolicyInput: Swift.Sendable {
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.repository = repository
@@ -2804,8 +2723,7 @@ public struct GetRepositoryPermissionsPolicyOutput: Swift.Sendable {
 
     public init(
         policy: CodeartifactClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -2834,8 +2752,7 @@ public struct ListAllowedRepositoriesForGroupInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         originRestrictionType: CodeartifactClientTypes.PackageGroupOriginRestrictionType? = nil,
         packageGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.maxResults = maxResults
@@ -2854,8 +2771,7 @@ public struct ListAllowedRepositoriesForGroupOutput: Swift.Sendable {
     public init(
         allowedRepositories: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedRepositories = allowedRepositories
         self.nextToken = nextToken
     }
@@ -2884,8 +2800,7 @@ public struct ListAssociatedPackagesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         packageGroup: Swift.String? = nil,
         preview: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.maxResults = maxResults
@@ -2904,8 +2819,7 @@ public struct ListAssociatedPackagesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packages: [CodeartifactClientTypes.AssociatedPackage]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packages = packages
     }
@@ -2920,8 +2834,7 @@ public struct ListDomainsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2951,8 +2864,7 @@ extension CodeartifactClientTypes {
             name: Swift.String? = nil,
             owner: Swift.String? = nil,
             status: CodeartifactClientTypes.DomainStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.encryptionKey = encryptionKey
@@ -2972,8 +2884,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         domains: [CodeartifactClientTypes.DomainSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domains = domains
         self.nextToken = nextToken
     }
@@ -2998,8 +2909,7 @@ public struct ListPackageGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         `prefix`: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.maxResults = maxResults
@@ -3041,8 +2951,7 @@ extension CodeartifactClientTypes {
             originConfiguration: CodeartifactClientTypes.PackageGroupOriginConfiguration? = nil,
             parent: CodeartifactClientTypes.PackageGroupReference? = nil,
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.contactInfo = contactInfo
             self.createdTime = createdTime
@@ -3065,8 +2974,7 @@ public struct ListPackageGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packageGroups: [CodeartifactClientTypes.PackageGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packageGroups = packageGroups
     }
@@ -3115,8 +3023,7 @@ public struct ListPackagesInput: Swift.Sendable {
         publish: CodeartifactClientTypes.AllowPublish? = nil,
         repository: Swift.String? = nil,
         upstream: CodeartifactClientTypes.AllowUpstream? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
@@ -3139,8 +3046,7 @@ public struct ListPackagesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packages: [CodeartifactClientTypes.PackageSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packages = packages
     }
@@ -3198,8 +3104,7 @@ public struct ListPackageVersionAssetsInput: Swift.Sendable {
         package: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
@@ -3244,8 +3149,7 @@ public struct ListPackageVersionAssetsOutput: Swift.Sendable {
         package: Swift.String? = nil,
         version: Swift.String? = nil,
         versionRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.assets = assets
         self.format = format
         self.namespace = namespace
@@ -3299,8 +3203,7 @@ public struct ListPackageVersionDependenciesInput: Swift.Sendable {
         package: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
@@ -3346,8 +3249,7 @@ extension CodeartifactClientTypes {
             namespace: Swift.String? = nil,
             package: Swift.String? = nil,
             versionRequirement: Swift.String? = nil
-        )
-        {
+        ) {
             self.dependencyType = dependencyType
             self.namespace = namespace
             self.package = package
@@ -3391,8 +3293,7 @@ public struct ListPackageVersionDependenciesOutput: Swift.Sendable {
         package: Swift.String? = nil,
         version: Swift.String? = nil,
         versionRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.dependencies = dependencies
         self.format = format
         self.namespace = namespace
@@ -3486,8 +3387,7 @@ public struct ListPackageVersionsInput: Swift.Sendable {
         repository: Swift.String? = nil,
         sortBy: CodeartifactClientTypes.PackageVersionSortType? = nil,
         status: CodeartifactClientTypes.PackageVersionStatus? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
@@ -3522,8 +3422,7 @@ extension CodeartifactClientTypes {
             revision: Swift.String? = nil,
             status: CodeartifactClientTypes.PackageVersionStatus? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.origin = origin
             self.revision = revision
             self.status = status
@@ -3565,8 +3464,7 @@ public struct ListPackageVersionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         package: Swift.String? = nil,
         versions: [CodeartifactClientTypes.PackageVersionSummary]? = nil
-    )
-    {
+    ) {
         self.defaultDisplayVersion = defaultDisplayVersion
         self.format = format
         self.namespace = namespace
@@ -3588,8 +3486,7 @@ public struct ListRepositoriesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         repositoryPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.repositoryPrefix = repositoryPrefix
@@ -3623,8 +3520,7 @@ extension CodeartifactClientTypes {
             domainName: Swift.String? = nil,
             domainOwner: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.administratorAccount = administratorAccount
             self.arn = arn
             self.createdTime = createdTime
@@ -3645,8 +3541,7 @@ public struct ListRepositoriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         repositories: [CodeartifactClientTypes.RepositorySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositories = repositories
     }
@@ -3674,8 +3569,7 @@ public struct ListRepositoriesInDomainInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         repositoryPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.administratorAccount = administratorAccount
         self.domain = domain
         self.domainOwner = domainOwner
@@ -3694,8 +3588,7 @@ public struct ListRepositoriesInDomainOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         repositories: [CodeartifactClientTypes.RepositorySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositories = repositories
     }
@@ -3721,8 +3614,7 @@ public struct ListSubPackageGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         packageGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.maxResults = maxResults
@@ -3740,8 +3632,7 @@ public struct ListSubPackageGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packageGroups: [CodeartifactClientTypes.PackageGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packageGroups = packageGroups
     }
@@ -3754,8 +3645,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3766,8 +3656,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [CodeartifactClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3816,8 +3705,7 @@ public struct PublishPackageVersionInput: Swift.Sendable {
         packageVersion: Swift.String? = nil,
         repository: Swift.String? = nil,
         unfinished: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.assetContent = assetContent
         self.assetName = assetName
         self.assetSHA256 = assetSHA256
@@ -3856,8 +3744,7 @@ public struct PublishPackageVersionOutput: Swift.Sendable {
         status: CodeartifactClientTypes.PackageVersionStatus? = nil,
         version: Swift.String? = nil,
         versionRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.asset = asset
         self.format = format
         self.namespace = namespace
@@ -3885,8 +3772,7 @@ public struct PutDomainPermissionsPolicyInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         policyDocument: Swift.String? = nil,
         policyRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.policyDocument = policyDocument
@@ -3900,8 +3786,7 @@ public struct PutDomainPermissionsPolicyOutput: Swift.Sendable {
 
     public init(
         policy: CodeartifactClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -3943,8 +3828,7 @@ public struct PutPackageOriginConfigurationInput: Swift.Sendable {
         package: Swift.String? = nil,
         repository: Swift.String? = nil,
         restrictions: CodeartifactClientTypes.PackageOriginRestrictions? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
@@ -3961,8 +3845,7 @@ public struct PutPackageOriginConfigurationOutput: Swift.Sendable {
 
     public init(
         originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration? = nil
-    )
-    {
+    ) {
         self.originConfiguration = originConfiguration
     }
 }
@@ -3988,8 +3871,7 @@ public struct PutRepositoryPermissionsPolicyInput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyRevision: Swift.String? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.policyDocument = policyDocument
@@ -4004,8 +3886,7 @@ public struct PutRepositoryPermissionsPolicyOutput: Swift.Sendable {
 
     public init(
         policy: CodeartifactClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -4021,8 +3902,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [CodeartifactClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4044,8 +3924,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4076,8 +3955,7 @@ public struct UpdatePackageGroupInput: Swift.Sendable {
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil,
         packageGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactInfo = contactInfo
         self.description = description
         self.domain = domain
@@ -4092,8 +3970,7 @@ public struct UpdatePackageGroupOutput: Swift.Sendable {
 
     public init(
         packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
-    )
-    {
+    ) {
         self.packageGroup = packageGroup
     }
 }
@@ -4110,8 +3987,7 @@ extension CodeartifactClientTypes {
         public init(
             originRestrictionType: CodeartifactClientTypes.PackageGroupOriginRestrictionType? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.originRestrictionType = originRestrictionType
             self.repositoryName = repositoryName
         }
@@ -4141,8 +4017,7 @@ public struct UpdatePackageGroupOriginConfigurationInput: Swift.Sendable {
         packageGroup: Swift.String? = nil,
         removeAllowedRepositories: [CodeartifactClientTypes.PackageGroupAllowedRepository]? = nil,
         restrictions: [Swift.String: CodeartifactClientTypes.PackageGroupOriginRestrictionMode]? = nil
-    )
-    {
+    ) {
         self.addAllowedRepositories = addAllowedRepositories
         self.domain = domain
         self.domainOwner = domainOwner
@@ -4190,8 +4065,7 @@ public struct UpdatePackageGroupOriginConfigurationOutput: Swift.Sendable {
     public init(
         allowedRepositoryUpdates: [Swift.String: [Swift.String: [Swift.String]]]? = nil,
         packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
-    )
-    {
+    ) {
         self.allowedRepositoryUpdates = allowedRepositoryUpdates
         self.packageGroup = packageGroup
     }
@@ -4244,8 +4118,7 @@ public struct UpdatePackageVersionsStatusInput: Swift.Sendable {
         targetStatus: CodeartifactClientTypes.PackageVersionStatus? = nil,
         versionRevisions: [Swift.String: Swift.String]? = nil,
         versions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.expectedStatus = expectedStatus
@@ -4268,8 +4141,7 @@ public struct UpdatePackageVersionsStatusOutput: Swift.Sendable {
     public init(
         failedVersions: [Swift.String: CodeartifactClientTypes.PackageVersionError]? = nil,
         successfulVersions: [Swift.String: CodeartifactClientTypes.SuccessfulPackageVersionInfo]? = nil
-    )
-    {
+    ) {
         self.failedVersions = failedVersions
         self.successfulVersions = successfulVersions
     }
@@ -4295,8 +4167,7 @@ public struct UpdateRepositoryInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         repository: Swift.String? = nil,
         upstreams: [CodeartifactClientTypes.UpstreamRepository]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domain = domain
         self.domainOwner = domainOwner
@@ -4311,8 +4182,7 @@ public struct UpdateRepositoryOutput: Swift.Sendable {
 
     public init(
         repository: CodeartifactClientTypes.RepositoryDescription? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }

@@ -37,8 +37,7 @@ extension Route53RecoveryControlConfigClientTypes {
         public init(
             endpoint: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.region = region
         }
@@ -99,8 +98,7 @@ extension Route53RecoveryControlConfigClientTypes {
             name: Swift.String? = nil,
             owner: Swift.String? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.clusterEndpoints = clusterEndpoints
             self.name = name
@@ -137,8 +135,7 @@ extension Route53RecoveryControlConfigClientTypes {
             owner: Swift.String? = nil,
             routingControlCount: Swift.Int? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.controlPanelArn = controlPanelArn
             self.defaultControlPanel = defaultControlPanel
@@ -171,8 +168,7 @@ extension Route53RecoveryControlConfigClientTypes {
             owner: Swift.String? = nil,
             routingControlArn: Swift.String? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.controlPanelArn = controlPanelArn
             self.name = name
             self.owner = owner
@@ -233,8 +229,7 @@ extension Route53RecoveryControlConfigClientTypes {
             inverted: Swift.Bool? = nil,
             threshold: Swift.Int? = nil,
             type: Route53RecoveryControlConfigClientTypes.RuleType? = nil
-        )
-        {
+        ) {
             self.inverted = inverted
             self.threshold = threshold
             self.type = type
@@ -279,8 +274,7 @@ extension Route53RecoveryControlConfigClientTypes {
             safetyRuleArn: Swift.String? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil,
             waitPeriodMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.assertedControls = assertedControls
             self.controlPanelArn = controlPanelArn
             self.name = name
@@ -334,8 +328,7 @@ extension Route53RecoveryControlConfigClientTypes {
             status: Route53RecoveryControlConfigClientTypes.Status? = nil,
             targetControls: [Swift.String]? = nil,
             waitPeriodMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.controlPanelArn = controlPanelArn
             self.gatingControls = gatingControls
             self.name = name
@@ -361,8 +354,7 @@ extension Route53RecoveryControlConfigClientTypes {
         public init(
             assertion: Route53RecoveryControlConfigClientTypes.AssertionRule? = nil,
             gating: Route53RecoveryControlConfigClientTypes.GatingRule? = nil
-        )
-        {
+        ) {
             self.assertion = assertion
             self.gating = gating
         }
@@ -388,8 +380,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -412,8 +403,7 @@ extension Route53RecoveryControlConfigClientTypes {
             name: Swift.String? = nil,
             safetyRuleArn: Swift.String? = nil,
             waitPeriodMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.safetyRuleArn = safetyRuleArn
             self.waitPeriodMs = waitPeriodMs
@@ -440,8 +430,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -465,8 +454,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -490,8 +478,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -515,8 +502,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -540,8 +526,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -565,8 +550,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -585,8 +569,7 @@ public struct CreateClusterInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterName = clusterName
         self.tags = tags
@@ -599,8 +582,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: Route53RecoveryControlConfigClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -623,8 +605,7 @@ public struct CreateControlPanelInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         controlPanelName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterArn = clusterArn
         self.controlPanelName = controlPanelName
@@ -638,8 +619,7 @@ public struct CreateControlPanelOutput: Swift.Sendable {
 
     public init(
         controlPanel: Route53RecoveryControlConfigClientTypes.ControlPanel? = nil
-    )
-    {
+    ) {
         self.controlPanel = controlPanel
     }
 }
@@ -662,8 +642,7 @@ public struct CreateRoutingControlInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         controlPanelArn: Swift.String? = nil,
         routingControlName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterArn = clusterArn
         self.controlPanelArn = controlPanelArn
@@ -677,8 +656,7 @@ public struct CreateRoutingControlOutput: Swift.Sendable {
 
     public init(
         routingControl: Route53RecoveryControlConfigClientTypes.RoutingControl? = nil
-    )
-    {
+    ) {
         self.routingControl = routingControl
     }
 }
@@ -709,8 +687,7 @@ extension Route53RecoveryControlConfigClientTypes {
             name: Swift.String? = nil,
             ruleConfig: Route53RecoveryControlConfigClientTypes.RuleConfig? = nil,
             waitPeriodMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.assertedControls = assertedControls
             self.controlPanelArn = controlPanelArn
             self.name = name
@@ -750,8 +727,7 @@ extension Route53RecoveryControlConfigClientTypes {
             ruleConfig: Route53RecoveryControlConfigClientTypes.RuleConfig? = nil,
             targetControls: [Swift.String]? = nil,
             waitPeriodMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.controlPanelArn = controlPanelArn
             self.gatingControls = gatingControls
             self.name = name
@@ -778,8 +754,7 @@ public struct CreateSafetyRuleInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         gatingRule: Route53RecoveryControlConfigClientTypes.NewGatingRule? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.assertionRule = assertionRule
         self.clientToken = clientToken
         self.gatingRule = gatingRule
@@ -796,8 +771,7 @@ public struct CreateSafetyRuleOutput: Swift.Sendable {
     public init(
         assertionRule: Route53RecoveryControlConfigClientTypes.AssertionRule? = nil,
         gatingRule: Route53RecoveryControlConfigClientTypes.GatingRule? = nil
-    )
-    {
+    ) {
         self.assertionRule = assertionRule
         self.gatingRule = gatingRule
     }
@@ -810,8 +784,7 @@ public struct DeleteClusterInput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -828,8 +801,7 @@ public struct DeleteControlPanelInput: Swift.Sendable {
 
     public init(
         controlPanelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlPanelArn = controlPanelArn
     }
 }
@@ -846,8 +818,7 @@ public struct DeleteRoutingControlInput: Swift.Sendable {
 
     public init(
         routingControlArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.routingControlArn = routingControlArn
     }
 }
@@ -864,8 +835,7 @@ public struct DeleteSafetyRuleInput: Swift.Sendable {
 
     public init(
         safetyRuleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.safetyRuleArn = safetyRuleArn
     }
 }
@@ -882,8 +852,7 @@ public struct DescribeClusterInput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -894,8 +863,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
 
     public init(
         cluster: Route53RecoveryControlConfigClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -907,8 +875,7 @@ public struct DescribeControlPanelInput: Swift.Sendable {
 
     public init(
         controlPanelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlPanelArn = controlPanelArn
     }
 }
@@ -919,8 +886,7 @@ public struct DescribeControlPanelOutput: Swift.Sendable {
 
     public init(
         controlPanel: Route53RecoveryControlConfigClientTypes.ControlPanel? = nil
-    )
-    {
+    ) {
         self.controlPanel = controlPanel
     }
 }
@@ -932,8 +898,7 @@ public struct DescribeRoutingControlInput: Swift.Sendable {
 
     public init(
         routingControlArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.routingControlArn = routingControlArn
     }
 }
@@ -944,8 +909,7 @@ public struct DescribeRoutingControlOutput: Swift.Sendable {
 
     public init(
         routingControl: Route53RecoveryControlConfigClientTypes.RoutingControl? = nil
-    )
-    {
+    ) {
         self.routingControl = routingControl
     }
 }
@@ -957,8 +921,7 @@ public struct DescribeSafetyRuleInput: Swift.Sendable {
 
     public init(
         safetyRuleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.safetyRuleArn = safetyRuleArn
     }
 }
@@ -972,8 +935,7 @@ public struct DescribeSafetyRuleOutput: Swift.Sendable {
     public init(
         assertionRule: Route53RecoveryControlConfigClientTypes.AssertionRule? = nil,
         gatingRule: Route53RecoveryControlConfigClientTypes.GatingRule? = nil
-    )
-    {
+    ) {
         self.assertionRule = assertionRule
         self.gatingRule = gatingRule
     }
@@ -997,8 +959,7 @@ extension Route53RecoveryControlConfigClientTypes {
             name: Swift.String? = nil,
             safetyRuleArn: Swift.String? = nil,
             waitPeriodMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.safetyRuleArn = safetyRuleArn
             self.waitPeriodMs = waitPeriodMs
@@ -1013,8 +974,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1025,8 +985,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1044,8 +1003,7 @@ public struct ListAssociatedRoute53HealthChecksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         routingControlArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.routingControlArn = routingControlArn
@@ -1061,8 +1019,7 @@ public struct ListAssociatedRoute53HealthChecksOutput: Swift.Sendable {
     public init(
         healthCheckIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheckIds = healthCheckIds
         self.nextToken = nextToken
     }
@@ -1077,8 +1034,7 @@ public struct ListClustersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1093,8 +1049,7 @@ public struct ListClustersOutput: Swift.Sendable {
     public init(
         clusters: [Route53RecoveryControlConfigClientTypes.Cluster]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.nextToken = nextToken
     }
@@ -1112,8 +1067,7 @@ public struct ListControlPanelsInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1129,8 +1083,7 @@ public struct ListControlPanelsOutput: Swift.Sendable {
     public init(
         controlPanels: [Route53RecoveryControlConfigClientTypes.ControlPanel]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlPanels = controlPanels
         self.nextToken = nextToken
     }
@@ -1149,8 +1102,7 @@ public struct ListRoutingControlsInput: Swift.Sendable {
         controlPanelArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlPanelArn = controlPanelArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1166,8 +1118,7 @@ public struct ListRoutingControlsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         routingControls: [Route53RecoveryControlConfigClientTypes.RoutingControl]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.routingControls = routingControls
     }
@@ -1186,8 +1137,7 @@ public struct ListSafetyRulesInput: Swift.Sendable {
         controlPanelArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlPanelArn = controlPanelArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1203,8 +1153,7 @@ public struct ListSafetyRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         safetyRules: [Route53RecoveryControlConfigClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.safetyRules = safetyRules
     }
@@ -1217,8 +1166,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1229,8 +1177,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1247,8 +1194,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1270,8 +1216,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1294,8 +1239,7 @@ public struct UpdateControlPanelInput: Swift.Sendable {
     public init(
         controlPanelArn: Swift.String? = nil,
         controlPanelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlPanelArn = controlPanelArn
         self.controlPanelName = controlPanelName
     }
@@ -1307,8 +1251,7 @@ public struct UpdateControlPanelOutput: Swift.Sendable {
 
     public init(
         controlPanel: Route53RecoveryControlConfigClientTypes.ControlPanel? = nil
-    )
-    {
+    ) {
         self.controlPanel = controlPanel
     }
 }
@@ -1325,8 +1268,7 @@ public struct UpdateRoutingControlInput: Swift.Sendable {
     public init(
         routingControlArn: Swift.String? = nil,
         routingControlName: Swift.String? = nil
-    )
-    {
+    ) {
         self.routingControlArn = routingControlArn
         self.routingControlName = routingControlName
     }
@@ -1338,8 +1280,7 @@ public struct UpdateRoutingControlOutput: Swift.Sendable {
 
     public init(
         routingControl: Route53RecoveryControlConfigClientTypes.RoutingControl? = nil
-    )
-    {
+    ) {
         self.routingControl = routingControl
     }
 }
@@ -1354,8 +1295,7 @@ public struct UpdateSafetyRuleInput: Swift.Sendable {
     public init(
         assertionRuleUpdate: Route53RecoveryControlConfigClientTypes.AssertionRuleUpdate? = nil,
         gatingRuleUpdate: Route53RecoveryControlConfigClientTypes.GatingRuleUpdate? = nil
-    )
-    {
+    ) {
         self.assertionRuleUpdate = assertionRuleUpdate
         self.gatingRuleUpdate = gatingRuleUpdate
     }
@@ -1370,8 +1310,7 @@ public struct UpdateSafetyRuleOutput: Swift.Sendable {
     public init(
         assertionRule: Route53RecoveryControlConfigClientTypes.AssertionRule? = nil,
         gatingRule: Route53RecoveryControlConfigClientTypes.GatingRule? = nil
-    )
-    {
+    ) {
         self.assertionRule = assertionRule
         self.gatingRule = gatingRule
     }

@@ -41,10 +41,6 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyHTTPAuthAPI",
-                    package: "smithy-swift"
-                ),
-                .product(
                     name: "Smithy",
                     package: "smithy-swift"
                 ),
@@ -53,15 +49,11 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
+                    name: "SmithyHTTPAuthAPI",
+                    package: "smithy-swift"
+                ),
+                .product(
                     name: "SmithyIdentity",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "SmithyRetriesAPI",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "SmithyRetries",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -70,6 +62,14 @@ let package = Package(
                 ),
                 .product(
                     name: "SmithyReadWrite",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyRetries",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyRetriesAPI",
                     package: "smithy-swift"
                 ),
                 .product(

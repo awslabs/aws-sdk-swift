@@ -16,7 +16,7 @@ import SmithyIdentity
 import struct Foundation.Date
 import struct Foundation.TimeInterval
 
-/// A utility class with a single utility method that generates IAM authentication token used for connecting to RDS.
+/// A utility class with utility methods that generate IAM authentication token used for connecting to RDS & Aurora DSQL.
 @_spi(AuthTokenGenerator)
 public class AuthTokenGenerator {
     public var awsCredentialIdentity: AWSCredentialIdentity
@@ -41,7 +41,7 @@ public class AuthTokenGenerator {
         self.awsCredentialIdentity = try await awsCredentialIdentityResolver.getIdentity()
     }
 
-    /// Generates authenetication token using given inputs to the method and credential identity instance variable.
+    /// Generates authenetication token for RDS using given inputs to the method and credential identity instance variable.
     ///
     /// - Parameters:
     ///   - endpoint: The endpoint of the RDS instance. E.g., `rdsmysql.123456789012.us-west-2.rds.amazonaws.com`
@@ -49,7 +49,7 @@ public class AuthTokenGenerator {
     ///   - region: The region that RDS instance is located in. E.g., `us-west-2`
     ///   - username: The username of the RDS database user. E.g., `admin`
     ///   - expiration: The expiration for the token in seconds. Default is 900 seconds (15 minutes).
-    public func generateAuthToken(
+    public func generateRDSAuthToken(
         endpoint: String,
         port: Int16,
         region: String,
@@ -96,5 +96,59 @@ public class AuthTokenGenerator {
         let rdsAuthToken = String(presignedURL.absoluteString[startIndex...])
 
         return rdsAuthToken
+    }
+
+    /// Generates authenetication token for DSQL using given inputs to the method and credential identity instance variable.
+    ///
+    /// - Parameters:
+    ///   - endpoint: The endpoint of the DSQL instance. E.g., `peccy.dsql.us-east-1.on.aws`
+    ///   - region: The region that DSQL instance is located in. E.g., `us-east-1`
+    ///   - expiration: The expiration for the token in seconds. Default is 900 seconds (15 minutes).
+    ///   - isForAdmin: Determines the value of `Action` query item.
+    public func generateDSQLAuthToken(
+        endpoint: String,
+        region: String,
+        expiration: TimeInterval = 900,
+        isForAdmin: Bool
+    ) async throws -> String {
+        CommonRuntimeKit.initialize()
+        let requestBuilder = HTTPRequestBuilder()
+        requestBuilder.withHost(endpoint)
+
+        // Add the Host header and the required query items for the desired presigned URL.
+        requestBuilder.withHeader(name: "Host", value: "\(endpoint)")
+        let actionQueryItemValue = isForAdmin ? "DbConnectAdmin" : "DbConnect"
+        requestBuilder.withQueryItem(URIQueryItem(name: "Action", value: actionQueryItemValue))
+
+        let signingConfig = AWSSigningConfig(
+            credentials: self.awsCredentialIdentity,
+            expiration: expiration,
+            signedBodyValue: .empty,
+            flags: SigningFlags(
+                useDoubleURIEncode: true,
+                shouldNormalizeURIPath: true,
+                omitSessionToken: false
+            ),
+            date: Date(),
+            service: "dsql",
+            region: region,
+            signatureType: .requestQueryParams,
+            signingAlgorithm: .sigv4
+        )
+
+        let signedRequest = await AWSSigV4Signer().sigV4SignedRequest(
+            requestBuilder: requestBuilder,
+            signingConfig: signingConfig
+        )
+
+        guard let presignedURL = signedRequest?.destination.url else {
+            throw ClientError.authError("Failed to generate auth token for DSQL.")
+        }
+
+        // Remove https:// from the presigned URL to get final value for DSQL auth token.
+        let startIndex = presignedURL.absoluteString.index(presignedURL.absoluteString.startIndex, offsetBy: 8)
+        let dsqlAuthToken = String(presignedURL.absoluteString[startIndex...])
+
+        return dsqlAuthToken
     }
 }

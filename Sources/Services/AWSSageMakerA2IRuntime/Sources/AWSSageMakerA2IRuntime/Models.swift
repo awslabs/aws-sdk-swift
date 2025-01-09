@@ -45,8 +45,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -69,8 +68,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -93,8 +91,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -117,8 +114,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -130,8 +126,7 @@ public struct DeleteHumanLoopInput: Swift.Sendable {
 
     public init(
         humanLoopName: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanLoopName = humanLoopName
     }
 }
@@ -148,8 +143,7 @@ public struct DescribeHumanLoopInput: Swift.Sendable {
 
     public init(
         humanLoopName: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanLoopName = humanLoopName
     }
 }
@@ -164,8 +158,7 @@ extension SageMakerA2IRuntimeClientTypes {
 
         public init(
             outputS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputS3Uri = outputS3Uri
         }
     }
@@ -241,8 +234,7 @@ public struct DescribeHumanLoopOutput: Swift.Sendable {
         humanLoopName: Swift.String? = nil,
         humanLoopOutput: SageMakerA2IRuntimeClientTypes.HumanLoopOutput? = nil,
         humanLoopStatus: SageMakerA2IRuntimeClientTypes.HumanLoopStatus? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.failureCode = failureCode
         self.failureReason = failureReason
@@ -305,8 +297,7 @@ public struct ListHumanLoopsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: SageMakerA2IRuntimeClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.flowDefinitionArn = flowDefinitionArn
@@ -337,8 +328,7 @@ extension SageMakerA2IRuntimeClientTypes {
             flowDefinitionArn: Swift.String? = nil,
             humanLoopName: Swift.String? = nil,
             humanLoopStatus: SageMakerA2IRuntimeClientTypes.HumanLoopStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.flowDefinitionArn = flowDefinitionArn
@@ -358,8 +348,7 @@ public struct ListHumanLoopsOutput: Swift.Sendable {
     public init(
         humanLoopSummaries: [SageMakerA2IRuntimeClientTypes.HumanLoopSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanLoopSummaries = humanLoopSummaries
         self.nextToken = nextToken
     }
@@ -383,8 +372,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -407,8 +395,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -452,8 +439,7 @@ extension SageMakerA2IRuntimeClientTypes {
 
         public init(
             contentClassifiers: [SageMakerA2IRuntimeClientTypes.ContentClassifier]? = nil
-        )
-        {
+        ) {
             self.contentClassifiers = contentClassifiers
         }
     }
@@ -469,8 +455,7 @@ extension SageMakerA2IRuntimeClientTypes {
 
         public init(
             inputContent: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputContent = inputContent
         }
     }
@@ -494,8 +479,7 @@ public struct StartHumanLoopInput: Swift.Sendable {
         flowDefinitionArn: Swift.String? = nil,
         humanLoopInput: SageMakerA2IRuntimeClientTypes.HumanLoopInput? = nil,
         humanLoopName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataAttributes = dataAttributes
         self.flowDefinitionArn = flowDefinitionArn
         self.humanLoopInput = humanLoopInput
@@ -509,8 +493,7 @@ public struct StartHumanLoopOutput: Swift.Sendable {
 
     public init(
         humanLoopArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanLoopArn = humanLoopArn
     }
 }
@@ -522,8 +505,7 @@ public struct StopHumanLoopInput: Swift.Sendable {
 
     public init(
         humanLoopName: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanLoopName = humanLoopName
     }
 }

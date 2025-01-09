@@ -238,8 +238,7 @@ extension OpsWorksClientTypes {
         public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -258,8 +257,7 @@ extension OpsWorksClientTypes {
         public init(
             configurationManager: OpsWorksClientTypes.StackConfigurationManager? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationManager = configurationManager
             self.version = version
         }
@@ -336,8 +334,7 @@ extension OpsWorksClientTypes {
             type: OpsWorksClientTypes.SourceType? = nil,
             url: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.revision = revision
             self.sshKey = sshKey
@@ -398,8 +395,7 @@ extension OpsWorksClientTypes {
             arn: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.databaseName = databaseName
             self.type = type
@@ -424,8 +420,7 @@ extension OpsWorksClientTypes {
             key: Swift.String? = nil,
             secure: Swift.Bool? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.secure = secure
             self.value = value
@@ -450,8 +445,7 @@ extension OpsWorksClientTypes {
             certificate: Swift.String? = nil,
             chain: Swift.String? = nil,
             privateKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificate = certificate
             self.chain = chain
             self.privateKey = privateKey
@@ -551,8 +545,7 @@ extension OpsWorksClientTypes {
             sslConfiguration: OpsWorksClientTypes.SslConfiguration? = nil,
             stackId: Swift.String? = nil,
             type: OpsWorksClientTypes.AppType? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.appSource = appSource
             self.attributes = attributes
@@ -619,8 +612,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -644,8 +636,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -661,8 +652,7 @@ public struct AssignInstanceInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         layerIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.layerIds = layerIds
     }
@@ -678,8 +668,7 @@ public struct AssignVolumeInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.volumeId = volumeId
     }
@@ -695,8 +684,7 @@ public struct AssociateElasticIpInput: Swift.Sendable {
     public init(
         elasticIp: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.elasticIp = elasticIp
         self.instanceId = instanceId
     }
@@ -713,8 +701,7 @@ public struct AttachElasticLoadBalancerInput: Swift.Sendable {
     public init(
         elasticLoadBalancerName: Swift.String? = nil,
         layerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.elasticLoadBalancerName = elasticLoadBalancerName
         self.layerId = layerId
     }
@@ -747,8 +734,7 @@ extension OpsWorksClientTypes {
             loadThreshold: Swift.Double? = nil,
             memoryThreshold: Swift.Double? = nil,
             thresholdsWaitTime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.alarms = alarms
             self.cpuThreshold = cpuThreshold
             self.ignoreMetricsTime = ignoreMetricsTime
@@ -842,8 +828,7 @@ extension OpsWorksClientTypes {
             snapshotId: Swift.String? = nil,
             volumeSize: Swift.Int? = nil,
             volumeType: OpsWorksClientTypes.VolumeType? = nil
-        )
-        {
+        ) {
             self.deleteOnTermination = deleteOnTermination
             self.iops = iops
             self.snapshotId = snapshotId
@@ -871,8 +856,7 @@ extension OpsWorksClientTypes {
             ebs: OpsWorksClientTypes.EbsBlockDevice? = nil,
             noDevice: Swift.String? = nil,
             virtualName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.ebs = ebs
             self.noDevice = noDevice
@@ -893,8 +877,7 @@ extension OpsWorksClientTypes {
         public init(
             berkshelfVersion: Swift.String? = nil,
             manageBerkshelf: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.berkshelfVersion = berkshelfVersion
             self.manageBerkshelf = manageBerkshelf
         }
@@ -1095,8 +1078,7 @@ public struct CloneStackInput: Swift.Sendable {
         useCustomCookbooks: Swift.Bool? = nil,
         useOpsworksSecurityGroups: Swift.Bool? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentVersion = agentVersion
         self.attributes = attributes
         self.chefConfiguration = chefConfiguration
@@ -1129,8 +1111,7 @@ public struct CloneStackOutput: Swift.Sendable {
 
     public init(
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackId = stackId
     }
 }
@@ -1534,8 +1515,7 @@ extension OpsWorksClientTypes {
             logGroupName: Swift.String? = nil,
             multiLineStartPattern: Swift.String? = nil,
             timeZone: OpsWorksClientTypes.CloudWatchLogsTimeZone? = nil
-        )
-        {
+        ) {
             self.batchCount = batchCount
             self.batchSize = batchSize
             self.bufferDuration = bufferDuration
@@ -1563,8 +1543,7 @@ extension OpsWorksClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             logStreams: [OpsWorksClientTypes.CloudWatchLogsLogStream]? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.logStreams = logStreams
         }
@@ -1639,8 +1618,7 @@ extension OpsWorksClientTypes {
             logUrl: Swift.String? = nil,
             status: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.acknowledgedAt = acknowledgedAt
             self.commandId = commandId
             self.completedAt = completedAt
@@ -1697,8 +1675,7 @@ public struct CreateAppInput: Swift.Sendable {
         sslConfiguration: OpsWorksClientTypes.SslConfiguration? = nil,
         stackId: Swift.String? = nil,
         type: OpsWorksClientTypes.AppType? = nil
-    )
-    {
+    ) {
         self.appSource = appSource
         self.attributes = attributes
         self.dataSources = dataSources
@@ -1721,8 +1698,7 @@ public struct CreateAppOutput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1829,8 +1805,7 @@ extension OpsWorksClientTypes {
         public init(
             args: [Swift.String: [Swift.String]]? = nil,
             name: OpsWorksClientTypes.DeploymentCommandName? = nil
-        )
-        {
+        ) {
             self.args = args
             self.name = name
         }
@@ -1863,8 +1838,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         instanceIds: [Swift.String]? = nil,
         layerIds: [Swift.String]? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.command = command
         self.comment = comment
@@ -1882,8 +1856,7 @@ public struct CreateDeploymentOutput: Swift.Sendable {
 
     public init(
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
     }
 }
@@ -1974,8 +1947,7 @@ public struct CreateInstanceInput: Swift.Sendable {
         subnetId: Swift.String? = nil,
         tenancy: Swift.String? = nil,
         virtualizationType: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentVersion = agentVersion
         self.amiId = amiId
         self.architecture = architecture
@@ -2004,8 +1976,7 @@ public struct CreateInstanceOutput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -2129,8 +2100,7 @@ extension OpsWorksClientTypes {
             setup: [Swift.String]? = nil,
             shutdown: [Swift.String]? = nil,
             undeploy: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.configure = configure
             self.deploy = deploy
             self.setup = setup
@@ -2152,8 +2122,7 @@ extension OpsWorksClientTypes {
         public init(
             delayUntilElbConnectionsDrained: Swift.Bool? = nil,
             executionTimeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.delayUntilElbConnectionsDrained = delayUntilElbConnectionsDrained
             self.executionTimeout = executionTimeout
         }
@@ -2169,8 +2138,7 @@ extension OpsWorksClientTypes {
 
         public init(
             shutdown: OpsWorksClientTypes.ShutdownEventConfiguration? = nil
-        )
-        {
+        ) {
             self.shutdown = shutdown
         }
     }
@@ -2275,8 +2243,7 @@ extension OpsWorksClientTypes {
             raidLevel: Swift.Int? = nil,
             size: Swift.Int? = nil,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.encrypted = encrypted
             self.iops = iops
             self.mountPoint = mountPoint
@@ -2349,8 +2316,7 @@ public struct CreateLayerInput: Swift.Sendable {
         type: OpsWorksClientTypes.LayerType? = nil,
         useEbsOptimizedInstances: Swift.Bool? = nil,
         volumeConfigurations: [OpsWorksClientTypes.VolumeConfiguration]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.autoAssignElasticIps = autoAssignElasticIps
         self.autoAssignPublicIps = autoAssignPublicIps
@@ -2379,8 +2345,7 @@ public struct CreateLayerOutput: Swift.Sendable {
 
     public init(
         layerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerId = layerId
     }
 }
@@ -2517,8 +2482,7 @@ public struct CreateStackInput: Swift.Sendable {
         useCustomCookbooks: Swift.Bool? = nil,
         useOpsworksSecurityGroups: Swift.Bool? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentVersion = agentVersion
         self.attributes = attributes
         self.chefConfiguration = chefConfiguration
@@ -2548,8 +2512,7 @@ public struct CreateStackOutput: Swift.Sendable {
 
     public init(
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackId = stackId
     }
 }
@@ -2570,8 +2533,7 @@ public struct CreateUserProfileInput: Swift.Sendable {
         iamUserArn: Swift.String? = nil,
         sshPublicKey: Swift.String? = nil,
         sshUsername: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowSelfManagement = allowSelfManagement
         self.iamUserArn = iamUserArn
         self.sshPublicKey = sshPublicKey
@@ -2586,8 +2548,7 @@ public struct CreateUserProfileOutput: Swift.Sendable {
 
     public init(
         iamUserArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.iamUserArn = iamUserArn
     }
 }
@@ -2599,8 +2560,7 @@ public struct DeleteAppInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -2618,8 +2578,7 @@ public struct DeleteInstanceInput: Swift.Sendable {
         deleteElasticIp: Swift.Bool? = nil,
         deleteVolumes: Swift.Bool? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteElasticIp = deleteElasticIp
         self.deleteVolumes = deleteVolumes
         self.instanceId = instanceId
@@ -2633,8 +2592,7 @@ public struct DeleteLayerInput: Swift.Sendable {
 
     public init(
         layerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerId = layerId
     }
 }
@@ -2646,8 +2604,7 @@ public struct DeleteStackInput: Swift.Sendable {
 
     public init(
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackId = stackId
     }
 }
@@ -2659,8 +2616,7 @@ public struct DeleteUserProfileInput: Swift.Sendable {
 
     public init(
         iamUserArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.iamUserArn = iamUserArn
     }
 }
@@ -2713,8 +2669,7 @@ extension OpsWorksClientTypes {
             instanceIds: [Swift.String]? = nil,
             stackId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.command = command
             self.comment = comment
@@ -2738,8 +2693,7 @@ public struct DeregisterEcsClusterInput: Swift.Sendable {
 
     public init(
         ecsClusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ecsClusterArn = ecsClusterArn
     }
 }
@@ -2751,8 +2705,7 @@ public struct DeregisterElasticIpInput: Swift.Sendable {
 
     public init(
         elasticIp: Swift.String? = nil
-    )
-    {
+    ) {
         self.elasticIp = elasticIp
     }
 }
@@ -2764,8 +2717,7 @@ public struct DeregisterInstanceInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -2777,8 +2729,7 @@ public struct DeregisterRdsDbInstanceInput: Swift.Sendable {
 
     public init(
         rdsDbInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.rdsDbInstanceArn = rdsDbInstanceArn
     }
 }
@@ -2790,8 +2741,7 @@ public struct DeregisterVolumeInput: Swift.Sendable {
 
     public init(
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.volumeId = volumeId
     }
 }
@@ -2805,8 +2755,7 @@ public struct DescribeAgentVersionsInput: Swift.Sendable {
     public init(
         configurationManager: OpsWorksClientTypes.StackConfigurationManager? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationManager = configurationManager
         self.stackId = stackId
     }
@@ -2819,8 +2768,7 @@ public struct DescribeAgentVersionsOutput: Swift.Sendable {
 
     public init(
         agentVersions: [OpsWorksClientTypes.AgentVersion]? = nil
-    )
-    {
+    ) {
         self.agentVersions = agentVersions
     }
 }
@@ -2834,8 +2782,7 @@ public struct DescribeAppsInput: Swift.Sendable {
     public init(
         appIds: [Swift.String]? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appIds = appIds
         self.stackId = stackId
     }
@@ -2848,8 +2795,7 @@ public struct DescribeAppsOutput: Swift.Sendable {
 
     public init(
         apps: [OpsWorksClientTypes.App]? = nil
-    )
-    {
+    ) {
         self.apps = apps
     }
 }
@@ -2866,8 +2812,7 @@ public struct DescribeCommandsInput: Swift.Sendable {
         commandIds: [Swift.String]? = nil,
         deploymentId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.commandIds = commandIds
         self.deploymentId = deploymentId
         self.instanceId = instanceId
@@ -2881,8 +2826,7 @@ public struct DescribeCommandsOutput: Swift.Sendable {
 
     public init(
         commands: [OpsWorksClientTypes.Command]? = nil
-    )
-    {
+    ) {
         self.commands = commands
     }
 }
@@ -2899,8 +2843,7 @@ public struct DescribeDeploymentsInput: Swift.Sendable {
         appId: Swift.String? = nil,
         deploymentIds: [Swift.String]? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.deploymentIds = deploymentIds
         self.stackId = stackId
@@ -2914,8 +2857,7 @@ public struct DescribeDeploymentsOutput: Swift.Sendable {
 
     public init(
         deployments: [OpsWorksClientTypes.Deployment]? = nil
-    )
-    {
+    ) {
         self.deployments = deployments
     }
 }
@@ -2935,8 +2877,7 @@ public struct DescribeEcsClustersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ecsClusterArns = ecsClusterArns
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2962,8 +2903,7 @@ extension OpsWorksClientTypes {
             ecsClusterName: Swift.String? = nil,
             registeredAt: Swift.String? = nil,
             stackId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ecsClusterArn = ecsClusterArn
             self.ecsClusterName = ecsClusterName
             self.registeredAt = registeredAt
@@ -2982,8 +2922,7 @@ public struct DescribeEcsClustersOutput: Swift.Sendable {
     public init(
         ecsClusters: [OpsWorksClientTypes.EcsCluster]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ecsClusters = ecsClusters
         self.nextToken = nextToken
     }
@@ -3001,8 +2940,7 @@ public struct DescribeElasticIpsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         ips: [Swift.String]? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.ips = ips
         self.stackId = stackId
@@ -3030,8 +2968,7 @@ extension OpsWorksClientTypes {
             ip: Swift.String? = nil,
             name: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.instanceId = instanceId
             self.ip = ip
@@ -3048,8 +2985,7 @@ public struct DescribeElasticIpsOutput: Swift.Sendable {
 
     public init(
         elasticIps: [OpsWorksClientTypes.ElasticIp]? = nil
-    )
-    {
+    ) {
         self.elasticIps = elasticIps
     }
 }
@@ -3063,8 +2999,7 @@ public struct DescribeElasticLoadBalancersInput: Swift.Sendable {
     public init(
         layerIds: [Swift.String]? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerIds = layerIds
         self.stackId = stackId
     }
@@ -3103,8 +3038,7 @@ extension OpsWorksClientTypes {
             stackId: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.dnsName = dnsName
             self.ec2InstanceIds = ec2InstanceIds
@@ -3125,8 +3059,7 @@ public struct DescribeElasticLoadBalancersOutput: Swift.Sendable {
 
     public init(
         elasticLoadBalancers: [OpsWorksClientTypes.ElasticLoadBalancer]? = nil
-    )
-    {
+    ) {
         self.elasticLoadBalancers = elasticLoadBalancers
     }
 }
@@ -3143,8 +3076,7 @@ public struct DescribeInstancesInput: Swift.Sendable {
         instanceIds: [Swift.String]? = nil,
         layerId: Swift.String? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceIds = instanceIds
         self.layerId = layerId
         self.stackId = stackId
@@ -3166,8 +3098,7 @@ extension OpsWorksClientTypes {
             family: Swift.String? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.family = family
             self.name = name
             self.version = version
@@ -3367,8 +3298,7 @@ extension OpsWorksClientTypes {
             subnetId: Swift.String? = nil,
             tenancy: Swift.String? = nil,
             virtualizationType: OpsWorksClientTypes.VirtualizationType? = nil
-        )
-        {
+        ) {
             self.agentVersion = agentVersion
             self.amiId = amiId
             self.architecture = architecture
@@ -3421,8 +3351,7 @@ public struct DescribeInstancesOutput: Swift.Sendable {
 
     public init(
         instances: [OpsWorksClientTypes.Instance]? = nil
-    )
-    {
+    ) {
         self.instances = instances
     }
 }
@@ -3436,8 +3365,7 @@ public struct DescribeLayersInput: Swift.Sendable {
     public init(
         layerIds: [Swift.String]? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerIds = layerIds
         self.stackId = stackId
     }
@@ -3518,8 +3446,7 @@ extension OpsWorksClientTypes {
             type: OpsWorksClientTypes.LayerType? = nil,
             useEbsOptimizedInstances: Swift.Bool? = nil,
             volumeConfigurations: [OpsWorksClientTypes.VolumeConfiguration]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.attributes = attributes
             self.autoAssignElasticIps = autoAssignElasticIps
@@ -3554,8 +3481,7 @@ public struct DescribeLayersOutput: Swift.Sendable {
 
     public init(
         layers: [OpsWorksClientTypes.Layer]? = nil
-    )
-    {
+    ) {
         self.layers = layers
     }
 }
@@ -3567,8 +3493,7 @@ public struct DescribeLoadBasedAutoScalingInput: Swift.Sendable {
 
     public init(
         layerIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.layerIds = layerIds
     }
 }
@@ -3591,8 +3516,7 @@ extension OpsWorksClientTypes {
             enable: Swift.Bool? = nil,
             layerId: Swift.String? = nil,
             upScaling: OpsWorksClientTypes.AutoScalingThresholds? = nil
-        )
-        {
+        ) {
             self.downScaling = downScaling
             self.enable = enable
             self.layerId = layerId
@@ -3608,8 +3532,7 @@ public struct DescribeLoadBasedAutoScalingOutput: Swift.Sendable {
 
     public init(
         loadBasedAutoScalingConfigurations: [OpsWorksClientTypes.LoadBasedAutoScalingConfiguration]? = nil
-    )
-    {
+    ) {
         self.loadBasedAutoScalingConfigurations = loadBasedAutoScalingConfigurations
     }
 }
@@ -3632,8 +3555,7 @@ extension OpsWorksClientTypes {
             name: Swift.String? = nil,
             sshPublicKey: Swift.String? = nil,
             sshUsername: Swift.String? = nil
-        )
-        {
+        ) {
             self.iamUserArn = iamUserArn
             self.name = name
             self.sshPublicKey = sshPublicKey
@@ -3649,8 +3571,7 @@ public struct DescribeMyUserProfileOutput: Swift.Sendable {
 
     public init(
         userProfile: OpsWorksClientTypes.SelfUserProfile? = nil
-    )
-    {
+    ) {
         self.userProfile = userProfile
     }
 }
@@ -3667,8 +3588,7 @@ extension OpsWorksClientTypes {
         public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -3702,8 +3622,7 @@ extension OpsWorksClientTypes {
             reportedVersion: Swift.String? = nil,
             supported: Swift.Bool? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationManagers = configurationManagers
             self.id = id
             self.name = name
@@ -3722,8 +3641,7 @@ public struct DescribeOperatingSystemsOutput: Swift.Sendable {
 
     public init(
         operatingSystems: [OpsWorksClientTypes.OperatingSystem]? = nil
-    )
-    {
+    ) {
         self.operatingSystems = operatingSystems
     }
 }
@@ -3737,8 +3655,7 @@ public struct DescribePermissionsInput: Swift.Sendable {
     public init(
         iamUserArn: Swift.String? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.iamUserArn = iamUserArn
         self.stackId = stackId
     }
@@ -3778,8 +3695,7 @@ extension OpsWorksClientTypes {
             iamUserArn: Swift.String? = nil,
             level: Swift.String? = nil,
             stackId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowSsh = allowSsh
             self.allowSudo = allowSudo
             self.iamUserArn = iamUserArn
@@ -3802,8 +3718,7 @@ public struct DescribePermissionsOutput: Swift.Sendable {
 
     public init(
         permissions: [OpsWorksClientTypes.Permission]? = nil
-    )
-    {
+    ) {
         self.permissions = permissions
     }
 }
@@ -3820,8 +3735,7 @@ public struct DescribeRaidArraysInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         raidArrayIds: [Swift.String]? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.raidArrayIds = raidArrayIds
         self.stackId = stackId
@@ -3873,8 +3787,7 @@ extension OpsWorksClientTypes {
             size: Swift.Int? = nil,
             stackId: Swift.String? = nil,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.createdAt = createdAt
             self.device = device
@@ -3899,8 +3812,7 @@ public struct DescribeRaidArraysOutput: Swift.Sendable {
 
     public init(
         raidArrays: [OpsWorksClientTypes.RaidArray]? = nil
-    )
-    {
+    ) {
         self.raidArrays = raidArrays
     }
 }
@@ -3915,8 +3827,7 @@ public struct DescribeRdsDbInstancesInput: Swift.Sendable {
     public init(
         rdsDbInstanceArns: [Swift.String]? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.rdsDbInstanceArns = rdsDbInstanceArns
         self.stackId = stackId
     }
@@ -3955,8 +3866,7 @@ extension OpsWorksClientTypes {
             rdsDbInstanceArn: Swift.String? = nil,
             region: Swift.String? = nil,
             stackId: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbPassword = dbPassword
@@ -3977,8 +3887,7 @@ public struct DescribeRdsDbInstancesOutput: Swift.Sendable {
 
     public init(
         rdsDbInstances: [OpsWorksClientTypes.RdsDbInstance]? = nil
-    )
-    {
+    ) {
         self.rdsDbInstances = rdsDbInstances
     }
 }
@@ -3995,8 +3904,7 @@ public struct DescribeServiceErrorsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         serviceErrorIds: [Swift.String]? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.serviceErrorIds = serviceErrorIds
         self.stackId = stackId
@@ -4027,8 +3935,7 @@ extension OpsWorksClientTypes {
             serviceErrorId: Swift.String? = nil,
             stackId: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.instanceId = instanceId
             self.message = message
@@ -4046,8 +3953,7 @@ public struct DescribeServiceErrorsOutput: Swift.Sendable {
 
     public init(
         serviceErrors: [OpsWorksClientTypes.ServiceError]? = nil
-    )
-    {
+    ) {
         self.serviceErrors = serviceErrors
     }
 }
@@ -4059,8 +3965,7 @@ public struct DescribeStackProvisioningParametersInput: Swift.Sendable {
 
     public init(
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackId = stackId
     }
 }
@@ -4075,8 +3980,7 @@ public struct DescribeStackProvisioningParametersOutput: Swift.Sendable {
     public init(
         agentInstallerUrl: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.agentInstallerUrl = agentInstallerUrl
         self.parameters = parameters
     }
@@ -4088,8 +3992,7 @@ public struct DescribeStacksInput: Swift.Sendable {
 
     public init(
         stackIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.stackIds = stackIds
     }
 }
@@ -4166,8 +4069,7 @@ extension OpsWorksClientTypes {
             useCustomCookbooks: Swift.Bool? = nil,
             useOpsworksSecurityGroups: Swift.Bool? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentVersion = agentVersion
             self.arn = arn
             self.attributes = attributes
@@ -4201,8 +4103,7 @@ public struct DescribeStacksOutput: Swift.Sendable {
 
     public init(
         stacks: [OpsWorksClientTypes.Stack]? = nil
-    )
-    {
+    ) {
         self.stacks = stacks
     }
 }
@@ -4214,8 +4115,7 @@ public struct DescribeStackSummaryInput: Swift.Sendable {
 
     public init(
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackId = stackId
     }
 }
@@ -4286,8 +4186,7 @@ extension OpsWorksClientTypes {
             terminated: Swift.Int? = nil,
             terminating: Swift.Int? = nil,
             unassigning: Swift.Int? = nil
-        )
-        {
+        ) {
             self.assigning = assigning
             self.booting = booting
             self.connectionLost = connectionLost
@@ -4336,8 +4235,7 @@ extension OpsWorksClientTypes {
             layersCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             stackId: Swift.String? = nil
-        )
-        {
+        ) {
             self.appsCount = appsCount
             self.arn = arn
             self.instancesCount = instancesCount
@@ -4355,8 +4253,7 @@ public struct DescribeStackSummaryOutput: Swift.Sendable {
 
     public init(
         stackSummary: OpsWorksClientTypes.StackSummary? = nil
-    )
-    {
+    ) {
         self.stackSummary = stackSummary
     }
 }
@@ -4368,8 +4265,7 @@ public struct DescribeTimeBasedAutoScalingInput: Swift.Sendable {
 
     public init(
         instanceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceIds = instanceIds
     }
 }
@@ -4408,8 +4304,7 @@ extension OpsWorksClientTypes {
             thursday: [Swift.String: Swift.String]? = nil,
             tuesday: [Swift.String: Swift.String]? = nil,
             wednesday: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.friday = friday
             self.monday = monday
             self.saturday = saturday
@@ -4433,8 +4328,7 @@ extension OpsWorksClientTypes {
         public init(
             autoScalingSchedule: OpsWorksClientTypes.WeeklyAutoScalingSchedule? = nil,
             instanceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoScalingSchedule = autoScalingSchedule
             self.instanceId = instanceId
         }
@@ -4448,8 +4342,7 @@ public struct DescribeTimeBasedAutoScalingOutput: Swift.Sendable {
 
     public init(
         timeBasedAutoScalingConfigurations: [OpsWorksClientTypes.TimeBasedAutoScalingConfiguration]? = nil
-    )
-    {
+    ) {
         self.timeBasedAutoScalingConfigurations = timeBasedAutoScalingConfigurations
     }
 }
@@ -4460,8 +4353,7 @@ public struct DescribeUserProfilesInput: Swift.Sendable {
 
     public init(
         iamUserArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.iamUserArns = iamUserArns
     }
 }
@@ -4487,8 +4379,7 @@ extension OpsWorksClientTypes {
             name: Swift.String? = nil,
             sshPublicKey: Swift.String? = nil,
             sshUsername: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowSelfManagement = allowSelfManagement
             self.iamUserArn = iamUserArn
             self.name = name
@@ -4505,8 +4396,7 @@ public struct DescribeUserProfilesOutput: Swift.Sendable {
 
     public init(
         userProfiles: [OpsWorksClientTypes.UserProfile]? = nil
-    )
-    {
+    ) {
         self.userProfiles = userProfiles
     }
 }
@@ -4526,8 +4416,7 @@ public struct DescribeVolumesInput: Swift.Sendable {
         raidArrayId: Swift.String? = nil,
         stackId: Swift.String? = nil,
         volumeIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.raidArrayId = raidArrayId
         self.stackId = stackId
@@ -4593,8 +4482,7 @@ extension OpsWorksClientTypes {
             status: Swift.String? = nil,
             volumeId: Swift.String? = nil,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.device = device
             self.ec2VolumeId = ec2VolumeId
@@ -4620,8 +4508,7 @@ public struct DescribeVolumesOutput: Swift.Sendable {
 
     public init(
         volumes: [OpsWorksClientTypes.Volume]? = nil
-    )
-    {
+    ) {
         self.volumes = volumes
     }
 }
@@ -4637,8 +4524,7 @@ public struct DetachElasticLoadBalancerInput: Swift.Sendable {
     public init(
         elasticLoadBalancerName: Swift.String? = nil,
         layerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.elasticLoadBalancerName = elasticLoadBalancerName
         self.layerId = layerId
     }
@@ -4651,8 +4537,7 @@ public struct DisassociateElasticIpInput: Swift.Sendable {
 
     public init(
         elasticIp: Swift.String? = nil
-    )
-    {
+    ) {
         self.elasticIp = elasticIp
     }
 }
@@ -4664,8 +4549,7 @@ public struct GetHostnameSuggestionInput: Swift.Sendable {
 
     public init(
         layerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerId = layerId
     }
 }
@@ -4680,8 +4564,7 @@ public struct GetHostnameSuggestionOutput: Swift.Sendable {
     public init(
         hostname: Swift.String? = nil,
         layerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostname = hostname
         self.layerId = layerId
     }
@@ -4697,8 +4580,7 @@ public struct GrantAccessInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         validForInMinutes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.validForInMinutes = validForInMinutes
     }
@@ -4722,8 +4604,7 @@ extension OpsWorksClientTypes {
             password: Swift.String? = nil,
             username: Swift.String? = nil,
             validForInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.password = password
             self.username = username
@@ -4739,8 +4620,7 @@ public struct GrantAccessOutput: Swift.Sendable {
 
     public init(
         temporaryCredential: OpsWorksClientTypes.TemporaryCredential? = nil
-    )
-    {
+    ) {
         self.temporaryCredential = temporaryCredential
     }
 }
@@ -4757,8 +4637,7 @@ extension OpsWorksClientTypes {
         public init(
             document: Swift.String? = nil,
             signature: Swift.String? = nil
-        )
-        {
+        ) {
             self.document = document
             self.signature = signature
         }
@@ -4778,8 +4657,7 @@ public struct ListTagsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -4796,8 +4674,7 @@ public struct ListTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -4810,8 +4687,7 @@ public struct RebootInstanceInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -4827,8 +4703,7 @@ public struct RegisterEcsClusterInput: Swift.Sendable {
     public init(
         ecsClusterArn: Swift.String? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ecsClusterArn = ecsClusterArn
         self.stackId = stackId
     }
@@ -4841,8 +4716,7 @@ public struct RegisterEcsClusterOutput: Swift.Sendable {
 
     public init(
         ecsClusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ecsClusterArn = ecsClusterArn
     }
 }
@@ -4858,8 +4732,7 @@ public struct RegisterElasticIpInput: Swift.Sendable {
     public init(
         elasticIp: Swift.String? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.elasticIp = elasticIp
         self.stackId = stackId
     }
@@ -4872,8 +4745,7 @@ public struct RegisterElasticIpOutput: Swift.Sendable {
 
     public init(
         elasticIp: Swift.String? = nil
-    )
-    {
+    ) {
         self.elasticIp = elasticIp
     }
 }
@@ -4907,8 +4779,7 @@ public struct RegisterInstanceInput: Swift.Sendable {
         rsaPublicKey: Swift.String? = nil,
         rsaPublicKeyFingerprint: Swift.String? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostname = hostname
         self.instanceIdentity = instanceIdentity
         self.privateIp = privateIp
@@ -4926,8 +4797,7 @@ public struct RegisterInstanceOutput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -4951,8 +4821,7 @@ public struct RegisterRdsDbInstanceInput: Swift.Sendable {
         dbUser: Swift.String? = nil,
         rdsDbInstanceArn: Swift.String? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbPassword = dbPassword
         self.dbUser = dbUser
         self.rdsDbInstanceArn = rdsDbInstanceArn
@@ -4970,8 +4839,7 @@ public struct RegisterVolumeInput: Swift.Sendable {
     public init(
         ec2VolumeId: Swift.String? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ec2VolumeId = ec2VolumeId
         self.stackId = stackId
     }
@@ -4984,8 +4852,7 @@ public struct RegisterVolumeOutput: Swift.Sendable {
 
     public init(
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.volumeId = volumeId
     }
 }
@@ -5006,8 +4873,7 @@ public struct SetLoadBasedAutoScalingInput: Swift.Sendable {
         enable: Swift.Bool? = nil,
         layerId: Swift.String? = nil,
         upScaling: OpsWorksClientTypes.AutoScalingThresholds? = nil
-    )
-    {
+    ) {
         self.downScaling = downScaling
         self.enable = enable
         self.layerId = layerId
@@ -5048,8 +4914,7 @@ public struct SetPermissionInput: Swift.Sendable {
         iamUserArn: Swift.String? = nil,
         level: Swift.String? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowSsh = allowSsh
         self.allowSudo = allowSudo
         self.iamUserArn = iamUserArn
@@ -5068,8 +4933,7 @@ public struct SetTimeBasedAutoScalingInput: Swift.Sendable {
     public init(
         autoScalingSchedule: OpsWorksClientTypes.WeeklyAutoScalingSchedule? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingSchedule = autoScalingSchedule
         self.instanceId = instanceId
     }
@@ -5082,8 +4946,7 @@ public struct StartInstanceInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -5095,8 +4958,7 @@ public struct StartStackInput: Swift.Sendable {
 
     public init(
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackId = stackId
     }
 }
@@ -5111,8 +4973,7 @@ public struct StopInstanceInput: Swift.Sendable {
     public init(
         force: Swift.Bool? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.instanceId = instanceId
     }
@@ -5125,8 +4986,7 @@ public struct StopStackInput: Swift.Sendable {
 
     public init(
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackId = stackId
     }
 }
@@ -5152,8 +5012,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5166,8 +5025,7 @@ public struct UnassignInstanceInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -5179,8 +5037,7 @@ public struct UnassignVolumeInput: Swift.Sendable {
 
     public init(
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.volumeId = volumeId
     }
 }
@@ -5196,8 +5053,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -5240,8 +5096,7 @@ public struct UpdateAppInput: Swift.Sendable {
         name: Swift.String? = nil,
         sslConfiguration: OpsWorksClientTypes.SslConfiguration? = nil,
         type: OpsWorksClientTypes.AppType? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.appSource = appSource
         self.attributes = attributes
@@ -5266,8 +5121,7 @@ public struct UpdateElasticIpInput: Swift.Sendable {
     public init(
         elasticIp: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.elasticIp = elasticIp
         self.name = name
     }
@@ -5337,8 +5191,7 @@ public struct UpdateInstanceInput: Swift.Sendable {
         layerIds: [Swift.String]? = nil,
         os: Swift.String? = nil,
         sshKeyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentVersion = agentVersion
         self.amiId = amiId
         self.architecture = architecture
@@ -5409,8 +5262,7 @@ public struct UpdateLayerInput: Swift.Sendable {
         shortname: Swift.String? = nil,
         useEbsOptimizedInstances: Swift.Bool? = nil,
         volumeConfigurations: [OpsWorksClientTypes.VolumeConfiguration]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.autoAssignElasticIps = autoAssignElasticIps
         self.autoAssignPublicIps = autoAssignPublicIps
@@ -5437,8 +5289,7 @@ public struct UpdateMyUserProfileInput: Swift.Sendable {
 
     public init(
         sshPublicKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.sshPublicKey = sshPublicKey
     }
 }
@@ -5456,8 +5307,7 @@ public struct UpdateRdsDbInstanceInput: Swift.Sendable {
         dbPassword: Swift.String? = nil,
         dbUser: Swift.String? = nil,
         rdsDbInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbPassword = dbPassword
         self.dbUser = dbUser
         self.rdsDbInstanceArn = rdsDbInstanceArn
@@ -5576,8 +5426,7 @@ public struct UpdateStackInput: Swift.Sendable {
         stackId: Swift.String? = nil,
         useCustomCookbooks: Swift.Bool? = nil,
         useOpsworksSecurityGroups: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.agentVersion = agentVersion
         self.attributes = attributes
         self.chefConfiguration = chefConfiguration
@@ -5615,8 +5464,7 @@ public struct UpdateUserProfileInput: Swift.Sendable {
         iamUserArn: Swift.String? = nil,
         sshPublicKey: Swift.String? = nil,
         sshUsername: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowSelfManagement = allowSelfManagement
         self.iamUserArn = iamUserArn
         self.sshPublicKey = sshPublicKey
@@ -5637,8 +5485,7 @@ public struct UpdateVolumeInput: Swift.Sendable {
         mountPoint: Swift.String? = nil,
         name: Swift.String? = nil,
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mountPoint = mountPoint
         self.name = name
         self.volumeId = volumeId

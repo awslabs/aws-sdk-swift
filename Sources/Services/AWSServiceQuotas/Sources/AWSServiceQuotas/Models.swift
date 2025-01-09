@@ -43,8 +43,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -99,8 +98,7 @@ public struct AWSServiceAccessNotEnabledException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -123,8 +121,7 @@ public struct DependencyAccessDeniedException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -147,8 +144,7 @@ public struct NoAvailableOrganizationException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -171,8 +167,7 @@ public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -195,8 +190,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -219,8 +213,7 @@ public struct TemplatesNotAvailableInRegionException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -243,8 +236,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -277,8 +269,7 @@ public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -301,8 +292,7 @@ public struct NoSuchResourceException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -322,8 +312,7 @@ public struct DeleteServiceQuotaIncreaseRequestFromTemplateInput: Swift.Sendable
         awsRegion: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsRegion = awsRegion
         self.quotaCode = quotaCode
         self.serviceCode = serviceCode
@@ -353,8 +342,7 @@ public struct ServiceQuotaTemplateNotInUseException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -424,8 +412,7 @@ extension ServiceQuotasClientTypes {
         public init(
             errorCode: ServiceQuotasClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -472,8 +459,7 @@ public struct GetAssociationForServiceQuotaTemplateOutput: Swift.Sendable {
 
     public init(
         serviceQuotaTemplateAssociationStatus: ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus? = nil
-    )
-    {
+    ) {
         self.serviceQuotaTemplateAssociationStatus = serviceQuotaTemplateAssociationStatus
     }
 }
@@ -489,8 +475,7 @@ public struct GetAWSDefaultServiceQuotaInput: Swift.Sendable {
     public init(
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.quotaCode = quotaCode
         self.serviceCode = serviceCode
     }
@@ -552,8 +537,7 @@ extension ServiceQuotasClientTypes {
         public init(
             periodUnit: ServiceQuotasClientTypes.PeriodUnit? = nil,
             periodValue: Swift.Int? = nil
-        )
-        {
+        ) {
             self.periodUnit = periodUnit
             self.periodValue = periodValue
         }
@@ -604,8 +588,7 @@ extension ServiceQuotasClientTypes {
             contextId: Swift.String? = nil,
             contextScope: ServiceQuotasClientTypes.QuotaContextScope? = nil,
             contextScopeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.contextId = contextId
             self.contextScope = contextScope
             self.contextScopeType = contextScopeType
@@ -631,8 +614,7 @@ extension ServiceQuotasClientTypes {
             metricName: Swift.String? = nil,
             metricNamespace: Swift.String? = nil,
             metricStatisticRecommendation: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricDimensions = metricDimensions
             self.metricName = metricName
             self.metricNamespace = metricNamespace
@@ -689,8 +671,7 @@ extension ServiceQuotasClientTypes {
             unit: Swift.String? = nil,
             usageMetric: ServiceQuotasClientTypes.MetricInfo? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.adjustable = adjustable
             self.errorReason = errorReason
             self.globalQuota = globalQuota
@@ -715,8 +696,7 @@ public struct GetAWSDefaultServiceQuotaOutput: Swift.Sendable {
 
     public init(
         quota: ServiceQuotasClientTypes.ServiceQuota? = nil
-    )
-    {
+    ) {
         self.quota = quota
     }
 }
@@ -728,8 +708,7 @@ public struct GetRequestedServiceQuotaChangeInput: Swift.Sendable {
 
     public init(
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
     }
 }
@@ -832,8 +811,7 @@ extension ServiceQuotasClientTypes {
             serviceName: Swift.String? = nil,
             status: ServiceQuotasClientTypes.RequestStatus? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.caseId = caseId
             self.created = created
             self.desiredValue = desiredValue
@@ -860,8 +838,7 @@ public struct GetRequestedServiceQuotaChangeOutput: Swift.Sendable {
 
     public init(
         requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange? = nil
-    )
-    {
+    ) {
         self.requestedQuota = requestedQuota
     }
 }
@@ -880,8 +857,7 @@ public struct GetServiceQuotaInput: Swift.Sendable {
         contextId: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextId = contextId
         self.quotaCode = quotaCode
         self.serviceCode = serviceCode
@@ -894,8 +870,7 @@ public struct GetServiceQuotaOutput: Swift.Sendable {
 
     public init(
         quota: ServiceQuotasClientTypes.ServiceQuota? = nil
-    )
-    {
+    ) {
         self.quota = quota
     }
 }
@@ -915,8 +890,7 @@ public struct GetServiceQuotaIncreaseRequestFromTemplateInput: Swift.Sendable {
         awsRegion: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsRegion = awsRegion
         self.quotaCode = quotaCode
         self.serviceCode = serviceCode
@@ -953,8 +927,7 @@ extension ServiceQuotasClientTypes {
             serviceCode: Swift.String? = nil,
             serviceName: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.desiredValue = desiredValue
             self.globalQuota = globalQuota
@@ -973,8 +946,7 @@ public struct GetServiceQuotaIncreaseRequestFromTemplateOutput: Swift.Sendable {
 
     public init(
         serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate? = nil
-    )
-    {
+    ) {
         self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
     }
 }
@@ -993,8 +965,7 @@ extension ServiceQuotasClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1019,8 +990,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1043,8 +1013,7 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1062,8 +1031,7 @@ public struct ListAWSDefaultServiceQuotasInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceCode = serviceCode
@@ -1079,8 +1047,7 @@ public struct ListAWSDefaultServiceQuotasOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         quotas: [ServiceQuotasClientTypes.ServiceQuota]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.quotas = quotas
     }
@@ -1104,8 +1071,7 @@ public struct ListRequestedServiceQuotaChangeHistoryInput: Swift.Sendable {
         quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum? = nil,
         serviceCode: Swift.String? = nil,
         status: ServiceQuotasClientTypes.RequestStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.quotaRequestedAtLevel = quotaRequestedAtLevel
@@ -1123,8 +1089,7 @@ public struct ListRequestedServiceQuotaChangeHistoryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         requestedQuotas: [ServiceQuotasClientTypes.RequestedServiceQuotaChange]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestedQuotas = requestedQuotas
     }
@@ -1153,8 +1118,7 @@ public struct ListRequestedServiceQuotaChangeHistoryByQuotaInput: Swift.Sendable
         quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum? = nil,
         serviceCode: Swift.String? = nil,
         status: ServiceQuotasClientTypes.RequestStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.quotaCode = quotaCode
@@ -1173,8 +1137,7 @@ public struct ListRequestedServiceQuotaChangeHistoryByQuotaOutput: Swift.Sendabl
     public init(
         nextToken: Swift.String? = nil,
         requestedQuotas: [ServiceQuotasClientTypes.RequestedServiceQuotaChange]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestedQuotas = requestedQuotas
     }
@@ -1195,8 +1158,7 @@ public struct ListServiceQuotaIncreaseRequestsInTemplateInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsRegion = awsRegion
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1213,8 +1175,7 @@ public struct ListServiceQuotaIncreaseRequestsInTemplateOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceQuotaIncreaseRequestInTemplateList: [ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceQuotaIncreaseRequestInTemplateList = serviceQuotaIncreaseRequestInTemplateList
     }
@@ -1239,8 +1200,7 @@ public struct ListServiceQuotasInput: Swift.Sendable {
         quotaAppliedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.quotaAppliedAtLevel = quotaAppliedAtLevel
@@ -1258,8 +1218,7 @@ public struct ListServiceQuotasOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         quotas: [ServiceQuotasClientTypes.ServiceQuota]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.quotas = quotas
     }
@@ -1274,8 +1233,7 @@ public struct ListServicesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1293,8 +1251,7 @@ extension ServiceQuotasClientTypes {
         public init(
             serviceCode: Swift.String? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceCode = serviceCode
             self.serviceName = serviceName
         }
@@ -1310,8 +1267,7 @@ public struct ListServicesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         services: [ServiceQuotasClientTypes.ServiceInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.services = services
     }
@@ -1324,8 +1280,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -1336,8 +1291,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ServiceQuotasClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1360,8 +1314,7 @@ public struct QuotaExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1385,8 +1338,7 @@ public struct PutServiceQuotaIncreaseRequestIntoTemplateInput: Swift.Sendable {
         desiredValue: Swift.Double? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsRegion = awsRegion
         self.desiredValue = desiredValue
         self.quotaCode = quotaCode
@@ -1400,8 +1352,7 @@ public struct PutServiceQuotaIncreaseRequestIntoTemplateOutput: Swift.Sendable {
 
     public init(
         serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate? = nil
-    )
-    {
+    ) {
         self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
     }
 }
@@ -1424,8 +1375,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1448,8 +1398,7 @@ public struct RequestServiceQuotaIncreaseInput: Swift.Sendable {
         desiredValue: Swift.Double? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextId = contextId
         self.desiredValue = desiredValue
         self.quotaCode = quotaCode
@@ -1463,8 +1412,7 @@ public struct RequestServiceQuotaIncreaseOutput: Swift.Sendable {
 
     public init(
         requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange? = nil
-    )
-    {
+    ) {
         self.requestedQuota = requestedQuota
     }
 }
@@ -1487,8 +1435,7 @@ public struct TagPolicyViolationException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1511,8 +1458,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1528,8 +1474,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [ServiceQuotasClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -1551,8 +1496,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }

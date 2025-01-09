@@ -51,8 +51,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -71,8 +70,7 @@ extension FraudDetectorClientTypes {
         public init(
             aggregatedVariablesImportance: Swift.Float? = nil,
             variableNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.aggregatedVariablesImportance = aggregatedVariablesImportance
             self.variableNames = variableNames
         }
@@ -98,8 +96,7 @@ extension FraudDetectorClientTypes {
             eventVariableNames: [Swift.String]? = nil,
             logOddsImpact: Swift.Float? = nil,
             relativeImpact: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventVariableNames = eventVariableNames
             self.logOddsImpact = logOddsImpact
             self.relativeImpact = relativeImpact
@@ -116,8 +113,7 @@ extension FraudDetectorClientTypes {
 
         public init(
             logOddsMetrics: [FraudDetectorClientTypes.AggregatedLogOddsMetric]? = nil
-        )
-        {
+        ) {
             self.logOddsMetrics = logOddsMetrics
         }
     }
@@ -148,8 +144,7 @@ extension FraudDetectorClientTypes {
             name: Swift.String? = nil,
             updatedTime: Swift.String? = nil,
             variableType: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -219,8 +214,7 @@ extension FraudDetectorClientTypes {
             atodr: Swift.Float? = nil,
             cr: Swift.Float? = nil,
             threshold: Swift.Float? = nil
-        )
-        {
+        ) {
             self.adr = adr
             self.atodr = atodr
             self.cr = cr
@@ -238,8 +232,7 @@ extension FraudDetectorClientTypes {
 
         public init(
             asi: Swift.Float? = nil
-        )
-        {
+        ) {
             self.asi = asi
         }
     }
@@ -257,8 +250,7 @@ extension FraudDetectorClientTypes {
         public init(
             metricDataPoints: [FraudDetectorClientTypes.ATIMetricDataPoint]? = nil,
             modelPerformance: FraudDetectorClientTypes.ATIModelPerformance? = nil
-        )
-        {
+        ) {
             self.metricDataPoints = metricDataPoints
             self.modelPerformance = modelPerformance
         }
@@ -284,8 +276,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -309,8 +300,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -334,8 +324,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -354,8 +343,7 @@ extension FraudDetectorClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -386,8 +374,7 @@ extension FraudDetectorClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             variableType: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.dataType = dataType
             self.defaultValue = defaultValue
@@ -408,8 +395,7 @@ public struct BatchCreateVariableInput: Swift.Sendable {
     public init(
         tags: [FraudDetectorClientTypes.Tag]? = nil,
         variableEntries: [FraudDetectorClientTypes.VariableEntry]? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.variableEntries = variableEntries
     }
@@ -430,8 +416,7 @@ extension FraudDetectorClientTypes {
             code: Swift.Int = 0,
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.name = name
@@ -445,8 +430,7 @@ public struct BatchCreateVariableOutput: Swift.Sendable {
 
     public init(
         errors: [FraudDetectorClientTypes.BatchCreateVariableError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -458,8 +442,7 @@ public struct BatchGetVariableInput: Swift.Sendable {
 
     public init(
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.names = names
     }
 }
@@ -479,8 +462,7 @@ extension FraudDetectorClientTypes {
             code: Swift.Int = 0,
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.name = name
@@ -591,8 +573,7 @@ extension FraudDetectorClientTypes {
             lastUpdatedTime: Swift.String? = nil,
             name: Swift.String? = nil,
             variableType: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.dataSource = dataSource
@@ -615,8 +596,7 @@ public struct BatchGetVariableOutput: Swift.Sendable {
     public init(
         errors: [FraudDetectorClientTypes.BatchGetVariableError]? = nil,
         variables: [FraudDetectorClientTypes.Variable]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.variables = variables
     }
@@ -641,8 +621,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -654,8 +633,7 @@ public struct CancelBatchImportJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -672,8 +650,7 @@ public struct CancelBatchPredictionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -709,8 +686,7 @@ public struct CreateBatchImportJobInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         outputPath: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.eventTypeName = eventTypeName
         self.iamRoleArn = iamRoleArn
         self.inputPath = inputPath
@@ -758,8 +734,7 @@ public struct CreateBatchPredictionJobInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         outputPath: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.detectorName = detectorName
         self.detectorVersion = detectorVersion
         self.eventTypeName = eventTypeName
@@ -829,8 +804,7 @@ extension FraudDetectorClientTypes {
             modelId: Swift.String? = nil,
             modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil,
             modelVersionNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.modelId = modelId
             self.modelType = modelType
@@ -886,8 +860,7 @@ extension FraudDetectorClientTypes {
             detectorId: Swift.String? = nil,
             ruleId: Swift.String? = nil,
             ruleVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.detectorId = detectorId
             self.ruleId = ruleId
             self.ruleVersion = ruleVersion
@@ -921,8 +894,7 @@ public struct CreateDetectorVersionInput: Swift.Sendable {
         ruleExecutionMode: FraudDetectorClientTypes.RuleExecutionMode? = nil,
         rules: [FraudDetectorClientTypes.Rule]? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.detectorId = detectorId
         self.externalModelEndpoints = externalModelEndpoints
@@ -977,8 +949,7 @@ public struct CreateDetectorVersionOutput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         detectorVersionId: Swift.String? = nil,
         status: FraudDetectorClientTypes.DetectorVersionStatus? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.detectorVersionId = detectorVersionId
         self.status = status
@@ -1004,8 +975,7 @@ public struct CreateListInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil,
         variableType: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.elements = elements
         self.name = name
@@ -1045,8 +1015,7 @@ public struct CreateModelInput: Swift.Sendable {
         modelId: Swift.String? = nil,
         modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventTypeName = eventTypeName
         self.modelId = modelId
@@ -1074,8 +1043,7 @@ extension FraudDetectorClientTypes {
         public init(
             dataAccessRoleArn: Swift.String? = nil,
             dataLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.dataLocation = dataLocation
         }
@@ -1096,8 +1064,7 @@ extension FraudDetectorClientTypes {
         public init(
             endTime: Swift.String? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -1114,8 +1081,7 @@ extension FraudDetectorClientTypes {
 
         public init(
             ingestedEventsTimeWindow: FraudDetectorClientTypes.IngestedEventsTimeWindow? = nil
-        )
-        {
+        ) {
             self.ingestedEventsTimeWindow = ingestedEventsTimeWindow
         }
     }
@@ -1179,8 +1145,7 @@ extension FraudDetectorClientTypes {
         public init(
             labelMapper: [Swift.String: [Swift.String]]? = nil,
             unlabeledEventsTreatment: FraudDetectorClientTypes.UnlabeledEventsTreatment? = nil
-        )
-        {
+        ) {
             self.labelMapper = labelMapper
             self.unlabeledEventsTreatment = unlabeledEventsTreatment
         }
@@ -1200,8 +1165,7 @@ extension FraudDetectorClientTypes {
         public init(
             labelSchema: FraudDetectorClientTypes.LabelSchema? = nil,
             modelVariables: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.labelSchema = labelSchema
             self.modelVariables = modelVariables
         }
@@ -1265,8 +1229,7 @@ public struct CreateModelVersionInput: Swift.Sendable {
         tags: [FraudDetectorClientTypes.Tag]? = nil,
         trainingDataSchema: FraudDetectorClientTypes.TrainingDataSchema? = nil,
         trainingDataSource: FraudDetectorClientTypes.TrainingDataSourceEnum? = nil
-    )
-    {
+    ) {
         self.externalEventsDetail = externalEventsDetail
         self.ingestedEventsDetail = ingestedEventsDetail
         self.modelId = modelId
@@ -1292,8 +1255,7 @@ public struct CreateModelVersionOutput: Swift.Sendable {
         modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil,
         modelVersionNumber: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelId = modelId
         self.modelType = modelType
         self.modelVersionNumber = modelVersionNumber
@@ -1356,8 +1318,7 @@ public struct CreateRuleInput: Swift.Sendable {
         outcomes: [Swift.String]? = nil,
         ruleId: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.detectorId = detectorId
         self.expression = expression
@@ -1379,8 +1340,7 @@ public struct CreateRuleOutput: Swift.Sendable {
 
     public init(
         rule: FraudDetectorClientTypes.Rule? = nil
-    )
-    {
+    ) {
         self.rule = rule
     }
 }
@@ -1413,8 +1373,7 @@ public struct CreateVariableInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil,
         variableType: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSource = dataSource
         self.dataType = dataType
         self.defaultValue = defaultValue
@@ -1437,8 +1396,7 @@ public struct DeleteBatchImportJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -1455,8 +1413,7 @@ public struct DeleteBatchPredictionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -1485,8 +1442,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1498,8 +1454,7 @@ public struct DeleteDetectorInput: Swift.Sendable {
 
     public init(
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
     }
 }
@@ -1520,8 +1475,7 @@ public struct DeleteDetectorVersionInput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         detectorVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.detectorVersionId = detectorVersionId
     }
@@ -1539,8 +1493,7 @@ public struct DeleteEntityTypeInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1564,8 +1517,7 @@ public struct DeleteEventInput: Swift.Sendable {
         deleteAuditHistory: Swift.Bool? = nil,
         eventId: Swift.String? = nil,
         eventTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteAuditHistory = deleteAuditHistory
         self.eventId = eventId
         self.eventTypeName = eventTypeName
@@ -1584,8 +1536,7 @@ public struct DeleteEventsByEventTypeInput: Swift.Sendable {
 
     public init(
         eventTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventTypeName = eventTypeName
     }
 }
@@ -1599,8 +1550,7 @@ public struct DeleteEventsByEventTypeOutput: Swift.Sendable {
     public init(
         eventTypeName: Swift.String? = nil,
         eventsDeletionStatus: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventTypeName = eventTypeName
         self.eventsDeletionStatus = eventsDeletionStatus
     }
@@ -1613,8 +1563,7 @@ public struct DeleteEventTypeInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1631,8 +1580,7 @@ public struct DeleteExternalModelInput: Swift.Sendable {
 
     public init(
         modelEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelEndpoint = modelEndpoint
     }
 }
@@ -1649,8 +1597,7 @@ public struct DeleteLabelInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1667,8 +1614,7 @@ public struct DeleteListInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1689,8 +1635,7 @@ public struct DeleteModelInput: Swift.Sendable {
     public init(
         modelId: Swift.String? = nil,
         modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil
-    )
-    {
+    ) {
         self.modelId = modelId
         self.modelType = modelType
     }
@@ -1716,8 +1661,7 @@ public struct DeleteModelVersionInput: Swift.Sendable {
         modelId: Swift.String? = nil,
         modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil,
         modelVersionNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelId = modelId
         self.modelType = modelType
         self.modelVersionNumber = modelVersionNumber
@@ -1736,8 +1680,7 @@ public struct DeleteOutcomeInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1754,8 +1697,7 @@ public struct DeleteRuleInput: Swift.Sendable {
 
     public init(
         rule: FraudDetectorClientTypes.Rule? = nil
-    )
-    {
+    ) {
         self.rule = rule
     }
 }
@@ -1772,8 +1714,7 @@ public struct DeleteVariableInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1796,8 +1737,7 @@ public struct DescribeDetectorInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1822,8 +1762,7 @@ extension FraudDetectorClientTypes {
             detectorVersionId: Swift.String? = nil,
             lastUpdatedTime: Swift.String? = nil,
             status: FraudDetectorClientTypes.DetectorVersionStatus? = nil
-        )
-        {
+        ) {
             self.description = description
             self.detectorVersionId = detectorVersionId
             self.lastUpdatedTime = lastUpdatedTime
@@ -1847,8 +1786,7 @@ public struct DescribeDetectorOutput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         detectorVersionSummaries: [FraudDetectorClientTypes.DetectorVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.detectorId = detectorId
         self.detectorVersionSummaries = detectorVersionSummaries
@@ -1874,8 +1812,7 @@ public struct DescribeModelVersionsInput: Swift.Sendable {
         modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil,
         modelVersionNumber: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.modelId = modelId
         self.modelType = modelType
@@ -1905,8 +1842,7 @@ extension FraudDetectorClientTypes {
             identifier: Swift.String? = nil,
             title: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.fieldName = fieldName
             self.identifier = identifier
@@ -1931,8 +1867,7 @@ extension FraudDetectorClientTypes {
             content: Swift.String? = nil,
             title: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.title = title
             self.type = type
@@ -1952,8 +1887,7 @@ extension FraudDetectorClientTypes {
         public init(
             fieldLevelMessages: [FraudDetectorClientTypes.FieldValidationMessage]? = nil,
             fileLevelMessages: [FraudDetectorClientTypes.FileValidationMessage]? = nil
-        )
-        {
+        ) {
             self.fieldLevelMessages = fieldLevelMessages
             self.fileLevelMessages = fileLevelMessages
         }
@@ -1978,8 +1912,7 @@ extension FraudDetectorClientTypes {
             precision: Swift.Float? = nil,
             threshold: Swift.Float? = nil,
             tpr: Swift.Float? = nil
-        )
-        {
+        ) {
             self.fpr = fpr
             self.precision = precision
             self.threshold = threshold
@@ -2000,8 +1933,7 @@ extension FraudDetectorClientTypes {
         public init(
             auc: Swift.Float? = nil,
             metricDataPoints: [FraudDetectorClientTypes.MetricDataPoint]? = nil
-        )
-        {
+        ) {
             self.auc = auc
             self.metricDataPoints = metricDataPoints
         }
@@ -2026,8 +1958,7 @@ extension FraudDetectorClientTypes {
             variableImportance: Swift.Float? = nil,
             variableName: Swift.String? = nil,
             variableType: Swift.String? = nil
-        )
-        {
+        ) {
             self.variableImportance = variableImportance
             self.variableName = variableName
             self.variableType = variableType
@@ -2044,8 +1975,7 @@ extension FraudDetectorClientTypes {
 
         public init(
             logOddsMetrics: [FraudDetectorClientTypes.LogOddsMetric]? = nil
-        )
-        {
+        ) {
             self.logOddsMetrics = logOddsMetrics
         }
     }
@@ -2066,8 +1996,7 @@ extension FraudDetectorClientTypes {
             dataValidationMetrics: FraudDetectorClientTypes.DataValidationMetrics? = nil,
             trainingMetrics: FraudDetectorClientTypes.TrainingMetrics? = nil,
             variableImportanceMetrics: FraudDetectorClientTypes.VariableImportanceMetrics? = nil
-        )
-        {
+        ) {
             self.dataValidationMetrics = dataValidationMetrics
             self.trainingMetrics = trainingMetrics
             self.variableImportanceMetrics = variableImportanceMetrics
@@ -2093,8 +2022,7 @@ extension FraudDetectorClientTypes {
             precision: Swift.Float? = nil,
             threshold: Swift.Float? = nil,
             tpr: Swift.Float? = nil
-        )
-        {
+        ) {
             self.fpr = fpr
             self.precision = precision
             self.threshold = threshold
@@ -2117,8 +2045,7 @@ extension FraudDetectorClientTypes {
         public init(
             lowerBoundValue: Swift.Float? = nil,
             upperBoundValue: Swift.Float? = nil
-        )
-        {
+        ) {
             self.lowerBoundValue = lowerBoundValue
             self.upperBoundValue = upperBoundValue
         }
@@ -2137,8 +2064,7 @@ extension FraudDetectorClientTypes {
         public init(
             auc: Swift.Float? = nil,
             uncertaintyRange: FraudDetectorClientTypes.UncertaintyRange? = nil
-        )
-        {
+        ) {
             self.auc = auc
             self.uncertaintyRange = uncertaintyRange
         }
@@ -2157,8 +2083,7 @@ extension FraudDetectorClientTypes {
         public init(
             metricDataPoints: [FraudDetectorClientTypes.OFIMetricDataPoint]? = nil,
             modelPerformance: FraudDetectorClientTypes.OFIModelPerformance? = nil
-        )
-        {
+        ) {
             self.metricDataPoints = metricDataPoints
             self.modelPerformance = modelPerformance
         }
@@ -2183,8 +2108,7 @@ extension FraudDetectorClientTypes {
             precision: Swift.Float? = nil,
             threshold: Swift.Float? = nil,
             tpr: Swift.Float? = nil
-        )
-        {
+        ) {
             self.fpr = fpr
             self.precision = precision
             self.threshold = threshold
@@ -2205,8 +2129,7 @@ extension FraudDetectorClientTypes {
         public init(
             auc: Swift.Float? = nil,
             uncertaintyRange: FraudDetectorClientTypes.UncertaintyRange? = nil
-        )
-        {
+        ) {
             self.auc = auc
             self.uncertaintyRange = uncertaintyRange
         }
@@ -2225,8 +2148,7 @@ extension FraudDetectorClientTypes {
         public init(
             metricDataPoints: [FraudDetectorClientTypes.TFIMetricDataPoint]? = nil,
             modelPerformance: FraudDetectorClientTypes.TFIModelPerformance? = nil
-        )
-        {
+        ) {
             self.metricDataPoints = metricDataPoints
             self.modelPerformance = modelPerformance
         }
@@ -2248,8 +2170,7 @@ extension FraudDetectorClientTypes {
             ati: FraudDetectorClientTypes.ATITrainingMetricsValue? = nil,
             ofi: FraudDetectorClientTypes.OFITrainingMetricsValue? = nil,
             tfi: FraudDetectorClientTypes.TFITrainingMetricsValue? = nil
-        )
-        {
+        ) {
             self.ati = ati
             self.ofi = ofi
             self.tfi = tfi
@@ -2275,8 +2196,7 @@ extension FraudDetectorClientTypes {
             dataValidationMetrics: FraudDetectorClientTypes.DataValidationMetrics? = nil,
             trainingMetricsV2: FraudDetectorClientTypes.TrainingMetricsV2? = nil,
             variableImportanceMetrics: FraudDetectorClientTypes.VariableImportanceMetrics? = nil
-        )
-        {
+        ) {
             self.aggregatedVariablesImportanceMetrics = aggregatedVariablesImportanceMetrics
             self.dataValidationMetrics = dataValidationMetrics
             self.trainingMetricsV2 = trainingMetricsV2
@@ -2330,8 +2250,7 @@ extension FraudDetectorClientTypes {
             trainingDataSource: FraudDetectorClientTypes.TrainingDataSourceEnum? = nil,
             trainingResult: FraudDetectorClientTypes.TrainingResult? = nil,
             trainingResultV2: FraudDetectorClientTypes.TrainingResultV2? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.externalEventsDetail = externalEventsDetail
@@ -2358,8 +2277,7 @@ public struct DescribeModelVersionsOutput: Swift.Sendable {
     public init(
         modelVersionDetails: [FraudDetectorClientTypes.ModelVersionDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelVersionDetails = modelVersionDetails
         self.nextToken = nextToken
     }
@@ -2377,8 +2295,7 @@ public struct GetBatchImportJobsInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2430,8 +2347,7 @@ extension FraudDetectorClientTypes {
             startTime: Swift.String? = nil,
             status: FraudDetectorClientTypes.AsyncJobStatus? = nil,
             totalRecordsCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.completionTime = completionTime
             self.eventTypeName = eventTypeName
@@ -2458,8 +2374,7 @@ public struct GetBatchImportJobsOutput: Swift.Sendable {
     public init(
         batchImports: [FraudDetectorClientTypes.BatchImport]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchImports = batchImports
         self.nextToken = nextToken
     }
@@ -2477,8 +2392,7 @@ public struct GetBatchPredictionJobsInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2536,8 +2450,7 @@ extension FraudDetectorClientTypes {
             startTime: Swift.String? = nil,
             status: FraudDetectorClientTypes.AsyncJobStatus? = nil,
             totalRecordsCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.completionTime = completionTime
             self.detectorName = detectorName
@@ -2566,8 +2479,7 @@ public struct GetBatchPredictionJobsOutput: Swift.Sendable {
     public init(
         batchPredictions: [FraudDetectorClientTypes.BatchPrediction]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchPredictions = batchPredictions
         self.nextToken = nextToken
     }
@@ -2580,8 +2492,7 @@ public struct GetDeleteEventsByEventTypeStatusInput: Swift.Sendable {
 
     public init(
         eventTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventTypeName = eventTypeName
     }
 }
@@ -2595,8 +2506,7 @@ public struct GetDeleteEventsByEventTypeStatusOutput: Swift.Sendable {
     public init(
         eventTypeName: Swift.String? = nil,
         eventsDeletionStatus: FraudDetectorClientTypes.AsyncJobStatus? = nil
-    )
-    {
+    ) {
         self.eventTypeName = eventTypeName
         self.eventsDeletionStatus = eventsDeletionStatus
     }
@@ -2614,8 +2524,7 @@ public struct GetDetectorsInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2646,8 +2555,7 @@ extension FraudDetectorClientTypes {
             detectorId: Swift.String? = nil,
             eventTypeName: Swift.String? = nil,
             lastUpdatedTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -2667,8 +2575,7 @@ public struct GetDetectorsOutput: Swift.Sendable {
     public init(
         detectors: [FraudDetectorClientTypes.Detector]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectors = detectors
         self.nextToken = nextToken
     }
@@ -2685,8 +2592,7 @@ public struct GetDetectorVersionInput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         detectorVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.detectorVersionId = detectorVersionId
     }
@@ -2728,8 +2634,7 @@ public struct GetDetectorVersionOutput: Swift.Sendable {
         ruleExecutionMode: FraudDetectorClientTypes.RuleExecutionMode? = nil,
         rules: [FraudDetectorClientTypes.Rule]? = nil,
         status: FraudDetectorClientTypes.DetectorVersionStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdTime = createdTime
         self.description = description
@@ -2756,8 +2661,7 @@ public struct GetEntityTypesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -2785,8 +2689,7 @@ extension FraudDetectorClientTypes {
             description: Swift.String? = nil,
             lastUpdatedTime: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -2805,8 +2708,7 @@ public struct GetEntityTypesOutput: Swift.Sendable {
     public init(
         entityTypes: [FraudDetectorClientTypes.EntityType]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityTypes = entityTypes
         self.nextToken = nextToken
     }
@@ -2823,8 +2725,7 @@ public struct GetEventInput: Swift.Sendable {
     public init(
         eventId: Swift.String? = nil,
         eventTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventId = eventId
         self.eventTypeName = eventTypeName
     }
@@ -2844,8 +2745,7 @@ extension FraudDetectorClientTypes {
         public init(
             entityId: Swift.String? = nil,
             entityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.entityType = entityType
         }
@@ -2885,8 +2785,7 @@ extension FraudDetectorClientTypes {
             eventTypeName: Swift.String? = nil,
             eventVariables: [Swift.String: Swift.String]? = nil,
             labelTimestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentLabel = currentLabel
             self.entities = entities
             self.eventId = eventId
@@ -2909,8 +2808,7 @@ public struct GetEventOutput: Swift.Sendable {
 
     public init(
         event: FraudDetectorClientTypes.Event? = nil
-    )
-    {
+    ) {
         self.event = event
     }
 }
@@ -2933,8 +2831,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2951,8 +2848,7 @@ extension FraudDetectorClientTypes {
         public init(
             byteBuffer: Foundation.Data? = nil,
             contentType: Swift.String? = nil
-        )
-        {
+        ) {
             self.byteBuffer = byteBuffer
             self.contentType = contentType
         }
@@ -2992,8 +2888,7 @@ public struct GetEventPredictionInput: Swift.Sendable {
         eventTypeName: Swift.String? = nil,
         eventVariables: [Swift.String: Swift.String]? = nil,
         externalModelEndpointDataBlobs: [Swift.String: FraudDetectorClientTypes.ModelEndpointDataBlob]? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.detectorVersionId = detectorVersionId
         self.entities = entities
@@ -3048,8 +2943,7 @@ extension FraudDetectorClientTypes {
         public init(
             modelEndpoint: Swift.String? = nil,
             modelSource: FraudDetectorClientTypes.ModelSource? = nil
-        )
-        {
+        ) {
             self.modelEndpoint = modelEndpoint
             self.modelSource = modelSource
         }
@@ -3068,8 +2962,7 @@ extension FraudDetectorClientTypes {
         public init(
             externalModel: FraudDetectorClientTypes.ExternalModelSummary? = nil,
             outputs: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.externalModel = externalModel
             self.outputs = outputs
         }
@@ -3088,8 +2981,7 @@ extension FraudDetectorClientTypes {
         public init(
             modelVersion: FraudDetectorClientTypes.ModelVersion? = nil,
             scores: [Swift.String: Swift.Float]? = nil
-        )
-        {
+        ) {
             self.modelVersion = modelVersion
             self.scores = scores
         }
@@ -3108,8 +3000,7 @@ extension FraudDetectorClientTypes {
         public init(
             outcomes: [Swift.String]? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.outcomes = outcomes
             self.ruleId = ruleId
         }
@@ -3128,8 +3019,7 @@ public struct GetEventPredictionOutput: Swift.Sendable {
         externalModelOutputs: [FraudDetectorClientTypes.ExternalModelOutputs]? = nil,
         modelScores: [FraudDetectorClientTypes.ModelScores]? = nil,
         ruleResults: [FraudDetectorClientTypes.RuleResult]? = nil
-    )
-    {
+    ) {
         self.externalModelOutputs = externalModelOutputs
         self.modelScores = modelScores
         self.ruleResults = ruleResults
@@ -3159,8 +3049,7 @@ public struct GetEventPredictionMetadataInput: Swift.Sendable {
         eventId: Swift.String? = nil,
         eventTypeName: Swift.String? = nil,
         predictionTimestamp: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.detectorVersionId = detectorVersionId
         self.eventId = eventId
@@ -3187,8 +3076,7 @@ extension FraudDetectorClientTypes {
             modelEndpoint: Swift.String? = nil,
             outputVariables: [Swift.String: Swift.String]? = nil,
             useEventVariables: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.inputVariables = inputVariables
             self.modelEndpoint = modelEndpoint
             self.outputVariables = outputVariables
@@ -3221,8 +3109,7 @@ extension FraudDetectorClientTypes {
             eventVariableName: Swift.String? = nil,
             logOddsImpact: Swift.Float? = nil,
             relativeImpact: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventVariableName = eventVariableName
             self.logOddsImpact = logOddsImpact
             self.relativeImpact = relativeImpact
@@ -3242,8 +3129,7 @@ extension FraudDetectorClientTypes {
         public init(
             aggregatedVariablesImpactExplanations: [FraudDetectorClientTypes.AggregatedVariablesImpactExplanation]? = nil,
             variableImpactExplanations: [FraudDetectorClientTypes.VariableImpactExplanation]? = nil
-        )
-        {
+        ) {
             self.aggregatedVariablesImpactExplanations = aggregatedVariablesImpactExplanations
             self.variableImpactExplanations = variableImpactExplanations
         }
@@ -3265,8 +3151,7 @@ extension FraudDetectorClientTypes {
             evaluationScore: Swift.String? = nil,
             outputVariableName: Swift.String? = nil,
             predictionExplanations: FraudDetectorClientTypes.PredictionExplanations? = nil
-        )
-        {
+        ) {
             self.evaluationScore = evaluationScore
             self.outputVariableName = outputVariableName
             self.predictionExplanations = predictionExplanations
@@ -3292,8 +3177,7 @@ extension FraudDetectorClientTypes {
             modelId: Swift.String? = nil,
             modelType: Swift.String? = nil,
             modelVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.evaluations = evaluations
             self.modelId = modelId
             self.modelType = modelType
@@ -3317,8 +3201,7 @@ extension FraudDetectorClientTypes {
             name: Swift.String? = nil,
             source: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.source = source
             self.value = value
@@ -3358,8 +3241,7 @@ extension FraudDetectorClientTypes {
             outcomes: [Swift.String]? = nil,
             ruleId: Swift.String? = nil,
             ruleVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.evaluated = evaluated
             self.expression = expression
             self.expressionWithValues = expressionWithValues
@@ -3424,8 +3306,7 @@ public struct GetEventPredictionMetadataOutput: Swift.Sendable {
         predictionTimestamp: Swift.String? = nil,
         ruleExecutionMode: FraudDetectorClientTypes.RuleExecutionMode? = nil,
         rules: [FraudDetectorClientTypes.EvaluatedRule]? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.detectorVersionId = detectorVersionId
         self.detectorVersionStatus = detectorVersionStatus
@@ -3456,8 +3337,7 @@ public struct GetEventTypesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -3503,8 +3383,7 @@ extension FraudDetectorClientTypes {
 
         public init(
             eventBridgeEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.eventBridgeEnabled = eventBridgeEnabled
         }
     }
@@ -3531,8 +3410,7 @@ extension FraudDetectorClientTypes {
             leastRecentEvent: Swift.String? = nil,
             mostRecentEvent: Swift.String? = nil,
             numberOfEvents: Swift.Int? = nil
-        )
-        {
+        ) {
             self.eventDataSizeInBytes = eventDataSizeInBytes
             self.lastUpdatedTime = lastUpdatedTime
             self.leastRecentEvent = leastRecentEvent
@@ -3581,8 +3459,7 @@ extension FraudDetectorClientTypes {
             labels: [Swift.String]? = nil,
             lastUpdatedTime: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -3613,8 +3490,7 @@ public struct GetEventTypesOutput: Swift.Sendable {
     public init(
         eventTypes: [FraudDetectorClientTypes.EventType]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventTypes = eventTypes
         self.nextToken = nextToken
     }
@@ -3637,8 +3513,7 @@ public struct GetExternalModelsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         modelEndpoint: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.modelEndpoint = modelEndpoint
         self.nextToken = nextToken
@@ -3696,8 +3571,7 @@ extension FraudDetectorClientTypes {
             format: FraudDetectorClientTypes.ModelInputDataFormat? = nil,
             jsonInputTemplate: Swift.String? = nil,
             useEventVariables: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.csvInputTemplate = csvInputTemplate
             self.eventTypeName = eventTypeName
             self.format = format
@@ -3781,8 +3655,7 @@ extension FraudDetectorClientTypes {
             csvIndexToVariableMap: [Swift.String: Swift.String]? = nil,
             format: FraudDetectorClientTypes.ModelOutputDataFormat? = nil,
             jsonKeyToVariableMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.csvIndexToVariableMap = csvIndexToVariableMap
             self.format = format
             self.jsonKeyToVariableMap = jsonKeyToVariableMap
@@ -3823,8 +3696,7 @@ extension FraudDetectorClientTypes {
             modelEndpointStatus: FraudDetectorClientTypes.ModelEndpointStatus? = nil,
             modelSource: FraudDetectorClientTypes.ModelSource? = nil,
             outputConfiguration: FraudDetectorClientTypes.ModelOutputConfiguration? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.inputConfiguration = inputConfiguration
@@ -3847,8 +3719,7 @@ public struct GetExternalModelsOutput: Swift.Sendable {
     public init(
         externalModels: [FraudDetectorClientTypes.ExternalModel]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.externalModels = externalModels
         self.nextToken = nextToken
     }
@@ -3863,8 +3734,7 @@ extension FraudDetectorClientTypes {
 
         public init(
             kmsEncryptionKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsEncryptionKeyArn = kmsEncryptionKeyArn
         }
     }
@@ -3876,8 +3746,7 @@ public struct GetKMSEncryptionKeyOutput: Swift.Sendable {
 
     public init(
         kmsKey: FraudDetectorClientTypes.KMSKey? = nil
-    )
-    {
+    ) {
         self.kmsKey = kmsKey
     }
 }
@@ -3894,8 +3763,7 @@ public struct GetLabelsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -3923,8 +3791,7 @@ extension FraudDetectorClientTypes {
             description: Swift.String? = nil,
             lastUpdatedTime: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -3943,8 +3810,7 @@ public struct GetLabelsOutput: Swift.Sendable {
     public init(
         labels: [FraudDetectorClientTypes.Label]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.labels = labels
         self.nextToken = nextToken
     }
@@ -3963,8 +3829,7 @@ public struct GetListElementsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -3980,8 +3845,7 @@ public struct GetListElementsOutput: Swift.Sendable {
     public init(
         elements: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.elements = elements
         self.nextToken = nextToken
     }
@@ -4004,8 +3868,7 @@ public struct GetListsMetadataInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -4021,8 +3884,7 @@ public struct GetListsMetadataOutput: Swift.Sendable {
     public init(
         lists: [FraudDetectorClientTypes.AllowDenyList]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lists = lists
         self.nextToken = nextToken
     }
@@ -4043,8 +3905,7 @@ public struct GetModelsInput: Swift.Sendable {
         modelId: Swift.String? = nil,
         modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.modelId = modelId
         self.modelType = modelType
@@ -4079,8 +3940,7 @@ extension FraudDetectorClientTypes {
             lastUpdatedTime: Swift.String? = nil,
             modelId: Swift.String? = nil,
             modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -4101,8 +3961,7 @@ public struct GetModelsOutput: Swift.Sendable {
     public init(
         models: [FraudDetectorClientTypes.Model]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.models = models
         self.nextToken = nextToken
     }
@@ -4123,8 +3982,7 @@ public struct GetModelVersionInput: Swift.Sendable {
         modelId: Swift.String? = nil,
         modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil,
         modelVersionNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelId = modelId
         self.modelType = modelType
         self.modelVersionNumber = modelVersionNumber
@@ -4179,8 +4037,7 @@ public struct GetModelVersionOutput: Swift.Sendable {
         status: Swift.String? = nil,
         trainingDataSchema: FraudDetectorClientTypes.TrainingDataSchema? = nil,
         trainingDataSource: FraudDetectorClientTypes.TrainingDataSourceEnum? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.externalEventsDetail = externalEventsDetail
         self.ingestedEventsDetail = ingestedEventsDetail
@@ -4205,8 +4062,7 @@ public struct GetOutcomesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -4234,8 +4090,7 @@ extension FraudDetectorClientTypes {
             description: Swift.String? = nil,
             lastUpdatedTime: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -4254,8 +4109,7 @@ public struct GetOutcomesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         outcomes: [FraudDetectorClientTypes.Outcome]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.outcomes = outcomes
     }
@@ -4280,8 +4134,7 @@ public struct GetRulesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         ruleId: Swift.String? = nil,
         ruleVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4326,8 +4179,7 @@ extension FraudDetectorClientTypes {
             outcomes: [Swift.String]? = nil,
             ruleId: Swift.String? = nil,
             ruleVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -4356,8 +4208,7 @@ public struct GetRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleDetails: [FraudDetectorClientTypes.RuleDetail]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleDetails = ruleDetails
     }
@@ -4375,8 +4226,7 @@ public struct GetVariablesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -4392,8 +4242,7 @@ public struct GetVariablesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         variables: [FraudDetectorClientTypes.Variable]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.variables = variables
     }
@@ -4408,8 +4257,7 @@ extension FraudDetectorClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -4429,8 +4277,7 @@ extension FraudDetectorClientTypes {
         public init(
             endTime: Swift.String? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -4461,8 +4308,7 @@ public struct ListEventPredictionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         predictionTimeRange: FraudDetectorClientTypes.PredictionTimeRange? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.detectorVersionId = detectorVersionId
         self.eventId = eventId
@@ -4497,8 +4343,7 @@ extension FraudDetectorClientTypes {
             eventTimestamp: Swift.String? = nil,
             eventTypeName: Swift.String? = nil,
             predictionTimestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.detectorId = detectorId
             self.detectorVersionId = detectorVersionId
             self.eventId = eventId
@@ -4518,8 +4363,7 @@ public struct ListEventPredictionsOutput: Swift.Sendable {
     public init(
         eventPredictionSummaries: [FraudDetectorClientTypes.EventPredictionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventPredictionSummaries = eventPredictionSummaries
         self.nextToken = nextToken
     }
@@ -4538,8 +4382,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceARN = resourceARN
@@ -4555,8 +4398,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -4579,8 +4421,7 @@ public struct PutDetectorInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         eventTypeName: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.detectorId = detectorId
         self.eventTypeName = eventTypeName
@@ -4606,8 +4447,7 @@ public struct PutEntityTypeInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.tags = tags
@@ -4649,8 +4489,7 @@ public struct PutEventTypeInput: Swift.Sendable {
         labels: [Swift.String]? = nil,
         name: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.entityTypes = entityTypes
         self.eventIngestion = eventIngestion
@@ -4697,8 +4536,7 @@ public struct PutExternalModelInput: Swift.Sendable {
         modelSource: FraudDetectorClientTypes.ModelSource? = nil,
         outputConfiguration: FraudDetectorClientTypes.ModelOutputConfiguration? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.inputConfiguration = inputConfiguration
         self.invokeModelEndpointRoleArn = invokeModelEndpointRoleArn
         self.modelEndpoint = modelEndpoint
@@ -4721,8 +4559,7 @@ public struct PutKMSEncryptionKeyInput: Swift.Sendable {
 
     public init(
         kmsEncryptionKeyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.kmsEncryptionKeyArn = kmsEncryptionKeyArn
     }
 }
@@ -4745,8 +4582,7 @@ public struct PutLabelInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.tags = tags
@@ -4771,8 +4607,7 @@ public struct PutOutcomeInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.tags = tags
@@ -4813,8 +4648,7 @@ public struct SendEventInput: Swift.Sendable {
         eventTypeName: Swift.String? = nil,
         eventVariables: [Swift.String: Swift.String]? = nil,
         labelTimestamp: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignedLabel = assignedLabel
         self.entities = entities
         self.eventId = eventId
@@ -4846,8 +4680,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -4869,8 +4702,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -4909,8 +4741,7 @@ public struct UpdateDetectorVersionInput: Swift.Sendable {
         modelVersions: [FraudDetectorClientTypes.ModelVersion]? = nil,
         ruleExecutionMode: FraudDetectorClientTypes.RuleExecutionMode? = nil,
         rules: [FraudDetectorClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.detectorId = detectorId
         self.detectorVersionId = detectorVersionId
@@ -4941,8 +4772,7 @@ public struct UpdateDetectorVersionMetadataInput: Swift.Sendable {
         description: Swift.String? = nil,
         detectorId: Swift.String? = nil,
         detectorVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.detectorId = detectorId
         self.detectorVersionId = detectorVersionId
@@ -4969,8 +4799,7 @@ public struct UpdateDetectorVersionStatusInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         detectorVersionId: Swift.String? = nil,
         status: FraudDetectorClientTypes.DetectorVersionStatus? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.detectorVersionId = detectorVersionId
         self.status = status
@@ -5001,8 +4830,7 @@ public struct UpdateEventLabelInput: Swift.Sendable {
         eventId: Swift.String? = nil,
         eventTypeName: Swift.String? = nil,
         labelTimestamp: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignedLabel = assignedLabel
         self.eventId = eventId
         self.eventTypeName = eventTypeName
@@ -5072,8 +4900,7 @@ public struct UpdateListInput: Swift.Sendable {
         name: Swift.String? = nil,
         updateMode: FraudDetectorClientTypes.ListUpdateMode? = nil,
         variableType: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.elements = elements
         self.name = name
@@ -5106,8 +4933,7 @@ public struct UpdateModelInput: Swift.Sendable {
         description: Swift.String? = nil,
         modelId: Swift.String? = nil,
         modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil
-    )
-    {
+    ) {
         self.description = description
         self.modelId = modelId
         self.modelType = modelType
@@ -5143,8 +4969,7 @@ public struct UpdateModelVersionInput: Swift.Sendable {
         modelId: Swift.String? = nil,
         modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.externalEventsDetail = externalEventsDetail
         self.ingestedEventsDetail = ingestedEventsDetail
         self.majorVersionNumber = majorVersionNumber
@@ -5169,8 +4994,7 @@ public struct UpdateModelVersionOutput: Swift.Sendable {
         modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil,
         modelVersionNumber: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelId = modelId
         self.modelType = modelType
         self.modelVersionNumber = modelVersionNumber
@@ -5229,8 +5053,7 @@ public struct UpdateModelVersionStatusInput: Swift.Sendable {
         modelType: FraudDetectorClientTypes.ModelTypeEnum? = nil,
         modelVersionNumber: Swift.String? = nil,
         status: FraudDetectorClientTypes.ModelVersionStatus? = nil
-    )
-    {
+    ) {
         self.modelId = modelId
         self.modelType = modelType
         self.modelVersionNumber = modelVersionNumber
@@ -5254,8 +5077,7 @@ public struct UpdateRuleMetadataInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         rule: FraudDetectorClientTypes.Rule? = nil
-    )
-    {
+    ) {
         self.description = description
         self.rule = rule
     }
@@ -5291,8 +5113,7 @@ public struct UpdateRuleVersionInput: Swift.Sendable {
         outcomes: [Swift.String]? = nil,
         rule: FraudDetectorClientTypes.Rule? = nil,
         tags: [FraudDetectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.expression = expression
         self.language = language
@@ -5313,8 +5134,7 @@ public struct UpdateRuleVersionOutput: Swift.Sendable {
 
     public init(
         rule: FraudDetectorClientTypes.Rule? = nil
-    )
-    {
+    ) {
         self.rule = rule
     }
 }
@@ -5335,8 +5155,7 @@ public struct UpdateVariableInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         variableType: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultValue = defaultValue
         self.description = description
         self.name = name

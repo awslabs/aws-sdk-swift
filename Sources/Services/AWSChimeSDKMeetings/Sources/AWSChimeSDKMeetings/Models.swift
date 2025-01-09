@@ -114,8 +114,7 @@ extension ChimeSDKMeetingsClientTypes {
             audio: ChimeSDKMeetingsClientTypes.MediaCapabilities? = nil,
             content: ChimeSDKMeetingsClientTypes.MediaCapabilities? = nil,
             video: ChimeSDKMeetingsClientTypes.MediaCapabilities? = nil
-        )
-        {
+        ) {
             self.audio = audio
             self.content = content
             self.video = video
@@ -151,8 +150,7 @@ extension ChimeSDKMeetingsClientTypes {
             capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities? = nil,
             externalUserId: Swift.String? = nil,
             joinToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.attendeeId = attendeeId
             self.capabilities = capabilities
             self.externalUserId = externalUserId
@@ -175,8 +173,7 @@ extension ChimeSDKMeetingsClientTypes {
 
         public init(
             maxCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxCount = maxCount
         }
     }
@@ -192,8 +189,7 @@ extension ChimeSDKMeetingsClientTypes {
 
         public init(
             attendeeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attendeeId = attendeeId
         }
     }
@@ -237,8 +233,7 @@ extension ChimeSDKMeetingsClientTypes {
 
         public init(
             echoReduction: ChimeSDKMeetingsClientTypes.MeetingFeatureStatus? = nil
-        )
-        {
+        ) {
             self.echoReduction = echoReduction
         }
     }
@@ -267,8 +262,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -298,8 +292,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -329,8 +322,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -360,8 +352,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -391,8 +382,7 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -425,8 +415,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
         message: Swift.String? = nil,
         requestId: Swift.String? = nil,
         retryAfterSeconds: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -457,8 +446,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -488,8 +476,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -519,8 +506,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -540,8 +526,7 @@ extension ChimeSDKMeetingsClientTypes {
         public init(
             capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities? = nil,
             externalUserId: Swift.String? = nil
-        )
-        {
+        ) {
             self.capabilities = capabilities
             self.externalUserId = externalUserId
         }
@@ -564,8 +549,7 @@ public struct BatchCreateAttendeeInput: Swift.Sendable {
     public init(
         attendees: [ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem]? = nil,
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attendees = attendees
         self.meetingId = meetingId
     }
@@ -586,8 +570,7 @@ extension ChimeSDKMeetingsClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             externalUserId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.externalUserId = externalUserId
@@ -609,8 +592,7 @@ public struct BatchCreateAttendeeOutput: Swift.Sendable {
     public init(
         attendees: [ChimeSDKMeetingsClientTypes.Attendee]? = nil,
         errors: [ChimeSDKMeetingsClientTypes.CreateAttendeeError]? = nil
-    )
-    {
+    ) {
         self.attendees = attendees
         self.errors = errors
     }
@@ -639,8 +621,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -662,8 +643,7 @@ public struct BatchUpdateAttendeeCapabilitiesExceptInput: Swift.Sendable {
         capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities? = nil,
         excludedAttendeeIds: [ChimeSDKMeetingsClientTypes.AttendeeIdItem]? = nil,
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.excludedAttendeeIds = excludedAttendeeIds
         self.meetingId = meetingId
@@ -694,8 +674,7 @@ public struct CreateAttendeeInput: Swift.Sendable {
         capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities? = nil,
         externalUserId: Swift.String? = nil,
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.externalUserId = externalUserId
         self.meetingId = meetingId
@@ -713,8 +692,7 @@ public struct CreateAttendeeOutput: Swift.Sendable {
 
     public init(
         attendee: ChimeSDKMeetingsClientTypes.Attendee? = nil
-    )
-    {
+    ) {
         self.attendee = attendee
     }
 }
@@ -760,8 +738,7 @@ extension ChimeSDKMeetingsClientTypes {
 
         public init(
             maxResolution: ChimeSDKMeetingsClientTypes.ContentResolution? = nil
-        )
-        {
+        ) {
             self.maxResolution = maxResolution
         }
     }
@@ -808,8 +785,7 @@ extension ChimeSDKMeetingsClientTypes {
 
         public init(
             maxResolution: ChimeSDKMeetingsClientTypes.VideoResolution? = nil
-        )
-        {
+        ) {
             self.maxResolution = maxResolution
         }
     }
@@ -833,8 +809,7 @@ extension ChimeSDKMeetingsClientTypes {
             audio: ChimeSDKMeetingsClientTypes.AudioFeatures? = nil,
             content: ChimeSDKMeetingsClientTypes.ContentFeatures? = nil,
             video: ChimeSDKMeetingsClientTypes.VideoFeatures? = nil
-        )
-        {
+        ) {
             self.attendee = attendee
             self.audio = audio
             self.content = content
@@ -858,8 +833,7 @@ extension ChimeSDKMeetingsClientTypes {
             lambdaFunctionArn: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil,
             sqsQueueArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.lambdaFunctionArn = lambdaFunctionArn
             self.snsTopicArn = snsTopicArn
             self.sqsQueueArn = sqsQueueArn
@@ -886,8 +860,7 @@ extension ChimeSDKMeetingsClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -938,8 +911,7 @@ public struct CreateMeetingInput: Swift.Sendable {
         primaryMeetingId: Swift.String? = nil,
         tags: [ChimeSDKMeetingsClientTypes.Tag]? = nil,
         tenantIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.externalMeetingId = externalMeetingId
         self.mediaRegion = mediaRegion
@@ -987,8 +959,7 @@ extension ChimeSDKMeetingsClientTypes {
             screenViewingUrl: Swift.String? = nil,
             signalingUrl: Swift.String? = nil,
             turnControlUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioFallbackUrl = audioFallbackUrl
             self.audioHostUrl = audioHostUrl
             self.eventIngestionUrl = eventIngestionUrl
@@ -1034,8 +1005,7 @@ extension ChimeSDKMeetingsClientTypes {
             meetingId: Swift.String? = nil,
             primaryMeetingId: Swift.String? = nil,
             tenantIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.externalMeetingId = externalMeetingId
             self.mediaPlacement = mediaPlacement
             self.mediaRegion = mediaRegion
@@ -1060,8 +1030,7 @@ public struct CreateMeetingOutput: Swift.Sendable {
 
     public init(
         meeting: ChimeSDKMeetingsClientTypes.Meeting? = nil
-    )
-    {
+    ) {
         self.meeting = meeting
     }
 }
@@ -1103,8 +1072,7 @@ public struct CreateMeetingWithAttendeesInput: Swift.Sendable {
         primaryMeetingId: Swift.String? = nil,
         tags: [ChimeSDKMeetingsClientTypes.Tag]? = nil,
         tenantIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attendees = attendees
         self.clientRequestToken = clientRequestToken
         self.externalMeetingId = externalMeetingId
@@ -1135,8 +1103,7 @@ public struct CreateMeetingWithAttendeesOutput: Swift.Sendable {
         attendees: [ChimeSDKMeetingsClientTypes.Attendee]? = nil,
         errors: [ChimeSDKMeetingsClientTypes.CreateAttendeeError]? = nil,
         meeting: ChimeSDKMeetingsClientTypes.Meeting? = nil
-    )
-    {
+    ) {
         self.attendees = attendees
         self.errors = errors
         self.meeting = meeting
@@ -1154,8 +1121,7 @@ public struct DeleteAttendeeInput: Swift.Sendable {
     public init(
         attendeeId: Swift.String? = nil,
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attendeeId = attendeeId
         self.meetingId = meetingId
     }
@@ -1168,8 +1134,7 @@ public struct DeleteMeetingInput: Swift.Sendable {
 
     public init(
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.meetingId = meetingId
     }
 }
@@ -1185,8 +1150,7 @@ public struct GetAttendeeInput: Swift.Sendable {
     public init(
         attendeeId: Swift.String? = nil,
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attendeeId = attendeeId
         self.meetingId = meetingId
     }
@@ -1198,8 +1162,7 @@ public struct GetAttendeeOutput: Swift.Sendable {
 
     public init(
         attendee: ChimeSDKMeetingsClientTypes.Attendee? = nil
-    )
-    {
+    ) {
         self.attendee = attendee
     }
 }
@@ -1211,8 +1174,7 @@ public struct GetMeetingInput: Swift.Sendable {
 
     public init(
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.meetingId = meetingId
     }
 }
@@ -1223,8 +1185,7 @@ public struct GetMeetingOutput: Swift.Sendable {
 
     public init(
         meeting: ChimeSDKMeetingsClientTypes.Meeting? = nil
-    )
-    {
+    ) {
         self.meeting = meeting
     }
 }
@@ -1242,8 +1203,7 @@ public struct ListAttendeesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         meetingId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.meetingId = meetingId
         self.nextToken = nextToken
@@ -1259,8 +1219,7 @@ public struct ListAttendeesOutput: Swift.Sendable {
     public init(
         attendees: [ChimeSDKMeetingsClientTypes.Attendee]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attendees = attendees
         self.nextToken = nextToken
     }
@@ -1292,8 +1251,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         requestId: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -1308,8 +1266,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -1320,8 +1277,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ChimeSDKMeetingsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1519,8 +1475,7 @@ extension ChimeSDKMeetingsClientTypes {
             specialty: ChimeSDKMeetingsClientTypes.TranscribeMedicalSpecialty? = nil,
             type: ChimeSDKMeetingsClientTypes.TranscribeMedicalType? = nil,
             vocabularyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentIdentificationType = contentIdentificationType
             self.languageCode = languageCode
             self.region = region
@@ -1828,8 +1783,7 @@ extension ChimeSDKMeetingsClientTypes {
             vocabularyFilterNames: Swift.String? = nil,
             vocabularyName: Swift.String? = nil,
             vocabularyNames: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
@@ -1862,8 +1816,7 @@ extension ChimeSDKMeetingsClientTypes {
         public init(
             engineTranscribeMedicalSettings: ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings? = nil,
             engineTranscribeSettings: ChimeSDKMeetingsClientTypes.EngineTranscribeSettings? = nil
-        )
-        {
+        ) {
             self.engineTranscribeMedicalSettings = engineTranscribeMedicalSettings
             self.engineTranscribeSettings = engineTranscribeSettings
         }
@@ -1881,8 +1834,7 @@ public struct StartMeetingTranscriptionInput: Swift.Sendable {
     public init(
         meetingId: Swift.String? = nil,
         transcriptionConfiguration: ChimeSDKMeetingsClientTypes.TranscriptionConfiguration? = nil
-    )
-    {
+    ) {
         self.meetingId = meetingId
         self.transcriptionConfiguration = transcriptionConfiguration
     }
@@ -1895,8 +1847,7 @@ public struct StopMeetingTranscriptionInput: Swift.Sendable {
 
     public init(
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.meetingId = meetingId
     }
 }
@@ -1927,8 +1878,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
         message: Swift.String? = nil,
         requestId: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -1947,8 +1897,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [ChimeSDKMeetingsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -1970,8 +1919,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -1997,8 +1945,7 @@ public struct UpdateAttendeeCapabilitiesInput: Swift.Sendable {
         attendeeId: Swift.String? = nil,
         capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities? = nil,
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attendeeId = attendeeId
         self.capabilities = capabilities
         self.meetingId = meetingId
@@ -2011,8 +1958,7 @@ public struct UpdateAttendeeCapabilitiesOutput: Swift.Sendable {
 
     public init(
         attendee: ChimeSDKMeetingsClientTypes.Attendee? = nil
-    )
-    {
+    ) {
         self.attendee = attendee
     }
 }

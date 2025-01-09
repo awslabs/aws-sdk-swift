@@ -34,8 +34,7 @@ extension IoTEventsDataClientTypes {
 
         public init(
             note: Swift.String? = nil
-        )
-        {
+        ) {
             self.note = note
         }
     }
@@ -61,8 +60,7 @@ extension IoTEventsDataClientTypes {
             keyValue: Swift.String? = nil,
             note: Swift.String? = nil,
             requestId: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
             self.note = note
@@ -118,8 +116,7 @@ extension IoTEventsDataClientTypes {
 
         public init(
             note: Swift.String? = nil
-        )
-        {
+        ) {
             self.note = note
         }
     }
@@ -134,8 +131,7 @@ extension IoTEventsDataClientTypes {
 
         public init(
             note: Swift.String? = nil
-        )
-        {
+        ) {
             self.note = note
         }
     }
@@ -150,8 +146,7 @@ extension IoTEventsDataClientTypes {
 
         public init(
             note: Swift.String? = nil
-        )
-        {
+        ) {
             self.note = note
         }
     }
@@ -169,8 +164,7 @@ extension IoTEventsDataClientTypes {
         public init(
             note: Swift.String? = nil,
             snoozeDuration: Swift.Int? = nil
-        )
-        {
+        ) {
             self.note = note
             self.snoozeDuration = snoozeDuration
         }
@@ -214,8 +208,7 @@ extension IoTEventsDataClientTypes {
             enableActionConfiguration: IoTEventsDataClientTypes.EnableActionConfiguration? = nil,
             resetActionConfiguration: IoTEventsDataClientTypes.ResetActionConfiguration? = nil,
             snoozeActionConfiguration: IoTEventsDataClientTypes.SnoozeActionConfiguration? = nil
-        )
-        {
+        ) {
             self.acknowledgeActionConfiguration = acknowledgeActionConfiguration
             self.actionName = actionName
             self.disableActionConfiguration = disableActionConfiguration
@@ -282,8 +275,7 @@ extension IoTEventsDataClientTypes {
             inputPropertyValue: Swift.String? = nil,
             `operator`: IoTEventsDataClientTypes.ComparisonOperator? = nil,
             thresholdValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputPropertyValue = inputPropertyValue
             self.`operator` = `operator`
             self.thresholdValue = thresholdValue
@@ -300,8 +292,7 @@ extension IoTEventsDataClientTypes {
 
         public init(
             simpleRuleEvaluation: IoTEventsDataClientTypes.SimpleRuleEvaluation? = nil
-        )
-        {
+        ) {
             self.simpleRuleEvaluation = simpleRuleEvaluation
         }
     }
@@ -409,8 +400,7 @@ extension IoTEventsDataClientTypes {
 
         public init(
             triggerType: IoTEventsDataClientTypes.TriggerType? = nil
-        )
-        {
+        ) {
             self.triggerType = triggerType
         }
     }
@@ -428,8 +418,7 @@ extension IoTEventsDataClientTypes {
         public init(
             eventType: IoTEventsDataClientTypes.EventType? = nil,
             stateChangeConfiguration: IoTEventsDataClientTypes.StateChangeConfiguration? = nil
-        )
-        {
+        ) {
             self.eventType = eventType
             self.stateChangeConfiguration = stateChangeConfiguration
         }
@@ -466,8 +455,7 @@ extension IoTEventsDataClientTypes {
             ruleEvaluation: IoTEventsDataClientTypes.RuleEvaluation? = nil,
             stateName: IoTEventsDataClientTypes.AlarmStateName? = nil,
             systemEvent: IoTEventsDataClientTypes.SystemEvent? = nil
-        )
-        {
+        ) {
             self.customerAction = customerAction
             self.ruleEvaluation = ruleEvaluation
             self.stateName = stateName
@@ -503,8 +491,7 @@ extension IoTEventsDataClientTypes {
             keyValue: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             severity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.alarmModelName = alarmModelName
             self.alarmModelVersion = alarmModelVersion
             self.alarmState = alarmState
@@ -552,8 +539,7 @@ extension IoTEventsDataClientTypes {
             keyValue: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             stateName: IoTEventsDataClientTypes.AlarmStateName? = nil
-        )
-        {
+        ) {
             self.alarmModelName = alarmModelName
             self.alarmModelVersion = alarmModelVersion
             self.creationTime = creationTime
@@ -583,8 +569,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -608,8 +593,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -633,8 +617,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -658,8 +641,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -671,8 +653,7 @@ public struct BatchAcknowledgeAlarmInput: Swift.Sendable {
 
     public init(
         acknowledgeActionRequests: [IoTEventsDataClientTypes.AcknowledgeAlarmActionRequest]? = nil
-    )
-    {
+    ) {
         self.acknowledgeActionRequests = acknowledgeActionRequests
     }
 }
@@ -740,8 +721,7 @@ extension IoTEventsDataClientTypes {
             errorCode: IoTEventsDataClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             requestId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.requestId = requestId
@@ -755,8 +735,7 @@ public struct BatchAcknowledgeAlarmOutput: Swift.Sendable {
 
     public init(
         errorEntries: [IoTEventsDataClientTypes.BatchAlarmActionErrorEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
     }
 }
@@ -778,8 +757,7 @@ extension IoTEventsDataClientTypes {
             detectorModelName: Swift.String? = nil,
             keyValue: Swift.String? = nil,
             messageId: Swift.String? = nil
-        )
-        {
+        ) {
             self.detectorModelName = detectorModelName
             self.keyValue = keyValue
             self.messageId = messageId
@@ -794,8 +772,7 @@ public struct BatchDeleteDetectorInput: Swift.Sendable {
 
     public init(
         detectors: [IoTEventsDataClientTypes.DeleteDetectorRequest]? = nil
-    )
-    {
+    ) {
         self.detectors = detectors
     }
 }
@@ -815,8 +792,7 @@ extension IoTEventsDataClientTypes {
             errorCode: IoTEventsDataClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             messageId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.messageId = messageId
@@ -830,8 +806,7 @@ public struct BatchDeleteDetectorOutput: Swift.Sendable {
 
     public init(
         batchDeleteDetectorErrorEntries: [IoTEventsDataClientTypes.BatchDeleteDetectorErrorEntry]? = nil
-    )
-    {
+    ) {
         self.batchDeleteDetectorErrorEntries = batchDeleteDetectorErrorEntries
     }
 }
@@ -856,8 +831,7 @@ extension IoTEventsDataClientTypes {
             keyValue: Swift.String? = nil,
             note: Swift.String? = nil,
             requestId: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
             self.note = note
@@ -873,8 +847,7 @@ public struct BatchDisableAlarmInput: Swift.Sendable {
 
     public init(
         disableActionRequests: [IoTEventsDataClientTypes.DisableAlarmActionRequest]? = nil
-    )
-    {
+    ) {
         self.disableActionRequests = disableActionRequests
     }
 }
@@ -885,8 +858,7 @@ public struct BatchDisableAlarmOutput: Swift.Sendable {
 
     public init(
         errorEntries: [IoTEventsDataClientTypes.BatchAlarmActionErrorEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
     }
 }
@@ -911,8 +883,7 @@ extension IoTEventsDataClientTypes {
             keyValue: Swift.String? = nil,
             note: Swift.String? = nil,
             requestId: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
             self.note = note
@@ -928,8 +899,7 @@ public struct BatchEnableAlarmInput: Swift.Sendable {
 
     public init(
         enableActionRequests: [IoTEventsDataClientTypes.EnableAlarmActionRequest]? = nil
-    )
-    {
+    ) {
         self.enableActionRequests = enableActionRequests
     }
 }
@@ -940,8 +910,7 @@ public struct BatchEnableAlarmOutput: Swift.Sendable {
 
     public init(
         errorEntries: [IoTEventsDataClientTypes.BatchAlarmActionErrorEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
     }
 }
@@ -955,8 +924,7 @@ extension IoTEventsDataClientTypes {
 
         public init(
             timeInMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.timeInMillis = timeInMillis
         }
     }
@@ -983,8 +951,7 @@ extension IoTEventsDataClientTypes {
             messageId: Swift.String? = nil,
             payload: Foundation.Data? = nil,
             timestamp: IoTEventsDataClientTypes.TimestampValue? = nil
-        )
-        {
+        ) {
             self.inputName = inputName
             self.messageId = messageId
             self.payload = payload
@@ -1000,8 +967,7 @@ public struct BatchPutMessageInput: Swift.Sendable {
 
     public init(
         messages: [IoTEventsDataClientTypes.Message]? = nil
-    )
-    {
+    ) {
         self.messages = messages
     }
 }
@@ -1021,8 +987,7 @@ extension IoTEventsDataClientTypes {
             errorCode: IoTEventsDataClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             messageId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.messageId = messageId
@@ -1036,8 +1001,7 @@ public struct BatchPutMessageOutput: Swift.Sendable {
 
     public init(
         batchPutMessageErrorEntries: [IoTEventsDataClientTypes.BatchPutMessageErrorEntry]? = nil
-    )
-    {
+    ) {
         self.batchPutMessageErrorEntries = batchPutMessageErrorEntries
     }
 }
@@ -1062,8 +1026,7 @@ extension IoTEventsDataClientTypes {
             keyValue: Swift.String? = nil,
             note: Swift.String? = nil,
             requestId: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
             self.note = note
@@ -1079,8 +1042,7 @@ public struct BatchResetAlarmInput: Swift.Sendable {
 
     public init(
         resetActionRequests: [IoTEventsDataClientTypes.ResetAlarmActionRequest]? = nil
-    )
-    {
+    ) {
         self.resetActionRequests = resetActionRequests
     }
 }
@@ -1091,8 +1053,7 @@ public struct BatchResetAlarmOutput: Swift.Sendable {
 
     public init(
         errorEntries: [IoTEventsDataClientTypes.BatchAlarmActionErrorEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
     }
 }
@@ -1121,8 +1082,7 @@ extension IoTEventsDataClientTypes {
             note: Swift.String? = nil,
             requestId: Swift.String? = nil,
             snoozeDuration: Swift.Int? = nil
-        )
-        {
+        ) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
             self.note = note
@@ -1139,8 +1099,7 @@ public struct BatchSnoozeAlarmInput: Swift.Sendable {
 
     public init(
         snoozeActionRequests: [IoTEventsDataClientTypes.SnoozeAlarmActionRequest]? = nil
-    )
-    {
+    ) {
         self.snoozeActionRequests = snoozeActionRequests
     }
 }
@@ -1151,8 +1110,7 @@ public struct BatchSnoozeAlarmOutput: Swift.Sendable {
 
     public init(
         errorEntries: [IoTEventsDataClientTypes.BatchAlarmActionErrorEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
     }
 }
@@ -1171,8 +1129,7 @@ extension IoTEventsDataClientTypes {
         public init(
             name: Swift.String? = nil,
             seconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.seconds = seconds
         }
@@ -1193,8 +1150,7 @@ extension IoTEventsDataClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1219,8 +1175,7 @@ extension IoTEventsDataClientTypes {
             stateName: Swift.String? = nil,
             timers: [IoTEventsDataClientTypes.TimerDefinition]? = nil,
             variables: [IoTEventsDataClientTypes.VariableDefinition]? = nil
-        )
-        {
+        ) {
             self.stateName = stateName
             self.timers = timers
             self.variables = variables
@@ -1249,8 +1204,7 @@ extension IoTEventsDataClientTypes {
             keyValue: Swift.String? = nil,
             messageId: Swift.String? = nil,
             state: IoTEventsDataClientTypes.DetectorStateDefinition? = nil
-        )
-        {
+        ) {
             self.detectorModelName = detectorModelName
             self.keyValue = keyValue
             self.messageId = messageId
@@ -1266,8 +1220,7 @@ public struct BatchUpdateDetectorInput: Swift.Sendable {
 
     public init(
         detectors: [IoTEventsDataClientTypes.UpdateDetectorRequest]? = nil
-    )
-    {
+    ) {
         self.detectors = detectors
     }
 }
@@ -1287,8 +1240,7 @@ extension IoTEventsDataClientTypes {
             errorCode: IoTEventsDataClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             messageId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.messageId = messageId
@@ -1302,8 +1254,7 @@ public struct BatchUpdateDetectorOutput: Swift.Sendable {
 
     public init(
         batchUpdateDetectorErrorEntries: [IoTEventsDataClientTypes.BatchUpdateDetectorErrorEntry]? = nil
-    )
-    {
+    ) {
         self.batchUpdateDetectorErrorEntries = batchUpdateDetectorErrorEntries
     }
 }
@@ -1327,8 +1278,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1343,8 +1293,7 @@ public struct DescribeAlarmInput: Swift.Sendable {
     public init(
         alarmModelName: Swift.String? = nil,
         keyValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmModelName = alarmModelName
         self.keyValue = keyValue
     }
@@ -1356,8 +1305,7 @@ public struct DescribeAlarmOutput: Swift.Sendable {
 
     public init(
         alarm: IoTEventsDataClientTypes.Alarm? = nil
-    )
-    {
+    ) {
         self.alarm = alarm
     }
 }
@@ -1372,8 +1320,7 @@ public struct DescribeDetectorInput: Swift.Sendable {
     public init(
         detectorModelName: Swift.String? = nil,
         keyValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorModelName = detectorModelName
         self.keyValue = keyValue
     }
@@ -1393,8 +1340,7 @@ extension IoTEventsDataClientTypes {
         public init(
             name: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.name = name
             self.timestamp = timestamp
         }
@@ -1415,8 +1361,7 @@ extension IoTEventsDataClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1441,8 +1386,7 @@ extension IoTEventsDataClientTypes {
             stateName: Swift.String? = nil,
             timers: [IoTEventsDataClientTypes.Timer]? = nil,
             variables: [IoTEventsDataClientTypes.Variable]? = nil
-        )
-        {
+        ) {
             self.stateName = stateName
             self.timers = timers
             self.variables = variables
@@ -1474,8 +1418,7 @@ extension IoTEventsDataClientTypes {
             keyValue: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             state: IoTEventsDataClientTypes.DetectorState? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.detectorModelName = detectorModelName
             self.detectorModelVersion = detectorModelVersion
@@ -1492,8 +1435,7 @@ public struct DescribeDetectorOutput: Swift.Sendable {
 
     public init(
         detector: IoTEventsDataClientTypes.Detector? = nil
-    )
-    {
+    ) {
         self.detector = detector
     }
 }
@@ -1507,8 +1449,7 @@ extension IoTEventsDataClientTypes {
 
         public init(
             stateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.stateName = stateName
         }
     }
@@ -1538,8 +1479,7 @@ extension IoTEventsDataClientTypes {
             keyValue: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             state: IoTEventsDataClientTypes.DetectorStateSummary? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.detectorModelName = detectorModelName
             self.detectorModelVersion = detectorModelVersion
@@ -1563,8 +1503,7 @@ public struct ListAlarmsInput: Swift.Sendable {
         alarmModelName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmModelName = alarmModelName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1580,8 +1519,7 @@ public struct ListAlarmsOutput: Swift.Sendable {
     public init(
         alarmSummaries: [IoTEventsDataClientTypes.AlarmSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmSummaries = alarmSummaries
         self.nextToken = nextToken
     }
@@ -1603,8 +1541,7 @@ public struct ListDetectorsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorModelName = detectorModelName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1621,8 +1558,7 @@ public struct ListDetectorsOutput: Swift.Sendable {
     public init(
         detectorSummaries: [IoTEventsDataClientTypes.DetectorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorSummaries = detectorSummaries
         self.nextToken = nextToken
     }

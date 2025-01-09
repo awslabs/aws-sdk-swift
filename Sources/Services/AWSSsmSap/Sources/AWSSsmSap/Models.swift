@@ -213,8 +213,7 @@ extension SsmSapClientTypes {
             status: SsmSapClientTypes.ApplicationStatus? = nil,
             statusMessage: Swift.String? = nil,
             type: SsmSapClientTypes.ApplicationType? = nil
-        )
-        {
+        ) {
             self.appRegistryArn = appRegistryArn
             self.arn = arn
             self.associatedApplicationArns = associatedApplicationArns
@@ -273,8 +272,7 @@ extension SsmSapClientTypes {
             credentialType: SsmSapClientTypes.CredentialType? = nil,
             databaseName: Swift.String? = nil,
             secretId: Swift.String? = nil
-        )
-        {
+        ) {
             self.credentialType = credentialType
             self.databaseName = databaseName
             self.secretId = secretId
@@ -308,8 +306,7 @@ extension SsmSapClientTypes {
             id: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: SsmSapClientTypes.ApplicationType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.discoveryStatus = discoveryStatus
             self.id = id
@@ -334,8 +331,7 @@ extension SsmSapClientTypes {
             allocationType: SsmSapClientTypes.AllocationType? = nil,
             ipAddress: Swift.String? = nil,
             primary: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allocationType = allocationType
             self.ipAddress = ipAddress
             self.primary = primary
@@ -361,8 +357,7 @@ extension SsmSapClientTypes {
             hostname: Swift.String? = nil,
             ipAddresses: [SsmSapClientTypes.IpAddressMember]? = nil,
             osVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.ec2InstanceId = ec2InstanceId
             self.hostname = hostname
             self.ipAddresses = ipAddresses
@@ -411,8 +406,7 @@ extension SsmSapClientTypes {
         public init(
             backintMode: SsmSapClientTypes.BackintMode? = nil,
             ensureNoBackupInProcess: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.backintMode = backintMode
             self.ensureNoBackupInProcess = ensureNoBackupInProcess
         }
@@ -548,8 +542,7 @@ extension SsmSapClientTypes {
             connectionIp: Swift.String? = nil,
             databaseArn: Swift.String? = nil,
             databaseConnectionMethod: SsmSapClientTypes.DatabaseConnectionMethod? = nil
-        )
-        {
+        ) {
             self.connectionIp = connectionIp
             self.databaseArn = databaseArn
             self.databaseConnectionMethod = databaseConnectionMethod
@@ -616,8 +609,7 @@ extension SsmSapClientTypes {
             hostRole: SsmSapClientTypes.HostRole? = nil,
             instanceId: Swift.String? = nil,
             osVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.ec2InstanceId = ec2InstanceId
             self.hostIp = hostIp
             self.hostName = hostName
@@ -725,8 +717,7 @@ extension SsmSapClientTypes {
             hsrOperationMode: SsmSapClientTypes.OperationMode? = nil,
             hsrReplicationMode: SsmSapClientTypes.ReplicationMode? = nil,
             hsrTier: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterStatus = clusterStatus
             self.enqueueReplication = enqueueReplication
             self.hsrOperationMode = hsrOperationMode
@@ -862,8 +853,7 @@ extension SsmSapClientTypes {
             sid: Swift.String? = nil,
             status: SsmSapClientTypes.ComponentStatus? = nil,
             systemNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.arn = arn
             self.associatedHost = associatedHost
@@ -906,8 +896,7 @@ extension SsmSapClientTypes {
             componentType: SsmSapClientTypes.ComponentType? = nil,
             ec2InstanceId: Swift.String? = nil,
             sid: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentType = componentType
             self.ec2InstanceId = ec2InstanceId
             self.sid = sid
@@ -936,8 +925,7 @@ extension SsmSapClientTypes {
             componentId: Swift.String? = nil,
             componentType: SsmSapClientTypes.ComponentType? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.arn = arn
             self.componentId = componentId
@@ -965,8 +953,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1109,8 +1096,7 @@ extension SsmSapClientTypes {
             primaryHost: Swift.String? = nil,
             sqlPort: Swift.Int? = nil,
             status: SsmSapClientTypes.DatabaseStatus? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.arn = arn
             self.componentId = componentId
@@ -1151,8 +1137,7 @@ extension SsmSapClientTypes {
             databaseId: Swift.String? = nil,
             databaseType: SsmSapClientTypes.DatabaseType? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.arn = arn
             self.componentId = componentId
@@ -1181,8 +1166,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1205,8 +1189,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1229,8 +1212,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1274,8 +1256,7 @@ public struct DeleteResourcePermissionInput: Swift.Sendable {
         actionType: SsmSapClientTypes.PermissionActionType? = nil,
         resourceArn: Swift.String? = nil,
         sourceResourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionType = actionType
         self.resourceArn = resourceArn
         self.sourceResourceArn = sourceResourceArn
@@ -1288,8 +1269,7 @@ public struct DeleteResourcePermissionOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1312,8 +1292,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1325,8 +1304,7 @@ public struct DeregisterApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -1386,8 +1364,7 @@ extension SsmSapClientTypes {
             name: Swift.String? = nil,
             `operator`: SsmSapClientTypes.FilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -1407,8 +1384,7 @@ public struct GetApplicationInput: Swift.Sendable {
         appRegistryArn: Swift.String? = nil,
         applicationArn: Swift.String? = nil,
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appRegistryArn = appRegistryArn
         self.applicationArn = applicationArn
         self.applicationId = applicationId
@@ -1424,8 +1400,7 @@ public struct GetApplicationOutput: Swift.Sendable {
     public init(
         application: SsmSapClientTypes.Application? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.application = application
         self.tags = tags
     }
@@ -1442,8 +1417,7 @@ public struct GetComponentInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         componentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.componentId = componentId
     }
@@ -1458,8 +1432,7 @@ public struct GetComponentOutput: Swift.Sendable {
     public init(
         component: SsmSapClientTypes.Component? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.component = component
         self.tags = tags
     }
@@ -1480,8 +1453,7 @@ public struct GetDatabaseInput: Swift.Sendable {
         componentId: Swift.String? = nil,
         databaseArn: Swift.String? = nil,
         databaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.componentId = componentId
         self.databaseArn = databaseArn
@@ -1498,8 +1470,7 @@ public struct GetDatabaseOutput: Swift.Sendable {
     public init(
         database: SsmSapClientTypes.Database? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.database = database
         self.tags = tags
     }
@@ -1512,8 +1483,7 @@ public struct GetOperationInput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -1589,8 +1559,7 @@ extension SsmSapClientTypes {
             status: SsmSapClientTypes.OperationStatus? = nil,
             statusMessage: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.id = id
             self.lastUpdatedTime = lastUpdatedTime
@@ -1612,8 +1581,7 @@ public struct GetOperationOutput: Swift.Sendable {
 
     public init(
         operation: SsmSapClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -1628,8 +1596,7 @@ public struct GetResourcePermissionInput: Swift.Sendable {
     public init(
         actionType: SsmSapClientTypes.PermissionActionType? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionType = actionType
         self.resourceArn = resourceArn
     }
@@ -1641,8 +1608,7 @@ public struct GetResourcePermissionOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1659,8 +1625,7 @@ public struct ListApplicationsInput: Swift.Sendable {
         filters: [SsmSapClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = 50,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1676,8 +1641,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applications: [SsmSapClientTypes.ApplicationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.nextToken = nextToken
     }
@@ -1695,8 +1659,7 @@ public struct ListComponentsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = 50,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1712,8 +1675,7 @@ public struct ListComponentsOutput: Swift.Sendable {
     public init(
         components: [SsmSapClientTypes.ComponentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.components = components
         self.nextToken = nextToken
     }
@@ -1734,8 +1696,7 @@ public struct ListDatabasesInput: Swift.Sendable {
         componentId: Swift.String? = nil,
         maxResults: Swift.Int? = 50,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.componentId = componentId
         self.maxResults = maxResults
@@ -1752,8 +1713,7 @@ public struct ListDatabasesOutput: Swift.Sendable {
     public init(
         databases: [SsmSapClientTypes.DatabaseSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.databases = databases
         self.nextToken = nextToken
     }
@@ -1775,8 +1735,7 @@ public struct ListOperationEventsInput: Swift.Sendable {
         maxResults: Swift.Int? = 50,
         nextToken: Swift.String? = nil,
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1796,8 +1755,7 @@ extension SsmSapClientTypes {
         public init(
             resourceArn: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceArn = resourceArn
             self.resourceType = resourceType
         }
@@ -1870,8 +1828,7 @@ extension SsmSapClientTypes {
             status: SsmSapClientTypes.OperationEventStatus? = nil,
             statusMessage: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.description = description
             self.resource = resource
             self.status = status
@@ -1890,8 +1847,7 @@ public struct ListOperationEventsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         operationEvents: [SsmSapClientTypes.OperationEvent]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.operationEvents = operationEvents
     }
@@ -1913,8 +1869,7 @@ public struct ListOperationsInput: Swift.Sendable {
         filters: [SsmSapClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = 50,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.filters = filters
         self.maxResults = maxResults
@@ -1931,8 +1886,7 @@ public struct ListOperationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         operations: [SsmSapClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.operations = operations
     }
@@ -1945,8 +1899,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1957,8 +1910,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1978,8 +1930,7 @@ public struct PutResourcePermissionInput: Swift.Sendable {
         actionType: SsmSapClientTypes.PermissionActionType? = nil,
         resourceArn: Swift.String? = nil,
         sourceResourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionType = actionType
         self.resourceArn = resourceArn
         self.sourceResourceArn = sourceResourceArn
@@ -1992,8 +1943,7 @@ public struct PutResourcePermissionOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -2031,8 +1981,7 @@ public struct RegisterApplicationInput: Swift.Sendable {
         sapInstanceNumber: Swift.String? = nil,
         sid: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.applicationType = applicationType
         self.componentsInfo = componentsInfo
@@ -2054,8 +2003,7 @@ public struct RegisterApplicationOutput: Swift.Sendable {
     public init(
         application: SsmSapClientTypes.Application? = nil,
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.operationId = operationId
     }
@@ -2068,8 +2016,7 @@ public struct StartApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -2080,8 +2027,7 @@ public struct StartApplicationOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2093,8 +2039,7 @@ public struct StartApplicationRefreshInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -2105,8 +2050,7 @@ public struct StartApplicationRefreshOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2124,8 +2068,7 @@ public struct StopApplicationInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         includeEc2InstanceShutdown: Swift.Bool? = nil,
         stopConnectedEntity: SsmSapClientTypes.ConnectedEntityType? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.includeEc2InstanceShutdown = includeEc2InstanceShutdown
         self.stopConnectedEntity = stopConnectedEntity
@@ -2138,8 +2081,7 @@ public struct StopApplicationOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2155,8 +2097,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2178,8 +2119,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2209,8 +2149,7 @@ public struct UpdateApplicationSettingsInput: Swift.Sendable {
         credentialsToAddOrUpdate: [SsmSapClientTypes.ApplicationCredential]? = nil,
         credentialsToRemove: [SsmSapClientTypes.ApplicationCredential]? = nil,
         databaseArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.backint = backint
         self.credentialsToAddOrUpdate = credentialsToAddOrUpdate
@@ -2228,8 +2167,7 @@ public struct UpdateApplicationSettingsOutput: Swift.Sendable {
     public init(
         message: Swift.String? = nil,
         operationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.message = message
         self.operationIds = operationIds
     }

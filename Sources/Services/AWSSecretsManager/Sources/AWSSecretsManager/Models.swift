@@ -49,8 +49,7 @@ extension SecretsManagerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.region = region
         }
@@ -72,8 +71,7 @@ extension SecretsManagerClientTypes {
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil,
             secretId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
             self.secretId = secretId
@@ -99,8 +97,7 @@ public struct DecryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -123,8 +120,7 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -147,8 +143,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -171,8 +166,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -201,8 +195,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -225,8 +218,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -301,8 +293,7 @@ extension SecretsManagerClientTypes {
         public init(
             key: SecretsManagerClientTypes.FilterNameStringType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -324,8 +315,7 @@ public struct BatchGetSecretValueInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         secretIdList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -360,8 +350,7 @@ extension SecretsManagerClientTypes {
             secretString: Swift.String? = nil,
             versionId: Swift.String? = nil,
             versionStages: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdDate = createdDate
             self.name = name
@@ -390,8 +379,7 @@ public struct BatchGetSecretValueOutput: Swift.Sendable {
         errors: [SecretsManagerClientTypes.APIErrorType]? = nil,
         nextToken: Swift.String? = nil,
         secretValues: [SecretsManagerClientTypes.SecretValueEntry]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.nextToken = nextToken
         self.secretValues = secretValues
@@ -405,8 +393,7 @@ public struct CancelRotateSecretInput: Swift.Sendable {
 
     public init(
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.secretId = secretId
     }
 }
@@ -423,8 +410,7 @@ public struct CancelRotateSecretOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         name: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.versionId = versionId
@@ -449,8 +435,7 @@ public struct EncryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -473,8 +458,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -497,8 +481,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -521,8 +504,7 @@ public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -545,8 +527,7 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -563,8 +544,7 @@ extension SecretsManagerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -611,8 +591,7 @@ public struct CreateSecretInput: Swift.Sendable {
         secretBinary: Foundation.Data? = nil,
         secretString: Swift.String? = nil,
         tags: [SecretsManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.addReplicaRegions = addReplicaRegions
         self.clientRequestToken = clientRequestToken
         self.description = description
@@ -683,8 +662,7 @@ extension SecretsManagerClientTypes {
             region: Swift.String? = nil,
             status: SecretsManagerClientTypes.StatusType? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.lastAccessedDate = lastAccessedDate
             self.region = region
@@ -715,8 +693,7 @@ public struct CreateSecretOutput: Swift.Sendable {
         name: Swift.String? = nil,
         replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.replicationStatus = replicationStatus
@@ -731,8 +708,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.secretId = secretId
     }
 }
@@ -746,8 +722,7 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -766,8 +741,7 @@ public struct DeleteSecretInput: Swift.Sendable {
         forceDeleteWithoutRecovery: Swift.Bool? = false,
         recoveryWindowInDays: Swift.Int? = 0,
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.forceDeleteWithoutRecovery = forceDeleteWithoutRecovery
         self.recoveryWindowInDays = recoveryWindowInDays
         self.secretId = secretId
@@ -786,8 +760,7 @@ public struct DeleteSecretOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         deletionDate: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.deletionDate = deletionDate
         self.name = name
@@ -801,8 +774,7 @@ public struct DescribeSecretInput: Swift.Sendable {
 
     public init(
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.secretId = secretId
     }
 }
@@ -822,8 +794,7 @@ extension SecretsManagerClientTypes {
             automaticallyAfterDays: Swift.Int? = nil,
             duration: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.automaticallyAfterDays = automaticallyAfterDays
             self.duration = duration
             self.scheduleExpression = scheduleExpression
@@ -903,8 +874,7 @@ public struct DescribeSecretOutput: Swift.Sendable {
         rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
         tags: [SecretsManagerClientTypes.Tag]? = nil,
         versionIdsToStages: [Swift.String: [Swift.String]]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdDate = createdDate
         self.deletedDate = deletedDate
@@ -953,8 +923,7 @@ public struct GetRandomPasswordInput: Swift.Sendable {
         includeSpace: Swift.Bool? = false,
         passwordLength: Swift.Int? = nil,
         requireEachIncludedType: Swift.Bool? = false
-    )
-    {
+    ) {
         self.excludeCharacters = excludeCharacters
         self.excludeLowercase = excludeLowercase
         self.excludeNumbers = excludeNumbers
@@ -972,8 +941,7 @@ public struct GetRandomPasswordOutput: Swift.Sendable {
 
     public init(
         randomPassword: Swift.String? = nil
-    )
-    {
+    ) {
         self.randomPassword = randomPassword
     }
 }
@@ -990,8 +958,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.secretId = secretId
     }
 }
@@ -1008,8 +975,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         name: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.resourcePolicy = resourcePolicy
@@ -1029,8 +995,7 @@ public struct GetSecretValueInput: Swift.Sendable {
         secretId: Swift.String? = nil,
         versionId: Swift.String? = nil,
         versionStage: Swift.String? = nil
-    )
-    {
+    ) {
         self.secretId = secretId
         self.versionId = versionId
         self.versionStage = versionStage
@@ -1061,8 +1026,7 @@ public struct GetSecretValueOutput: Swift.Sendable {
         secretString: Swift.String? = nil,
         versionId: Swift.String? = nil,
         versionStages: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdDate = createdDate
         self.name = name
@@ -1125,8 +1089,7 @@ public struct ListSecretsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: SecretsManagerClientTypes.SortOrderType? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.includePlannedDeletion = includePlannedDeletion
         self.maxResults = maxResults
@@ -1192,8 +1155,7 @@ extension SecretsManagerClientTypes {
             rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
             secretVersionsToStages: [Swift.String: [Swift.String]]? = nil,
             tags: [SecretsManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdDate = createdDate
             self.deletedDate = deletedDate
@@ -1224,8 +1186,7 @@ public struct ListSecretsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         secretList: [SecretsManagerClientTypes.SecretListEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.secretList = secretList
     }
@@ -1247,8 +1208,7 @@ public struct ListSecretVersionIdsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeDeprecated = includeDeprecated
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1277,8 +1237,7 @@ extension SecretsManagerClientTypes {
             lastAccessedDate: Foundation.Date? = nil,
             versionId: Swift.String? = nil,
             versionStages: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.kmsKeyIds = kmsKeyIds
             self.lastAccessedDate = lastAccessedDate
@@ -1303,8 +1262,7 @@ public struct ListSecretVersionIdsOutput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         versions: [SecretsManagerClientTypes.SecretVersionsListEntry]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.nextToken = nextToken
@@ -1330,8 +1288,7 @@ public struct PublicPolicyException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1357,8 +1314,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
         blockPublicPolicy: Swift.Bool? = false,
         resourcePolicy: Swift.String? = nil,
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.blockPublicPolicy = blockPublicPolicy
         self.resourcePolicy = resourcePolicy
         self.secretId = secretId
@@ -1374,8 +1330,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -1412,8 +1367,7 @@ public struct PutSecretValueInput: Swift.Sendable {
         secretId: Swift.String? = nil,
         secretString: Swift.String? = nil,
         versionStages: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.rotationToken = rotationToken
         self.secretBinary = secretBinary
@@ -1443,8 +1397,7 @@ public struct PutSecretValueOutput: Swift.Sendable {
         name: Swift.String? = nil,
         versionId: Swift.String? = nil,
         versionStages: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.versionId = versionId
@@ -1463,8 +1416,7 @@ public struct RemoveRegionsFromReplicationInput: Swift.Sendable {
     public init(
         removeReplicaRegions: [Swift.String]? = nil,
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.removeReplicaRegions = removeReplicaRegions
         self.secretId = secretId
     }
@@ -1479,8 +1431,7 @@ public struct RemoveRegionsFromReplicationOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.replicationStatus = replicationStatus
     }
@@ -1500,8 +1451,7 @@ public struct ReplicateSecretToRegionsInput: Swift.Sendable {
         addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]? = nil,
         forceOverwriteReplicaSecret: Swift.Bool? = false,
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addReplicaRegions = addReplicaRegions
         self.forceOverwriteReplicaSecret = forceOverwriteReplicaSecret
         self.secretId = secretId
@@ -1517,8 +1467,7 @@ public struct ReplicateSecretToRegionsOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.replicationStatus = replicationStatus
     }
@@ -1531,8 +1480,7 @@ public struct RestoreSecretInput: Swift.Sendable {
 
     public init(
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.secretId = secretId
     }
 }
@@ -1546,8 +1494,7 @@ public struct RestoreSecretOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -1572,8 +1519,7 @@ public struct RotateSecretInput: Swift.Sendable {
         rotationLambdaARN: Swift.String? = nil,
         rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.rotateImmediately = rotateImmediately
         self.rotationLambdaARN = rotationLambdaARN
@@ -1594,8 +1540,7 @@ public struct RotateSecretOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         name: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.versionId = versionId
@@ -1609,8 +1554,7 @@ public struct StopReplicationToReplicaInput: Swift.Sendable {
 
     public init(
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.secretId = secretId
     }
 }
@@ -1621,8 +1565,7 @@ public struct StopReplicationToReplicaOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1638,8 +1581,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         secretId: Swift.String? = nil,
         tags: [SecretsManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.secretId = secretId
         self.tags = tags
     }
@@ -1656,8 +1598,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         secretId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.secretId = secretId
         self.tagKeys = tagKeys
     }
@@ -1685,8 +1626,7 @@ public struct UpdateSecretInput: Swift.Sendable {
         secretBinary: Foundation.Data? = nil,
         secretId: Swift.String? = nil,
         secretString: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.kmsKeyId = kmsKeyId
@@ -1713,8 +1653,7 @@ public struct UpdateSecretOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         name: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.versionId = versionId
@@ -1738,8 +1677,7 @@ public struct UpdateSecretVersionStageInput: Swift.Sendable {
         removeFromVersionId: Swift.String? = nil,
         secretId: Swift.String? = nil,
         versionStage: Swift.String? = nil
-    )
-    {
+    ) {
         self.moveToVersionId = moveToVersionId
         self.removeFromVersionId = removeFromVersionId
         self.secretId = secretId
@@ -1756,8 +1694,7 @@ public struct UpdateSecretVersionStageOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -1773,8 +1710,7 @@ public struct ValidateResourcePolicyInput: Swift.Sendable {
     public init(
         resourcePolicy: Swift.String? = nil,
         secretId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
         self.secretId = secretId
     }
@@ -1792,8 +1728,7 @@ extension SecretsManagerClientTypes {
         public init(
             checkName: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.checkName = checkName
             self.errorMessage = errorMessage
         }
@@ -1809,8 +1744,7 @@ public struct ValidateResourcePolicyOutput: Swift.Sendable {
     public init(
         policyValidationPassed: Swift.Bool = false,
         validationErrors: [SecretsManagerClientTypes.ValidationErrorsEntry]? = nil
-    )
-    {
+    ) {
         self.policyValidationPassed = policyValidationPassed
         self.validationErrors = validationErrors
     }

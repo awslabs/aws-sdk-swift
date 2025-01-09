@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -144,8 +143,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -169,8 +167,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -195,8 +192,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -235,8 +231,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -256,8 +251,7 @@ public struct AssociateUserToPermissionGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         permissionGroupId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permissionGroupId = permissionGroupId
         self.userId = userId
@@ -270,8 +264,7 @@ public struct AssociateUserToPermissionGroupOutput: Swift.Sendable {
 
     public init(
         statusCode: Swift.Int = 0
-    )
-    {
+    ) {
         self.statusCode = statusCode
     }
 }
@@ -294,8 +287,7 @@ extension FinspacedataClientTypes {
             expiration: Swift.Int = 0,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretAccessKey = secretAccessKey
@@ -328,8 +320,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -407,8 +398,7 @@ public struct CreateChangesetInput: Swift.Sendable {
         datasetId: Swift.String? = nil,
         formatParams: [Swift.String: Swift.String]? = nil,
         sourceParams: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.changeType = changeType
         self.clientToken = clientToken
         self.datasetId = datasetId
@@ -427,8 +417,7 @@ public struct CreateChangesetOutput: Swift.Sendable {
     public init(
         changesetId: Swift.String? = nil,
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changesetId = changesetId
         self.datasetId = datasetId
     }
@@ -479,8 +468,7 @@ extension FinspacedataClientTypes {
             email: Swift.String? = nil,
             name: Swift.String? = nil,
             phoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.email = email
             self.name = name
             self.phoneNumber = phoneNumber
@@ -517,8 +505,7 @@ extension FinspacedataClientTypes {
 
         public init(
             permission: Swift.String? = nil
-        )
-        {
+        ) {
             self.permission = permission
         }
     }
@@ -536,8 +523,7 @@ extension FinspacedataClientTypes {
         public init(
             datasetPermissions: [FinspacedataClientTypes.ResourcePermission]? = nil,
             permissionGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.datasetPermissions = datasetPermissions
             self.permissionGroupId = permissionGroupId
         }
@@ -621,8 +607,7 @@ extension FinspacedataClientTypes {
             columnDescription: Swift.String? = nil,
             columnName: Swift.String? = nil,
             dataType: FinspacedataClientTypes.ColumnDataType? = nil
-        )
-        {
+        ) {
             self.columnDescription = columnDescription
             self.columnName = columnName
             self.dataType = dataType
@@ -642,8 +627,7 @@ extension FinspacedataClientTypes {
         public init(
             columns: [FinspacedataClientTypes.ColumnDefinition]? = nil,
             primaryKeyColumns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.primaryKeyColumns = primaryKeyColumns
         }
@@ -659,8 +643,7 @@ extension FinspacedataClientTypes {
 
         public init(
             tabularSchemaConfig: FinspacedataClientTypes.SchemaDefinition? = nil
-        )
-        {
+        ) {
             self.tabularSchemaConfig = tabularSchemaConfig
         }
     }
@@ -701,8 +684,7 @@ public struct CreateDatasetInput: Swift.Sendable {
         ownerInfo: FinspacedataClientTypes.DatasetOwnerInfo? = nil,
         permissionGroupParams: FinspacedataClientTypes.PermissionGroupParams? = nil,
         schemaDefinition: FinspacedataClientTypes.SchemaUnion? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.clientToken = clientToken
         self.datasetDescription = datasetDescription
@@ -721,8 +703,7 @@ public struct CreateDatasetOutput: Swift.Sendable {
 
     public init(
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetId = datasetId
     }
 }
@@ -782,8 +763,7 @@ extension FinspacedataClientTypes {
             destinationType: Swift.String? = nil,
             s3DestinationExportFileFormat: FinspacedataClientTypes.ExportFileFormat? = nil,
             s3DestinationExportFileFormatOptions: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.destinationType = destinationType
             self.s3DestinationExportFileFormat = s3DestinationExportFileFormat
             self.s3DestinationExportFileFormatOptions = s3DestinationExportFileFormatOptions
@@ -818,8 +798,7 @@ public struct CreateDataViewInput: Swift.Sendable {
         destinationTypeParams: FinspacedataClientTypes.DataViewDestinationTypeParams? = nil,
         partitionColumns: [Swift.String]? = nil,
         sortColumns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.asOfTimestamp = asOfTimestamp
         self.autoUpdate = autoUpdate
         self.clientToken = clientToken
@@ -840,8 +819,7 @@ public struct CreateDataViewOutput: Swift.Sendable {
     public init(
         dataViewId: Swift.String? = nil,
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataViewId = dataViewId
         self.datasetId = datasetId
     }
@@ -878,8 +856,7 @@ public struct CreatePermissionGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationPermissions = applicationPermissions
         self.clientToken = clientToken
         self.description = description
@@ -898,8 +875,7 @@ public struct CreatePermissionGroupOutput: Swift.Sendable {
 
     public init(
         permissionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissionGroupId = permissionGroupId
     }
 }
@@ -967,8 +943,7 @@ public struct CreateUserInput: Swift.Sendable {
         firstName: Swift.String? = nil,
         lastName: Swift.String? = nil,
         type: FinspacedataClientTypes.UserType? = nil
-    )
-    {
+    ) {
         self.apiAccess = apiAccess
         self.apiAccessPrincipalArn = apiAccessPrincipalArn
         self.clientToken = clientToken
@@ -990,8 +965,7 @@ public struct CreateUserOutput: Swift.Sendable {
 
     public init(
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userId = userId
     }
 }
@@ -1007,8 +981,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datasetId = datasetId
     }
@@ -1021,8 +994,7 @@ public struct DeleteDatasetOutput: Swift.Sendable {
 
     public init(
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetId = datasetId
     }
 }
@@ -1037,8 +1009,7 @@ public struct DeletePermissionGroupInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         permissionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permissionGroupId = permissionGroupId
     }
@@ -1050,8 +1021,7 @@ public struct DeletePermissionGroupOutput: Swift.Sendable {
 
     public init(
         permissionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissionGroupId = permissionGroupId
     }
 }
@@ -1066,8 +1036,7 @@ public struct DisableUserInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.userId = userId
     }
@@ -1079,8 +1048,7 @@ public struct DisableUserOutput: Swift.Sendable {
 
     public init(
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userId = userId
     }
 }
@@ -1099,8 +1067,7 @@ public struct DisassociateUserFromPermissionGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         permissionGroupId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permissionGroupId = permissionGroupId
         self.userId = userId
@@ -1113,8 +1080,7 @@ public struct DisassociateUserFromPermissionGroupOutput: Swift.Sendable {
 
     public init(
         statusCode: Swift.Int = 0
-    )
-    {
+    ) {
         self.statusCode = statusCode
     }
 }
@@ -1129,8 +1095,7 @@ public struct EnableUserInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.userId = userId
     }
@@ -1142,8 +1107,7 @@ public struct EnableUserOutput: Swift.Sendable {
 
     public init(
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userId = userId
     }
 }
@@ -1160,8 +1124,7 @@ public struct GetChangesetInput: Swift.Sendable {
     public init(
         changesetId: Swift.String? = nil,
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changesetId = changesetId
         self.datasetId = datasetId
     }
@@ -1243,8 +1206,7 @@ extension FinspacedataClientTypes {
         public init(
             errorCategory: FinspacedataClientTypes.ErrorCategory? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCategory = errorCategory
             self.errorMessage = errorMessage
         }
@@ -1339,8 +1301,7 @@ public struct GetChangesetOutput: Swift.Sendable {
         status: FinspacedataClientTypes.IngestionStatus? = nil,
         updatedByChangesetId: Swift.String? = nil,
         updatesChangesetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeFromTimestamp = activeFromTimestamp
         self.activeUntilTimestamp = activeUntilTimestamp
         self.changeType = changeType
@@ -1365,8 +1326,7 @@ public struct GetDatasetInput: Swift.Sendable {
 
     public init(
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetId = datasetId
     }
 }
@@ -1453,8 +1413,7 @@ public struct GetDatasetOutput: Swift.Sendable {
         lastModifiedTime: Swift.Int = 0,
         schemaDefinition: FinspacedataClientTypes.SchemaUnion? = nil,
         status: FinspacedataClientTypes.DatasetStatus? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.createTime = createTime
         self.datasetArn = datasetArn
@@ -1480,8 +1439,7 @@ public struct GetDataViewInput: Swift.Sendable {
     public init(
         dataViewId: Swift.String? = nil,
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataViewId = dataViewId
         self.datasetId = datasetId
     }
@@ -1515,8 +1473,7 @@ extension FinspacedataClientTypes {
         public init(
             errorCategory: FinspacedataClientTypes.ErrorCategory? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCategory = errorCategory
             self.errorMessage = errorMessage
         }
@@ -1627,8 +1584,7 @@ public struct GetDataViewOutput: Swift.Sendable {
         partitionColumns: [Swift.String]? = nil,
         sortColumns: [Swift.String]? = nil,
         status: FinspacedataClientTypes.DataViewStatus? = nil
-    )
-    {
+    ) {
         self.asOfTimestamp = asOfTimestamp
         self.autoUpdate = autoUpdate
         self.createTime = createTime
@@ -1655,8 +1611,7 @@ public struct GetExternalDataViewAccessDetailsInput: Swift.Sendable {
     public init(
         dataViewId: Swift.String? = nil,
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataViewId = dataViewId
         self.datasetId = datasetId
     }
@@ -1676,8 +1631,7 @@ extension FinspacedataClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -1693,8 +1647,7 @@ public struct GetExternalDataViewAccessDetailsOutput: Swift.Sendable {
     public init(
         credentials: FinspacedataClientTypes.AwsCredentials? = nil,
         s3Location: FinspacedataClientTypes.S3Location? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.s3Location = s3Location
     }
@@ -1712,8 +1665,7 @@ public struct GetPermissionGroupInput: Swift.Sendable {
 
     public init(
         permissionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissionGroupId = permissionGroupId
     }
 }
@@ -1797,8 +1749,7 @@ extension FinspacedataClientTypes {
             membershipStatus: FinspacedataClientTypes.PermissionGroupMembershipStatus? = nil,
             name: Swift.String? = nil,
             permissionGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationPermissions = applicationPermissions
             self.createTime = createTime
             self.description = description
@@ -1821,8 +1772,7 @@ public struct GetPermissionGroupOutput: Swift.Sendable {
 
     public init(
         permissionGroup: FinspacedataClientTypes.PermissionGroup? = nil
-    )
-    {
+    ) {
         self.permissionGroup = permissionGroup
     }
 }
@@ -1838,8 +1788,7 @@ public struct GetProgrammaticAccessCredentialsInput: Swift.Sendable {
     public init(
         durationInMinutes: Swift.Int? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.durationInMinutes = durationInMinutes
         self.environmentId = environmentId
     }
@@ -1860,8 +1809,7 @@ extension FinspacedataClientTypes {
             accessKeyId: Swift.String? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.secretAccessKey = secretAccessKey
             self.sessionToken = sessionToken
@@ -1885,8 +1833,7 @@ public struct GetProgrammaticAccessCredentialsOutput: Swift.Sendable {
     public init(
         credentials: FinspacedataClientTypes.Credentials? = nil,
         durationInMinutes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.durationInMinutes = durationInMinutes
     }
@@ -1904,8 +1851,7 @@ public struct GetUserInput: Swift.Sendable {
 
     public init(
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userId = userId
     }
 }
@@ -2001,8 +1947,7 @@ public struct GetUserOutput: Swift.Sendable {
         status: FinspacedataClientTypes.UserStatus? = nil,
         type: FinspacedataClientTypes.UserType? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiAccess = apiAccess
         self.apiAccessPrincipalArn = apiAccessPrincipalArn
         self.createTime = createTime
@@ -2063,8 +2008,7 @@ public struct GetWorkingLocationInput: Swift.Sendable {
 
     public init(
         locationType: FinspacedataClientTypes.LocationType? = nil
-    )
-    {
+    ) {
         self.locationType = locationType
     }
 }
@@ -2081,8 +2025,7 @@ public struct GetWorkingLocationOutput: Swift.Sendable {
         s3Bucket: Swift.String? = nil,
         s3Path: Swift.String? = nil,
         s3Uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3Bucket = s3Bucket
         self.s3Path = s3Path
         self.s3Uri = s3Uri
@@ -2103,8 +2046,7 @@ public struct ListChangesetsInput: Swift.Sendable {
         datasetId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetId = datasetId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2172,8 +2114,7 @@ extension FinspacedataClientTypes {
             status: FinspacedataClientTypes.IngestionStatus? = nil,
             updatedByChangesetId: Swift.String? = nil,
             updatesChangesetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeFromTimestamp = activeFromTimestamp
             self.activeUntilTimestamp = activeUntilTimestamp
             self.changeType = changeType
@@ -2201,8 +2142,7 @@ public struct ListChangesetsOutput: Swift.Sendable {
     public init(
         changesets: [FinspacedataClientTypes.ChangesetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changesets = changesets
         self.nextToken = nextToken
     }
@@ -2218,8 +2158,7 @@ public struct ListDatasetsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2265,8 +2204,7 @@ extension FinspacedataClientTypes {
             lastModifiedTime: Swift.Int = 0,
             ownerInfo: FinspacedataClientTypes.DatasetOwnerInfo? = nil,
             schemaDefinition: FinspacedataClientTypes.SchemaUnion? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.createTime = createTime
             self.datasetArn = datasetArn
@@ -2291,8 +2229,7 @@ public struct ListDatasetsOutput: Swift.Sendable {
     public init(
         datasets: [FinspacedataClientTypes.Dataset]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasets = datasets
         self.nextToken = nextToken
     }
@@ -2312,8 +2249,7 @@ public struct ListDataViewsInput: Swift.Sendable {
         datasetId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetId = datasetId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2378,8 +2314,7 @@ extension FinspacedataClientTypes {
             partitionColumns: [Swift.String]? = nil,
             sortColumns: [Swift.String]? = nil,
             status: FinspacedataClientTypes.DataViewStatus? = nil
-        )
-        {
+        ) {
             self.asOfTimestamp = asOfTimestamp
             self.autoUpdate = autoUpdate
             self.createTime = createTime
@@ -2405,8 +2340,7 @@ public struct ListDataViewsOutput: Swift.Sendable {
     public init(
         dataViews: [FinspacedataClientTypes.DataViewSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataViews = dataViews
         self.nextToken = nextToken
     }
@@ -2422,8 +2356,7 @@ public struct ListPermissionGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2438,8 +2371,7 @@ public struct ListPermissionGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissionGroups: [FinspacedataClientTypes.PermissionGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissionGroups = permissionGroups
     }
@@ -2459,8 +2391,7 @@ public struct ListPermissionGroupsByUserInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.userId = userId
@@ -2488,8 +2419,7 @@ extension FinspacedataClientTypes {
             membershipStatus: FinspacedataClientTypes.PermissionGroupMembershipStatus? = nil,
             name: Swift.String? = nil,
             permissionGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.membershipStatus = membershipStatus
             self.name = name
             self.permissionGroupId = permissionGroupId
@@ -2511,8 +2441,7 @@ public struct ListPermissionGroupsByUserOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissionGroups: [FinspacedataClientTypes.PermissionGroupByUser]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissionGroups = permissionGroups
     }
@@ -2528,8 +2457,7 @@ public struct ListUsersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2594,8 +2522,7 @@ extension FinspacedataClientTypes {
             status: FinspacedataClientTypes.UserStatus? = nil,
             type: FinspacedataClientTypes.UserType? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiAccess = apiAccess
             self.apiAccessPrincipalArn = apiAccessPrincipalArn
             self.createTime = createTime
@@ -2627,8 +2554,7 @@ public struct ListUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         users: [FinspacedataClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.users = users
     }
@@ -2648,8 +2574,7 @@ public struct ListUsersByPermissionGroupInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         permissionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.permissionGroupId = permissionGroupId
@@ -2709,8 +2634,7 @@ extension FinspacedataClientTypes {
             status: FinspacedataClientTypes.UserStatus? = nil,
             type: FinspacedataClientTypes.UserType? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiAccess = apiAccess
             self.apiAccessPrincipalArn = apiAccessPrincipalArn
             self.emailAddress = emailAddress
@@ -2738,8 +2662,7 @@ public struct ListUsersByPermissionGroupOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         users: [FinspacedataClientTypes.UserByPermissionGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.users = users
     }
@@ -2755,8 +2678,7 @@ public struct ResetUserPasswordInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.userId = userId
     }
@@ -2771,8 +2693,7 @@ public struct ResetUserPasswordOutput: Swift.Sendable {
     public init(
         temporaryPassword: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.temporaryPassword = temporaryPassword
         self.userId = userId
     }
@@ -2817,8 +2738,7 @@ public struct UpdateChangesetInput: Swift.Sendable {
         datasetId: Swift.String? = nil,
         formatParams: [Swift.String: Swift.String]? = nil,
         sourceParams: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.changesetId = changesetId
         self.clientToken = clientToken
         self.datasetId = datasetId
@@ -2837,8 +2757,7 @@ public struct UpdateChangesetOutput: Swift.Sendable {
     public init(
         changesetId: Swift.String? = nil,
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changesetId = changesetId
         self.datasetId = datasetId
     }
@@ -2876,8 +2795,7 @@ public struct UpdateDatasetInput: Swift.Sendable {
         datasetTitle: Swift.String? = nil,
         kind: FinspacedataClientTypes.DatasetKind? = nil,
         schemaDefinition: FinspacedataClientTypes.SchemaUnion? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.clientToken = clientToken
         self.datasetDescription = datasetDescription
@@ -2895,8 +2813,7 @@ public struct UpdateDatasetOutput: Swift.Sendable {
 
     public init(
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetId = datasetId
     }
 }
@@ -2934,8 +2851,7 @@ public struct UpdatePermissionGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         permissionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationPermissions = applicationPermissions
         self.clientToken = clientToken
         self.description = description
@@ -2955,8 +2871,7 @@ public struct UpdatePermissionGroupOutput: Swift.Sendable {
 
     public init(
         permissionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissionGroupId = permissionGroupId
     }
 }
@@ -2994,8 +2909,7 @@ public struct UpdateUserInput: Swift.Sendable {
         lastName: Swift.String? = nil,
         type: FinspacedataClientTypes.UserType? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiAccess = apiAccess
         self.apiAccessPrincipalArn = apiAccessPrincipalArn
         self.clientToken = clientToken
@@ -3017,8 +2931,7 @@ public struct UpdateUserOutput: Swift.Sendable {
 
     public init(
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userId = userId
     }
 }

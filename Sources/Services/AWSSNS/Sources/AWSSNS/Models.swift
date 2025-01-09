@@ -100,8 +100,7 @@ public struct AuthorizationErrorException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -124,8 +123,7 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -148,8 +146,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -172,8 +169,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -197,8 +193,7 @@ public struct AddPermissionInput: Swift.Sendable {
         awsAccountId: [Swift.String]? = nil,
         label: Swift.String? = nil,
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
         self.awsAccountId = awsAccountId
         self.label = label
@@ -225,8 +220,7 @@ public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -239,8 +233,7 @@ public struct CheckIfPhoneNumberIsOptedOutInput: Swift.Sendable {
 
     public init(
         phoneNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumber = phoneNumber
     }
 }
@@ -261,8 +254,7 @@ public struct CheckIfPhoneNumberIsOptedOutOutput: Swift.Sendable {
 
     public init(
         isOptedOut: Swift.Bool = false
-    )
-    {
+    ) {
         self.isOptedOut = isOptedOut
     }
 }
@@ -285,8 +277,7 @@ public struct FilterPolicyLimitExceededException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -309,8 +300,7 @@ public struct ReplayLimitExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -333,8 +323,7 @@ public struct SubscriptionLimitExceededException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -354,8 +343,7 @@ public struct ConfirmSubscriptionInput: Swift.Sendable {
         authenticateOnUnsubscribe: Swift.String? = nil,
         token: Swift.String? = nil,
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticateOnUnsubscribe = authenticateOnUnsubscribe
         self.token = token
         self.topicArn = topicArn
@@ -369,8 +357,7 @@ public struct ConfirmSubscriptionOutput: Swift.Sendable {
 
     public init(
         subscriptionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionArn = subscriptionArn
     }
 }
@@ -391,8 +378,7 @@ public struct CreatePlatformApplicationInput: Swift.Sendable {
         attributes: [Swift.String: Swift.String]? = nil,
         name: Swift.String? = nil,
         platform: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.name = name
         self.platform = platform
@@ -406,8 +392,7 @@ public struct CreatePlatformApplicationOutput: Swift.Sendable {
 
     public init(
         platformApplicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.platformApplicationArn = platformApplicationArn
     }
 }
@@ -430,8 +415,7 @@ public struct CreatePlatformEndpointInput: Swift.Sendable {
         customUserData: Swift.String? = nil,
         platformApplicationArn: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.customUserData = customUserData
         self.platformApplicationArn = platformApplicationArn
@@ -446,8 +430,7 @@ public struct CreatePlatformEndpointOutput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -470,8 +453,7 @@ public struct OptedOutException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -494,8 +476,7 @@ public struct UserErrorException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -573,8 +554,7 @@ public struct CreateSMSSandboxPhoneNumberInput: Swift.Sendable {
     public init(
         languageCode: SNSClientTypes.LanguageCodeString? = nil,
         phoneNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.phoneNumber = phoneNumber
     }
@@ -608,8 +588,7 @@ public struct ConcurrentAccessException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -632,8 +611,7 @@ public struct InvalidSecurityException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -656,8 +634,7 @@ public struct StaleTagException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -680,8 +657,7 @@ public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -704,8 +680,7 @@ public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -728,8 +703,7 @@ public struct TopicLimitExceededException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -748,8 +722,7 @@ extension SNSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -801,8 +774,7 @@ public struct CreateTopicInput: Swift.Sendable {
         dataProtectionPolicy: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [SNSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.dataProtectionPolicy = dataProtectionPolicy
         self.name = name
@@ -817,8 +789,7 @@ public struct CreateTopicOutput: Swift.Sendable {
 
     public init(
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.topicArn = topicArn
     }
 }
@@ -831,8 +802,7 @@ public struct DeleteEndpointInput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -845,8 +815,7 @@ public struct DeletePlatformApplicationInput: Swift.Sendable {
 
     public init(
         platformApplicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.platformApplicationArn = platformApplicationArn
     }
 }
@@ -869,8 +838,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -882,8 +850,7 @@ public struct DeleteSMSSandboxPhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumber = phoneNumber
     }
 }
@@ -916,8 +883,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -929,8 +895,7 @@ public struct DeleteTopicInput: Swift.Sendable {
 
     public init(
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.topicArn = topicArn
     }
 }
@@ -942,8 +907,7 @@ public struct GetDataProtectionPolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -954,8 +918,7 @@ public struct GetDataProtectionPolicyOutput: Swift.Sendable {
 
     public init(
         dataProtectionPolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataProtectionPolicy = dataProtectionPolicy
     }
 }
@@ -968,8 +931,7 @@ public struct GetEndpointAttributesInput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -987,8 +949,7 @@ public struct GetEndpointAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -1001,8 +962,7 @@ public struct GetPlatformApplicationAttributesInput: Swift.Sendable {
 
     public init(
         platformApplicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.platformApplicationArn = platformApplicationArn
     }
 }
@@ -1037,8 +997,7 @@ public struct GetPlatformApplicationAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -1050,8 +1009,7 @@ public struct GetSMSAttributesInput: Swift.Sendable {
 
     public init(
         attributes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -1063,8 +1021,7 @@ public struct GetSMSAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -1081,8 +1038,7 @@ public struct GetSMSSandboxAccountStatusOutput: Swift.Sendable {
 
     public init(
         isInSandbox: Swift.Bool = false
-    )
-    {
+    ) {
         self.isInSandbox = isInSandbox
     }
 }
@@ -1095,8 +1051,7 @@ public struct GetSubscriptionAttributesInput: Swift.Sendable {
 
     public init(
         subscriptionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionArn = subscriptionArn
     }
 }
@@ -1149,8 +1104,7 @@ public struct GetSubscriptionAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -1163,8 +1117,7 @@ public struct GetTopicAttributesInput: Swift.Sendable {
 
     public init(
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.topicArn = topicArn
     }
 }
@@ -1228,8 +1181,7 @@ public struct GetTopicAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -1245,8 +1197,7 @@ public struct ListEndpointsByPlatformApplicationInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         platformApplicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.platformApplicationArn = platformApplicationArn
     }
@@ -1264,8 +1215,7 @@ extension SNSClientTypes {
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
             endpointArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.endpointArn = endpointArn
         }
@@ -1282,8 +1232,7 @@ public struct ListEndpointsByPlatformApplicationOutput: Swift.Sendable {
     public init(
         endpoints: [SNSClientTypes.Endpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }
@@ -1308,8 +1257,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1323,8 +1271,7 @@ public struct ListOriginationNumbersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1420,8 +1367,7 @@ extension SNSClientTypes {
             phoneNumber: Swift.String? = nil,
             routeType: SNSClientTypes.RouteType? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.iso2CountryCode = iso2CountryCode
             self.numberCapabilities = numberCapabilities
@@ -1446,8 +1392,7 @@ public struct ListOriginationNumbersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         phoneNumbers: [SNSClientTypes.PhoneNumberInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.phoneNumbers = phoneNumbers
     }
@@ -1460,8 +1405,7 @@ public struct ListPhoneNumbersOptedOutInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -1476,8 +1420,7 @@ public struct ListPhoneNumbersOptedOutOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         phoneNumbers: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.phoneNumbers = phoneNumbers
     }
@@ -1495,8 +1438,7 @@ public struct ListPlatformApplicationsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -1513,8 +1455,7 @@ extension SNSClientTypes {
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
             platformApplicationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.platformApplicationArn = platformApplicationArn
         }
@@ -1531,8 +1472,7 @@ public struct ListPlatformApplicationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         platformApplications: [SNSClientTypes.PlatformApplication]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.platformApplications = platformApplications
     }
@@ -1547,8 +1487,7 @@ public struct ListSMSSandboxPhoneNumbersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1596,8 +1535,7 @@ extension SNSClientTypes {
         public init(
             phoneNumber: Swift.String? = nil,
             status: SNSClientTypes.SMSSandboxPhoneNumberVerificationStatus? = nil
-        )
-        {
+        ) {
             self.phoneNumber = phoneNumber
             self.status = status
         }
@@ -1619,8 +1557,7 @@ public struct ListSMSSandboxPhoneNumbersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         phoneNumbers: [SNSClientTypes.SMSSandboxPhoneNumber]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.phoneNumbers = phoneNumbers
     }
@@ -1633,8 +1570,7 @@ public struct ListSubscriptionsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -1660,8 +1596,7 @@ extension SNSClientTypes {
             `protocol`: Swift.String? = nil,
             subscriptionArn: Swift.String? = nil,
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.owner = owner
             self.`protocol` = `protocol`
@@ -1681,8 +1616,7 @@ public struct ListSubscriptionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subscriptions: [SNSClientTypes.Subscription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subscriptions = subscriptions
     }
@@ -1699,8 +1633,7 @@ public struct ListSubscriptionsByTopicInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.topicArn = topicArn
     }
@@ -1716,8 +1649,7 @@ public struct ListSubscriptionsByTopicOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subscriptions: [SNSClientTypes.Subscription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subscriptions = subscriptions
     }
@@ -1730,8 +1662,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1742,8 +1673,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [SNSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1754,8 +1684,7 @@ public struct ListTopicsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -1769,8 +1698,7 @@ extension SNSClientTypes {
 
         public init(
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicArn = topicArn
         }
     }
@@ -1786,8 +1714,7 @@ public struct ListTopicsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         topics: [SNSClientTypes.Topic]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.topics = topics
     }
@@ -1801,8 +1728,7 @@ public struct OptInPhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumber = phoneNumber
     }
 }
@@ -1837,8 +1763,7 @@ public struct EndpointDisabledException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1862,8 +1787,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1886,8 +1810,7 @@ public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1910,8 +1833,7 @@ public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1934,8 +1856,7 @@ public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1958,8 +1879,7 @@ public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1982,8 +1902,7 @@ public struct KMSOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2006,8 +1925,7 @@ public struct KMSThrottlingException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2031,8 +1949,7 @@ public struct PlatformApplicationDisabledException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2053,8 +1970,7 @@ extension SNSClientTypes {
             binaryValue: Foundation.Data? = nil,
             dataType: Swift.String? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.binaryValue = binaryValue
             self.dataType = dataType
             self.stringValue = stringValue
@@ -2126,8 +2042,7 @@ public struct PublishInput: Swift.Sendable {
         subject: Swift.String? = nil,
         targetArn: Swift.String? = nil,
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
         self.messageAttributes = messageAttributes
         self.messageDeduplicationId = messageDeduplicationId
@@ -2155,8 +2070,7 @@ public struct PublishOutput: Swift.Sendable {
     public init(
         messageId: Swift.String? = nil,
         sequenceNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
         self.sequenceNumber = sequenceNumber
     }
@@ -2180,8 +2094,7 @@ public struct BatchEntryIdsNotDistinctException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2204,8 +2117,7 @@ public struct BatchRequestTooLongException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2228,8 +2140,7 @@ public struct EmptyBatchRequestException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2252,8 +2163,7 @@ public struct InvalidBatchEntryIdException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2276,8 +2186,7 @@ public struct TooManyEntriesInBatchRequestException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2338,8 +2247,7 @@ extension SNSClientTypes {
             messageGroupId: Swift.String? = nil,
             messageStructure: Swift.String? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.message = message
             self.messageAttributes = messageAttributes
@@ -2362,8 +2270,7 @@ public struct PublishBatchInput: Swift.Sendable {
     public init(
         publishBatchRequestEntries: [SNSClientTypes.PublishBatchRequestEntry]? = nil,
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.publishBatchRequestEntries = publishBatchRequestEntries
         self.topicArn = topicArn
     }
@@ -2390,8 +2297,7 @@ extension SNSClientTypes {
             id: Swift.String? = nil,
             message: Swift.String? = nil,
             senderFault: Swift.Bool = false
-        )
-        {
+        ) {
             self.code = code
             self.id = id
             self.message = message
@@ -2415,8 +2321,7 @@ extension SNSClientTypes {
             id: Swift.String? = nil,
             messageId: Swift.String? = nil,
             sequenceNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.messageId = messageId
             self.sequenceNumber = sequenceNumber
@@ -2433,8 +2338,7 @@ public struct PublishBatchOutput: Swift.Sendable {
     public init(
         failed: [SNSClientTypes.BatchResultErrorEntry]? = nil,
         successful: [SNSClientTypes.PublishBatchResultEntry]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }
@@ -2451,8 +2355,7 @@ public struct PutDataProtectionPolicyInput: Swift.Sendable {
     public init(
         dataProtectionPolicy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataProtectionPolicy = dataProtectionPolicy
         self.resourceArn = resourceArn
     }
@@ -2470,8 +2373,7 @@ public struct RemovePermissionInput: Swift.Sendable {
     public init(
         label: Swift.String? = nil,
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.label = label
         self.topicArn = topicArn
     }
@@ -2495,8 +2397,7 @@ public struct SetEndpointAttributesInput: Swift.Sendable {
     public init(
         attributes: [Swift.String: Swift.String]? = nil,
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.endpointArn = endpointArn
     }
@@ -2569,8 +2470,7 @@ public struct SetPlatformApplicationAttributesInput: Swift.Sendable {
     public init(
         attributes: [Swift.String: Swift.String]? = nil,
         platformApplicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.platformApplicationArn = platformApplicationArn
     }
@@ -2610,8 +2510,7 @@ public struct SetSMSAttributesInput: Swift.Sendable {
 
     public init(
         attributes: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -2666,8 +2565,7 @@ public struct SetSubscriptionAttributesInput: Swift.Sendable {
         attributeName: Swift.String? = nil,
         attributeValue: Swift.String? = nil,
         subscriptionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.attributeValue = attributeValue
         self.subscriptionArn = subscriptionArn
@@ -2772,8 +2670,7 @@ public struct SetTopicAttributesInput: Swift.Sendable {
         attributeName: Swift.String? = nil,
         attributeValue: Swift.String? = nil,
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.attributeValue = attributeValue
         self.topicArn = topicArn
@@ -2881,8 +2778,7 @@ public struct SubscribeInput: Swift.Sendable {
         `protocol`: Swift.String? = nil,
         returnSubscriptionArn: Swift.Bool? = false,
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.endpoint = endpoint
         self.`protocol` = `protocol`
@@ -2898,8 +2794,7 @@ public struct SubscribeOutput: Swift.Sendable {
 
     public init(
         subscriptionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionArn = subscriptionArn
     }
 }
@@ -2915,8 +2810,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [SNSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2935,8 +2829,7 @@ public struct UnsubscribeInput: Swift.Sendable {
 
     public init(
         subscriptionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionArn = subscriptionArn
     }
 }
@@ -2952,8 +2845,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2987,8 +2879,7 @@ public struct VerificationException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.status = status
     }
@@ -3005,8 +2896,7 @@ public struct VerifySMSSandboxPhoneNumberInput: Swift.Sendable {
     public init(
         oneTimePassword: Swift.String? = nil,
         phoneNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.oneTimePassword = oneTimePassword
         self.phoneNumber = phoneNumber
     }

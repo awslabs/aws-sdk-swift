@@ -54,8 +54,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -110,8 +109,7 @@ extension TimestreamWriteClientTypes {
             recordIngestionFailures: Swift.Int = 0,
             recordsIngested: Swift.Int = 0,
             recordsProcessed: Swift.Int = 0
-        )
-        {
+        ) {
             self.bytesMetered = bytesMetered
             self.fileFailures = fileFailures
             self.parseFailures = parseFailures
@@ -190,8 +188,7 @@ extension TimestreamWriteClientTypes {
             tableName: Swift.String? = nil,
             taskId: Swift.String? = nil,
             taskStatus: TimestreamWriteClientTypes.BatchLoadStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.databaseName = databaseName
             self.lastUpdatedTime = lastUpdatedTime
@@ -215,8 +212,7 @@ extension TimestreamWriteClientTypes {
         public init(
             destinationColumn: Swift.String? = nil,
             sourceColumn: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationColumn = destinationColumn
             self.sourceColumn = sourceColumn
         }
@@ -318,8 +314,7 @@ extension TimestreamWriteClientTypes {
             measureValueType: TimestreamWriteClientTypes.ScalarMeasureValueType? = nil,
             sourceColumn: Swift.String? = nil,
             targetMultiMeasureAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.measureValueType = measureValueType
             self.sourceColumn = sourceColumn
             self.targetMultiMeasureAttributeName = targetMultiMeasureAttributeName
@@ -349,8 +344,7 @@ extension TimestreamWriteClientTypes {
             multiMeasureAttributeMappings: [TimestreamWriteClientTypes.MultiMeasureAttributeMapping]? = nil,
             sourceColumn: Swift.String? = nil,
             targetMeasureName: Swift.String? = nil
-        )
-        {
+        ) {
             self.measureName = measureName
             self.measureValueType = measureValueType
             self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
@@ -373,8 +367,7 @@ extension TimestreamWriteClientTypes {
         public init(
             multiMeasureAttributeMappings: [TimestreamWriteClientTypes.MultiMeasureAttributeMapping]? = nil,
             targetMultiMeasureName: Swift.String? = nil
-        )
-        {
+        ) {
             self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
             self.targetMultiMeasureName = targetMultiMeasureName
         }
@@ -441,8 +434,7 @@ extension TimestreamWriteClientTypes {
             multiMeasureMappings: TimestreamWriteClientTypes.MultiMeasureMappings? = nil,
             timeColumn: Swift.String? = nil,
             timeUnit: TimestreamWriteClientTypes.TimeUnit? = nil
-        )
-        {
+        ) {
             self.dimensionMappings = dimensionMappings
             self.measureNameColumn = measureNameColumn
             self.mixedMeasureMappings = mixedMeasureMappings
@@ -465,8 +457,7 @@ extension TimestreamWriteClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             objectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.objectKey = objectKey
         }
@@ -485,8 +476,7 @@ extension TimestreamWriteClientTypes {
         public init(
             dataModel: TimestreamWriteClientTypes.DataModel? = nil,
             dataModelS3Configuration: TimestreamWriteClientTypes.DataModelS3Configuration? = nil
-        )
-        {
+        ) {
             self.dataModel = dataModel
             self.dataModelS3Configuration = dataModelS3Configuration
         }
@@ -514,8 +504,7 @@ extension TimestreamWriteClientTypes {
             nullValue: Swift.String? = nil,
             quoteChar: Swift.String? = nil,
             trimWhiteSpace: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.columnSeparator = columnSeparator
             self.escapeChar = escapeChar
             self.nullValue = nullValue
@@ -538,8 +527,7 @@ extension TimestreamWriteClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             objectKeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.objectKeyPrefix = objectKeyPrefix
         }
@@ -563,8 +551,7 @@ extension TimestreamWriteClientTypes {
             csvConfiguration: TimestreamWriteClientTypes.CsvConfiguration? = nil,
             dataFormat: TimestreamWriteClientTypes.BatchLoadDataFormat? = nil,
             dataSourceS3Configuration: TimestreamWriteClientTypes.DataSourceS3Configuration? = nil
-        )
-        {
+        ) {
             self.csvConfiguration = csvConfiguration
             self.dataFormat = dataFormat
             self.dataSourceS3Configuration = dataSourceS3Configuration
@@ -620,8 +607,7 @@ extension TimestreamWriteClientTypes {
             encryptionOption: TimestreamWriteClientTypes.S3EncryptionOption? = nil,
             kmsKeyId: Swift.String? = nil,
             objectKeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.encryptionOption = encryptionOption
             self.kmsKeyId = kmsKeyId
@@ -639,8 +625,7 @@ extension TimestreamWriteClientTypes {
 
         public init(
             reportS3Configuration: TimestreamWriteClientTypes.ReportS3Configuration? = nil
-        )
-        {
+        ) {
             self.reportS3Configuration = reportS3Configuration
         }
     }
@@ -691,8 +676,7 @@ extension TimestreamWriteClientTypes {
             targetTableName: Swift.String? = nil,
             taskId: Swift.String? = nil,
             taskStatus: TimestreamWriteClientTypes.BatchLoadStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dataModelConfiguration = dataModelConfiguration
             self.dataSourceConfiguration = dataSourceConfiguration
@@ -729,8 +713,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -754,8 +737,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -778,8 +760,7 @@ public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -802,8 +783,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -826,8 +806,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -851,8 +830,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -876,8 +854,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -910,8 +887,7 @@ public struct CreateBatchLoadTaskInput: Swift.Sendable {
         reportConfiguration: TimestreamWriteClientTypes.ReportConfiguration? = nil,
         targetDatabaseName: Swift.String? = nil,
         targetTableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataModelConfiguration = dataModelConfiguration
         self.dataSourceConfiguration = dataSourceConfiguration
@@ -934,8 +910,7 @@ public struct CreateBatchLoadTaskOutput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -954,8 +929,7 @@ extension TimestreamWriteClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -975,8 +949,7 @@ public struct CreateDatabaseInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         tags: [TimestreamWriteClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.kmsKeyId = kmsKeyId
         self.tags = tags
@@ -1007,8 +980,7 @@ extension TimestreamWriteClientTypes {
             kmsKeyId: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             tableCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.databaseName = databaseName
@@ -1025,8 +997,7 @@ public struct CreateDatabaseOutput: Swift.Sendable {
 
     public init(
         database: TimestreamWriteClientTypes.Database? = nil
-    )
-    {
+    ) {
         self.database = database
     }
 }
@@ -1049,8 +1020,7 @@ extension TimestreamWriteClientTypes {
             encryptionOption: TimestreamWriteClientTypes.S3EncryptionOption? = nil,
             kmsKeyId: Swift.String? = nil,
             objectKeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.encryptionOption = encryptionOption
             self.kmsKeyId = kmsKeyId
@@ -1068,8 +1038,7 @@ extension TimestreamWriteClientTypes {
 
         public init(
             s3Configuration: TimestreamWriteClientTypes.S3Configuration? = nil
-        )
-        {
+        ) {
             self.s3Configuration = s3Configuration
         }
     }
@@ -1088,8 +1057,7 @@ extension TimestreamWriteClientTypes {
         public init(
             enableMagneticStoreWrites: Swift.Bool? = nil,
             magneticStoreRejectedDataLocation: TimestreamWriteClientTypes.MagneticStoreRejectedDataLocation? = nil
-        )
-        {
+        ) {
             self.enableMagneticStoreWrites = enableMagneticStoreWrites
             self.magneticStoreRejectedDataLocation = magneticStoreRejectedDataLocation
         }
@@ -1110,8 +1078,7 @@ extension TimestreamWriteClientTypes {
         public init(
             magneticStoreRetentionPeriodInDays: Swift.Int? = nil,
             memoryStoreRetentionPeriodInHours: Swift.Int? = nil
-        )
-        {
+        ) {
             self.magneticStoreRetentionPeriodInDays = magneticStoreRetentionPeriodInDays
             self.memoryStoreRetentionPeriodInHours = memoryStoreRetentionPeriodInHours
         }
@@ -1192,8 +1159,7 @@ extension TimestreamWriteClientTypes {
             enforcementInRecord: TimestreamWriteClientTypes.PartitionKeyEnforcementLevel? = nil,
             name: Swift.String? = nil,
             type: TimestreamWriteClientTypes.PartitionKeyType? = nil
-        )
-        {
+        ) {
             self.enforcementInRecord = enforcementInRecord
             self.name = name
             self.type = type
@@ -1210,8 +1176,7 @@ extension TimestreamWriteClientTypes {
 
         public init(
             compositePartitionKey: [TimestreamWriteClientTypes.PartitionKey]? = nil
-        )
-        {
+        ) {
             self.compositePartitionKey = compositePartitionKey
         }
     }
@@ -1240,8 +1205,7 @@ public struct CreateTableInput: Swift.Sendable {
         schema: TimestreamWriteClientTypes.Schema? = nil,
         tableName: Swift.String? = nil,
         tags: [TimestreamWriteClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.magneticStoreWriteProperties = magneticStoreWriteProperties
         self.retentionProperties = retentionProperties
@@ -1320,8 +1284,7 @@ extension TimestreamWriteClientTypes {
             schema: TimestreamWriteClientTypes.Schema? = nil,
             tableName: Swift.String? = nil,
             tableStatus: TimestreamWriteClientTypes.TableStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.databaseName = databaseName
@@ -1341,8 +1304,7 @@ public struct CreateTableOutput: Swift.Sendable {
 
     public init(
         table: TimestreamWriteClientTypes.Table? = nil
-    )
-    {
+    ) {
         self.table = table
     }
 }
@@ -1354,8 +1316,7 @@ public struct DeleteDatabaseInput: Swift.Sendable {
 
     public init(
         databaseName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
     }
 }
@@ -1371,8 +1332,7 @@ public struct DeleteTableInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -1385,8 +1345,7 @@ public struct DescribeBatchLoadTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -1398,8 +1357,7 @@ public struct DescribeBatchLoadTaskOutput: Swift.Sendable {
 
     public init(
         batchLoadTaskDescription: TimestreamWriteClientTypes.BatchLoadTaskDescription? = nil
-    )
-    {
+    ) {
         self.batchLoadTaskDescription = batchLoadTaskDescription
     }
 }
@@ -1411,8 +1369,7 @@ public struct DescribeDatabaseInput: Swift.Sendable {
 
     public init(
         databaseName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
     }
 }
@@ -1423,8 +1380,7 @@ public struct DescribeDatabaseOutput: Swift.Sendable {
 
     public init(
         database: TimestreamWriteClientTypes.Database? = nil
-    )
-    {
+    ) {
         self.database = database
     }
 }
@@ -1448,8 +1404,7 @@ extension TimestreamWriteClientTypes {
         public init(
             address: Swift.String? = nil,
             cachePeriodInMinutes: Swift.Int = 0
-        )
-        {
+        ) {
             self.address = address
             self.cachePeriodInMinutes = cachePeriodInMinutes
         }
@@ -1463,8 +1418,7 @@ public struct DescribeEndpointsOutput: Swift.Sendable {
 
     public init(
         endpoints: [TimestreamWriteClientTypes.Endpoint]? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
     }
 }
@@ -1480,8 +1434,7 @@ public struct DescribeTableInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -1493,8 +1446,7 @@ public struct DescribeTableOutput: Swift.Sendable {
 
     public init(
         table: TimestreamWriteClientTypes.Table? = nil
-    )
-    {
+    ) {
         self.table = table
     }
 }
@@ -1542,8 +1494,7 @@ extension TimestreamWriteClientTypes {
             dimensionValueType: TimestreamWriteClientTypes.DimensionValueType? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensionValueType = dimensionValueType
             self.name = name
             self.value = value
@@ -1563,8 +1514,7 @@ public struct ListBatchLoadTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         taskStatus: TimestreamWriteClientTypes.BatchLoadStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.taskStatus = taskStatus
@@ -1580,8 +1530,7 @@ public struct ListBatchLoadTasksOutput: Swift.Sendable {
     public init(
         batchLoadTasks: [TimestreamWriteClientTypes.BatchLoadTask]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchLoadTasks = batchLoadTasks
         self.nextToken = nextToken
     }
@@ -1596,8 +1545,7 @@ public struct ListDatabasesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1612,8 +1560,7 @@ public struct ListDatabasesOutput: Swift.Sendable {
     public init(
         databases: [TimestreamWriteClientTypes.Database]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.databases = databases
         self.nextToken = nextToken
     }
@@ -1631,8 +1578,7 @@ public struct ListTablesInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1648,8 +1594,7 @@ public struct ListTablesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tables: [TimestreamWriteClientTypes.Table]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tables = tables
     }
@@ -1662,8 +1607,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -1674,8 +1618,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [TimestreamWriteClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1698,8 +1641,7 @@ extension TimestreamWriteClientTypes {
             name: Swift.String? = nil,
             type: TimestreamWriteClientTypes.MeasureValueType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
             self.value = value
@@ -1737,8 +1679,7 @@ extension TimestreamWriteClientTypes {
             time: Swift.String? = nil,
             timeUnit: TimestreamWriteClientTypes.TimeUnit? = nil,
             version: Swift.Int? = 0
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.measureName = measureName
             self.measureValue = measureValue
@@ -1766,8 +1707,7 @@ extension TimestreamWriteClientTypes {
             magneticStore: Swift.Int = 0,
             memoryStore: Swift.Int = 0,
             total: Swift.Int = 0
-        )
-        {
+        ) {
             self.magneticStore = magneticStore
             self.memoryStore = memoryStore
             self.total = total
@@ -1806,8 +1746,7 @@ extension TimestreamWriteClientTypes {
             existingVersion: Swift.Int? = 0,
             reason: Swift.String? = nil,
             recordIndex: Swift.Int = 0
-        )
-        {
+        ) {
             self.existingVersion = existingVersion
             self.reason = reason
             self.recordIndex = recordIndex
@@ -1852,8 +1791,7 @@ public struct RejectedRecordsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         rejectedRecords: [TimestreamWriteClientTypes.RejectedRecord]? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.rejectedRecords = rejectedRecords
     }
@@ -1866,8 +1804,7 @@ public struct ResumeBatchLoadTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -1888,8 +1825,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [TimestreamWriteClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -1911,8 +1847,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -1942,8 +1877,7 @@ public struct UpdateDatabaseInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.kmsKeyId = kmsKeyId
     }
@@ -1955,8 +1889,7 @@ public struct UpdateDatabaseOutput: Swift.Sendable {
 
     public init(
         database: TimestreamWriteClientTypes.Database? = nil
-    )
-    {
+    ) {
         self.database = database
     }
 }
@@ -1981,8 +1914,7 @@ public struct UpdateTableInput: Swift.Sendable {
         retentionProperties: TimestreamWriteClientTypes.RetentionProperties? = nil,
         schema: TimestreamWriteClientTypes.Schema? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.magneticStoreWriteProperties = magneticStoreWriteProperties
         self.retentionProperties = retentionProperties
@@ -1997,8 +1929,7 @@ public struct UpdateTableOutput: Swift.Sendable {
 
     public init(
         table: TimestreamWriteClientTypes.Table? = nil
-    )
-    {
+    ) {
         self.table = table
     }
 }
@@ -2021,8 +1952,7 @@ public struct WriteRecordsInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         records: [TimestreamWriteClientTypes.Record]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.commonAttributes = commonAttributes
         self.databaseName = databaseName
         self.records = records
@@ -2036,8 +1966,7 @@ public struct WriteRecordsOutput: Swift.Sendable {
 
     public init(
         recordsIngested: TimestreamWriteClientTypes.RecordsIngested? = nil
-    )
-    {
+    ) {
         self.recordsIngested = recordsIngested
     }
 }

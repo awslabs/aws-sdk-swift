@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -70,8 +69,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -95,8 +93,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -120,8 +117,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +133,7 @@ public struct CancelParticipantAuthenticationInput: Swift.Sendable {
     public init(
         connectionToken: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionToken = connectionToken
         self.sessionId = sessionId
     }
@@ -168,8 +163,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -193,8 +187,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -214,8 +207,7 @@ public struct CompleteAttachmentUploadInput: Swift.Sendable {
         attachmentIds: [Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         connectionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentIds = attachmentIds
         self.clientToken = clientToken
         self.connectionToken = connectionToken
@@ -269,8 +261,7 @@ public struct CreateParticipantConnectionInput: Swift.Sendable {
         connectParticipant: Swift.Bool? = nil,
         participantToken: Swift.String? = nil,
         type: [ConnectParticipantClientTypes.ConnectionType]? = nil
-    )
-    {
+    ) {
         self.connectParticipant = connectParticipant
         self.participantToken = participantToken
         self.type = type
@@ -289,8 +280,7 @@ extension ConnectParticipantClientTypes {
         public init(
             connectionToken: Swift.String? = nil,
             expiry: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionToken = connectionToken
             self.expiry = expiry
         }
@@ -309,8 +299,7 @@ extension ConnectParticipantClientTypes {
         public init(
             connectionExpiry: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionExpiry = connectionExpiry
             self.url = url
         }
@@ -326,8 +315,7 @@ public struct CreateParticipantConnectionOutput: Swift.Sendable {
     public init(
         connectionCredentials: ConnectParticipantClientTypes.ConnectionCredentials? = nil,
         websocket: ConnectParticipantClientTypes.Websocket? = nil
-    )
-    {
+    ) {
         self.connectionCredentials = connectionCredentials
         self.websocket = websocket
     }
@@ -404,8 +392,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConnectParticipantClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -423,8 +410,7 @@ public struct DescribeViewInput: Swift.Sendable {
     public init(
         connectionToken: Swift.String? = nil,
         viewToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionToken = connectionToken
         self.viewToken = viewToken
     }
@@ -445,8 +431,7 @@ extension ConnectParticipantClientTypes {
             actions: [Swift.String]? = nil,
             inputSchema: Swift.String? = nil,
             template: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.inputSchema = inputSchema
             self.template = template
@@ -480,8 +465,7 @@ extension ConnectParticipantClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.content = content
             self.id = id
@@ -502,8 +486,7 @@ public struct DescribeViewOutput: Swift.Sendable {
 
     public init(
         view: ConnectParticipantClientTypes.View? = nil
-    )
-    {
+    ) {
         self.view = view
     }
 }
@@ -518,8 +501,7 @@ public struct DisconnectParticipantInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         connectionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.connectionToken = connectionToken
     }
@@ -544,8 +526,7 @@ public struct GetAttachmentInput: Swift.Sendable {
         attachmentId: Swift.String? = nil,
         connectionToken: Swift.String? = nil,
         urlExpiryInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
         self.connectionToken = connectionToken
         self.urlExpiryInSeconds = urlExpiryInSeconds
@@ -565,8 +546,7 @@ public struct GetAttachmentOutput: Swift.Sendable {
         attachmentSizeInBytes: Swift.Int? = 0,
         url: Swift.String? = nil,
         urlExpiry: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentSizeInBytes = attachmentSizeInBytes
         self.url = url
         self.urlExpiry = urlExpiry
@@ -588,8 +568,7 @@ public struct GetAuthenticationUrlInput: Swift.Sendable {
         connectionToken: Swift.String? = nil,
         redirectUri: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionToken = connectionToken
         self.redirectUri = redirectUri
         self.sessionId = sessionId
@@ -602,8 +581,7 @@ public struct GetAuthenticationUrlOutput: Swift.Sendable {
 
     public init(
         authenticationUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationUrl = authenticationUrl
     }
 }
@@ -681,8 +659,7 @@ extension ConnectParticipantClientTypes {
             absoluteTime: Swift.String? = nil,
             id: Swift.String? = nil,
             mostRecent: Swift.Int = 0
-        )
-        {
+        ) {
             self.absoluteTime = absoluteTime
             self.id = id
             self.mostRecent = mostRecent
@@ -715,8 +692,7 @@ public struct GetTranscriptInput: Swift.Sendable {
         scanDirection: ConnectParticipantClientTypes.ScanDirection? = nil,
         sortOrder: ConnectParticipantClientTypes.SortKey? = nil,
         startPosition: ConnectParticipantClientTypes.StartPosition? = nil
-    )
-    {
+    ) {
         self.connectionToken = connectionToken
         self.contactId = contactId
         self.maxResults = maxResults
@@ -777,8 +753,7 @@ extension ConnectParticipantClientTypes {
             attachmentName: Swift.String? = nil,
             contentType: Swift.String? = nil,
             status: ConnectParticipantClientTypes.ArtifactStatus? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.attachmentName = attachmentName
             self.contentType = contentType
@@ -802,8 +777,7 @@ extension ConnectParticipantClientTypes {
             deliveredTimestamp: Swift.String? = nil,
             readTimestamp: Swift.String? = nil,
             recipientParticipantId: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveredTimestamp = deliveredTimestamp
             self.readTimestamp = readTimestamp
             self.recipientParticipantId = recipientParticipantId
@@ -823,8 +797,7 @@ extension ConnectParticipantClientTypes {
         public init(
             messageId: Swift.String? = nil,
             receipts: [ConnectParticipantClientTypes.Receipt]? = nil
-        )
-        {
+        ) {
             self.messageId = messageId
             self.receipts = receipts
         }
@@ -970,8 +943,7 @@ extension ConnectParticipantClientTypes {
             participantRole: ConnectParticipantClientTypes.ParticipantRole? = nil,
             relatedContactId: Swift.String? = nil,
             type: ConnectParticipantClientTypes.ChatItemType? = nil
-        )
-        {
+        ) {
             self.absoluteTime = absoluteTime
             self.attachments = attachments
             self.contactId = contactId
@@ -1000,8 +972,7 @@ public struct GetTranscriptOutput: Swift.Sendable {
         initialContactId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         transcript: [ConnectParticipantClientTypes.Item]? = nil
-    )
-    {
+    ) {
         self.initialContactId = initialContactId
         self.nextToken = nextToken
         self.transcript = transcript
@@ -1033,8 +1004,7 @@ public struct SendEventInput: Swift.Sendable {
         connectionToken: Swift.String? = nil,
         content: Swift.String? = nil,
         contentType: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.connectionToken = connectionToken
         self.content = content
@@ -1051,8 +1021,7 @@ public struct SendEventOutput: Swift.Sendable {
     public init(
         absoluteTime: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.absoluteTime = absoluteTime
         self.id = id
     }
@@ -1082,8 +1051,7 @@ public struct SendMessageInput: Swift.Sendable {
         connectionToken: Swift.String? = nil,
         content: Swift.String? = nil,
         contentType: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.connectionToken = connectionToken
         self.content = content
@@ -1100,8 +1068,7 @@ public struct SendMessageOutput: Swift.Sendable {
     public init(
         absoluteTime: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.absoluteTime = absoluteTime
         self.id = id
     }
@@ -1130,8 +1097,7 @@ public struct StartAttachmentUploadInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         connectionToken: Swift.String? = nil,
         contentType: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentName = attachmentName
         self.attachmentSizeInBytes = attachmentSizeInBytes
         self.clientToken = clientToken
@@ -1155,8 +1121,7 @@ extension ConnectParticipantClientTypes {
             headersToInclude: [Swift.String: Swift.String]? = nil,
             url: Swift.String? = nil,
             urlExpiry: Swift.String? = nil
-        )
-        {
+        ) {
             self.headersToInclude = headersToInclude
             self.url = url
             self.urlExpiry = urlExpiry
@@ -1173,8 +1138,7 @@ public struct StartAttachmentUploadOutput: Swift.Sendable {
     public init(
         attachmentId: Swift.String? = nil,
         uploadMetadata: ConnectParticipantClientTypes.UploadMetadata? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
         self.uploadMetadata = uploadMetadata
     }

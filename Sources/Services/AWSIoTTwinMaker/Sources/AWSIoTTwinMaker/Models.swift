@@ -50,8 +50,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -74,8 +73,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -98,8 +96,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -122,8 +119,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -146,8 +142,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -174,8 +169,7 @@ extension IoTTwinMakerClientTypes {
             entityId: Swift.String? = nil,
             externalIdProperty: [Swift.String: Swift.String]? = nil,
             propertyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentName = componentName
             self.componentPath = componentPath
             self.entityId = entityId
@@ -197,8 +191,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             targetComponentName: Swift.String? = nil,
             targetEntityId: Swift.String? = nil
-        )
-        {
+        ) {
             self.targetComponentName = targetComponentName
             self.targetEntityId = targetEntityId
         }
@@ -223,8 +216,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -236,8 +228,7 @@ public struct CancelMetadataTransferJobInput: Swift.Sendable {
 
     public init(
         metadataTransferJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.metadataTransferJobId = metadataTransferJobId
     }
 }
@@ -260,8 +251,7 @@ extension IoTTwinMakerClientTypes {
             skippedCount: Swift.Int? = nil,
             succeededCount: Swift.Int? = nil,
             totalCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failedCount = failedCount
             self.skippedCount = skippedCount
             self.succeededCount = succeededCount
@@ -329,8 +319,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             code: IoTTwinMakerClientTypes.ErrorCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -396,8 +385,7 @@ extension IoTTwinMakerClientTypes {
             error: IoTTwinMakerClientTypes.ErrorDetails? = nil,
             queuedPosition: Swift.Int? = nil,
             state: IoTTwinMakerClientTypes.MetadataTransferJobState? = nil
-        )
-        {
+        ) {
             self.error = error
             self.queuedPosition = queuedPosition
             self.state = state
@@ -427,8 +415,7 @@ public struct CancelMetadataTransferJobOutput: Swift.Sendable {
         progress: IoTTwinMakerClientTypes.MetadataTransferJobProgress? = nil,
         status: IoTTwinMakerClientTypes.MetadataTransferJobStatus? = nil,
         updateDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.metadataTransferJobId = metadataTransferJobId
         self.progress = progress
@@ -455,8 +442,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -470,8 +456,7 @@ extension IoTTwinMakerClientTypes {
 
         public init(
             componentTypeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentTypeId = componentTypeId
         }
     }
@@ -487,8 +472,7 @@ extension IoTTwinMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -506,8 +490,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             isNative: Swift.Bool? = nil,
             lambda: IoTTwinMakerClientTypes.LambdaFunction? = nil
-        )
-        {
+        ) {
             self.isNative = isNative
             self.lambda = lambda
         }
@@ -558,8 +541,7 @@ extension IoTTwinMakerClientTypes {
             implementedBy: IoTTwinMakerClientTypes.DataConnector? = nil,
             requiredProperties: [Swift.String]? = nil,
             scope: IoTTwinMakerClientTypes.Scope? = nil
-        )
-        {
+        ) {
             self.implementedBy = implementedBy
             self.requiredProperties = requiredProperties
             self.scope = scope
@@ -579,8 +561,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             relationshipType: Swift.String? = nil,
             targetComponentTypeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.relationshipType = relationshipType
             self.targetComponentTypeId = targetComponentTypeId
         }
@@ -672,8 +653,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             groupType: IoTTwinMakerClientTypes.GroupType? = nil,
             propertyNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.groupType = groupType
             self.propertyNames = propertyNames
         }
@@ -733,8 +713,7 @@ public struct CreateComponentTypeOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         creationDateTime: Foundation.Date? = nil,
         state: IoTTwinMakerClientTypes.State? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.state = state
@@ -823,8 +802,7 @@ extension IoTTwinMakerClientTypes {
             groupType: IoTTwinMakerClientTypes.GroupType? = nil,
             propertyNames: [Swift.String]? = nil,
             updateType: IoTTwinMakerClientTypes.PropertyGroupUpdateType? = nil
-        )
-        {
+        ) {
             self.groupType = groupType
             self.propertyNames = propertyNames
             self.updateType = updateType
@@ -851,8 +829,7 @@ public struct CreateEntityOutput: Swift.Sendable {
         creationDateTime: Foundation.Date? = nil,
         entityId: Swift.String? = nil,
         state: IoTTwinMakerClientTypes.State? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.entityId = entityId
@@ -870,8 +847,7 @@ extension IoTTwinMakerClientTypes {
 
         public init(
             workspace: Swift.String? = nil
-        )
-        {
+        ) {
             self.workspace = workspace
         }
     }
@@ -887,8 +863,7 @@ extension IoTTwinMakerClientTypes {
 
         public init(
             location: Swift.String? = nil
-        )
-        {
+        ) {
             self.location = location
         }
     }
@@ -942,8 +917,7 @@ extension IoTTwinMakerClientTypes {
             iotTwinMakerConfiguration: IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration? = nil,
             s3Configuration: IoTTwinMakerClientTypes.S3DestinationConfiguration? = nil,
             type: IoTTwinMakerClientTypes.DestinationType? = nil
-        )
-        {
+        ) {
             self.iotTwinMakerConfiguration = iotTwinMakerConfiguration
             self.s3Configuration = s3Configuration
             self.type = type
@@ -969,8 +943,7 @@ extension IoTTwinMakerClientTypes {
             assetId: Swift.String? = nil,
             includeAssetModel: Swift.Bool? = nil,
             includeOffspring: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.assetExternalId = assetExternalId
             self.assetId = assetId
             self.includeAssetModel = includeAssetModel
@@ -997,8 +970,7 @@ extension IoTTwinMakerClientTypes {
             assetModelId: Swift.String? = nil,
             includeAssets: Swift.Bool? = nil,
             includeOffspring: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.assetModelExternalId = assetModelExternalId
             self.assetModelId = assetModelId
             self.includeAssets = includeAssets
@@ -1028,8 +1000,7 @@ extension IoTTwinMakerClientTypes {
 
         public init(
             filters: [IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -1045,8 +1016,7 @@ extension IoTTwinMakerClientTypes {
 
         public init(
             componentTypeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentTypeId = componentTypeId
         }
     }
@@ -1062,8 +1032,7 @@ extension IoTTwinMakerClientTypes {
 
         public init(
             entityId: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
         }
     }
@@ -1094,8 +1063,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             filters: [IoTTwinMakerClientTypes.IotTwinMakerSourceConfigurationFilter]? = nil,
             workspace: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.workspace = workspace
         }
@@ -1112,8 +1080,7 @@ extension IoTTwinMakerClientTypes {
 
         public init(
             location: Swift.String? = nil
-        )
-        {
+        ) {
             self.location = location
         }
     }
@@ -1170,8 +1137,7 @@ extension IoTTwinMakerClientTypes {
             iotTwinMakerConfiguration: IoTTwinMakerClientTypes.IotTwinMakerSourceConfiguration? = nil,
             s3Configuration: IoTTwinMakerClientTypes.S3SourceConfiguration? = nil,
             type: IoTTwinMakerClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.iotSiteWiseConfiguration = iotSiteWiseConfiguration
             self.iotTwinMakerConfiguration = iotTwinMakerConfiguration
             self.s3Configuration = s3Configuration
@@ -1197,8 +1163,7 @@ public struct CreateMetadataTransferJobInput: Swift.Sendable {
         destination: IoTTwinMakerClientTypes.DestinationConfiguration? = nil,
         metadataTransferJobId: Swift.String? = nil,
         sources: [IoTTwinMakerClientTypes.SourceConfiguration]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.destination = destination
         self.metadataTransferJobId = metadataTransferJobId
@@ -1225,8 +1190,7 @@ public struct CreateMetadataTransferJobOutput: Swift.Sendable {
         creationDateTime: Foundation.Date? = nil,
         metadataTransferJobId: Swift.String? = nil,
         status: IoTTwinMakerClientTypes.MetadataTransferJobStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.metadataTransferJobId = metadataTransferJobId
@@ -1261,8 +1225,7 @@ public struct CreateSceneInput: Swift.Sendable {
         sceneMetadata: [Swift.String: Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.contentLocation = contentLocation
         self.description = description
@@ -1284,8 +1247,7 @@ public struct CreateSceneOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         creationDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
     }
@@ -1309,8 +1271,7 @@ public struct CreateSyncJobInput: Swift.Sendable {
         syncSource: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.syncRole = syncRole
         self.syncSource = syncSource
         self.tags = tags
@@ -1371,8 +1332,7 @@ public struct CreateSyncJobOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         creationDateTime: Foundation.Date? = nil,
         state: IoTTwinMakerClientTypes.SyncJobState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.state = state
@@ -1398,8 +1358,7 @@ public struct CreateWorkspaceInput: Swift.Sendable {
         s3Location: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.role = role
         self.s3Location = s3Location
@@ -1419,8 +1378,7 @@ public struct CreateWorkspaceOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         creationDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
     }
@@ -1437,8 +1395,7 @@ public struct DeleteComponentTypeInput: Swift.Sendable {
     public init(
         componentTypeId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentTypeId = componentTypeId
         self.workspaceId = workspaceId
     }
@@ -1451,8 +1408,7 @@ public struct DeleteComponentTypeOutput: Swift.Sendable {
 
     public init(
         state: IoTTwinMakerClientTypes.State? = nil
-    )
-    {
+    ) {
         self.state = state
     }
 }
@@ -1471,8 +1427,7 @@ public struct DeleteEntityInput: Swift.Sendable {
         entityId: Swift.String? = nil,
         isRecursive: Swift.Bool? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.isRecursive = isRecursive
         self.workspaceId = workspaceId
@@ -1486,8 +1441,7 @@ public struct DeleteEntityOutput: Swift.Sendable {
 
     public init(
         state: IoTTwinMakerClientTypes.State? = nil
-    )
-    {
+    ) {
         self.state = state
     }
 }
@@ -1503,8 +1457,7 @@ public struct DeleteSceneInput: Swift.Sendable {
     public init(
         sceneId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sceneId = sceneId
         self.workspaceId = workspaceId
     }
@@ -1526,8 +1479,7 @@ public struct DeleteSyncJobInput: Swift.Sendable {
     public init(
         syncSource: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.syncSource = syncSource
         self.workspaceId = workspaceId
     }
@@ -1540,8 +1492,7 @@ public struct DeleteSyncJobOutput: Swift.Sendable {
 
     public init(
         state: IoTTwinMakerClientTypes.SyncJobState? = nil
-    )
-    {
+    ) {
         self.state = state
     }
 }
@@ -1553,8 +1504,7 @@ public struct DeleteWorkspaceInput: Swift.Sendable {
 
     public init(
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
     }
 }
@@ -1565,8 +1515,7 @@ public struct DeleteWorkspaceOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -1589,8 +1538,7 @@ public struct QueryTimeoutException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1612,8 +1560,7 @@ public struct ExecuteQueryInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryStatement: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queryStatement = queryStatement
@@ -1665,8 +1612,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             type: IoTTwinMakerClientTypes.ColumnType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -1682,8 +1628,7 @@ extension IoTTwinMakerClientTypes {
 
         public init(
             rowData: [Smithy.Document]? = nil
-        )
-        {
+        ) {
             self.rowData = rowData
         }
     }
@@ -1701,8 +1646,7 @@ public struct ExecuteQueryOutput: Swift.Sendable {
         columnDescriptions: [IoTTwinMakerClientTypes.ColumnDescription]? = nil,
         nextToken: Swift.String? = nil,
         rows: [IoTTwinMakerClientTypes.Row]? = nil
-    )
-    {
+    ) {
         self.columnDescriptions = columnDescriptions
         self.nextToken = nextToken
         self.rows = rows
@@ -1720,8 +1664,7 @@ public struct GetComponentTypeInput: Swift.Sendable {
     public init(
         componentTypeId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentTypeId = componentTypeId
         self.workspaceId = workspaceId
     }
@@ -1739,8 +1682,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             componentTypeId: Swift.String? = nil,
             isInherited: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.componentTypeId = componentTypeId
             self.isInherited = isInherited
         }
@@ -1765,8 +1707,7 @@ extension IoTTwinMakerClientTypes {
             isInherited: Swift.Bool? = nil,
             requiredProperties: [Swift.String]? = nil,
             scope: IoTTwinMakerClientTypes.Scope? = nil
-        )
-        {
+        ) {
             self.implementedBy = implementedBy
             self.isInherited = isInherited
             self.requiredProperties = requiredProperties
@@ -1793,8 +1734,7 @@ extension IoTTwinMakerClientTypes {
             groupType: IoTTwinMakerClientTypes.GroupType? = nil,
             isInherited: Swift.Bool? = nil,
             propertyNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.groupType = groupType
             self.isInherited = isInherited
             self.propertyNames = propertyNames
@@ -1814,8 +1754,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             error: IoTTwinMakerClientTypes.ErrorDetails? = nil,
             state: IoTTwinMakerClientTypes.State? = nil
-        )
-        {
+        ) {
             self.error = error
             self.state = state
         }
@@ -1833,8 +1772,7 @@ public struct GetEntityInput: Swift.Sendable {
     public init(
         entityId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.workspaceId = workspaceId
     }
@@ -1858,8 +1796,7 @@ extension IoTTwinMakerClientTypes {
             groupType: IoTTwinMakerClientTypes.GroupType? = nil,
             isInherited: Swift.Bool? = nil,
             propertyNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.groupType = groupType
             self.isInherited = isInherited
             self.propertyNames = propertyNames
@@ -1900,8 +1837,7 @@ extension IoTTwinMakerClientTypes {
             propertyGroups: [Swift.String: IoTTwinMakerClientTypes.ComponentPropertyGroupResponse]? = nil,
             status: IoTTwinMakerClientTypes.Status? = nil,
             syncSource: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentName = componentName
             self.componentPath = componentPath
             self.componentTypeId = componentTypeId
@@ -1921,8 +1857,7 @@ public struct GetMetadataTransferJobInput: Swift.Sendable {
 
     public init(
         metadataTransferJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.metadataTransferJobId = metadataTransferJobId
     }
 }
@@ -1971,8 +1906,7 @@ public struct GetMetadataTransferJobOutput: Swift.Sendable {
         sources: [IoTTwinMakerClientTypes.SourceConfiguration]? = nil,
         status: IoTTwinMakerClientTypes.MetadataTransferJobStatus? = nil,
         updateDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.description = description
@@ -2040,8 +1974,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             bundleNames: [Swift.String]? = nil,
             pricingTier: IoTTwinMakerClientTypes.PricingTier? = nil
-        )
-        {
+        ) {
             self.bundleNames = bundleNames
             self.pricingTier = pricingTier
         }
@@ -2146,8 +2079,7 @@ extension IoTTwinMakerClientTypes {
             pricingMode: IoTTwinMakerClientTypes.PricingMode? = nil,
             updateDateTime: Foundation.Date? = nil,
             updateReason: IoTTwinMakerClientTypes.UpdateReason? = nil
-        )
-        {
+        ) {
             self.billableEntityCount = billableEntityCount
             self.bundleInformation = bundleInformation
             self.effectiveDateTime = effectiveDateTime
@@ -2168,8 +2100,7 @@ public struct GetPricingPlanOutput: Swift.Sendable {
     public init(
         currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan? = nil,
         pendingPricingPlan: IoTTwinMakerClientTypes.PricingPlan? = nil
-    )
-    {
+    ) {
         self.currentPricingPlan = currentPricingPlan
         self.pendingPricingPlan = pendingPricingPlan
     }
@@ -2193,8 +2124,7 @@ public struct ConnectorFailureException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2217,8 +2147,7 @@ public struct ConnectorTimeoutException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2265,8 +2194,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             order: IoTTwinMakerClientTypes.Order? = nil,
             propertyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.order = order
             self.propertyName = propertyName
         }
@@ -2311,8 +2239,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             interpolationType: IoTTwinMakerClientTypes.InterpolationType? = nil,
             intervalInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.interpolationType = interpolationType
             self.intervalInSeconds = intervalInSeconds
         }
@@ -2359,8 +2286,7 @@ public struct GetSceneInput: Swift.Sendable {
     public init(
         sceneId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sceneId = sceneId
         self.workspaceId = workspaceId
     }
@@ -2404,8 +2330,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             code: IoTTwinMakerClientTypes.SceneErrorCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -2454,8 +2379,7 @@ public struct GetSceneOutput: Swift.Sendable {
         sceneMetadata: [Swift.String: Swift.String]? = nil,
         updateDateTime: Foundation.Date? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.capabilities = capabilities
         self.contentLocation = contentLocation
@@ -2480,8 +2404,7 @@ public struct GetSyncJobInput: Swift.Sendable {
     public init(
         syncSource: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.syncSource = syncSource
         self.workspaceId = workspaceId
     }
@@ -2499,8 +2422,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             error: IoTTwinMakerClientTypes.ErrorDetails? = nil,
             state: IoTTwinMakerClientTypes.SyncJobState? = nil
-        )
-        {
+        ) {
             self.error = error
             self.state = state
         }
@@ -2538,8 +2460,7 @@ public struct GetSyncJobOutput: Swift.Sendable {
         syncSource: Swift.String? = nil,
         updateDateTime: Foundation.Date? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.status = status
@@ -2557,8 +2478,7 @@ public struct GetWorkspaceInput: Swift.Sendable {
 
     public init(
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
     }
 }
@@ -2594,8 +2514,7 @@ public struct GetWorkspaceOutput: Swift.Sendable {
         s3Location: Swift.String? = nil,
         updateDateTime: Foundation.Date? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.description = description
@@ -2627,8 +2546,7 @@ public struct ListComponentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentPath = componentPath
         self.entityId = entityId
         self.maxResults = maxResults
@@ -2647,8 +2565,7 @@ public struct ListComponentsOutput: Swift.Sendable {
     public init(
         componentSummaries: [IoTTwinMakerClientTypes.ComponentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentSummaries = componentSummaries
         self.nextToken = nextToken
     }
@@ -2684,8 +2601,7 @@ public struct ListComponentTypesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2724,8 +2640,7 @@ extension IoTTwinMakerClientTypes {
             description: Swift.String? = nil,
             status: IoTTwinMakerClientTypes.Status? = nil,
             updateDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.componentTypeId = componentTypeId
             self.componentTypeName = componentTypeName
@@ -2754,8 +2669,7 @@ public struct ListComponentTypesOutput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentTypeSummaries = componentTypeSummaries
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2793,8 +2707,7 @@ public struct ListEntitiesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2841,8 +2754,7 @@ extension IoTTwinMakerClientTypes {
             parentEntityId: Swift.String? = nil,
             status: IoTTwinMakerClientTypes.Status? = nil,
             updateDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.description = description
@@ -2865,8 +2777,7 @@ public struct ListEntitiesOutput: Swift.Sendable {
     public init(
         entitySummaries: [IoTTwinMakerClientTypes.EntitySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitySummaries = entitySummaries
         self.nextToken = nextToken
     }
@@ -2904,8 +2815,7 @@ public struct ListMetadataTransferJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sourceType: IoTTwinMakerClientTypes.SourceType? = nil
-    )
-    {
+    ) {
         self.destinationType = destinationType
         self.filters = filters
         self.maxResults = maxResults
@@ -2943,8 +2853,7 @@ extension IoTTwinMakerClientTypes {
             progress: IoTTwinMakerClientTypes.MetadataTransferJobProgress? = nil,
             status: IoTTwinMakerClientTypes.MetadataTransferJobStatus? = nil,
             updateDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.metadataTransferJobId = metadataTransferJobId
@@ -2965,8 +2874,7 @@ public struct ListMetadataTransferJobsOutput: Swift.Sendable {
     public init(
         metadataTransferJobSummaries: [IoTTwinMakerClientTypes.MetadataTransferJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metadataTransferJobSummaries = metadataTransferJobSummaries
         self.nextToken = nextToken
     }
@@ -2995,8 +2903,7 @@ public struct ListPropertiesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.componentPath = componentPath
         self.entityId = entityId
@@ -3019,8 +2926,7 @@ public struct ListScenesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workspaceId = workspaceId
@@ -3056,8 +2962,7 @@ extension IoTTwinMakerClientTypes {
             description: Swift.String? = nil,
             sceneId: Swift.String? = nil,
             updateDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.contentLocation = contentLocation
             self.creationDateTime = creationDateTime
@@ -3077,8 +2982,7 @@ public struct ListScenesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sceneSummaries: [IoTTwinMakerClientTypes.SceneSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sceneSummaries = sceneSummaries
     }
@@ -3097,8 +3001,7 @@ public struct ListSyncJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workspaceId = workspaceId
@@ -3129,8 +3032,7 @@ extension IoTTwinMakerClientTypes {
             syncSource: Swift.String? = nil,
             updateDateTime: Foundation.Date? = nil,
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.status = status
@@ -3150,8 +3052,7 @@ public struct ListSyncJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         syncJobSummaries: [IoTTwinMakerClientTypes.SyncJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.syncJobSummaries = syncJobSummaries
     }
@@ -3266,8 +3167,7 @@ public struct ListSyncResourcesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         syncSource: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3288,8 +3188,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             error: IoTTwinMakerClientTypes.ErrorDetails? = nil,
             state: IoTTwinMakerClientTypes.SyncResourceState? = nil
-        )
-        {
+        ) {
             self.error = error
             self.state = state
         }
@@ -3317,8 +3216,7 @@ extension IoTTwinMakerClientTypes {
             resourceType: IoTTwinMakerClientTypes.SyncResourceType? = nil,
             status: IoTTwinMakerClientTypes.SyncResourceStatus? = nil,
             updateDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.externalId = externalId
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -3337,8 +3235,7 @@ public struct ListSyncResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         syncResources: [IoTTwinMakerClientTypes.SyncResourceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.syncResources = syncResources
     }
@@ -3357,8 +3254,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceARN = resourceARN
@@ -3374,8 +3270,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -3390,8 +3285,7 @@ public struct ListWorkspacesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3425,8 +3319,7 @@ extension IoTTwinMakerClientTypes {
             linkedServices: [Swift.String]? = nil,
             updateDateTime: Foundation.Date? = nil,
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.description = description
@@ -3446,8 +3339,7 @@ public struct ListWorkspacesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workspaceSummaries: [IoTTwinMakerClientTypes.WorkspaceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workspaceSummaries = workspaceSummaries
     }
@@ -3471,8 +3363,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3488,8 +3379,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -3511,8 +3401,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -3542,8 +3431,7 @@ public struct UpdateComponentTypeOutput: Swift.Sendable {
         componentTypeId: Swift.String? = nil,
         state: IoTTwinMakerClientTypes.State? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.componentTypeId = componentTypeId
         self.state = state
@@ -3625,8 +3513,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             parentEntityId: Swift.String? = nil,
             updateType: IoTTwinMakerClientTypes.ParentEntityUpdateType? = nil
-        )
-        {
+        ) {
             self.parentEntityId = parentEntityId
             self.updateType = updateType
         }
@@ -3644,8 +3531,7 @@ public struct UpdateEntityOutput: Swift.Sendable {
     public init(
         state: IoTTwinMakerClientTypes.State? = nil,
         updateDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.state = state
         self.updateDateTime = updateDateTime
     }
@@ -3661,8 +3547,7 @@ public struct UpdatePricingPlanInput: Swift.Sendable {
     public init(
         bundleNames: [Swift.String]? = nil,
         pricingMode: IoTTwinMakerClientTypes.PricingMode? = nil
-    )
-    {
+    ) {
         self.bundleNames = bundleNames
         self.pricingMode = pricingMode
     }
@@ -3678,8 +3563,7 @@ public struct UpdatePricingPlanOutput: Swift.Sendable {
     public init(
         currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan? = nil,
         pendingPricingPlan: IoTTwinMakerClientTypes.PricingPlan? = nil
-    )
-    {
+    ) {
         self.currentPricingPlan = currentPricingPlan
         self.pendingPricingPlan = pendingPricingPlan
     }
@@ -3708,8 +3592,7 @@ public struct UpdateSceneInput: Swift.Sendable {
         sceneId: Swift.String? = nil,
         sceneMetadata: [Swift.String: Swift.String]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.contentLocation = contentLocation
         self.description = description
@@ -3726,8 +3609,7 @@ public struct UpdateSceneOutput: Swift.Sendable {
 
     public init(
         updateDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.updateDateTime = updateDateTime
     }
 }
@@ -3748,8 +3630,7 @@ public struct UpdateWorkspaceInput: Swift.Sendable {
         role: Swift.String? = nil,
         s3Location: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.role = role
         self.s3Location = s3Location
@@ -3764,8 +3645,7 @@ public struct UpdateWorkspaceOutput: Swift.Sendable {
 
     public init(
         updateDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.updateDateTime = updateDateTime
     }
 }
@@ -3803,8 +3683,7 @@ extension IoTTwinMakerClientTypes {
             mapValue: [Swift.String: IoTTwinMakerClientTypes.DataValue]? = nil,
             relationshipValue: IoTTwinMakerClientTypes.RelationshipValue? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
             self.expression = expression
@@ -3833,8 +3712,7 @@ extension IoTTwinMakerClientTypes {
             `operator`: Swift.String? = nil,
             propertyName: Swift.String? = nil,
             value: IoTTwinMakerClientTypes.DataValue? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.propertyName = propertyName
             self.value = value
@@ -3855,8 +3733,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             propertyReference: IoTTwinMakerClientTypes.EntityPropertyReference? = nil,
             propertyValue: IoTTwinMakerClientTypes.DataValue? = nil
-        )
-        {
+        ) {
             self.propertyReference = propertyReference
             self.propertyValue = propertyValue
         }
@@ -3901,8 +3778,7 @@ extension IoTTwinMakerClientTypes {
             time: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             value: IoTTwinMakerClientTypes.DataValue? = nil
-        )
-        {
+        ) {
             self.time = time
             self.timestamp = timestamp
             self.value = value
@@ -3932,8 +3808,7 @@ extension IoTTwinMakerClientTypes {
             relationship: IoTTwinMakerClientTypes.Relationship? = nil,
             type: IoTTwinMakerClientTypes.ModelType? = nil,
             unitOfMeasure: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.nestedType = nestedType
             self.relationship = relationship
@@ -3956,8 +3831,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             entityPropertyReference: IoTTwinMakerClientTypes.EntityPropertyReference? = nil,
             propertyValues: [IoTTwinMakerClientTypes.PropertyValue]? = nil
-        )
-        {
+        ) {
             self.entityPropertyReference = entityPropertyReference
             self.propertyValues = propertyValues
         }
@@ -3977,8 +3851,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             entityPropertyReference: IoTTwinMakerClientTypes.EntityPropertyReference? = nil,
             values: [IoTTwinMakerClientTypes.PropertyValue]? = nil
-        )
-        {
+        ) {
             self.entityPropertyReference = entityPropertyReference
             self.values = values
         }
@@ -3997,8 +3870,7 @@ extension IoTTwinMakerClientTypes {
         public init(
             orderBy: [IoTTwinMakerClientTypes.OrderBy]? = nil,
             propertyFilters: [IoTTwinMakerClientTypes.PropertyFilter]? = nil
-        )
-        {
+        ) {
             self.orderBy = orderBy
             self.propertyFilters = propertyFilters
         }
@@ -4057,8 +3929,7 @@ public struct GetPropertyValueHistoryInput: Swift.Sendable {
         startDateTime: Foundation.Date? = nil,
         startTime: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.componentPath = componentPath
         self.componentTypeId = componentTypeId
@@ -4095,8 +3966,7 @@ extension IoTTwinMakerClientTypes {
             entry: IoTTwinMakerClientTypes.PropertyValueEntry? = nil,
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.entry = entry
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -4139,8 +4009,7 @@ public struct GetPropertyValueInput: Swift.Sendable {
         selectedProperties: [Swift.String]? = nil,
         tabularConditions: IoTTwinMakerClientTypes.TabularConditions? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.componentPath = componentPath
         self.componentTypeId = componentTypeId
@@ -4165,8 +4034,7 @@ public struct BatchPutPropertyValuesInput: Swift.Sendable {
     public init(
         entries: [IoTTwinMakerClientTypes.PropertyValueEntry]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.workspaceId = workspaceId
     }
@@ -4182,8 +4050,7 @@ public struct GetPropertyValueHistoryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         propertyValues: [IoTTwinMakerClientTypes.PropertyValueHistory]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.propertyValues = propertyValues
     }
@@ -4199,8 +4066,7 @@ extension IoTTwinMakerClientTypes {
 
         public init(
             errors: [IoTTwinMakerClientTypes.BatchPutPropertyError]? = nil
-        )
-        {
+        ) {
             self.errors = errors
         }
     }
@@ -4236,8 +4102,7 @@ extension IoTTwinMakerClientTypes {
             isRequiredInEntity: Swift.Bool? = nil,
             isStoredExternally: Swift.Bool? = nil,
             isTimeSeries: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.dataType = dataType
             self.defaultValue = defaultValue
@@ -4297,8 +4162,7 @@ extension IoTTwinMakerClientTypes {
             isRequiredInEntity: Swift.Bool? = nil,
             isStoredExternally: Swift.Bool? = nil,
             isTimeSeries: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.dataType = dataType
             self.defaultValue = defaultValue
@@ -4321,8 +4185,7 @@ public struct BatchPutPropertyValuesOutput: Swift.Sendable {
 
     public init(
         errorEntries: [IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
     }
 }
@@ -4339,8 +4202,7 @@ public struct GetPropertyValueOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         propertyValues: [Swift.String: IoTTwinMakerClientTypes.PropertyLatestValue]? = nil,
         tabularPropertyValues: [[[Swift.String: IoTTwinMakerClientTypes.DataValue]]]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.propertyValues = propertyValues
         self.tabularPropertyValues = tabularPropertyValues
@@ -4385,8 +4247,7 @@ public struct CreateComponentTypeInput: Swift.Sendable {
         propertyGroups: [Swift.String: IoTTwinMakerClientTypes.PropertyGroupRequest]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentTypeId = componentTypeId
         self.componentTypeName = componentTypeName
         self.compositeComponentTypes = compositeComponentTypes
@@ -4460,8 +4321,7 @@ public struct GetComponentTypeOutput: Swift.Sendable {
         syncSource: Swift.String? = nil,
         updateDateTime: Foundation.Date? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.componentTypeId = componentTypeId
         self.componentTypeName = componentTypeName
@@ -4517,8 +4377,7 @@ public struct UpdateComponentTypeInput: Swift.Sendable {
         propertyDefinitions: [Swift.String: IoTTwinMakerClientTypes.PropertyDefinitionRequest]? = nil,
         propertyGroups: [Swift.String: IoTTwinMakerClientTypes.PropertyGroupRequest]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentTypeId = componentTypeId
         self.componentTypeName = componentTypeName
         self.compositeComponentTypes = compositeComponentTypes
@@ -4547,8 +4406,7 @@ extension IoTTwinMakerClientTypes {
             definition: IoTTwinMakerClientTypes.PropertyDefinitionRequest? = nil,
             updateType: IoTTwinMakerClientTypes.PropertyUpdateType? = nil,
             value: IoTTwinMakerClientTypes.DataValue? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.updateType = updateType
             self.value = value
@@ -4571,8 +4429,7 @@ extension IoTTwinMakerClientTypes {
             areAllPropertyValuesReturned: Swift.Bool? = nil,
             definition: IoTTwinMakerClientTypes.PropertyDefinitionResponse? = nil,
             value: IoTTwinMakerClientTypes.DataValue? = nil
-        )
-        {
+        ) {
             self.areAllPropertyValuesReturned = areAllPropertyValuesReturned
             self.definition = definition
             self.value = value
@@ -4599,8 +4456,7 @@ extension IoTTwinMakerClientTypes {
             definition: IoTTwinMakerClientTypes.PropertyDefinitionResponse? = nil,
             propertyName: Swift.String? = nil,
             value: IoTTwinMakerClientTypes.DataValue? = nil
-        )
-        {
+        ) {
             self.areAllPropertyValuesReturned = areAllPropertyValuesReturned
             self.definition = definition
             self.propertyName = propertyName
@@ -4627,8 +4483,7 @@ extension IoTTwinMakerClientTypes {
             description: Swift.String? = nil,
             properties: [Swift.String: IoTTwinMakerClientTypes.PropertyRequest]? = nil,
             propertyGroups: [Swift.String: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]? = nil
-        )
-        {
+        ) {
             self.componentTypeId = componentTypeId
             self.description = description
             self.properties = properties
@@ -4676,8 +4531,7 @@ extension IoTTwinMakerClientTypes {
             propertyGroups: [Swift.String: IoTTwinMakerClientTypes.ComponentPropertyGroupResponse]? = nil,
             status: IoTTwinMakerClientTypes.Status? = nil,
             syncSource: Swift.String? = nil
-        )
-        {
+        ) {
             self.areAllCompositeComponentsReturned = areAllCompositeComponentsReturned
             self.areAllPropertiesReturned = areAllPropertiesReturned
             self.componentName = componentName
@@ -4714,8 +4568,7 @@ extension IoTTwinMakerClientTypes {
             propertyGroupUpdates: [Swift.String: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]? = nil,
             propertyUpdates: [Swift.String: IoTTwinMakerClientTypes.PropertyRequest]? = nil,
             updateType: IoTTwinMakerClientTypes.ComponentUpdateType? = nil
-        )
-        {
+        ) {
             self.componentTypeId = componentTypeId
             self.description = description
             self.propertyGroupUpdates = propertyGroupUpdates
@@ -4740,8 +4593,7 @@ extension IoTTwinMakerClientTypes {
             description: Swift.String? = nil,
             properties: [Swift.String: IoTTwinMakerClientTypes.PropertyRequest]? = nil,
             propertyGroups: [Swift.String: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.properties = properties
             self.propertyGroups = propertyGroups
@@ -4767,8 +4619,7 @@ extension IoTTwinMakerClientTypes {
             propertyGroupUpdates: [Swift.String: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest]? = nil,
             propertyUpdates: [Swift.String: IoTTwinMakerClientTypes.PropertyRequest]? = nil,
             updateType: IoTTwinMakerClientTypes.ComponentUpdateType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.propertyGroupUpdates = propertyGroupUpdates
             self.propertyUpdates = propertyUpdates
@@ -4787,8 +4638,7 @@ public struct ListPropertiesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         propertySummaries: [IoTTwinMakerClientTypes.PropertySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.propertySummaries = propertySummaries
     }
@@ -4845,8 +4695,7 @@ public struct GetEntityOutput: Swift.Sendable {
         syncSource: Swift.String? = nil,
         updateDateTime: Foundation.Date? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.areAllComponentsReturned = areAllComponentsReturned
         self.arn = arn
         self.components = components
@@ -4892,8 +4741,7 @@ public struct CreateEntityInput: Swift.Sendable {
         parentEntityId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.components = components
         self.compositeComponents = compositeComponents
         self.description = description
@@ -4931,8 +4779,7 @@ public struct UpdateEntityInput: Swift.Sendable {
         entityName: Swift.String? = nil,
         parentEntityUpdate: IoTTwinMakerClientTypes.ParentEntityUpdateRequest? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentUpdates = componentUpdates
         self.compositeComponentUpdates = compositeComponentUpdates
         self.description = description

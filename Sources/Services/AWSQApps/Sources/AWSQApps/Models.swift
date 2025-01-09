@@ -109,8 +109,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -213,8 +212,7 @@ extension QAppsClientTypes {
             id: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QAppsClientTypes.CardType? = nil
-        )
-        {
+        ) {
             self.allowOverride = allowOverride
             self.dependencies = dependencies
             self.fileId = fileId
@@ -265,8 +263,7 @@ extension QAppsClientTypes {
 
         public init(
             schema: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.schema = schema
         }
     }
@@ -301,8 +298,7 @@ extension QAppsClientTypes {
             metadata: QAppsClientTypes.FormInputCardMetadata? = nil,
             title: Swift.String? = nil,
             type: QAppsClientTypes.CardType? = nil
-        )
-        {
+        ) {
             self.computeMode = computeMode
             self.dependencies = dependencies
             self.id = id
@@ -421,8 +417,7 @@ extension QAppsClientTypes {
             prompt: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QAppsClientTypes.CardType? = nil
-        )
-        {
+        ) {
             self.actionIdentifier = actionIdentifier
             self.dependencies = dependencies
             self.id = id
@@ -465,8 +460,7 @@ extension QAppsClientTypes {
         public init(
             name: Swift.String? = nil,
             value: QAppsClientTypes.DocumentAttributeValue? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -530,8 +524,7 @@ extension QAppsClientTypes {
             placeholder: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QAppsClientTypes.CardType? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.dependencies = dependencies
             self.id = id
@@ -569,8 +562,7 @@ extension QAppsClientTypes {
             id: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QAppsClientTypes.CardType? = .fileUpload
-        )
-        {
+        ) {
             self.allowOverride = allowOverride
             self.fileId = fileId
             self.filename = filename
@@ -606,8 +598,7 @@ extension QAppsClientTypes {
             metadata: QAppsClientTypes.FormInputCardMetadata? = nil,
             title: Swift.String? = nil,
             type: QAppsClientTypes.CardType? = .formInput
-        )
-        {
+        ) {
             self.computeMode = computeMode
             self.id = id
             self.metadata = metadata
@@ -646,8 +637,7 @@ extension QAppsClientTypes {
             prompt: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QAppsClientTypes.CardType? = .qPlugin
-        )
-        {
+        ) {
             self.actionIdentifier = actionIdentifier
             self.id = id
             self.pluginId = pluginId
@@ -682,8 +672,7 @@ extension QAppsClientTypes {
             placeholder: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QAppsClientTypes.CardType? = .textInput
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.id = id
             self.placeholder = placeholder
@@ -787,8 +776,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -817,8 +805,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -851,8 +838,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -894,8 +880,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -934,8 +919,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -962,8 +946,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -987,8 +970,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1004,8 +986,7 @@ public struct AssociateLibraryItemReviewInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         libraryItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.libraryItemId = libraryItemId
     }
@@ -1022,8 +1003,7 @@ public struct AssociateQAppWithUserInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.instanceId = instanceId
     }
@@ -1045,8 +1025,7 @@ extension QAppsClientTypes {
             color: Swift.String? = nil,
             id: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.color = color
             self.id = id
             self.title = title
@@ -1065,8 +1044,7 @@ public struct BatchCreateCategoryInput: Swift.Sendable {
     public init(
         categories: [QAppsClientTypes.BatchCreateCategoryInputCategory]? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.categories = categories
         self.instanceId = instanceId
     }
@@ -1083,8 +1061,7 @@ public struct BatchDeleteCategoryInput: Swift.Sendable {
     public init(
         categories: [Swift.String]? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.categories = categories
         self.instanceId = instanceId
     }
@@ -1107,8 +1084,7 @@ extension QAppsClientTypes {
             color: Swift.String? = nil,
             id: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.color = color
             self.id = id
             self.title = title
@@ -1127,8 +1103,7 @@ public struct BatchUpdateCategoryInput: Swift.Sendable {
     public init(
         categories: [QAppsClientTypes.CategoryInput]? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.categories = categories
         self.instanceId = instanceId
     }
@@ -1184,8 +1159,7 @@ extension QAppsClientTypes {
             submissionId: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.submissionId = submissionId
             self.timestamp = timestamp
             self.value = value
@@ -1210,8 +1184,7 @@ extension QAppsClientTypes {
             currentState: QAppsClientTypes.ExecutionStatus? = nil,
             currentValue: Swift.String? = nil,
             submissions: [QAppsClientTypes.Submission]? = nil
-        )
-        {
+        ) {
             self.currentState = currentState
             self.currentValue = currentValue
             self.submissions = submissions
@@ -1265,8 +1238,7 @@ extension QAppsClientTypes {
         public init(
             mutationType: QAppsClientTypes.SubmissionMutationKind? = nil,
             submissionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.mutationType = mutationType
             self.submissionId = submissionId
         }
@@ -1290,8 +1262,7 @@ extension QAppsClientTypes {
             cardId: Swift.String? = nil,
             submissionMutation: QAppsClientTypes.SubmissionMutation? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.cardId = cardId
             self.submissionMutation = submissionMutation
             self.value = value
@@ -1319,8 +1290,7 @@ extension QAppsClientTypes {
             color: Swift.String? = nil,
             id: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.appCount = appCount
             self.color = color
             self.id = id
@@ -1356,8 +1326,7 @@ public struct ContentTooLargeException: ClientRuntime.ModeledError, AWSClientRun
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -1407,8 +1376,7 @@ extension QAppsClientTypes {
         public init(
             body: Swift.String? = nil,
             type: QAppsClientTypes.Sender? = nil
-        )
-        {
+        ) {
             self.body = body
             self.type = type
         }
@@ -1434,8 +1402,7 @@ public struct CreateLibraryItemInput: Swift.Sendable {
         appVersion: Swift.Int? = nil,
         categories: [Swift.String]? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.appVersion = appVersion
         self.categories = categories
@@ -1475,8 +1442,7 @@ public struct CreateLibraryItemOutput: Swift.Sendable {
         status: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.isVerified = isVerified
@@ -1547,8 +1513,7 @@ public struct CreatePresignedUrlInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         scope: QAppsClientTypes.DocumentScope? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.cardId = cardId
         self.fileContentsSha256 = fileContentsSha256
@@ -1578,8 +1543,7 @@ public struct CreatePresignedUrlOutput: Swift.Sendable {
         presignedUrl: Swift.String? = nil,
         presignedUrlExpiration: Foundation.Date? = nil,
         presignedUrlFields: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.fileId = fileId
         self.presignedUrl = presignedUrl
         self.presignedUrlExpiration = presignedUrlExpiration
@@ -1635,8 +1599,7 @@ public struct CreateQAppOutput: Swift.Sendable {
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appId = appId
         self.appVersion = appVersion
@@ -1663,8 +1626,7 @@ public struct DeleteLibraryItemInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         libraryItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.libraryItemId = libraryItemId
     }
@@ -1681,8 +1643,7 @@ public struct DeleteQAppInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.instanceId = instanceId
     }
@@ -1699,8 +1660,7 @@ public struct DescribeQAppPermissionsInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.instanceId = instanceId
     }
@@ -1750,8 +1710,7 @@ extension QAppsClientTypes {
             email: Swift.String? = nil,
             userId: Swift.String? = nil,
             userType: QAppsClientTypes.UserType? = nil
-        )
-        {
+        ) {
             self.email = email
             self.userId = userId
             self.userType = userType
@@ -1773,8 +1732,7 @@ extension QAppsClientTypes {
         public init(
             action: QAppsClientTypes.Action? = nil,
             principal: QAppsClientTypes.PrincipalOutput? = nil
-        )
-        {
+        ) {
             self.action = action
             self.principal = principal
         }
@@ -1793,8 +1751,7 @@ public struct DescribeQAppPermissionsOutput: Swift.Sendable {
         appId: Swift.String? = nil,
         permissions: [QAppsClientTypes.PermissionOutput]? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.permissions = permissions
         self.resourceArn = resourceArn
@@ -1812,8 +1769,7 @@ public struct DisassociateLibraryItemReviewInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         libraryItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.libraryItemId = libraryItemId
     }
@@ -1830,8 +1786,7 @@ public struct DisassociateQAppFromUserInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.instanceId = instanceId
     }
@@ -1848,8 +1803,7 @@ public struct ExportQAppSessionDataInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.sessionId = sessionId
     }
@@ -1870,8 +1824,7 @@ public struct ExportQAppSessionDataOutput: Swift.Sendable {
         csvFileLink: Swift.String? = nil,
         expiresAt: Foundation.Date? = nil,
         sessionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.csvFileLink = csvFileLink
         self.expiresAt = expiresAt
         self.sessionArn = sessionArn
@@ -1892,8 +1845,7 @@ public struct GetLibraryItemInput: Swift.Sendable {
         appId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         libraryItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.instanceId = instanceId
         self.libraryItemId = libraryItemId
@@ -1950,8 +1902,7 @@ public struct GetLibraryItemOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil,
         userCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.appVersion = appVersion
         self.categories = categories
@@ -1982,8 +1933,7 @@ public struct GetQAppInput: Swift.Sendable {
         appId: Swift.String? = nil,
         appVersion: Swift.Int? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.appVersion = appVersion
         self.instanceId = instanceId
@@ -2001,8 +1951,7 @@ public struct GetQAppSessionInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.sessionId = sessionId
     }
@@ -2039,8 +1988,7 @@ public struct GetQAppSessionOutput: Swift.Sendable {
         sessionName: Swift.String? = nil,
         status: QAppsClientTypes.ExecutionStatus? = nil,
         userIsHost: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.appVersion = appVersion
         self.cardStatus = cardStatus
         self.latestPublishedAppVersion = latestPublishedAppVersion
@@ -2063,8 +2011,7 @@ public struct GetQAppSessionMetadataInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.sessionId = sessionId
     }
@@ -2086,8 +2033,7 @@ extension QAppsClientTypes {
             acceptResponses: Swift.Bool? = nil,
             enabled: Swift.Bool? = nil,
             revealCards: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.acceptResponses = acceptResponses
             self.enabled = enabled
             self.revealCards = revealCards
@@ -2116,8 +2062,7 @@ public struct GetQAppSessionMetadataOutput: Swift.Sendable {
         sessionName: Swift.String? = nil,
         sessionOwner: Swift.Bool? = nil,
         sharingConfiguration: QAppsClientTypes.SessionSharingConfiguration? = nil
-    )
-    {
+    ) {
         self.sessionArn = sessionArn
         self.sessionId = sessionId
         self.sessionName = sessionName
@@ -2156,8 +2101,7 @@ public struct ImportDocumentInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         scope: QAppsClientTypes.DocumentScope? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.cardId = cardId
         self.fileContentsBase64 = fileContentsBase64
@@ -2174,8 +2118,7 @@ public struct ImportDocumentOutput: Swift.Sendable {
 
     public init(
         fileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileId = fileId
     }
 }
@@ -2233,8 +2176,7 @@ extension QAppsClientTypes {
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil,
             userCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.appVersion = appVersion
             self.categories = categories
@@ -2288,8 +2230,7 @@ public struct ListCategoriesInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -2300,8 +2241,7 @@ public struct ListCategoriesOutput: Swift.Sendable {
 
     public init(
         categories: [QAppsClientTypes.Category]? = nil
-    )
-    {
+    ) {
         self.categories = categories
     }
 }
@@ -2322,8 +2262,7 @@ public struct ListLibraryItemsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.categoryId = categoryId
         self.instanceId = instanceId
         self.limit = limit
@@ -2340,8 +2279,7 @@ public struct ListLibraryItemsOutput: Swift.Sendable {
     public init(
         libraryItems: [QAppsClientTypes.LibraryItemMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.libraryItems = libraryItems
         self.nextToken = nextToken
     }
@@ -2360,8 +2298,7 @@ public struct ListQAppsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.limit = limit
         self.nextToken = nextToken
@@ -2402,8 +2339,7 @@ extension QAppsClientTypes {
             isVerified: Swift.Bool = false,
             status: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.appArn = appArn
             self.appId = appId
             self.canEdit = canEdit
@@ -2426,8 +2362,7 @@ public struct ListQAppsOutput: Swift.Sendable {
     public init(
         apps: [QAppsClientTypes.UserAppItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apps = apps
         self.nextToken = nextToken
     }
@@ -2444,8 +2379,7 @@ public struct ListQAppSessionDataInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.sessionId = sessionId
     }
@@ -2460,8 +2394,7 @@ extension QAppsClientTypes {
 
         public init(
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userId = userId
         }
     }
@@ -2490,8 +2423,7 @@ extension QAppsClientTypes {
             timestamp: Foundation.Date? = nil,
             user: QAppsClientTypes.User? = nil,
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.cardId = cardId
             self.submissionId = submissionId
             self.timestamp = timestamp
@@ -2518,8 +2450,7 @@ public struct ListQAppSessionDataOutput: Swift.Sendable {
         sessionArn: Swift.String? = nil,
         sessionData: [QAppsClientTypes.QAppSessionData]? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessionArn = sessionArn
         self.sessionData = sessionData
@@ -2534,8 +2465,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -2546,8 +2476,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2566,8 +2495,7 @@ extension QAppsClientTypes {
         public init(
             action: QAppsClientTypes.Action? = nil,
             principal: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.principal = principal
         }
@@ -2596,8 +2524,7 @@ public struct PredictQAppInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         options: QAppsClientTypes.PredictQAppInputOptions? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.options = options
     }
@@ -2627,8 +2554,7 @@ public struct StartQAppSessionInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.appVersion = appVersion
         self.initialValues = initialValues
@@ -2649,8 +2575,7 @@ public struct StartQAppSessionOutput: Swift.Sendable {
     public init(
         sessionArn: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionArn = sessionArn
         self.sessionId = sessionId
     }
@@ -2667,8 +2592,7 @@ public struct StopQAppSessionInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.sessionId = sessionId
     }
@@ -2685,8 +2609,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -2708,8 +2631,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -2737,8 +2659,7 @@ public struct UpdateLibraryItemInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         libraryItemId: Swift.String? = nil,
         status: QAppsClientTypes.LibraryItemStatus? = nil
-    )
-    {
+    ) {
         self.categories = categories
         self.instanceId = instanceId
         self.libraryItemId = libraryItemId
@@ -2796,8 +2717,7 @@ public struct UpdateLibraryItemOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil,
         userCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.appVersion = appVersion
         self.categories = categories
@@ -2828,8 +2748,7 @@ public struct UpdateLibraryItemMetadataInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         isVerified: Swift.Bool? = nil,
         libraryItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.isVerified = isVerified
         self.libraryItemId = libraryItemId
@@ -2884,8 +2803,7 @@ public struct UpdateQAppOutput: Swift.Sendable {
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appId = appId
         self.appVersion = appVersion
@@ -2918,8 +2836,7 @@ public struct UpdateQAppPermissionsInput: Swift.Sendable {
         grantPermissions: [QAppsClientTypes.PermissionInput]? = nil,
         instanceId: Swift.String? = nil,
         revokePermissions: [QAppsClientTypes.PermissionInput]? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.grantPermissions = grantPermissions
         self.instanceId = instanceId
@@ -2939,8 +2856,7 @@ public struct UpdateQAppPermissionsOutput: Swift.Sendable {
         appId: Swift.String? = nil,
         permissions: [QAppsClientTypes.PermissionOutput]? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.permissions = permissions
         self.resourceArn = resourceArn
@@ -2961,8 +2877,7 @@ public struct UpdateQAppSessionInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         values: [QAppsClientTypes.CardValue]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.sessionId = sessionId
         self.values = values
@@ -2980,8 +2895,7 @@ public struct UpdateQAppSessionOutput: Swift.Sendable {
     public init(
         sessionArn: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionArn = sessionArn
         self.sessionId = sessionId
     }
@@ -3005,8 +2919,7 @@ public struct UpdateQAppSessionMetadataInput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         sessionName: Swift.String? = nil,
         sharingConfiguration: QAppsClientTypes.SessionSharingConfiguration? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.sessionId = sessionId
         self.sessionName = sessionName
@@ -3032,8 +2945,7 @@ public struct UpdateQAppSessionMetadataOutput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         sessionName: Swift.String? = nil,
         sharingConfiguration: QAppsClientTypes.SessionSharingConfiguration? = nil
-    )
-    {
+    ) {
         self.sessionArn = sessionArn
         self.sessionId = sessionId
         self.sessionName = sessionName
@@ -3077,8 +2989,7 @@ extension QAppsClientTypes {
             lessThanOrEquals: QAppsClientTypes.DocumentAttribute? = nil,
             notFilter: QAppsClientTypes.AttributeFilter? = nil,
             orAllFilters: [QAppsClientTypes.AttributeFilter]? = nil
-        )
-        {
+        ) {
             self.andAllFilters = andAllFilters
             self.containsAll = containsAll
             self.containsAny = containsAny
@@ -3129,8 +3040,7 @@ extension QAppsClientTypes {
             prompt: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QAppsClientTypes.CardType? = nil
-        )
-        {
+        ) {
             self.attributeFilter = attributeFilter
             self.dependencies = dependencies
             self.id = id
@@ -3171,8 +3081,7 @@ extension QAppsClientTypes {
             prompt: Swift.String? = nil,
             title: Swift.String? = nil,
             type: QAppsClientTypes.CardType? = .qQuery
-        )
-        {
+        ) {
             self.attributeFilter = attributeFilter
             self.id = id
             self.outputSource = outputSource
@@ -3236,8 +3145,7 @@ extension QAppsClientTypes {
             appDefinitionVersion: Swift.String? = nil,
             canEdit: Swift.Bool? = nil,
             cards: [QAppsClientTypes.Card]? = nil
-        )
-        {
+        ) {
             self.appDefinitionVersion = appDefinitionVersion
             self.canEdit = canEdit
             self.cards = cards
@@ -3258,8 +3166,7 @@ extension QAppsClientTypes {
         public init(
             cards: [QAppsClientTypes.CardInput]? = nil,
             initialPrompt: Swift.String? = nil
-        )
-        {
+        ) {
             self.cards = cards
             self.initialPrompt = initialPrompt
         }
@@ -3283,8 +3190,7 @@ extension QAppsClientTypes {
             appDefinition: QAppsClientTypes.AppDefinitionInput? = nil,
             description: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.appDefinition = appDefinition
             self.description = description
             self.title = title
@@ -3313,8 +3219,7 @@ public struct CreateQAppInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.appDefinition = appDefinition
         self.description = description
         self.instanceId = instanceId
@@ -3375,8 +3280,7 @@ public struct GetQAppOutput: Swift.Sendable {
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appDefinition = appDefinition
         self.appId = appId
@@ -3413,8 +3317,7 @@ public struct UpdateQAppInput: Swift.Sendable {
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.appDefinition = appDefinition
         self.appId = appId
         self.description = description
@@ -3434,8 +3337,7 @@ public struct PredictQAppOutput: Swift.Sendable {
     public init(
         app: QAppsClientTypes.PredictAppDefinition? = nil,
         problemStatement: Swift.String? = nil
-    )
-    {
+    ) {
         self.app = app
         self.problemStatement = problemStatement
     }

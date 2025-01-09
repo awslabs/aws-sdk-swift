@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -116,8 +115,7 @@ extension SupplyChainClientTypes {
             message: Swift.String? = nil,
             s3uri: Swift.String? = nil,
             status: SupplyChainClientTypes.ConfigurationJobStatus? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.jobId = jobId
             self.message = message
@@ -145,8 +143,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -169,8 +166,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -193,8 +189,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -217,8 +212,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -241,8 +235,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -262,8 +255,7 @@ public struct CreateBillOfMaterialsImportJobInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         s3uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceId = instanceId
         self.s3uri = s3uri
@@ -278,8 +270,7 @@ public struct CreateBillOfMaterialsImportJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -302,8 +293,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -320,8 +310,7 @@ public struct GetBillOfMaterialsImportJobInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.jobId = jobId
     }
@@ -335,8 +324,7 @@ public struct GetBillOfMaterialsImportJobOutput: Swift.Sendable {
 
     public init(
         job: SupplyChainClientTypes.BillOfMaterialsImportJob? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -382,8 +370,7 @@ extension SupplyChainClientTypes {
         public init(
             dedupeRecords: Swift.Bool? = nil,
             loadType: SupplyChainClientTypes.DataIntegrationFlowLoadType? = nil
-        )
-        {
+        ) {
             self.dedupeRecords = dedupeRecords
             self.loadType = loadType
         }
@@ -403,8 +390,7 @@ extension SupplyChainClientTypes {
         public init(
             datasetIdentifier: Swift.String? = nil,
             options: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions? = nil
-        )
-        {
+        ) {
             self.datasetIdentifier = datasetIdentifier
             self.options = options
         }
@@ -452,8 +438,7 @@ extension SupplyChainClientTypes {
 
         public init(
             fileType: SupplyChainClientTypes.DataIntegrationFlowFileType? = nil
-        )
-        {
+        ) {
             self.fileType = fileType
         }
     }
@@ -476,8 +461,7 @@ extension SupplyChainClientTypes {
             bucketName: Swift.String? = nil,
             options: SupplyChainClientTypes.DataIntegrationFlowS3Options? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.options = options
             self.`prefix` = `prefix`
@@ -534,8 +518,7 @@ extension SupplyChainClientTypes {
             s3Source: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration? = nil,
             sourceName: Swift.String? = nil,
             sourceType: SupplyChainClientTypes.DataIntegrationFlowSourceType? = nil
-        )
-        {
+        ) {
             self.datasetSource = datasetSource
             self.s3Source = s3Source
             self.sourceName = sourceName
@@ -557,8 +540,7 @@ extension SupplyChainClientTypes {
         public init(
             datasetIdentifier: Swift.String? = nil,
             options: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions? = nil
-        )
-        {
+        ) {
             self.datasetIdentifier = datasetIdentifier
             self.options = options
         }
@@ -582,8 +564,7 @@ extension SupplyChainClientTypes {
             bucketName: Swift.String? = nil,
             options: SupplyChainClientTypes.DataIntegrationFlowS3Options? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.options = options
             self.`prefix` = `prefix`
@@ -636,8 +617,7 @@ extension SupplyChainClientTypes {
             datasetTarget: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration? = nil,
             s3Target: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration? = nil,
             targetType: SupplyChainClientTypes.DataIntegrationFlowTargetType? = nil
-        )
-        {
+        ) {
             self.datasetTarget = datasetTarget
             self.s3Target = s3Target
             self.targetType = targetType
@@ -655,8 +635,7 @@ extension SupplyChainClientTypes {
 
         public init(
             query: Swift.String? = nil
-        )
-        {
+        ) {
             self.query = query
         }
     }
@@ -704,8 +683,7 @@ extension SupplyChainClientTypes {
         public init(
             sqlTransformation: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration? = nil,
             transformationType: SupplyChainClientTypes.DataIntegrationFlowTransformationType? = nil
-        )
-        {
+        ) {
             self.sqlTransformation = sqlTransformation
             self.transformationType = transformationType
         }
@@ -739,8 +717,7 @@ public struct CreateDataIntegrationFlowInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         target: SupplyChainClientTypes.DataIntegrationFlowTarget? = nil,
         transformation: SupplyChainClientTypes.DataIntegrationFlowTransformation? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
         self.sources = sources
@@ -762,8 +739,7 @@ public struct CreateDataIntegrationFlowOutput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
     }
@@ -822,8 +798,7 @@ extension SupplyChainClientTypes {
             isRequired: Swift.Bool? = nil,
             name: Swift.String? = nil,
             type: SupplyChainClientTypes.DataLakeDatasetSchemaFieldType? = nil
-        )
-        {
+        ) {
             self.isRequired = isRequired
             self.name = name
             self.type = type
@@ -845,8 +820,7 @@ extension SupplyChainClientTypes {
         public init(
             fields: [SupplyChainClientTypes.DataLakeDatasetSchemaField]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.name = name
         }
@@ -882,8 +856,7 @@ public struct CreateDataLakeDatasetInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         schema: SupplyChainClientTypes.DataLakeDatasetSchema? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -934,8 +907,7 @@ extension SupplyChainClientTypes {
             name: Swift.String? = nil,
             namespace: Swift.String? = nil,
             schema: SupplyChainClientTypes.DataLakeDatasetSchema? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -956,8 +928,7 @@ public struct CreateDataLakeDatasetOutput: Swift.Sendable {
 
     public init(
         dataset: SupplyChainClientTypes.DataLakeDataset? = nil
-    )
-    {
+    ) {
         self.dataset = dataset
     }
 }
@@ -984,8 +955,7 @@ public struct CreateInstanceInput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         webAppDnsDomain: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceDescription = instanceDescription
         self.instanceName = instanceName
@@ -1078,8 +1048,7 @@ extension SupplyChainClientTypes {
             state: SupplyChainClientTypes.InstanceState? = nil,
             versionNumber: Swift.Double? = nil,
             webAppDnsDomain: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.createdTime = createdTime
             self.errorMessage = errorMessage
@@ -1103,8 +1072,7 @@ public struct CreateInstanceOutput: Swift.Sendable {
 
     public init(
         instance: SupplyChainClientTypes.Instance? = nil
-    )
-    {
+    ) {
         self.instance = instance
     }
 }
@@ -1203,8 +1171,7 @@ public struct SendDataIntegrationEventInput: Swift.Sendable {
         eventTimestamp: Foundation.Date? = nil,
         eventType: SupplyChainClientTypes.DataIntegrationEventType? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.data = data
         self.eventGroupId = eventGroupId
@@ -1227,8 +1194,7 @@ public struct SendDataIntegrationEventOutput: Swift.Sendable {
 
     public init(
         eventId: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventId = eventId
     }
 }
@@ -1267,8 +1233,7 @@ extension SupplyChainClientTypes {
             sources: [SupplyChainClientTypes.DataIntegrationFlowSource]? = nil,
             target: SupplyChainClientTypes.DataIntegrationFlowTarget? = nil,
             transformation: SupplyChainClientTypes.DataIntegrationFlowTransformation? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.instanceId = instanceId
             self.lastModifiedTime = lastModifiedTime
@@ -1292,8 +1257,7 @@ public struct DeleteDataIntegrationFlowInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
     }
@@ -1311,8 +1275,7 @@ public struct DeleteDataIntegrationFlowOutput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
     }
@@ -1330,8 +1293,7 @@ public struct GetDataIntegrationFlowInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
     }
@@ -1345,8 +1307,7 @@ public struct GetDataIntegrationFlowOutput: Swift.Sendable {
 
     public init(
         flow: SupplyChainClientTypes.DataIntegrationFlow? = nil
-    )
-    {
+    ) {
         self.flow = flow
     }
 }
@@ -1365,8 +1326,7 @@ public struct ListDataIntegrationFlowsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1384,8 +1344,7 @@ public struct ListDataIntegrationFlowsOutput: Swift.Sendable {
     public init(
         flows: [SupplyChainClientTypes.DataIntegrationFlow]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flows = flows
         self.nextToken = nextToken
     }
@@ -1412,8 +1371,7 @@ public struct UpdateDataIntegrationFlowInput: Swift.Sendable {
         sources: [SupplyChainClientTypes.DataIntegrationFlowSource]? = nil,
         target: SupplyChainClientTypes.DataIntegrationFlowTarget? = nil,
         transformation: SupplyChainClientTypes.DataIntegrationFlowTransformation? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
         self.sources = sources
@@ -1430,8 +1388,7 @@ public struct UpdateDataIntegrationFlowOutput: Swift.Sendable {
 
     public init(
         flow: SupplyChainClientTypes.DataIntegrationFlow? = nil
-    )
-    {
+    ) {
         self.flow = flow
     }
 }
@@ -1456,8 +1413,7 @@ public struct DeleteDataLakeDatasetInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
         self.namespace = namespace
@@ -1480,8 +1436,7 @@ public struct DeleteDataLakeDatasetOutput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
         self.namespace = namespace
@@ -1508,8 +1463,7 @@ public struct GetDataLakeDatasetInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
         self.namespace = namespace
@@ -1524,8 +1478,7 @@ public struct GetDataLakeDatasetOutput: Swift.Sendable {
 
     public init(
         dataset: SupplyChainClientTypes.DataLakeDataset? = nil
-    )
-    {
+    ) {
         self.dataset = dataset
     }
 }
@@ -1552,8 +1505,7 @@ public struct ListDataLakeDatasetsInput: Swift.Sendable {
         maxResults: Swift.Int? = 10,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.namespace = namespace
@@ -1572,8 +1524,7 @@ public struct ListDataLakeDatasetsOutput: Swift.Sendable {
     public init(
         datasets: [SupplyChainClientTypes.DataLakeDataset]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasets = datasets
         self.nextToken = nextToken
     }
@@ -1602,8 +1553,7 @@ public struct UpdateDataLakeDatasetInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -1619,8 +1569,7 @@ public struct UpdateDataLakeDatasetOutput: Swift.Sendable {
 
     public init(
         dataset: SupplyChainClientTypes.DataLakeDataset? = nil
-    )
-    {
+    ) {
         self.dataset = dataset
     }
 }
@@ -1633,8 +1582,7 @@ public struct DeleteInstanceInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -1647,8 +1595,7 @@ public struct DeleteInstanceOutput: Swift.Sendable {
 
     public init(
         instance: SupplyChainClientTypes.Instance? = nil
-    )
-    {
+    ) {
         self.instance = instance
     }
 }
@@ -1661,8 +1608,7 @@ public struct GetInstanceInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -1675,8 +1621,7 @@ public struct GetInstanceOutput: Swift.Sendable {
 
     public init(
         instance: SupplyChainClientTypes.Instance? = nil
-    )
-    {
+    ) {
         self.instance = instance
     }
 }
@@ -1697,8 +1642,7 @@ public struct ListInstancesInput: Swift.Sendable {
         instanceStateFilter: [SupplyChainClientTypes.InstanceState]? = nil,
         maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceNameFilter = instanceNameFilter
         self.instanceStateFilter = instanceStateFilter
         self.maxResults = maxResults
@@ -1717,8 +1661,7 @@ public struct ListInstancesOutput: Swift.Sendable {
     public init(
         instances: [SupplyChainClientTypes.Instance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.nextToken = nextToken
     }
@@ -1738,8 +1681,7 @@ public struct UpdateInstanceInput: Swift.Sendable {
         instanceDescription: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceDescription = instanceDescription
         self.instanceId = instanceId
         self.instanceName = instanceName
@@ -1754,8 +1696,7 @@ public struct UpdateInstanceOutput: Swift.Sendable {
 
     public init(
         instance: SupplyChainClientTypes.Instance? = nil
-    )
-    {
+    ) {
         self.instance = instance
     }
 }
@@ -1768,8 +1709,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1782,8 +1722,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1800,8 +1739,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1825,8 +1763,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

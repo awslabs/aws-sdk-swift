@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -65,8 +64,7 @@ extension BillingClientTypes {
         public init(
             activeAfterInclusive: Foundation.Date? = nil,
             activeBeforeInclusive: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.activeAfterInclusive = activeAfterInclusive
             self.activeBeforeInclusive = activeBeforeInclusive
         }
@@ -100,8 +98,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -127,8 +124,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -168,8 +164,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -197,8 +192,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -217,8 +211,7 @@ extension BillingClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -286,8 +279,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [BillingClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: BillingClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -334,8 +326,7 @@ extension BillingClientTypes {
         public init(
             key: BillingClientTypes.Dimension? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -356,8 +347,7 @@ extension BillingClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -376,8 +366,7 @@ extension BillingClientTypes {
         public init(
             dimensions: BillingClientTypes.DimensionValues? = nil,
             tags: BillingClientTypes.TagValues? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.tags = tags
         }
@@ -397,8 +386,7 @@ extension BillingClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -428,8 +416,7 @@ public struct CreateBillingViewInput: Swift.Sendable {
         name: Swift.String? = nil,
         resourceTags: [BillingClientTypes.ResourceTag]? = nil,
         sourceViews: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataFilterExpression = dataFilterExpression
         self.description = description
@@ -454,8 +441,7 @@ public struct CreateBillingViewOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
     }
@@ -468,8 +454,7 @@ public struct DeleteBillingViewInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -481,8 +466,7 @@ public struct DeleteBillingViewOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -514,8 +498,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -529,8 +512,7 @@ public struct GetBillingViewInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -597,8 +579,7 @@ extension BillingClientTypes {
             name: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.billingViewType = billingViewType
             self.createdAt = createdAt
@@ -623,8 +604,7 @@ public struct GetBillingViewOutput: Swift.Sendable {
 
     public init(
         billingView: BillingClientTypes.BillingViewElement? = nil
-    )
-    {
+    ) {
         self.billingView = billingView
     }
 }
@@ -636,8 +616,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -652,8 +631,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -680,8 +658,7 @@ public struct ListBillingViewsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeTimeRange = activeTimeRange
         self.arns = arns
         self.billingViewTypes = billingViewTypes
@@ -712,8 +689,7 @@ extension BillingClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.billingViewType = billingViewType
             self.description = description
@@ -738,8 +714,7 @@ public struct ListBillingViewsOutput: Swift.Sendable {
     public init(
         billingViews: [BillingClientTypes.BillingViewListElement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingViews = billingViews
         self.nextToken = nextToken
     }
@@ -758,8 +733,7 @@ public struct ListSourceViewsForBillingViewInput: Swift.Sendable {
         arn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -776,8 +750,7 @@ public struct ListSourceViewsForBillingViewOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sourceViews: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sourceViews = sourceViews
     }
@@ -790,8 +763,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -802,8 +774,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         resourceTags: [BillingClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.resourceTags = resourceTags
     }
 }
@@ -819,8 +790,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         resourceTags: [BillingClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceTags = resourceTags
     }
@@ -842,8 +812,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         resourceTagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceTagKeys = resourceTagKeys
     }
@@ -870,8 +839,7 @@ public struct UpdateBillingViewInput: Swift.Sendable {
         dataFilterExpression: BillingClientTypes.Expression? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.dataFilterExpression = dataFilterExpression
         self.description = description
@@ -894,8 +862,7 @@ public struct UpdateBillingViewOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.updatedAt = updatedAt
     }

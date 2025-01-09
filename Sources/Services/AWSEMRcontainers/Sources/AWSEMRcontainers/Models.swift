@@ -69,8 +69,7 @@ extension EMRcontainersClientTypes {
             certificateProviderType: EMRcontainersClientTypes.CertificateProviderType? = nil,
             privateCertificateSecretArn: Swift.String? = nil,
             publicCertificateSecretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateProviderType = certificateProviderType
             self.privateCertificateSecretArn = privateCertificateSecretArn
             self.publicCertificateSecretArn = publicCertificateSecretArn
@@ -87,8 +86,7 @@ extension EMRcontainersClientTypes {
 
         public init(
             tlsCertificateConfiguration: EMRcontainersClientTypes.TLSCertificateConfiguration? = nil
-        )
-        {
+        ) {
             self.tlsCertificateConfiguration = tlsCertificateConfiguration
         }
     }
@@ -103,8 +101,7 @@ extension EMRcontainersClientTypes {
 
         public init(
             inTransitEncryptionConfiguration: EMRcontainersClientTypes.InTransitEncryptionConfiguration? = nil
-        )
-        {
+        ) {
             self.inTransitEncryptionConfiguration = inTransitEncryptionConfiguration
         }
     }
@@ -122,8 +119,7 @@ extension EMRcontainersClientTypes {
         public init(
             clusterId: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterId = clusterId
             self.namespace = namespace
         }
@@ -145,8 +141,7 @@ extension EMRcontainersClientTypes {
             authorizedSessionTagValue: Swift.String? = nil,
             queryEngineRoleArn: Swift.String? = nil,
             secureNamespaceInfo: EMRcontainersClientTypes.SecureNamespaceInfo? = nil
-        )
-        {
+        ) {
             self.authorizedSessionTagValue = authorizedSessionTagValue
             self.queryEngineRoleArn = queryEngineRoleArn
             self.secureNamespaceInfo = secureNamespaceInfo
@@ -166,8 +161,7 @@ extension EMRcontainersClientTypes {
         public init(
             encryptionConfiguration: EMRcontainersClientTypes.EncryptionConfiguration? = nil,
             lakeFormationConfiguration: EMRcontainersClientTypes.LakeFormationConfiguration? = nil
-        )
-        {
+        ) {
             self.encryptionConfiguration = encryptionConfiguration
             self.lakeFormationConfiguration = lakeFormationConfiguration
         }
@@ -192,8 +186,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -216,8 +209,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -233,8 +225,7 @@ public struct CancelJobRunInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.virtualClusterId = virtualClusterId
     }
@@ -249,8 +240,7 @@ public struct CancelJobRunOutput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.virtualClusterId = virtualClusterId
     }
@@ -274,8 +264,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -292,8 +281,7 @@ extension EMRcontainersClientTypes {
         public init(
             logGroupName: Swift.String? = nil,
             logStreamNamePrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupName = logGroupName
             self.logStreamNamePrefix = logStreamNamePrefix
         }
@@ -309,8 +297,7 @@ extension EMRcontainersClientTypes {
 
         public init(
             logUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.logUri = logUri
         }
     }
@@ -331,8 +318,7 @@ extension EMRcontainersClientTypes {
             cloudWatchMonitoringConfiguration: EMRcontainersClientTypes.ParametricCloudWatchMonitoringConfiguration? = nil,
             persistentAppUI: Swift.String? = nil,
             s3MonitoringConfiguration: EMRcontainersClientTypes.ParametricS3MonitoringConfiguration? = nil
-        )
-        {
+        ) {
             self.cloudWatchMonitoringConfiguration = cloudWatchMonitoringConfiguration
             self.persistentAppUI = persistentAppUI
             self.s3MonitoringConfiguration = s3MonitoringConfiguration
@@ -352,8 +338,7 @@ extension EMRcontainersClientTypes {
         public init(
             entryPoint: Swift.String? = nil,
             sparkSqlParameters: Swift.String? = nil
-        )
-        {
+        ) {
             self.entryPoint = entryPoint
             self.sparkSqlParameters = sparkSqlParameters
         }
@@ -381,8 +366,7 @@ extension EMRcontainersClientTypes {
             entryPoint: Swift.String? = nil,
             entryPointArguments: [Swift.String]? = nil,
             sparkSubmitParameters: Swift.String? = nil
-        )
-        {
+        ) {
             self.entryPoint = entryPoint
             self.entryPointArguments = entryPointArguments
             self.sparkSubmitParameters = sparkSubmitParameters
@@ -407,8 +391,7 @@ extension EMRcontainersClientTypes {
         public init(
             sparkSqlJobDriver: EMRcontainersClientTypes.SparkSqlJobDriver? = nil,
             sparkSubmitJobDriver: EMRcontainersClientTypes.SparkSubmitJobDriver? = nil
-        )
-        {
+        ) {
             self.sparkSqlJobDriver = sparkSqlJobDriver
             self.sparkSubmitJobDriver = sparkSubmitJobDriver
         }
@@ -456,8 +439,7 @@ extension EMRcontainersClientTypes {
         public init(
             defaultValue: Swift.String? = nil,
             type: EMRcontainersClientTypes.TemplateParameterDataType? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.type = type
         }
@@ -479,8 +461,7 @@ public struct CreateJobTemplateOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.id = id
@@ -501,8 +482,7 @@ extension EMRcontainersClientTypes {
         public init(
             logGroupName: Swift.String? = nil,
             logStreamNamePrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupName = logGroupName
             self.logStreamNamePrefix = logStreamNamePrefix
         }
@@ -523,8 +503,7 @@ extension EMRcontainersClientTypes {
         public init(
             maxFilesToKeep: Swift.Int? = nil,
             rotationSize: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxFilesToKeep = maxFilesToKeep
             self.rotationSize = rotationSize
         }
@@ -570,8 +549,7 @@ extension EMRcontainersClientTypes {
 
         public init(
             logUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.logUri = logUri
         }
     }
@@ -595,8 +573,7 @@ extension EMRcontainersClientTypes {
             containerLogRotationConfiguration: EMRcontainersClientTypes.ContainerLogRotationConfiguration? = nil,
             persistentAppUI: EMRcontainersClientTypes.PersistentAppUI? = nil,
             s3MonitoringConfiguration: EMRcontainersClientTypes.S3MonitoringConfiguration? = nil
-        )
-        {
+        ) {
             self.cloudWatchMonitoringConfiguration = cloudWatchMonitoringConfiguration
             self.containerLogRotationConfiguration = containerLogRotationConfiguration
             self.persistentAppUI = persistentAppUI
@@ -620,8 +597,7 @@ public struct CreateManagedEndpointOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -638,8 +614,7 @@ extension EMRcontainersClientTypes {
 
         public init(
             authorizationConfiguration: EMRcontainersClientTypes.AuthorizationConfiguration? = nil
-        )
-        {
+        ) {
             self.authorizationConfiguration = authorizationConfiguration
         }
     }
@@ -663,8 +638,7 @@ public struct CreateSecurityConfigurationInput: Swift.Sendable {
         name: Swift.String? = nil,
         securityConfigurationData: EMRcontainersClientTypes.SecurityConfigurationData? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.securityConfigurationData = securityConfigurationData
@@ -684,8 +658,7 @@ public struct CreateSecurityConfigurationOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -710,8 +683,7 @@ public struct EKSRequestThrottledException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -725,8 +697,7 @@ extension EMRcontainersClientTypes {
 
         public init(
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
         }
     }
@@ -785,8 +756,7 @@ extension EMRcontainersClientTypes {
             id: Swift.String? = nil,
             info: EMRcontainersClientTypes.ContainerInfo? = nil,
             type: EMRcontainersClientTypes.ContainerProviderType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.info = info
             self.type = type
@@ -815,8 +785,7 @@ public struct CreateVirtualClusterInput: Swift.Sendable {
         name: Swift.String? = nil,
         securityConfigurationId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.containerProvider = containerProvider
         self.name = name
@@ -837,8 +806,7 @@ public struct CreateVirtualClusterOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -852,8 +820,7 @@ public struct DeleteJobTemplateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -864,8 +831,7 @@ public struct DeleteJobTemplateOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -881,8 +847,7 @@ public struct DeleteManagedEndpointInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.virtualClusterId = virtualClusterId
     }
@@ -897,8 +862,7 @@ public struct DeleteManagedEndpointOutput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.virtualClusterId = virtualClusterId
     }
@@ -911,8 +875,7 @@ public struct DeleteVirtualClusterInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -923,8 +886,7 @@ public struct DeleteVirtualClusterOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -940,8 +902,7 @@ public struct DescribeJobRunInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.virtualClusterId = virtualClusterId
     }
@@ -992,8 +953,7 @@ extension EMRcontainersClientTypes {
 
         public init(
             maxAttempts: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxAttempts = maxAttempts
         }
     }
@@ -1009,8 +969,7 @@ extension EMRcontainersClientTypes {
 
         public init(
             currentAttemptCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.currentAttemptCount = currentAttemptCount
         }
     }
@@ -1067,8 +1026,7 @@ public struct DescribeJobTemplateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1084,8 +1042,7 @@ public struct DescribeManagedEndpointInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.virtualClusterId = virtualClusterId
     }
@@ -1103,8 +1060,7 @@ extension EMRcontainersClientTypes {
         public init(
             certificateArn: Swift.String? = nil,
             certificateData: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificateData = certificateData
         }
@@ -1156,8 +1112,7 @@ public struct DescribeSecurityConfigurationInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1189,8 +1144,7 @@ extension EMRcontainersClientTypes {
             name: Swift.String? = nil,
             securityConfigurationData: EMRcontainersClientTypes.SecurityConfigurationData? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -1208,8 +1162,7 @@ public struct DescribeSecurityConfigurationOutput: Swift.Sendable {
 
     public init(
         securityConfiguration: EMRcontainersClientTypes.SecurityConfiguration? = nil
-    )
-    {
+    ) {
         self.securityConfiguration = securityConfiguration
     }
 }
@@ -1221,8 +1174,7 @@ public struct DescribeVirtualClusterInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1292,8 +1244,7 @@ extension EMRcontainersClientTypes {
             securityConfigurationId: Swift.String? = nil,
             state: EMRcontainersClientTypes.VirtualClusterState? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.containerProvider = containerProvider
             self.createdAt = createdAt
@@ -1312,8 +1263,7 @@ public struct DescribeVirtualClusterOutput: Swift.Sendable {
 
     public init(
         virtualCluster: EMRcontainersClientTypes.VirtualCluster? = nil
-    )
-    {
+    ) {
         self.virtualCluster = virtualCluster
     }
 }
@@ -1336,8 +1286,7 @@ public struct RequestThrottledException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1370,8 +1319,7 @@ public struct GetManagedEndpointSessionCredentialsInput: Swift.Sendable {
         executionRoleArn: Swift.String? = nil,
         logContext: Swift.String? = nil,
         virtualClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.credentialType = credentialType
         self.durationInSeconds = durationInSeconds
@@ -1404,8 +1352,7 @@ public struct GetManagedEndpointSessionCredentialsOutput: Swift.Sendable {
         credentials: EMRcontainersClientTypes.Credentials? = nil,
         expiresAt: Foundation.Date? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.expiresAt = expiresAt
         self.id = id
@@ -1437,8 +1384,7 @@ public struct ListJobRunsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         states: [EMRcontainersClientTypes.JobRunState]? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -1464,8 +1410,7 @@ public struct ListJobTemplatesInput: Swift.Sendable {
         createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -1498,8 +1443,7 @@ public struct ListManagedEndpointsInput: Swift.Sendable {
         states: [EMRcontainersClientTypes.EndpointState]? = nil,
         types: [Swift.String]? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -1525,8 +1469,7 @@ public struct ListSecurityConfigurationsInput: Swift.Sendable {
         createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -1543,8 +1486,7 @@ public struct ListSecurityConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityConfigurations: [EMRcontainersClientTypes.SecurityConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityConfigurations = securityConfigurations
     }
@@ -1557,8 +1499,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1569,8 +1510,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1602,8 +1542,7 @@ public struct ListVirtualClustersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         states: [EMRcontainersClientTypes.VirtualClusterState]? = nil
-    )
-    {
+    ) {
         self.containerProviderId = containerProviderId
         self.containerProviderType = containerProviderType
         self.createdAfter = createdAfter
@@ -1624,8 +1563,7 @@ public struct ListVirtualClustersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         virtualClusters: [EMRcontainersClientTypes.VirtualCluster]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.virtualClusters = virtualClusters
     }
@@ -1646,8 +1584,7 @@ public struct StartJobRunOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -1666,8 +1603,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1689,8 +1625,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1717,8 +1652,7 @@ extension EMRcontainersClientTypes {
             classification: Swift.String? = nil,
             configurations: [EMRcontainersClientTypes.Configuration]? = nil,
             properties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.configurations = configurations
             self.properties = properties
@@ -1743,8 +1677,7 @@ extension EMRcontainersClientTypes {
         public init(
             applicationConfiguration: [EMRcontainersClientTypes.Configuration]? = nil,
             monitoringConfiguration: EMRcontainersClientTypes.MonitoringConfiguration? = nil
-        )
-        {
+        ) {
             self.applicationConfiguration = applicationConfiguration
             self.monitoringConfiguration = monitoringConfiguration
         }
@@ -1763,8 +1696,7 @@ extension EMRcontainersClientTypes {
         public init(
             applicationConfiguration: [EMRcontainersClientTypes.Configuration]? = nil,
             monitoringConfiguration: EMRcontainersClientTypes.ParametricMonitoringConfiguration? = nil
-        )
-        {
+        ) {
             self.applicationConfiguration = applicationConfiguration
             self.monitoringConfiguration = monitoringConfiguration
         }
@@ -1832,8 +1764,7 @@ extension EMRcontainersClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             type: Swift.String? = nil,
             virtualClusterId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.certificateArn = certificateArn
             self.certificateAuthority = certificateAuthority
@@ -1916,8 +1847,7 @@ extension EMRcontainersClientTypes {
             stateDetails: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             virtualClusterId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clientToken = clientToken
             self.configurationOverrides = configurationOverrides
@@ -1967,8 +1897,7 @@ extension EMRcontainersClientTypes {
             jobTags: [Swift.String: Swift.String]? = nil,
             parameterConfiguration: [Swift.String: EMRcontainersClientTypes.TemplateParameterConfiguration]? = nil,
             releaseLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationOverrides = configurationOverrides
             self.executionRoleArn = executionRoleArn
             self.jobDriver = jobDriver
@@ -2016,8 +1945,7 @@ public struct CreateManagedEndpointInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: Swift.String? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.clientToken = clientToken
         self.configurationOverrides = configurationOverrides
@@ -2068,8 +1996,7 @@ public struct StartJobRunInput: Swift.Sendable {
         retryPolicyConfiguration: EMRcontainersClientTypes.RetryPolicyConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         virtualClusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.configurationOverrides = configurationOverrides
         self.executionRoleArn = executionRoleArn
@@ -2118,8 +2045,7 @@ extension EMRcontainersClientTypes {
             kmsKeyArn: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2154,8 +2080,7 @@ public struct CreateJobTemplateInput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.jobTemplateData = jobTemplateData
         self.kmsKeyArn = kmsKeyArn
@@ -2170,8 +2095,7 @@ public struct DescribeJobRunOutput: Swift.Sendable {
 
     public init(
         jobRun: EMRcontainersClientTypes.JobRun? = nil
-    )
-    {
+    ) {
         self.jobRun = jobRun
     }
 }
@@ -2182,8 +2106,7 @@ public struct DescribeManagedEndpointOutput: Swift.Sendable {
 
     public init(
         endpoint: EMRcontainersClientTypes.Endpoint? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
     }
 }
@@ -2194,8 +2117,7 @@ public struct DescribeJobTemplateOutput: Swift.Sendable {
 
     public init(
         jobTemplate: EMRcontainersClientTypes.JobTemplate? = nil
-    )
-    {
+    ) {
         self.jobTemplate = jobTemplate
     }
 }
@@ -2209,8 +2131,7 @@ public struct ListJobRunsOutput: Swift.Sendable {
     public init(
         jobRuns: [EMRcontainersClientTypes.JobRun]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobRuns = jobRuns
         self.nextToken = nextToken
     }
@@ -2225,8 +2146,7 @@ public struct ListManagedEndpointsOutput: Swift.Sendable {
     public init(
         endpoints: [EMRcontainersClientTypes.Endpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }
@@ -2241,8 +2161,7 @@ public struct ListJobTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templates: [EMRcontainersClientTypes.JobTemplate]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templates = templates
     }

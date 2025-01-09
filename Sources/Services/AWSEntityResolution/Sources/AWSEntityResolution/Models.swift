@@ -54,8 +54,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -78,8 +77,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -102,8 +100,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -126,8 +123,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -150,8 +146,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -174,8 +169,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -235,8 +229,7 @@ public struct AddPolicyStatementInput: Swift.Sendable {
         effect: EntityResolutionClientTypes.StatementEffect? = nil,
         principal: [Swift.String]? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arn = arn
         self.condition = condition
@@ -260,8 +253,7 @@ public struct AddPolicyStatementOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         policy: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.policy = policy
         self.token = token
@@ -311,8 +303,7 @@ public struct BatchDeleteUniqueIdInput: Swift.Sendable {
         inputSource: Swift.String? = nil,
         uniqueIds: [Swift.String]? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.inputSource = inputSource
         self.uniqueIds = uniqueIds
         self.workflowName = workflowName
@@ -329,8 +320,7 @@ extension EntityResolutionClientTypes {
 
         public init(
             uniqueId: Swift.String? = nil
-        )
-        {
+        ) {
             self.uniqueId = uniqueId
         }
     }
@@ -379,8 +369,7 @@ extension EntityResolutionClientTypes {
         public init(
             errorType: EntityResolutionClientTypes.DeleteUniqueIdErrorType? = nil,
             uniqueId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorType = errorType
             self.uniqueId = uniqueId
         }
@@ -435,8 +424,7 @@ public struct BatchDeleteUniqueIdOutput: Swift.Sendable {
         disconnectedUniqueIds: [Swift.String]? = nil,
         errors: [EntityResolutionClientTypes.DeleteUniqueIdError]? = nil,
         status: EntityResolutionClientTypes.DeleteUniqueIdStatus? = nil
-    )
-    {
+    ) {
         self.deleted = deleted
         self.disconnectedUniqueIds = disconnectedUniqueIds
         self.errors = errors
@@ -468,8 +456,7 @@ public struct ExceedsLimitException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil,
         quotaName: Swift.String? = nil,
         quotaValue: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaName = quotaName
         self.properties.quotaValue = quotaValue
@@ -515,8 +502,7 @@ extension EntityResolutionClientTypes {
 
         public init(
             intermediateS3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.intermediateS3Path = intermediateS3Path
         }
     }
@@ -538,8 +524,7 @@ extension EntityResolutionClientTypes {
             intermediateSourceConfiguration: EntityResolutionClientTypes.IntermediateSourceConfiguration? = nil,
             providerConfiguration: Smithy.Document? = nil,
             providerServiceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.intermediateSourceConfiguration = intermediateSourceConfiguration
             self.providerConfiguration = providerConfiguration
             self.providerServiceArn = providerServiceArn
@@ -619,8 +604,7 @@ extension EntityResolutionClientTypes {
         public init(
             matchingKeys: [Swift.String]? = nil,
             ruleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.matchingKeys = matchingKeys
             self.ruleName = ruleName
         }
@@ -648,8 +632,7 @@ extension EntityResolutionClientTypes {
             recordMatchingModel: EntityResolutionClientTypes.RecordMatchingModel? = nil,
             ruleDefinitionType: EntityResolutionClientTypes.IdMappingWorkflowRuleDefinitionType? = nil,
             rules: [EntityResolutionClientTypes.Rule]? = nil
-        )
-        {
+        ) {
             self.attributeMatchingModel = attributeMatchingModel
             self.recordMatchingModel = recordMatchingModel
             self.ruleDefinitionType = ruleDefinitionType
@@ -674,8 +657,7 @@ extension EntityResolutionClientTypes {
             idMappingType: EntityResolutionClientTypes.IdMappingType? = nil,
             providerProperties: EntityResolutionClientTypes.ProviderProperties? = nil,
             ruleBasedProperties: EntityResolutionClientTypes.IdMappingRuleBasedProperties? = nil
-        )
-        {
+        ) {
             self.idMappingType = idMappingType
             self.providerProperties = providerProperties
             self.ruleBasedProperties = ruleBasedProperties
@@ -728,8 +710,7 @@ extension EntityResolutionClientTypes {
             inputSourceARN: Swift.String? = nil,
             schemaName: Swift.String? = nil,
             type: EntityResolutionClientTypes.IdNamespaceType? = nil
-        )
-        {
+        ) {
             self.inputSourceARN = inputSourceARN
             self.schemaName = schemaName
             self.type = type
@@ -750,8 +731,7 @@ extension EntityResolutionClientTypes {
         public init(
             kmsArn: Swift.String? = nil,
             outputS3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsArn = kmsArn
             self.outputS3Path = outputS3Path
         }
@@ -785,8 +765,7 @@ public struct CreateIdMappingWorkflowInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.idMappingTechniques = idMappingTechniques
         self.inputSourceConfig = inputSourceConfig
@@ -825,8 +804,7 @@ public struct CreateIdMappingWorkflowOutput: Swift.Sendable {
         roleArn: Swift.String? = "",
         workflowArn: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.idMappingTechniques = idMappingTechniques
         self.inputSourceConfig = inputSourceConfig
@@ -850,8 +828,7 @@ extension EntityResolutionClientTypes {
         public init(
             providerConfiguration: Smithy.Document? = nil,
             providerServiceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.providerConfiguration = providerConfiguration
             self.providerServiceArn = providerServiceArn
         }
@@ -876,8 +853,7 @@ extension EntityResolutionClientTypes {
             recordMatchingModels: [EntityResolutionClientTypes.RecordMatchingModel]? = nil,
             ruleDefinitionTypes: [EntityResolutionClientTypes.IdMappingWorkflowRuleDefinitionType]? = nil,
             rules: [EntityResolutionClientTypes.Rule]? = nil
-        )
-        {
+        ) {
             self.attributeMatchingModel = attributeMatchingModel
             self.recordMatchingModels = recordMatchingModels
             self.ruleDefinitionTypes = ruleDefinitionTypes
@@ -902,8 +878,7 @@ extension EntityResolutionClientTypes {
             idMappingType: EntityResolutionClientTypes.IdMappingType? = nil,
             providerProperties: EntityResolutionClientTypes.NamespaceProviderProperties? = nil,
             ruleBasedProperties: EntityResolutionClientTypes.NamespaceRuleBasedProperties? = nil
-        )
-        {
+        ) {
             self.idMappingType = idMappingType
             self.providerProperties = providerProperties
             self.ruleBasedProperties = ruleBasedProperties
@@ -924,8 +899,7 @@ extension EntityResolutionClientTypes {
         public init(
             inputSourceARN: Swift.String? = nil,
             schemaName: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputSourceARN = inputSourceARN
             self.schemaName = schemaName
         }
@@ -958,8 +932,7 @@ public struct CreateIdNamespaceInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: EntityResolutionClientTypes.IdNamespaceType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.idMappingWorkflowProperties = idMappingWorkflowProperties
         self.idNamespaceName = idNamespaceName
@@ -1008,8 +981,7 @@ public struct CreateIdNamespaceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: EntityResolutionClientTypes.IdNamespaceType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.idMappingWorkflowProperties = idMappingWorkflowProperties
@@ -1058,8 +1030,7 @@ extension EntityResolutionClientTypes {
 
         public init(
             incrementalRunType: EntityResolutionClientTypes.IncrementalRunType? = nil
-        )
-        {
+        ) {
             self.incrementalRunType = incrementalRunType
         }
     }
@@ -1082,8 +1053,7 @@ extension EntityResolutionClientTypes {
             applyNormalization: Swift.Bool? = nil,
             inputSourceARN: Swift.String? = nil,
             schemaName: Swift.String? = nil
-        )
-        {
+        ) {
             self.applyNormalization = applyNormalization
             self.inputSourceARN = inputSourceARN
             self.schemaName = schemaName
@@ -1104,8 +1074,7 @@ extension EntityResolutionClientTypes {
         public init(
             hashed: Swift.Bool? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.hashed = hashed
             self.name = name
         }
@@ -1132,8 +1101,7 @@ extension EntityResolutionClientTypes {
             kmsArn: Swift.String? = nil,
             output: [EntityResolutionClientTypes.OutputAttribute]? = nil,
             outputS3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.applyNormalization = applyNormalization
             self.kmsArn = kmsArn
             self.output = output
@@ -1220,8 +1188,7 @@ extension EntityResolutionClientTypes {
             attributeMatchingModel: EntityResolutionClientTypes.AttributeMatchingModel? = nil,
             matchPurpose: EntityResolutionClientTypes.MatchPurpose? = nil,
             rules: [EntityResolutionClientTypes.Rule]? = nil
-        )
-        {
+        ) {
             self.attributeMatchingModel = attributeMatchingModel
             self.matchPurpose = matchPurpose
             self.rules = rules
@@ -1245,8 +1212,7 @@ extension EntityResolutionClientTypes {
             providerProperties: EntityResolutionClientTypes.ProviderProperties? = nil,
             resolutionType: EntityResolutionClientTypes.ResolutionType? = nil,
             ruleBasedProperties: EntityResolutionClientTypes.RuleBasedProperties? = nil
-        )
-        {
+        ) {
             self.providerProperties = providerProperties
             self.resolutionType = resolutionType
             self.ruleBasedProperties = ruleBasedProperties
@@ -1286,8 +1252,7 @@ public struct CreateMatchingWorkflowInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.incrementalRunConfig = incrementalRunConfig
         self.inputSourceConfig = inputSourceConfig
@@ -1332,8 +1297,7 @@ public struct CreateMatchingWorkflowOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         workflowArn: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.incrementalRunConfig = incrementalRunConfig
         self.inputSourceConfig = inputSourceConfig
@@ -1454,8 +1418,7 @@ extension EntityResolutionClientTypes {
             matchKey: Swift.String? = nil,
             subType: Swift.String? = nil,
             type: EntityResolutionClientTypes.SchemaAttributeType? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.groupName = groupName
             self.hashed = hashed
@@ -1483,8 +1446,7 @@ public struct CreateSchemaMappingInput: Swift.Sendable {
         mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]? = nil,
         schemaName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.mappedInputFields = mappedInputFields
         self.schemaName = schemaName
@@ -1511,8 +1473,7 @@ public struct CreateSchemaMappingOutput: Swift.Sendable {
         mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]? = nil,
         schemaArn: Swift.String? = nil,
         schemaName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.mappedInputFields = mappedInputFields
         self.schemaArn = schemaArn
@@ -1527,8 +1488,7 @@ public struct DeleteIdMappingWorkflowInput: Swift.Sendable {
 
     public init(
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowName = workflowName
     }
 }
@@ -1540,8 +1500,7 @@ public struct DeleteIdMappingWorkflowOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -1553,8 +1512,7 @@ public struct DeleteIdNamespaceInput: Swift.Sendable {
 
     public init(
         idNamespaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.idNamespaceName = idNamespaceName
     }
 }
@@ -1566,8 +1524,7 @@ public struct DeleteIdNamespaceOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -1579,8 +1536,7 @@ public struct DeleteMatchingWorkflowInput: Swift.Sendable {
 
     public init(
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowName = workflowName
     }
 }
@@ -1592,8 +1548,7 @@ public struct DeleteMatchingWorkflowOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -1609,8 +1564,7 @@ public struct DeletePolicyStatementInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.statementId = statementId
     }
@@ -1630,8 +1584,7 @@ public struct DeletePolicyStatementOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         policy: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.policy = policy
         self.token = token
@@ -1645,8 +1598,7 @@ public struct DeleteSchemaMappingInput: Swift.Sendable {
 
     public init(
         schemaName: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaName = schemaName
     }
 }
@@ -1658,8 +1610,7 @@ public struct DeleteSchemaMappingOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -1675,8 +1626,7 @@ public struct GetIdMappingJobInput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.workflowName = workflowName
     }
@@ -1691,8 +1641,7 @@ extension EntityResolutionClientTypes {
 
         public init(
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
         }
     }
@@ -1722,8 +1671,7 @@ extension EntityResolutionClientTypes {
             totalMappedSourceRecords: Swift.Int? = nil,
             totalMappedTargetRecords: Swift.Int? = nil,
             totalRecordsProcessed: Swift.Int? = nil
-        )
-        {
+        ) {
             self.inputRecords = inputRecords
             self.recordsNotProcessed = recordsNotProcessed
             self.totalMappedRecords = totalMappedRecords
@@ -1751,8 +1699,7 @@ extension EntityResolutionClientTypes {
             kmsArn: Swift.String? = nil,
             outputS3Path: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsArn = kmsArn
             self.outputS3Path = outputS3Path
             self.roleArn = roleArn
@@ -1822,8 +1769,7 @@ public struct GetIdMappingJobOutput: Swift.Sendable {
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingJobOutputSource]? = nil,
         startTime: Foundation.Date? = nil,
         status: EntityResolutionClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.errorDetails = errorDetails
         self.jobId = jobId
@@ -1841,8 +1787,7 @@ public struct GetIdMappingWorkflowInput: Swift.Sendable {
 
     public init(
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowName = workflowName
     }
 }
@@ -1886,8 +1831,7 @@ public struct GetIdMappingWorkflowOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         workflowArn: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.idMappingTechniques = idMappingTechniques
@@ -1908,8 +1852,7 @@ public struct GetIdNamespaceInput: Swift.Sendable {
 
     public init(
         idNamespaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.idNamespaceName = idNamespaceName
     }
 }
@@ -1952,8 +1895,7 @@ public struct GetIdNamespaceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: EntityResolutionClientTypes.IdNamespaceType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.idMappingWorkflowProperties = idMappingWorkflowProperties
@@ -1981,8 +1923,7 @@ public struct GetMatchIdInput: Swift.Sendable {
         applyNormalization: Swift.Bool? = nil,
         record: [Swift.String: Swift.String]? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyNormalization = applyNormalization
         self.record = record
         self.workflowName = workflowName
@@ -2003,8 +1944,7 @@ public struct GetMatchIdOutput: Swift.Sendable {
     public init(
         matchId: Swift.String? = nil,
         matchRule: Swift.String? = nil
-    )
-    {
+    ) {
         self.matchId = matchId
         self.matchRule = matchRule
     }
@@ -2021,8 +1961,7 @@ public struct GetMatchingJobInput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.workflowName = workflowName
     }
@@ -2046,8 +1985,7 @@ extension EntityResolutionClientTypes {
             matchIDs: Swift.Int? = nil,
             recordsNotProcessed: Swift.Int? = nil,
             totalRecordsProcessed: Swift.Int? = nil
-        )
-        {
+        ) {
             self.inputRecords = inputRecords
             self.matchIDs = matchIDs
             self.recordsNotProcessed = recordsNotProcessed
@@ -2073,8 +2011,7 @@ extension EntityResolutionClientTypes {
             kmsArn: Swift.String? = nil,
             outputS3Path: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsArn = kmsArn
             self.outputS3Path = outputS3Path
             self.roleArn = roleArn
@@ -2109,8 +2046,7 @@ public struct GetMatchingJobOutput: Swift.Sendable {
         outputSourceConfig: [EntityResolutionClientTypes.JobOutputSource]? = nil,
         startTime: Foundation.Date? = nil,
         status: EntityResolutionClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.errorDetails = errorDetails
         self.jobId = jobId
@@ -2128,8 +2064,7 @@ public struct GetMatchingWorkflowInput: Swift.Sendable {
 
     public init(
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowName = workflowName
     }
 }
@@ -2178,8 +2113,7 @@ public struct GetMatchingWorkflowOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         workflowArn: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.incrementalRunConfig = incrementalRunConfig
@@ -2201,8 +2135,7 @@ public struct GetPolicyInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2221,8 +2154,7 @@ public struct GetPolicyOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         policy: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.policy = policy
         self.token = token
@@ -2240,8 +2172,7 @@ public struct GetProviderServiceInput: Swift.Sendable {
     public init(
         providerName: Swift.String? = nil,
         providerServiceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.providerName = providerName
         self.providerServiceName = providerServiceName
     }
@@ -2267,8 +2198,7 @@ extension EntityResolutionClientTypes {
             hashing: Swift.Bool? = nil,
             subType: Swift.String? = nil,
             type: EntityResolutionClientTypes.SchemaAttributeType? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.hashing = hashing
             self.subType = subType
@@ -2289,8 +2219,7 @@ extension EntityResolutionClientTypes {
         public init(
             providerSchemaAttributes: [EntityResolutionClientTypes.ProviderSchemaAttribute]? = nil,
             schemas: [[Swift.String]]? = nil
-        )
-        {
+        ) {
             self.providerSchemaAttributes = providerSchemaAttributes
             self.schemas = schemas
         }
@@ -2319,8 +2248,7 @@ extension EntityResolutionClientTypes {
             dataSetId: Swift.String? = nil,
             listingId: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.dataSetId = dataSetId
             self.listingId = listingId
@@ -2354,8 +2282,7 @@ extension EntityResolutionClientTypes {
             description: Swift.String? = nil,
             providerSourceConfigurationDefinition: Smithy.Document? = nil,
             providerTargetConfigurationDefinition: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.description = description
             self.providerSourceConfigurationDefinition = providerSourceConfigurationDefinition
             self.providerTargetConfigurationDefinition = providerTargetConfigurationDefinition
@@ -2375,8 +2302,7 @@ extension EntityResolutionClientTypes {
         public init(
             awsAccountIds: [Swift.String]? = nil,
             requiredBucketActions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.awsAccountIds = awsAccountIds
             self.requiredBucketActions = requiredBucketActions
         }
@@ -2462,8 +2388,7 @@ public struct GetProviderServiceOutput: Swift.Sendable {
         providerServiceDisplayName: Swift.String? = nil,
         providerServiceName: Swift.String? = nil,
         providerServiceType: EntityResolutionClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.anonymizedOutput = anonymizedOutput
         self.providerComponentSchema = providerComponentSchema
         self.providerConfigurationDefinition = providerConfigurationDefinition
@@ -2487,8 +2412,7 @@ public struct GetSchemaMappingInput: Swift.Sendable {
 
     public init(
         schemaName: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaName = schemaName
     }
 }
@@ -2526,8 +2450,7 @@ public struct GetSchemaMappingOutput: Swift.Sendable {
         schemaName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.hasWorkflows = hasWorkflows
@@ -2552,8 +2475,7 @@ public struct ListIdMappingJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workflowName = workflowName
@@ -2581,8 +2503,7 @@ extension EntityResolutionClientTypes {
             jobId: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             status: EntityResolutionClientTypes.JobStatus? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.jobId = jobId
             self.startTime = startTime
@@ -2600,8 +2521,7 @@ public struct ListIdMappingJobsOutput: Swift.Sendable {
     public init(
         jobs: [EntityResolutionClientTypes.JobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -2616,8 +2536,7 @@ public struct ListIdMappingWorkflowsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2645,8 +2564,7 @@ extension EntityResolutionClientTypes {
             updatedAt: Foundation.Date? = nil,
             workflowArn: Swift.String? = nil,
             workflowName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.updatedAt = updatedAt
             self.workflowArn = workflowArn
@@ -2664,8 +2582,7 @@ public struct ListIdMappingWorkflowsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workflowSummaries: [EntityResolutionClientTypes.IdMappingWorkflowSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workflowSummaries = workflowSummaries
     }
@@ -2680,8 +2597,7 @@ public struct ListIdNamespacesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2697,8 +2613,7 @@ extension EntityResolutionClientTypes {
 
         public init(
             idMappingType: EntityResolutionClientTypes.IdMappingType? = nil
-        )
-        {
+        ) {
             self.idMappingType = idMappingType
         }
     }
@@ -2736,8 +2651,7 @@ extension EntityResolutionClientTypes {
             idNamespaceName: Swift.String? = nil,
             type: EntityResolutionClientTypes.IdNamespaceType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.idMappingWorkflowProperties = idMappingWorkflowProperties
@@ -2758,8 +2672,7 @@ public struct ListIdNamespacesOutput: Swift.Sendable {
     public init(
         idNamespaceSummaries: [EntityResolutionClientTypes.IdNamespaceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.idNamespaceSummaries = idNamespaceSummaries
         self.nextToken = nextToken
     }
@@ -2778,8 +2691,7 @@ public struct ListMatchingJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workflowName = workflowName
@@ -2795,8 +2707,7 @@ public struct ListMatchingJobsOutput: Swift.Sendable {
     public init(
         jobs: [EntityResolutionClientTypes.JobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -2811,8 +2722,7 @@ public struct ListMatchingWorkflowsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2844,8 +2754,7 @@ extension EntityResolutionClientTypes {
             updatedAt: Foundation.Date? = nil,
             workflowArn: Swift.String? = nil,
             workflowName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.resolutionType = resolutionType
             self.updatedAt = updatedAt
@@ -2864,8 +2773,7 @@ public struct ListMatchingWorkflowsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workflowSummaries: [EntityResolutionClientTypes.MatchingWorkflowSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workflowSummaries = workflowSummaries
     }
@@ -2883,8 +2791,7 @@ public struct ListProviderServicesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         providerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.providerName = providerName
@@ -2917,8 +2824,7 @@ extension EntityResolutionClientTypes {
             providerServiceDisplayName: Swift.String? = nil,
             providerServiceName: Swift.String? = nil,
             providerServiceType: EntityResolutionClientTypes.ServiceType? = nil
-        )
-        {
+        ) {
             self.providerName = providerName
             self.providerServiceArn = providerServiceArn
             self.providerServiceDisplayName = providerServiceDisplayName
@@ -2937,8 +2843,7 @@ public struct ListProviderServicesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         providerServiceSummaries: [EntityResolutionClientTypes.ProviderServiceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.providerServiceSummaries = providerServiceSummaries
     }
@@ -2953,8 +2858,7 @@ public struct ListSchemaMappingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2986,8 +2890,7 @@ extension EntityResolutionClientTypes {
             schemaArn: Swift.String? = nil,
             schemaName: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.hasWorkflows = hasWorkflows
             self.schemaArn = schemaArn
@@ -3006,8 +2909,7 @@ public struct ListSchemaMappingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemaList: [EntityResolutionClientTypes.SchemaMappingSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemaList = schemaList
     }
@@ -3020,8 +2922,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3033,8 +2934,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3053,8 +2953,7 @@ public struct PutPolicyInput: Swift.Sendable {
         arn: Swift.String? = nil,
         policy: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.policy = policy
         self.token = token
@@ -3075,8 +2974,7 @@ public struct PutPolicyOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         policy: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.policy = policy
         self.token = token
@@ -3093,8 +2991,7 @@ public struct StartIdMappingJobInput: Swift.Sendable {
     public init(
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingJobOutputSource]? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.outputSourceConfig = outputSourceConfig
         self.workflowName = workflowName
     }
@@ -3110,8 +3007,7 @@ public struct StartIdMappingJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingJobOutputSource]? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.outputSourceConfig = outputSourceConfig
     }
@@ -3124,8 +3020,7 @@ public struct StartMatchingJobInput: Swift.Sendable {
 
     public init(
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowName = workflowName
     }
 }
@@ -3137,8 +3032,7 @@ public struct StartMatchingJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3154,8 +3048,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3177,8 +3070,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3213,8 +3105,7 @@ public struct UpdateIdMappingWorkflowInput: Swift.Sendable {
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
         roleArn: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.idMappingTechniques = idMappingTechniques
         self.inputSourceConfig = inputSourceConfig
@@ -3252,8 +3143,7 @@ public struct UpdateIdMappingWorkflowOutput: Swift.Sendable {
         roleArn: Swift.String? = "",
         workflowArn: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.idMappingTechniques = idMappingTechniques
         self.inputSourceConfig = inputSourceConfig
@@ -3283,8 +3173,7 @@ public struct UpdateIdNamespaceInput: Swift.Sendable {
         idNamespaceName: Swift.String? = nil,
         inputSourceConfig: [EntityResolutionClientTypes.IdNamespaceInputSource]? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.idMappingWorkflowProperties = idMappingWorkflowProperties
         self.idNamespaceName = idNamespaceName
@@ -3328,8 +3217,7 @@ public struct UpdateIdNamespaceOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         type: EntityResolutionClientTypes.IdNamespaceType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.idMappingWorkflowProperties = idMappingWorkflowProperties
@@ -3371,8 +3259,7 @@ public struct UpdateMatchingWorkflowInput: Swift.Sendable {
         resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques? = nil,
         roleArn: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.incrementalRunConfig = incrementalRunConfig
         self.inputSourceConfig = inputSourceConfig
@@ -3412,8 +3299,7 @@ public struct UpdateMatchingWorkflowOutput: Swift.Sendable {
         resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques? = nil,
         roleArn: Swift.String? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.incrementalRunConfig = incrementalRunConfig
         self.inputSourceConfig = inputSourceConfig
@@ -3438,8 +3324,7 @@ public struct UpdateSchemaMappingInput: Swift.Sendable {
         description: Swift.String? = nil,
         mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]? = nil,
         schemaName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.mappedInputFields = mappedInputFields
         self.schemaName = schemaName
@@ -3464,8 +3349,7 @@ public struct UpdateSchemaMappingOutput: Swift.Sendable {
         mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]? = nil,
         schemaArn: Swift.String? = nil,
         schemaName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.mappedInputFields = mappedInputFields
         self.schemaArn = schemaArn

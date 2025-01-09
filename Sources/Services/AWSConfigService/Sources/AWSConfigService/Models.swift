@@ -145,8 +145,7 @@ extension ConfigClientTypes {
             accountIds: [Swift.String]? = nil,
             allAwsRegions: Swift.Bool = false,
             awsRegions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.accountIds = accountIds
             self.allAwsRegions = allAwsRegions
             self.awsRegions = awsRegions
@@ -166,8 +165,7 @@ extension ConfigClientTypes {
         public init(
             capExceeded: Swift.Bool = false,
             cappedCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.capExceeded = capExceeded
             self.cappedCount = cappedCount
         }
@@ -221,8 +219,7 @@ extension ConfigClientTypes {
         public init(
             complianceContributorCount: ConfigClientTypes.ComplianceContributorCount? = nil,
             complianceType: ConfigClientTypes.ComplianceType? = nil
-        )
-        {
+        ) {
             self.complianceContributorCount = complianceContributorCount
             self.complianceType = complianceType
         }
@@ -247,8 +244,7 @@ extension ConfigClientTypes {
             awsRegion: Swift.String? = nil,
             compliance: ConfigClientTypes.Compliance? = nil,
             configRuleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.awsRegion = awsRegion
             self.compliance = compliance
@@ -307,8 +303,7 @@ extension ConfigClientTypes {
             compliantRuleCount: Swift.Int = 0,
             nonCompliantRuleCount: Swift.Int = 0,
             totalRuleCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.complianceType = complianceType
             self.compliantRuleCount = compliantRuleCount
             self.nonCompliantRuleCount = nonCompliantRuleCount
@@ -335,8 +330,7 @@ extension ConfigClientTypes {
             awsRegion: Swift.String? = nil,
             compliance: ConfigClientTypes.AggregateConformancePackCompliance? = nil,
             conformancePackName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.awsRegion = awsRegion
             self.compliance = compliance
@@ -360,8 +354,7 @@ extension ConfigClientTypes {
             complianceSummaryTimestamp: Foundation.Date? = nil,
             compliantResourceCount: ConfigClientTypes.ComplianceContributorCount? = nil,
             nonCompliantResourceCount: ConfigClientTypes.ComplianceContributorCount? = nil
-        )
-        {
+        ) {
             self.complianceSummaryTimestamp = complianceSummaryTimestamp
             self.compliantResourceCount = compliantResourceCount
             self.nonCompliantResourceCount = nonCompliantResourceCount
@@ -381,8 +374,7 @@ extension ConfigClientTypes {
         public init(
             complianceSummary: ConfigClientTypes.ComplianceSummary? = nil,
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.complianceSummary = complianceSummary
             self.groupName = groupName
         }
@@ -401,8 +393,7 @@ extension ConfigClientTypes {
         public init(
             compliantConformancePackCount: Swift.Int = 0,
             nonCompliantConformancePackCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.compliantConformancePackCount = compliantConformancePackCount
             self.nonCompliantConformancePackCount = nonCompliantConformancePackCount
         }
@@ -427,8 +418,7 @@ extension ConfigClientTypes {
             awsRegion: Swift.String? = nil,
             complianceType: ConfigClientTypes.ConformancePackComplianceType? = nil,
             conformancePackName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.awsRegion = awsRegion
             self.complianceType = complianceType
@@ -449,8 +439,7 @@ extension ConfigClientTypes {
         public init(
             complianceSummary: ConfigClientTypes.AggregateConformancePackComplianceCount? = nil,
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.complianceSummary = complianceSummary
             self.groupName = groupName
         }
@@ -469,8 +458,7 @@ extension ConfigClientTypes {
         public init(
             accountId: Swift.String? = nil,
             awsRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.awsRegion = awsRegion
         }
@@ -600,8 +588,7 @@ extension ConfigClientTypes {
             lastUpdateTime: Foundation.Date? = nil,
             sourceId: Swift.String? = nil,
             sourceType: ConfigClientTypes.AggregatedSourceType? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
@@ -660,8 +647,7 @@ extension ConfigClientTypes {
             evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.configRuleName = configRuleName
             self.evaluationMode = evaluationMode
             self.resourceId = resourceId
@@ -685,8 +671,7 @@ extension ConfigClientTypes {
             evaluationResultQualifier: ConfigClientTypes.EvaluationResultQualifier? = nil,
             orderingTimestamp: Foundation.Date? = nil,
             resourceEvaluationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.evaluationResultQualifier = evaluationResultQualifier
             self.orderingTimestamp = orderingTimestamp
             self.resourceEvaluationId = resourceEvaluationId
@@ -721,8 +706,7 @@ extension ConfigClientTypes {
             configRuleInvokedTime: Foundation.Date? = nil,
             evaluationResultIdentifier: ConfigClientTypes.EvaluationResultIdentifier? = nil,
             resultRecordedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.annotation = annotation
             self.awsRegion = awsRegion
@@ -2003,8 +1987,7 @@ extension ConfigClientTypes {
             resourceType: ConfigClientTypes.ResourceType? = nil,
             sourceAccountId: Swift.String? = nil,
             sourceRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceId = resourceId
             self.resourceName = resourceName
             self.resourceType = resourceType
@@ -2032,8 +2015,7 @@ extension ConfigClientTypes {
             authorizedAccountId: Swift.String? = nil,
             authorizedAwsRegion: Swift.String? = nil,
             creationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.aggregationAuthorizationArn = aggregationAuthorizationArn
             self.authorizedAccountId = authorizedAccountId
             self.authorizedAwsRegion = authorizedAwsRegion
@@ -2080,8 +2062,7 @@ extension ConfigClientTypes {
         public init(
             type: ConfigClientTypes.AggregatorFilterType? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -2100,8 +2081,7 @@ extension ConfigClientTypes {
         public init(
             type: ConfigClientTypes.AggregatorFilterType? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -2120,8 +2100,7 @@ extension ConfigClientTypes {
         public init(
             resourceType: ConfigClientTypes.AggregatorFilterResourceType? = nil,
             servicePrincipal: ConfigClientTypes.AggregatorFilterServicePrincipal? = nil
-        )
-        {
+        ) {
             self.resourceType = resourceType
             self.servicePrincipal = servicePrincipal
         }
@@ -2151,8 +2130,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2176,8 +2154,7 @@ public struct NoSuchConfigurationRecorderException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2223,8 +2200,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2240,8 +2216,7 @@ public struct AssociateResourceTypesInput: Swift.Sendable {
     public init(
         configurationRecorderArn: Swift.String? = nil,
         resourceTypes: [ConfigClientTypes.ResourceType]? = nil
-    )
-    {
+    ) {
         self.configurationRecorderArn = configurationRecorderArn
         self.resourceTypes = resourceTypes
     }
@@ -2256,8 +2231,7 @@ extension ConfigClientTypes {
 
         public init(
             resourceTypes: [ConfigClientTypes.ResourceType]? = nil
-        )
-        {
+        ) {
             self.resourceTypes = resourceTypes
         }
     }
@@ -2327,8 +2301,7 @@ extension ConfigClientTypes {
 
         public init(
             useOnly: ConfigClientTypes.RecordingStrategyType? = nil
-        )
-        {
+        ) {
             self.useOnly = useOnly
         }
     }
@@ -2378,8 +2351,7 @@ extension ConfigClientTypes {
             includeGlobalResourceTypes: Swift.Bool = false,
             recordingStrategy: ConfigClientTypes.RecordingStrategy? = nil,
             resourceTypes: [ConfigClientTypes.ResourceType]? = nil
-        )
-        {
+        ) {
             self.allSupported = allSupported
             self.exclusionByResourceTypes = exclusionByResourceTypes
             self.includeGlobalResourceTypes = includeGlobalResourceTypes
@@ -2448,8 +2420,7 @@ extension ConfigClientTypes {
             description: Swift.String? = nil,
             recordingFrequency: ConfigClientTypes.RecordingFrequency? = nil,
             resourceTypes: [ConfigClientTypes.ResourceType]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.recordingFrequency = recordingFrequency
             self.resourceTypes = resourceTypes
@@ -2486,8 +2457,7 @@ extension ConfigClientTypes {
         public init(
             recordingFrequency: ConfigClientTypes.RecordingFrequency? = nil,
             recordingModeOverrides: [ConfigClientTypes.RecordingModeOverride]? = nil
-        )
-        {
+        ) {
             self.recordingFrequency = recordingFrequency
             self.recordingModeOverrides = recordingModeOverrides
         }
@@ -2557,8 +2527,7 @@ extension ConfigClientTypes {
             recordingScope: ConfigClientTypes.RecordingScope? = nil,
             roleARN: Swift.String? = nil,
             servicePrincipal: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.recordingGroup = recordingGroup
@@ -2577,8 +2546,7 @@ public struct AssociateResourceTypesOutput: Swift.Sendable {
 
     public init(
         configurationRecorder: ConfigClientTypes.ConfigurationRecorder? = nil
-    )
-    {
+    ) {
         self.configurationRecorder = configurationRecorder
     }
 }
@@ -2685,8 +2653,7 @@ extension ConfigClientTypes {
             resourceType: ConfigClientTypes.ResourceType? = nil,
             supplementaryConfiguration: [Swift.String: Swift.String]? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -2726,8 +2693,7 @@ public struct NoSuchConfigurationAggregatorException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2743,8 +2709,7 @@ public struct BatchGetAggregateResourceConfigInput: Swift.Sendable {
     public init(
         configurationAggregatorName: Swift.String? = nil,
         resourceIdentifiers: [ConfigClientTypes.AggregateResourceIdentifier]? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorName = configurationAggregatorName
         self.resourceIdentifiers = resourceIdentifiers
     }
@@ -2759,8 +2724,7 @@ public struct BatchGetAggregateResourceConfigOutput: Swift.Sendable {
     public init(
         baseConfigurationItems: [ConfigClientTypes.BaseConfigurationItem]? = nil,
         unprocessedResourceIdentifiers: [ConfigClientTypes.AggregateResourceIdentifier]? = nil
-    )
-    {
+    ) {
         self.baseConfigurationItems = baseConfigurationItems
         self.unprocessedResourceIdentifiers = unprocessedResourceIdentifiers
     }
@@ -2785,8 +2749,7 @@ public struct NoAvailableConfigurationRecorderException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2805,8 +2768,7 @@ extension ConfigClientTypes {
         public init(
             resourceId: Swift.String? = nil,
             resourceType: ConfigClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
@@ -2820,8 +2782,7 @@ public struct BatchGetResourceConfigInput: Swift.Sendable {
 
     public init(
         resourceKeys: [ConfigClientTypes.ResourceKey]? = nil
-    )
-    {
+    ) {
         self.resourceKeys = resourceKeys
     }
 }
@@ -2835,8 +2796,7 @@ public struct BatchGetResourceConfigOutput: Swift.Sendable {
     public init(
         baseConfigurationItems: [ConfigClientTypes.BaseConfigurationItem]? = nil,
         unprocessedResourceKeys: [ConfigClientTypes.ResourceKey]? = nil
-    )
-    {
+    ) {
         self.baseConfigurationItems = baseConfigurationItems
         self.unprocessedResourceKeys = unprocessedResourceKeys
     }
@@ -2883,8 +2843,7 @@ extension ConfigClientTypes {
         public init(
             compliance: ConfigClientTypes.Compliance? = nil,
             configRuleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.compliance = compliance
             self.configRuleName = configRuleName
         }
@@ -2906,8 +2865,7 @@ extension ConfigClientTypes {
             compliance: ConfigClientTypes.Compliance? = nil,
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.compliance = compliance
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -2927,8 +2885,7 @@ extension ConfigClientTypes {
         public init(
             complianceSummary: ConfigClientTypes.ComplianceSummary? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.complianceSummary = complianceSummary
             self.resourceType = resourceType
         }
@@ -2991,8 +2948,7 @@ extension ConfigClientTypes {
             lastStatus: ConfigClientTypes.DeliveryStatus? = nil,
             lastSuccessfulTime: Foundation.Date? = nil,
             nextDeliveryTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.lastAttemptTime = lastAttemptTime
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
@@ -3047,8 +3003,7 @@ extension ConfigClientTypes {
 
         public init(
             mode: ConfigClientTypes.EvaluationMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -3110,8 +3065,7 @@ extension ConfigClientTypes {
             complianceResourceTypes: [Swift.String]? = nil,
             tagKey: Swift.String? = nil,
             tagValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.complianceResourceId = complianceResourceId
             self.complianceResourceTypes = complianceResourceTypes
             self.tagKey = tagKey
@@ -3137,8 +3091,7 @@ extension ConfigClientTypes {
             enableDebugLogDelivery: Swift.Bool = false,
             policyRuntime: Swift.String? = nil,
             policyText: Swift.String? = nil
-        )
-        {
+        ) {
             self.enableDebugLogDelivery = enableDebugLogDelivery
             self.policyRuntime = policyRuntime
             self.policyText = policyText
@@ -3265,8 +3218,7 @@ extension ConfigClientTypes {
             eventSource: ConfigClientTypes.EventSource? = nil,
             maximumExecutionFrequency: ConfigClientTypes.MaximumExecutionFrequency? = nil,
             messageType: ConfigClientTypes.MessageType? = nil
-        )
-        {
+        ) {
             self.eventSource = eventSource
             self.maximumExecutionFrequency = maximumExecutionFrequency
             self.messageType = messageType
@@ -3293,8 +3245,7 @@ extension ConfigClientTypes {
             owner: ConfigClientTypes.Owner? = nil,
             sourceDetails: [ConfigClientTypes.SourceDetail]? = nil,
             sourceIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.customPolicyDetails = customPolicyDetails
             self.owner = owner
             self.sourceDetails = sourceDetails
@@ -3350,8 +3301,7 @@ extension ConfigClientTypes {
             maximumExecutionFrequency: ConfigClientTypes.MaximumExecutionFrequency? = nil,
             scope: ConfigClientTypes.Scope? = nil,
             source: ConfigClientTypes.Source? = nil
-        )
-        {
+        ) {
             self.configRuleArn = configRuleArn
             self.configRuleId = configRuleId
             self.configRuleName = configRuleName
@@ -3385,8 +3335,7 @@ extension ConfigClientTypes {
             awsRegion: Swift.String? = nil,
             complianceType: ConfigClientTypes.ComplianceType? = nil,
             configRuleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.awsRegion = awsRegion
             self.complianceType = complianceType
@@ -3407,8 +3356,7 @@ extension ConfigClientTypes {
         public init(
             accountId: Swift.String? = nil,
             awsRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.awsRegion = awsRegion
         }
@@ -3499,8 +3447,7 @@ extension ConfigClientTypes {
             lastFailedInvocationTime: Foundation.Date? = nil,
             lastSuccessfulEvaluationTime: Foundation.Date? = nil,
             lastSuccessfulInvocationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.configRuleArn = configRuleArn
             self.configRuleId = configRuleId
             self.configRuleName = configRuleName
@@ -3547,8 +3494,7 @@ extension ConfigClientTypes {
 
         public init(
             deliveryFrequency: ConfigClientTypes.MaximumExecutionFrequency? = nil
-        )
-        {
+        ) {
             self.deliveryFrequency = deliveryFrequency
         }
     }
@@ -3572,8 +3518,7 @@ extension ConfigClientTypes {
             lastErrorMessage: Swift.String? = nil,
             lastStatus: ConfigClientTypes.DeliveryStatus? = nil,
             lastStatusChangeTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
             self.lastStatus = lastStatus
@@ -3598,8 +3543,7 @@ extension ConfigClientTypes {
             allAwsRegions: Swift.Bool = false,
             awsRegions: [Swift.String]? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.allAwsRegions = allAwsRegions
             self.awsRegions = awsRegions
             self.roleArn = roleArn
@@ -3637,8 +3581,7 @@ extension ConfigClientTypes {
             creationTime: Foundation.Date? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             organizationAggregationSource: ConfigClientTypes.OrganizationAggregationSource? = nil
-        )
-        {
+        ) {
             self.accountAggregationSources = accountAggregationSources
             self.aggregatorFilters = aggregatorFilters
             self.configurationAggregatorArn = configurationAggregatorArn
@@ -3669,8 +3612,7 @@ extension ConfigClientTypes {
             resourceId: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             resourceType: ConfigClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.relationshipName = relationshipName
             self.resourceId = resourceId
             self.resourceName = resourceName
@@ -3755,8 +3697,7 @@ extension ConfigClientTypes {
             supplementaryConfiguration: [Swift.String: Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -3819,8 +3760,7 @@ extension ConfigClientTypes {
         public init(
             filterName: ConfigClientTypes.ConfigurationRecorderFilterName? = nil,
             filterValue: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.filterName = filterName
             self.filterValue = filterValue
         }
@@ -3898,8 +3838,7 @@ extension ConfigClientTypes {
             name: Swift.String? = nil,
             recording: Swift.Bool = false,
             servicePrincipal: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
@@ -3935,8 +3874,7 @@ extension ConfigClientTypes {
             name: Swift.String? = nil,
             recordingScope: ConfigClientTypes.RecordingScope? = nil,
             servicePrincipal: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.recordingScope = recordingScope
@@ -3957,8 +3895,7 @@ extension ConfigClientTypes {
         public init(
             complianceType: ConfigClientTypes.ConformancePackComplianceType? = nil,
             configRuleNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.complianceType = complianceType
             self.configRuleNames = configRuleNames
         }
@@ -3980,8 +3917,7 @@ extension ConfigClientTypes {
             conformancePackName: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             score: Swift.String? = nil
-        )
-        {
+        ) {
             self.conformancePackName = conformancePackName
             self.lastUpdatedTime = lastUpdatedTime
             self.score = score
@@ -3999,8 +3935,7 @@ extension ConfigClientTypes {
 
         public init(
             conformancePackNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.conformancePackNames = conformancePackNames
         }
     }
@@ -4020,8 +3955,7 @@ extension ConfigClientTypes {
         public init(
             conformancePackComplianceStatus: ConfigClientTypes.ConformancePackComplianceType? = nil,
             conformancePackName: Swift.String? = nil
-        )
-        {
+        ) {
             self.conformancePackComplianceStatus = conformancePackComplianceStatus
             self.conformancePackName = conformancePackName
         }
@@ -4042,8 +3976,7 @@ extension ConfigClientTypes {
         public init(
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
         }
@@ -4063,8 +3996,7 @@ extension ConfigClientTypes {
         public init(
             documentName: Swift.String? = nil,
             documentVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentName = documentName
             self.documentVersion = documentVersion
         }
@@ -4107,8 +4039,7 @@ extension ConfigClientTypes {
             deliveryS3KeyPrefix: Swift.String? = nil,
             lastUpdateRequestedTime: Foundation.Date? = nil,
             templateSSMDocumentDetails: ConfigClientTypes.TemplateSSMDocumentDetails? = nil
-        )
-        {
+        ) {
             self.conformancePackArn = conformancePackArn
             self.conformancePackId = conformancePackId
             self.conformancePackInputParameters = conformancePackInputParameters
@@ -4140,8 +4071,7 @@ extension ConfigClientTypes {
             configRuleNames: [Swift.String]? = nil,
             resourceIds: [Swift.String]? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.complianceType = complianceType
             self.configRuleNames = configRuleNames
             self.resourceIds = resourceIds
@@ -4175,8 +4105,7 @@ extension ConfigClientTypes {
             configRuleInvokedTime: Foundation.Date? = nil,
             evaluationResultIdentifier: ConfigClientTypes.EvaluationResultIdentifier? = nil,
             resultRecordedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.annotation = annotation
             self.complianceType = complianceType
             self.configRuleInvokedTime = configRuleInvokedTime
@@ -4201,8 +4130,7 @@ extension ConfigClientTypes {
             complianceType: ConfigClientTypes.ConformancePackComplianceType? = nil,
             configRuleName: Swift.String? = nil,
             controls: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.complianceType = complianceType
             self.configRuleName = configRuleName
             self.controls = controls
@@ -4294,8 +4222,7 @@ extension ConfigClientTypes {
             lastUpdateCompletedTime: Foundation.Date? = nil,
             lastUpdateRequestedTime: Foundation.Date? = nil,
             stackArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.conformancePackArn = conformancePackArn
             self.conformancePackId = conformancePackId
             self.conformancePackName = conformancePackName
@@ -4327,8 +4254,7 @@ public struct ConformancePackTemplateValidationException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4352,8 +4278,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4369,8 +4294,7 @@ public struct DeleteAggregationAuthorizationInput: Swift.Sendable {
     public init(
         authorizedAccountId: Swift.String? = nil,
         authorizedAwsRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizedAccountId = authorizedAccountId
         self.authorizedAwsRegion = authorizedAwsRegion
     }
@@ -4395,8 +4319,7 @@ public struct NoSuchConfigRuleException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4434,8 +4357,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4448,8 +4370,7 @@ public struct DeleteConfigRuleInput: Swift.Sendable {
 
     public init(
         configRuleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configRuleName = configRuleName
     }
 }
@@ -4461,8 +4382,7 @@ public struct DeleteConfigurationAggregatorInput: Swift.Sendable {
 
     public init(
         configurationAggregatorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorName = configurationAggregatorName
     }
 }
@@ -4486,8 +4406,7 @@ public struct UnmodifiableEntityException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4500,8 +4419,7 @@ public struct DeleteConfigurationRecorderInput: Swift.Sendable {
 
     public init(
         configurationRecorderName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationRecorderName = configurationRecorderName
     }
 }
@@ -4525,8 +4443,7 @@ public struct NoSuchConformancePackException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4538,8 +4455,7 @@ public struct DeleteConformancePackInput: Swift.Sendable {
 
     public init(
         conformancePackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackName = conformancePackName
     }
 }
@@ -4563,8 +4479,7 @@ public struct LastDeliveryChannelDeleteFailedException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4588,8 +4503,7 @@ public struct NoSuchDeliveryChannelException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4602,8 +4516,7 @@ public struct DeleteDeliveryChannelInput: Swift.Sendable {
 
     public init(
         deliveryChannelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryChannelName = deliveryChannelName
     }
 }
@@ -4616,8 +4529,7 @@ public struct DeleteEvaluationResultsInput: Swift.Sendable {
 
     public init(
         configRuleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configRuleName = configRuleName
     }
 }
@@ -4647,8 +4559,7 @@ public struct NoSuchOrganizationConfigRuleException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4683,8 +4594,7 @@ public struct OrganizationAccessDeniedException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4696,8 +4606,7 @@ public struct DeleteOrganizationConfigRuleInput: Swift.Sendable {
 
     public init(
         organizationConfigRuleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationConfigRuleName = organizationConfigRuleName
     }
 }
@@ -4721,8 +4630,7 @@ public struct NoSuchOrganizationConformancePackException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4734,8 +4642,7 @@ public struct DeleteOrganizationConformancePackInput: Swift.Sendable {
 
     public init(
         organizationConformancePackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationConformancePackName = organizationConformancePackName
     }
 }
@@ -4751,8 +4658,7 @@ public struct DeletePendingAggregationRequestInput: Swift.Sendable {
     public init(
         requesterAccountId: Swift.String? = nil,
         requesterAwsRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.requesterAccountId = requesterAccountId
         self.requesterAwsRegion = requesterAwsRegion
     }
@@ -4794,8 +4700,7 @@ public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4819,8 +4724,7 @@ public struct NoSuchRemediationConfigurationException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4844,8 +4748,7 @@ public struct RemediationInProgressException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4860,8 +4763,7 @@ public struct DeleteRemediationConfigurationInput: Swift.Sendable {
     public init(
         configRuleName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.configRuleName = configRuleName
         self.resourceType = resourceType
     }
@@ -4891,8 +4793,7 @@ public struct NoSuchRemediationExceptionException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4909,8 +4810,7 @@ extension ConfigClientTypes {
         public init(
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
@@ -4928,8 +4828,7 @@ public struct DeleteRemediationExceptionsInput: Swift.Sendable {
     public init(
         configRuleName: Swift.String? = nil,
         resourceKeys: [ConfigClientTypes.RemediationExceptionResourceKey]? = nil
-    )
-    {
+    ) {
         self.configRuleName = configRuleName
         self.resourceKeys = resourceKeys
     }
@@ -4947,8 +4846,7 @@ extension ConfigClientTypes {
         public init(
             failedItems: [ConfigClientTypes.RemediationExceptionResourceKey]? = nil,
             failureMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.failedItems = failedItems
             self.failureMessage = failureMessage
         }
@@ -4961,8 +4859,7 @@ public struct DeleteRemediationExceptionsOutput: Swift.Sendable {
 
     public init(
         failedBatches: [ConfigClientTypes.FailedDeleteRemediationExceptionsBatch]? = nil
-    )
-    {
+    ) {
         self.failedBatches = failedBatches
     }
 }
@@ -4986,8 +4883,7 @@ public struct NoRunningConfigurationRecorderException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5003,8 +4899,7 @@ public struct DeleteResourceConfigInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.resourceType = resourceType
     }
@@ -5029,8 +4924,7 @@ public struct NoSuchRetentionConfigurationException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5042,8 +4936,7 @@ public struct DeleteRetentionConfigurationInput: Swift.Sendable {
 
     public init(
         retentionConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.retentionConfigurationName = retentionConfigurationName
     }
 }
@@ -5055,8 +4948,7 @@ public struct DeleteServiceLinkedConfigurationRecorderInput: Swift.Sendable {
 
     public init(
         servicePrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.servicePrincipal = servicePrincipal
     }
 }
@@ -5072,8 +4964,7 @@ public struct DeleteServiceLinkedConfigurationRecorderOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -5098,8 +4989,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5111,8 +5001,7 @@ public struct DeleteStoredQueryInput: Swift.Sendable {
 
     public init(
         queryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryName = queryName
     }
 }
@@ -5130,8 +5019,7 @@ public struct DeliverConfigSnapshotInput: Swift.Sendable {
 
     public init(
         deliveryChannelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryChannelName = deliveryChannelName
     }
 }
@@ -5143,8 +5031,7 @@ public struct DeliverConfigSnapshotOutput: Swift.Sendable {
 
     public init(
         configSnapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configSnapshotId = configSnapshotId
     }
 }
@@ -5173,8 +5060,7 @@ extension ConfigClientTypes {
             s3KeyPrefix: Swift.String? = nil,
             s3KmsKeyArn: Swift.String? = nil,
             snsTopicARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.configSnapshotDeliveryProperties = configSnapshotDeliveryProperties
             self.name = name
             self.s3BucketName = s3BucketName
@@ -5203,8 +5089,7 @@ extension ConfigClientTypes {
             configSnapshotDeliveryInfo: ConfigClientTypes.ConfigExportDeliveryInfo? = nil,
             configStreamDeliveryInfo: ConfigClientTypes.ConfigStreamDeliveryInfo? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.configHistoryDeliveryInfo = configHistoryDeliveryInfo
             self.configSnapshotDeliveryInfo = configSnapshotDeliveryInfo
             self.configStreamDeliveryInfo = configStreamDeliveryInfo
@@ -5232,8 +5117,7 @@ public struct InvalidLimitException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5257,8 +5141,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5279,8 +5162,7 @@ public struct DescribeAggregateComplianceByConfigRulesInput: Swift.Sendable {
         filters: ConfigClientTypes.ConfigRuleComplianceFilters? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorName = configurationAggregatorName
         self.filters = filters
         self.limit = limit
@@ -5297,8 +5179,7 @@ public struct DescribeAggregateComplianceByConfigRulesOutput: Swift.Sendable {
     public init(
         aggregateComplianceByConfigRules: [ConfigClientTypes.AggregateComplianceByConfigRule]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregateComplianceByConfigRules = aggregateComplianceByConfigRules
         self.nextToken = nextToken
     }
@@ -5320,8 +5201,7 @@ public struct DescribeAggregateComplianceByConformancePacksInput: Swift.Sendable
         filters: ConfigClientTypes.AggregateConformancePackComplianceFilters? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorName = configurationAggregatorName
         self.filters = filters
         self.limit = limit
@@ -5338,8 +5218,7 @@ public struct DescribeAggregateComplianceByConformancePacksOutput: Swift.Sendabl
     public init(
         aggregateComplianceByConformancePacks: [ConfigClientTypes.AggregateComplianceByConformancePack]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregateComplianceByConformancePacks = aggregateComplianceByConformancePacks
         self.nextToken = nextToken
     }
@@ -5354,8 +5233,7 @@ public struct DescribeAggregationAuthorizationsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -5370,8 +5248,7 @@ public struct DescribeAggregationAuthorizationsOutput: Swift.Sendable {
     public init(
         aggregationAuthorizations: [ConfigClientTypes.AggregationAuthorization]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregationAuthorizations = aggregationAuthorizations
         self.nextToken = nextToken
     }
@@ -5390,8 +5267,7 @@ public struct DescribeComplianceByConfigRuleInput: Swift.Sendable {
         complianceTypes: [ConfigClientTypes.ComplianceType]? = nil,
         configRuleNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.complianceTypes = complianceTypes
         self.configRuleNames = configRuleNames
         self.nextToken = nextToken
@@ -5408,8 +5284,7 @@ public struct DescribeComplianceByConfigRuleOutput: Swift.Sendable {
     public init(
         complianceByConfigRules: [ConfigClientTypes.ComplianceByConfigRule]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.complianceByConfigRules = complianceByConfigRules
         self.nextToken = nextToken
     }
@@ -5434,8 +5309,7 @@ public struct DescribeComplianceByResourceInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.complianceTypes = complianceTypes
         self.limit = limit
         self.nextToken = nextToken
@@ -5454,8 +5328,7 @@ public struct DescribeComplianceByResourceOutput: Swift.Sendable {
     public init(
         complianceByResources: [ConfigClientTypes.ComplianceByResource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.complianceByResources = complianceByResources
         self.nextToken = nextToken
     }
@@ -5474,8 +5347,7 @@ public struct DescribeConfigRuleEvaluationStatusInput: Swift.Sendable {
         configRuleNames: [Swift.String]? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configRuleNames = configRuleNames
         self.limit = limit
         self.nextToken = nextToken
@@ -5492,8 +5364,7 @@ public struct DescribeConfigRuleEvaluationStatusOutput: Swift.Sendable {
     public init(
         configRulesEvaluationStatus: [ConfigClientTypes.ConfigRuleEvaluationStatus]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configRulesEvaluationStatus = configRulesEvaluationStatus
         self.nextToken = nextToken
     }
@@ -5508,8 +5379,7 @@ extension ConfigClientTypes {
 
         public init(
             evaluationMode: ConfigClientTypes.EvaluationMode? = nil
-        )
-        {
+        ) {
             self.evaluationMode = evaluationMode
         }
     }
@@ -5528,8 +5398,7 @@ public struct DescribeConfigRulesInput: Swift.Sendable {
         configRuleNames: [Swift.String]? = nil,
         filters: ConfigClientTypes.DescribeConfigRulesFilters? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configRuleNames = configRuleNames
         self.filters = filters
         self.nextToken = nextToken
@@ -5546,8 +5415,7 @@ public struct DescribeConfigRulesOutput: Swift.Sendable {
     public init(
         configRules: [ConfigClientTypes.ConfigRule]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configRules = configRules
         self.nextToken = nextToken
     }
@@ -5565,8 +5433,7 @@ public struct DescribeConfigurationAggregatorsInput: Swift.Sendable {
         configurationAggregatorNames: [Swift.String]? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorNames = configurationAggregatorNames
         self.limit = limit
         self.nextToken = nextToken
@@ -5582,8 +5449,7 @@ public struct DescribeConfigurationAggregatorsOutput: Swift.Sendable {
     public init(
         configurationAggregators: [ConfigClientTypes.ConfigurationAggregator]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationAggregators = configurationAggregators
         self.nextToken = nextToken
     }
@@ -5611,8 +5477,7 @@ public struct DescribeConfigurationAggregatorSourcesStatusInput: Swift.Sendable 
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         updateStatus: [ConfigClientTypes.AggregatedSourceStatusType]? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorName = configurationAggregatorName
         self.limit = limit
         self.nextToken = nextToken
@@ -5629,8 +5494,7 @@ public struct DescribeConfigurationAggregatorSourcesStatusOutput: Swift.Sendable
     public init(
         aggregatedSourceStatusList: [ConfigClientTypes.AggregatedSourceStatus]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregatedSourceStatusList = aggregatedSourceStatusList
         self.nextToken = nextToken
     }
@@ -5649,8 +5513,7 @@ public struct DescribeConfigurationRecordersInput: Swift.Sendable {
         arn: Swift.String? = nil,
         configurationRecorderNames: [Swift.String]? = nil,
         servicePrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.configurationRecorderNames = configurationRecorderNames
         self.servicePrincipal = servicePrincipal
@@ -5664,8 +5527,7 @@ public struct DescribeConfigurationRecordersOutput: Swift.Sendable {
 
     public init(
         configurationRecorders: [ConfigClientTypes.ConfigurationRecorder]? = nil
-    )
-    {
+    ) {
         self.configurationRecorders = configurationRecorders
     }
 }
@@ -5683,8 +5545,7 @@ public struct DescribeConfigurationRecorderStatusInput: Swift.Sendable {
         arn: Swift.String? = nil,
         configurationRecorderNames: [Swift.String]? = nil,
         servicePrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.configurationRecorderNames = configurationRecorderNames
         self.servicePrincipal = servicePrincipal
@@ -5698,8 +5559,7 @@ public struct DescribeConfigurationRecorderStatusOutput: Swift.Sendable {
 
     public init(
         configurationRecordersStatus: [ConfigClientTypes.ConfigurationRecorderStatus]? = nil
-    )
-    {
+    ) {
         self.configurationRecordersStatus = configurationRecordersStatus
     }
 }
@@ -5723,8 +5583,7 @@ public struct NoSuchConfigRuleInConformancePackException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5745,8 +5604,7 @@ public struct DescribeConformancePackComplianceInput: Swift.Sendable {
         filters: ConfigClientTypes.ConformancePackComplianceFilters? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackName = conformancePackName
         self.filters = filters
         self.limit = limit
@@ -5768,8 +5626,7 @@ public struct DescribeConformancePackComplianceOutput: Swift.Sendable {
         conformancePackName: Swift.String? = nil,
         conformancePackRuleComplianceList: [ConfigClientTypes.ConformancePackRuleCompliance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackName = conformancePackName
         self.conformancePackRuleComplianceList = conformancePackRuleComplianceList
         self.nextToken = nextToken
@@ -5788,8 +5645,7 @@ public struct DescribeConformancePacksInput: Swift.Sendable {
         conformancePackNames: [Swift.String]? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackNames = conformancePackNames
         self.limit = limit
         self.nextToken = nextToken
@@ -5805,8 +5661,7 @@ public struct DescribeConformancePacksOutput: Swift.Sendable {
     public init(
         conformancePackDetails: [ConfigClientTypes.ConformancePackDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackDetails = conformancePackDetails
         self.nextToken = nextToken
     }
@@ -5824,8 +5679,7 @@ public struct DescribeConformancePackStatusInput: Swift.Sendable {
         conformancePackNames: [Swift.String]? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackNames = conformancePackNames
         self.limit = limit
         self.nextToken = nextToken
@@ -5841,8 +5695,7 @@ public struct DescribeConformancePackStatusOutput: Swift.Sendable {
     public init(
         conformancePackStatusDetails: [ConfigClientTypes.ConformancePackStatusDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackStatusDetails = conformancePackStatusDetails
         self.nextToken = nextToken
     }
@@ -5855,8 +5708,7 @@ public struct DescribeDeliveryChannelsInput: Swift.Sendable {
 
     public init(
         deliveryChannelNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.deliveryChannelNames = deliveryChannelNames
     }
 }
@@ -5868,8 +5720,7 @@ public struct DescribeDeliveryChannelsOutput: Swift.Sendable {
 
     public init(
         deliveryChannels: [ConfigClientTypes.DeliveryChannel]? = nil
-    )
-    {
+    ) {
         self.deliveryChannels = deliveryChannels
     }
 }
@@ -5881,8 +5732,7 @@ public struct DescribeDeliveryChannelStatusInput: Swift.Sendable {
 
     public init(
         deliveryChannelNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.deliveryChannelNames = deliveryChannelNames
     }
 }
@@ -5894,8 +5744,7 @@ public struct DescribeDeliveryChannelStatusOutput: Swift.Sendable {
 
     public init(
         deliveryChannelsStatus: [ConfigClientTypes.DeliveryChannelStatus]? = nil
-    )
-    {
+    ) {
         self.deliveryChannelsStatus = deliveryChannelsStatus
     }
 }
@@ -5912,8 +5761,7 @@ public struct DescribeOrganizationConfigRulesInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConfigRuleNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.organizationConfigRuleNames = organizationConfigRuleNames
@@ -5989,8 +5837,7 @@ extension ConfigClientTypes {
             resourceTypesScope: [Swift.String]? = nil,
             tagKeyScope: Swift.String? = nil,
             tagValueScope: Swift.String? = nil
-        )
-        {
+        ) {
             self.debugLogDeliveryAccounts = debugLogDeliveryAccounts
             self.description = description
             self.inputParameters = inputParameters
@@ -6078,8 +5925,7 @@ extension ConfigClientTypes {
             resourceTypesScope: [Swift.String]? = nil,
             tagKeyScope: Swift.String? = nil,
             tagValueScope: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.inputParameters = inputParameters
             self.lambdaFunctionArn = lambdaFunctionArn
@@ -6124,8 +5970,7 @@ extension ConfigClientTypes {
             ruleIdentifier: Swift.String? = nil,
             tagKeyScope: Swift.String? = nil,
             tagValueScope: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.inputParameters = inputParameters
             self.maximumExecutionFrequency = maximumExecutionFrequency
@@ -6167,8 +6012,7 @@ extension ConfigClientTypes {
             organizationCustomPolicyRuleMetadata: ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy? = nil,
             organizationCustomRuleMetadata: ConfigClientTypes.OrganizationCustomRuleMetadata? = nil,
             organizationManagedRuleMetadata: ConfigClientTypes.OrganizationManagedRuleMetadata? = nil
-        )
-        {
+        ) {
             self.excludedAccounts = excludedAccounts
             self.lastUpdateTime = lastUpdateTime
             self.organizationConfigRuleArn = organizationConfigRuleArn
@@ -6189,8 +6033,7 @@ public struct DescribeOrganizationConfigRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         organizationConfigRules: [ConfigClientTypes.OrganizationConfigRule]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.organizationConfigRules = organizationConfigRules
     }
@@ -6208,8 +6051,7 @@ public struct DescribeOrganizationConfigRuleStatusesInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConfigRuleNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.organizationConfigRuleNames = organizationConfigRuleNames
@@ -6307,8 +6149,7 @@ extension ConfigClientTypes {
             lastUpdateTime: Foundation.Date? = nil,
             organizationConfigRuleName: Swift.String? = nil,
             organizationRuleStatus: ConfigClientTypes.OrganizationRuleStatus? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.lastUpdateTime = lastUpdateTime
@@ -6327,8 +6168,7 @@ public struct DescribeOrganizationConfigRuleStatusesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         organizationConfigRuleStatuses: [ConfigClientTypes.OrganizationConfigRuleStatus]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.organizationConfigRuleStatuses = organizationConfigRuleStatuses
     }
@@ -6346,8 +6186,7 @@ public struct DescribeOrganizationConformancePacksInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConformancePackNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.organizationConformancePackNames = organizationConformancePackNames
@@ -6384,8 +6223,7 @@ extension ConfigClientTypes {
             lastUpdateTime: Foundation.Date? = nil,
             organizationConformancePackArn: Swift.String? = nil,
             organizationConformancePackName: Swift.String? = nil
-        )
-        {
+        ) {
             self.conformancePackInputParameters = conformancePackInputParameters
             self.deliveryS3Bucket = deliveryS3Bucket
             self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
@@ -6406,8 +6244,7 @@ public struct DescribeOrganizationConformancePacksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         organizationConformancePacks: [ConfigClientTypes.OrganizationConformancePack]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.organizationConformancePacks = organizationConformancePacks
     }
@@ -6425,8 +6262,7 @@ public struct DescribeOrganizationConformancePackStatusesInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConformancePackNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.organizationConformancePackNames = organizationConformancePackNames
@@ -6524,8 +6360,7 @@ extension ConfigClientTypes {
             lastUpdateTime: Foundation.Date? = nil,
             organizationConformancePackName: Swift.String? = nil,
             status: ConfigClientTypes.OrganizationResourceStatus? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.lastUpdateTime = lastUpdateTime
@@ -6544,8 +6379,7 @@ public struct DescribeOrganizationConformancePackStatusesOutput: Swift.Sendable 
     public init(
         nextToken: Swift.String? = nil,
         organizationConformancePackStatuses: [ConfigClientTypes.OrganizationConformancePackStatus]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.organizationConformancePackStatuses = organizationConformancePackStatuses
     }
@@ -6560,8 +6394,7 @@ public struct DescribePendingAggregationRequestsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -6579,8 +6412,7 @@ extension ConfigClientTypes {
         public init(
             requesterAccountId: Swift.String? = nil,
             requesterAwsRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.requesterAccountId = requesterAccountId
             self.requesterAwsRegion = requesterAwsRegion
         }
@@ -6596,8 +6428,7 @@ public struct DescribePendingAggregationRequestsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pendingAggregationRequests: [ConfigClientTypes.PendingAggregationRequest]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pendingAggregationRequests = pendingAggregationRequests
     }
@@ -6610,8 +6441,7 @@ public struct DescribeRemediationConfigurationsInput: Swift.Sendable {
 
     public init(
         configRuleNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.configRuleNames = configRuleNames
     }
 }
@@ -6628,8 +6458,7 @@ extension ConfigClientTypes {
         public init(
             concurrentExecutionRatePercentage: Swift.Int? = nil,
             errorPercentage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.concurrentExecutionRatePercentage = concurrentExecutionRatePercentage
             self.errorPercentage = errorPercentage
         }
@@ -6645,8 +6474,7 @@ extension ConfigClientTypes {
 
         public init(
             ssmControls: ConfigClientTypes.SsmControls? = nil
-        )
-        {
+        ) {
             self.ssmControls = ssmControls
         }
     }
@@ -6688,8 +6516,7 @@ extension ConfigClientTypes {
 
         public init(
             value: ConfigClientTypes.ResourceValueType? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -6705,8 +6532,7 @@ extension ConfigClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -6724,8 +6550,7 @@ extension ConfigClientTypes {
         public init(
             resourceValue: ConfigClientTypes.ResourceValue? = nil,
             staticValue: ConfigClientTypes.StaticValue? = nil
-        )
-        {
+        ) {
             self.resourceValue = resourceValue
             self.staticValue = staticValue
         }
@@ -6803,8 +6628,7 @@ extension ConfigClientTypes {
             targetId: Swift.String? = nil,
             targetType: ConfigClientTypes.RemediationTargetType? = nil,
             targetVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.automatic = automatic
             self.configRuleName = configRuleName
@@ -6827,8 +6651,7 @@ public struct DescribeRemediationConfigurationsOutput: Swift.Sendable {
 
     public init(
         remediationConfigurations: [ConfigClientTypes.RemediationConfiguration]? = nil
-    )
-    {
+    ) {
         self.remediationConfigurations = remediationConfigurations
     }
 }
@@ -6849,8 +6672,7 @@ public struct DescribeRemediationExceptionsInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceKeys: [ConfigClientTypes.RemediationExceptionResourceKey]? = nil
-    )
-    {
+    ) {
         self.configRuleName = configRuleName
         self.limit = limit
         self.nextToken = nextToken
@@ -6882,8 +6704,7 @@ extension ConfigClientTypes {
             message: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.configRuleName = configRuleName
             self.expirationTime = expirationTime
             self.message = message
@@ -6902,8 +6723,7 @@ public struct DescribeRemediationExceptionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         remediationExceptions: [ConfigClientTypes.RemediationException]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.remediationExceptions = remediationExceptions
     }
@@ -6925,8 +6745,7 @@ public struct DescribeRemediationExecutionStatusInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceKeys: [ConfigClientTypes.ResourceKey]? = nil
-    )
-    {
+    ) {
         self.configRuleName = configRuleName
         self.limit = limit
         self.nextToken = nextToken
@@ -7022,8 +6841,7 @@ extension ConfigClientTypes {
             startTime: Foundation.Date? = nil,
             state: ConfigClientTypes.RemediationExecutionStepState? = nil,
             stopTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.name = name
             self.startTime = startTime
@@ -7054,8 +6872,7 @@ extension ConfigClientTypes {
             resourceKey: ConfigClientTypes.ResourceKey? = nil,
             state: ConfigClientTypes.RemediationExecutionState? = nil,
             stepDetails: [ConfigClientTypes.RemediationExecutionStep]? = nil
-        )
-        {
+        ) {
             self.invocationTime = invocationTime
             self.lastUpdatedTime = lastUpdatedTime
             self.resourceKey = resourceKey
@@ -7074,8 +6891,7 @@ public struct DescribeRemediationExecutionStatusOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         remediationExecutionStatuses: [ConfigClientTypes.RemediationExecutionStatus]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.remediationExecutionStatuses = remediationExecutionStatuses
     }
@@ -7090,8 +6906,7 @@ public struct DescribeRetentionConfigurationsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         retentionConfigurationNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.retentionConfigurationNames = retentionConfigurationNames
     }
@@ -7111,8 +6926,7 @@ extension ConfigClientTypes {
         public init(
             name: Swift.String? = nil,
             retentionPeriodInDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.retentionPeriodInDays = retentionPeriodInDays
         }
@@ -7128,8 +6942,7 @@ public struct DescribeRetentionConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         retentionConfigurations: [ConfigClientTypes.RetentionConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.retentionConfigurations = retentionConfigurations
     }
@@ -7146,8 +6959,7 @@ public struct DisassociateResourceTypesInput: Swift.Sendable {
     public init(
         configurationRecorderArn: Swift.String? = nil,
         resourceTypes: [ConfigClientTypes.ResourceType]? = nil
-    )
-    {
+    ) {
         self.configurationRecorderArn = configurationRecorderArn
         self.resourceTypes = resourceTypes
     }
@@ -7160,8 +6972,7 @@ public struct DisassociateResourceTypesOutput: Swift.Sendable {
 
     public init(
         configurationRecorder: ConfigClientTypes.ConfigurationRecorder? = nil
-    )
-    {
+    ) {
         self.configurationRecorder = configurationRecorder
     }
 }
@@ -7191,8 +7002,7 @@ extension ConfigClientTypes {
             complianceResourceType: Swift.String? = nil,
             complianceType: ConfigClientTypes.ComplianceType? = nil,
             orderingTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.annotation = annotation
             self.complianceResourceId = complianceResourceId
             self.complianceResourceType = complianceResourceType
@@ -7211,8 +7021,7 @@ extension ConfigClientTypes {
 
         public init(
             evaluationContextIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.evaluationContextIdentifier = evaluationContextIdentifier
         }
     }
@@ -7242,8 +7051,7 @@ extension ConfigClientTypes {
             evaluationResultIdentifier: ConfigClientTypes.EvaluationResultIdentifier? = nil,
             resultRecordedTime: Foundation.Date? = nil,
             resultToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.annotation = annotation
             self.complianceType = complianceType
             self.configRuleInvokedTime = configRuleInvokedTime
@@ -7299,8 +7107,7 @@ extension ConfigClientTypes {
         public init(
             failureReason: Swift.String? = nil,
             status: ConfigClientTypes.ResourceEvaluationStatus? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.status = status
         }
@@ -7332,8 +7139,7 @@ extension ConfigClientTypes {
             complianceResourceType: Swift.String? = nil,
             complianceType: ConfigClientTypes.ComplianceType? = nil,
             orderingTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.annotation = annotation
             self.complianceResourceId = complianceResourceId
             self.complianceResourceType = complianceResourceType
@@ -7355,8 +7161,7 @@ extension ConfigClientTypes {
         public init(
             failedItems: [ConfigClientTypes.RemediationConfiguration]? = nil,
             failureMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.failedItems = failedItems
             self.failureMessage = failureMessage
         }
@@ -7375,8 +7180,7 @@ extension ConfigClientTypes {
         public init(
             failedItems: [ConfigClientTypes.RemediationException]? = nil,
             failureMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.failedItems = failedItems
             self.failureMessage = failureMessage
         }
@@ -7392,8 +7196,7 @@ extension ConfigClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -7427,8 +7230,7 @@ public struct GetAggregateComplianceDetailsByConfigRuleInput: Swift.Sendable {
         configurationAggregatorName: Swift.String? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.awsRegion = awsRegion
         self.complianceType = complianceType
@@ -7448,8 +7250,7 @@ public struct GetAggregateComplianceDetailsByConfigRuleOutput: Swift.Sendable {
     public init(
         aggregateEvaluationResults: [ConfigClientTypes.AggregateEvaluationResult]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregateEvaluationResults = aggregateEvaluationResults
         self.nextToken = nextToken
     }
@@ -7474,8 +7275,7 @@ public struct GetAggregateConfigRuleComplianceSummaryInput: Swift.Sendable {
         groupByKey: ConfigClientTypes.ConfigRuleComplianceSummaryGroupKey? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorName = configurationAggregatorName
         self.filters = filters
         self.groupByKey = groupByKey
@@ -7496,8 +7296,7 @@ public struct GetAggregateConfigRuleComplianceSummaryOutput: Swift.Sendable {
         aggregateComplianceCounts: [ConfigClientTypes.AggregateComplianceCount]? = nil,
         groupByKey: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregateComplianceCounts = aggregateComplianceCounts
         self.groupByKey = groupByKey
         self.nextToken = nextToken
@@ -7523,8 +7322,7 @@ public struct GetAggregateConformancePackComplianceSummaryInput: Swift.Sendable 
         groupByKey: ConfigClientTypes.AggregateConformancePackComplianceSummaryGroupKey? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorName = configurationAggregatorName
         self.filters = filters
         self.groupByKey = groupByKey
@@ -7545,8 +7343,7 @@ public struct GetAggregateConformancePackComplianceSummaryOutput: Swift.Sendable
         aggregateConformancePackComplianceSummaries: [ConfigClientTypes.AggregateConformancePackComplianceSummary]? = nil,
         groupByKey: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregateConformancePackComplianceSummaries = aggregateConformancePackComplianceSummaries
         self.groupByKey = groupByKey
         self.nextToken = nextToken
@@ -7568,8 +7365,7 @@ extension ConfigClientTypes {
             accountId: Swift.String? = nil,
             region: Swift.String? = nil,
             resourceType: ConfigClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.region = region
             self.resourceType = resourceType
@@ -7628,8 +7424,7 @@ public struct GetAggregateDiscoveredResourceCountsInput: Swift.Sendable {
         groupByKey: ConfigClientTypes.ResourceCountGroupKey? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorName = configurationAggregatorName
         self.filters = filters
         self.groupByKey = groupByKey
@@ -7652,8 +7447,7 @@ extension ConfigClientTypes {
         public init(
             groupName: Swift.String? = nil,
             resourceCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.groupName = groupName
             self.resourceCount = resourceCount
         }
@@ -7676,8 +7470,7 @@ public struct GetAggregateDiscoveredResourceCountsOutput: Swift.Sendable {
         groupedResourceCounts: [ConfigClientTypes.GroupedResourceCount]? = nil,
         nextToken: Swift.String? = nil,
         totalDiscoveredResources: Swift.Int = 0
-    )
-    {
+    ) {
         self.groupByKey = groupByKey
         self.groupedResourceCounts = groupedResourceCounts
         self.nextToken = nextToken
@@ -7704,8 +7497,7 @@ public struct OversizedConfigurationItemException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7729,8 +7521,7 @@ public struct ResourceNotDiscoveredException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7746,8 +7537,7 @@ public struct GetAggregateResourceConfigInput: Swift.Sendable {
     public init(
         configurationAggregatorName: Swift.String? = nil,
         resourceIdentifier: ConfigClientTypes.AggregateResourceIdentifier? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorName = configurationAggregatorName
         self.resourceIdentifier = resourceIdentifier
     }
@@ -7759,8 +7549,7 @@ public struct GetAggregateResourceConfigOutput: Swift.Sendable {
 
     public init(
         configurationItem: ConfigClientTypes.ConfigurationItem? = nil
-    )
-    {
+    ) {
         self.configurationItem = configurationItem
     }
 }
@@ -7782,8 +7571,7 @@ public struct GetComplianceDetailsByConfigRuleInput: Swift.Sendable {
         configRuleName: Swift.String? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.complianceTypes = complianceTypes
         self.configRuleName = configRuleName
         self.limit = limit
@@ -7801,8 +7589,7 @@ public struct GetComplianceDetailsByConfigRuleOutput: Swift.Sendable {
     public init(
         evaluationResults: [ConfigClientTypes.EvaluationResult]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationResults = evaluationResults
         self.nextToken = nextToken
     }
@@ -7827,8 +7614,7 @@ public struct GetComplianceDetailsByResourceInput: Swift.Sendable {
         resourceEvaluationId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.complianceTypes = complianceTypes
         self.nextToken = nextToken
         self.resourceEvaluationId = resourceEvaluationId
@@ -7847,8 +7633,7 @@ public struct GetComplianceDetailsByResourceOutput: Swift.Sendable {
     public init(
         evaluationResults: [ConfigClientTypes.EvaluationResult]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationResults = evaluationResults
         self.nextToken = nextToken
     }
@@ -7861,8 +7646,7 @@ public struct GetComplianceSummaryByConfigRuleOutput: Swift.Sendable {
 
     public init(
         complianceSummary: ConfigClientTypes.ComplianceSummary? = nil
-    )
-    {
+    ) {
         self.complianceSummary = complianceSummary
     }
 }
@@ -7874,8 +7658,7 @@ public struct GetComplianceSummaryByResourceTypeInput: Swift.Sendable {
 
     public init(
         resourceTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceTypes = resourceTypes
     }
 }
@@ -7887,8 +7670,7 @@ public struct GetComplianceSummaryByResourceTypeOutput: Swift.Sendable {
 
     public init(
         complianceSummariesByResourceType: [ConfigClientTypes.ComplianceSummaryByResourceType]? = nil
-    )
-    {
+    ) {
         self.complianceSummariesByResourceType = complianceSummariesByResourceType
     }
 }
@@ -7909,8 +7691,7 @@ public struct GetConformancePackComplianceDetailsInput: Swift.Sendable {
         filters: ConfigClientTypes.ConformancePackEvaluationFilters? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackName = conformancePackName
         self.filters = filters
         self.limit = limit
@@ -7931,8 +7712,7 @@ public struct GetConformancePackComplianceDetailsOutput: Swift.Sendable {
         conformancePackName: Swift.String? = nil,
         conformancePackRuleEvaluationResults: [ConfigClientTypes.ConformancePackEvaluationResult]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackName = conformancePackName
         self.conformancePackRuleEvaluationResults = conformancePackRuleEvaluationResults
         self.nextToken = nextToken
@@ -7952,8 +7732,7 @@ public struct GetConformancePackComplianceSummaryInput: Swift.Sendable {
         conformancePackNames: [Swift.String]? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackNames = conformancePackNames
         self.limit = limit
         self.nextToken = nextToken
@@ -7969,8 +7748,7 @@ public struct GetConformancePackComplianceSummaryOutput: Swift.Sendable {
     public init(
         conformancePackComplianceSummaryList: [ConfigClientTypes.ConformancePackComplianceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackComplianceSummaryList = conformancePackComplianceSummaryList
         self.nextToken = nextToken
     }
@@ -7982,8 +7760,7 @@ public struct GetCustomRulePolicyInput: Swift.Sendable {
 
     public init(
         configRuleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configRuleName = configRuleName
     }
 }
@@ -7994,8 +7771,7 @@ public struct GetCustomRulePolicyOutput: Swift.Sendable {
 
     public init(
         policyText: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
     }
 }
@@ -8012,8 +7788,7 @@ public struct GetDiscoveredResourceCountsInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.resourceTypes = resourceTypes
@@ -8032,8 +7807,7 @@ extension ConfigClientTypes {
         public init(
             count: Swift.Int = 0,
             resourceType: ConfigClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.count = count
             self.resourceType = resourceType
         }
@@ -8058,8 +7832,7 @@ public struct GetDiscoveredResourceCountsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceCounts: [ConfigClientTypes.ResourceCount]? = nil,
         totalDiscoveredResources: Swift.Int = 0
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceCounts = resourceCounts
         self.totalDiscoveredResources = totalDiscoveredResources
@@ -8146,8 +7919,7 @@ extension ConfigClientTypes {
         public init(
             accountId: Swift.String? = nil,
             memberAccountRuleStatus: ConfigClientTypes.MemberAccountRuleStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.memberAccountRuleStatus = memberAccountRuleStatus
         }
@@ -8170,8 +7942,7 @@ public struct GetOrganizationConfigRuleDetailedStatusInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConfigRuleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.limit = limit
         self.nextToken = nextToken
@@ -8224,8 +7995,7 @@ extension ConfigClientTypes {
             errorMessage: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             memberAccountRuleStatus: ConfigClientTypes.MemberAccountRuleStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.configRuleName = configRuleName
             self.errorCode = errorCode
@@ -8245,8 +8015,7 @@ public struct GetOrganizationConfigRuleDetailedStatusOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         organizationConfigRuleDetailedStatus: [ConfigClientTypes.MemberAccountStatus]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.organizationConfigRuleDetailedStatus = organizationConfigRuleDetailedStatus
     }
@@ -8332,8 +8101,7 @@ extension ConfigClientTypes {
         public init(
             accountId: Swift.String? = nil,
             status: ConfigClientTypes.OrganizationResourceDetailedStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.status = status
         }
@@ -8356,8 +8124,7 @@ public struct GetOrganizationConformancePackDetailedStatusInput: Swift.Sendable 
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConformancePackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.limit = limit
         self.nextToken = nextToken
@@ -8410,8 +8177,7 @@ extension ConfigClientTypes {
             errorMessage: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             status: ConfigClientTypes.OrganizationResourceDetailedStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.conformancePackName = conformancePackName
             self.errorCode = errorCode
@@ -8431,8 +8197,7 @@ public struct GetOrganizationConformancePackDetailedStatusOutput: Swift.Sendable
     public init(
         nextToken: Swift.String? = nil,
         organizationConformancePackDetailedStatuses: [ConfigClientTypes.OrganizationConformancePackDetailedStatus]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.organizationConformancePackDetailedStatuses = organizationConformancePackDetailedStatuses
     }
@@ -8445,8 +8210,7 @@ public struct GetOrganizationCustomRulePolicyInput: Swift.Sendable {
 
     public init(
         organizationConfigRuleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationConfigRuleName = organizationConfigRuleName
     }
 }
@@ -8457,8 +8221,7 @@ public struct GetOrganizationCustomRulePolicyOutput: Swift.Sendable {
 
     public init(
         policyText: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
     }
 }
@@ -8482,8 +8245,7 @@ public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8515,8 +8277,7 @@ public struct GetResourceConfigHistoryInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConfigClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.chronologicalOrder = chronologicalOrder
         self.earlierTime = earlierTime
         self.laterTime = laterTime
@@ -8537,8 +8298,7 @@ public struct GetResourceConfigHistoryOutput: Swift.Sendable {
     public init(
         configurationItems: [ConfigClientTypes.ConfigurationItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationItems = configurationItems
         self.nextToken = nextToken
     }
@@ -8551,8 +8311,7 @@ public struct GetResourceEvaluationSummaryInput: Swift.Sendable {
 
     public init(
         resourceEvaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceEvaluationId = resourceEvaluationId
     }
 }
@@ -8604,8 +8363,7 @@ extension ConfigClientTypes {
             resourceConfigurationSchemaType: ConfigClientTypes.ResourceConfigurationSchemaType? = nil,
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceConfiguration = resourceConfiguration
             self.resourceConfigurationSchemaType = resourceConfigurationSchemaType
             self.resourceId = resourceId
@@ -8638,8 +8396,7 @@ public struct GetResourceEvaluationSummaryOutput: Swift.Sendable {
         evaluationStatus: ConfigClientTypes.EvaluationStatus? = nil,
         resourceDetails: ConfigClientTypes.ResourceDetails? = nil,
         resourceEvaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.compliance = compliance
         self.evaluationContext = evaluationContext
         self.evaluationMode = evaluationMode
@@ -8657,8 +8414,7 @@ public struct GetStoredQueryInput: Swift.Sendable {
 
     public init(
         queryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryName = queryName
     }
 }
@@ -8685,8 +8441,7 @@ extension ConfigClientTypes {
             queryArn: Swift.String? = nil,
             queryId: Swift.String? = nil,
             queryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.expression = expression
             self.queryArn = queryArn
@@ -8702,8 +8457,7 @@ public struct GetStoredQueryOutput: Swift.Sendable {
 
     public init(
         storedQuery: ConfigClientTypes.StoredQuery? = nil
-    )
-    {
+    ) {
         self.storedQuery = storedQuery
     }
 }
@@ -8726,8 +8480,7 @@ public struct IdempotentParameterMismatch: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8751,8 +8504,7 @@ public struct InsufficientDeliveryPolicyException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8776,8 +8528,7 @@ public struct InvalidConfigurationRecorderNameException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8801,8 +8552,7 @@ public struct InvalidDeliveryChannelNameException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8826,8 +8576,7 @@ public struct InvalidExpressionException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8866,8 +8615,7 @@ public struct InvalidRecordingGroupException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8891,8 +8639,7 @@ public struct InvalidResultTokenException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8916,8 +8663,7 @@ public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8941,8 +8687,7 @@ public struct InvalidS3KeyPrefixException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8966,8 +8711,7 @@ public struct InvalidS3KmsKeyArnException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8991,8 +8735,7 @@ public struct InvalidSNSTopicARNException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9016,8 +8759,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9040,8 +8782,7 @@ extension ConfigClientTypes {
             region: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.region = region
             self.resourceId = resourceId
@@ -9070,8 +8811,7 @@ public struct ListAggregateDiscoveredResourcesInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceType: ConfigClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorName = configurationAggregatorName
         self.filters = filters
         self.limit = limit
@@ -9089,8 +8829,7 @@ public struct ListAggregateDiscoveredResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceIdentifiers: [ConfigClientTypes.AggregateResourceIdentifier]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceIdentifiers = resourceIdentifiers
     }
@@ -9108,8 +8847,7 @@ public struct ListConfigurationRecordersInput: Swift.Sendable {
         filters: [ConfigClientTypes.ConfigurationRecorderFilter]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9126,8 +8864,7 @@ public struct ListConfigurationRecordersOutput: Swift.Sendable {
     public init(
         configurationRecorderSummaries: [ConfigClientTypes.ConfigurationRecorderSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationRecorderSummaries = configurationRecorderSummaries
         self.nextToken = nextToken
     }
@@ -9206,8 +8943,7 @@ public struct ListConformancePackComplianceScoresInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: ConfigClientTypes.SortBy? = nil,
         sortOrder: ConfigClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.limit = limit
         self.nextToken = nextToken
@@ -9226,8 +8962,7 @@ public struct ListConformancePackComplianceScoresOutput: Swift.Sendable {
     public init(
         conformancePackComplianceScores: [ConfigClientTypes.ConformancePackComplianceScore]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackComplianceScores = conformancePackComplianceScores
         self.nextToken = nextToken
     }
@@ -9256,8 +8991,7 @@ public struct ListDiscoveredResourcesInput: Swift.Sendable {
         resourceIds: [Swift.String]? = nil,
         resourceName: Swift.String? = nil,
         resourceType: ConfigClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.includeDeletedResources = includeDeletedResources
         self.limit = limit
         self.nextToken = nextToken
@@ -9285,8 +9019,7 @@ extension ConfigClientTypes {
             resourceId: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             resourceType: ConfigClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.resourceDeletionTime = resourceDeletionTime
             self.resourceId = resourceId
             self.resourceName = resourceName
@@ -9305,8 +9038,7 @@ public struct ListDiscoveredResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceIdentifiers: [ConfigClientTypes.ResourceIdentifier]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceIdentifiers = resourceIdentifiers
     }
@@ -9324,8 +9056,7 @@ extension ConfigClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -9347,8 +9078,7 @@ extension ConfigClientTypes {
             evaluationContextIdentifier: Swift.String? = nil,
             evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
             timeWindow: ConfigClientTypes.TimeWindow? = nil
-        )
-        {
+        ) {
             self.evaluationContextIdentifier = evaluationContextIdentifier
             self.evaluationMode = evaluationMode
             self.timeWindow = timeWindow
@@ -9368,8 +9098,7 @@ public struct ListResourceEvaluationsInput: Swift.Sendable {
         filters: ConfigClientTypes.ResourceEvaluationFilters? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.limit = limit
         self.nextToken = nextToken
@@ -9391,8 +9120,7 @@ extension ConfigClientTypes {
             evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
             evaluationStartTimestamp: Foundation.Date? = nil,
             resourceEvaluationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.evaluationMode = evaluationMode
             self.evaluationStartTimestamp = evaluationStartTimestamp
             self.resourceEvaluationId = resourceEvaluationId
@@ -9409,8 +9137,7 @@ public struct ListResourceEvaluationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceEvaluations: [ConfigClientTypes.ResourceEvaluation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceEvaluations = resourceEvaluations
     }
@@ -9425,8 +9152,7 @@ public struct ListStoredQueriesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9453,8 +9179,7 @@ extension ConfigClientTypes {
             queryArn: Swift.String? = nil,
             queryId: Swift.String? = nil,
             queryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.queryArn = queryArn
             self.queryId = queryId
@@ -9472,8 +9197,7 @@ public struct ListStoredQueriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         storedQueryMetadata: [ConfigClientTypes.StoredQueryMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.storedQueryMetadata = storedQueryMetadata
     }
@@ -9508,8 +9232,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -9528,8 +9251,7 @@ extension ConfigClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -9545,8 +9267,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -9571,8 +9292,7 @@ public struct MaxActiveResourcesExceededException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9596,8 +9316,7 @@ public struct MaxNumberOfConfigRulesExceededException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9621,8 +9340,7 @@ public struct MaxNumberOfConfigurationRecordersExceededException: ClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9646,8 +9364,7 @@ public struct MaxNumberOfConformancePacksExceededException: ClientRuntime.Modele
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9671,8 +9388,7 @@ public struct MaxNumberOfDeliveryChannelsExceededException: ClientRuntime.Modele
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9696,8 +9412,7 @@ public struct MaxNumberOfOrganizationConfigRulesExceededException: ClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9721,8 +9436,7 @@ public struct MaxNumberOfOrganizationConformancePacksExceededException: ClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9746,8 +9460,7 @@ public struct MaxNumberOfRetentionConfigurationsExceededException: ClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9771,8 +9484,7 @@ public struct NoAvailableDeliveryChannelException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9796,8 +9508,7 @@ public struct NoAvailableOrganizationException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9821,8 +9532,7 @@ public struct NoSuchBucketException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9846,8 +9556,7 @@ public struct OrganizationAllFeaturesNotEnabledException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9871,8 +9580,7 @@ public struct OrganizationConformancePackTemplateValidationException: ClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9922,8 +9630,7 @@ extension ConfigClientTypes {
             resourceTypesScope: [Swift.String]? = nil,
             tagKeyScope: Swift.String? = nil,
             tagValueScope: Swift.String? = nil
-        )
-        {
+        ) {
             self.debugLogDeliveryAccounts = debugLogDeliveryAccounts
             self.description = description
             self.inputParameters = inputParameters
@@ -9953,8 +9660,7 @@ public struct PutAggregationAuthorizationInput: Swift.Sendable {
         authorizedAccountId: Swift.String? = nil,
         authorizedAwsRegion: Swift.String? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.authorizedAccountId = authorizedAccountId
         self.authorizedAwsRegion = authorizedAwsRegion
         self.tags = tags
@@ -9967,8 +9673,7 @@ public struct PutAggregationAuthorizationOutput: Swift.Sendable {
 
     public init(
         aggregationAuthorization: ConfigClientTypes.AggregationAuthorization? = nil
-    )
-    {
+    ) {
         self.aggregationAuthorization = aggregationAuthorization
     }
 }
@@ -9983,8 +9688,7 @@ public struct PutConfigRuleInput: Swift.Sendable {
     public init(
         configRule: ConfigClientTypes.ConfigRule? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.configRule = configRule
         self.tags = tags
     }
@@ -10009,8 +9713,7 @@ public struct PutConfigurationAggregatorInput: Swift.Sendable {
         configurationAggregatorName: Swift.String? = nil,
         organizationAggregationSource: ConfigClientTypes.OrganizationAggregationSource? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accountAggregationSources = accountAggregationSources
         self.aggregatorFilters = aggregatorFilters
         self.configurationAggregatorName = configurationAggregatorName
@@ -10025,8 +9728,7 @@ public struct PutConfigurationAggregatorOutput: Swift.Sendable {
 
     public init(
         configurationAggregator: ConfigClientTypes.ConfigurationAggregator? = nil
-    )
-    {
+    ) {
         self.configurationAggregator = configurationAggregator
     }
 }
@@ -10042,8 +9744,7 @@ public struct PutConfigurationRecorderInput: Swift.Sendable {
     public init(
         configurationRecorder: ConfigClientTypes.ConfigurationRecorder? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.configurationRecorder = configurationRecorder
         self.tags = tags
     }
@@ -10074,8 +9775,7 @@ public struct PutConformancePackInput: Swift.Sendable {
         templateBody: Swift.String? = nil,
         templateS3Uri: Swift.String? = nil,
         templateSSMDocumentDetails: ConfigClientTypes.TemplateSSMDocumentDetails? = nil
-    )
-    {
+    ) {
         self.conformancePackInputParameters = conformancePackInputParameters
         self.conformancePackName = conformancePackName
         self.deliveryS3Bucket = deliveryS3Bucket
@@ -10092,8 +9792,7 @@ public struct PutConformancePackOutput: Swift.Sendable {
 
     public init(
         conformancePackArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackArn = conformancePackArn
     }
 }
@@ -10106,8 +9805,7 @@ public struct PutDeliveryChannelInput: Swift.Sendable {
 
     public init(
         deliveryChannel: ConfigClientTypes.DeliveryChannel? = nil
-    )
-    {
+    ) {
         self.deliveryChannel = deliveryChannel
     }
 }
@@ -10126,8 +9824,7 @@ public struct PutEvaluationsInput: Swift.Sendable {
         evaluations: [ConfigClientTypes.Evaluation]? = nil,
         resultToken: Swift.String? = nil,
         testMode: Swift.Bool? = false
-    )
-    {
+    ) {
         self.evaluations = evaluations
         self.resultToken = resultToken
         self.testMode = testMode
@@ -10141,8 +9838,7 @@ public struct PutEvaluationsOutput: Swift.Sendable {
 
     public init(
         failedEvaluations: [ConfigClientTypes.Evaluation]? = nil
-    )
-    {
+    ) {
         self.failedEvaluations = failedEvaluations
     }
 }
@@ -10158,8 +9854,7 @@ public struct PutExternalEvaluationInput: Swift.Sendable {
     public init(
         configRuleName: Swift.String? = nil,
         externalEvaluation: ConfigClientTypes.ExternalEvaluation? = nil
-    )
-    {
+    ) {
         self.configRuleName = configRuleName
         self.externalEvaluation = externalEvaluation
     }
@@ -10189,8 +9884,7 @@ public struct PutOrganizationConfigRuleInput: Swift.Sendable {
         organizationCustomPolicyRuleMetadata: ConfigClientTypes.OrganizationCustomPolicyRuleMetadata? = nil,
         organizationCustomRuleMetadata: ConfigClientTypes.OrganizationCustomRuleMetadata? = nil,
         organizationManagedRuleMetadata: ConfigClientTypes.OrganizationManagedRuleMetadata? = nil
-    )
-    {
+    ) {
         self.excludedAccounts = excludedAccounts
         self.organizationConfigRuleName = organizationConfigRuleName
         self.organizationCustomPolicyRuleMetadata = organizationCustomPolicyRuleMetadata
@@ -10205,8 +9899,7 @@ public struct PutOrganizationConfigRuleOutput: Swift.Sendable {
 
     public init(
         organizationConfigRuleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationConfigRuleArn = organizationConfigRuleArn
     }
 }
@@ -10236,8 +9929,7 @@ public struct PutOrganizationConformancePackInput: Swift.Sendable {
         organizationConformancePackName: Swift.String? = nil,
         templateBody: Swift.String? = nil,
         templateS3Uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.conformancePackInputParameters = conformancePackInputParameters
         self.deliveryS3Bucket = deliveryS3Bucket
         self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
@@ -10254,8 +9946,7 @@ public struct PutOrganizationConformancePackOutput: Swift.Sendable {
 
     public init(
         organizationConformancePackArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationConformancePackArn = organizationConformancePackArn
     }
 }
@@ -10267,8 +9958,7 @@ public struct PutRemediationConfigurationsInput: Swift.Sendable {
 
     public init(
         remediationConfigurations: [ConfigClientTypes.RemediationConfiguration]? = nil
-    )
-    {
+    ) {
         self.remediationConfigurations = remediationConfigurations
     }
 }
@@ -10279,8 +9969,7 @@ public struct PutRemediationConfigurationsOutput: Swift.Sendable {
 
     public init(
         failedBatches: [ConfigClientTypes.FailedRemediationBatch]? = nil
-    )
-    {
+    ) {
         self.failedBatches = failedBatches
     }
 }
@@ -10302,8 +9991,7 @@ public struct PutRemediationExceptionsInput: Swift.Sendable {
         expirationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         resourceKeys: [ConfigClientTypes.RemediationExceptionResourceKey]? = nil
-    )
-    {
+    ) {
         self.configRuleName = configRuleName
         self.expirationTime = expirationTime
         self.message = message
@@ -10317,8 +10005,7 @@ public struct PutRemediationExceptionsOutput: Swift.Sendable {
 
     public init(
         failedBatches: [ConfigClientTypes.FailedRemediationExceptionBatch]? = nil
-    )
-    {
+    ) {
         self.failedBatches = failedBatches
     }
 }
@@ -10348,8 +10035,7 @@ public struct PutResourceConfigInput: Swift.Sendable {
         resourceType: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.resourceId = resourceId
         self.resourceName = resourceName
@@ -10366,8 +10052,7 @@ public struct PutRetentionConfigurationInput: Swift.Sendable {
 
     public init(
         retentionPeriodInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.retentionPeriodInDays = retentionPeriodInDays
     }
 }
@@ -10378,8 +10063,7 @@ public struct PutRetentionConfigurationOutput: Swift.Sendable {
 
     public init(
         retentionConfiguration: ConfigClientTypes.RetentionConfiguration? = nil
-    )
-    {
+    ) {
         self.retentionConfiguration = retentionConfiguration
     }
 }
@@ -10394,8 +10078,7 @@ public struct PutServiceLinkedConfigurationRecorderInput: Swift.Sendable {
     public init(
         servicePrincipal: Swift.String? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.servicePrincipal = servicePrincipal
         self.tags = tags
     }
@@ -10410,8 +10093,7 @@ public struct PutServiceLinkedConfigurationRecorderOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -10435,8 +10117,7 @@ public struct ResourceConcurrentModificationException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10460,8 +10141,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10476,8 +10156,7 @@ public struct PutStoredQueryInput: Swift.Sendable {
     public init(
         storedQuery: ConfigClientTypes.StoredQuery? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.storedQuery = storedQuery
         self.tags = tags
     }
@@ -10489,8 +10168,7 @@ public struct PutStoredQueryOutput: Swift.Sendable {
 
     public init(
         queryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryArn = queryArn
     }
 }
@@ -10504,8 +10182,7 @@ extension ConfigClientTypes {
 
         public init(
             selectFields: [ConfigClientTypes.FieldInfo]? = nil
-        )
-        {
+        ) {
             self.selectFields = selectFields
         }
     }
@@ -10531,8 +10208,7 @@ public struct SelectAggregateResourceConfigInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationAggregatorName = configurationAggregatorName
         self.expression = expression
         self.limit = limit
@@ -10553,8 +10229,7 @@ public struct SelectAggregateResourceConfigOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryInfo: ConfigClientTypes.QueryInfo? = nil,
         results: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queryInfo = queryInfo
         self.results = results
@@ -10574,8 +10249,7 @@ public struct SelectResourceConfigInput: Swift.Sendable {
         expression: Swift.String? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.expression = expression
         self.limit = limit
         self.nextToken = nextToken
@@ -10594,8 +10268,7 @@ public struct SelectResourceConfigOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryInfo: ConfigClientTypes.QueryInfo? = nil,
         results: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queryInfo = queryInfo
         self.results = results
@@ -10609,8 +10282,7 @@ public struct StartConfigRulesEvaluationInput: Swift.Sendable {
 
     public init(
         configRuleNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.configRuleNames = configRuleNames
     }
 }
@@ -10629,8 +10301,7 @@ public struct StartConfigurationRecorderInput: Swift.Sendable {
 
     public init(
         configurationRecorderName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationRecorderName = configurationRecorderName
     }
 }
@@ -10646,8 +10317,7 @@ public struct StartRemediationExecutionInput: Swift.Sendable {
     public init(
         configRuleName: Swift.String? = nil,
         resourceKeys: [ConfigClientTypes.ResourceKey]? = nil
-    )
-    {
+    ) {
         self.configRuleName = configRuleName
         self.resourceKeys = resourceKeys
     }
@@ -10662,8 +10332,7 @@ public struct StartRemediationExecutionOutput: Swift.Sendable {
     public init(
         failedItems: [ConfigClientTypes.ResourceKey]? = nil,
         failureMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.failedItems = failedItems
         self.failureMessage = failureMessage
     }
@@ -10689,8 +10358,7 @@ public struct StartResourceEvaluationInput: Swift.Sendable {
         evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
         evaluationTimeout: Swift.Int? = 0,
         resourceDetails: ConfigClientTypes.ResourceDetails? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.evaluationContext = evaluationContext
         self.evaluationMode = evaluationMode
@@ -10705,8 +10373,7 @@ public struct StartResourceEvaluationOutput: Swift.Sendable {
 
     public init(
         resourceEvaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceEvaluationId = resourceEvaluationId
     }
 }
@@ -10719,8 +10386,7 @@ public struct StopConfigurationRecorderInput: Swift.Sendable {
 
     public init(
         configurationRecorderName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationRecorderName = configurationRecorderName
     }
 }
@@ -10752,8 +10418,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -10786,8 +10451,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

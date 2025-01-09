@@ -122,8 +122,7 @@ extension KendraClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -138,8 +137,7 @@ extension KendraClientTypes {
 
         public init(
             keyPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyPath = keyPath
         }
     }
@@ -163,8 +161,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -179,8 +176,7 @@ extension KendraClientTypes {
 
         public init(
             allowedGroupsColumnName: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedGroupsColumnName = allowedGroupsColumnName
         }
     }
@@ -235,8 +231,7 @@ extension KendraClientTypes {
             endOffset: Swift.Int? = nil,
             topAnswer: Swift.Bool = false,
             type: KendraClientTypes.HighlightType? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.topAnswer = topAnswer
@@ -257,8 +252,7 @@ extension KendraClientTypes {
         public init(
             highlights: [KendraClientTypes.Highlight]? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.highlights = highlights
             self.text = text
         }
@@ -274,8 +268,7 @@ extension KendraClientTypes {
 
         public init(
             textWithHighlightsValue: KendraClientTypes.TextWithHighlights? = nil
-        )
-        {
+        ) {
             self.textWithHighlightsValue = textWithHighlightsValue
         }
     }
@@ -325,8 +318,7 @@ extension KendraClientTypes {
             key: Swift.String? = nil,
             value: KendraClientTypes.AdditionalResultAttributeValue? = nil,
             valueType: KendraClientTypes.AdditionalResultAttributeValueType? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
             self.valueType = valueType
@@ -351,8 +343,7 @@ extension KendraClientTypes {
             dataSourceFieldName: Swift.String? = nil,
             dateFieldFormat: Swift.String? = nil,
             indexFieldName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceFieldName = dataSourceFieldName
             self.dateFieldFormat = dateFieldFormat
             self.indexFieldName = indexFieldName
@@ -406,8 +397,7 @@ extension KendraClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -428,8 +418,7 @@ extension KendraClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -489,8 +478,7 @@ extension KendraClientTypes {
             sslCertificateS3Path: KendraClientTypes.S3Path? = nil,
             vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil,
             wikiFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil
-        )
-        {
+        ) {
             self.blogFieldMappings = blogFieldMappings
             self.crawlComments = crawlComments
             self.crawlSystemFolders = crawlSystemFolders
@@ -526,8 +514,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -550,8 +537,7 @@ public struct ResourceAlreadyExistException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -574,8 +560,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -598,8 +583,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -622,8 +606,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -671,8 +654,7 @@ extension KendraClientTypes {
         public init(
             entityId: Swift.String? = nil,
             entityType: KendraClientTypes.EntityType? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.entityType = entityType
         }
@@ -694,8 +676,7 @@ public struct AssociateEntitiesToExperienceInput: Swift.Sendable {
         entityList: [KendraClientTypes.EntityConfiguration]? = nil,
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityList = entityList
         self.id = id
         self.indexId = indexId
@@ -714,8 +695,7 @@ extension KendraClientTypes {
         public init(
             entityId: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.errorMessage = errorMessage
         }
@@ -728,8 +708,7 @@ public struct AssociateEntitiesToExperienceOutput: Swift.Sendable {
 
     public init(
         failedEntityList: [KendraClientTypes.FailedEntity]? = nil
-    )
-    {
+    ) {
         self.failedEntityList = failedEntityList
     }
 }
@@ -777,8 +756,7 @@ extension KendraClientTypes {
         public init(
             entityId: Swift.String? = nil,
             persona: KendraClientTypes.Persona? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.persona = persona
         }
@@ -800,8 +778,7 @@ public struct AssociatePersonasToEntitiesInput: Swift.Sendable {
         id: Swift.String? = nil,
         indexId: Swift.String? = nil,
         personas: [KendraClientTypes.EntityPersonaConfiguration]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
         self.personas = personas
@@ -814,8 +791,7 @@ public struct AssociatePersonasToEntitiesOutput: Swift.Sendable {
 
     public init(
         failedEntityList: [KendraClientTypes.FailedEntity]? = nil
-    )
-    {
+    ) {
         self.failedEntityList = failedEntityList
     }
 }
@@ -838,8 +814,7 @@ extension KendraClientTypes {
             longValue: Swift.Int? = nil,
             stringListValue: [Swift.String]? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.dateValue = dateValue
             self.longValue = longValue
             self.stringListValue = stringListValue
@@ -862,8 +837,7 @@ extension KendraClientTypes {
         public init(
             key: Swift.String? = nil,
             value: KendraClientTypes.DocumentAttributeValue? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -911,8 +885,7 @@ extension KendraClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             suggestable: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.suggestable = suggestable
         }
@@ -931,8 +904,7 @@ extension KendraClientTypes {
         public init(
             attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode? = nil,
             suggestableConfigList: [KendraClientTypes.SuggestableConfig]? = nil
-        )
-        {
+        ) {
             self.attributeSuggestionsMode = attributeSuggestionsMode
             self.suggestableConfigList = suggestableConfigList
         }
@@ -953,8 +925,7 @@ extension KendraClientTypes {
         public init(
             dataSourceId: Swift.String? = nil,
             groupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceId = dataSourceId
             self.groupId = groupId
         }
@@ -986,8 +957,7 @@ extension KendraClientTypes {
             groups: [Swift.String]? = nil,
             token: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceGroups = dataSourceGroups
             self.groups = groups
             self.token = token
@@ -1008,8 +978,7 @@ extension KendraClientTypes {
         public init(
             attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode? = nil,
             suggestableConfigList: [KendraClientTypes.SuggestableConfig]? = nil
-        )
-        {
+        ) {
             self.attributeSuggestionsMode = attributeSuggestionsMode
             self.suggestableConfigList = suggestableConfigList
         }
@@ -1034,8 +1003,7 @@ extension KendraClientTypes {
             credentials: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.credentials = credentials
             self.host = host
             self.port = port
@@ -1052,8 +1020,7 @@ extension KendraClientTypes {
 
         public init(
             basicAuthentication: [KendraClientTypes.BasicAuthenticationConfiguration]? = nil
-        )
-        {
+        ) {
             self.basicAuthentication = basicAuthentication
         }
     }
@@ -1077,8 +1044,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1096,8 +1062,7 @@ extension KendraClientTypes {
         public init(
             dataSourceId: Swift.String? = nil,
             dataSourceSyncJobId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceId = dataSourceId
             self.dataSourceSyncJobId = dataSourceSyncJobId
         }
@@ -1118,8 +1083,7 @@ public struct BatchDeleteDocumentInput: Swift.Sendable {
         dataSourceSyncJobMetricTarget: KendraClientTypes.DataSourceSyncJobMetricTarget? = nil,
         documentIdList: [Swift.String]? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceSyncJobMetricTarget = dataSourceSyncJobMetricTarget
         self.documentIdList = documentIdList
         self.indexId = indexId
@@ -1173,8 +1137,7 @@ extension KendraClientTypes {
             errorCode: KendraClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceId = dataSourceId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1189,8 +1152,7 @@ public struct BatchDeleteDocumentOutput: Swift.Sendable {
 
     public init(
         failedDocuments: [KendraClientTypes.BatchDeleteDocumentResponseFailedDocument]? = nil
-    )
-    {
+    ) {
         self.failedDocuments = failedDocuments
     }
 }
@@ -1206,8 +1168,7 @@ public struct BatchDeleteFeaturedResultsSetInput: Swift.Sendable {
     public init(
         featuredResultsSetIds: [Swift.String]? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.featuredResultsSetIds = featuredResultsSetIds
         self.indexId = indexId
     }
@@ -1231,8 +1192,7 @@ extension KendraClientTypes {
             errorCode: KendraClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -1247,8 +1207,7 @@ public struct BatchDeleteFeaturedResultsSetOutput: Swift.Sendable {
 
     public init(
         errors: [KendraClientTypes.BatchDeleteFeaturedResultsSetError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1281,8 +1240,7 @@ extension KendraClientTypes {
         public init(
             attributes: [KendraClientTypes.DocumentAttribute]? = nil,
             documentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.documentId = documentId
         }
@@ -1300,8 +1258,7 @@ public struct BatchGetDocumentStatusInput: Swift.Sendable {
     public init(
         documentInfoList: [KendraClientTypes.DocumentInfo]? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentInfoList = documentInfoList
         self.indexId = indexId
     }
@@ -1366,8 +1323,7 @@ extension KendraClientTypes {
             documentStatus: KendraClientTypes.DocumentStatus? = nil,
             failureCode: Swift.String? = nil,
             failureReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentId = documentId
             self.documentStatus = documentStatus
             self.failureCode = failureCode
@@ -1394,8 +1350,7 @@ extension KendraClientTypes {
             documentId: Swift.String? = nil,
             errorCode: KendraClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceId = dataSourceId
             self.documentId = documentId
             self.errorCode = errorCode
@@ -1413,8 +1368,7 @@ public struct BatchGetDocumentStatusOutput: Swift.Sendable {
     public init(
         documentStatusList: [KendraClientTypes.Status]? = nil,
         errors: [KendraClientTypes.BatchGetDocumentStatusResponseError]? = nil
-    )
-    {
+    ) {
         self.documentStatusList = documentStatusList
         self.errors = errors
     }
@@ -1438,8 +1392,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1517,8 +1470,7 @@ extension KendraClientTypes {
             conditionDocumentAttributeKey: Swift.String? = nil,
             conditionOnValue: KendraClientTypes.DocumentAttributeValue? = nil,
             `operator`: KendraClientTypes.ConditionOperator? = nil
-        )
-        {
+        ) {
             self.conditionDocumentAttributeKey = conditionDocumentAttributeKey
             self.conditionOnValue = conditionOnValue
             self.`operator` = `operator`
@@ -1541,8 +1493,7 @@ extension KendraClientTypes {
             targetDocumentAttributeKey: Swift.String? = nil,
             targetDocumentAttributeValue: KendraClientTypes.DocumentAttributeValue? = nil,
             targetDocumentAttributeValueDeletion: Swift.Bool = false
-        )
-        {
+        ) {
             self.targetDocumentAttributeKey = targetDocumentAttributeKey
             self.targetDocumentAttributeValue = targetDocumentAttributeValue
             self.targetDocumentAttributeValueDeletion = targetDocumentAttributeValueDeletion
@@ -1565,8 +1516,7 @@ extension KendraClientTypes {
             condition: KendraClientTypes.DocumentAttributeCondition? = nil,
             documentContentDeletion: Swift.Bool = false,
             target: KendraClientTypes.DocumentAttributeTarget? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.documentContentDeletion = documentContentDeletion
             self.target = target
@@ -1591,8 +1541,7 @@ extension KendraClientTypes {
             invocationCondition: KendraClientTypes.DocumentAttributeCondition? = nil,
             lambdaArn: Swift.String? = nil,
             s3Bucket: Swift.String? = nil
-        )
-        {
+        ) {
             self.invocationCondition = invocationCondition
             self.lambdaArn = lambdaArn
             self.s3Bucket = s3Bucket
@@ -1618,8 +1567,7 @@ extension KendraClientTypes {
             postExtractionHookConfiguration: KendraClientTypes.HookConfiguration? = nil,
             preExtractionHookConfiguration: KendraClientTypes.HookConfiguration? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.inlineConfigurations = inlineConfigurations
             self.postExtractionHookConfiguration = postExtractionHookConfiguration
             self.preExtractionHookConfiguration = preExtractionHookConfiguration
@@ -1707,8 +1655,7 @@ extension KendraClientTypes {
             dataSourceId: Swift.String? = nil,
             name: Swift.String? = nil,
             type: KendraClientTypes.PrincipalType? = nil
-        )
-        {
+        ) {
             self.access = access
             self.dataSourceId = dataSourceId
             self.name = name
@@ -1786,8 +1733,7 @@ extension KendraClientTypes {
 
         public init(
             principalList: [KendraClientTypes.Principal]? = nil
-        )
-        {
+        ) {
             self.principalList = principalList
         }
     }
@@ -1827,8 +1773,7 @@ extension KendraClientTypes {
             id: Swift.String? = nil,
             s3Path: KendraClientTypes.S3Path? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessControlConfigurationId = accessControlConfigurationId
             self.accessControlList = accessControlList
             self.attributes = attributes
@@ -1866,8 +1811,7 @@ public struct BatchPutDocumentInput: Swift.Sendable {
         documents: [KendraClientTypes.Document]? = nil,
         indexId: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDocumentEnrichmentConfiguration = customDocumentEnrichmentConfiguration
         self.documents = documents
         self.indexId = indexId
@@ -1893,8 +1837,7 @@ extension KendraClientTypes {
             errorCode: KendraClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceId = dataSourceId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1909,8 +1852,7 @@ public struct BatchPutDocumentOutput: Swift.Sendable {
 
     public init(
         failedDocuments: [KendraClientTypes.BatchPutDocumentResponseFailedDocument]? = nil
-    )
-    {
+    ) {
         self.failedDocuments = failedDocuments
     }
 }
@@ -1922,8 +1864,7 @@ public struct ClearQuerySuggestionsInput: Swift.Sendable {
 
     public init(
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexId = indexId
     }
 }
@@ -1951,8 +1892,7 @@ public struct CreateAccessControlConfigurationInput: Swift.Sendable {
         hierarchicalAccessControlList: [KendraClientTypes.HierarchicalPrincipal]? = nil,
         indexId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessControlList = accessControlList
         self.clientToken = clientToken
         self.description = description
@@ -1969,8 +1909,7 @@ public struct CreateAccessControlConfigurationOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2035,8 +1974,7 @@ extension KendraClientTypes {
             useChangeLog: Swift.Bool = false,
             vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil,
             webLinkFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil
-        )
-        {
+        ) {
             self.commentFieldMappings = commentFieldMappings
             self.crawlComments = crawlComments
             self.crawlTasks = crawlTasks
@@ -2125,8 +2063,7 @@ extension KendraClientTypes {
             dataSourceFieldName: KendraClientTypes.ConfluenceAttachmentFieldName? = nil,
             dateFieldFormat: Swift.String? = nil,
             indexFieldName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceFieldName = dataSourceFieldName
             self.dateFieldFormat = dateFieldFormat
             self.indexFieldName = indexFieldName
@@ -2146,8 +2083,7 @@ extension KendraClientTypes {
         public init(
             attachmentFieldMappings: [KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping]? = nil,
             crawlAttachments: Swift.Bool = false
-        )
-        {
+        ) {
             self.attachmentFieldMappings = attachmentFieldMappings
             self.crawlAttachments = crawlAttachments
         }
@@ -2248,8 +2184,7 @@ extension KendraClientTypes {
             dataSourceFieldName: KendraClientTypes.ConfluenceBlogFieldName? = nil,
             dateFieldFormat: Swift.String? = nil,
             indexFieldName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceFieldName = dataSourceFieldName
             self.dateFieldFormat = dateFieldFormat
             self.indexFieldName = indexFieldName
@@ -2266,8 +2201,7 @@ extension KendraClientTypes {
 
         public init(
             blogFieldMappings: [KendraClientTypes.ConfluenceBlogToIndexFieldMapping]? = nil
-        )
-        {
+        ) {
             self.blogFieldMappings = blogFieldMappings
         }
     }
@@ -2347,8 +2281,7 @@ extension KendraClientTypes {
             dataSourceFieldName: KendraClientTypes.ConfluencePageFieldName? = nil,
             dateFieldFormat: Swift.String? = nil,
             indexFieldName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceFieldName = dataSourceFieldName
             self.dateFieldFormat = dateFieldFormat
             self.indexFieldName = indexFieldName
@@ -2365,8 +2298,7 @@ extension KendraClientTypes {
 
         public init(
             pageFieldMappings: [KendraClientTypes.ConfluencePageToIndexFieldMapping]? = nil
-        )
-        {
+        ) {
             self.pageFieldMappings = pageFieldMappings
         }
     }
@@ -2389,8 +2321,7 @@ extension KendraClientTypes {
             credentials: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.credentials = credentials
             self.host = host
             self.port = port
@@ -2448,8 +2379,7 @@ extension KendraClientTypes {
             dataSourceFieldName: KendraClientTypes.ConfluenceSpaceFieldName? = nil,
             dateFieldFormat: Swift.String? = nil,
             indexFieldName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceFieldName = dataSourceFieldName
             self.dateFieldFormat = dateFieldFormat
             self.indexFieldName = indexFieldName
@@ -2478,8 +2408,7 @@ extension KendraClientTypes {
             excludeSpaces: [Swift.String]? = nil,
             includeSpaces: [Swift.String]? = nil,
             spaceFieldMappings: [KendraClientTypes.ConfluenceSpaceToIndexFieldMapping]? = nil
-        )
-        {
+        ) {
             self.crawlArchivedSpaces = crawlArchivedSpaces
             self.crawlPersonalSpaces = crawlPersonalSpaces
             self.excludeSpaces = excludeSpaces
@@ -2563,8 +2492,7 @@ extension KendraClientTypes {
             spaceConfiguration: KendraClientTypes.ConfluenceSpaceConfiguration? = nil,
             version: KendraClientTypes.ConfluenceVersion? = nil,
             vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.attachmentConfiguration = attachmentConfiguration
             self.authenticationType = authenticationType
             self.blogConfiguration = blogConfiguration
@@ -2605,8 +2533,7 @@ extension KendraClientTypes {
             documentIdColumnName: Swift.String? = nil,
             documentTitleColumnName: Swift.String? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil
-        )
-        {
+        ) {
             self.changeDetectingColumns = changeDetectingColumns
             self.documentDataColumnName = documentDataColumnName
             self.documentIdColumnName = documentIdColumnName
@@ -2642,8 +2569,7 @@ extension KendraClientTypes {
             databasePort: Swift.Int? = nil,
             secretArn: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseHost = databaseHost
             self.databaseName = databaseName
             self.databasePort = databasePort
@@ -2726,8 +2652,7 @@ extension KendraClientTypes {
 
         public init(
             queryIdentifiersEnclosingOption: KendraClientTypes.QueryIdentifiersEnclosingOption? = nil
-        )
-        {
+        ) {
             self.queryIdentifiersEnclosingOption = queryIdentifiersEnclosingOption
         }
     }
@@ -2760,8 +2685,7 @@ extension KendraClientTypes {
             databaseEngineType: KendraClientTypes.DatabaseEngineType? = nil,
             sqlConfiguration: KendraClientTypes.SqlConfiguration? = nil,
             vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.aclConfiguration = aclConfiguration
             self.columnConfiguration = columnConfiguration
             self.connectionConfiguration = connectionConfiguration
@@ -2832,8 +2756,7 @@ extension KendraClientTypes {
             inclusionPatterns: [Swift.String]? = nil,
             secretArn: Swift.String? = nil,
             vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.exclusionPatterns = exclusionPatterns
             self.fieldMappings = fieldMappings
             self.fileSystemId = fileSystemId
@@ -2872,8 +2795,7 @@ extension KendraClientTypes {
             crawlPullRequestComment: Swift.Bool = false,
             crawlPullRequestCommentAttachment: Swift.Bool = false,
             crawlRepositoryDocuments: Swift.Bool = false
-        )
-        {
+        ) {
             self.crawlIssue = crawlIssue
             self.crawlIssueComment = crawlIssueComment
             self.crawlIssueCommentAttachment = crawlIssueCommentAttachment
@@ -2903,8 +2825,7 @@ extension KendraClientTypes {
             hostUrl: Swift.String? = nil,
             organizationName: Swift.String? = nil,
             sslCertificateS3Path: KendraClientTypes.S3Path? = nil
-        )
-        {
+        ) {
             self.hostUrl = hostUrl
             self.organizationName = organizationName
             self.sslCertificateS3Path = sslCertificateS3Path
@@ -2926,8 +2847,7 @@ extension KendraClientTypes {
         public init(
             hostUrl: Swift.String? = nil,
             organizationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostUrl = hostUrl
             self.organizationName = organizationName
         }
@@ -3038,8 +2958,7 @@ extension KendraClientTypes {
             type: KendraClientTypes.ModelType? = nil,
             useChangeLog: Swift.Bool = false,
             vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.exclusionFileNamePatterns = exclusionFileNamePatterns
             self.exclusionFileTypePatterns = exclusionFileTypePatterns
             self.exclusionFolderNamePatterns = exclusionFolderNamePatterns
@@ -3094,8 +3013,7 @@ extension KendraClientTypes {
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             inclusionPatterns: [Swift.String]? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.excludeMimeTypes = excludeMimeTypes
             self.excludeSharedDrives = excludeSharedDrives
             self.excludeUserAccounts = excludeUserAccounts
@@ -3196,8 +3114,7 @@ extension KendraClientTypes {
             useChangeLog: Swift.Bool = false,
             vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil,
             workLogFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil
-        )
-        {
+        ) {
             self.attachmentFieldMappings = attachmentFieldMappings
             self.commentFieldMappings = commentFieldMappings
             self.exclusionPatterns = exclusionPatterns
@@ -3229,8 +3146,7 @@ extension KendraClientTypes {
         public init(
             oneDriveUserList: [Swift.String]? = nil,
             oneDriveUserS3Path: KendraClientTypes.S3Path? = nil
-        )
-        {
+        ) {
             self.oneDriveUserList = oneDriveUserList
             self.oneDriveUserS3Path = oneDriveUserS3Path
         }
@@ -3267,8 +3183,7 @@ extension KendraClientTypes {
             oneDriveUsers: KendraClientTypes.OneDriveUsers? = nil,
             secretArn: Swift.String? = nil,
             tenantDomain: Swift.String? = nil
-        )
-        {
+        ) {
             self.disableLocalGroups = disableLocalGroups
             self.exclusionPatterns = exclusionPatterns
             self.fieldMappings = fieldMappings
@@ -3326,8 +3241,7 @@ extension KendraClientTypes {
             secretArn: Swift.String? = nil,
             threadFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.attachmentFieldMappings = attachmentFieldMappings
             self.crawlAttachments = crawlAttachments
             self.crawlChatRooms = crawlChatRooms
@@ -3353,8 +3267,7 @@ extension KendraClientTypes {
 
         public init(
             s3Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Prefix = s3Prefix
         }
     }
@@ -3423,8 +3336,7 @@ extension KendraClientTypes {
             exclusionPatterns: [Swift.String]? = nil,
             inclusionPatterns: [Swift.String]? = nil,
             inclusionPrefixes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.accessControlListConfiguration = accessControlListConfiguration
             self.bucketName = bucketName
             self.documentsMetadataConfiguration = documentsMetadataConfiguration
@@ -3483,8 +3395,7 @@ extension KendraClientTypes {
             documentTitleFieldName: Swift.String? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             includeFilterTypes: [KendraClientTypes.SalesforceChatterFeedIncludeFilterType]? = nil
-        )
-        {
+        ) {
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
             self.fieldMappings = fieldMappings
@@ -3513,8 +3424,7 @@ extension KendraClientTypes {
             documentTitleFieldName: Swift.String? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
             self.fieldMappings = fieldMappings
@@ -3571,8 +3481,7 @@ extension KendraClientTypes {
             documentDataFieldName: Swift.String? = nil,
             documentTitleFieldName: Swift.String? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil
-        )
-        {
+        ) {
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
             self.fieldMappings = fieldMappings
@@ -3596,8 +3505,7 @@ extension KendraClientTypes {
             customKnowledgeArticleTypeConfigurations: [KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration]? = nil,
             includedStates: [KendraClientTypes.SalesforceKnowledgeArticleState]? = nil,
             standardKnowledgeArticleTypeConfiguration: KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration? = nil
-        )
-        {
+        ) {
             self.customKnowledgeArticleTypeConfigurations = customKnowledgeArticleTypeConfigurations
             self.includedStates = includedStates
             self.standardKnowledgeArticleTypeConfiguration = standardKnowledgeArticleTypeConfiguration
@@ -3617,8 +3525,7 @@ extension KendraClientTypes {
         public init(
             documentTitleFieldName: Swift.String? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil
-        )
-        {
+        ) {
             self.documentTitleFieldName = documentTitleFieldName
             self.fieldMappings = fieldMappings
         }
@@ -3719,8 +3626,7 @@ extension KendraClientTypes {
             documentTitleFieldName: Swift.String? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             name: KendraClientTypes.SalesforceStandardObjectName? = nil
-        )
-        {
+        ) {
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
             self.fieldMappings = fieldMappings
@@ -3776,8 +3682,7 @@ extension KendraClientTypes {
             serverUrl: Swift.String? = nil,
             standardObjectAttachmentConfiguration: KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration? = nil,
             standardObjectConfigurations: [KendraClientTypes.SalesforceStandardObjectConfiguration]? = nil
-        )
-        {
+        ) {
             self.chatterFeedConfiguration = chatterFeedConfiguration
             self.crawlAttachments = crawlAttachments
             self.excludeAttachmentFilePatterns = excludeAttachmentFilePatterns
@@ -3848,8 +3753,7 @@ extension KendraClientTypes {
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             filterQuery: Swift.String? = nil,
             includeAttachmentFilePatterns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.crawlAttachments = crawlAttachments
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
@@ -3886,8 +3790,7 @@ extension KendraClientTypes {
             excludeAttachmentFilePatterns: [Swift.String]? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             includeAttachmentFilePatterns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.crawlAttachments = crawlAttachments
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
@@ -3954,8 +3857,7 @@ extension KendraClientTypes {
             secretArn: Swift.String? = nil,
             serviceCatalogConfiguration: KendraClientTypes.ServiceNowServiceCatalogConfiguration? = nil,
             serviceNowBuildVersion: KendraClientTypes.ServiceNowBuildVersionType? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.hostUrl = hostUrl
             self.knowledgeArticleConfiguration = knowledgeArticleConfiguration
@@ -4081,8 +3983,7 @@ extension KendraClientTypes {
             urls: [Swift.String]? = nil,
             useChangeLog: Swift.Bool = false,
             vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.crawlAttachments = crawlAttachments
             self.disableLocalGroups = disableLocalGroups
@@ -4190,8 +4091,7 @@ extension KendraClientTypes {
             teamId: Swift.String? = nil,
             useChangeLog: Swift.Bool = false,
             vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.crawlBotMessage = crawlBotMessage
             self.excludeArchived = excludeArchived
             self.exclusionPatterns = exclusionPatterns
@@ -4219,8 +4119,7 @@ extension KendraClientTypes {
 
         public init(
             template: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.template = template
         }
     }
@@ -4280,8 +4179,7 @@ extension KendraClientTypes {
         public init(
             seedUrls: [Swift.String]? = nil,
             webCrawlerMode: KendraClientTypes.WebCrawlerMode? = nil
-        )
-        {
+        ) {
             self.seedUrls = seedUrls
             self.webCrawlerMode = webCrawlerMode
         }
@@ -4298,8 +4196,7 @@ extension KendraClientTypes {
 
         public init(
             siteMaps: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.siteMaps = siteMaps
         }
     }
@@ -4317,8 +4214,7 @@ extension KendraClientTypes {
         public init(
             seedUrlConfiguration: KendraClientTypes.SeedUrlConfiguration? = nil,
             siteMapsConfiguration: KendraClientTypes.SiteMapsConfiguration? = nil
-        )
-        {
+        ) {
             self.seedUrlConfiguration = seedUrlConfiguration
             self.siteMapsConfiguration = siteMapsConfiguration
         }
@@ -4359,8 +4255,7 @@ extension KendraClientTypes {
             urlExclusionPatterns: [Swift.String]? = nil,
             urlInclusionPatterns: [Swift.String]? = nil,
             urls: KendraClientTypes.Urls? = nil
-        )
-        {
+        ) {
             self.authenticationConfiguration = authenticationConfiguration
             self.crawlDepth = crawlDepth
             self.maxContentSizePerPageInMegaBytes = maxContentSizePerPageInMegaBytes
@@ -4399,8 +4294,7 @@ extension KendraClientTypes {
             inclusionPatterns: [Swift.String]? = nil,
             organizationId: Swift.String? = nil,
             useChangeLog: Swift.Bool = false
-        )
-        {
+        ) {
             self.crawlComments = crawlComments
             self.exclusionPatterns = exclusionPatterns
             self.fieldMappings = fieldMappings
@@ -4472,8 +4366,7 @@ extension KendraClientTypes {
             templateConfiguration: KendraClientTypes.TemplateConfiguration? = nil,
             webCrawlerConfiguration: KendraClientTypes.WebCrawlerConfiguration? = nil,
             workDocsConfiguration: KendraClientTypes.WorkDocsConfiguration? = nil
-        )
-        {
+        ) {
             self.alfrescoConfiguration = alfrescoConfiguration
             self.boxConfiguration = boxConfiguration
             self.confluenceConfiguration = confluenceConfiguration
@@ -4510,8 +4403,7 @@ extension KendraClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4640,8 +4532,7 @@ public struct CreateDataSourceInput: Swift.Sendable {
         tags: [KendraClientTypes.Tag]? = nil,
         type: KendraClientTypes.DataSourceType? = nil,
         vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.configuration = configuration
         self.customDocumentEnrichmentConfiguration = customDocumentEnrichmentConfiguration
@@ -4664,8 +4555,7 @@ public struct CreateDataSourceOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4685,8 +4575,7 @@ extension KendraClientTypes {
             dataSourceIds: [Swift.String]? = nil,
             directPutContent: Swift.Bool = false,
             faqIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dataSourceIds = dataSourceIds
             self.directPutContent = directPutContent
             self.faqIds = faqIds
@@ -4703,8 +4592,7 @@ extension KendraClientTypes {
 
         public init(
             identityAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.identityAttributeName = identityAttributeName
         }
     }
@@ -4722,8 +4610,7 @@ extension KendraClientTypes {
         public init(
             contentSourceConfiguration: KendraClientTypes.ContentSourceConfiguration? = nil,
             userIdentityConfiguration: KendraClientTypes.UserIdentityConfiguration? = nil
-        )
-        {
+        ) {
             self.contentSourceConfiguration = contentSourceConfiguration
             self.userIdentityConfiguration = userIdentityConfiguration
         }
@@ -4753,8 +4640,7 @@ public struct CreateExperienceInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.configuration = configuration
         self.description = description
@@ -4771,8 +4657,7 @@ public struct CreateExperienceOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4843,8 +4728,7 @@ public struct CreateFaqInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         s3Path: KendraClientTypes.S3Path? = nil,
         tags: [KendraClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.fileFormat = fileFormat
@@ -4863,8 +4747,7 @@ public struct CreateFaqOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4884,8 +4767,7 @@ extension KendraClientTypes {
             queryText: Swift.String? = nil,
             setId: Swift.String? = nil,
             setName: Swift.String? = nil
-        )
-        {
+        ) {
             self.queryText = queryText
             self.setId = setId
             self.setName = setName
@@ -4915,8 +4797,7 @@ public struct FeaturedResultsConflictException: ClientRuntime.ModeledError, AWSC
     public init(
         conflictingItems: [KendraClientTypes.ConflictingItem]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.conflictingItems = conflictingItems
         self.properties.message = message
     }
@@ -4931,8 +4812,7 @@ extension KendraClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -4996,8 +4876,7 @@ public struct CreateFeaturedResultsSetInput: Swift.Sendable {
         queryTexts: [Swift.String]? = nil,
         status: KendraClientTypes.FeaturedResultsSetStatus? = nil,
         tags: [KendraClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.featuredDocuments = featuredDocuments
@@ -5039,8 +4918,7 @@ extension KendraClientTypes {
             lastUpdatedTimestamp: Swift.Int? = nil,
             queryTexts: [Swift.String]? = nil,
             status: KendraClientTypes.FeaturedResultsSetStatus? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.description = description
             self.featuredDocuments = featuredDocuments
@@ -5059,8 +4937,7 @@ public struct CreateFeaturedResultsSetOutput: Swift.Sendable {
 
     public init(
         featuredResultsSet: KendraClientTypes.FeaturedResultsSet? = nil
-    )
-    {
+    ) {
         self.featuredResultsSet = featuredResultsSet
     }
 }
@@ -5106,8 +4983,7 @@ extension KendraClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -5186,8 +5062,7 @@ extension KendraClientTypes {
 
         public init(
             userGroupResolutionMode: KendraClientTypes.UserGroupResolutionMode? = nil
-        )
-        {
+        ) {
             self.userGroupResolutionMode = userGroupResolutionMode
         }
     }
@@ -5207,8 +5082,7 @@ extension KendraClientTypes {
         public init(
             groupAttributeField: Swift.String? = nil,
             userNameAttributeField: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupAttributeField = groupAttributeField
             self.userNameAttributeField = userNameAttributeField
         }
@@ -5272,8 +5146,7 @@ extension KendraClientTypes {
             secretManagerArn: Swift.String? = nil,
             url: Swift.String? = nil,
             userNameAttributeField: Swift.String? = nil
-        )
-        {
+        ) {
             self.claimRegex = claimRegex
             self.groupAttributeField = groupAttributeField
             self.issuer = issuer
@@ -5297,8 +5170,7 @@ extension KendraClientTypes {
         public init(
             jsonTokenTypeConfiguration: KendraClientTypes.JsonTokenTypeConfiguration? = nil,
             jwtTokenTypeConfiguration: KendraClientTypes.JwtTokenTypeConfiguration? = nil
-        )
-        {
+        ) {
             self.jsonTokenTypeConfiguration = jsonTokenTypeConfiguration
             self.jwtTokenTypeConfiguration = jwtTokenTypeConfiguration
         }
@@ -5340,8 +5212,7 @@ public struct CreateIndexInput: Swift.Sendable {
         userContextPolicy: KendraClientTypes.UserContextPolicy? = nil,
         userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration? = nil,
         userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.edition = edition
@@ -5361,8 +5232,7 @@ public struct CreateIndexOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5395,8 +5265,7 @@ public struct CreateQuerySuggestionsBlockListInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         sourceS3Path: KendraClientTypes.S3Path? = nil,
         tags: [KendraClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.indexId = indexId
@@ -5413,8 +5282,7 @@ public struct CreateQuerySuggestionsBlockListOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5447,8 +5315,7 @@ public struct CreateThesaurusInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         sourceS3Path: KendraClientTypes.S3Path? = nil,
         tags: [KendraClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.indexId = indexId
@@ -5465,8 +5332,7 @@ public struct CreateThesaurusOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5482,8 +5348,7 @@ public struct DeleteAccessControlConfigurationInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -5505,8 +5370,7 @@ public struct DeleteDataSourceInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -5523,8 +5387,7 @@ public struct DeleteExperienceInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -5546,8 +5409,7 @@ public struct DeleteFaqInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -5560,8 +5422,7 @@ public struct DeleteIndexInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5583,8 +5444,7 @@ public struct DeletePrincipalMappingInput: Swift.Sendable {
         groupId: Swift.String? = nil,
         indexId: Swift.String? = nil,
         orderingId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
         self.groupId = groupId
         self.indexId = indexId
@@ -5603,8 +5463,7 @@ public struct DeleteQuerySuggestionsBlockListInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -5621,8 +5480,7 @@ public struct DeleteThesaurusInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -5639,8 +5497,7 @@ public struct DescribeAccessControlConfigurationInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -5665,8 +5522,7 @@ public struct DescribeAccessControlConfigurationOutput: Swift.Sendable {
         errorMessage: Swift.String? = nil,
         hierarchicalAccessControlList: [KendraClientTypes.HierarchicalPrincipal]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessControlList = accessControlList
         self.description = description
         self.errorMessage = errorMessage
@@ -5686,8 +5542,7 @@ public struct DescribeDataSourceInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -5779,8 +5634,7 @@ public struct DescribeDataSourceOutput: Swift.Sendable {
         type: KendraClientTypes.DataSourceType? = nil,
         updatedAt: Foundation.Date? = nil,
         vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.createdAt = createdAt
         self.customDocumentEnrichmentConfiguration = customDocumentEnrichmentConfiguration
@@ -5810,8 +5664,7 @@ public struct DescribeExperienceInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -5855,8 +5708,7 @@ extension KendraClientTypes {
         public init(
             endpoint: Swift.String? = nil,
             endpointType: KendraClientTypes.EndpointType? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.endpointType = endpointType
         }
@@ -5934,8 +5786,7 @@ public struct DescribeExperienceOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         status: KendraClientTypes.ExperienceStatus? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.createdAt = createdAt
         self.description = description
@@ -5961,8 +5812,7 @@ public struct DescribeFaqInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -6045,8 +5895,7 @@ public struct DescribeFaqOutput: Swift.Sendable {
         s3Path: KendraClientTypes.S3Path? = nil,
         status: KendraClientTypes.FaqStatus? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.errorMessage = errorMessage
@@ -6073,8 +5922,7 @@ public struct DescribeFeaturedResultsSetInput: Swift.Sendable {
     public init(
         featuredResultsSetId: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.featuredResultsSetId = featuredResultsSetId
         self.indexId = indexId
     }
@@ -6089,8 +5937,7 @@ extension KendraClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -6111,8 +5958,7 @@ extension KendraClientTypes {
             id: Swift.String? = nil,
             title: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.title = title
             self.uri = uri
@@ -6150,8 +5996,7 @@ public struct DescribeFeaturedResultsSetOutput: Swift.Sendable {
         lastUpdatedTimestamp: Swift.Int? = nil,
         queryTexts: [Swift.String]? = nil,
         status: KendraClientTypes.FeaturedResultsSetStatus? = nil
-    )
-    {
+    ) {
         self.creationTimestamp = creationTimestamp
         self.description = description
         self.featuredDocumentsMissing = featuredDocumentsMissing
@@ -6171,8 +6016,7 @@ public struct DescribeIndexInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6191,8 +6035,7 @@ extension KendraClientTypes {
         public init(
             queryCapacityUnits: Swift.Int? = nil,
             storageCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.queryCapacityUnits = queryCapacityUnits
             self.storageCapacityUnits = storageCapacityUnits
         }
@@ -6249,8 +6092,7 @@ extension KendraClientTypes {
             importance: Swift.Int? = nil,
             rankOrder: KendraClientTypes.Order? = nil,
             valueImportanceMap: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.freshness = freshness
             self.importance = importance
@@ -6278,8 +6120,7 @@ extension KendraClientTypes {
             facetable: Swift.Bool = false,
             searchable: Swift.Bool = false,
             sortable: Swift.Bool = false
-        )
-        {
+        ) {
             self.displayable = displayable
             self.facetable = facetable
             self.searchable = searchable
@@ -6343,8 +6184,7 @@ extension KendraClientTypes {
             relevance: KendraClientTypes.Relevance? = nil,
             search: KendraClientTypes.Search? = nil,
             type: KendraClientTypes.DocumentAttributeValueType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.relevance = relevance
             self.search = search
@@ -6363,8 +6203,7 @@ extension KendraClientTypes {
 
         public init(
             indexedQuestionAnswersCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.indexedQuestionAnswersCount = indexedQuestionAnswersCount
         }
     }
@@ -6384,8 +6223,7 @@ extension KendraClientTypes {
         public init(
             indexedTextBytes: Swift.Int = 0,
             indexedTextDocumentsCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.indexedTextBytes = indexedTextBytes
             self.indexedTextDocumentsCount = indexedTextDocumentsCount
         }
@@ -6406,8 +6244,7 @@ extension KendraClientTypes {
         public init(
             faqStatistics: KendraClientTypes.FaqStatistics? = nil,
             textDocumentStatistics: KendraClientTypes.TextDocumentStatistics? = nil
-        )
-        {
+        ) {
             self.faqStatistics = faqStatistics
             self.textDocumentStatistics = textDocumentStatistics
         }
@@ -6506,8 +6343,7 @@ public struct DescribeIndexOutput: Swift.Sendable {
         userContextPolicy: KendraClientTypes.UserContextPolicy? = nil,
         userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration? = nil,
         userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]? = nil
-    )
-    {
+    ) {
         self.capacityUnits = capacityUnits
         self.createdAt = createdAt
         self.description = description
@@ -6541,8 +6377,7 @@ public struct DescribePrincipalMappingInput: Swift.Sendable {
         dataSourceId: Swift.String? = nil,
         groupId: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
         self.groupId = groupId
         self.indexId = indexId
@@ -6608,8 +6443,7 @@ extension KendraClientTypes {
             orderingId: Swift.Int? = nil,
             receivedAt: Foundation.Date? = nil,
             status: KendraClientTypes.PrincipalMappingStatus? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.lastUpdatedAt = lastUpdatedAt
             self.orderingId = orderingId
@@ -6644,8 +6478,7 @@ public struct DescribePrincipalMappingOutput: Swift.Sendable {
         groupId: Swift.String? = nil,
         groupOrderingIdSummaries: [KendraClientTypes.GroupOrderingIdSummary]? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
         self.groupId = groupId
         self.groupOrderingIdSummaries = groupOrderingIdSummaries
@@ -6664,8 +6497,7 @@ public struct DescribeQuerySuggestionsBlockListInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -6751,8 +6583,7 @@ public struct DescribeQuerySuggestionsBlockListOutput: Swift.Sendable {
         sourceS3Path: KendraClientTypes.S3Path? = nil,
         status: KendraClientTypes.QuerySuggestionsBlockListStatus? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.errorMessage = errorMessage
@@ -6775,8 +6606,7 @@ public struct DescribeQuerySuggestionsConfigInput: Swift.Sendable {
 
     public init(
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexId = indexId
     }
 }
@@ -6872,8 +6702,7 @@ public struct DescribeQuerySuggestionsConfigOutput: Swift.Sendable {
         queryLogLookBackWindowInDays: Swift.Int? = nil,
         status: KendraClientTypes.QuerySuggestionsStatus? = nil,
         totalSuggestionsCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.attributeSuggestionsConfig = attributeSuggestionsConfig
         self.includeQueriesWithoutUserInformation = includeQueriesWithoutUserInformation
         self.lastClearTime = lastClearTime
@@ -6898,8 +6727,7 @@ public struct DescribeThesaurusInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -6988,8 +6816,7 @@ public struct DescribeThesaurusOutput: Swift.Sendable {
         synonymRuleCount: Swift.Int? = nil,
         termCount: Swift.Int? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.errorMessage = errorMessage
@@ -7021,8 +6848,7 @@ public struct DisassociateEntitiesFromExperienceInput: Swift.Sendable {
         entityList: [KendraClientTypes.EntityConfiguration]? = nil,
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityList = entityList
         self.id = id
         self.indexId = indexId
@@ -7035,8 +6861,7 @@ public struct DisassociateEntitiesFromExperienceOutput: Swift.Sendable {
 
     public init(
         failedEntityList: [KendraClientTypes.FailedEntity]? = nil
-    )
-    {
+    ) {
         self.failedEntityList = failedEntityList
     }
 }
@@ -7056,8 +6881,7 @@ public struct DisassociatePersonasFromEntitiesInput: Swift.Sendable {
         entityIds: [Swift.String]? = nil,
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityIds = entityIds
         self.id = id
         self.indexId = indexId
@@ -7070,8 +6894,7 @@ public struct DisassociatePersonasFromEntitiesOutput: Swift.Sendable {
 
     public init(
         failedEntityList: [KendraClientTypes.FailedEntity]? = nil
-    )
-    {
+    ) {
         self.failedEntityList = failedEntityList
     }
 }
@@ -7120,8 +6943,7 @@ extension KendraClientTypes {
             additionalAttributes: [KendraClientTypes.DocumentAttribute]? = nil,
             documentId: Swift.String? = nil,
             suggestionAttributes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.additionalAttributes = additionalAttributes
             self.documentId = documentId
             self.suggestionAttributes = suggestionAttributes
@@ -7141,8 +6963,7 @@ extension KendraClientTypes {
         public init(
             beginOffset: Swift.Int? = nil,
             endOffset: Swift.Int? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
         }
@@ -7161,8 +6982,7 @@ extension KendraClientTypes {
         public init(
             highlights: [KendraClientTypes.SuggestionHighlight]? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.highlights = highlights
             self.text = text
         }
@@ -7178,8 +6998,7 @@ extension KendraClientTypes {
 
         public init(
             text: KendraClientTypes.SuggestionTextWithHighlights? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -7200,8 +7019,7 @@ extension KendraClientTypes {
             id: Swift.String? = nil,
             sourceDocuments: [KendraClientTypes.SourceDocument]? = nil,
             value: KendraClientTypes.SuggestionValue? = nil
-        )
-        {
+        ) {
             self.id = id
             self.sourceDocuments = sourceDocuments
             self.value = value
@@ -7218,8 +7036,7 @@ public struct GetQuerySuggestionsOutput: Swift.Sendable {
     public init(
         querySuggestionsId: Swift.String? = nil,
         suggestions: [KendraClientTypes.Suggestion]? = nil
-    )
-    {
+    ) {
         self.querySuggestionsId = querySuggestionsId
         self.suggestions = suggestions
     }
@@ -7243,8 +7060,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7364,8 +7180,7 @@ public struct GetSnapshotsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         metricType: KendraClientTypes.MetricType? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexId = indexId
         self.interval = interval
         self.maxResults = maxResults
@@ -7386,8 +7201,7 @@ extension KendraClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -7409,8 +7223,7 @@ public struct GetSnapshotsOutput: Swift.Sendable {
         snapShotTimeFilter: KendraClientTypes.TimeRange? = nil,
         snapshotsData: [[Swift.String]]? = nil,
         snapshotsDataHeader: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.snapShotTimeFilter = snapShotTimeFilter
         self.snapshotsData = snapshotsData
@@ -7431,8 +7244,7 @@ public struct ListAccessControlConfigurationsInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexId = indexId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7449,8 +7261,7 @@ public struct ListAccessControlConfigurationsOutput: Swift.Sendable {
     public init(
         accessControlConfigurations: [KendraClientTypes.AccessControlConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessControlConfigurations = accessControlConfigurations
         self.nextToken = nextToken
     }
@@ -7469,8 +7280,7 @@ public struct ListDataSourcesInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexId = indexId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7504,8 +7314,7 @@ extension KendraClientTypes {
             status: KendraClientTypes.DataSourceStatus? = nil,
             type: KendraClientTypes.DataSourceType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.id = id
             self.languageCode = languageCode
@@ -7526,8 +7335,7 @@ public struct ListDataSourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaryItems: [KendraClientTypes.DataSourceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaryItems = summaryItems
     }
@@ -7600,8 +7408,7 @@ public struct ListDataSourceSyncJobsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         startTimeFilter: KendraClientTypes.TimeRange? = nil,
         statusFilter: KendraClientTypes.DataSourceSyncJobStatus? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
         self.maxResults = maxResults
@@ -7632,8 +7439,7 @@ extension KendraClientTypes {
             documentsFailed: Swift.String? = nil,
             documentsModified: Swift.String? = nil,
             documentsScanned: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentsAdded = documentsAdded
             self.documentsDeleted = documentsDeleted
             self.documentsFailed = documentsFailed
@@ -7673,8 +7479,7 @@ extension KendraClientTypes {
             metrics: KendraClientTypes.DataSourceSyncJobMetrics? = nil,
             startTime: Foundation.Date? = nil,
             status: KendraClientTypes.DataSourceSyncJobStatus? = nil
-        )
-        {
+        ) {
             self.dataSourceErrorCode = dataSourceErrorCode
             self.endTime = endTime
             self.errorCode = errorCode
@@ -7696,8 +7501,7 @@ public struct ListDataSourceSyncJobsOutput: Swift.Sendable {
     public init(
         history: [KendraClientTypes.DataSourceSyncJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.history = history
         self.nextToken = nextToken
     }
@@ -7720,8 +7524,7 @@ public struct ListEntityPersonasInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
         self.maxResults = maxResults
@@ -7747,8 +7550,7 @@ extension KendraClientTypes {
             entityId: Swift.String? = nil,
             persona: KendraClientTypes.Persona? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.entityId = entityId
             self.persona = persona
@@ -7766,8 +7568,7 @@ public struct ListEntityPersonasOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaryItems: [KendraClientTypes.PersonasSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaryItems = summaryItems
     }
@@ -7787,8 +7588,7 @@ public struct ListExperienceEntitiesInput: Swift.Sendable {
         id: Swift.String? = nil,
         indexId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
         self.nextToken = nextToken
@@ -7816,8 +7616,7 @@ extension KendraClientTypes {
             identifiedUserName: Swift.String? = nil,
             lastName: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.firstName = firstName
             self.groupName = groupName
             self.identifiedUserName = identifiedUserName
@@ -7847,8 +7646,7 @@ extension KendraClientTypes {
             displayData: KendraClientTypes.EntityDisplayData? = nil,
             entityId: Swift.String? = nil,
             entityType: KendraClientTypes.EntityType? = nil
-        )
-        {
+        ) {
             self.displayData = displayData
             self.entityId = entityId
             self.entityType = entityType
@@ -7865,8 +7663,7 @@ public struct ListExperienceEntitiesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaryItems: [KendraClientTypes.ExperienceEntitiesSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaryItems = summaryItems
     }
@@ -7885,8 +7682,7 @@ public struct ListExperiencesInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexId = indexId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7914,8 +7710,7 @@ extension KendraClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: KendraClientTypes.ExperienceStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.endpoints = endpoints
             self.id = id
@@ -7934,8 +7729,7 @@ public struct ListExperiencesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaryItems: [KendraClientTypes.ExperiencesSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaryItems = summaryItems
     }
@@ -7954,8 +7748,7 @@ public struct ListFaqsInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexId = indexId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7989,8 +7782,7 @@ extension KendraClientTypes {
             name: Swift.String? = nil,
             status: KendraClientTypes.FaqStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.fileFormat = fileFormat
             self.id = id
@@ -8011,8 +7803,7 @@ public struct ListFaqsOutput: Swift.Sendable {
     public init(
         faqSummaryItems: [KendraClientTypes.FaqSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.faqSummaryItems = faqSummaryItems
         self.nextToken = nextToken
     }
@@ -8031,8 +7822,7 @@ public struct ListFeaturedResultsSetsInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexId = indexId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8060,8 +7850,7 @@ extension KendraClientTypes {
             featuredResultsSetName: Swift.String? = nil,
             lastUpdatedTimestamp: Swift.Int? = nil,
             status: KendraClientTypes.FeaturedResultsSetStatus? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.featuredResultsSetId = featuredResultsSetId
             self.featuredResultsSetName = featuredResultsSetName
@@ -8080,8 +7869,7 @@ public struct ListFeaturedResultsSetsOutput: Swift.Sendable {
     public init(
         featuredResultsSetSummaryItems: [KendraClientTypes.FeaturedResultsSetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.featuredResultsSetSummaryItems = featuredResultsSetSummaryItems
         self.nextToken = nextToken
     }
@@ -8107,8 +7895,7 @@ public struct ListGroupsOlderThanOrderingIdInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         orderingId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
         self.indexId = indexId
         self.maxResults = maxResults
@@ -8129,8 +7916,7 @@ extension KendraClientTypes {
         public init(
             groupId: Swift.String? = nil,
             orderingId: Swift.Int? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
             self.orderingId = orderingId
         }
@@ -8146,8 +7932,7 @@ public struct ListGroupsOlderThanOrderingIdOutput: Swift.Sendable {
     public init(
         groupsSummaries: [KendraClientTypes.GroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupsSummaries = groupsSummaries
         self.nextToken = nextToken
     }
@@ -8162,8 +7947,7 @@ public struct ListIndicesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8196,8 +7980,7 @@ extension KendraClientTypes {
             name: Swift.String? = nil,
             status: KendraClientTypes.IndexStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.edition = edition
             self.id = id
@@ -8217,8 +8000,7 @@ public struct ListIndicesOutput: Swift.Sendable {
     public init(
         indexConfigurationSummaryItems: [KendraClientTypes.IndexConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexConfigurationSummaryItems = indexConfigurationSummaryItems
         self.nextToken = nextToken
     }
@@ -8237,8 +8019,7 @@ public struct ListQuerySuggestionsBlockListsInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexId = indexId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8269,8 +8050,7 @@ extension KendraClientTypes {
             name: Swift.String? = nil,
             status: KendraClientTypes.QuerySuggestionsBlockListStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.id = id
             self.itemCount = itemCount
@@ -8290,8 +8070,7 @@ public struct ListQuerySuggestionsBlockListsOutput: Swift.Sendable {
     public init(
         blockListSummaryItems: [KendraClientTypes.QuerySuggestionsBlockListSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blockListSummaryItems = blockListSummaryItems
         self.nextToken = nextToken
     }
@@ -8315,8 +8094,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8328,8 +8106,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -8340,8 +8117,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [KendraClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -8359,8 +8135,7 @@ public struct ListThesauriInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexId = indexId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8388,8 +8163,7 @@ extension KendraClientTypes {
             name: Swift.String? = nil,
             status: KendraClientTypes.ThesaurusStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.id = id
             self.name = name
@@ -8408,8 +8182,7 @@ public struct ListThesauriOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         thesaurusSummaryItems: [KendraClientTypes.ThesaurusSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.thesaurusSummaryItems = thesaurusSummaryItems
     }
@@ -8428,8 +8201,7 @@ extension KendraClientTypes {
         public init(
             dataSourceId: Swift.String? = nil,
             groupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceId = dataSourceId
             self.groupId = groupId
         }
@@ -8446,8 +8218,7 @@ extension KendraClientTypes {
 
         public init(
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userId = userId
         }
     }
@@ -8468,8 +8239,7 @@ extension KendraClientTypes {
             memberGroups: [KendraClientTypes.MemberGroup]? = nil,
             memberUsers: [KendraClientTypes.MemberUser]? = nil,
             s3PathforGroupMembers: KendraClientTypes.S3Path? = nil
-        )
-        {
+        ) {
             self.memberGroups = memberGroups
             self.memberUsers = memberUsers
             self.s3PathforGroupMembers = s3PathforGroupMembers
@@ -8501,8 +8271,7 @@ public struct PutPrincipalMappingInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         orderingId: Swift.Int? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
         self.groupId = groupId
         self.groupMembers = groupMembers
@@ -8524,8 +8293,7 @@ extension KendraClientTypes {
         public init(
             maxExpandedResultsPerItem: Swift.Int? = nil,
             maxResultItemsToExpand: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxExpandedResultsPerItem = maxExpandedResultsPerItem
             self.maxResultItemsToExpand = maxResultItemsToExpand
         }
@@ -8628,8 +8396,7 @@ extension KendraClientTypes {
         public init(
             documentAttributeKey: Swift.String? = nil,
             sortOrder: KendraClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.documentAttributeKey = documentAttributeKey
             self.sortOrder = sortOrder
         }
@@ -8664,8 +8431,7 @@ extension KendraClientTypes {
             expandConfiguration: KendraClientTypes.ExpandConfiguration? = nil,
             missingAttributeKeyStrategy: KendraClientTypes.MissingAttributeKeyStrategy? = nil,
             sortingConfigurations: [KendraClientTypes.SortingConfiguration]? = nil
-        )
-        {
+        ) {
             self.documentAttributeKey = documentAttributeKey
             self.expand = expand
             self.expandConfiguration = expandConfiguration
@@ -8689,8 +8455,7 @@ extension KendraClientTypes {
         public init(
             name: Swift.String? = nil,
             relevance: KendraClientTypes.Relevance? = nil
-        )
-        {
+        ) {
             self.name = name
             self.relevance = relevance
         }
@@ -8739,8 +8504,7 @@ extension KendraClientTypes {
 
         public init(
             includeQuerySpellCheckSuggestions: Swift.Bool = false
-        )
-        {
+        ) {
             self.includeQuerySpellCheckSuggestions = includeQuerySpellCheckSuggestions
         }
     }
@@ -8779,8 +8543,7 @@ extension KendraClientTypes {
             feedbackToken: Swift.String? = nil,
             id: Swift.String? = nil,
             type: KendraClientTypes.QueryResultType? = nil
-        )
-        {
+        ) {
             self.additionalAttributes = additionalAttributes
             self.documentAttributes = documentAttributes
             self.documentExcerpt = documentExcerpt
@@ -8818,8 +8581,7 @@ extension KendraClientTypes {
             documentTitle: KendraClientTypes.TextWithHighlights? = nil,
             documentURI: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentAttributes = documentAttributes
             self.documentExcerpt = documentExcerpt
             self.documentId = documentId
@@ -8843,8 +8605,7 @@ extension KendraClientTypes {
         public init(
             documentAttribute: KendraClientTypes.DocumentAttribute? = nil,
             expandedResults: [KendraClientTypes.ExpandedResultItem]? = nil
-        )
-        {
+        ) {
             self.documentAttribute = documentAttribute
             self.expandedResults = expandedResults
         }
@@ -8928,8 +8689,7 @@ extension KendraClientTypes {
 
         public init(
             scoreConfidence: KendraClientTypes.ScoreConfidence? = nil
-        )
-        {
+        ) {
             self.scoreConfidence = scoreConfidence
         }
     }
@@ -8953,8 +8713,7 @@ extension KendraClientTypes {
             highlighted: Swift.Bool = false,
             topAnswer: Swift.Bool = false,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.header = header
             self.highlighted = highlighted
             self.topAnswer = topAnswer
@@ -8972,8 +8731,7 @@ extension KendraClientTypes {
 
         public init(
             cells: [KendraClientTypes.TableCell]? = nil
-        )
-        {
+        ) {
             self.cells = cells
         }
     }
@@ -8991,8 +8749,7 @@ extension KendraClientTypes {
         public init(
             rows: [KendraClientTypes.TableRow]? = nil,
             totalNumberOfRows: Swift.Int? = nil
-        )
-        {
+        ) {
             self.rows = rows
             self.totalNumberOfRows = totalNumberOfRows
         }
@@ -9044,8 +8801,7 @@ extension KendraClientTypes {
             scoreAttributes: KendraClientTypes.ScoreAttributes? = nil,
             tableExcerpt: KendraClientTypes.TableExcerpt? = nil,
             type: KendraClientTypes.QueryResultType? = nil
-        )
-        {
+        ) {
             self.additionalAttributes = additionalAttributes
             self.collapsedResultDetail = collapsedResultDetail
             self.documentAttributes = documentAttributes
@@ -9081,8 +8837,7 @@ extension KendraClientTypes {
             correctedTerm: Swift.String? = nil,
             endOffset: Swift.Int? = nil,
             term: Swift.String? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.correctedTerm = correctedTerm
             self.endOffset = endOffset
@@ -9103,8 +8858,7 @@ extension KendraClientTypes {
         public init(
             corrections: [KendraClientTypes.Correction]? = nil,
             suggestedQueryText: Swift.String? = nil
-        )
-        {
+        ) {
             self.corrections = corrections
             self.suggestedQueryText = suggestedQueryText
         }
@@ -9149,8 +8903,7 @@ extension KendraClientTypes {
         public init(
             code: KendraClientTypes.WarningCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -9184,8 +8937,7 @@ extension KendraClientTypes {
             documentURI: Swift.String? = nil,
             id: Swift.String? = nil,
             scoreAttributes: KendraClientTypes.ScoreAttributes? = nil
-        )
-        {
+        ) {
             self.content = content
             self.documentAttributes = documentAttributes
             self.documentId = documentId
@@ -9206,8 +8958,7 @@ public struct RetrieveOutput: Swift.Sendable {
     public init(
         queryId: Swift.String? = nil,
         resultItems: [KendraClientTypes.RetrieveResultItem]? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
         self.resultItems = resultItems
     }
@@ -9231,8 +8982,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9248,8 +8998,7 @@ public struct StartDataSourceSyncJobInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -9261,8 +9010,7 @@ public struct StartDataSourceSyncJobOutput: Swift.Sendable {
 
     public init(
         executionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionId = executionId
     }
 }
@@ -9278,8 +9026,7 @@ public struct StopDataSourceSyncJobInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.indexId = indexId
     }
@@ -9299,8 +9046,7 @@ extension KendraClientTypes {
         public init(
             clickTime: Foundation.Date? = nil,
             resultId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clickTime = clickTime
             self.resultId = resultId
         }
@@ -9350,8 +9096,7 @@ extension KendraClientTypes {
         public init(
             relevanceValue: KendraClientTypes.RelevanceType? = nil,
             resultId: Swift.String? = nil
-        )
-        {
+        ) {
             self.relevanceValue = relevanceValue
             self.resultId = resultId
         }
@@ -9375,8 +9120,7 @@ public struct SubmitFeedbackInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         queryId: Swift.String? = nil,
         relevanceFeedbackItems: [KendraClientTypes.RelevanceFeedback]? = nil
-    )
-    {
+    ) {
         self.clickFeedbackItems = clickFeedbackItems
         self.indexId = indexId
         self.queryId = queryId
@@ -9395,8 +9139,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [KendraClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -9418,8 +9161,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -9453,8 +9195,7 @@ public struct UpdateAccessControlConfigurationInput: Swift.Sendable {
         id: Swift.String? = nil,
         indexId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessControlList = accessControlList
         self.description = description
         self.hierarchicalAccessControlList = hierarchicalAccessControlList
@@ -9504,8 +9245,7 @@ public struct UpdateDataSourceInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         schedule: Swift.String? = nil,
         vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.customDocumentEnrichmentConfiguration = customDocumentEnrichmentConfiguration
         self.description = description
@@ -9542,8 +9282,7 @@ public struct UpdateExperienceInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.description = description
         self.id = id
@@ -9579,8 +9318,7 @@ public struct UpdateFeaturedResultsSetInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         queryTexts: [Swift.String]? = nil,
         status: KendraClientTypes.FeaturedResultsSetStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.featuredDocuments = featuredDocuments
         self.featuredResultsSetId = featuredResultsSetId
@@ -9597,8 +9335,7 @@ public struct UpdateFeaturedResultsSetOutput: Swift.Sendable {
 
     public init(
         featuredResultsSet: KendraClientTypes.FeaturedResultsSet? = nil
-    )
-    {
+    ) {
         self.featuredResultsSet = featuredResultsSet
     }
 }
@@ -9634,8 +9371,7 @@ public struct UpdateIndexInput: Swift.Sendable {
         userContextPolicy: KendraClientTypes.UserContextPolicy? = nil,
         userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration? = nil,
         userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]? = nil
-    )
-    {
+    ) {
         self.capacityUnits = capacityUnits
         self.description = description
         self.documentMetadataConfigurationUpdates = documentMetadataConfigurationUpdates
@@ -9671,8 +9407,7 @@ public struct UpdateQuerySuggestionsBlockListInput: Swift.Sendable {
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         sourceS3Path: KendraClientTypes.S3Path? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.indexId = indexId
@@ -9707,8 +9442,7 @@ public struct UpdateQuerySuggestionsConfigInput: Swift.Sendable {
         minimumQueryCount: Swift.Int? = nil,
         mode: KendraClientTypes.Mode? = nil,
         queryLogLookBackWindowInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.attributeSuggestionsConfig = attributeSuggestionsConfig
         self.includeQueriesWithoutUserInformation = includeQueriesWithoutUserInformation
         self.indexId = indexId
@@ -9742,8 +9476,7 @@ public struct UpdateThesaurusInput: Swift.Sendable {
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         sourceS3Path: KendraClientTypes.S3Path? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.indexId = indexId
@@ -9768,8 +9501,7 @@ extension KendraClientTypes {
             documentAttributeKey: Swift.String? = nil,
             facets: [KendraClientTypes.Facet]? = nil,
             maxResults: Swift.Int = 0
-        )
-        {
+        ) {
             self.documentAttributeKey = documentAttributeKey
             self.facets = facets
             self.maxResults = maxResults
@@ -9792,8 +9524,7 @@ extension KendraClientTypes {
             count: Swift.Int? = nil,
             documentAttributeValue: KendraClientTypes.DocumentAttributeValue? = nil,
             facetResults: [KendraClientTypes.FacetResult]? = nil
-        )
-        {
+        ) {
             self.count = count
             self.documentAttributeValue = documentAttributeValue
             self.facetResults = facetResults
@@ -9816,8 +9547,7 @@ extension KendraClientTypes {
             documentAttributeKey: Swift.String? = nil,
             documentAttributeValueCountPairs: [KendraClientTypes.DocumentAttributeValueCountPair]? = nil,
             documentAttributeValueType: KendraClientTypes.DocumentAttributeValueType? = nil
-        )
-        {
+        ) {
             self.documentAttributeKey = documentAttributeKey
             self.documentAttributeValueCountPairs = documentAttributeValueCountPairs
             self.documentAttributeValueType = documentAttributeValueType
@@ -9873,8 +9603,7 @@ extension KendraClientTypes {
             lessThanOrEquals: KendraClientTypes.DocumentAttribute? = nil,
             notFilter: KendraClientTypes.AttributeFilter? = nil,
             orAllFilters: [KendraClientTypes.AttributeFilter]? = nil
-        )
-        {
+        ) {
             self.andAllFilters = andAllFilters
             self.containsAll = containsAll
             self.containsAny = containsAny
@@ -9913,8 +9642,7 @@ public struct QueryOutput: Swift.Sendable {
         spellCorrectedQueries: [KendraClientTypes.SpellCorrectedQuery]? = nil,
         totalNumberOfResults: Swift.Int? = nil,
         warnings: [KendraClientTypes.Warning]? = nil
-    )
-    {
+    ) {
         self.facetResults = facetResults
         self.featuredResultsItems = featuredResultsItems
         self.queryId = queryId
@@ -9943,8 +9671,7 @@ extension KendraClientTypes {
             attributeFilter: KendraClientTypes.AttributeFilter? = nil,
             suggestionAttributes: [Swift.String]? = nil,
             userContext: KendraClientTypes.UserContext? = nil
-        )
-        {
+        ) {
             self.additionalResponseAttributes = additionalResponseAttributes
             self.attributeFilter = attributeFilter
             self.suggestionAttributes = suggestionAttributes
@@ -9982,8 +9709,7 @@ public struct RetrieveInput: Swift.Sendable {
         queryText: Swift.String? = nil,
         requestedDocumentAttributes: [Swift.String]? = nil,
         userContext: KendraClientTypes.UserContext? = nil
-    )
-    {
+    ) {
         self.attributeFilter = attributeFilter
         self.documentRelevanceOverrideConfigurations = documentRelevanceOverrideConfigurations
         self.indexId = indexId
@@ -10015,8 +9741,7 @@ public struct GetQuerySuggestionsInput: Swift.Sendable {
         maxSuggestionsCount: Swift.Int? = nil,
         queryText: Swift.String? = nil,
         suggestionTypes: [KendraClientTypes.SuggestionType]? = nil
-    )
-    {
+    ) {
         self.attributeSuggestionsConfig = attributeSuggestionsConfig
         self.indexId = indexId
         self.maxSuggestionsCount = maxSuggestionsCount
@@ -10074,8 +9799,7 @@ public struct QueryInput: Swift.Sendable {
         spellCorrectionConfiguration: KendraClientTypes.SpellCorrectionConfiguration? = nil,
         userContext: KendraClientTypes.UserContext? = nil,
         visitorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeFilter = attributeFilter
         self.collapseConfiguration = collapseConfiguration
         self.documentRelevanceOverrideConfigurations = documentRelevanceOverrideConfigurations

@@ -43,8 +43,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -67,8 +66,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -91,8 +89,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -143,8 +140,7 @@ public struct GetEntitlementsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         productCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -170,8 +166,7 @@ extension MarketplaceEntitlementClientTypes {
             doubleValue: Swift.Double? = nil,
             integerValue: Swift.Int? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
             self.integerValue = integerValue
@@ -201,8 +196,7 @@ extension MarketplaceEntitlementClientTypes {
             expirationDate: Foundation.Date? = nil,
             productCode: Swift.String? = nil,
             value: MarketplaceEntitlementClientTypes.EntitlementValue? = nil
-        )
-        {
+        ) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.expirationDate = expirationDate
@@ -222,8 +216,7 @@ public struct GetEntitlementsOutput: Swift.Sendable {
     public init(
         entitlements: [MarketplaceEntitlementClientTypes.Entitlement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitlements = entitlements
         self.nextToken = nextToken
     }

@@ -116,8 +116,7 @@ extension ResourceGroupsClientTypes {
             groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus? = nil,
             groupLifecycleEventsStatus: ResourceGroupsClientTypes.GroupLifecycleEventsStatus? = nil,
             groupLifecycleEventsStatusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupLifecycleEventsDesiredStatus = groupLifecycleEventsDesiredStatus
             self.groupLifecycleEventsStatus = groupLifecycleEventsStatus
             self.groupLifecycleEventsStatusMessage = groupLifecycleEventsStatusMessage
@@ -143,8 +142,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -167,8 +165,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -191,8 +188,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -215,8 +211,7 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -239,8 +234,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -263,8 +257,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -276,8 +269,7 @@ public struct CancelTagSyncTaskInput: Swift.Sendable {
 
     public init(
         taskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskArn = taskArn
     }
 }
@@ -295,8 +287,7 @@ extension ResourceGroupsClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -316,8 +307,7 @@ extension ResourceGroupsClientTypes {
         public init(
             parameters: [ResourceGroupsClientTypes.GroupConfigurationParameter]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.type = type
         }
@@ -398,8 +388,7 @@ extension ResourceGroupsClientTypes {
         public init(
             query: Swift.String? = nil,
             type: ResourceGroupsClientTypes.QueryType? = nil
-        )
-        {
+        ) {
             self.query = query
             self.type = type
         }
@@ -434,8 +423,7 @@ public struct CreateGroupInput: Swift.Sendable {
         owner: Swift.String? = nil,
         resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.criticality = criticality
         self.description = description
@@ -480,8 +468,7 @@ extension ResourceGroupsClientTypes {
             groupArn: Swift.String? = nil,
             name: Swift.String? = nil,
             owner: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationTag = applicationTag
             self.criticality = criticality
             self.description = description
@@ -543,8 +530,7 @@ extension ResourceGroupsClientTypes {
             failureReason: Swift.String? = nil,
             proposedConfiguration: [ResourceGroupsClientTypes.GroupConfigurationItem]? = nil,
             status: ResourceGroupsClientTypes.GroupConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.failureReason = failureReason
             self.proposedConfiguration = proposedConfiguration
@@ -568,8 +554,7 @@ public struct CreateGroupOutput: Swift.Sendable {
         groupConfiguration: ResourceGroupsClientTypes.GroupConfiguration? = nil,
         resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.group = group
         self.groupConfiguration = groupConfiguration
         self.resourceQuery = resourceQuery
@@ -595,8 +580,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -611,8 +595,7 @@ public struct DeleteGroupInput: Swift.Sendable {
     public init(
         group: Swift.String? = nil,
         groupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.group = group
         self.groupName = groupName
     }
@@ -624,8 +607,7 @@ public struct DeleteGroupOutput: Swift.Sendable {
 
     public init(
         group: ResourceGroupsClientTypes.Group? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
@@ -636,8 +618,7 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettings: ResourceGroupsClientTypes.AccountSettings? = nil
-    )
-    {
+    ) {
         self.accountSettings = accountSettings
     }
 }
@@ -652,8 +633,7 @@ public struct GetGroupInput: Swift.Sendable {
     public init(
         group: Swift.String? = nil,
         groupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.group = group
         self.groupName = groupName
     }
@@ -665,8 +645,7 @@ public struct GetGroupOutput: Swift.Sendable {
 
     public init(
         group: ResourceGroupsClientTypes.Group? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
@@ -677,8 +656,7 @@ public struct GetGroupConfigurationInput: Swift.Sendable {
 
     public init(
         group: Swift.String? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
@@ -689,8 +667,7 @@ public struct GetGroupConfigurationOutput: Swift.Sendable {
 
     public init(
         groupConfiguration: ResourceGroupsClientTypes.GroupConfiguration? = nil
-    )
-    {
+    ) {
         self.groupConfiguration = groupConfiguration
     }
 }
@@ -705,8 +682,7 @@ public struct GetGroupQueryInput: Swift.Sendable {
     public init(
         group: Swift.String? = nil,
         groupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.group = group
         self.groupName = groupName
     }
@@ -726,8 +702,7 @@ extension ResourceGroupsClientTypes {
         public init(
             groupName: Swift.String? = nil,
             resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil
-        )
-        {
+        ) {
             self.groupName = groupName
             self.resourceQuery = resourceQuery
         }
@@ -740,8 +715,7 @@ public struct GetGroupQueryOutput: Swift.Sendable {
 
     public init(
         groupQuery: ResourceGroupsClientTypes.GroupQuery? = nil
-    )
-    {
+    ) {
         self.groupQuery = groupQuery
     }
 }
@@ -753,8 +727,7 @@ public struct GetTagsInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -768,8 +741,7 @@ public struct GetTagsOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -782,8 +754,7 @@ public struct GetTagSyncTaskInput: Swift.Sendable {
 
     public init(
         taskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskArn = taskArn
     }
 }
@@ -851,8 +822,7 @@ public struct GetTagSyncTaskOutput: Swift.Sendable {
         tagKey: Swift.String? = nil,
         tagValue: Swift.String? = nil,
         taskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.errorMessage = errorMessage
         self.groupArn = groupArn
@@ -876,8 +846,7 @@ public struct GroupResourcesInput: Swift.Sendable {
     public init(
         group: Swift.String? = nil,
         resourceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.group = group
         self.resourceArns = resourceArns
     }
@@ -898,8 +867,7 @@ extension ResourceGroupsClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.resourceArn = resourceArn
@@ -916,8 +884,7 @@ extension ResourceGroupsClientTypes {
 
         public init(
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceArn = resourceArn
         }
     }
@@ -935,8 +902,7 @@ public struct GroupResourcesOutput: Swift.Sendable {
         failed: [ResourceGroupsClientTypes.FailedResource]? = nil,
         pending: [ResourceGroupsClientTypes.PendingResource]? = nil,
         succeeded: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.pending = pending
         self.succeeded = succeeded
@@ -986,8 +952,7 @@ extension ResourceGroupsClientTypes {
         public init(
             name: ResourceGroupsClientTypes.ListGroupingStatusesFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -1010,8 +975,7 @@ public struct ListGroupingStatusesInput: Swift.Sendable {
         group: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.group = group
         self.maxResults = maxResults
@@ -1107,8 +1071,7 @@ extension ResourceGroupsClientTypes {
             resourceArn: Swift.String? = nil,
             status: ResourceGroupsClientTypes.GroupingStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.action = action
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1131,8 +1094,7 @@ public struct ListGroupingStatusesOutput: Swift.Sendable {
         group: Swift.String? = nil,
         groupingStatuses: [ResourceGroupsClientTypes.GroupingStatusesItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.group = group
         self.groupingStatuses = groupingStatuses
         self.nextToken = nextToken
@@ -1179,8 +1141,7 @@ extension ResourceGroupsClientTypes {
         public init(
             name: ResourceGroupsClientTypes.ResourceFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -1211,8 +1172,7 @@ public struct ListGroupResourcesInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.group = group
         self.groupName = groupName
@@ -1268,8 +1228,7 @@ extension ResourceGroupsClientTypes {
         public init(
             errorCode: ResourceGroupsClientTypes.QueryErrorCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
         }
@@ -1288,8 +1247,7 @@ extension ResourceGroupsClientTypes {
         public init(
             resourceArn: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceArn = resourceArn
             self.resourceType = resourceType
         }
@@ -1331,8 +1289,7 @@ extension ResourceGroupsClientTypes {
 
         public init(
             name: ResourceGroupsClientTypes.ResourceStatusValue? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1350,8 +1307,7 @@ extension ResourceGroupsClientTypes {
         public init(
             identifier: ResourceGroupsClientTypes.ResourceIdentifier? = nil,
             status: ResourceGroupsClientTypes.ResourceStatus? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.status = status
         }
@@ -1374,8 +1330,7 @@ public struct ListGroupResourcesOutput: Swift.Sendable {
         queryErrors: [ResourceGroupsClientTypes.QueryError]? = nil,
         resourceIdentifiers: [ResourceGroupsClientTypes.ResourceIdentifier]? = nil,
         resources: [ResourceGroupsClientTypes.ListGroupResourcesItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queryErrors = queryErrors
         self.resourceIdentifiers = resourceIdentifiers
@@ -1435,8 +1390,7 @@ extension ResourceGroupsClientTypes {
         public init(
             name: ResourceGroupsClientTypes.GroupFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -1473,8 +1427,7 @@ public struct ListGroupsInput: Swift.Sendable {
         filters: [ResourceGroupsClientTypes.GroupFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1505,8 +1458,7 @@ extension ResourceGroupsClientTypes {
             groupArn: Swift.String? = nil,
             groupName: Swift.String? = nil,
             owner: Swift.String? = nil
-        )
-        {
+        ) {
             self.criticality = criticality
             self.description = description
             self.displayName = displayName
@@ -1530,8 +1482,7 @@ public struct ListGroupsOutput: Swift.Sendable {
         groupIdentifiers: [ResourceGroupsClientTypes.GroupIdentifier]? = nil,
         groups: [ResourceGroupsClientTypes.Group]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupIdentifiers = groupIdentifiers
         self.groups = groups
         self.nextToken = nextToken
@@ -1550,8 +1501,7 @@ extension ResourceGroupsClientTypes {
         public init(
             groupArn: Swift.String? = nil,
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupArn = groupArn
             self.groupName = groupName
         }
@@ -1570,8 +1520,7 @@ public struct ListTagSyncTasksInput: Swift.Sendable {
         filters: [ResourceGroupsClientTypes.ListTagSyncTasksFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1615,8 +1564,7 @@ extension ResourceGroupsClientTypes {
             tagKey: Swift.String? = nil,
             tagValue: Swift.String? = nil,
             taskArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.errorMessage = errorMessage
             self.groupArn = groupArn
@@ -1639,8 +1587,7 @@ public struct ListTagSyncTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tagSyncTasks: [ResourceGroupsClientTypes.TagSyncTaskItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tagSyncTasks = tagSyncTasks
     }
@@ -1655,8 +1602,7 @@ public struct PutGroupConfigurationInput: Swift.Sendable {
     public init(
         configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]? = nil,
         group: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.group = group
     }
@@ -1680,8 +1626,7 @@ public struct SearchResourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceQuery = resourceQuery
@@ -1706,8 +1651,7 @@ public struct SearchResourcesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryErrors: [ResourceGroupsClientTypes.QueryError]? = nil,
         resourceIdentifiers: [ResourceGroupsClientTypes.ResourceIdentifier]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queryErrors = queryErrors
         self.resourceIdentifiers = resourceIdentifiers
@@ -1733,8 +1677,7 @@ public struct StartTagSyncTaskInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tagKey: Swift.String? = nil,
         tagValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.group = group
         self.roleArn = roleArn
         self.tagKey = tagKey
@@ -1763,8 +1706,7 @@ public struct StartTagSyncTaskOutput: Swift.Sendable {
         tagKey: Swift.String? = nil,
         tagValue: Swift.String? = nil,
         taskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupArn = groupArn
         self.groupName = groupName
         self.roleArn = roleArn
@@ -1785,8 +1727,7 @@ public struct TagInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -1801,8 +1742,7 @@ public struct TagOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -1819,8 +1759,7 @@ public struct UngroupResourcesInput: Swift.Sendable {
     public init(
         group: Swift.String? = nil,
         resourceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.group = group
         self.resourceArns = resourceArns
     }
@@ -1838,8 +1777,7 @@ public struct UngroupResourcesOutput: Swift.Sendable {
         failed: [ResourceGroupsClientTypes.FailedResource]? = nil,
         pending: [ResourceGroupsClientTypes.PendingResource]? = nil,
         succeeded: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.pending = pending
         self.succeeded = succeeded
@@ -1857,8 +1795,7 @@ public struct UntagInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         keys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.keys = keys
     }
@@ -1873,8 +1810,7 @@ public struct UntagOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         keys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.keys = keys
     }
@@ -1886,8 +1822,7 @@ public struct UpdateAccountSettingsInput: Swift.Sendable {
 
     public init(
         groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus? = nil
-    )
-    {
+    ) {
         self.groupLifecycleEventsDesiredStatus = groupLifecycleEventsDesiredStatus
     }
 }
@@ -1898,8 +1833,7 @@ public struct UpdateAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettings: ResourceGroupsClientTypes.AccountSettings? = nil
-    )
-    {
+    ) {
         self.accountSettings = accountSettings
     }
 }
@@ -1926,8 +1860,7 @@ public struct UpdateGroupInput: Swift.Sendable {
         group: Swift.String? = nil,
         groupName: Swift.String? = nil,
         owner: Swift.String? = nil
-    )
-    {
+    ) {
         self.criticality = criticality
         self.description = description
         self.displayName = displayName
@@ -1943,8 +1876,7 @@ public struct UpdateGroupOutput: Swift.Sendable {
 
     public init(
         group: ResourceGroupsClientTypes.Group? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
@@ -1963,8 +1895,7 @@ public struct UpdateGroupQueryInput: Swift.Sendable {
         group: Swift.String? = nil,
         groupName: Swift.String? = nil,
         resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil
-    )
-    {
+    ) {
         self.group = group
         self.groupName = groupName
         self.resourceQuery = resourceQuery
@@ -1977,8 +1908,7 @@ public struct UpdateGroupQueryOutput: Swift.Sendable {
 
     public init(
         groupQuery: ResourceGroupsClientTypes.GroupQuery? = nil
-    )
-    {
+    ) {
         self.groupQuery = groupQuery
     }
 }

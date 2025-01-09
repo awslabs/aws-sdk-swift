@@ -76,8 +76,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -120,8 +119,7 @@ extension ArtifactClientTypes {
 
         public init(
             notificationSubscriptionStatus: ArtifactClientTypes.NotificationSubscriptionStatus? = nil
-        )
-        {
+        ) {
             self.notificationSubscriptionStatus = notificationSubscriptionStatus
         }
     }
@@ -154,8 +152,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -184,8 +181,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -218,8 +214,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -261,8 +256,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -299,8 +293,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -322,8 +315,7 @@ extension ArtifactClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -394,8 +386,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [ArtifactClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: ArtifactClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -413,8 +404,7 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettings: ArtifactClientTypes.AccountSettings? = nil
-    )
-    {
+    ) {
         self.accountSettings = accountSettings
     }
 }
@@ -425,8 +415,7 @@ public struct PutAccountSettingsInput: Swift.Sendable {
 
     public init(
         notificationSubscriptionStatus: ArtifactClientTypes.NotificationSubscriptionStatus? = nil
-    )
-    {
+    ) {
         self.notificationSubscriptionStatus = notificationSubscriptionStatus
     }
 }
@@ -437,8 +426,7 @@ public struct PutAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettings: ArtifactClientTypes.AccountSettings? = nil
-    )
-    {
+    ) {
         self.accountSettings = accountSettings
     }
 }
@@ -484,8 +472,7 @@ public struct ListCustomerAgreementsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -568,8 +555,7 @@ extension ArtifactClientTypes {
             state: ArtifactClientTypes.CustomerAgreementState? = nil,
             terminateTerms: [Swift.String]? = nil,
             type: ArtifactClientTypes.AgreementType? = nil
-        )
-        {
+        ) {
             self.acceptanceTerms = acceptanceTerms
             self.agreementArn = agreementArn
             self.arn = arn
@@ -597,8 +583,7 @@ public struct ListCustomerAgreementsOutput: Swift.Sendable {
     public init(
         customerAgreements: [ArtifactClientTypes.CustomerAgreementSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerAgreements = customerAgreements
         self.nextToken = nextToken
     }
@@ -618,8 +603,7 @@ public struct GetReportInput: Swift.Sendable {
         reportId: Swift.String? = nil,
         reportVersion: Swift.Int? = nil,
         termToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
         self.reportVersion = reportVersion
         self.termToken = termToken
@@ -632,8 +616,7 @@ public struct GetReportOutput: Swift.Sendable {
 
     public init(
         documentPresignedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentPresignedUrl = documentPresignedUrl
     }
 }
@@ -648,8 +631,7 @@ public struct GetReportMetadataInput: Swift.Sendable {
     public init(
         reportId: Swift.String? = nil,
         reportVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
         self.reportVersion = reportVersion
     }
@@ -785,8 +767,7 @@ extension ArtifactClientTypes {
             termArn: Swift.String? = nil,
             uploadState: ArtifactClientTypes.UploadState? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.acceptanceType = acceptanceType
             self.arn = arn
             self.category = category
@@ -817,8 +798,7 @@ public struct GetReportMetadataOutput: Swift.Sendable {
 
     public init(
         reportDetails: ArtifactClientTypes.ReportDetail? = nil
-    )
-    {
+    ) {
         self.reportDetails = reportDetails
     }
 }
@@ -833,8 +813,7 @@ public struct GetTermForReportInput: Swift.Sendable {
     public init(
         reportId: Swift.String? = nil,
         reportVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
         self.reportVersion = reportVersion
     }
@@ -849,8 +828,7 @@ public struct GetTermForReportOutput: Swift.Sendable {
     public init(
         documentPresignedUrl: Swift.String? = nil,
         termToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentPresignedUrl = documentPresignedUrl
         self.termToken = termToken
     }
@@ -865,8 +843,7 @@ public struct ListReportsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -923,8 +900,7 @@ extension ArtifactClientTypes {
             statusMessage: Swift.String? = nil,
             uploadState: ArtifactClientTypes.UploadState? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.acceptanceType = acceptanceType
             self.arn = arn
             self.category = category
@@ -953,8 +929,7 @@ public struct ListReportsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reports: [ArtifactClientTypes.ReportSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reports = reports
     }

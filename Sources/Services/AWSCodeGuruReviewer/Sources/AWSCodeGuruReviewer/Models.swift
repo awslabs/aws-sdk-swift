@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -100,8 +99,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -124,8 +122,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -148,8 +145,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -172,8 +168,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -223,8 +218,7 @@ extension CodeGuruReviewerClientTypes {
         public init(
             encryptionOption: CodeGuruReviewerClientTypes.EncryptionOption? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionOption = encryptionOption
             self.kmsKeyId = kmsKeyId
         }
@@ -249,8 +243,7 @@ extension CodeGuruReviewerClientTypes {
             connectionArn: Swift.String? = nil,
             name: Swift.String? = nil,
             owner: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionArn = connectionArn
             self.name = name
             self.owner = owner
@@ -268,8 +261,7 @@ extension CodeGuruReviewerClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -289,8 +281,7 @@ extension CodeGuruReviewerClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.name = name
         }
@@ -315,8 +306,7 @@ extension CodeGuruReviewerClientTypes {
             codeCommit: CodeGuruReviewerClientTypes.CodeCommitRepository? = nil,
             gitHubEnterpriseServer: CodeGuruReviewerClientTypes.ThirdPartySourceRepository? = nil,
             s3Bucket: CodeGuruReviewerClientTypes.S3Repository? = nil
-        )
-        {
+        ) {
             self.bitbucket = bitbucket
             self.codeCommit = codeCommit
             self.gitHubEnterpriseServer = gitHubEnterpriseServer
@@ -349,8 +339,7 @@ public struct AssociateRepositoryInput: Swift.Sendable {
         kmsKeyDetails: CodeGuruReviewerClientTypes.KMSKeyDetails? = nil,
         repository: CodeGuruReviewerClientTypes.Repository? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.kmsKeyDetails = kmsKeyDetails
         self.repository = repository
@@ -413,8 +402,7 @@ extension CodeGuruReviewerClientTypes {
         public init(
             buildArtifactsObjectKey: Swift.String? = nil,
             sourceCodeArtifactsObjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.buildArtifactsObjectKey = buildArtifactsObjectKey
             self.sourceCodeArtifactsObjectKey = sourceCodeArtifactsObjectKey
         }
@@ -433,8 +421,7 @@ extension CodeGuruReviewerClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             codeArtifacts: CodeGuruReviewerClientTypes.CodeArtifacts? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.codeArtifacts = codeArtifacts
         }
@@ -542,8 +529,7 @@ extension CodeGuruReviewerClientTypes {
             s3RepositoryDetails: CodeGuruReviewerClientTypes.S3RepositoryDetails? = nil,
             state: CodeGuruReviewerClientTypes.RepositoryAssociationState? = nil,
             stateReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.connectionArn = connectionArn
@@ -573,8 +559,7 @@ public struct AssociateRepositoryOutput: Swift.Sendable {
     public init(
         repositoryAssociation: CodeGuruReviewerClientTypes.RepositoryAssociation? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.repositoryAssociation = repositoryAssociation
         self.tags = tags
     }
@@ -598,8 +583,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -614,8 +598,7 @@ extension CodeGuruReviewerClientTypes {
 
         public init(
             branchName: Swift.String? = nil
-        )
-        {
+        ) {
             self.branchName = branchName
         }
     }
@@ -635,8 +618,7 @@ extension CodeGuruReviewerClientTypes {
         public init(
             destinationBranchName: Swift.String? = nil,
             sourceBranchName: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationBranchName = destinationBranchName
             self.sourceBranchName = sourceBranchName
         }
@@ -658,8 +640,7 @@ extension CodeGuruReviewerClientTypes {
             destinationCommit: Swift.String? = nil,
             mergeBaseCommit: Swift.String? = nil,
             sourceCommit: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationCommit = destinationCommit
             self.mergeBaseCommit = mergeBaseCommit
             self.sourceCommit = sourceCommit
@@ -679,8 +660,7 @@ extension CodeGuruReviewerClientTypes {
         public init(
             name: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.state = state
         }
@@ -737,8 +717,7 @@ extension CodeGuruReviewerClientTypes {
             requestId: Swift.String? = nil,
             requester: Swift.String? = nil,
             vendorName: CodeGuruReviewerClientTypes.VendorName? = nil
-        )
-        {
+        ) {
             self.eventInfo = eventInfo
             self.requestId = requestId
             self.requester = requester
@@ -760,8 +739,7 @@ extension CodeGuruReviewerClientTypes {
         public init(
             details: CodeGuruReviewerClientTypes.S3RepositoryDetails? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.details = details
             self.name = name
         }
@@ -789,8 +767,7 @@ extension CodeGuruReviewerClientTypes {
             repositoryHead: CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType? = nil,
             requestMetadata: CodeGuruReviewerClientTypes.RequestMetadata? = nil,
             s3BucketRepository: CodeGuruReviewerClientTypes.S3BucketRepository? = nil
-        )
-        {
+        ) {
             self.branchDiff = branchDiff
             self.commitDiff = commitDiff
             self.repositoryHead = repositoryHead
@@ -812,8 +789,7 @@ extension CodeGuruReviewerClientTypes {
         public init(
             repositoryHead: CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType? = nil,
             sourceCodeType: CodeGuruReviewerClientTypes.SourceCodeType? = nil
-        )
-        {
+        ) {
             self.repositoryHead = repositoryHead
             self.sourceCodeType = sourceCodeType
         }
@@ -837,8 +813,7 @@ extension CodeGuruReviewerClientTypes {
         public init(
             analysisTypes: [CodeGuruReviewerClientTypes.AnalysisType]? = nil,
             repositoryAnalysis: CodeGuruReviewerClientTypes.RepositoryAnalysis? = nil
-        )
-        {
+        ) {
             self.analysisTypes = analysisTypes
             self.repositoryAnalysis = repositoryAnalysis
         }
@@ -863,8 +838,7 @@ public struct CreateCodeReviewInput: Swift.Sendable {
         name: Swift.String? = nil,
         repositoryAssociationArn: Swift.String? = nil,
         type: CodeGuruReviewerClientTypes.CodeReviewType? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.repositoryAssociationArn = repositoryAssociationArn
@@ -919,8 +893,7 @@ extension CodeGuruReviewerClientTypes {
             findingsCount: Swift.Int? = nil,
             meteredLinesOfCodeCount: Swift.Int? = nil,
             suppressedLinesOfCodeCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.findingsCount = findingsCount
             self.meteredLinesOfCodeCount = meteredLinesOfCodeCount
             self.suppressedLinesOfCodeCount = suppressedLinesOfCodeCount
@@ -1054,8 +1027,7 @@ extension CodeGuruReviewerClientTypes {
             state: CodeGuruReviewerClientTypes.JobState? = nil,
             stateReason: Swift.String? = nil,
             type: CodeGuruReviewerClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.analysisTypes = analysisTypes
             self.associationArn = associationArn
             self.codeReviewArn = codeReviewArn
@@ -1082,8 +1054,7 @@ public struct CreateCodeReviewOutput: Swift.Sendable {
 
     public init(
         codeReview: CodeGuruReviewerClientTypes.CodeReview? = nil
-    )
-    {
+    ) {
         self.codeReview = codeReview
     }
 }
@@ -1095,8 +1066,7 @@ public struct DescribeCodeReviewInput: Swift.Sendable {
 
     public init(
         codeReviewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeReviewArn = codeReviewArn
     }
 }
@@ -1107,8 +1077,7 @@ public struct DescribeCodeReviewOutput: Swift.Sendable {
 
     public init(
         codeReview: CodeGuruReviewerClientTypes.CodeReview? = nil
-    )
-    {
+    ) {
         self.codeReview = codeReview
     }
 }
@@ -1127,8 +1096,7 @@ public struct DescribeRecommendationFeedbackInput: Swift.Sendable {
         codeReviewArn: Swift.String? = nil,
         recommendationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeReviewArn = codeReviewArn
         self.recommendationId = recommendationId
         self.userId = userId
@@ -1188,8 +1156,7 @@ extension CodeGuruReviewerClientTypes {
             reactions: [CodeGuruReviewerClientTypes.Reaction]? = nil,
             recommendationId: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.codeReviewArn = codeReviewArn
             self.createdTimeStamp = createdTimeStamp
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
@@ -1206,8 +1173,7 @@ public struct DescribeRecommendationFeedbackOutput: Swift.Sendable {
 
     public init(
         recommendationFeedback: CodeGuruReviewerClientTypes.RecommendationFeedback? = nil
-    )
-    {
+    ) {
         self.recommendationFeedback = recommendationFeedback
     }
 }
@@ -1230,8 +1196,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1243,8 +1208,7 @@ public struct DescribeRepositoryAssociationInput: Swift.Sendable {
 
     public init(
         associationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationArn = associationArn
     }
 }
@@ -1262,8 +1226,7 @@ public struct DescribeRepositoryAssociationOutput: Swift.Sendable {
     public init(
         repositoryAssociation: CodeGuruReviewerClientTypes.RepositoryAssociation? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.repositoryAssociation = repositoryAssociation
         self.tags = tags
     }
@@ -1276,8 +1239,7 @@ public struct DisassociateRepositoryInput: Swift.Sendable {
 
     public init(
         associationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationArn = associationArn
     }
 }
@@ -1295,8 +1257,7 @@ public struct DisassociateRepositoryOutput: Swift.Sendable {
     public init(
         repositoryAssociation: CodeGuruReviewerClientTypes.RepositoryAssociation? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.repositoryAssociation = repositoryAssociation
         self.tags = tags
     }
@@ -1332,8 +1293,7 @@ public struct ListCodeReviewsInput: Swift.Sendable {
         repositoryNames: [Swift.String]? = nil,
         states: [CodeGuruReviewerClientTypes.JobState]? = nil,
         type: CodeGuruReviewerClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.providerTypes = providerTypes
@@ -1358,8 +1318,7 @@ extension CodeGuruReviewerClientTypes {
             findingsCount: Swift.Int? = nil,
             meteredLinesOfCodeCount: Swift.Int? = nil,
             suppressedLinesOfCodeCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.findingsCount = findingsCount
             self.meteredLinesOfCodeCount = meteredLinesOfCodeCount
             self.suppressedLinesOfCodeCount = suppressedLinesOfCodeCount
@@ -1417,8 +1376,7 @@ extension CodeGuruReviewerClientTypes {
             sourceCodeType: CodeGuruReviewerClientTypes.SourceCodeType? = nil,
             state: CodeGuruReviewerClientTypes.JobState? = nil,
             type: CodeGuruReviewerClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.codeReviewArn = codeReviewArn
             self.createdTimeStamp = createdTimeStamp
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
@@ -1444,8 +1402,7 @@ public struct ListCodeReviewsOutput: Swift.Sendable {
     public init(
         codeReviewSummaries: [CodeGuruReviewerClientTypes.CodeReviewSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeReviewSummaries = codeReviewSummaries
         self.nextToken = nextToken
     }
@@ -1470,8 +1427,7 @@ public struct ListRecommendationFeedbackInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         recommendationIds: [Swift.String]? = nil,
         userIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.codeReviewArn = codeReviewArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1495,8 +1451,7 @@ extension CodeGuruReviewerClientTypes {
             reactions: [CodeGuruReviewerClientTypes.Reaction]? = nil,
             recommendationId: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.reactions = reactions
             self.recommendationId = recommendationId
             self.userId = userId
@@ -1513,8 +1468,7 @@ public struct ListRecommendationFeedbackOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recommendationFeedbackSummaries: [CodeGuruReviewerClientTypes.RecommendationFeedbackSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recommendationFeedbackSummaries = recommendationFeedbackSummaries
     }
@@ -1533,8 +1487,7 @@ public struct ListRecommendationsInput: Swift.Sendable {
         codeReviewArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeReviewArn = codeReviewArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1618,8 +1571,7 @@ extension CodeGuruReviewerClientTypes {
             ruleName: Swift.String? = nil,
             ruleTags: [Swift.String]? = nil,
             shortDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.longDescription = longDescription
             self.ruleId = ruleId
             self.ruleName = ruleName
@@ -1697,8 +1649,7 @@ extension CodeGuruReviewerClientTypes {
             ruleMetadata: CodeGuruReviewerClientTypes.RuleMetadata? = nil,
             severity: CodeGuruReviewerClientTypes.Severity? = nil,
             startLine: Swift.Int? = nil
-        )
-        {
+        ) {
             self.description = description
             self.endLine = endLine
             self.filePath = filePath
@@ -1720,8 +1671,7 @@ public struct ListRecommendationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recommendationSummaries: [CodeGuruReviewerClientTypes.RecommendationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recommendationSummaries = recommendationSummaries
     }
@@ -1765,8 +1715,7 @@ public struct ListRepositoryAssociationsInput: Swift.Sendable {
         owners: [Swift.String]? = nil,
         providerTypes: [CodeGuruReviewerClientTypes.ProviderType]? = nil,
         states: [CodeGuruReviewerClientTypes.RepositoryAssociationState]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.names = names
         self.nextToken = nextToken
@@ -1823,8 +1772,7 @@ extension CodeGuruReviewerClientTypes {
             owner: Swift.String? = nil,
             providerType: CodeGuruReviewerClientTypes.ProviderType? = nil,
             state: CodeGuruReviewerClientTypes.RepositoryAssociationState? = nil
-        )
-        {
+        ) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.connectionArn = connectionArn
@@ -1846,8 +1794,7 @@ public struct ListRepositoryAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         repositoryAssociationSummaries: [CodeGuruReviewerClientTypes.RepositoryAssociationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositoryAssociationSummaries = repositoryAssociationSummaries
     }
@@ -1860,8 +1807,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1876,8 +1822,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1897,8 +1842,7 @@ public struct PutRecommendationFeedbackInput: Swift.Sendable {
         codeReviewArn: Swift.String? = nil,
         reactions: [CodeGuruReviewerClientTypes.Reaction]? = nil,
         recommendationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeReviewArn = codeReviewArn
         self.reactions = reactions
         self.recommendationId = recommendationId
@@ -1925,8 +1869,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1948,8 +1891,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

@@ -49,8 +49,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -149,8 +148,7 @@ extension SSMIncidentsClientTypes {
             parameters: [Swift.String: [Swift.String]]? = nil,
             roleArn: Swift.String? = nil,
             targetAccount: SSMIncidentsClientTypes.SsmTargetAccount? = nil
-        )
-        {
+        ) {
             self.documentName = documentName
             self.documentVersion = documentVersion
             self.dynamicParameters = dynamicParameters
@@ -184,8 +182,7 @@ extension SSMIncidentsClientTypes {
         public init(
             regionName: Swift.String? = nil,
             sseKmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.regionName = regionName
             self.sseKmsKeyId = sseKmsKeyId
         }
@@ -233,8 +230,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -302,8 +298,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil,
         resourceType: SSMIncidentsClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceIdentifier = resourceIdentifier
         self.properties.resourceType = resourceType
@@ -363,8 +358,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: SSMIncidentsClientTypes.ServiceCode? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.serviceCode = serviceCode
@@ -390,8 +384,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -407,8 +400,7 @@ public struct BatchGetIncidentFindingsInput: Swift.Sendable {
     public init(
         findingIds: [Swift.String]? = nil,
         incidentRecordArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingIds = findingIds
         self.incidentRecordArn = incidentRecordArn
     }
@@ -432,8 +424,7 @@ extension SSMIncidentsClientTypes {
             code: Swift.String? = nil,
             findingId: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.findingId = findingId
             self.message = message
@@ -458,8 +449,7 @@ extension SSMIncidentsClientTypes {
             endTime: Foundation.Date? = nil,
             stackArn: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.stackArn = stackArn
             self.startTime = startTime
@@ -488,8 +478,7 @@ extension SSMIncidentsClientTypes {
             deploymentId: Swift.String? = nil,
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.deploymentGroupArn = deploymentGroupArn
             self.deploymentId = deploymentId
             self.endTime = endTime
@@ -531,8 +520,7 @@ extension SSMIncidentsClientTypes {
             details: SSMIncidentsClientTypes.FindingDetails? = nil,
             id: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.details = details
             self.id = id
@@ -552,8 +540,7 @@ public struct BatchGetIncidentFindingsOutput: Swift.Sendable {
     public init(
         errors: [SSMIncidentsClientTypes.BatchGetIncidentFindingsError]? = nil,
         findings: [SSMIncidentsClientTypes.Finding]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.findings = findings
     }
@@ -622,8 +609,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         resourceIdentifier: Swift.String? = nil,
         resourceType: SSMIncidentsClientTypes.ResourceType? = nil,
         retryAfter: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceIdentifier = resourceIdentifier
         self.properties.resourceType = resourceType
@@ -664,8 +650,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceIdentifier: Swift.String? = nil,
         resourceType: SSMIncidentsClientTypes.ResourceType? = nil,
         serviceCode: SSMIncidentsClientTypes.ServiceCode? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceIdentifier = resourceIdentifier
@@ -683,8 +668,7 @@ extension SSMIncidentsClientTypes {
 
         public init(
             sseKmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.sseKmsKeyId = sseKmsKeyId
         }
     }
@@ -703,8 +687,7 @@ public struct CreateReplicationSetInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         regions: [Swift.String: SSMIncidentsClientTypes.RegionMapInputValue]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.regions = regions
         self.tags = tags
@@ -718,8 +701,7 @@ public struct CreateReplicationSetOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -770,8 +752,7 @@ extension SSMIncidentsClientTypes {
             notificationTargets: [SSMIncidentsClientTypes.NotificationTargetItem]? = nil,
             summary: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.dedupeString = dedupeString
             self.impact = impact
             self.incidentTags = incidentTags
@@ -792,8 +773,7 @@ extension SSMIncidentsClientTypes {
 
         public init(
             serviceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceId = serviceId
         }
     }
@@ -817,8 +797,7 @@ extension SSMIncidentsClientTypes {
             name: Swift.String? = nil,
             pagerDutyIncidentConfiguration: SSMIncidentsClientTypes.PagerDutyIncidentConfiguration? = nil,
             secretId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.pagerDutyIncidentConfiguration = pagerDutyIncidentConfiguration
             self.secretId = secretId
@@ -868,8 +847,7 @@ public struct CreateResponsePlanInput: Swift.Sendable {
         integrations: [SSMIncidentsClientTypes.Integration]? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.chatChannel = chatChannel
         self.clientToken = clientToken
@@ -889,8 +867,7 @@ public struct CreateResponsePlanOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -932,8 +909,7 @@ public struct CreateTimelineEventInput: Swift.Sendable {
         eventTime: Foundation.Date? = nil,
         eventType: Swift.String? = nil,
         incidentRecordArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.eventData = eventData
         self.eventReferences = eventReferences
@@ -954,8 +930,7 @@ public struct CreateTimelineEventOutput: Swift.Sendable {
     public init(
         eventId: Swift.String? = nil,
         incidentRecordArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventId = eventId
         self.incidentRecordArn = incidentRecordArn
     }
@@ -968,8 +943,7 @@ public struct DeleteIncidentRecordInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -989,8 +963,7 @@ extension SSMIncidentsClientTypes {
 
         public init(
             regionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.regionName = regionName
         }
     }
@@ -1003,8 +976,7 @@ public struct DeleteReplicationSetInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1025,8 +997,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
     public init(
         policyId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
         self.resourceArn = resourceArn
     }
@@ -1044,8 +1015,7 @@ public struct DeleteResponsePlanInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1066,8 +1036,7 @@ public struct DeleteTimelineEventInput: Swift.Sendable {
     public init(
         eventId: Swift.String? = nil,
         incidentRecordArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventId = eventId
         self.incidentRecordArn = incidentRecordArn
     }
@@ -1107,8 +1076,7 @@ extension SSMIncidentsClientTypes {
             eventType: Swift.String? = nil,
             eventUpdatedTime: Foundation.Date? = nil,
             incidentRecordArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventId = eventId
             self.eventReferences = eventReferences
             self.eventTime = eventTime
@@ -1133,8 +1101,7 @@ extension SSMIncidentsClientTypes {
         public init(
             condition: SSMIncidentsClientTypes.Condition? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.key = key
         }
@@ -1155,8 +1122,7 @@ extension SSMIncidentsClientTypes {
         public init(
             id: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.id = id
             self.lastModifiedTime = lastModifiedTime
         }
@@ -1170,8 +1136,7 @@ public struct GetIncidentRecordInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1196,8 +1161,7 @@ extension SSMIncidentsClientTypes {
             invokedBy: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.invokedBy = invokedBy
             self.resourceArn = resourceArn
@@ -1302,8 +1266,7 @@ extension SSMIncidentsClientTypes {
             status: SSMIncidentsClientTypes.IncidentRecordStatus? = nil,
             summary: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.automationExecutions = automationExecutions
             self.chatChannel = chatChannel
@@ -1329,8 +1292,7 @@ public struct GetIncidentRecordOutput: Swift.Sendable {
 
     public init(
         incidentRecord: SSMIncidentsClientTypes.IncidentRecord? = nil
-    )
-    {
+    ) {
         self.incidentRecord = incidentRecord
     }
 }
@@ -1342,8 +1304,7 @@ public struct GetReplicationSetInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1407,8 +1368,7 @@ extension SSMIncidentsClientTypes {
             status: SSMIncidentsClientTypes.RegionStatus? = nil,
             statusMessage: Swift.String? = nil,
             statusUpdateDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.sseKmsKeyId = sseKmsKeyId
             self.status = status
             self.statusMessage = statusMessage
@@ -1497,8 +1457,7 @@ extension SSMIncidentsClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             regionMap: [Swift.String: SSMIncidentsClientTypes.RegionInfo]? = nil,
             status: SSMIncidentsClientTypes.ReplicationSetStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -1518,8 +1477,7 @@ public struct GetReplicationSetOutput: Swift.Sendable {
 
     public init(
         replicationSet: SSMIncidentsClientTypes.ReplicationSet? = nil
-    )
-    {
+    ) {
         self.replicationSet = replicationSet
     }
 }
@@ -1537,8 +1495,7 @@ public struct GetResourcePoliciesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -1563,8 +1520,7 @@ extension SSMIncidentsClientTypes {
             policyDocument: Swift.String? = nil,
             policyId: Swift.String? = nil,
             ramResourceShareRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyDocument = policyDocument
             self.policyId = policyId
             self.ramResourceShareRegion = ramResourceShareRegion
@@ -1582,8 +1538,7 @@ public struct GetResourcePoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourcePolicies: [SSMIncidentsClientTypes.ResourcePolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourcePolicies = resourcePolicies
     }
@@ -1596,8 +1551,7 @@ public struct GetResponsePlanInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1632,8 +1586,7 @@ public struct GetResponsePlanOutput: Swift.Sendable {
         incidentTemplate: SSMIncidentsClientTypes.IncidentTemplate? = nil,
         integrations: [SSMIncidentsClientTypes.Integration]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.arn = arn
         self.chatChannel = chatChannel
@@ -1656,8 +1609,7 @@ public struct GetTimelineEventInput: Swift.Sendable {
     public init(
         eventId: Swift.String? = nil,
         incidentRecordArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventId = eventId
         self.incidentRecordArn = incidentRecordArn
     }
@@ -1696,8 +1648,7 @@ extension SSMIncidentsClientTypes {
             eventType: Swift.String? = nil,
             eventUpdatedTime: Foundation.Date? = nil,
             incidentRecordArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventData = eventData
             self.eventId = eventId
             self.eventReferences = eventReferences
@@ -1716,8 +1667,7 @@ public struct GetTimelineEventOutput: Swift.Sendable {
 
     public init(
         event: SSMIncidentsClientTypes.TimelineEvent? = nil
-    )
-    {
+    ) {
         self.event = event
     }
 }
@@ -1755,8 +1705,7 @@ extension SSMIncidentsClientTypes {
             resolvedTime: Foundation.Date? = nil,
             status: SSMIncidentsClientTypes.IncidentRecordStatus? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.impact = impact
@@ -1834,8 +1783,7 @@ extension SSMIncidentsClientTypes {
             autoResolve: Swift.Bool? = nil,
             id: Swift.String? = nil,
             secretId: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoResolve = autoResolve
             self.id = id
             self.secretId = secretId
@@ -1873,8 +1821,7 @@ extension SSMIncidentsClientTypes {
         public init(
             type: SSMIncidentsClientTypes.ItemType? = nil,
             value: SSMIncidentsClientTypes.ItemValue? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1894,8 +1841,7 @@ public struct ListIncidentFindingsInput: Swift.Sendable {
         incidentRecordArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.incidentRecordArn = incidentRecordArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1912,8 +1858,7 @@ public struct ListIncidentFindingsOutput: Swift.Sendable {
     public init(
         findings: [SSMIncidentsClientTypes.FindingSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findings = findings
         self.nextToken = nextToken
     }
@@ -1948,8 +1893,7 @@ public struct ListIncidentRecordsInput: Swift.Sendable {
         filters: [SSMIncidentsClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1966,8 +1910,7 @@ public struct ListIncidentRecordsOutput: Swift.Sendable {
     public init(
         incidentRecordSummaries: [SSMIncidentsClientTypes.IncidentRecordSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.incidentRecordSummaries = incidentRecordSummaries
         self.nextToken = nextToken
     }
@@ -1986,8 +1929,7 @@ public struct ListRelatedItemsInput: Swift.Sendable {
         incidentRecordArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.incidentRecordArn = incidentRecordArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2010,8 +1952,7 @@ extension SSMIncidentsClientTypes {
             generatedId: Swift.String? = nil,
             identifier: SSMIncidentsClientTypes.ItemIdentifier? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.generatedId = generatedId
             self.identifier = identifier
             self.title = title
@@ -2029,8 +1970,7 @@ public struct ListRelatedItemsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         relatedItems: [SSMIncidentsClientTypes.RelatedItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.relatedItems = relatedItems
     }
@@ -2045,8 +1985,7 @@ public struct ListReplicationSetsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2062,8 +2001,7 @@ public struct ListReplicationSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         replicationSetArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.replicationSetArns = replicationSetArns
     }
@@ -2078,8 +2016,7 @@ public struct ListResponsePlansInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2102,8 +2039,7 @@ extension SSMIncidentsClientTypes {
             arn: Swift.String? = nil,
             displayName: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.displayName = displayName
             self.name = name
@@ -2121,8 +2057,7 @@ public struct ListResponsePlansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         responsePlanSummaries: [SSMIncidentsClientTypes.ResponsePlanSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.responsePlanSummaries = responsePlanSummaries
     }
@@ -2135,8 +2070,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2148,8 +2082,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2246,8 +2179,7 @@ public struct ListTimelineEventsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SSMIncidentsClientTypes.TimelineEventSort? = nil,
         sortOrder: SSMIncidentsClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.incidentRecordArn = incidentRecordArn
         self.maxResults = maxResults
@@ -2267,8 +2199,7 @@ public struct ListTimelineEventsOutput: Swift.Sendable {
     public init(
         eventSummaries: [SSMIncidentsClientTypes.EventSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSummaries = eventSummaries
         self.nextToken = nextToken
     }
@@ -2285,8 +2216,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -2299,8 +2229,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
     }
 }
@@ -2337,8 +2266,7 @@ extension SSMIncidentsClientTypes {
             source: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             triggerArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.rawData = rawData
             self.source = source
             self.timestamp = timestamp
@@ -2379,8 +2307,7 @@ public struct StartIncidentInput: Swift.Sendable {
         responsePlanArn: Swift.String? = nil,
         title: Swift.String? = nil,
         triggerDetails: SSMIncidentsClientTypes.TriggerDetails? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.impact = impact
         self.relatedItems = relatedItems
@@ -2397,8 +2324,7 @@ public struct StartIncidentOutput: Swift.Sendable {
 
     public init(
         incidentRecordArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.incidentRecordArn = incidentRecordArn
     }
 }
@@ -2414,8 +2340,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2437,8 +2362,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2463,8 +2387,7 @@ public struct UpdateDeletionProtectionInput: Swift.Sendable {
         arn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         deletionProtected: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientToken = clientToken
         self.deletionProtected = deletionProtected
@@ -2514,8 +2437,7 @@ public struct UpdateIncidentRecordInput: Swift.Sendable {
         status: SSMIncidentsClientTypes.IncidentRecordStatus? = nil,
         summary: Swift.String? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.chatChannel = chatChannel
         self.clientToken = clientToken
@@ -2546,8 +2468,7 @@ public struct UpdateRelatedItemsInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         incidentRecordArn: Swift.String? = nil,
         relatedItemsUpdate: SSMIncidentsClientTypes.RelatedItemsUpdate? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.incidentRecordArn = incidentRecordArn
         self.relatedItemsUpdate = relatedItemsUpdate
@@ -2585,8 +2506,7 @@ public struct UpdateReplicationSetInput: Swift.Sendable {
         actions: [SSMIncidentsClientTypes.UpdateReplicationSetAction]? = nil,
         arn: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.arn = arn
         self.clientToken = clientToken
@@ -2651,8 +2571,7 @@ public struct UpdateResponsePlanInput: Swift.Sendable {
         incidentTemplateTags: [Swift.String: Swift.String]? = nil,
         incidentTemplateTitle: Swift.String? = nil,
         integrations: [SSMIncidentsClientTypes.Integration]? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.arn = arn
         self.chatChannel = chatChannel
@@ -2700,8 +2619,7 @@ public struct UpdateTimelineEventInput: Swift.Sendable {
         eventTime: Foundation.Date? = nil,
         eventType: Swift.String? = nil,
         incidentRecordArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.eventData = eventData
         self.eventId = eventId

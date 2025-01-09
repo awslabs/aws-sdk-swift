@@ -40,8 +40,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -64,8 +63,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -88,8 +86,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -112,8 +109,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -129,8 +125,7 @@ public struct GetBuyerDashboardInput: Swift.Sendable {
     public init(
         dashboardIdentifier: Swift.String? = nil,
         embeddingDomains: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dashboardIdentifier = dashboardIdentifier
         self.embeddingDomains = embeddingDomains
     }
@@ -151,8 +146,7 @@ public struct GetBuyerDashboardOutput: Swift.Sendable {
         dashboardIdentifier: Swift.String? = nil,
         embedUrl: Swift.String? = nil,
         embeddingDomains: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dashboardIdentifier = dashboardIdentifier
         self.embedUrl = embedUrl
         self.embeddingDomains = embeddingDomains

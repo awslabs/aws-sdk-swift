@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -65,8 +64,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             actionId: Swift.String? = nil,
             actionType: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.actionType = actionType
         }
@@ -92,8 +90,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             entityId: Swift.String? = nil,
             entityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.entityType = entityType
         }
@@ -119,8 +116,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             policyId: Swift.String? = nil,
             policyStoreId: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyId = policyId
             self.policyStoreId = policyStoreId
         }
@@ -134,8 +130,7 @@ public struct BatchGetPolicyInput: Swift.Sendable {
 
     public init(
         requests: [VerifiedPermissionsClientTypes.BatchGetPolicyInputItem]? = nil
-    )
-    {
+    ) {
         self.requests = requests
     }
 }
@@ -191,8 +186,7 @@ extension VerifiedPermissionsClientTypes {
             message: Swift.String? = nil,
             policyId: Swift.String? = nil,
             policyStoreId: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.policyId = policyId
@@ -214,8 +208,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             description: Swift.String? = nil,
             statement: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.statement = statement
         }
@@ -243,8 +236,7 @@ extension VerifiedPermissionsClientTypes {
             policyTemplateId: Swift.String? = nil,
             principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
             resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-        )
-        {
+        ) {
             self.policyTemplateId = policyTemplateId
             self.principal = principal
             self.resource = resource
@@ -327,8 +319,7 @@ extension VerifiedPermissionsClientTypes {
             policyId: Swift.String? = nil,
             policyStoreId: Swift.String? = nil,
             policyType: VerifiedPermissionsClientTypes.PolicyType? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.definition = definition
             self.lastUpdatedDate = lastUpdatedDate
@@ -350,8 +341,7 @@ public struct BatchGetPolicyOutput: Swift.Sendable {
     public init(
         errors: [VerifiedPermissionsClientTypes.BatchGetPolicyErrorItem]? = nil,
         results: [VerifiedPermissionsClientTypes.BatchGetPolicyOutputItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.results = results
     }
@@ -422,8 +412,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: VerifiedPermissionsClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -469,8 +458,7 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             policyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyId = policyId
         }
     }
@@ -486,8 +474,7 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             errorDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorDescription = errorDescription
         }
     }
@@ -509,8 +496,7 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             groupEntityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupEntityType = groupEntityType
         }
     }
@@ -530,8 +516,7 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             groupEntityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupEntityType = groupEntityType
         }
     }
@@ -551,8 +536,7 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             groupEntityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupEntityType = groupEntityType
         }
     }
@@ -579,8 +563,7 @@ extension VerifiedPermissionsClientTypes {
             clientIds: [Swift.String]? = nil,
             groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfiguration? = nil,
             userPoolArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIds = clientIds
             self.groupConfiguration = groupConfiguration
             self.userPoolArn = userPoolArn
@@ -614,8 +597,7 @@ extension VerifiedPermissionsClientTypes {
             groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail? = nil,
             issuer: Swift.String? = nil,
             userPoolArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIds = clientIds
             self.groupConfiguration = groupConfiguration
             self.issuer = issuer
@@ -650,8 +632,7 @@ extension VerifiedPermissionsClientTypes {
             groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem? = nil,
             issuer: Swift.String? = nil,
             userPoolArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIds = clientIds
             self.groupConfiguration = groupConfiguration
             self.issuer = issuer
@@ -679,8 +660,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             groupClaim: Swift.String? = nil,
             groupEntityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupClaim = groupClaim
             self.groupEntityType = groupEntityType
         }
@@ -704,8 +684,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             audiences: [Swift.String]? = nil,
             principalIdClaim: Swift.String? = "sub"
-        )
-        {
+        ) {
             self.audiences = audiences
             self.principalIdClaim = principalIdClaim
         }
@@ -729,8 +708,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             clientIds: [Swift.String]? = nil,
             principalIdClaim: Swift.String? = "sub"
-        )
-        {
+        ) {
             self.clientIds = clientIds
             self.principalIdClaim = principalIdClaim
         }
@@ -774,8 +752,7 @@ extension VerifiedPermissionsClientTypes {
             groupConfiguration: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration? = nil,
             issuer: Swift.String? = nil,
             tokenSelection: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection? = nil
-        )
-        {
+        ) {
             self.entityIdPrefix = entityIdPrefix
             self.groupConfiguration = groupConfiguration
             self.issuer = issuer
@@ -815,8 +792,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             groupClaim: Swift.String? = nil,
             groupEntityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupClaim = groupClaim
             self.groupEntityType = groupEntityType
         }
@@ -840,8 +816,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             audiences: [Swift.String]? = nil,
             principalIdClaim: Swift.String? = "sub"
-        )
-        {
+        ) {
             self.audiences = audiences
             self.principalIdClaim = principalIdClaim
         }
@@ -865,8 +840,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             clientIds: [Swift.String]? = nil,
             principalIdClaim: Swift.String? = "sub"
-        )
-        {
+        ) {
             self.clientIds = clientIds
             self.principalIdClaim = principalIdClaim
         }
@@ -910,8 +884,7 @@ extension VerifiedPermissionsClientTypes {
             groupConfiguration: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail? = nil,
             issuer: Swift.String? = nil,
             tokenSelection: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail? = nil
-        )
-        {
+        ) {
             self.entityIdPrefix = entityIdPrefix
             self.groupConfiguration = groupConfiguration
             self.issuer = issuer
@@ -951,8 +924,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             groupClaim: Swift.String? = nil,
             groupEntityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupClaim = groupClaim
             self.groupEntityType = groupEntityType
         }
@@ -976,8 +948,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             audiences: [Swift.String]? = nil,
             principalIdClaim: Swift.String? = "sub"
-        )
-        {
+        ) {
             self.audiences = audiences
             self.principalIdClaim = principalIdClaim
         }
@@ -1001,8 +972,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             clientIds: [Swift.String]? = nil,
             principalIdClaim: Swift.String? = "sub"
-        )
-        {
+        ) {
             self.clientIds = clientIds
             self.principalIdClaim = principalIdClaim
         }
@@ -1046,8 +1016,7 @@ extension VerifiedPermissionsClientTypes {
             groupConfiguration: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem? = nil,
             issuer: Swift.String? = nil,
             tokenSelection: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionItem? = nil
-        )
-        {
+        ) {
             self.entityIdPrefix = entityIdPrefix
             self.groupConfiguration = groupConfiguration
             self.issuer = issuer
@@ -1087,8 +1056,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             resourceId: Swift.String? = nil,
             resourceType: VerifiedPermissionsClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
@@ -1118,8 +1086,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         resources: [VerifiedPermissionsClientTypes.ResourceConflict]? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resources = resources
     }
@@ -1157,8 +1124,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: VerifiedPermissionsClientTypes.ResourceType? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -1184,8 +1150,7 @@ public struct CreateIdentitySourceInput: Swift.Sendable {
         configuration: VerifiedPermissionsClientTypes.Configuration? = nil,
         policyStoreId: Swift.String? = nil,
         principalEntityType: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.configuration = configuration
         self.policyStoreId = policyStoreId
@@ -1217,8 +1182,7 @@ public struct CreateIdentitySourceOutput: Swift.Sendable {
         identitySourceId: Swift.String? = nil,
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.identitySourceId = identitySourceId
         self.lastUpdatedDate = lastUpdatedDate
@@ -1239,8 +1203,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             description: Swift.String? = nil,
             statement: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.statement = statement
         }
@@ -1268,8 +1231,7 @@ extension VerifiedPermissionsClientTypes {
             policyTemplateId: Swift.String? = nil,
             principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
             resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-        )
-        {
+        ) {
             self.policyTemplateId = policyTemplateId
             self.principal = principal
             self.resource = resource
@@ -1303,8 +1265,7 @@ public struct CreatePolicyInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         definition: VerifiedPermissionsClientTypes.PolicyDefinition? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.definition = definition
         self.policyStoreId = policyStoreId
@@ -1375,8 +1336,7 @@ public struct CreatePolicyOutput: Swift.Sendable {
         policyType: VerifiedPermissionsClientTypes.PolicyType? = nil,
         principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
         resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.createdDate = createdDate
         self.effect = effect
@@ -1435,8 +1395,7 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             mode: VerifiedPermissionsClientTypes.ValidationMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -1455,8 +1414,7 @@ public struct CreatePolicyStoreInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.validationSettings = validationSettings
@@ -1487,8 +1445,7 @@ public struct CreatePolicyStoreOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdDate = createdDate
         self.lastUpdatedDate = lastUpdatedDate
@@ -1513,8 +1470,7 @@ public struct CreatePolicyTemplateInput: Swift.Sendable {
         description: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         statement: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.policyStoreId = policyStoreId
@@ -1546,8 +1502,7 @@ public struct CreatePolicyTemplateOutput: Swift.Sendable {
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
         policyTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.lastUpdatedDate = lastUpdatedDate
         self.policyStoreId = policyStoreId
@@ -1566,8 +1521,7 @@ public struct DeleteIdentitySourceInput: Swift.Sendable {
     public init(
         identitySourceId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identitySourceId = identitySourceId
         self.policyStoreId = policyStoreId
     }
@@ -1589,8 +1543,7 @@ public struct DeletePolicyInput: Swift.Sendable {
     public init(
         policyId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
         self.policyStoreId = policyStoreId
     }
@@ -1608,8 +1561,7 @@ public struct DeletePolicyStoreInput: Swift.Sendable {
 
     public init(
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyStoreId = policyStoreId
     }
 }
@@ -1630,8 +1582,7 @@ public struct DeletePolicyTemplateInput: Swift.Sendable {
     public init(
         policyStoreId: Swift.String? = nil,
         policyTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyStoreId = policyStoreId
         self.policyTemplateId = policyTemplateId
     }
@@ -1665,8 +1616,7 @@ public struct GetIdentitySourceInput: Swift.Sendable {
     public init(
         identitySourceId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identitySourceId = identitySourceId
         self.policyStoreId = policyStoreId
     }
@@ -1721,8 +1671,7 @@ extension VerifiedPermissionsClientTypes {
             discoveryUrl: Swift.String? = nil,
             openIdIssuer: VerifiedPermissionsClientTypes.OpenIdIssuer? = nil,
             userPoolArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIds = clientIds
             self.discoveryUrl = discoveryUrl
             self.openIdIssuer = openIdIssuer
@@ -1766,8 +1715,7 @@ public struct GetIdentitySourceOutput: Swift.Sendable {
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
         principalEntityType: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.createdDate = createdDate
         self.details = details
@@ -1794,8 +1742,7 @@ public struct GetPolicyInput: Swift.Sendable {
     public init(
         policyId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
         self.policyStoreId = policyStoreId
     }
@@ -1840,8 +1787,7 @@ public struct GetPolicyOutput: Swift.Sendable {
         policyType: VerifiedPermissionsClientTypes.PolicyType? = nil,
         principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
         resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.createdDate = createdDate
         self.definition = definition
@@ -1862,8 +1808,7 @@ public struct GetPolicyStoreInput: Swift.Sendable {
 
     public init(
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyStoreId = policyStoreId
     }
 }
@@ -1894,8 +1839,7 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdDate = createdDate
         self.description = description
@@ -1921,8 +1865,7 @@ public struct GetPolicyTemplateInput: Swift.Sendable {
     public init(
         policyStoreId: Swift.String? = nil,
         policyTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyStoreId = policyStoreId
         self.policyTemplateId = policyTemplateId
     }
@@ -1954,8 +1897,7 @@ public struct GetPolicyTemplateOutput: Swift.Sendable {
         policyStoreId: Swift.String? = nil,
         policyTemplateId: Swift.String? = nil,
         statement: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.description = description
         self.lastUpdatedDate = lastUpdatedDate
@@ -1977,8 +1919,7 @@ public struct GetSchemaInput: Swift.Sendable {
 
     public init(
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyStoreId = policyStoreId
     }
 }
@@ -2005,8 +1946,7 @@ public struct GetSchemaOutput: Swift.Sendable {
         namespaces: [Swift.String]? = nil,
         policyStoreId: Swift.String? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.lastUpdatedDate = lastUpdatedDate
         self.namespaces = namespaces
@@ -2029,8 +1969,7 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             principalEntityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.principalEntityType = principalEntityType
         }
     }
@@ -2057,8 +1996,7 @@ public struct ListIdentitySourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2089,8 +2027,7 @@ extension VerifiedPermissionsClientTypes {
             discoveryUrl: Swift.String? = nil,
             openIdIssuer: VerifiedPermissionsClientTypes.OpenIdIssuer? = nil,
             userPoolArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIds = clientIds
             self.discoveryUrl = discoveryUrl
             self.openIdIssuer = openIdIssuer
@@ -2137,8 +2074,7 @@ extension VerifiedPermissionsClientTypes {
             lastUpdatedDate: Foundation.Date? = nil,
             policyStoreId: Swift.String? = nil,
             principalEntityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.createdDate = createdDate
             self.details = details
@@ -2165,8 +2101,7 @@ public struct ListIdentitySourcesOutput: Swift.Sendable {
     public init(
         identitySources: [VerifiedPermissionsClientTypes.IdentitySourceItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identitySources = identitySources
         self.nextToken = nextToken
     }
@@ -2182,8 +2117,7 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             groupEntityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupEntityType = groupEntityType
         }
     }
@@ -2210,8 +2144,7 @@ extension VerifiedPermissionsClientTypes {
             clientIds: [Swift.String]? = nil,
             groupConfiguration: VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration? = nil,
             userPoolArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIds = clientIds
             self.groupConfiguration = groupConfiguration
             self.userPoolArn = userPoolArn
@@ -2238,8 +2171,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             groupClaim: Swift.String? = nil,
             groupEntityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupClaim = groupClaim
             self.groupEntityType = groupEntityType
         }
@@ -2263,8 +2195,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             audiences: [Swift.String]? = nil,
             principalIdClaim: Swift.String? = "sub"
-        )
-        {
+        ) {
             self.audiences = audiences
             self.principalIdClaim = principalIdClaim
         }
@@ -2288,8 +2219,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             clientIds: [Swift.String]? = nil,
             principalIdClaim: Swift.String? = "sub"
-        )
-        {
+        ) {
             self.clientIds = clientIds
             self.principalIdClaim = principalIdClaim
         }
@@ -2333,8 +2263,7 @@ extension VerifiedPermissionsClientTypes {
             groupConfiguration: VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration? = nil,
             issuer: Swift.String? = nil,
             tokenSelection: VerifiedPermissionsClientTypes.UpdateOpenIdConnectTokenSelection? = nil
-        )
-        {
+        ) {
             self.entityIdPrefix = entityIdPrefix
             self.groupConfiguration = groupConfiguration
             self.issuer = issuer
@@ -2378,8 +2307,7 @@ public struct UpdateIdentitySourceInput: Swift.Sendable {
         policyStoreId: Swift.String? = nil,
         principalEntityType: Swift.String? = nil,
         updateConfiguration: VerifiedPermissionsClientTypes.UpdateConfiguration? = nil
-    )
-    {
+    ) {
         self.identitySourceId = identitySourceId
         self.policyStoreId = policyStoreId
         self.principalEntityType = principalEntityType
@@ -2411,8 +2339,7 @@ public struct UpdateIdentitySourceOutput: Swift.Sendable {
         identitySourceId: Swift.String? = nil,
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.identitySourceId = identitySourceId
         self.lastUpdatedDate = lastUpdatedDate
@@ -2439,8 +2366,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2460,8 +2386,7 @@ public struct IsAuthorizedOutput: Swift.Sendable {
         decision: VerifiedPermissionsClientTypes.Decision? = nil,
         determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]? = nil,
         errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil
-    )
-    {
+    ) {
         self.decision = decision
         self.determiningPolicies = determiningPolicies
         self.errors = errors
@@ -2491,8 +2416,7 @@ public struct IsAuthorizedWithTokenOutput: Swift.Sendable {
         determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]? = nil,
         errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil,
         principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-    )
-    {
+    ) {
         self.decision = decision
         self.determiningPolicies = determiningPolicies
         self.errors = errors
@@ -2523,8 +2447,7 @@ extension VerifiedPermissionsClientTypes {
             policyType: VerifiedPermissionsClientTypes.PolicyType? = nil,
             principal: VerifiedPermissionsClientTypes.EntityReference? = nil,
             resource: VerifiedPermissionsClientTypes.EntityReference? = nil
-        )
-        {
+        ) {
             self.policyTemplateId = policyTemplateId
             self.policyType = policyType
             self.principal = principal
@@ -2549,8 +2472,7 @@ public struct ListPoliciesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2567,8 +2489,7 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
         }
     }
@@ -2595,8 +2516,7 @@ extension VerifiedPermissionsClientTypes {
             policyTemplateId: Swift.String? = nil,
             principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
             resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-        )
-        {
+        ) {
             self.policyTemplateId = policyTemplateId
             self.principal = principal
             self.resource = resource
@@ -2662,8 +2582,7 @@ extension VerifiedPermissionsClientTypes {
             policyType: VerifiedPermissionsClientTypes.PolicyType? = nil,
             principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
             resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.createdDate = createdDate
             self.definition = definition
@@ -2688,8 +2607,7 @@ public struct ListPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policies: [VerifiedPermissionsClientTypes.PolicyItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.policies = policies
     }
@@ -2704,8 +2622,7 @@ public struct ListPolicyStoresInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2735,8 +2652,7 @@ extension VerifiedPermissionsClientTypes {
             description: Swift.String? = nil,
             lastUpdatedDate: Foundation.Date? = nil,
             policyStoreId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdDate = createdDate
             self.description = description
@@ -2761,8 +2677,7 @@ public struct ListPolicyStoresOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policyStores: [VerifiedPermissionsClientTypes.PolicyStoreItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.policyStores = policyStores
     }
@@ -2781,8 +2696,7 @@ public struct ListPolicyTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.policyStoreId = policyStoreId
@@ -2814,8 +2728,7 @@ extension VerifiedPermissionsClientTypes {
             lastUpdatedDate: Foundation.Date? = nil,
             policyStoreId: Swift.String? = nil,
             policyTemplateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
@@ -2840,8 +2753,7 @@ public struct ListPolicyTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policyTemplates: [VerifiedPermissionsClientTypes.PolicyTemplateItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.policyTemplates = policyTemplates
     }
@@ -2875,8 +2787,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             description: Swift.String? = nil,
             statement: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.statement = statement
         }
@@ -2928,8 +2839,7 @@ public struct UpdatePolicyInput: Swift.Sendable {
         definition: VerifiedPermissionsClientTypes.UpdatePolicyDefinition? = nil,
         policyId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.definition = definition
         self.policyId = policyId
         self.policyStoreId = policyStoreId
@@ -2971,8 +2881,7 @@ public struct UpdatePolicyOutput: Swift.Sendable {
         policyType: VerifiedPermissionsClientTypes.PolicyType? = nil,
         principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
         resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.createdDate = createdDate
         self.effect = effect
@@ -3016,8 +2925,7 @@ public struct UpdatePolicyTemplateInput: Swift.Sendable {
         policyStoreId: Swift.String? = nil,
         policyTemplateId: Swift.String? = nil,
         statement: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.policyStoreId = policyStoreId
         self.policyTemplateId = policyTemplateId
@@ -3049,8 +2957,7 @@ public struct UpdatePolicyTemplateOutput: Swift.Sendable {
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
         policyTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.lastUpdatedDate = lastUpdatedDate
         self.policyStoreId = policyStoreId
@@ -3079,8 +2986,7 @@ public struct PutSchemaInput: Swift.Sendable {
     public init(
         definition: VerifiedPermissionsClientTypes.SchemaDefinition? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.definition = definition
         self.policyStoreId = policyStoreId
     }
@@ -3105,8 +3011,7 @@ public struct PutSchemaOutput: Swift.Sendable {
         lastUpdatedDate: Foundation.Date? = nil,
         namespaces: [Swift.String]? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.lastUpdatedDate = lastUpdatedDate
         self.namespaces = namespaces
@@ -3133,8 +3038,7 @@ public struct UpdatePolicyStoreInput: Swift.Sendable {
         description: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
-    )
-    {
+    ) {
         self.description = description
         self.policyStoreId = policyStoreId
         self.validationSettings = validationSettings
@@ -3165,8 +3069,7 @@ public struct UpdatePolicyStoreOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdDate = createdDate
         self.lastUpdatedDate = lastUpdatedDate
@@ -3199,8 +3102,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.serviceCode = serviceCode
@@ -3221,8 +3123,7 @@ extension VerifiedPermissionsClientTypes {
         public init(
             message: Swift.String? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.path = path
         }
@@ -3271,8 +3172,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         fieldList: [VerifiedPermissionsClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
     }
@@ -3328,8 +3228,7 @@ extension VerifiedPermissionsClientTypes {
             attributes: [Swift.String: VerifiedPermissionsClientTypes.AttributeValue]? = nil,
             identifier: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
             parents: [VerifiedPermissionsClientTypes.EntityIdentifier]? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.identifier = identifier
             self.parents = parents
@@ -3355,8 +3254,7 @@ extension VerifiedPermissionsClientTypes {
             context: VerifiedPermissionsClientTypes.ContextDefinition? = nil,
             principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
             resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-        )
-        {
+        ) {
             self.action = action
             self.context = context
             self.principal = principal
@@ -3380,8 +3278,7 @@ extension VerifiedPermissionsClientTypes {
             action: VerifiedPermissionsClientTypes.ActionIdentifier? = nil,
             context: VerifiedPermissionsClientTypes.ContextDefinition? = nil,
             resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-        )
-        {
+        ) {
             self.action = action
             self.context = context
             self.resource = resource
@@ -3411,8 +3308,7 @@ extension VerifiedPermissionsClientTypes {
             determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]? = nil,
             errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil,
             request: VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem? = nil
-        )
-        {
+        ) {
             self.decision = decision
             self.determiningPolicies = determiningPolicies
             self.errors = errors
@@ -3448,8 +3344,7 @@ extension VerifiedPermissionsClientTypes {
             determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]? = nil,
             errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil,
             request: VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem? = nil
-        )
-        {
+        ) {
             self.decision = decision
             self.determiningPolicies = determiningPolicies
             self.errors = errors
@@ -3480,8 +3375,7 @@ public struct BatchIsAuthorizedOutput: Swift.Sendable {
 
     public init(
         results: [VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem]? = nil
-    )
-    {
+    ) {
         self.results = results
     }
 }
@@ -3496,8 +3390,7 @@ public struct BatchIsAuthorizedWithTokenOutput: Swift.Sendable {
     public init(
         principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
         results: [VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem]? = nil
-    )
-    {
+    ) {
         self.principal = principal
         self.results = results
     }
@@ -3525,8 +3418,7 @@ public struct IsAuthorizedInput: Swift.Sendable {
         policyStoreId: Swift.String? = nil,
         principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
         resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-    )
-    {
+    ) {
         self.action = action
         self.context = context
         self.entities = entities
@@ -3565,8 +3457,7 @@ public struct IsAuthorizedWithTokenInput: Swift.Sendable {
         identityToken: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.action = action
         self.context = context
@@ -3596,8 +3487,7 @@ public struct BatchIsAuthorizedInput: Swift.Sendable {
         entities: VerifiedPermissionsClientTypes.EntitiesDefinition? = nil,
         policyStoreId: Swift.String? = nil,
         requests: [VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem]? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.policyStoreId = policyStoreId
         self.requests = requests
@@ -3628,8 +3518,7 @@ public struct BatchIsAuthorizedWithTokenInput: Swift.Sendable {
         identityToken: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         requests: [VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem]? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.entities = entities
         self.identityToken = identityToken

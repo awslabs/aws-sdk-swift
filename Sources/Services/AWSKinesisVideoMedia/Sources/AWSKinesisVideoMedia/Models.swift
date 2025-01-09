@@ -41,8 +41,7 @@ public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -65,8 +64,7 @@ public struct ConnectionLimitExceededException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -89,8 +87,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -113,8 +110,7 @@ public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +133,7 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -161,8 +156,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -246,8 +240,7 @@ extension KinesisVideoMediaClientTypes {
             continuationToken: Swift.String? = nil,
             startSelectorType: KinesisVideoMediaClientTypes.StartSelectorType? = nil,
             startTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.afterFragmentNumber = afterFragmentNumber
             self.continuationToken = continuationToken
             self.startSelectorType = startSelectorType
@@ -269,8 +262,7 @@ public struct GetMediaInput: Swift.Sendable {
         startSelector: KinesisVideoMediaClientTypes.StartSelector? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.startSelector = startSelector
         self.streamARN = streamARN
         self.streamName = streamName
@@ -326,8 +318,7 @@ public struct GetMediaOutput: Swift.Sendable {
     public init(
         contentType: Swift.String? = nil,
         payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
-    )
-    {
+    ) {
         self.contentType = contentType
         self.payload = payload
     }

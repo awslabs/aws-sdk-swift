@@ -49,8 +49,7 @@ public struct AccountSuspendedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -73,8 +72,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -97,8 +95,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -121,8 +118,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -145,8 +141,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -169,8 +164,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -193,8 +187,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -241,8 +234,7 @@ extension PinpointEmailClientTypes {
         public init(
             sendingPoolName: Swift.String? = nil,
             tlsPolicy: PinpointEmailClientTypes.TlsPolicy? = nil
-        )
-        {
+        ) {
             self.sendingPoolName = sendingPoolName
             self.tlsPolicy = tlsPolicy
         }
@@ -261,8 +253,7 @@ extension PinpointEmailClientTypes {
         public init(
             lastFreshStart: Foundation.Date? = nil,
             reputationMetricsEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.lastFreshStart = lastFreshStart
             self.reputationMetricsEnabled = reputationMetricsEnabled
         }
@@ -278,8 +269,7 @@ extension PinpointEmailClientTypes {
 
         public init(
             sendingEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.sendingEnabled = sendingEnabled
         }
     }
@@ -307,8 +297,7 @@ extension PinpointEmailClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -325,8 +314,7 @@ extension PinpointEmailClientTypes {
 
         public init(
             customRedirectDomain: Swift.String? = nil
-        )
-        {
+        ) {
             self.customRedirectDomain = customRedirectDomain
         }
     }
@@ -355,8 +343,7 @@ public struct CreateConfigurationSetInput: Swift.Sendable {
         sendingOptions: PinpointEmailClientTypes.SendingOptions? = nil,
         tags: [PinpointEmailClientTypes.Tag]? = nil,
         trackingOptions: PinpointEmailClientTypes.TrackingOptions? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.deliveryOptions = deliveryOptions
         self.reputationOptions = reputationOptions
@@ -431,8 +418,7 @@ extension PinpointEmailClientTypes {
             defaultDimensionValue: Swift.String? = nil,
             dimensionName: Swift.String? = nil,
             dimensionValueSource: PinpointEmailClientTypes.DimensionValueSource? = nil
-        )
-        {
+        ) {
             self.defaultDimensionValue = defaultDimensionValue
             self.dimensionName = dimensionName
             self.dimensionValueSource = dimensionValueSource
@@ -450,8 +436,7 @@ extension PinpointEmailClientTypes {
 
         public init(
             dimensionConfigurations: [PinpointEmailClientTypes.CloudWatchDimensionConfiguration]? = nil
-        )
-        {
+        ) {
             self.dimensionConfigurations = dimensionConfigurations
         }
     }
@@ -471,8 +456,7 @@ extension PinpointEmailClientTypes {
         public init(
             deliveryStreamArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryStreamArn = deliveryStreamArn
             self.iamRoleArn = iamRoleArn
         }
@@ -536,8 +520,7 @@ extension PinpointEmailClientTypes {
 
         public init(
             applicationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
         }
     }
@@ -553,8 +536,7 @@ extension PinpointEmailClientTypes {
 
         public init(
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicArn = topicArn
         }
     }
@@ -584,8 +566,7 @@ extension PinpointEmailClientTypes {
             matchingEventTypes: [PinpointEmailClientTypes.EventType]? = nil,
             pinpointDestination: PinpointEmailClientTypes.PinpointDestination? = nil,
             snsDestination: PinpointEmailClientTypes.SnsDestination? = nil
-        )
-        {
+        ) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
@@ -612,8 +593,7 @@ public struct CreateConfigurationSetEventDestinationInput: Swift.Sendable {
         configurationSetName: Swift.String? = nil,
         eventDestination: PinpointEmailClientTypes.EventDestinationDefinition? = nil,
         eventDestinationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.eventDestination = eventDestination
         self.eventDestinationName = eventDestinationName
@@ -637,8 +617,7 @@ public struct CreateDedicatedIpPoolInput: Swift.Sendable {
     public init(
         poolName: Swift.String? = nil,
         tags: [PinpointEmailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.poolName = poolName
         self.tags = tags
     }
@@ -668,8 +647,7 @@ public struct MailFromDomainNotVerifiedException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -692,8 +670,7 @@ public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -716,8 +693,7 @@ public struct SendingPausedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -746,8 +722,7 @@ extension PinpointEmailClientTypes {
 
         public init(
             data: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.data = data
         }
     }
@@ -766,8 +741,7 @@ extension PinpointEmailClientTypes {
         public init(
             charset: Swift.String? = nil,
             data: Swift.String? = nil
-        )
-        {
+        ) {
             self.charset = charset
             self.data = data
         }
@@ -786,8 +760,7 @@ extension PinpointEmailClientTypes {
         public init(
             html: PinpointEmailClientTypes.Content? = nil,
             text: PinpointEmailClientTypes.Content? = nil
-        )
-        {
+        ) {
             self.html = html
             self.text = text
         }
@@ -808,8 +781,7 @@ extension PinpointEmailClientTypes {
         public init(
             body: PinpointEmailClientTypes.Body? = nil,
             subject: PinpointEmailClientTypes.Content? = nil
-        )
-        {
+        ) {
             self.body = body
             self.subject = subject
         }
@@ -827,8 +799,7 @@ extension PinpointEmailClientTypes {
         public init(
             templateArn: Swift.String? = nil,
             templateData: Swift.String? = nil
-        )
-        {
+        ) {
             self.templateArn = templateArn
             self.templateData = templateData
         }
@@ -864,8 +835,7 @@ extension PinpointEmailClientTypes {
             raw: PinpointEmailClientTypes.RawMessage? = nil,
             simple: PinpointEmailClientTypes.Message? = nil,
             template: PinpointEmailClientTypes.Template? = nil
-        )
-        {
+        ) {
             self.raw = raw
             self.simple = simple
             self.template = template
@@ -891,8 +861,7 @@ public struct CreateDeliverabilityTestReportInput: Swift.Sendable {
         fromEmailAddress: Swift.String? = nil,
         reportName: Swift.String? = nil,
         tags: [PinpointEmailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.content = content
         self.fromEmailAddress = fromEmailAddress
         self.reportName = reportName
@@ -942,8 +911,7 @@ public struct CreateDeliverabilityTestReportOutput: Swift.Sendable {
     public init(
         deliverabilityTestStatus: PinpointEmailClientTypes.DeliverabilityTestStatus? = nil,
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliverabilityTestStatus = deliverabilityTestStatus
         self.reportId = reportId
     }
@@ -960,8 +928,7 @@ public struct CreateEmailIdentityInput: Swift.Sendable {
     public init(
         emailIdentity: Swift.String? = nil,
         tags: [PinpointEmailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.emailIdentity = emailIdentity
         self.tags = tags
     }
@@ -1041,8 +1008,7 @@ extension PinpointEmailClientTypes {
             signingEnabled: Swift.Bool = false,
             status: PinpointEmailClientTypes.DkimStatus? = nil,
             tokens: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.signingEnabled = signingEnabled
             self.status = status
             self.tokens = tokens
@@ -1100,8 +1066,7 @@ public struct CreateEmailIdentityOutput: Swift.Sendable {
         dkimAttributes: PinpointEmailClientTypes.DkimAttributes? = nil,
         identityType: PinpointEmailClientTypes.IdentityType? = nil,
         verifiedForSendingStatus: Swift.Bool = false
-    )
-    {
+    ) {
         self.dkimAttributes = dkimAttributes
         self.identityType = identityType
         self.verifiedForSendingStatus = verifiedForSendingStatus
@@ -1116,8 +1081,7 @@ public struct DeleteConfigurationSetInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
     }
 }
@@ -1140,8 +1104,7 @@ public struct DeleteConfigurationSetEventDestinationInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         eventDestinationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.eventDestinationName = eventDestinationName
     }
@@ -1161,8 +1124,7 @@ public struct DeleteDedicatedIpPoolInput: Swift.Sendable {
 
     public init(
         poolName: Swift.String? = nil
-    )
-    {
+    ) {
         self.poolName = poolName
     }
 }
@@ -1181,8 +1143,7 @@ public struct DeleteEmailIdentityInput: Swift.Sendable {
 
     public init(
         emailIdentity: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailIdentity = emailIdentity
     }
 }
@@ -1214,8 +1175,7 @@ extension PinpointEmailClientTypes {
             max24HourSend: Swift.Double = 0.0,
             maxSendRate: Swift.Double = 0.0,
             sentLast24Hours: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.max24HourSend = max24HourSend
             self.maxSendRate = maxSendRate
             self.sentLast24Hours = sentLast24Hours
@@ -1248,8 +1208,7 @@ public struct GetAccountOutput: Swift.Sendable {
         productionAccessEnabled: Swift.Bool = false,
         sendQuota: PinpointEmailClientTypes.SendQuota? = nil,
         sendingEnabled: Swift.Bool = false
-    )
-    {
+    ) {
         self.dedicatedIpAutoWarmupEnabled = dedicatedIpAutoWarmupEnabled
         self.enforcementStatus = enforcementStatus
         self.productionAccessEnabled = productionAccessEnabled
@@ -1266,8 +1225,7 @@ public struct GetBlacklistReportsInput: Swift.Sendable {
 
     public init(
         blacklistItemNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.blacklistItemNames = blacklistItemNames
     }
 }
@@ -1287,8 +1245,7 @@ extension PinpointEmailClientTypes {
             description: Swift.String? = nil,
             listingTime: Foundation.Date? = nil,
             rblName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.listingTime = listingTime
             self.rblName = rblName
@@ -1304,8 +1261,7 @@ public struct GetBlacklistReportsOutput: Swift.Sendable {
 
     public init(
         blacklistReport: [Swift.String: [PinpointEmailClientTypes.BlacklistEntry]]? = nil
-    )
-    {
+    ) {
         self.blacklistReport = blacklistReport
     }
 }
@@ -1318,8 +1274,7 @@ public struct GetConfigurationSetInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
     }
 }
@@ -1346,8 +1301,7 @@ public struct GetConfigurationSetOutput: Swift.Sendable {
         sendingOptions: PinpointEmailClientTypes.SendingOptions? = nil,
         tags: [PinpointEmailClientTypes.Tag]? = nil,
         trackingOptions: PinpointEmailClientTypes.TrackingOptions? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.deliveryOptions = deliveryOptions
         self.reputationOptions = reputationOptions
@@ -1365,8 +1319,7 @@ public struct GetConfigurationSetEventDestinationsInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
     }
 }
@@ -1400,8 +1353,7 @@ extension PinpointEmailClientTypes {
             name: Swift.String? = nil,
             pinpointDestination: PinpointEmailClientTypes.PinpointDestination? = nil,
             snsDestination: PinpointEmailClientTypes.SnsDestination? = nil
-        )
-        {
+        ) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
@@ -1420,8 +1372,7 @@ public struct GetConfigurationSetEventDestinationsOutput: Swift.Sendable {
 
     public init(
         eventDestinations: [PinpointEmailClientTypes.EventDestination]? = nil
-    )
-    {
+    ) {
         self.eventDestinations = eventDestinations
     }
 }
@@ -1434,8 +1385,7 @@ public struct GetDedicatedIpInput: Swift.Sendable {
 
     public init(
         ip: Swift.String? = nil
-    )
-    {
+    ) {
         self.ip = ip
     }
 }
@@ -1495,8 +1445,7 @@ extension PinpointEmailClientTypes {
             poolName: Swift.String? = nil,
             warmupPercentage: Swift.Int? = nil,
             warmupStatus: PinpointEmailClientTypes.WarmupStatus? = nil
-        )
-        {
+        ) {
             self.ip = ip
             self.poolName = poolName
             self.warmupPercentage = warmupPercentage
@@ -1512,8 +1461,7 @@ public struct GetDedicatedIpOutput: Swift.Sendable {
 
     public init(
         dedicatedIp: PinpointEmailClientTypes.DedicatedIp? = nil
-    )
-    {
+    ) {
         self.dedicatedIp = dedicatedIp
     }
 }
@@ -1531,8 +1479,7 @@ public struct GetDedicatedIpsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         poolName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
         self.poolName = poolName
@@ -1549,8 +1496,7 @@ public struct GetDedicatedIpsOutput: Swift.Sendable {
     public init(
         dedicatedIps: [PinpointEmailClientTypes.DedicatedIp]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dedicatedIps = dedicatedIps
         self.nextToken = nextToken
     }
@@ -1607,8 +1553,7 @@ extension PinpointEmailClientTypes {
         public init(
             global: Swift.Bool = false,
             trackedIsps: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.global = global
             self.trackedIsps = trackedIsps
         }
@@ -1630,8 +1575,7 @@ extension PinpointEmailClientTypes {
             domain: Swift.String? = nil,
             inboxPlacementTrackingOption: PinpointEmailClientTypes.InboxPlacementTrackingOption? = nil,
             subscriptionStartDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.inboxPlacementTrackingOption = inboxPlacementTrackingOption
             self.subscriptionStartDate = subscriptionStartDate
@@ -1659,8 +1603,7 @@ public struct GetDeliverabilityDashboardOptionsOutput: Swift.Sendable {
         dashboardEnabled: Swift.Bool = false,
         pendingExpirationSubscribedDomains: [PinpointEmailClientTypes.DomainDeliverabilityTrackingOption]? = nil,
         subscriptionExpiryDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.accountStatus = accountStatus
         self.activeSubscribedDomains = activeSubscribedDomains
         self.dashboardEnabled = dashboardEnabled
@@ -1677,8 +1620,7 @@ public struct GetDeliverabilityTestReportInput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -1707,8 +1649,7 @@ extension PinpointEmailClientTypes {
             reportId: Swift.String? = nil,
             reportName: Swift.String? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.createDate = createDate
             self.deliverabilityTestStatus = deliverabilityTestStatus
             self.fromEmailAddress = fromEmailAddress
@@ -1740,8 +1681,7 @@ extension PinpointEmailClientTypes {
             missingPercentage: Swift.Double? = nil,
             spamPercentage: Swift.Double? = nil,
             spfPercentage: Swift.Double? = nil
-        )
-        {
+        ) {
             self.dkimPercentage = dkimPercentage
             self.inboxPercentage = inboxPercentage
             self.missingPercentage = missingPercentage
@@ -1763,8 +1703,7 @@ extension PinpointEmailClientTypes {
         public init(
             ispName: Swift.String? = nil,
             placementStatistics: PinpointEmailClientTypes.PlacementStatistics? = nil
-        )
-        {
+        ) {
             self.ispName = ispName
             self.placementStatistics = placementStatistics
         }
@@ -1793,8 +1732,7 @@ public struct GetDeliverabilityTestReportOutput: Swift.Sendable {
         message: Swift.String? = nil,
         overallPlacement: PinpointEmailClientTypes.PlacementStatistics? = nil,
         tags: [PinpointEmailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deliverabilityTestReport = deliverabilityTestReport
         self.ispPlacements = ispPlacements
         self.message = message
@@ -1811,8 +1749,7 @@ public struct GetDomainDeliverabilityCampaignInput: Swift.Sendable {
 
     public init(
         campaignId: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignId = campaignId
     }
 }
@@ -1865,8 +1802,7 @@ extension PinpointEmailClientTypes {
             sendingIps: [Swift.String]? = nil,
             spamCount: Swift.Int? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
             self.deleteRate = deleteRate
             self.esps = esps
@@ -1893,8 +1829,7 @@ public struct GetDomainDeliverabilityCampaignOutput: Swift.Sendable {
 
     public init(
         domainDeliverabilityCampaign: PinpointEmailClientTypes.DomainDeliverabilityCampaign? = nil
-    )
-    {
+    ) {
         self.domainDeliverabilityCampaign = domainDeliverabilityCampaign
     }
 }
@@ -1915,8 +1850,7 @@ public struct GetDomainStatisticsReportInput: Swift.Sendable {
         domain: Swift.String? = nil,
         endDate: Foundation.Date? = nil,
         startDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.endDate = endDate
         self.startDate = startDate
@@ -1944,8 +1878,7 @@ extension PinpointEmailClientTypes {
             ispName: Swift.String? = nil,
             spamPercentage: Swift.Double? = nil,
             spamRawCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.inboxPercentage = inboxPercentage
             self.inboxRawCount = inboxRawCount
             self.ispName = ispName
@@ -1973,8 +1906,7 @@ extension PinpointEmailClientTypes {
             projectedInbox: Swift.Int? = nil,
             projectedSpam: Swift.Int? = nil,
             spamRawCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.inboxRawCount = inboxRawCount
             self.projectedInbox = projectedInbox
             self.projectedSpam = projectedSpam
@@ -1998,8 +1930,7 @@ extension PinpointEmailClientTypes {
             domainIspPlacements: [PinpointEmailClientTypes.DomainIspPlacement]? = nil,
             startDate: Foundation.Date? = nil,
             volumeStatistics: PinpointEmailClientTypes.VolumeStatistics? = nil
-        )
-        {
+        ) {
             self.domainIspPlacements = domainIspPlacements
             self.startDate = startDate
             self.volumeStatistics = volumeStatistics
@@ -2022,8 +1953,7 @@ extension PinpointEmailClientTypes {
             domainIspPlacements: [PinpointEmailClientTypes.DomainIspPlacement]? = nil,
             readRatePercent: Swift.Double? = nil,
             volumeStatistics: PinpointEmailClientTypes.VolumeStatistics? = nil
-        )
-        {
+        ) {
             self.domainIspPlacements = domainIspPlacements
             self.readRatePercent = readRatePercent
             self.volumeStatistics = volumeStatistics
@@ -2043,8 +1973,7 @@ public struct GetDomainStatisticsReportOutput: Swift.Sendable {
     public init(
         dailyVolumes: [PinpointEmailClientTypes.DailyVolume]? = nil,
         overallVolume: PinpointEmailClientTypes.OverallVolume? = nil
-    )
-    {
+    ) {
         self.dailyVolumes = dailyVolumes
         self.overallVolume = overallVolume
     }
@@ -2058,8 +1987,7 @@ public struct GetEmailIdentityInput: Swift.Sendable {
 
     public init(
         emailIdentity: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailIdentity = emailIdentity
     }
 }
@@ -2164,8 +2092,7 @@ extension PinpointEmailClientTypes {
             behaviorOnMxFailure: PinpointEmailClientTypes.BehaviorOnMxFailure? = nil,
             mailFromDomain: Swift.String? = nil,
             mailFromDomainStatus: PinpointEmailClientTypes.MailFromDomainStatus? = nil
-        )
-        {
+        ) {
             self.behaviorOnMxFailure = behaviorOnMxFailure
             self.mailFromDomain = mailFromDomain
             self.mailFromDomainStatus = mailFromDomainStatus
@@ -2195,8 +2122,7 @@ public struct GetEmailIdentityOutput: Swift.Sendable {
         mailFromAttributes: PinpointEmailClientTypes.MailFromAttributes? = nil,
         tags: [PinpointEmailClientTypes.Tag]? = nil,
         verifiedForSendingStatus: Swift.Bool = false
-    )
-    {
+    ) {
         self.dkimAttributes = dkimAttributes
         self.feedbackForwardingStatus = feedbackForwardingStatus
         self.identityType = identityType
@@ -2216,8 +2142,7 @@ public struct ListConfigurationSetsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -2233,8 +2158,7 @@ public struct ListConfigurationSetsOutput: Swift.Sendable {
     public init(
         configurationSets: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSets = configurationSets
         self.nextToken = nextToken
     }
@@ -2250,8 +2174,7 @@ public struct ListDedicatedIpPoolsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -2267,8 +2190,7 @@ public struct ListDedicatedIpPoolsOutput: Swift.Sendable {
     public init(
         dedicatedIpPools: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dedicatedIpPools = dedicatedIpPools
         self.nextToken = nextToken
     }
@@ -2284,8 +2206,7 @@ public struct ListDeliverabilityTestReportsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -2302,8 +2223,7 @@ public struct ListDeliverabilityTestReportsOutput: Swift.Sendable {
     public init(
         deliverabilityTestReports: [PinpointEmailClientTypes.DeliverabilityTestReport]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliverabilityTestReports = deliverabilityTestReports
         self.nextToken = nextToken
     }
@@ -2331,8 +2251,7 @@ public struct ListDomainDeliverabilityCampaignsInput: Swift.Sendable {
         pageSize: Swift.Int? = nil,
         startDate: Foundation.Date? = nil,
         subscribedDomain: Swift.String? = nil
-    )
-    {
+    ) {
         self.endDate = endDate
         self.nextToken = nextToken
         self.pageSize = pageSize
@@ -2352,8 +2271,7 @@ public struct ListDomainDeliverabilityCampaignsOutput: Swift.Sendable {
     public init(
         domainDeliverabilityCampaigns: [PinpointEmailClientTypes.DomainDeliverabilityCampaign]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainDeliverabilityCampaigns = domainDeliverabilityCampaigns
         self.nextToken = nextToken
     }
@@ -2369,8 +2287,7 @@ public struct ListEmailIdentitiesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -2397,8 +2314,7 @@ extension PinpointEmailClientTypes {
             identityName: Swift.String? = nil,
             identityType: PinpointEmailClientTypes.IdentityType? = nil,
             sendingEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.identityName = identityName
             self.identityType = identityType
             self.sendingEnabled = sendingEnabled
@@ -2416,8 +2332,7 @@ public struct ListEmailIdentitiesOutput: Swift.Sendable {
     public init(
         emailIdentities: [PinpointEmailClientTypes.IdentityInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailIdentities = emailIdentities
         self.nextToken = nextToken
     }
@@ -2430,8 +2345,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2443,8 +2357,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [PinpointEmailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2456,8 +2369,7 @@ public struct PutAccountDedicatedIpWarmupAttributesInput: Swift.Sendable {
 
     public init(
         autoWarmupEnabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.autoWarmupEnabled = autoWarmupEnabled
     }
 }
@@ -2475,8 +2387,7 @@ public struct PutAccountSendingAttributesInput: Swift.Sendable {
 
     public init(
         sendingEnabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.sendingEnabled = sendingEnabled
     }
 }
@@ -2501,8 +2412,7 @@ public struct PutConfigurationSetDeliveryOptionsInput: Swift.Sendable {
         configurationSetName: Swift.String? = nil,
         sendingPoolName: Swift.String? = nil,
         tlsPolicy: PinpointEmailClientTypes.TlsPolicy? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.sendingPoolName = sendingPoolName
         self.tlsPolicy = tlsPolicy
@@ -2526,8 +2436,7 @@ public struct PutConfigurationSetReputationOptionsInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         reputationMetricsEnabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.reputationMetricsEnabled = reputationMetricsEnabled
     }
@@ -2550,8 +2459,7 @@ public struct PutConfigurationSetSendingOptionsInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         sendingEnabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.sendingEnabled = sendingEnabled
     }
@@ -2574,8 +2482,7 @@ public struct PutConfigurationSetTrackingOptionsInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         customRedirectDomain: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.customRedirectDomain = customRedirectDomain
     }
@@ -2599,8 +2506,7 @@ public struct PutDedicatedIpInPoolInput: Swift.Sendable {
     public init(
         destinationPoolName: Swift.String? = nil,
         ip: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationPoolName = destinationPoolName
         self.ip = ip
     }
@@ -2624,8 +2530,7 @@ public struct PutDedicatedIpWarmupAttributesInput: Swift.Sendable {
     public init(
         ip: Swift.String? = nil,
         warmupPercentage: Swift.Int? = nil
-    )
-    {
+    ) {
         self.ip = ip
         self.warmupPercentage = warmupPercentage
     }
@@ -2648,8 +2553,7 @@ public struct PutDeliverabilityDashboardOptionInput: Swift.Sendable {
     public init(
         dashboardEnabled: Swift.Bool? = false,
         subscribedDomains: [PinpointEmailClientTypes.DomainDeliverabilityTrackingOption]? = nil
-    )
-    {
+    ) {
         self.dashboardEnabled = dashboardEnabled
         self.subscribedDomains = subscribedDomains
     }
@@ -2672,8 +2576,7 @@ public struct PutEmailIdentityDkimAttributesInput: Swift.Sendable {
     public init(
         emailIdentity: Swift.String? = nil,
         signingEnabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.emailIdentity = emailIdentity
         self.signingEnabled = signingEnabled
     }
@@ -2696,8 +2599,7 @@ public struct PutEmailIdentityFeedbackAttributesInput: Swift.Sendable {
     public init(
         emailForwardingEnabled: Swift.Bool? = false,
         emailIdentity: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailForwardingEnabled = emailForwardingEnabled
         self.emailIdentity = emailIdentity
     }
@@ -2729,8 +2631,7 @@ public struct PutEmailIdentityMailFromAttributesInput: Swift.Sendable {
         behaviorOnMxFailure: PinpointEmailClientTypes.BehaviorOnMxFailure? = nil,
         emailIdentity: Swift.String? = nil,
         mailFromDomain: Swift.String? = nil
-    )
-    {
+    ) {
         self.behaviorOnMxFailure = behaviorOnMxFailure
         self.emailIdentity = emailIdentity
         self.mailFromDomain = mailFromDomain
@@ -2758,8 +2659,7 @@ extension PinpointEmailClientTypes {
             bccAddresses: [Swift.String]? = nil,
             ccAddresses: [Swift.String]? = nil,
             toAddresses: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.bccAddresses = bccAddresses
             self.ccAddresses = ccAddresses
             self.toAddresses = toAddresses
@@ -2789,8 +2689,7 @@ extension PinpointEmailClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2824,8 +2723,7 @@ public struct SendEmailInput: Swift.Sendable {
         feedbackForwardingEmailAddress: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
         replyToAddresses: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.content = content
         self.destination = destination
@@ -2843,8 +2741,7 @@ public struct SendEmailOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -2860,8 +2757,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [PinpointEmailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2883,8 +2779,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2911,8 +2806,7 @@ public struct UpdateConfigurationSetEventDestinationInput: Swift.Sendable {
         configurationSetName: Swift.String? = nil,
         eventDestination: PinpointEmailClientTypes.EventDestinationDefinition? = nil,
         eventDestinationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.eventDestination = eventDestination
         self.eventDestinationName = eventDestinationName
