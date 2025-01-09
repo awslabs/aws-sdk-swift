@@ -115,6 +115,64 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
+    public enum AllocationStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lowestPrice
+        case prioritized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AllocationStrategy] {
+            return [
+                .lowestPrice,
+                .prioritized
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lowestPrice: return "LowestPrice"
+            case .prioritized: return "Prioritized"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum AsgType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mixedInstanceType
+        case singleInstanceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AsgType] {
+            return [
+                .mixedInstanceType,
+                .singleInstanceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mixedInstanceType: return "MixedInstanceTypes"
+            case .singleInstanceType: return "SingleInstanceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
     public enum AutoScalingConfiguration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case targetTrackingScalingCpu
         case targetTrackingScalingMemory
@@ -144,27 +202,43 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the configuration of an Auto Scaling group.
+    /// Describes the configuration of an EC2 Auto Scaling group.
     public struct AutoScalingGroupConfiguration: Swift.Sendable {
-        /// The desired capacity, or number of instances, for the Auto Scaling group.
+        /// Describes the allocation strategy that the EC2 Auto Scaling group uses. This field is only available for EC2 Auto Scaling groups with mixed instance types.
+        public var allocationStrategy: ComputeOptimizerClientTypes.AllocationStrategy?
+        /// The desired capacity, or number of instances, for the EC2 Auto Scaling group.
         public var desiredCapacity: Swift.Int
-        /// The instance type for the Auto Scaling group.
+        /// Describes the projected percentage reduction in instance hours after adopting the recommended configuration. This field is only available for EC2 Auto Scaling groups with scaling policies.
+        public var estimatedInstanceHourReductionPercentage: Swift.Double?
+        /// The instance type for the EC2 Auto Scaling group.
         public var instanceType: Swift.String?
-        /// The maximum size, or maximum number of instances, for the Auto Scaling group.
+        /// The maximum size, or maximum number of instances, for the EC2 Auto Scaling group.
         public var maxSize: Swift.Int
-        /// The minimum size, or minimum number of instances, for the Auto Scaling group.
+        /// The minimum size, or minimum number of instances, for the EC2 Auto Scaling group.
         public var minSize: Swift.Int
+        /// List the instance types within an EC2 Auto Scaling group that has mixed instance types.
+        public var mixedInstanceTypes: [Swift.String]?
+        /// Describes whether the EC2 Auto Scaling group has a single instance type or a mixed instance type configuration.
+        public var type: ComputeOptimizerClientTypes.AsgType?
 
         public init(
+            allocationStrategy: ComputeOptimizerClientTypes.AllocationStrategy? = nil,
             desiredCapacity: Swift.Int = 0,
+            estimatedInstanceHourReductionPercentage: Swift.Double? = nil,
             instanceType: Swift.String? = nil,
             maxSize: Swift.Int = 0,
-            minSize: Swift.Int = 0
+            minSize: Swift.Int = 0,
+            mixedInstanceTypes: [Swift.String]? = nil,
+            type: ComputeOptimizerClientTypes.AsgType? = nil
         ) {
+            self.allocationStrategy = allocationStrategy
             self.desiredCapacity = desiredCapacity
+            self.estimatedInstanceHourReductionPercentage = estimatedInstanceHourReductionPercentage
             self.instanceType = instanceType
             self.maxSize = maxSize
             self.minSize = minSize
+            self.mixedInstanceTypes = mixedInstanceTypes
+            self.type = type
         }
     }
 }
@@ -1778,10 +1852,13 @@ extension ComputeOptimizerClientTypes {
         case accountId
         case autoScalingGroupArn
         case autoScalingGroupName
+        case currentConfigurationAllocationStrategy
         case currentConfigurationDesiredCapacity
         case currentConfigurationInstanceType
         case currentConfigurationMaxSize
         case currentConfigurationMinSize
+        case currentConfigurationMixedInstanceTypes
+        case currentConfigurationType
         case currentInstanceGpuInfo
         case currentMemory
         case currentNetwork
@@ -1801,10 +1878,14 @@ extension ComputeOptimizerClientTypes {
         case inferredWorkloadTypes
         case lastRefreshTimestamp
         case lookbackPeriodInDays
+        case recommendationOptionsConfigurationAllocationStrategy
         case recommendationOptionsConfigurationDesiredCapacity
+        case recommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage
         case recommendationOptionsConfigurationInstanceType
         case recommendationOptionsConfigurationMaxSize
         case recommendationOptionsConfigurationMinSize
+        case recommendationOptionsConfigurationMixedInstanceTypes
+        case recommendationOptionsConfigurationType
         case recommendationOptionsEstimatedMonthlySavingsCurrency
         case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
@@ -1848,10 +1929,13 @@ extension ComputeOptimizerClientTypes {
                 .accountId,
                 .autoScalingGroupArn,
                 .autoScalingGroupName,
+                .currentConfigurationAllocationStrategy,
                 .currentConfigurationDesiredCapacity,
                 .currentConfigurationInstanceType,
                 .currentConfigurationMaxSize,
                 .currentConfigurationMinSize,
+                .currentConfigurationMixedInstanceTypes,
+                .currentConfigurationType,
                 .currentInstanceGpuInfo,
                 .currentMemory,
                 .currentNetwork,
@@ -1871,10 +1955,14 @@ extension ComputeOptimizerClientTypes {
                 .inferredWorkloadTypes,
                 .lastRefreshTimestamp,
                 .lookbackPeriodInDays,
+                .recommendationOptionsConfigurationAllocationStrategy,
                 .recommendationOptionsConfigurationDesiredCapacity,
+                .recommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage,
                 .recommendationOptionsConfigurationInstanceType,
                 .recommendationOptionsConfigurationMaxSize,
                 .recommendationOptionsConfigurationMinSize,
+                .recommendationOptionsConfigurationMixedInstanceTypes,
+                .recommendationOptionsConfigurationType,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
                 .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
@@ -1924,10 +2012,13 @@ extension ComputeOptimizerClientTypes {
             case .accountId: return "AccountId"
             case .autoScalingGroupArn: return "AutoScalingGroupArn"
             case .autoScalingGroupName: return "AutoScalingGroupName"
+            case .currentConfigurationAllocationStrategy: return "CurrentConfigurationAllocationStrategy"
             case .currentConfigurationDesiredCapacity: return "CurrentConfigurationDesiredCapacity"
             case .currentConfigurationInstanceType: return "CurrentConfigurationInstanceType"
             case .currentConfigurationMaxSize: return "CurrentConfigurationMaxSize"
             case .currentConfigurationMinSize: return "CurrentConfigurationMinSize"
+            case .currentConfigurationMixedInstanceTypes: return "CurrentConfigurationMixedInstanceTypes"
+            case .currentConfigurationType: return "CurrentConfigurationType"
             case .currentInstanceGpuInfo: return "CurrentInstanceGpuInfo"
             case .currentMemory: return "CurrentMemory"
             case .currentNetwork: return "CurrentNetwork"
@@ -1947,10 +2038,14 @@ extension ComputeOptimizerClientTypes {
             case .inferredWorkloadTypes: return "InferredWorkloadTypes"
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
             case .lookbackPeriodInDays: return "LookbackPeriodInDays"
+            case .recommendationOptionsConfigurationAllocationStrategy: return "RecommendationOptionsConfigurationAllocationStrategy"
             case .recommendationOptionsConfigurationDesiredCapacity: return "RecommendationOptionsConfigurationDesiredCapacity"
+            case .recommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage: return "RecommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage"
             case .recommendationOptionsConfigurationInstanceType: return "RecommendationOptionsConfigurationInstanceType"
             case .recommendationOptionsConfigurationMaxSize: return "RecommendationOptionsConfigurationMaxSize"
             case .recommendationOptionsConfigurationMinSize: return "RecommendationOptionsConfigurationMinSize"
+            case .recommendationOptionsConfigurationMixedInstanceTypes: return "RecommendationOptionsConfigurationMixedInstanceTypes"
+            case .recommendationOptionsConfigurationType: return "RecommendationOptionsConfigurationType"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
             case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
@@ -10326,6 +10421,10 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
         value.minSize = try reader["minSize"].readIfPresent() ?? 0
         value.maxSize = try reader["maxSize"].readIfPresent() ?? 0
         value.instanceType = try reader["instanceType"].readIfPresent()
+        value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
+        value.estimatedInstanceHourReductionPercentage = try reader["estimatedInstanceHourReductionPercentage"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.mixedInstanceTypes = try reader["mixedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

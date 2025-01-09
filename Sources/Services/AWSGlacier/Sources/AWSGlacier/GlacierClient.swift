@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlacierClient: ClientRuntime.Client {
     public static let clientName = "GlacierClient"
-    public static let version = "1.0.74"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: GlacierClient.GlacierClientConfiguration
     let serviceName = "Glacier"
