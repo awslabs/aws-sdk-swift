@@ -61,10 +61,14 @@ public enum AWSEndpointConfig {
             if let servicesSectionName = fileBasedConfig.section(for: profileName)?.string(for: "services") {
                 let servicesSection = fileBasedConfig.section(for: servicesSectionName, type: .services)
                 let serviceSubsection = servicesSection?.subproperties(
-                    for: FileBasedConfigurationKey(rawValue: removedSpaceID.lowercased(with: Locale(identifier: "en_US")))
+                    for: FileBasedConfigurationKey(
+                        rawValue: removedSpaceID.lowercased(with: Locale(identifier: "en_US"))
+                    )
                 )
                 if let val = serviceSubsection?.value(for: configuredEndpointKey) {
-                    logger.trace("Resolved configured endpoint from service-specific field in shared config file: \(val)")
+                    logger.trace(
+                        "Resolved configured endpoint from service-specific field in shared config file: \(val)"
+                    )
                     return val
                 }
             }
