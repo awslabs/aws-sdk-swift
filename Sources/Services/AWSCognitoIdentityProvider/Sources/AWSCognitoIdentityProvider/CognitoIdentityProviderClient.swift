@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CognitoIdentityProviderClient: ClientRuntime.Client {
     public static let clientName = "CognitoIdentityProviderClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: CognitoIdentityProviderClient.CognitoIdentityProviderClientConfiguration
     let serviceName = "Cognito Identity Provider"
@@ -331,7 +331,7 @@ extension CognitoIdentityProviderClient {
 }
 
 extension CognitoIdentityProviderClient {
-    /// Performs the `AddCustomAttributes` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AddCustomAttributes` operation on the `CognitoIdentityProvider` service.
     ///
     /// Adds additional user attributes to the user pool schema. Custom attributes can be mutable or immutable and have a custom: or dev: prefix. For more information, see [Custom attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes). You can also create custom attributes in the [Schema parameter](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateUserPool.html#CognitoUserPools-CreateUserPool-request-Schema) of CreateUserPool and UpdateUserPool. You can't delete custom attributes after you create them. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -410,7 +410,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminAddUserToGroup` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminAddUserToGroup` operation on the `CognitoIdentityProvider` service.
     ///
     /// Adds a user to a group. A user who is in a group can present a preferred-role claim to an identity pool, and populates a cognito:groups claim to their access and identity tokens. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -489,7 +489,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminConfirmSignUp` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminConfirmSignUp` operation on the `CognitoIdentityProvider` service.
     ///
     /// Confirms user sign-up as an administrator. Unlike [ConfirmSignUp](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ConfirmSignUp.html), your IAM credentials authorize user account confirmation. No confirmation code is required. This request sets a user account active in a user pool that [requires confirmation of new user accounts](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#signing-up-users-in-your-app-and-confirming-them-as-admin) before they can sign in. You can configure your user pool to not send confirmation codes to new users and instead confirm them with this API operation on the back end. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -576,7 +576,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminCreateUser` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminCreateUser` operation on the `CognitoIdentityProvider` service.
     ///
     /// Creates a new user in the specified user pool. If MessageAction isn't set, the default is to send a welcome message via email or phone (SMS). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. This message is based on a template that you configured in your call to create or update a user pool. This template includes your custom sign-up instructions and placeholders for user name and temporary password. Alternatively, you can call AdminCreateUser with SUPPRESS for the MessageAction parameter, and Amazon Cognito won't send any email. In either case, if the user has a password, they will be in the FORCE_CHANGE_PASSWORD state until they sign in and set their password. Your invitation message template must have the {####} password placeholder if your users have passwords. If your template doesn't have this placeholder, Amazon Cognito doesn't deliver the invitation message. In this case, you must update your message template and resend the password with a new AdminCreateUser request with a MessageAction value of RESEND. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -665,7 +665,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminDeleteUser` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminDeleteUser` operation on the `CognitoIdentityProvider` service.
     ///
     /// Deletes a user profile in your user pool. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -744,7 +744,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminDeleteUserAttributes` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminDeleteUserAttributes` operation on the `CognitoIdentityProvider` service.
     ///
     /// Deletes attribute values from a user. This operation doesn't affect tokens for existing user sessions. The next ID token that the user receives will no longer have this attribute. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -823,7 +823,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminDisableProviderForUser` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminDisableProviderForUser` operation on the `CognitoIdentityProvider` service.
     ///
     /// Prevents the user from signing in with the specified external (SAML or social) identity provider (IdP). If the user that you want to deactivate is a Amazon Cognito user pools native username + password user, they can't use their password to sign in. If the user to deactivate is a linked external IdP user, any link between that user and an existing user is removed. When the external user signs in again, and the user is no longer attached to the previously linked DestinationUser, the user must create a new user account. See [AdminLinkProviderForUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminLinkProviderForUser.html). The ProviderName must match the value specified when creating an IdP for the pool. To deactivate a native username + password user, the ProviderName value must be Cognito and the ProviderAttributeName must be Cognito_Subject. The ProviderAttributeValue must be the name that is used in the user pool for the user. The ProviderAttributeName must always be Cognito_Subject for social IdPs. The ProviderAttributeValue must always be the exact subject that was used when the user was originally linked as a source user. For de-linking a SAML identity, there are two scenarios. If the linked identity has not yet been used to sign in, the ProviderAttributeName and ProviderAttributeValue must be the same values that were used for the SourceUser when the identities were originally linked using  AdminLinkProviderForUser call. (If the linking was done with ProviderAttributeName set to Cognito_Subject, the same applies here). However, if the user has already signed in, the ProviderAttributeName must be Cognito_Subject and ProviderAttributeValue must be the subject of the SAML assertion. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -903,7 +903,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminDisableUser` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminDisableUser` operation on the `CognitoIdentityProvider` service.
     ///
     /// Deactivates a user profile and revokes all access tokens for the user. A deactivated user can't sign in, but still appears in the responses to ListUsers API requests. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -982,7 +982,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminEnableUser` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminEnableUser` operation on the `CognitoIdentityProvider` service.
     ///
     /// Activate sign-in for a user profile that previously had sign-in access disabled. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1061,7 +1061,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminForgetDevice` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminForgetDevice` operation on the `CognitoIdentityProvider` service.
     ///
     /// Forgets, or deletes, a remembered device from a user's profile. After you forget the device, the user can no longer complete device authentication with that device and when applicable, must submit MFA codes again. For more information, see [Working with devices](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1141,7 +1141,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminGetDevice` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminGetDevice` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given the device key, returns details for a user' device. For more information, see [Working with devices](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1220,7 +1220,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminGetUser` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminGetUser` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given the username, returns details about a user profile in a user pool. This operation contributes to your monthly active user (MAU) count for the purpose of billing. You can specify alias attributes in the Username parameter. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1299,7 +1299,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminInitiateAuth` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminInitiateAuth` operation on the `CognitoIdentityProvider` service.
     ///
     /// Starts sign-in for applications with a server-side component, for example a traditional web application. This operation specifies the authentication flow that you'd like to begin. The authentication flow that you specify must be supported in your app client configuration. For more information about authentication flows, see [Authentication flows](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1388,7 +1388,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminLinkProviderForUser` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminLinkProviderForUser` operation on the `CognitoIdentityProvider` service.
     ///
     /// Links an existing user account in a user pool (DestinationUser) to an identity from an external IdP (SourceUser) based on a specified attribute name and value from the external IdP. This allows you to create a link from the existing user account to an external federated user identity that has not yet been used to sign in. You can then use the federated user identity to sign in as the existing user account. For example, if there is an existing user with a username and password, this API links that user to a federated user identity. When the user signs in with a federated user identity, they sign in as the existing user account. The maximum number of federated identities linked to a user is five. Because this API allows a user with an external federated identity to sign in as an existing user in the user pool, it is critical that it only be used with external IdPs and provider attributes that have been trusted by the application owner. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1469,7 +1469,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminListDevices` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminListDevices` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists a user's registered devices. Remembered devices are used in authentication services where you offer a "Remember me" option for users who you want to permit to sign in without MFA from a trusted device. Users can bypass MFA while your application performs device SRP authentication on the back end. For more information, see [Working with devices](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1548,7 +1548,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminListGroupsForUser` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminListGroupsForUser` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists the groups that a user belongs to. User pool groups are identifiers that you can reference from the contents of ID and access tokens, and set preferred IAM roles for identity-pool authentication. For more information, see [Adding groups to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-user-groups.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1627,7 +1627,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminListUserAuthEvents` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminListUserAuthEvents` operation on the `CognitoIdentityProvider` service.
     ///
     /// Requests a history of user activity and any risks detected as part of Amazon Cognito threat protection. For more information, see [Viewing user event history](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-adaptive-authentication.html#user-pool-settings-adaptive-authentication-event-user-history). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1707,7 +1707,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminRemoveUserFromGroup` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminRemoveUserFromGroup` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given a username and a group name. removes them from the group. User pool groups are identifiers that you can reference from the contents of ID and access tokens, and set preferred IAM roles for identity-pool authentication. For more information, see [Adding groups to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-user-groups.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1786,7 +1786,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminResetUserPassword` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminResetUserPassword` operation on the `CognitoIdentityProvider` service.
     ///
     /// Resets the specified user's password in a user pool. This operation doesn't change the user's password, but sends a password-reset code. This operation is the administrative authentication API equivalent to [ForgotPassword](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ForgotPassword.html). This operation deactivates a user's password, requiring them to change it. If a user tries to sign in after the API request, Amazon Cognito responds with a PasswordResetRequiredException error. Your app must then complete the forgot-password flow by prompting the user for their code and a new password, then submitting those values in a [ConfirmForgotPassword](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ConfirmForgotPassword.html) request. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password. To use this API operation, your user pool must have self-service account recovery configured. Use [AdminSetUserPassword](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserPassword.html) if you manage passwords as an administrator. This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1872,7 +1872,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminRespondToAuthChallenge` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminRespondToAuthChallenge` operation on the `CognitoIdentityProvider` service.
     ///
     /// Some API operations in a user pool generate a challenge, like a prompt for an MFA code, for device authentication that bypasses MFA, or for a custom authentication challenge. An AdminRespondToAuthChallenge API request provides the answer to that challenge, like a code or a secure remote password (SRP). The parameters of a response to an authentication challenge vary with the type of challenge. For more information about custom authentication challenges, see [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -1967,7 +1967,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminSetUserMFAPreference` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminSetUserMFAPreference` operation on the `CognitoIdentityProvider` service.
     ///
     /// Sets the user's multi-factor authentication (MFA) preference, including which MFA options are activated, and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. This operation doesn't reset an existing TOTP MFA for a user. To register a new TOTP factor for a user, make an [AssociateSoftwareToken](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AssociateSoftwareToken.html) request. For more information, see [TOTP software token MFA](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa-totp.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -2047,7 +2047,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminSetUserPassword` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminSetUserPassword` operation on the `CognitoIdentityProvider` service.
     ///
     /// Sets the specified user's password in a user pool. This operation administratively sets a temporary or permanent password for a user. With this operation, you can bypass self-service password changes and permit immediate sign-in with the password that you set. To do this, set Permanent to true. You can also set a new temporary password in this request, send it to a user, and require them to choose a new password on their next sign-in. To do this, set Permanent to false. If the password is temporary, the user's Status becomes FORCE_CHANGE_PASSWORD. When the user next tries to sign in, the InitiateAuth or AdminInitiateAuth response includes the NEW_PASSWORD_REQUIRED challenge. If the user doesn't sign in before the temporary password expires, they can no longer sign in and you must repeat this operation to set a temporary or permanent password for them. After the user sets a new password, or if you set a permanent password, their status becomes Confirmed. AdminSetUserPassword can set a password for the user profile that Amazon Cognito creates for third-party federated users. When you set a password, the federated user's status changes from EXTERNAL_PROVIDER to CONFIRMED. A user in this state can sign in as a federated user, and initiate authentication flows in the API like a linked native user. They can also modify their password and attributes in token-authenticated API requests like ChangePassword and UpdateUserAttributes. As a best security practice and to keep users in sync with your external IdP, don't set passwords on federated user profiles. To set up a federated user for native sign-in with a linked native user, refer to [Linking federated users to an existing user profile](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation-consolidate-users.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -2128,7 +2128,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminSetUserSettings` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminSetUserSettings` operation on the `CognitoIdentityProvider` service.
     ///
     /// This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software token MFA. To configure either type of MFA, use [AdminSetUserMFAPreference](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserMFAPreference.html) instead. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -2206,7 +2206,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminUpdateAuthEventFeedback` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminUpdateAuthEventFeedback` operation on the `CognitoIdentityProvider` service.
     ///
     /// Provides feedback for an authentication event indicating if it was from a valid user. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito threat protection. To train the threat-protection model to recognize trusted and untrusted sign-in characteristics, configure threat protection in audit-only mode and provide a mechanism for users or administrators to submit feedback. Your feedback can tell Amazon Cognito that a risk rating was assigned at a level you don't agree with. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -2286,7 +2286,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminUpdateDeviceStatus` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminUpdateDeviceStatus` operation on the `CognitoIdentityProvider` service.
     ///
     /// Updates the status of a user's device so that it is marked as remembered or not remembered for the purpose of device authentication. Device authentication is a "remember me" mechanism that silently completes sign-in from trusted devices with a device key instead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more information about device authentication, see [Working with devices](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -2366,7 +2366,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminUpdateUserAttributes` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminUpdateUserAttributes` operation on the `CognitoIdentityProvider` service.
     ///
     /// This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. Updates the specified user's attributes. To delete an attribute from your user, submit the attribute in your API request with a blank value. For custom attributes, you must prepend the custom: prefix to the attribute name. This operation can set a user's email address or phone number as verified and permit immediate sign-in in user pools that require verification of these attributes. To do this, set the email_verified or phone_number_verified attribute to true. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -2452,7 +2452,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdminUserGlobalSignOut` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AdminUserGlobalSignOut` operation on the `CognitoIdentityProvider` service.
     ///
     /// Invalidates the identity, access, and refresh tokens that Amazon Cognito issued to a user. Call this operation with your administrative credentials when your user signs out of your app. This results in the following behavior.
     ///
@@ -2540,7 +2540,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateSoftwareToken` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `AssociateSoftwareToken` operation on the `CognitoIdentityProvider` service.
     ///
     /// Begins setup of time-based one-time password (TOTP) multi-factor authentication (MFA) for a user, with a unique private key that Amazon Cognito generates and returns in the API response. You can authorize an AssociateSoftwareToken request with either the user's access token, or a session string from a challenge response that you received from Amazon Cognito. Amazon Cognito disassociates an existing software token when you verify the new token in a [ VerifySoftwareToken](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_VerifySoftwareToken.html) API request. If you don't verify the software token and your user pool doesn't require MFA, the user can then authenticate with user name and password credentials alone. If your user pool requires TOTP MFA, Amazon Cognito generates an MFA_SETUP or SOFTWARE_TOKEN_SETUP challenge each time your user signs in. Complete setup with AssociateSoftwareToken and VerifySoftwareToken. After you set up software token MFA for your user, Amazon Cognito generates a SOFTWARE_TOKEN_MFA challenge when they authenticate. Respond to this challenge with your user's TOTP. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin.
     ///
@@ -2614,7 +2614,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ChangePassword` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ChangePassword` operation on the `CognitoIdentityProvider` service.
     ///
     /// Changes the password for a specified user in a user pool. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -2693,7 +2693,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CompleteWebAuthnRegistration` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `CompleteWebAuthnRegistration` operation on the `CognitoIdentityProvider` service.
     ///
     /// Completes registration of a passkey authenticator for the current user. Your application provides data from a successful registration request with the data from the output of a [ StartWebAuthnRegistration](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_StartWebAuthnRegistration.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin.
     ///
@@ -2772,7 +2772,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConfirmDevice` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ConfirmDevice` operation on the `CognitoIdentityProvider` service.
     ///
     /// Confirms a device that a user wants to remember. A remembered device is a "Remember me on this device" option for user pools that perform authentication with the device key of a trusted device in the back end, instead of a user-provided MFA code. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -2852,7 +2852,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConfirmForgotPassword` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ConfirmForgotPassword` operation on the `CognitoIdentityProvider` service.
     ///
     /// This public API operation accepts a confirmation code that Amazon Cognito sent to a user and accepts a new password for that user. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -2936,7 +2936,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConfirmSignUp` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ConfirmSignUp` operation on the `CognitoIdentityProvider` service.
     ///
     /// This public API operation submits a code that Amazon Cognito sent to your user when they signed up in your user pool via the [SignUp](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SignUp.html) API operation. After your user enters their code, they confirm ownership of the email address or phone number that they provided, and their user account becomes active. Depending on your user pool configuration, your users will receive their confirmation code in an email or SMS message. Local users who signed up in your user pool are the only type of user who can confirm sign-up with a code. Users who federate through an external identity provider (IdP) have already been confirmed by their IdP. Administrator-created users, users created with the [AdminCreateUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminCreateUser.html) API operation, confirm their accounts when they respond to their invitation email message and choose a password. They do not receive a confirmation code. Instead, they receive a temporary password. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -3018,7 +3018,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGroup` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `CreateGroup` operation on the `CognitoIdentityProvider` service.
     ///
     /// Creates a new group in the specified user pool. For more information about user pool groups see [Adding groups to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-user-groups.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3098,7 +3098,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIdentityProvider` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `CreateIdentityProvider` operation on the `CognitoIdentityProvider` service.
     ///
     /// Adds a configuration and trust relationship between a third-party identity provider (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity providers through managed login and OIDC relying-party libraries. For more information, see [Third-party IdP sign-in](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3178,7 +3178,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateManagedLoginBranding` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `CreateManagedLoginBranding` operation on the `CognitoIdentityProvider` service.
     ///
     /// Creates a new set of branding settings for a user pool style and associates it with an app client. This operation is the programmatic option for the creation of a new style in the branding designer. Provides values for UI customization in a Settings JSON object and image files in an Assets array. To send the JSON object Document type parameter in Settings, you might need to update to the most recent version of your Amazon Web Services SDK. To create a new style with default settings, set UseCognitoProvidedValues to true and don't provide values for any other options. This operation has a 2-megabyte request-size limit and include the CSS settings and image assets for your app client. Your branding settings might exceed 2MB in size. Amazon Cognito doesn't require that you pass all parameters in one request and preserves existing style settings that you don't specify. If your request is larger than 2MB, separate it into multiple requests, each with a size smaller than the limit. As a best practice, modify the output of [DescribeManagedLoginBrandingByClient](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_DescribeManagedLoginBrandingByClient.html) into the request parameters for this operation. To get all settings, set ReturnMergedResources to true. For more information, see [API and SDK operations for managed login branding](https://docs.aws.amazon.com/cognito/latest/developerguide/managed-login-brandingdesigner.html#branding-designer-api). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3259,7 +3259,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResourceServer` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `CreateResourceServer` operation on the `CognitoIdentityProvider` service.
     ///
     /// Creates a new OAuth2.0 resource server and defines custom scopes within it. Resource servers are associated with custom scopes and machine-to-machine (M2M) authorization. For more information, see [Access control with resource servers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-define-resource-servers.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3338,7 +3338,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUserImportJob` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `CreateUserImportJob` operation on the `CognitoIdentityProvider` service.
     ///
     /// Creates a user import job. You can import users into user pools from a comma-separated values (CSV) file without adding Amazon Cognito MAU costs to your Amazon Web Services bill. To generate a template for your import, see [GetCSVHeader](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetCSVHeader.html). To learn more about CSV import, see [Importing users from a CSV file](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-using-import-tool.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3418,7 +3418,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUserPool` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `CreateUserPool` operation on the `CognitoIdentityProvider` service.
     ///
     /// This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. Creates a new Amazon Cognito user pool. This operation sets basic and advanced configuration options. You can create a user pool in the Amazon Cognito console to your preferences and use the output of [DescribeUserPool](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_DescribeUserPool.html) to generate requests from that baseline. If you don't provide a value for an attribute, Amazon Cognito sets it to its default value. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3502,7 +3502,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUserPoolClient` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `CreateUserPoolClient` operation on the `CognitoIdentityProvider` service.
     ///
     /// Creates an app client in a user pool. This operation sets basic and advanced configuration options. You can create an app client in the Amazon Cognito console to your preferences and use the output of [DescribeUserPoolClient](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_DescribeUserPoolClient.html) to generate requests from that baseline. New app clients activate token revocation by default. For more information about revoking tokens, see [RevokeToken](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RevokeToken.html). If you don't provide a value for an attribute, Amazon Cognito sets it to its default value. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3583,7 +3583,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUserPoolDomain` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `CreateUserPoolDomain` operation on the `CognitoIdentityProvider` service.
     ///
     /// A user pool domain hosts managed login, an authorization server and web server for authentication in your application. This operation creates a new user pool prefix or custom domain and sets the managed login branding version. Set the branding version to 1 for hosted UI (classic) or 2 for managed login. When you choose a custom domain, you must provide an SSL certificate in the US East (N. Virginia) Amazon Web Services Region in your request. Your prefix domain might take up to one minute to take effect. Your custom domain is online within five minutes, but it can take up to one hour to distribute your SSL certificate. For more information about adding a custom domain to your user pool, see [Configuring a user pool domain](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-add-custom-domain.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3662,7 +3662,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGroup` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DeleteGroup` operation on the `CognitoIdentityProvider` service.
     ///
     /// Deletes a group from the specified user pool. When you delete a group, that group no longer contributes to users' cognito:preferred_group or cognito:groups claims, and no longer influence access-control decision that are based on group membership. For more information about user pool groups, see [Adding groups to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-user-groups.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3740,7 +3740,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIdentityProvider` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DeleteIdentityProvider` operation on the `CognitoIdentityProvider` service.
     ///
     /// Deletes a user pool identity provider (IdP). After you delete an IdP, users can no longer sign in to your user pool through that IdP. For more information about user pool IdPs, see [Third-party IdP sign-in](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3820,7 +3820,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteManagedLoginBranding` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DeleteManagedLoginBranding` operation on the `CognitoIdentityProvider` service.
     ///
     /// Deletes a managed login branding style. When you delete a style, you delete the branding association for an app client. When an app client doesn't have a style assigned, your managed login pages for that app client are nonfunctional until you create a new style or switch the domain branding version. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3899,7 +3899,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourceServer` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DeleteResourceServer` operation on the `CognitoIdentityProvider` service.
     ///
     /// Deletes a resource server. After you delete a resource server, users can no longer generate access tokens with scopes that are associate with that resource server. Resource servers are associated with custom scopes and machine-to-machine (M2M) authorization. For more information, see [Access control with resource servers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-define-resource-servers.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -3977,7 +3977,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUser` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DeleteUser` operation on the `CognitoIdentityProvider` service.
     ///
     /// Self-deletes a user profile. A deleted user profile can no longer be used to sign in and can't be restored. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -4053,7 +4053,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUserAttributes` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DeleteUserAttributes` operation on the `CognitoIdentityProvider` service.
     ///
     /// Self-deletes attributes for a user. For example, your application can submit a request to this operation when a user wants to remove their birthdate attribute value. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -4129,7 +4129,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUserPool` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DeleteUserPool` operation on the `CognitoIdentityProvider` service.
     ///
     /// Deletes a user pool. After you delete a user pool, users can no longer sign in to any associated applications.
     ///
@@ -4204,7 +4204,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUserPoolClient` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DeleteUserPoolClient` operation on the `CognitoIdentityProvider` service.
     ///
     /// Deletes a user pool app client. After you delete an app client, users can no longer sign in to the associated application.
     ///
@@ -4279,7 +4279,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUserPoolDomain` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DeleteUserPoolDomain` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given a user pool ID and domain identifier, deletes a user pool domain. After you delete a user pool domain, your managed login pages and authorization server are no longer available.
     ///
@@ -4352,7 +4352,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWebAuthnCredential` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DeleteWebAuthnCredential` operation on the `CognitoIdentityProvider` service.
     ///
     /// Deletes a registered passkey, or webauthN, authenticator for the currently signed-in user. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -4424,7 +4424,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIdentityProvider` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DescribeIdentityProvider` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given a user pool ID and identity provider (IdP) name, returns details about the IdP.
     ///
@@ -4498,7 +4498,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeManagedLoginBranding` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DescribeManagedLoginBranding` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given the ID of a managed login branding style, returns detailed information about the style.
     ///
@@ -4572,7 +4572,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeManagedLoginBrandingByClient` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DescribeManagedLoginBrandingByClient` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given the ID of a user pool app client, returns detailed information about the style assigned to the app client.
     ///
@@ -4646,7 +4646,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeResourceServer` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DescribeResourceServer` operation on the `CognitoIdentityProvider` service.
     ///
     /// Describes a resource server. For more information about resource servers, see [Access control with resource servers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-define-resource-servers.html).
     ///
@@ -4720,7 +4720,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRiskConfiguration` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DescribeRiskConfiguration` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given an app client or user pool ID where threat protection is configured, describes the risk configuration. This operation returns details about adaptive authentication, compromised credentials, and IP-address allow- and denylists. For more information about threat protection, see [Threat protection](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-threat-protection.html).
     ///
@@ -4795,7 +4795,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUserImportJob` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DescribeUserImportJob` operation on the `CognitoIdentityProvider` service.
     ///
     /// Describes a user import job. For more information about user CSV import, see [Importing users from a CSV file](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-using-import-tool.html).
     ///
@@ -4869,7 +4869,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUserPool` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DescribeUserPool` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given a user pool ID, returns configuration information. This operation is useful when you want to inspect an existing user pool and programmatically replicate the configuration to another user pool. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -4948,7 +4948,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUserPoolClient` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DescribeUserPoolClient` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given an app client ID, returns configuration information. This operation is useful when you want to inspect an existing app client and programmatically replicate the configuration to another app client. For more information about app clients, see [App clients](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -5026,7 +5026,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUserPoolDomain` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `DescribeUserPoolDomain` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given a user pool domain name, returns information about the domain configuration. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -5103,7 +5103,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ForgetDevice` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ForgetDevice` operation on the `CognitoIdentityProvider` service.
     ///
     /// Forgets the specified device. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -5180,7 +5180,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ForgotPassword` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ForgotPassword` operation on the `CognitoIdentityProvider` service.
     ///
     /// Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. The method used to send the confirmation code is sent according to the specified AccountRecoverySetting. For more information, see [Recovering User Accounts](https://docs.aws.amazon.com/cognito/latest/developerguide/how-to-recover-a-user-account.html) in the Amazon Cognito Developer Guide. To use the confirmation code for resetting the password, call [ConfirmForgotPassword](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ConfirmForgotPassword.html). If neither a verified phone number nor a verified email exists, this API returns InvalidParameterException. If your app client has a client secret and you don't provide a SECRET_HASH parameter, this API returns NotAuthorizedException. To use this API operation, your user pool must have self-service account recovery configured. Use [AdminSetUserPassword](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserPassword.html) if you manage passwords as an administrator. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
@@ -5262,7 +5262,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCSVHeader` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GetCSVHeader` operation on the `CognitoIdentityProvider` service.
     ///
     /// Gets the header information for the comma-separated value (CSV) file to be used as input for the user import job.
     ///
@@ -5336,7 +5336,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDevice` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GetDevice` operation on the `CognitoIdentityProvider` service.
     ///
     /// Gets the device. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -5413,7 +5413,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGroup` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GetGroup` operation on the `CognitoIdentityProvider` service.
     ///
     /// Gets a group. Calling this action requires developer credentials.
     ///
@@ -5487,7 +5487,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdentityProviderByIdentifier` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GetIdentityProviderByIdentifier` operation on the `CognitoIdentityProvider` service.
     ///
     /// Gets the specified IdP.
     ///
@@ -5561,7 +5561,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLogDeliveryConfiguration` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GetLogDeliveryConfiguration` operation on the `CognitoIdentityProvider` service.
     ///
     /// Gets the logging configuration of a user pool.
     ///
@@ -5635,7 +5635,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSigningCertificate` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GetSigningCertificate` operation on the `CognitoIdentityProvider` service.
     ///
     /// This method takes a user pool ID, and returns the signing certificate. The issued certificate is valid for 10 years from the date of issue. Amazon Cognito issues and assigns a new signing certificate annually. This process returns a new value in the response to GetSigningCertificate, but doesn't invalidate the original certificate.
     ///
@@ -5707,7 +5707,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUICustomization` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GetUICustomization` operation on the `CognitoIdentityProvider` service.
     ///
     /// Gets the user interface (UI) Customization information for a particular app client's app UI, if any such information exists for the client. If nothing is set for the particular client, but there is an existing pool level customization (the app clientId is ALL), then that information is returned. If nothing is present, then an empty shape is returned.
     ///
@@ -5781,7 +5781,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUser` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GetUser` operation on the `CognitoIdentityProvider` service.
     ///
     /// Gets the user attributes and metadata for a user. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -5857,7 +5857,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUserAttributeVerificationCode` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GetUserAttributeVerificationCode` operation on the `CognitoIdentityProvider` service.
     ///
     /// Generates a user attribute verification code for the specified attribute name. Sends a message to a user with a code that they must return in a VerifyUserAttribute request. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
@@ -5941,7 +5941,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUserAuthFactors` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GetUserAuthFactors` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists the authentication options for the currently signed-in user. Returns the following:
     ///
@@ -6021,7 +6021,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUserPoolMfaConfig` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GetUserPoolMfaConfig` operation on the `CognitoIdentityProvider` service.
     ///
     /// Gets the user pool multi-factor authentication (MFA) configuration.
     ///
@@ -6095,7 +6095,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GlobalSignOut` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `GlobalSignOut` operation on the `CognitoIdentityProvider` service.
     ///
     /// Invalidates the identity, access, and refresh tokens that Amazon Cognito issued to a user. Call this operation when your user signs out of your app. This results in the following behavior.
     ///
@@ -6179,7 +6179,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InitiateAuth` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `InitiateAuth` operation on the `CognitoIdentityProvider` service.
     ///
     /// Initiates sign-in for a user in the Amazon Cognito user directory. You can't sign in a user with a federated IdP with InitiateAuth. For more information, see [ Adding user pool sign-in through a third party](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation.html). Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
@@ -6262,7 +6262,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDevices` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ListDevices` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists the sign-in devices that Amazon Cognito has registered to the current user. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -6339,7 +6339,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGroups` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ListGroups` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists the groups associated with a user pool. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -6417,7 +6417,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdentityProviders` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ListIdentityProviders` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists information about all IdPs for a user pool. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -6495,7 +6495,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceServers` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ListResourceServers` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists the resource servers for a user pool. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -6573,7 +6573,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ListTagsForResource` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists the tags that are assigned to an Amazon Cognito user pool. A tag is a label that you can apply to user pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. You can use this action up to 10 times per second, per account.
     ///
@@ -6647,7 +6647,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUserImportJobs` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ListUserImportJobs` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists user import jobs for a user pool. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -6725,7 +6725,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUserPoolClients` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ListUserPoolClients` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists the clients that have been created for the specified user pool. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -6803,7 +6803,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUserPools` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ListUserPools` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists the user pools associated with an Amazon Web Services account. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -6880,7 +6880,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsers` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ListUsers` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists users and their basic details in a user pool. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -6958,7 +6958,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsersInGroup` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ListUsersInGroup` operation on the `CognitoIdentityProvider` service.
     ///
     /// Lists the users in the specified group. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -7036,7 +7036,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWebAuthnCredentials` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ListWebAuthnCredentials` operation on the `CognitoIdentityProvider` service.
     ///
     /// Generates a list of the current user's registered passkey, or webauthN, credentials.
     ///
@@ -7107,7 +7107,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResendConfirmationCode` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `ResendConfirmationCode` operation on the `CognitoIdentityProvider` service.
     ///
     /// Resends the confirmation (for confirmation of registration) to a specific user in the user pool. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
@@ -7189,7 +7189,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RespondToAuthChallenge` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `RespondToAuthChallenge` operation on the `CognitoIdentityProvider` service.
     ///
     /// Some API operations in a user pool generate a challenge, like a prompt for an MFA code, for device authentication that bypasses MFA, or for a custom authentication challenge. A RespondToAuthChallenge API request provides the answer to that challenge, like a code or a secure remote password (SRP). The parameters of a response to an authentication challenge vary with the type of challenge. For more information about custom authentication challenges, see [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html). Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
@@ -7279,7 +7279,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RevokeToken` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `RevokeToken` operation on the `CognitoIdentityProvider` service.
     ///
     /// Revokes all of the access tokens generated by, and at the same time as, the specified refresh token. After a token is revoked, you can't use the revoked token to access Amazon Cognito user APIs, or to authorize access to your resource server. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -7353,7 +7353,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetLogDeliveryConfiguration` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `SetLogDeliveryConfiguration` operation on the `CognitoIdentityProvider` service.
     ///
     /// Sets up or modifies the logging configuration of a user pool. User pools can export user notification logs and advanced security features user activity logs.
     ///
@@ -7428,7 +7428,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetRiskConfiguration` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `SetRiskConfiguration` operation on the `CognitoIdentityProvider` service.
     ///
     /// Configures actions on detected risks. To delete the risk configuration for UserPoolId or ClientId, pass null values for all four configuration types. To activate Amazon Cognito advanced security features, update the user pool to include the UserPoolAddOns keyAdvancedSecurityMode.
     ///
@@ -7505,7 +7505,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetUICustomization` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `SetUICustomization` operation on the `CognitoIdentityProvider` service.
     ///
     /// Sets the user interface (UI) customization information for a user pool's built-in app UI. You can specify app UI customization settings for a single client (with a specific clientId) or for all clients (by setting the clientId to ALL). If you specify ALL, the default configuration is used for every client that has no previously set UI customization. If you specify UI customization settings for a particular client, it will no longer return to the ALL configuration. To use this API, your user pool must have a domain associated with it. Otherwise, there is no place to host the app's pages, and the service will throw an error.
     ///
@@ -7579,7 +7579,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetUserMFAPreference` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `SetUserMFAPreference` operation on the `CognitoIdentityProvider` service.
     ///
     /// Set the user's multi-factor authentication (MFA) method preference, including which MFA factors are activated and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts unless device tracking is turned on and the device has been trusted. If you want MFA to be applied selectively based on the assessed risk level of sign-in attempts, deactivate MFA for users and turn on Adaptive Authentication for the user pool. This operation doesn't reset an existing TOTP MFA for a user. To register a new TOTP factor for a user, make an [AssociateSoftwareToken](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AssociateSoftwareToken.html) request. For more information, see [TOTP software token MFA](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa-totp.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -7654,7 +7654,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetUserPoolMfaConfig` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `SetUserPoolMfaConfig` operation on the `CognitoIdentityProvider` service.
     ///
     /// Sets the user pool multi-factor authentication (MFA) and passkey configuration. This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
@@ -7732,7 +7732,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetUserSettings` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `SetUserSettings` operation on the `CognitoIdentityProvider` service.
     ///
     /// This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software token MFA. To configure either type of MFA, use [SetUserMFAPreference](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SetUserMFAPreference.html) instead. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -7807,7 +7807,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SignUp` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `SignUp` operation on the `CognitoIdentityProvider` service.
     ///
     /// Registers the user in the specified user pool and creates a user name, password, and user attributes. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. You might receive a LimitExceeded exception in response to this request if you have exceeded a rate quota for email or SMS messages, and if your user pool automatically verifies email addresses or phone numbers. When you get this exception in the response, the user is successfully created and is in an UNCONFIRMED state. You can send a new code with the [ ResendConfirmationCode](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ResendConfirmationCode.html) request, or confirm the user as an administrator with an [ AdminConfirmSignUp](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminConfirmSignUp.html) request.
     ///
@@ -7890,7 +7890,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartUserImportJob` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `StartUserImportJob` operation on the `CognitoIdentityProvider` service.
     ///
     /// Starts the user import.
     ///
@@ -7965,7 +7965,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartWebAuthnRegistration` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `StartWebAuthnRegistration` operation on the `CognitoIdentityProvider` service.
     ///
     /// Requests credential creation options from your user pool for registration of a passkey authenticator. Returns information about the user pool, the user profile, and authentication requirements. Users must provide this information in their request to enroll your application with their passkey provider. After users present this data and register with their passkey provider, return the response to your user pool in a [ CompleteWebAuthnRegistration](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CompleteWebAuthnRegistration.html) API request. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin.
     ///
@@ -8040,7 +8040,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopUserImportJob` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `StopUserImportJob` operation on the `CognitoIdentityProvider` service.
     ///
     /// Stops the user import job.
     ///
@@ -8115,7 +8115,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `TagResource` operation on the `CognitoIdentityProvider` service.
     ///
     /// Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of a user pool, one for testing and another for production, you might assign an Environment tag key to both user pools. The value of this key might be Test for one user pool, and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your user pools. In an Identity and Access Management policy, you can constrain permissions for user pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. A user pool can have as many as 50 tags.
     ///
@@ -8189,7 +8189,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `UntagResource` operation on the `CognitoIdentityProvider` service.
     ///
     /// Removes the specified tags from an Amazon Cognito user pool. You can use this action up to 5 times per second, per account.
     ///
@@ -8263,7 +8263,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAuthEventFeedback` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `UpdateAuthEventFeedback` operation on the `CognitoIdentityProvider` service.
     ///
     /// Provides the feedback for an authentication event, whether it was from a valid user or not. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -8337,7 +8337,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDeviceStatus` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `UpdateDeviceStatus` operation on the `CognitoIdentityProvider` service.
     ///
     /// Updates the device status. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -8414,7 +8414,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGroup` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `UpdateGroup` operation on the `CognitoIdentityProvider` service.
     ///
     /// Updates the specified group with the specified attributes. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -8492,7 +8492,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIdentityProvider` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `UpdateIdentityProvider` operation on the `CognitoIdentityProvider` service.
     ///
     /// Updates IdP information for a user pool. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -8572,7 +8572,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateManagedLoginBranding` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `UpdateManagedLoginBranding` operation on the `CognitoIdentityProvider` service.
     ///
     /// Configures the branding settings for a user pool style. This operation is the programmatic option for the configuration of a style in the branding designer. Provides values for UI customization in a Settings JSON object and image files in an Assets array. This operation has a 2-megabyte request-size limit and include the CSS settings and image assets for your app client. Your branding settings might exceed 2MB in size. Amazon Cognito doesn't require that you pass all parameters in one request and preserves existing style settings that you don't specify. If your request is larger than 2MB, separate it into multiple requests, each with a size smaller than the limit. As a best practice, modify the output of [DescribeManagedLoginBrandingByClient](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_DescribeManagedLoginBrandingByClient.html) into the request parameters for this operation. To get all settings, set ReturnMergedResources to true. For more information, see [API and SDK operations for managed login branding](https://docs.aws.amazon.com/cognito/latest/developerguide/managed-login-brandingdesigner.html#branding-designer-api) Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -8651,7 +8651,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResourceServer` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `UpdateResourceServer` operation on the `CognitoIdentityProvider` service.
     ///
     /// Updates the name and scopes of resource server. All other fields are read-only. If you don't provide a value for an attribute, it is set to the default value. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -8729,7 +8729,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserAttributes` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `UpdateUserAttributes` operation on the `CognitoIdentityProvider` service.
     ///
     /// With this operation, your users can update one or more of their attributes with their own credentials. You authorize this API request with the user's access token. To delete an attribute from your user, submit the attribute in your API request with a blank value. Custom attribute values in this request must include the custom: prefix. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
@@ -8815,7 +8815,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserPool` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `UpdateUserPool` operation on the `CognitoIdentityProvider` service.
     ///
     /// This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. Updates the specified user pool with the specified attributes. You can get a list of the current user pool settings using [DescribeUserPool](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_DescribeUserPool.html). If you don't provide a value for an attribute, Amazon Cognito sets it to its default value. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -8901,7 +8901,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserPoolClient` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `UpdateUserPoolClient` operation on the `CognitoIdentityProvider` service.
     ///
     /// Updates the specified user pool app client with the specified attributes. You can get a list of the current user pool app client settings using [DescribeUserPoolClient](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_DescribeUserPoolClient.html). If you don't provide a value for an attribute, Amazon Cognito sets it to its default value. You can also use this operation to enable token revocation for user pool clients. For more information about revoking tokens, see [RevokeToken](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RevokeToken.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -8982,7 +8982,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserPoolDomain` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `UpdateUserPoolDomain` operation on the `CognitoIdentityProvider` service.
     ///
     /// A user pool domain hosts managed login, an authorization server and web server for authentication in your application. This operation updates the branding version for user pool domains between 1 for hosted UI (classic) and 2 for managed login. It also updates the SSL certificate for user pool custom domains. Changes to the domain branding version take up to one minute to take effect for a prefix domain and up to five minutes for a custom domain. This operation doesn't change the name of your user pool domain. To change your domain, delete it with DeleteUserPoolDomain and create a new domain with CreateUserPoolDomain. You can pass the ARN of a new Certificate Manager certificate in this request. Typically, ACM certificates automatically renew and you user pool can continue to use the same ARN. But if you generate a new certificate for your custom domain name, replace the original configuration with the new ARN in this request. ACM certificates for custom domains must be in the US East (N. Virginia) Amazon Web Services Region. After you submit your request, Amazon Cognito requires up to 1 hour to distribute your new certificate to your custom domain. For more information about adding a custom domain to your user pool, see [Configuring a user pool domain](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-add-custom-domain.html). Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
@@ -9061,7 +9061,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `VerifySoftwareToken` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `VerifySoftwareToken` operation on the `CognitoIdentityProvider` service.
     ///
     /// Use this API to register a user's entered time-based one-time password (TOTP) code and mark the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
@@ -9141,7 +9141,7 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `VerifyUserAttribute` operation on the `AWSCognitoIdentityProviderService` service.
+    /// Performs the `VerifyUserAttribute` operation on the `CognitoIdentityProvider` service.
     ///
     /// Verifies the specified user attributes in the user pool. If your user pool requires verification before Amazon Cognito updates the attribute value, VerifyUserAttribute updates the affected attribute to its pending value. For more information, see [ UserAttributeUpdateSettingsType](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UserAttributeUpdateSettingsType.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///

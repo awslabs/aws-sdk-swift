@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RbinClient: ClientRuntime.Client {
     public static let clientName = "RbinClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: RbinClient.RbinClientConfiguration
     let serviceName = "rbin"
@@ -330,7 +330,7 @@ extension RbinClient {
 }
 
 extension RbinClient {
-    /// Performs the `CreateRule` operation on the `AmazonRecycleBin` service.
+    /// Performs the `CreateRule` operation on the `Rbin` service.
     ///
     /// Creates a Recycle Bin retention rule. You can create two types of retention rules:
     ///
@@ -408,7 +408,7 @@ extension RbinClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRule` operation on the `AmazonRecycleBin` service.
+    /// Performs the `DeleteRule` operation on the `Rbin` service.
     ///
     /// Deletes a Recycle Bin retention rule. For more information, see [ Delete Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-delete-rule) in the Amazon Elastic Compute Cloud User Guide.
     ///
@@ -477,7 +477,7 @@ extension RbinClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRule` operation on the `AmazonRecycleBin` service.
+    /// Performs the `GetRule` operation on the `Rbin` service.
     ///
     /// Gets information about a Recycle Bin retention rule.
     ///
@@ -545,7 +545,7 @@ extension RbinClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRules` operation on the `AmazonRecycleBin` service.
+    /// Performs the `ListRules` operation on the `Rbin` service.
     ///
     /// Lists the Recycle Bin retention rules in the Region.
     ///
@@ -615,7 +615,7 @@ extension RbinClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonRecycleBin` service.
+    /// Performs the `ListTagsForResource` operation on the `Rbin` service.
     ///
     /// Lists the tags assigned to a retention rule.
     ///
@@ -683,7 +683,7 @@ extension RbinClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `LockRule` operation on the `AmazonRecycleBin` service.
+    /// Performs the `LockRule` operation on the `Rbin` service.
     ///
     /// Locks a Region-level retention rule. A locked retention rule can't be modified or deleted. You can't lock tag-level retention rules, or Region-level retention rules that have exclusion tags.
     ///
@@ -755,7 +755,7 @@ extension RbinClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonRecycleBin` service.
+    /// Performs the `TagResource` operation on the `Rbin` service.
     ///
     /// Assigns tags to the specified retention rule.
     ///
@@ -827,7 +827,7 @@ extension RbinClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UnlockRule` operation on the `AmazonRecycleBin` service.
+    /// Performs the `UnlockRule` operation on the `Rbin` service.
     ///
     /// Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted only after the unlock delay period expires.
     ///
@@ -896,7 +896,7 @@ extension RbinClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonRecycleBin` service.
+    /// Performs the `UntagResource` operation on the `Rbin` service.
     ///
     /// Unassigns a tag from a retention rule.
     ///
@@ -965,7 +965,7 @@ extension RbinClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRule` operation on the `AmazonRecycleBin` service.
+    /// Performs the `UpdateRule` operation on the `Rbin` service.
     ///
     /// Updates an existing Recycle Bin retention rule. You can update a retention rule's description, resource tags, and retention period at any time after creation. You can't update a retention rule's resource type after creation. For more information, see [ Update Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-update-rule) in the Amazon Elastic Compute Cloud User Guide.
     ///

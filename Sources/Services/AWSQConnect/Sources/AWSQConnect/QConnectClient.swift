@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QConnectClient: ClientRuntime.Client {
     public static let clientName = "QConnectClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: QConnectClient.QConnectClientConfiguration
     let serviceName = "QConnect"
@@ -331,7 +331,7 @@ extension QConnectClient {
 }
 
 extension QConnectClient {
-    /// Performs the `ActivateMessageTemplate` operation on the `WisdomService` service.
+    /// Performs the `ActivateMessageTemplate` operation on the `QConnect` service.
     ///
     /// Activates a specific version of the Amazon Q in Connect message template. After the version is activated, the previous active version will be deactivated automatically. You can use the $ACTIVE_VERSION qualifier later to reference the version that is in active status.
     ///
@@ -404,7 +404,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAIAgent` operation on the `WisdomService` service.
+    /// Performs the `CreateAIAgent` operation on the `QConnect` service.
     ///
     /// Creates an Amazon Q in Connect AI Agent.
     ///
@@ -479,7 +479,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAIAgentVersion` operation on the `WisdomService` service.
+    /// Performs the `CreateAIAgentVersion` operation on the `QConnect` service.
     ///
     /// Creates and Amazon Q in Connect AI Agent version.
     ///
@@ -554,7 +554,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAIGuardrail` operation on the `WisdomService` service.
+    /// Performs the `CreateAIGuardrail` operation on the `QConnect` service.
     ///
     /// Creates an Amazon Q in Connect AI Guardrail.
     ///
@@ -629,7 +629,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAIGuardrailVersion` operation on the `WisdomService` service.
+    /// Performs the `CreateAIGuardrailVersion` operation on the `QConnect` service.
     ///
     /// Creates an Amazon Q in Connect AI Guardrail version.
     ///
@@ -704,7 +704,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAIPrompt` operation on the `WisdomService` service.
+    /// Performs the `CreateAIPrompt` operation on the `QConnect` service.
     ///
     /// Creates an Amazon Q in Connect AI Prompt.
     ///
@@ -779,7 +779,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAIPromptVersion` operation on the `WisdomService` service.
+    /// Performs the `CreateAIPromptVersion` operation on the `QConnect` service.
     ///
     /// Creates an Amazon Q in Connect AI Prompt version.
     ///
@@ -854,7 +854,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAssistant` operation on the `WisdomService` service.
+    /// Performs the `CreateAssistant` operation on the `QConnect` service.
     ///
     /// Creates an Amazon Q in Connect assistant.
     ///
@@ -927,7 +927,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAssistantAssociation` operation on the `WisdomService` service.
+    /// Performs the `CreateAssistantAssociation` operation on the `QConnect` service.
     ///
     /// Creates an association between an Amazon Q in Connect assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
     ///
@@ -1001,7 +1001,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateContent` operation on the `WisdomService` service.
+    /// Performs the `CreateContent` operation on the `QConnect` service.
     ///
     /// Creates Amazon Q in Connect content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_StartContentUpload.html) to upload an asset.
     ///
@@ -1075,7 +1075,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateContentAssociation` operation on the `WisdomService` service.
+    /// Performs the `CreateContentAssociation` operation on the `QConnect` service.
     ///
     /// Creates an association between a content resource in a knowledge base and [step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/step-by-step-guided-experiences.html). Step-by-step guides offer instructions to agents for resolving common customer issues. You create a content association to integrate Amazon Q in Connect and step-by-step guides. After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a recommendation to an agent based on the intent that it's detected, it also provides them with the option to start the step-by-step guide that you have associated with the content. Note the following limitations:
     ///
@@ -1157,7 +1157,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKnowledgeBase` operation on the `WisdomService` service.
+    /// Performs the `CreateKnowledgeBase` operation on the `QConnect` service.
     ///
     /// Creates a knowledge base. When using this API, you cannot reuse [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you do, you'll get an InvalidRequestException error. For example, you're programmatically managing your external knowledge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following:
     ///
@@ -1238,7 +1238,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMessageTemplate` operation on the `WisdomService` service.
+    /// Performs the `CreateMessageTemplate` operation on the `QConnect` service.
     ///
     /// Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the $LATEST qualifier to reference the created message template.
     ///
@@ -1313,7 +1313,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMessageTemplateAttachment` operation on the `WisdomService` service.
+    /// Performs the `CreateMessageTemplateAttachment` operation on the `QConnect` service.
     ///
     /// Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the $LATEST qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file.
     ///
@@ -1387,7 +1387,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMessageTemplateVersion` operation on the `WisdomService` service.
+    /// Performs the `CreateMessageTemplateVersion` operation on the `QConnect` service.
     ///
     /// Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in <message-template-id>:<versionNumber> as the message template identifier. An error is displayed if the supplied messageTemplateContentSha256 is different from the messageTemplateContentSha256 of the message template with $LATEST qualifier. If multiple CreateMessageTemplateVersion requests are made while the message template remains the same, only the first invocation creates a new version and the succeeding requests will return the same response as the first invocation.
     ///
@@ -1461,7 +1461,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateQuickResponse` operation on the `WisdomService` service.
+    /// Performs the `CreateQuickResponse` operation on the `QConnect` service.
     ///
     /// Creates an Amazon Q in Connect quick response.
     ///
@@ -1535,7 +1535,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSession` operation on the `WisdomService` service.
+    /// Performs the `CreateSession` operation on the `QConnect` service.
     ///
     /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
@@ -1608,7 +1608,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeactivateMessageTemplate` operation on the `WisdomService` service.
+    /// Performs the `DeactivateMessageTemplate` operation on the `QConnect` service.
     ///
     /// Deactivates a specific version of the Amazon Q in Connect message template . After the version is deactivated, you can no longer use the $ACTIVE_VERSION qualifier to reference the version in active status.
     ///
@@ -1681,7 +1681,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAIAgent` operation on the `WisdomService` service.
+    /// Performs the `DeleteAIAgent` operation on the `QConnect` service.
     ///
     /// Deletes an Amazon Q in Connect AI Agent.
     ///
@@ -1750,7 +1750,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAIAgentVersion` operation on the `WisdomService` service.
+    /// Performs the `DeleteAIAgentVersion` operation on the `QConnect` service.
     ///
     /// Deletes an Amazon Q in Connect AI Agent Version.
     ///
@@ -1820,7 +1820,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAIGuardrail` operation on the `WisdomService` service.
+    /// Performs the `DeleteAIGuardrail` operation on the `QConnect` service.
     ///
     /// Deletes an Amazon Q in Connect AI Guardrail.
     ///
@@ -1890,7 +1890,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAIGuardrailVersion` operation on the `WisdomService` service.
+    /// Performs the `DeleteAIGuardrailVersion` operation on the `QConnect` service.
     ///
     /// Delete and Amazon Q in Connect AI Guardrail version.
     ///
@@ -1960,7 +1960,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAIPrompt` operation on the `WisdomService` service.
+    /// Performs the `DeleteAIPrompt` operation on the `QConnect` service.
     ///
     /// Deletes an Amazon Q in Connect AI Prompt.
     ///
@@ -2029,7 +2029,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAIPromptVersion` operation on the `WisdomService` service.
+    /// Performs the `DeleteAIPromptVersion` operation on the `QConnect` service.
     ///
     /// Delete and Amazon Q in Connect AI Prompt version.
     ///
@@ -2099,7 +2099,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAssistant` operation on the `WisdomService` service.
+    /// Performs the `DeleteAssistant` operation on the `QConnect` service.
     ///
     /// Deletes an assistant.
     ///
@@ -2167,7 +2167,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAssistantAssociation` operation on the `WisdomService` service.
+    /// Performs the `DeleteAssistantAssociation` operation on the `QConnect` service.
     ///
     /// Deletes an assistant association.
     ///
@@ -2235,7 +2235,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteContent` operation on the `WisdomService` service.
+    /// Performs the `DeleteContent` operation on the `QConnect` service.
     ///
     /// Deletes the content.
     ///
@@ -2303,7 +2303,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteContentAssociation` operation on the `WisdomService` service.
+    /// Performs the `DeleteContentAssociation` operation on the `QConnect` service.
     ///
     /// Deletes the content association. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
     ///
@@ -2371,7 +2371,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImportJob` operation on the `WisdomService` service.
+    /// Performs the `DeleteImportJob` operation on the `QConnect` service.
     ///
     /// Deletes the quick response import job.
     ///
@@ -2440,7 +2440,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKnowledgeBase` operation on the `WisdomService` service.
+    /// Performs the `DeleteKnowledgeBase` operation on the `QConnect` service.
     ///
     /// Deletes the knowledge base. When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html) and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) in the Amazon AppIntegrations API Reference.
     ///
@@ -2509,7 +2509,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMessageTemplate` operation on the `WisdomService` service.
+    /// Performs the `DeleteMessageTemplate` operation on the `QConnect` service.
     ///
     /// Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as <message-template-id>:<versionNumber> to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted.
     ///
@@ -2579,7 +2579,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMessageTemplateAttachment` operation on the `WisdomService` service.
+    /// Performs the `DeleteMessageTemplateAttachment` operation on the `QConnect` service.
     ///
     /// Deletes the attachment file from the Amazon Q in Connect message template that is referenced by $LATEST qualifier. Attachments on available message template versions will remain unchanged.
     ///
@@ -2649,7 +2649,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQuickResponse` operation on the `WisdomService` service.
+    /// Performs the `DeleteQuickResponse` operation on the `QConnect` service.
     ///
     /// Deletes a quick response.
     ///
@@ -2717,7 +2717,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAIAgent` operation on the `WisdomService` service.
+    /// Performs the `GetAIAgent` operation on the `QConnect` service.
     ///
     /// Gets an Amazon Q in Connect AI Agent.
     ///
@@ -2786,7 +2786,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAIGuardrail` operation on the `WisdomService` service.
+    /// Performs the `GetAIGuardrail` operation on the `QConnect` service.
     ///
     /// Gets the Amazon Q in Connect AI Guardrail.
     ///
@@ -2855,7 +2855,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAIPrompt` operation on the `WisdomService` service.
+    /// Performs the `GetAIPrompt` operation on the `QConnect` service.
     ///
     /// Gets and Amazon Q in Connect AI Prompt.
     ///
@@ -2924,7 +2924,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssistant` operation on the `WisdomService` service.
+    /// Performs the `GetAssistant` operation on the `QConnect` service.
     ///
     /// Retrieves information about an assistant.
     ///
@@ -2992,7 +2992,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssistantAssociation` operation on the `WisdomService` service.
+    /// Performs the `GetAssistantAssociation` operation on the `QConnect` service.
     ///
     /// Retrieves information about an assistant association.
     ///
@@ -3060,7 +3060,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetContent` operation on the `WisdomService` service.
+    /// Performs the `GetContent` operation on the `QConnect` service.
     ///
     /// Retrieves content, including a pre-signed URL to download the content.
     ///
@@ -3128,7 +3128,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetContentAssociation` operation on the `WisdomService` service.
+    /// Performs the `GetContentAssociation` operation on the `QConnect` service.
     ///
     /// Returns the content association. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
     ///
@@ -3196,7 +3196,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetContentSummary` operation on the `WisdomService` service.
+    /// Performs the `GetContentSummary` operation on the `QConnect` service.
     ///
     /// Retrieves summary information about the content.
     ///
@@ -3264,7 +3264,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImportJob` operation on the `WisdomService` service.
+    /// Performs the `GetImportJob` operation on the `QConnect` service.
     ///
     /// Retrieves the started import job.
     ///
@@ -3332,7 +3332,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKnowledgeBase` operation on the `WisdomService` service.
+    /// Performs the `GetKnowledgeBase` operation on the `QConnect` service.
     ///
     /// Retrieves information about the knowledge base.
     ///
@@ -3400,7 +3400,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMessageTemplate` operation on the `WisdomService` service.
+    /// Performs the `GetMessageTemplate` operation on the `QConnect` service.
     ///
     /// Retrieves the Amazon Q in Connect message template. The message template identifier can contain an optional qualifier, for example, <message-template-id>:<qualifier>, which is either an actual version number or an Amazon Q Connect managed qualifier $ACTIVE_VERSION | $LATEST. If it is not supplied, then $LATEST is assumed implicitly.
     ///
@@ -3469,7 +3469,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNextMessage` operation on the `WisdomService` service.
+    /// Performs the `GetNextMessage` operation on the `QConnect` service.
     ///
     /// Retrieves next message on an Amazon Q in Connect session.
     ///
@@ -3538,7 +3538,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQuickResponse` operation on the `WisdomService` service.
+    /// Performs the `GetQuickResponse` operation on the `QConnect` service.
     ///
     /// Retrieves the quick response.
     ///
@@ -3606,7 +3606,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRecommendations` operation on the `WisdomService` service.
+    /// Performs the `GetRecommendations` operation on the `QConnect` service.
     ///
     /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_QueryAssistant.html).
     @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
@@ -3676,7 +3676,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSession` operation on the `WisdomService` service.
+    /// Performs the `GetSession` operation on the `QConnect` service.
     ///
     /// Retrieves information for a specified session.
     ///
@@ -3744,7 +3744,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAIAgentVersions` operation on the `WisdomService` service.
+    /// Performs the `ListAIAgentVersions` operation on the `QConnect` service.
     ///
     /// List AI Agent versions.
     ///
@@ -3814,7 +3814,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAIAgents` operation on the `WisdomService` service.
+    /// Performs the `ListAIAgents` operation on the `QConnect` service.
     ///
     /// Lists AI Agents.
     ///
@@ -3884,7 +3884,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAIGuardrailVersions` operation on the `WisdomService` service.
+    /// Performs the `ListAIGuardrailVersions` operation on the `QConnect` service.
     ///
     /// Lists AI Guardrail versions.
     ///
@@ -3954,7 +3954,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAIGuardrails` operation on the `WisdomService` service.
+    /// Performs the `ListAIGuardrails` operation on the `QConnect` service.
     ///
     /// Lists the AI Guardrails available on the Amazon Q in Connect assistant.
     ///
@@ -4024,7 +4024,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAIPromptVersions` operation on the `WisdomService` service.
+    /// Performs the `ListAIPromptVersions` operation on the `QConnect` service.
     ///
     /// Lists AI Prompt versions.
     ///
@@ -4094,7 +4094,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAIPrompts` operation on the `WisdomService` service.
+    /// Performs the `ListAIPrompts` operation on the `QConnect` service.
     ///
     /// Lists the AI Prompts available on the Amazon Q in Connect assistant.
     ///
@@ -4164,7 +4164,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssistantAssociations` operation on the `WisdomService` service.
+    /// Performs the `ListAssistantAssociations` operation on the `QConnect` service.
     ///
     /// Lists information about assistant associations.
     ///
@@ -4233,7 +4233,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssistants` operation on the `WisdomService` service.
+    /// Performs the `ListAssistants` operation on the `QConnect` service.
     ///
     /// Lists information about assistants.
     ///
@@ -4301,7 +4301,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContentAssociations` operation on the `WisdomService` service.
+    /// Performs the `ListContentAssociations` operation on the `QConnect` service.
     ///
     /// Lists the content associations. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
     ///
@@ -4370,7 +4370,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContents` operation on the `WisdomService` service.
+    /// Performs the `ListContents` operation on the `QConnect` service.
     ///
     /// Lists the content.
     ///
@@ -4439,7 +4439,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImportJobs` operation on the `WisdomService` service.
+    /// Performs the `ListImportJobs` operation on the `QConnect` service.
     ///
     /// Lists information about import jobs.
     ///
@@ -4507,7 +4507,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKnowledgeBases` operation on the `WisdomService` service.
+    /// Performs the `ListKnowledgeBases` operation on the `QConnect` service.
     ///
     /// Lists the knowledge bases.
     ///
@@ -4575,7 +4575,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMessageTemplateVersions` operation on the `WisdomService` service.
+    /// Performs the `ListMessageTemplateVersions` operation on the `QConnect` service.
     ///
     /// Lists all the available versions for the specified Amazon Q in Connect message template.
     ///
@@ -4645,7 +4645,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMessageTemplates` operation on the `WisdomService` service.
+    /// Performs the `ListMessageTemplates` operation on the `QConnect` service.
     ///
     /// Lists all the available Amazon Q in Connect message templates for the specified knowledge base.
     ///
@@ -4715,7 +4715,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMessages` operation on the `WisdomService` service.
+    /// Performs the `ListMessages` operation on the `QConnect` service.
     ///
     /// Lists messages on an Amazon Q in Connect session.
     ///
@@ -4784,7 +4784,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQuickResponses` operation on the `WisdomService` service.
+    /// Performs the `ListQuickResponses` operation on the `QConnect` service.
     ///
     /// Lists information about quick response.
     ///
@@ -4853,7 +4853,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `WisdomService` service.
+    /// Performs the `ListTagsForResource` operation on the `QConnect` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -4919,7 +4919,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `NotifyRecommendationsReceived` operation on the `WisdomService` service.
+    /// Performs the `NotifyRecommendationsReceived` operation on the `QConnect` service.
     ///
     /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html) and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations.
     ///
@@ -4990,7 +4990,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutFeedback` operation on the `WisdomService` service.
+    /// Performs the `PutFeedback` operation on the `QConnect` service.
     ///
     /// Provides feedback against the specified assistant for the specified target. This API only supports generative targets.
     ///
@@ -5061,7 +5061,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `QueryAssistant` operation on the `WisdomService` service.
+    /// Performs the `QueryAssistant` operation on the `QConnect` service.
     ///
     /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html).
     @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
@@ -5134,7 +5134,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveAssistantAIAgent` operation on the `WisdomService` service.
+    /// Performs the `RemoveAssistantAIAgent` operation on the `QConnect` service.
     ///
     /// Removes the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
     ///
@@ -5204,7 +5204,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveKnowledgeBaseTemplateUri` operation on the `WisdomService` service.
+    /// Performs the `RemoveKnowledgeBaseTemplateUri` operation on the `QConnect` service.
     ///
     /// Removes a URI template from a knowledge base.
     ///
@@ -5272,7 +5272,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RenderMessageTemplate` operation on the `WisdomService` service.
+    /// Performs the `RenderMessageTemplate` operation on the `QConnect` service.
     ///
     /// Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither provided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the variable placeholder as it is and return the attribute keys that are missing.
     ///
@@ -5344,7 +5344,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchContent` operation on the `WisdomService` service.
+    /// Performs the `SearchContent` operation on the `QConnect` service.
     ///
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
     ///
@@ -5416,7 +5416,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchMessageTemplates` operation on the `WisdomService` service.
+    /// Performs the `SearchMessageTemplates` operation on the `QConnect` service.
     ///
     /// Searches for Amazon Q in Connect message templates in the specified knowledge base.
     ///
@@ -5489,7 +5489,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchQuickResponses` operation on the `WisdomService` service.
+    /// Performs the `SearchQuickResponses` operation on the `QConnect` service.
     ///
     /// Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
     ///
@@ -5562,7 +5562,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchSessions` operation on the `WisdomService` service.
+    /// Performs the `SearchSessions` operation on the `QConnect` service.
     ///
     /// Searches for sessions.
     ///
@@ -5634,7 +5634,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendMessage` operation on the `WisdomService` service.
+    /// Performs the `SendMessage` operation on the `QConnect` service.
     ///
     /// Submits a message to the Amazon Q in Connect session.
     ///
@@ -5709,7 +5709,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartContentUpload` operation on the `WisdomService` service.
+    /// Performs the `StartContentUpload` operation on the `QConnect` service.
     ///
     /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use [CreateContent](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_CreateContent.html) to finalize the content creation process or [UpdateContent](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_UpdateContent.html) to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
     ///
@@ -5780,7 +5780,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartImportJob` operation on the `WisdomService` service.
+    /// Performs the `StartImportJob` operation on the `QConnect` service.
     ///
     /// Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html) to upload an asset that contains the resource data.
     ///
@@ -5856,7 +5856,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `WisdomService` service.
+    /// Performs the `TagResource` operation on the `QConnect` service.
     ///
     /// Adds the specified tags to the specified resource.
     ///
@@ -5926,7 +5926,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `WisdomService` service.
+    /// Performs the `UntagResource` operation on the `QConnect` service.
     ///
     /// Removes the specified tags from the specified resource.
     ///
@@ -5993,7 +5993,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAIAgent` operation on the `WisdomService` service.
+    /// Performs the `UpdateAIAgent` operation on the `QConnect` service.
     ///
     /// Updates an AI Agent.
     ///
@@ -6067,7 +6067,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAIGuardrail` operation on the `WisdomService` service.
+    /// Performs the `UpdateAIGuardrail` operation on the `QConnect` service.
     ///
     /// Updates an AI Guardrail.
     ///
@@ -6141,7 +6141,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAIPrompt` operation on the `WisdomService` service.
+    /// Performs the `UpdateAIPrompt` operation on the `QConnect` service.
     ///
     /// Updates an AI Prompt.
     ///
@@ -6215,7 +6215,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAssistantAIAgent` operation on the `WisdomService` service.
+    /// Performs the `UpdateAssistantAIAgent` operation on the `QConnect` service.
     ///
     /// Updates the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
     ///
@@ -6287,7 +6287,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContent` operation on the `WisdomService` service.
+    /// Performs the `UpdateContent` operation on the `QConnect` service.
     ///
     /// Updates information about the content.
     ///
@@ -6359,7 +6359,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKnowledgeBaseTemplateUri` operation on the `WisdomService` service.
+    /// Performs the `UpdateKnowledgeBaseTemplateUri` operation on the `QConnect` service.
     ///
     /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Amazon Q in Connect using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
     ///
@@ -6430,7 +6430,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMessageTemplate` operation on the `WisdomService` service.
+    /// Performs the `UpdateMessageTemplate` operation on the `QConnect` service.
     ///
     /// Updates the Amazon Q in Connect message template. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template that is referenced by the $LATEST qualifier. Any modification will only apply to the message template that is referenced by the $LATEST qualifier. The fields for all available versions will remain unchanged.
     ///
@@ -6503,7 +6503,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMessageTemplateMetadata` operation on the `WisdomService` service.
+    /// Performs the `UpdateMessageTemplateMetadata` operation on the `QConnect` service.
     ///
     /// Updates the Amazon Q in Connect message template metadata. Note that any modification to the message template’s name, description and grouping configuration will applied to the message template pointed by the $LATEST qualifier and all available versions. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template.
     ///
@@ -6576,7 +6576,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQuickResponse` operation on the `WisdomService` service.
+    /// Performs the `UpdateQuickResponse` operation on the `QConnect` service.
     ///
     /// Updates an existing Amazon Q in Connect quick response.
     ///
@@ -6649,7 +6649,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSession` operation on the `WisdomService` service.
+    /// Performs the `UpdateSession` operation on the `QConnect` service.
     ///
     /// Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
@@ -6720,7 +6720,7 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSessionData` operation on the `WisdomService` service.
+    /// Performs the `UpdateSessionData` operation on the `QConnect` service.
     ///
     /// Updates the data stored on an Amazon Q in Connect Session.
     ///

@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class HealthClient: ClientRuntime.Client {
     public static let clientName = "HealthClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: HealthClient.HealthClientConfiguration
     let serviceName = "Health"
@@ -329,7 +329,7 @@ extension HealthClient {
 }
 
 extension HealthClient {
-    /// Performs the `DescribeAffectedAccountsForOrganization` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeAffectedAccountsForOrganization` operation on the `Health` service.
     ///
     /// Returns a list of accounts in the organization from Organizations that are affected by the provided event. For more information about the different types of Health events, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html). Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) operation from your organization's management account. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
@@ -399,7 +399,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAffectedEntities` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeAffectedEntities` operation on the `Health` service.
     ///
     /// Returns a list of entities that have been affected by the specified events, based on the specified filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Services service. Events that have impact beyond that of the affected entities, or where the extent of impact is unknown, include at least one entity indicating this. At least one event ARN is required.
     ///
@@ -474,7 +474,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAffectedEntitiesForOrganization` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeAffectedEntitiesForOrganization` operation on the `Health` service.
     ///
     /// Returns a list of entities that have been affected by one or more events for one or more accounts in your organization in Organizations, based on the filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Services service. At least one event Amazon Resource Name (ARN) and account ID are required. Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) operation from your organization's management account.
     ///
@@ -549,7 +549,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEntityAggregates` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeEntityAggregates` operation on the `Health` service.
     ///
     /// Returns the number of entities that are affected by each of the specified events.
     ///
@@ -614,7 +614,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEntityAggregatesForOrganization` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeEntityAggregatesForOrganization` operation on the `Health` service.
     ///
     /// Returns a list of entity aggregates for your Organizations that are affected by each of the specified events.
     ///
@@ -679,7 +679,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventAggregates` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeEventAggregates` operation on the `Health` service.
     ///
     /// Returns the number of events of each event type (issue, scheduled change, and account notification). If no filter is specified, the counts of all events in each category are returned. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
@@ -749,7 +749,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventDetails` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeEventDetails` operation on the `Health` service.
     ///
     /// Returns detailed information about one or more specified events. Information includes standard event data (Amazon Web Services Region, service, and so on, as returned by [DescribeEvents](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEvents.html)), a detailed event description, and possible additional metadata that depends upon the nature of the event. Affected entities are not included. To retrieve the entities, use the [DescribeAffectedEntities](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntities.html) operation. If a specified event can't be retrieved, an error message is returned for that event. This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions) in the Health User Guide.
     ///
@@ -819,7 +819,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventDetailsForOrganization` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeEventDetailsForOrganization` operation on the `Health` service.
     ///
     /// Returns detailed information about one or more specified events for one or more Amazon Web Services accounts in your organization. This information includes standard event data (such as the Amazon Web Services Region and service), an event description, and (depending on the event) possible metadata. This operation doesn't return affected entities, such as the resources related to the event. To return affected entities, use the [DescribeAffectedEntitiesForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html) operation. Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) operation from your organization's management account. When you call the DescribeEventDetailsForOrganization operation, specify the organizationEventDetailFilters object in the request. Depending on the Health event type, note the following differences:
     ///
@@ -896,7 +896,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventTypes` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeEventTypes` operation on the `Health` service.
     ///
     /// Returns the event types that meet the specified filter criteria. You can use this API operation to find information about the Health event, such as the category, Amazon Web Services service, and event code. The metadata for each event appears in the [EventType](https://docs.aws.amazon.com/health/latest/APIReference/API_EventType.html) object. If you don't specify a filter criteria, the API operation returns all event types, in no particular order. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
@@ -967,7 +967,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEvents` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeEvents` operation on the `Health` service.
     ///
     /// Returns information about events that meet the specified filter criteria. Events are returned in a summary form and do not include the detailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the [DescribeEventDetails](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html) and [DescribeAffectedEntities](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntities.html) operations. If no filter criteria are specified, all events are returned. Results are sorted by lastModifiedTime, starting with the most recent event.
     ///
@@ -1042,7 +1042,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventsForOrganization` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeEventsForOrganization` operation on the `Health` service.
     ///
     /// Returns information about events across your organization in Organizations. You can use thefilters parameter to specify the events that you want to return. Events are returned in a summary form and don't include the affected accounts, detailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the following operations:
     ///
@@ -1122,7 +1122,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeHealthServiceStatusForOrganization` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DescribeHealthServiceStatusForOrganization` operation on the `Health` service.
     ///
     /// This operation provides status information on enabling or disabling Health to work with your organization. To call this operation, you must use the organization's management account.
     ///
@@ -1187,7 +1187,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableHealthServiceAccessForOrganization` operation on the `AWSHealth_20160804` service.
+    /// Performs the `DisableHealthServiceAccessForOrganization` operation on the `Health` service.
     ///
     /// Disables Health from working with Organizations. To call this operation, you must sign in to the organization's management account. For more information, see [Aggregating Health events](https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html) in the Health User Guide. This operation doesn't remove the service-linked role from the management account in your organization. You must use the IAM console, API, or Command Line Interface (CLI) to remove the service-linked role. For more information, see [Deleting a Service-Linked Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role) in the IAM User Guide. You can also disable the organizational feature by using the Organizations [DisableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_DisableAWSServiceAccess.html) API operation. After you call this operation, Health stops aggregating events for all other Amazon Web Services accounts in your organization. If you call the Health API operations for organizational view, Health returns an error. Health continues to aggregate health events for your Amazon Web Services account.
     ///
@@ -1257,7 +1257,7 @@ extension HealthClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableHealthServiceAccessForOrganization` operation on the `AWSHealth_20160804` service.
+    /// Performs the `EnableHealthServiceAccessForOrganization` operation on the `Health` service.
     ///
     /// Enables Health to work with Organizations. You can use the organizational view feature to aggregate events from all Amazon Web Services accounts in your organization in a centralized location. This operation also creates a service-linked role for the management account in the organization. To call this operation, you must meet the following requirements:
     ///

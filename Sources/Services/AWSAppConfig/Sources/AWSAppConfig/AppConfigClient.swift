@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppConfigClient: ClientRuntime.Client {
     public static let clientName = "AppConfigClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: AppConfigClient.AppConfigClientConfiguration
     let serviceName = "AppConfig"
@@ -333,7 +333,7 @@ extension AppConfigClient {
 }
 
 extension AppConfigClient {
-    /// Performs the `CreateApplication` operation on the `AmazonAppConfig` service.
+    /// Performs the `CreateApplication` operation on the `AppConfig` service.
     ///
     /// Creates an application. In AppConfig, an application is simply an organizational construct like a folder. This organizational construct has a relationship with some unit of executable code. For example, you could create an application called MyMobileApp to organize and manage configuration data for a mobile application installed by your users.
     ///
@@ -404,7 +404,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfigurationProfile` operation on the `AmazonAppConfig` service.
+    /// Performs the `CreateConfigurationProfile` operation on the `AppConfig` service.
     ///
     /// Creates a configuration profile, which is information that enables AppConfig to access the configuration source. Valid configuration sources include the following:
     ///
@@ -500,7 +500,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDeploymentStrategy` operation on the `AmazonAppConfig` service.
+    /// Performs the `CreateDeploymentStrategy` operation on the `AppConfig` service.
     ///
     /// Creates a deployment strategy that defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
     ///
@@ -571,7 +571,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEnvironment` operation on the `AmazonAppConfig` service.
+    /// Performs the `CreateEnvironment` operation on the `AppConfig` service.
     ///
     /// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig targets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web, Mobile and Back-end components for your application. You can configure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the system rolls back the configuration.
     ///
@@ -643,7 +643,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateExtension` operation on the `AmazonAppConfig` service.
+    /// Performs the `CreateExtension` operation on the `AppConfig` service.
     ///
     /// Creates an AppConfig extension. An extension augments your ability to inject logic or behavior at different points during the AppConfig workflow of creating or deploying a configuration. You can create your own extensions or use the Amazon Web Services authored extensions provided by AppConfig. For an AppConfig extension that uses Lambda, you must create a Lambda function to perform any computation and processing defined in the extension. If you plan to create custom versions of the Amazon Web Services authored notification extensions, you only need to specify an Amazon Resource Name (ARN) in the Uri field for the new extension version.
     ///
@@ -725,7 +725,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateExtensionAssociation` operation on the `AmazonAppConfig` service.
+    /// Performs the `CreateExtensionAssociation` operation on the `AppConfig` service.
     ///
     /// When you create an extension or configure an Amazon Web Services authored extension, you associate the extension with an AppConfig application, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific application. Defining which extension to associate with an AppConfig resource is called an extension association. An extension association is a specified relationship between an extension and an AppConfig resource, such as an application or a configuration profile. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
@@ -797,7 +797,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateHostedConfigurationVersion` operation on the `AmazonAppConfig` service.
+    /// Performs the `CreateHostedConfigurationVersion` operation on the `AppConfig` service.
     ///
     /// Creates a new configuration in the AppConfig hosted configuration store. If you're creating a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag data. For more information, see [Type reference for AWS.AppConfig.FeatureFlags](https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile-feature-flags.html#appconfig-type-reference-feature-flags) in the AppConfig User Guide.
     ///
@@ -872,7 +872,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `AmazonAppConfig` service.
+    /// Performs the `DeleteApplication` operation on the `AppConfig` service.
     ///
     /// Deletes an application.
     ///
@@ -940,7 +940,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationProfile` operation on the `AmazonAppConfig` service.
+    /// Performs the `DeleteConfigurationProfile` operation on the `AppConfig` service.
     ///
     /// Deletes a configuration profile. To prevent users from unintentionally deleting actively-used configuration profiles, enable [deletion protection](https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html).
     ///
@@ -1010,7 +1010,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDeploymentStrategy` operation on the `AmazonAppConfig` service.
+    /// Performs the `DeleteDeploymentStrategy` operation on the `AppConfig` service.
     ///
     /// Deletes a deployment strategy.
     ///
@@ -1078,7 +1078,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEnvironment` operation on the `AmazonAppConfig` service.
+    /// Performs the `DeleteEnvironment` operation on the `AppConfig` service.
     ///
     /// Deletes an environment. To prevent users from unintentionally deleting actively-used environments, enable [deletion protection](https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html).
     ///
@@ -1148,7 +1148,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteExtension` operation on the `AmazonAppConfig` service.
+    /// Performs the `DeleteExtension` operation on the `AppConfig` service.
     ///
     /// Deletes an AppConfig extension. You must delete all associations to an extension before you delete the extension.
     ///
@@ -1217,7 +1217,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteExtensionAssociation` operation on the `AmazonAppConfig` service.
+    /// Performs the `DeleteExtensionAssociation` operation on the `AppConfig` service.
     ///
     /// Deletes an extension association. This action doesn't delete extensions defined in the association.
     ///
@@ -1285,7 +1285,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteHostedConfigurationVersion` operation on the `AmazonAppConfig` service.
+    /// Performs the `DeleteHostedConfigurationVersion` operation on the `AppConfig` service.
     ///
     /// Deletes a version of a configuration from the AppConfig hosted configuration store.
     ///
@@ -1353,7 +1353,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccountSettings` operation on the `AmazonAppConfig` service.
+    /// Performs the `GetAccountSettings` operation on the `AppConfig` service.
     ///
     /// Returns information about the status of the DeletionProtection parameter.
     ///
@@ -1420,7 +1420,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplication` operation on the `AmazonAppConfig` service.
+    /// Performs the `GetApplication` operation on the `AppConfig` service.
     ///
     /// Retrieves information about an application.
     ///
@@ -1488,7 +1488,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguration` operation on the `AmazonAppConfig` service.
+    /// Performs the `GetConfiguration` operation on the `AppConfig` service.
     ///
     /// (Deprecated) Retrieves the latest deployed configuration. Note the following important information.
     ///
@@ -1562,7 +1562,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfigurationProfile` operation on the `AmazonAppConfig` service.
+    /// Performs the `GetConfigurationProfile` operation on the `AppConfig` service.
     ///
     /// Retrieves information about a configuration profile.
     ///
@@ -1630,7 +1630,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeployment` operation on the `AmazonAppConfig` service.
+    /// Performs the `GetDeployment` operation on the `AppConfig` service.
     ///
     /// Retrieves information about a configuration deployment.
     ///
@@ -1698,7 +1698,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeploymentStrategy` operation on the `AmazonAppConfig` service.
+    /// Performs the `GetDeploymentStrategy` operation on the `AppConfig` service.
     ///
     /// Retrieves information about a deployment strategy. A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
     ///
@@ -1766,7 +1766,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEnvironment` operation on the `AmazonAppConfig` service.
+    /// Performs the `GetEnvironment` operation on the `AppConfig` service.
     ///
     /// Retrieves information about an environment. An environment is a deployment group of AppConfig applications, such as applications in a Production environment or in an EU_Region environment. Each configuration deployment targets an environment. You can enable one or more Amazon CloudWatch alarms for an environment. If an alarm is triggered during a deployment, AppConfig roles back the configuration.
     ///
@@ -1834,7 +1834,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetExtension` operation on the `AmazonAppConfig` service.
+    /// Performs the `GetExtension` operation on the `AppConfig` service.
     ///
     /// Returns information about an AppConfig extension.
     ///
@@ -1903,7 +1903,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetExtensionAssociation` operation on the `AmazonAppConfig` service.
+    /// Performs the `GetExtensionAssociation` operation on the `AppConfig` service.
     ///
     /// Returns information about an AppConfig extension association. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
@@ -1971,7 +1971,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHostedConfigurationVersion` operation on the `AmazonAppConfig` service.
+    /// Performs the `GetHostedConfigurationVersion` operation on the `AppConfig` service.
     ///
     /// Retrieves information about a specific configuration version.
     ///
@@ -2039,7 +2039,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `AmazonAppConfig` service.
+    /// Performs the `ListApplications` operation on the `AppConfig` service.
     ///
     /// Lists all applications in your Amazon Web Services account.
     ///
@@ -2107,7 +2107,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurationProfiles` operation on the `AmazonAppConfig` service.
+    /// Performs the `ListConfigurationProfiles` operation on the `AppConfig` service.
     ///
     /// Lists the configuration profiles for an application.
     ///
@@ -2176,7 +2176,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeploymentStrategies` operation on the `AmazonAppConfig` service.
+    /// Performs the `ListDeploymentStrategies` operation on the `AppConfig` service.
     ///
     /// Lists deployment strategies.
     ///
@@ -2244,7 +2244,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeployments` operation on the `AmazonAppConfig` service.
+    /// Performs the `ListDeployments` operation on the `AppConfig` service.
     ///
     /// Lists the deployments for an environment in descending deployment number order.
     ///
@@ -2313,7 +2313,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEnvironments` operation on the `AmazonAppConfig` service.
+    /// Performs the `ListEnvironments` operation on the `AppConfig` service.
     ///
     /// Lists the environments for an application.
     ///
@@ -2382,7 +2382,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExtensionAssociations` operation on the `AmazonAppConfig` service.
+    /// Performs the `ListExtensionAssociations` operation on the `AppConfig` service.
     ///
     /// Lists all AppConfig extension associations in the account. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
@@ -2450,7 +2450,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExtensions` operation on the `AmazonAppConfig` service.
+    /// Performs the `ListExtensions` operation on the `AppConfig` service.
     ///
     /// Lists all custom and Amazon Web Services authored AppConfig extensions in the account. For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
@@ -2518,7 +2518,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHostedConfigurationVersions` operation on the `AmazonAppConfig` service.
+    /// Performs the `ListHostedConfigurationVersions` operation on the `AppConfig` service.
     ///
     /// Lists configurations stored in the AppConfig hosted configuration store by version.
     ///
@@ -2587,7 +2587,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonAppConfig` service.
+    /// Performs the `ListTagsForResource` operation on the `AppConfig` service.
     ///
     /// Retrieves the list of key-value tags assigned to the resource.
     ///
@@ -2655,7 +2655,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDeployment` operation on the `AmazonAppConfig` service.
+    /// Performs the `StartDeployment` operation on the `AppConfig` service.
     ///
     /// Starts a deployment.
     ///
@@ -2727,7 +2727,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopDeployment` operation on the `AmazonAppConfig` service.
+    /// Performs the `StopDeployment` operation on the `AppConfig` service.
     ///
     /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING, unless an AllowRevert parameter is supplied. If the AllowRevert parameter is supplied, the status of an in-progress deployment will be ROLLED_BACK. The status of a completed deployment will be REVERTED. AppConfig only allows a revert within 72 hours of deployment completion.
     ///
@@ -2796,7 +2796,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonAppConfig` service.
+    /// Performs the `TagResource` operation on the `AppConfig` service.
     ///
     /// Assigns metadata to an AppConfig resource. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. You can specify a maximum of 50 tags for a resource.
     ///
@@ -2867,7 +2867,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonAppConfig` service.
+    /// Performs the `UntagResource` operation on the `AppConfig` service.
     ///
     /// Deletes a tag key and value from an AppConfig resource.
     ///
@@ -2936,7 +2936,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccountSettings` operation on the `AmazonAppConfig` service.
+    /// Performs the `UpdateAccountSettings` operation on the `AppConfig` service.
     ///
     /// Updates the value of the DeletionProtection parameter.
     ///
@@ -3006,7 +3006,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `AmazonAppConfig` service.
+    /// Performs the `UpdateApplication` operation on the `AppConfig` service.
     ///
     /// Updates an application.
     ///
@@ -3077,7 +3077,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfigurationProfile` operation on the `AmazonAppConfig` service.
+    /// Performs the `UpdateConfigurationProfile` operation on the `AppConfig` service.
     ///
     /// Updates a configuration profile.
     ///
@@ -3148,7 +3148,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDeploymentStrategy` operation on the `AmazonAppConfig` service.
+    /// Performs the `UpdateDeploymentStrategy` operation on the `AppConfig` service.
     ///
     /// Updates a deployment strategy.
     ///
@@ -3219,7 +3219,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEnvironment` operation on the `AmazonAppConfig` service.
+    /// Performs the `UpdateEnvironment` operation on the `AppConfig` service.
     ///
     /// Updates an environment.
     ///
@@ -3290,7 +3290,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateExtension` operation on the `AmazonAppConfig` service.
+    /// Performs the `UpdateExtension` operation on the `AppConfig` service.
     ///
     /// Updates an AppConfig extension. For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
@@ -3362,7 +3362,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateExtensionAssociation` operation on the `AmazonAppConfig` service.
+    /// Performs the `UpdateExtensionAssociation` operation on the `AppConfig` service.
     ///
     /// Updates an association. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
@@ -3433,7 +3433,7 @@ extension AppConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ValidateConfiguration` operation on the `AmazonAppConfig` service.
+    /// Performs the `ValidateConfiguration` operation on the `AppConfig` service.
     ///
     /// Uses the validators in a configuration profile to validate a configuration.
     ///

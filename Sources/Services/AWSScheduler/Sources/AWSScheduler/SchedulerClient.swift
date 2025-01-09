@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SchedulerClient: ClientRuntime.Client {
     public static let clientName = "SchedulerClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: SchedulerClient.SchedulerClientConfiguration
     let serviceName = "Scheduler"
@@ -331,7 +331,7 @@ extension SchedulerClient {
 }
 
 extension SchedulerClient {
-    /// Performs the `CreateSchedule` operation on the `AWSChronosService` service.
+    /// Performs the `CreateSchedule` operation on the `Scheduler` service.
     ///
     /// Creates the specified schedule.
     ///
@@ -406,7 +406,7 @@ extension SchedulerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateScheduleGroup` operation on the `AWSChronosService` service.
+    /// Performs the `CreateScheduleGroup` operation on the `Scheduler` service.
     ///
     /// Creates the specified schedule group.
     ///
@@ -480,7 +480,7 @@ extension SchedulerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSchedule` operation on the `AWSChronosService` service.
+    /// Performs the `DeleteSchedule` operation on the `Scheduler` service.
     ///
     /// Deletes the specified schedule.
     ///
@@ -552,7 +552,7 @@ extension SchedulerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteScheduleGroup` operation on the `AWSChronosService` service.
+    /// Performs the `DeleteScheduleGroup` operation on the `Scheduler` service.
     ///
     /// Deletes the specified schedule group. Deleting a schedule group results in EventBridge Scheduler deleting all schedules associated with the group. When you delete a group, it remains in a DELETING state until all of its associated schedules are deleted. Schedules associated with the group that are set to run while the schedule group is in the process of being deleted might continue to invoke their targets until the schedule group and its associated schedules are deleted. This operation is eventually consistent.
     ///
@@ -624,7 +624,7 @@ extension SchedulerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSchedule` operation on the `AWSChronosService` service.
+    /// Performs the `GetSchedule` operation on the `Scheduler` service.
     ///
     /// Retrieves the specified schedule.
     ///
@@ -694,7 +694,7 @@ extension SchedulerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetScheduleGroup` operation on the `AWSChronosService` service.
+    /// Performs the `GetScheduleGroup` operation on the `Scheduler` service.
     ///
     /// Retrieves the specified schedule group.
     ///
@@ -763,7 +763,7 @@ extension SchedulerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListScheduleGroups` operation on the `AWSChronosService` service.
+    /// Performs the `ListScheduleGroups` operation on the `Scheduler` service.
     ///
     /// Returns a paginated list of your schedule groups.
     ///
@@ -832,7 +832,7 @@ extension SchedulerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSchedules` operation on the `AWSChronosService` service.
+    /// Performs the `ListSchedules` operation on the `Scheduler` service.
     ///
     /// Returns a paginated list of your EventBridge Scheduler schedules.
     ///
@@ -902,7 +902,7 @@ extension SchedulerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSChronosService` service.
+    /// Performs the `ListTagsForResource` operation on the `Scheduler` service.
     ///
     /// Lists the tags associated with the Scheduler resource.
     ///
@@ -971,7 +971,7 @@ extension SchedulerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSChronosService` service.
+    /// Performs the `TagResource` operation on the `Scheduler` service.
     ///
     /// Assigns one or more tags (key-value pairs) to the specified EventBridge Scheduler resource. You can only assign tags to schedule groups.
     ///
@@ -1044,7 +1044,7 @@ extension SchedulerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSChronosService` service.
+    /// Performs the `UntagResource` operation on the `Scheduler` service.
     ///
     /// Removes one or more tags from the specified EventBridge Scheduler schedule group.
     ///
@@ -1115,7 +1115,7 @@ extension SchedulerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSchedule` operation on the `AWSChronosService` service.
+    /// Performs the `UpdateSchedule` operation on the `Scheduler` service.
     ///
     /// Updates the specified schedule. When you call UpdateSchedule, EventBridge Scheduler uses all values, including empty values, specified in the request and overrides the existing schedule. This is by design. This means that if you do not set an optional field in your request, that field will be set to its system-default value after the update. Before calling this operation, we recommend that you call the GetSchedule API operation and make a note of all optional parameters for your UpdateSchedule call.
     ///

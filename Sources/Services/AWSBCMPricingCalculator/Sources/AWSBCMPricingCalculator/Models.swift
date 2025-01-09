@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -65,8 +64,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             instanceCount: Swift.Int? = nil,
             reservedInstancesOfferingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.reservedInstancesOfferingId = reservedInstancesOfferingId
         }
@@ -85,8 +83,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             commitment: Swift.Double? = nil,
             savingsPlanOfferingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitment = commitment
             self.savingsPlanOfferingId = savingsPlanOfferingId
         }
@@ -112,8 +109,7 @@ public struct DataUnavailableException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -145,8 +141,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -166,8 +161,7 @@ public struct ListBillEstimateCommitmentsInput: Swift.Sendable {
         billEstimateId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billEstimateId = billEstimateId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -212,8 +206,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             amount: Swift.Double? = nil,
             currency: BCMPricingCalculatorClientTypes.CurrencyCode? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.currency = currency
         }
@@ -282,8 +275,7 @@ extension BCMPricingCalculatorClientTypes {
             termLength: Swift.String? = nil,
             upfrontPayment: BCMPricingCalculatorClientTypes.CostAmount? = nil,
             usageAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.monthlyPayment = monthlyPayment
             self.offeringId = offeringId
@@ -306,8 +298,7 @@ public struct ListBillEstimateCommitmentsOutput: Swift.Sendable {
     public init(
         items: [BCMPricingCalculatorClientTypes.BillEstimateCommitmentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -325,8 +316,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             estimatedCost: BCMPricingCalculatorClientTypes.CostAmount? = nil,
             historicalCost: BCMPricingCalculatorClientTypes.CostAmount? = nil
-        )
-        {
+        ) {
             self.estimatedCost = estimatedCost
             self.historicalCost = historicalCost
         }
@@ -345,8 +335,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             serviceCostDifferences: [Swift.String: BCMPricingCalculatorClientTypes.CostDifference]? = nil,
             totalCostDifference: BCMPricingCalculatorClientTypes.CostDifference? = nil
-        )
-        {
+        ) {
             self.serviceCostDifferences = serviceCostDifferences
             self.totalCostDifference = totalCostDifference
         }
@@ -366,8 +355,7 @@ public struct ListBillEstimateInputCommitmentModificationsInput: Swift.Sendable 
         billEstimateId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billEstimateId = billEstimateId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -383,8 +371,7 @@ extension BCMPricingCalculatorClientTypes {
 
         public init(
             reservedInstancesId: Swift.String? = nil
-        )
-        {
+        ) {
             self.reservedInstancesId = reservedInstancesId
         }
     }
@@ -399,8 +386,7 @@ extension BCMPricingCalculatorClientTypes {
 
         public init(
             savingsPlanId: Swift.String? = nil
-        )
-        {
+        ) {
             self.savingsPlanId = savingsPlanId
         }
     }
@@ -440,8 +426,7 @@ extension BCMPricingCalculatorClientTypes {
             group: Swift.String? = nil,
             id: Swift.String? = nil,
             usageAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitmentAction = commitmentAction
             self.group = group
             self.id = id
@@ -459,8 +444,7 @@ public struct ListBillEstimateInputCommitmentModificationsOutput: Swift.Sendable
     public init(
         items: [BCMPricingCalculatorClientTypes.BillEstimateInputCommitmentModificationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -571,8 +555,7 @@ extension BCMPricingCalculatorClientTypes {
             matchOption: BCMPricingCalculatorClientTypes.MatchOption? = nil,
             name: BCMPricingCalculatorClientTypes.ListUsageFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.matchOption = matchOption
             self.name = name
             self.values = values
@@ -596,8 +579,7 @@ public struct ListBillEstimateInputUsageModificationsInput: Swift.Sendable {
         filters: [BCMPricingCalculatorClientTypes.ListUsageFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billEstimateId = billEstimateId
         self.filters = filters
         self.maxResults = maxResults
@@ -617,8 +599,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             end: Foundation.Date? = nil,
             start: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
         }
@@ -640,8 +621,7 @@ extension BCMPricingCalculatorClientTypes {
             key: Swift.String? = nil,
             matchOptions: [Swift.String]? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.matchOptions = matchOptions
             self.values = values
@@ -664,8 +644,7 @@ extension BCMPricingCalculatorClientTypes {
             amount: Swift.Double? = nil,
             startHour: Foundation.Date? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.startHour = startHour
             self.unit = unit
@@ -731,8 +710,7 @@ extension BCMPricingCalculatorClientTypes {
             matchOption: BCMPricingCalculatorClientTypes.MatchOption? = nil,
             name: BCMPricingCalculatorClientTypes.ListBillEstimateLineItemsFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.matchOption = matchOption
             self.name = name
             self.values = values
@@ -756,8 +734,7 @@ public struct ListBillEstimateLineItemsInput: Swift.Sendable {
         filters: [BCMPricingCalculatorClientTypes.ListBillEstimateLineItemsFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billEstimateId = billEstimateId
         self.filters = filters
         self.maxResults = maxResults
@@ -777,8 +754,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             amount: Swift.Double? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.unit = unit
         }
@@ -839,8 +815,7 @@ extension BCMPricingCalculatorClientTypes {
             serviceCode: Swift.String? = nil,
             usageAccountId: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.estimatedCost = estimatedCost
             self.estimatedUsageQuantity = estimatedUsageQuantity
@@ -869,8 +844,7 @@ public struct ListBillEstimateLineItemsOutput: Swift.Sendable {
     public init(
         items: [BCMPricingCalculatorClientTypes.BillEstimateLineItemSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -935,8 +909,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -974,8 +947,7 @@ public struct CreateBillEstimateInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.billScenarioId = billScenarioId
         self.clientToken = clientToken
         self.name = name
@@ -1011,8 +983,7 @@ public struct CreateBillEstimateOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillEstimateStatus? = nil
-    )
-    {
+    ) {
         self.billInterval = billInterval
         self.costSummary = costSummary
         self.createdAt = createdAt
@@ -1031,8 +1002,7 @@ public struct DeleteBillEstimateInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -1049,8 +1019,7 @@ public struct GetBillEstimateInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -1083,8 +1052,7 @@ public struct GetBillEstimateOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillEstimateStatus? = nil
-    )
-    {
+    ) {
         self.billInterval = billInterval
         self.costSummary = costSummary
         self.createdAt = createdAt
@@ -1108,8 +1076,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             afterTimestamp: Foundation.Date? = nil,
             beforeTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.afterTimestamp = afterTimestamp
             self.beforeTimestamp = beforeTimestamp
         }
@@ -1162,8 +1129,7 @@ extension BCMPricingCalculatorClientTypes {
             matchOption: BCMPricingCalculatorClientTypes.MatchOption? = nil,
             name: BCMPricingCalculatorClientTypes.ListBillEstimatesFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.matchOption = matchOption
             self.name = name
             self.values = values
@@ -1189,8 +1155,7 @@ public struct ListBillEstimatesInput: Swift.Sendable {
         filters: [BCMPricingCalculatorClientTypes.ListBillEstimatesFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAtFilter = createdAtFilter
         self.expiresAtFilter = expiresAtFilter
         self.filters = filters
@@ -1224,8 +1189,7 @@ extension BCMPricingCalculatorClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: BCMPricingCalculatorClientTypes.BillEstimateStatus? = nil
-        )
-        {
+        ) {
             self.billInterval = billInterval
             self.createdAt = createdAt
             self.expiresAt = expiresAt
@@ -1245,8 +1209,7 @@ public struct ListBillEstimatesOutput: Swift.Sendable {
     public init(
         items: [BCMPricingCalculatorClientTypes.BillEstimateSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1265,8 +1228,7 @@ public struct UpdateBillEstimateInput: Swift.Sendable {
         expiresAt: Foundation.Date? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiresAt = expiresAt
         self.identifier = identifier
         self.name = name
@@ -1301,8 +1263,7 @@ public struct UpdateBillEstimateOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillEstimateStatus? = nil
-    )
-    {
+    ) {
         self.billInterval = billInterval
         self.costSummary = costSummary
         self.createdAt = createdAt
@@ -1335,8 +1296,7 @@ extension BCMPricingCalculatorClientTypes {
             group: Swift.String? = nil,
             key: Swift.String? = nil,
             usageAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitmentAction = commitmentAction
             self.group = group
             self.key = key
@@ -1359,8 +1319,7 @@ public struct BatchCreateBillScenarioCommitmentModificationInput: Swift.Sendable
         billScenarioId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         commitmentModifications: [BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationEntry]? = nil
-    )
-    {
+    ) {
         self.billScenarioId = billScenarioId
         self.clientToken = clientToken
         self.commitmentModifications = commitmentModifications
@@ -1414,8 +1373,7 @@ extension BCMPricingCalculatorClientTypes {
             errorCode: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.key = key
@@ -1444,8 +1402,7 @@ extension BCMPricingCalculatorClientTypes {
             id: Swift.String? = nil,
             key: Swift.String? = nil,
             usageAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitmentAction = commitmentAction
             self.group = group
             self.id = id
@@ -1464,8 +1421,7 @@ public struct BatchCreateBillScenarioCommitmentModificationOutput: Swift.Sendabl
     public init(
         errors: [BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationError]? = nil,
         items: [BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.items = items
     }
@@ -1482,8 +1438,7 @@ public struct BatchDeleteBillScenarioCommitmentModificationInput: Swift.Sendable
     public init(
         billScenarioId: Swift.String? = nil,
         ids: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.billScenarioId = billScenarioId
         self.ids = ids
     }
@@ -1536,8 +1491,7 @@ extension BCMPricingCalculatorClientTypes {
             errorCode: BCMPricingCalculatorClientTypes.BatchDeleteBillScenarioCommitmentModificationErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -1551,8 +1505,7 @@ public struct BatchDeleteBillScenarioCommitmentModificationOutput: Swift.Sendabl
 
     public init(
         errors: [BCMPricingCalculatorClientTypes.BatchDeleteBillScenarioCommitmentModificationError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1570,8 +1523,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             group: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.group = group
             self.id = id
         }
@@ -1589,8 +1541,7 @@ public struct BatchUpdateBillScenarioCommitmentModificationInput: Swift.Sendable
     public init(
         billScenarioId: Swift.String? = nil,
         commitmentModifications: [BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioCommitmentModificationEntry]? = nil
-    )
-    {
+    ) {
         self.billScenarioId = billScenarioId
         self.commitmentModifications = commitmentModifications
     }
@@ -1646,8 +1597,7 @@ extension BCMPricingCalculatorClientTypes {
             errorCode: BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioCommitmentModificationErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -1673,8 +1623,7 @@ extension BCMPricingCalculatorClientTypes {
             group: Swift.String? = nil,
             id: Swift.String? = nil,
             usageAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitmentAction = commitmentAction
             self.group = group
             self.id = id
@@ -1692,8 +1641,7 @@ public struct BatchUpdateBillScenarioCommitmentModificationOutput: Swift.Sendabl
     public init(
         errors: [BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioCommitmentModificationError]? = nil,
         items: [BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.items = items
     }
@@ -1712,8 +1660,7 @@ public struct ListBillScenarioCommitmentModificationsInput: Swift.Sendable {
         billScenarioId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billScenarioId = billScenarioId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1729,8 +1676,7 @@ public struct ListBillScenarioCommitmentModificationsOutput: Swift.Sendable {
     public init(
         items: [BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1801,8 +1747,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -1825,8 +1770,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             amount: Swift.Double? = nil,
             startHour: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.startHour = startHour
         }
@@ -1883,8 +1827,7 @@ extension BCMPricingCalculatorClientTypes {
             errorCode: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.key = key
@@ -1903,8 +1846,7 @@ public struct BatchDeleteBillScenarioUsageModificationInput: Swift.Sendable {
     public init(
         billScenarioId: Swift.String? = nil,
         ids: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.billScenarioId = billScenarioId
         self.ids = ids
     }
@@ -1957,8 +1899,7 @@ extension BCMPricingCalculatorClientTypes {
             errorCode: BCMPricingCalculatorClientTypes.BatchDeleteBillScenarioUsageModificationErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -1972,8 +1913,7 @@ public struct BatchDeleteBillScenarioUsageModificationOutput: Swift.Sendable {
 
     public init(
         errors: [BCMPricingCalculatorClientTypes.BatchDeleteBillScenarioUsageModificationError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1994,8 +1934,7 @@ extension BCMPricingCalculatorClientTypes {
             amounts: [BCMPricingCalculatorClientTypes.UsageAmount]? = nil,
             group: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.amounts = amounts
             self.group = group
             self.id = id
@@ -2014,8 +1953,7 @@ public struct BatchUpdateBillScenarioUsageModificationInput: Swift.Sendable {
     public init(
         billScenarioId: Swift.String? = nil,
         usageModifications: [BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioUsageModificationEntry]? = nil
-    )
-    {
+    ) {
         self.billScenarioId = billScenarioId
         self.usageModifications = usageModifications
     }
@@ -2071,8 +2009,7 @@ extension BCMPricingCalculatorClientTypes {
             errorCode: BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioUsageModificationErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -2096,8 +2033,7 @@ public struct ListBillScenarioUsageModificationsInput: Swift.Sendable {
         filters: [BCMPricingCalculatorClientTypes.ListUsageFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billScenarioId = billScenarioId
         self.filters = filters
         self.maxResults = maxResults
@@ -2118,8 +2054,7 @@ public struct CreateBillScenarioInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.tags = tags
@@ -2151,8 +2086,7 @@ public struct CreateBillScenarioOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillScenarioStatus? = nil
-    )
-    {
+    ) {
         self.billInterval = billInterval
         self.createdAt = createdAt
         self.expiresAt = expiresAt
@@ -2170,8 +2104,7 @@ public struct DeleteBillScenarioInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -2188,8 +2121,7 @@ public struct GetBillScenarioInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -2219,8 +2151,7 @@ public struct GetBillScenarioOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillScenarioStatus? = nil
-    )
-    {
+    ) {
         self.billInterval = billInterval
         self.createdAt = createdAt
         self.expiresAt = expiresAt
@@ -2277,8 +2208,7 @@ extension BCMPricingCalculatorClientTypes {
             matchOption: BCMPricingCalculatorClientTypes.MatchOption? = nil,
             name: BCMPricingCalculatorClientTypes.ListBillScenariosFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.matchOption = matchOption
             self.name = name
             self.values = values
@@ -2304,8 +2234,7 @@ public struct ListBillScenariosInput: Swift.Sendable {
         filters: [BCMPricingCalculatorClientTypes.ListBillScenariosFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAtFilter = createdAtFilter
         self.expiresAtFilter = expiresAtFilter
         self.filters = filters
@@ -2342,8 +2271,7 @@ extension BCMPricingCalculatorClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: BCMPricingCalculatorClientTypes.BillScenarioStatus? = nil
-        )
-        {
+        ) {
             self.billInterval = billInterval
             self.createdAt = createdAt
             self.expiresAt = expiresAt
@@ -2364,8 +2292,7 @@ public struct ListBillScenariosOutput: Swift.Sendable {
     public init(
         items: [BCMPricingCalculatorClientTypes.BillScenarioSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2384,8 +2311,7 @@ public struct UpdateBillScenarioInput: Swift.Sendable {
         expiresAt: Foundation.Date? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiresAt = expiresAt
         self.identifier = identifier
         self.name = name
@@ -2417,8 +2343,7 @@ public struct UpdateBillScenarioOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillScenarioStatus? = nil
-    )
-    {
+    ) {
         self.billInterval = billInterval
         self.createdAt = createdAt
         self.expiresAt = expiresAt
@@ -2472,8 +2397,7 @@ public struct GetPreferencesOutput: Swift.Sendable {
     public init(
         managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
         memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
-    )
-    {
+    ) {
         self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
         self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
     }
@@ -2501,8 +2425,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -2515,8 +2438,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2527,8 +2449,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2544,8 +2465,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -2584,8 +2504,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -2604,8 +2523,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -2625,8 +2543,7 @@ public struct UpdatePreferencesInput: Swift.Sendable {
     public init(
         managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
         memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
-    )
-    {
+    ) {
         self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
         self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
     }
@@ -2641,8 +2558,7 @@ public struct UpdatePreferencesOutput: Swift.Sendable {
     public init(
         managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
         memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
-    )
-    {
+    ) {
         self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
         self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
     }
@@ -2662,8 +2578,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -2736,8 +2651,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [BCMPricingCalculatorClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: BCMPricingCalculatorClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -2789,8 +2703,7 @@ public struct CreateWorkloadEstimateInput: Swift.Sendable {
         name: Swift.String? = nil,
         rateType: BCMPricingCalculatorClientTypes.WorkloadEstimateRateType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.rateType = rateType
@@ -2868,8 +2781,7 @@ public struct CreateWorkloadEstimateOutput: Swift.Sendable {
         rateType: BCMPricingCalculatorClientTypes.WorkloadEstimateRateType? = nil,
         status: BCMPricingCalculatorClientTypes.WorkloadEstimateStatus? = nil,
         totalCost: Swift.Double? = nil
-    )
-    {
+    ) {
         self.costCurrency = costCurrency
         self.createdAt = createdAt
         self.expiresAt = expiresAt
@@ -2890,8 +2802,7 @@ public struct DeleteWorkloadEstimateInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -2908,8 +2819,7 @@ public struct GetWorkloadEstimateInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -2949,8 +2859,7 @@ public struct GetWorkloadEstimateOutput: Swift.Sendable {
         rateType: BCMPricingCalculatorClientTypes.WorkloadEstimateRateType? = nil,
         status: BCMPricingCalculatorClientTypes.WorkloadEstimateStatus? = nil,
         totalCost: Swift.Double? = nil
-    )
-    {
+    ) {
         self.costCurrency = costCurrency
         self.createdAt = createdAt
         self.expiresAt = expiresAt
@@ -3010,8 +2919,7 @@ extension BCMPricingCalculatorClientTypes {
             matchOption: BCMPricingCalculatorClientTypes.MatchOption? = nil,
             name: BCMPricingCalculatorClientTypes.ListWorkloadEstimatesFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.matchOption = matchOption
             self.name = name
             self.values = values
@@ -3037,8 +2945,7 @@ public struct ListWorkloadEstimatesInput: Swift.Sendable {
         filters: [BCMPricingCalculatorClientTypes.ListWorkloadEstimatesFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAtFilter = createdAtFilter
         self.expiresAtFilter = expiresAtFilter
         self.filters = filters
@@ -3084,8 +2991,7 @@ extension BCMPricingCalculatorClientTypes {
             rateType: BCMPricingCalculatorClientTypes.WorkloadEstimateRateType? = nil,
             status: BCMPricingCalculatorClientTypes.WorkloadEstimateStatus? = nil,
             totalCost: Swift.Double? = nil
-        )
-        {
+        ) {
             self.costCurrency = costCurrency
             self.createdAt = createdAt
             self.expiresAt = expiresAt
@@ -3109,8 +3015,7 @@ public struct ListWorkloadEstimatesOutput: Swift.Sendable {
     public init(
         items: [BCMPricingCalculatorClientTypes.WorkloadEstimateSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3129,8 +3034,7 @@ public struct UpdateWorkloadEstimateInput: Swift.Sendable {
         expiresAt: Foundation.Date? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiresAt = expiresAt
         self.identifier = identifier
         self.name = name
@@ -3172,8 +3076,7 @@ public struct UpdateWorkloadEstimateOutput: Swift.Sendable {
         rateType: BCMPricingCalculatorClientTypes.WorkloadEstimateRateType? = nil,
         status: BCMPricingCalculatorClientTypes.WorkloadEstimateStatus? = nil,
         totalCost: Swift.Double? = nil
-    )
-    {
+    ) {
         self.costCurrency = costCurrency
         self.createdAt = createdAt
         self.expiresAt = expiresAt
@@ -3237,8 +3140,7 @@ extension BCMPricingCalculatorClientTypes {
             errorCode: BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageCode? = nil,
             errorMessage: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.key = key
@@ -3258,8 +3160,7 @@ extension BCMPricingCalculatorClientTypes {
         public init(
             amount: Swift.Double? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.unit = unit
         }
@@ -3309,8 +3210,7 @@ public struct BatchDeleteWorkloadEstimateUsageInput: Swift.Sendable {
     public init(
         ids: [Swift.String]? = nil,
         workloadEstimateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.workloadEstimateId = workloadEstimateId
     }
@@ -3366,8 +3266,7 @@ extension BCMPricingCalculatorClientTypes {
             errorCode: BCMPricingCalculatorClientTypes.WorkloadEstimateUpdateUsageErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -3381,8 +3280,7 @@ public struct BatchDeleteWorkloadEstimateUsageOutput: Swift.Sendable {
 
     public init(
         errors: [BCMPricingCalculatorClientTypes.BatchDeleteWorkloadEstimateUsageError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -3403,8 +3301,7 @@ extension BCMPricingCalculatorClientTypes {
             amount: Swift.Double? = nil,
             group: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.group = group
             self.id = id
@@ -3423,8 +3320,7 @@ public struct BatchUpdateWorkloadEstimateUsageInput: Swift.Sendable {
     public init(
         usage: [BCMPricingCalculatorClientTypes.BatchUpdateWorkloadEstimateUsageEntry]? = nil,
         workloadEstimateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.usage = usage
         self.workloadEstimateId = workloadEstimateId
     }
@@ -3445,8 +3341,7 @@ extension BCMPricingCalculatorClientTypes {
             errorCode: BCMPricingCalculatorClientTypes.WorkloadEstimateUpdateUsageErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -3470,8 +3365,7 @@ public struct ListWorkloadEstimateUsageInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadEstimateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3503,8 +3397,7 @@ extension BCMPricingCalculatorClientTypes {
             not: BCMPricingCalculatorClientTypes.Expression? = nil,
             or: [BCMPricingCalculatorClientTypes.Expression]? = nil,
             tags: BCMPricingCalculatorClientTypes.ExpressionFilter? = nil
-        )
-        {
+        ) {
             self.and = and
             self.costCategories = costCategories
             self.dimensions = dimensions
@@ -3548,8 +3441,7 @@ extension BCMPricingCalculatorClientTypes {
             serviceCode: Swift.String? = nil,
             usageAccountId: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.billInterval = billInterval
             self.filterExpression = filterExpression
             self.location = location
@@ -3599,8 +3491,7 @@ extension BCMPricingCalculatorClientTypes {
             serviceCode: Swift.String? = nil,
             usageAccountId: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.amounts = amounts
             self.availabilityZone = availabilityZone
             self.group = group
@@ -3656,8 +3547,7 @@ extension BCMPricingCalculatorClientTypes {
             serviceCode: Swift.String? = nil,
             usageAccountId: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.group = group
             self.historicalUsage = historicalUsage
@@ -3709,8 +3599,7 @@ extension BCMPricingCalculatorClientTypes {
             serviceCode: Swift.String? = nil,
             usageAccountId: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.group = group
             self.historicalUsage = historicalUsage
@@ -3771,8 +3660,7 @@ extension BCMPricingCalculatorClientTypes {
             status: BCMPricingCalculatorClientTypes.WorkloadEstimateCostStatus? = nil,
             usageAccountId: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.cost = cost
             self.currency = currency
             self.group = group
@@ -3829,8 +3717,7 @@ extension BCMPricingCalculatorClientTypes {
             serviceCode: Swift.String? = nil,
             usageAccountId: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.group = group
             self.historicalUsage = historicalUsage
@@ -3884,8 +3771,7 @@ extension BCMPricingCalculatorClientTypes {
             serviceCode: Swift.String? = nil,
             usageAccountId: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.group = group
             self.historicalUsage = historicalUsage
@@ -3945,8 +3831,7 @@ extension BCMPricingCalculatorClientTypes {
             status: BCMPricingCalculatorClientTypes.WorkloadEstimateCostStatus? = nil,
             usageAccountId: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.cost = cost
             self.currency = currency
             self.group = group
@@ -3977,8 +3862,7 @@ public struct BatchCreateBillScenarioUsageModificationInput: Swift.Sendable {
         billScenarioId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         usageModifications: [BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationEntry]? = nil
-    )
-    {
+    ) {
         self.billScenarioId = billScenarioId
         self.clientToken = clientToken
         self.usageModifications = usageModifications
@@ -3994,8 +3878,7 @@ public struct BatchCreateBillScenarioUsageModificationOutput: Swift.Sendable {
     public init(
         errors: [BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationError]? = nil,
         items: [BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.items = items
     }
@@ -4015,8 +3898,7 @@ public struct BatchCreateWorkloadEstimateUsageInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         usage: [BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageEntry]? = nil,
         workloadEstimateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.usage = usage
         self.workloadEstimateId = workloadEstimateId
@@ -4032,8 +3914,7 @@ public struct BatchCreateWorkloadEstimateUsageOutput: Swift.Sendable {
     public init(
         errors: [BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageError]? = nil,
         items: [BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.items = items
     }
@@ -4048,8 +3929,7 @@ public struct BatchUpdateBillScenarioUsageModificationOutput: Swift.Sendable {
     public init(
         errors: [BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioUsageModificationError]? = nil,
         items: [BCMPricingCalculatorClientTypes.BillScenarioUsageModificationItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.items = items
     }
@@ -4064,8 +3944,7 @@ public struct BatchUpdateWorkloadEstimateUsageOutput: Swift.Sendable {
     public init(
         errors: [BCMPricingCalculatorClientTypes.BatchUpdateWorkloadEstimateUsageError]? = nil,
         items: [BCMPricingCalculatorClientTypes.WorkloadEstimateUsageItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.items = items
     }
@@ -4080,8 +3959,7 @@ public struct ListBillEstimateInputUsageModificationsOutput: Swift.Sendable {
     public init(
         items: [BCMPricingCalculatorClientTypes.BillEstimateInputUsageModificationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4096,8 +3974,7 @@ public struct ListBillScenarioUsageModificationsOutput: Swift.Sendable {
     public init(
         items: [BCMPricingCalculatorClientTypes.BillScenarioUsageModificationItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4112,8 +3989,7 @@ public struct ListWorkloadEstimateUsageOutput: Swift.Sendable {
     public init(
         items: [BCMPricingCalculatorClientTypes.WorkloadEstimateUsageItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }

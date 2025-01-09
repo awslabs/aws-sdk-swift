@@ -97,8 +97,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             userPoolArn: Swift.String? = nil,
             userPoolClientId: Swift.String? = nil,
             userPoolDomain: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.onUnauthenticatedRequest = onUnauthenticatedRequest
             self.scope = scope
@@ -196,8 +195,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             tokenEndpoint: Swift.String? = nil,
             useExistingClientSecret: Swift.Bool? = nil,
             userInfoEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
@@ -230,8 +228,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             contentType: Swift.String? = nil,
             messageBody: Swift.String? = nil,
             statusCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.messageBody = messageBody
             self.statusCode = statusCode
@@ -251,8 +248,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             targetGroupArn: Swift.String? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.targetGroupArn = targetGroupArn
             self.weight = weight
         }
@@ -271,8 +267,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             durationSeconds: Swift.Int? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.durationSeconds = durationSeconds
             self.enabled = enabled
         }
@@ -291,8 +286,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             targetGroupStickinessConfig: ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig? = nil,
             targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroupTuple]? = nil
-        )
-        {
+        ) {
             self.targetGroupStickinessConfig = targetGroupStickinessConfig
             self.targetGroups = targetGroups
         }
@@ -366,8 +360,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             `protocol`: Swift.String? = nil,
             query: Swift.String? = nil,
             statusCode: ElasticLoadBalancingv2ClientTypes.RedirectActionStatusCodeEnum? = nil
-        )
-        {
+        ) {
             self.host = host
             self.path = path
             self.port = port
@@ -447,8 +440,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             redirectConfig: ElasticLoadBalancingv2ClientTypes.RedirectActionConfig? = nil,
             targetGroupArn: Swift.String? = nil,
             type: ElasticLoadBalancingv2ClientTypes.ActionTypeEnum? = nil
-        )
-        {
+        ) {
             self.authenticateCognitoConfig = authenticateCognitoConfig
             self.authenticateOidcConfig = authenticateOidcConfig
             self.fixedResponseConfig = fixedResponseConfig
@@ -479,8 +471,7 @@ public struct CertificateNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -503,8 +494,7 @@ public struct ListenerNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -527,8 +517,7 @@ public struct TooManyCertificatesException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -545,8 +534,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             certificateArn: Swift.String? = nil,
             isDefault: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.isDefault = isDefault
         }
@@ -564,8 +552,7 @@ public struct AddListenerCertificatesInput: Swift.Sendable {
     public init(
         certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]? = nil,
         listenerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.listenerArn = listenerArn
     }
@@ -577,8 +564,7 @@ public struct AddListenerCertificatesOutput: Swift.Sendable {
 
     public init(
         certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
     }
 }
@@ -601,8 +587,7 @@ public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -625,8 +610,7 @@ public struct LoadBalancerNotFoundException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -649,8 +633,7 @@ public struct RuleNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -673,8 +656,7 @@ public struct TargetGroupNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -697,8 +679,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -721,8 +702,7 @@ public struct TrustStoreNotFoundException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -740,8 +720,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -759,8 +738,7 @@ public struct AddTagsInput: Swift.Sendable {
     public init(
         resourceArns: [Swift.String]? = nil,
         tags: [ElasticLoadBalancingv2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArns = resourceArns
         self.tags = tags
     }
@@ -789,8 +767,7 @@ public struct InvalidRevocationContentException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -813,8 +790,7 @@ public struct RevocationContentNotFoundException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -837,8 +813,7 @@ public struct TooManyTrustStoreRevocationEntriesException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -887,8 +862,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil,
             s3ObjectVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.revocationType = revocationType
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -907,8 +881,7 @@ public struct AddTrustStoreRevocationsInput: Swift.Sendable {
     public init(
         revocationContents: [ElasticLoadBalancingv2ClientTypes.RevocationContent]? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.revocationContents = revocationContents
         self.trustStoreArn = trustStoreArn
     }
@@ -932,8 +905,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             revocationId: Swift.Int? = nil,
             revocationType: ElasticLoadBalancingv2ClientTypes.RevocationType? = nil,
             trustStoreArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.numberOfRevokedEntries = numberOfRevokedEntries
             self.revocationId = revocationId
             self.revocationType = revocationType
@@ -948,8 +920,7 @@ public struct AddTrustStoreRevocationsOutput: Swift.Sendable {
 
     public init(
         trustStoreRevocations: [ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation]? = nil
-    )
-    {
+    ) {
         self.trustStoreRevocations = trustStoreRevocations
     }
 }
@@ -1039,8 +1010,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             description: Swift.String? = nil,
             reason: ElasticLoadBalancingv2ClientTypes.TargetAdministrativeOverrideReasonEnum? = nil,
             state: ElasticLoadBalancingv2ClientTypes.TargetAdministrativeOverrideStateEnum? = nil
-        )
-        {
+        ) {
             self.description = description
             self.reason = reason
             self.state = state
@@ -1095,8 +1065,7 @@ public struct AllocationIdNotFoundException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1119,8 +1088,7 @@ public struct ALPNPolicyNotSupportedException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1195,8 +1163,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             mitigationInEffect: ElasticLoadBalancingv2ClientTypes.MitigationInEffectEnum? = nil,
             result: ElasticLoadBalancingv2ClientTypes.AnomalyResultEnum? = nil
-        )
-        {
+        ) {
             self.mitigationInEffect = mitigationInEffect
             self.result = result
         }
@@ -1221,8 +1188,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             ipAddress: Swift.String? = nil,
             ipv6Address: Swift.String? = nil,
             privateIPv4Address: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocationId = allocationId
             self.ipAddress = ipAddress
             self.ipv6Address = ipv6Address
@@ -1252,8 +1218,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             sourceNatIpv6Prefixes: [Swift.String]? = nil,
             subnetId: Swift.String? = nil,
             zoneName: Swift.String? = nil
-        )
-        {
+        ) {
             self.loadBalancerAddresses = loadBalancerAddresses
             self.outpostId = outpostId
             self.sourceNatIpv6Prefixes = sourceNatIpv6Prefixes
@@ -1281,8 +1246,7 @@ public struct AvailabilityZoneNotSupportedException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1305,8 +1269,7 @@ public struct CaCertificatesBundleNotFoundException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1329,8 +1292,7 @@ public struct CapacityDecreaseRequestsLimitExceededException: ClientRuntime.Mode
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1353,8 +1315,7 @@ public struct CapacityReservationPendingException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1406,8 +1367,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             code: ElasticLoadBalancingv2ClientTypes.CapacityReservationStateEnum? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.reason = reason
         }
@@ -1432,8 +1392,7 @@ public struct CapacityUnitsLimitExceededException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1450,8 +1409,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             name: Swift.String? = nil,
             priority: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.priority = priority
         }
@@ -1476,8 +1434,7 @@ public struct DuplicateListenerException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1500,8 +1457,7 @@ public struct IncompatibleProtocolsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1524,8 +1480,7 @@ public struct InvalidConfigurationRequestException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1548,8 +1503,7 @@ public struct InvalidLoadBalancerActionException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1572,8 +1526,7 @@ public struct SSLPolicyNotFoundException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1596,8 +1549,7 @@ public struct TargetGroupAssociationLimitException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1620,8 +1572,7 @@ public struct TooManyActionsException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1644,8 +1595,7 @@ public struct TooManyListenersException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1668,8 +1618,7 @@ public struct TooManyRegistrationsForTargetIdException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1692,8 +1641,7 @@ public struct TooManyTargetsException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1716,8 +1664,7 @@ public struct TooManyUniqueTargetGroupsPerLoadBalancerException: ClientRuntime.M
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1740,8 +1687,7 @@ public struct TrustStoreNotReadyException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1764,8 +1710,7 @@ public struct UnsupportedProtocolException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1820,8 +1765,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             mode: Swift.String? = nil,
             trustStoreArn: Swift.String? = nil,
             trustStoreAssociationStatus: ElasticLoadBalancingv2ClientTypes.TrustStoreAssociationStatusEnum? = nil
-        )
-        {
+        ) {
             self.advertiseTrustStoreCaNames = advertiseTrustStoreCaNames
             self.ignoreClientCertificateExpiry = ignoreClientCertificateExpiry
             self.mode = mode
@@ -1920,8 +1864,7 @@ public struct CreateListenerInput: Swift.Sendable {
         `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum? = nil,
         sslPolicy: Swift.String? = nil,
         tags: [ElasticLoadBalancingv2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.alpnPolicy = alpnPolicy
         self.certificates = certificates
         self.defaultActions = defaultActions
@@ -1967,8 +1910,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             port: Swift.Int? = nil,
             `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum? = nil,
             sslPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.alpnPolicy = alpnPolicy
             self.certificates = certificates
             self.defaultActions = defaultActions
@@ -1988,8 +1930,7 @@ public struct CreateListenerOutput: Swift.Sendable {
 
     public init(
         listeners: [ElasticLoadBalancingv2ClientTypes.Listener]? = nil
-    )
-    {
+    ) {
         self.listeners = listeners
     }
 }
@@ -2012,8 +1953,7 @@ public struct DuplicateLoadBalancerNameException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2036,8 +1976,7 @@ public struct InvalidSchemeException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2060,8 +1999,7 @@ public struct InvalidSecurityGroupException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2084,8 +2022,7 @@ public struct InvalidSubnetException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2108,8 +2045,7 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2132,8 +2068,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2156,8 +2091,7 @@ public struct SubnetNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2180,8 +2114,7 @@ public struct TooManyLoadBalancersException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2297,8 +2230,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             privateIPv4Address: Swift.String? = nil,
             sourceNatIpv6Prefix: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocationId = allocationId
             self.ipv6Address = ipv6Address
             self.privateIPv4Address = privateIPv4Address
@@ -2374,8 +2306,7 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
         subnets: [Swift.String]? = nil,
         tags: [ElasticLoadBalancingv2ClientTypes.Tag]? = nil,
         type: ElasticLoadBalancingv2ClientTypes.LoadBalancerTypeEnum? = nil
-    )
-    {
+    ) {
         self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
         self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
         self.ipAddressType = ipAddressType
@@ -2436,8 +2367,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             code: ElasticLoadBalancingv2ClientTypes.LoadBalancerStateEnum? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.reason = reason
         }
@@ -2495,8 +2425,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             state: ElasticLoadBalancingv2ClientTypes.LoadBalancerState? = nil,
             type: ElasticLoadBalancingv2ClientTypes.LoadBalancerTypeEnum? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
             self.createdTime = createdTime
@@ -2522,8 +2451,7 @@ public struct CreateLoadBalancerOutput: Swift.Sendable {
 
     public init(
         loadBalancers: [ElasticLoadBalancingv2ClientTypes.LoadBalancer]? = nil
-    )
-    {
+    ) {
         self.loadBalancers = loadBalancers
     }
 }
@@ -2546,8 +2474,7 @@ public struct PriorityInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2570,8 +2497,7 @@ public struct TooManyRulesException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2594,8 +2520,7 @@ public struct TooManyTargetGroupsException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2609,8 +2534,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -2628,8 +2552,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             httpHeaderName: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.httpHeaderName = httpHeaderName
             self.values = values
         }
@@ -2645,8 +2568,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -2661,8 +2583,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -2680,8 +2601,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2697,8 +2617,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
         public init(
             values: [ElasticLoadBalancingv2ClientTypes.QueryStringKeyValuePair]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -2713,8 +2632,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -2783,8 +2701,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             queryStringConfig: ElasticLoadBalancingv2ClientTypes.QueryStringConditionConfig? = nil,
             sourceIpConfig: ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.field = field
             self.hostHeaderConfig = hostHeaderConfig
             self.httpHeaderConfig = httpHeaderConfig
@@ -2819,8 +2736,7 @@ public struct CreateRuleInput: Swift.Sendable {
         listenerArn: Swift.String? = nil,
         priority: Swift.Int? = nil,
         tags: [ElasticLoadBalancingv2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.conditions = conditions
         self.listenerArn = listenerArn
@@ -2850,8 +2766,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             isDefault: Swift.Bool? = nil,
             priority: Swift.String? = nil,
             ruleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.conditions = conditions
             self.isDefault = isDefault
@@ -2867,8 +2782,7 @@ public struct CreateRuleOutput: Swift.Sendable {
 
     public init(
         rules: [ElasticLoadBalancingv2ClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.rules = rules
     }
 }
@@ -2891,8 +2805,7 @@ public struct DuplicateTargetGroupNameException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2938,8 +2851,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             grpcCode: Swift.String? = nil,
             httpCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.grpcCode = grpcCode
             self.httpCode = httpCode
         }
@@ -3044,8 +2956,7 @@ public struct CreateTargetGroupInput: Swift.Sendable {
         targetType: ElasticLoadBalancingv2ClientTypes.TargetTypeEnum? = nil,
         unhealthyThresholdCount: Swift.Int? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheckEnabled = healthCheckEnabled
         self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
         self.healthCheckPath = healthCheckPath
@@ -3126,8 +3037,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             targetType: ElasticLoadBalancingv2ClientTypes.TargetTypeEnum? = nil,
             unhealthyThresholdCount: Swift.Int? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckPath = healthCheckPath
@@ -3156,8 +3066,7 @@ public struct CreateTargetGroupOutput: Swift.Sendable {
 
     public init(
         targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroup]? = nil
-    )
-    {
+    ) {
         self.targetGroups = targetGroups
     }
 }
@@ -3180,8 +3089,7 @@ public struct DuplicateTrustStoreNameException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3204,8 +3112,7 @@ public struct InvalidCaCertificatesBundleException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3228,8 +3135,7 @@ public struct TooManyTrustStoresException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3255,8 +3161,7 @@ public struct CreateTrustStoreInput: Swift.Sendable {
         caCertificatesBundleS3ObjectVersion: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [ElasticLoadBalancingv2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.caCertificatesBundleS3Bucket = caCertificatesBundleS3Bucket
         self.caCertificatesBundleS3Key = caCertificatesBundleS3Key
         self.caCertificatesBundleS3ObjectVersion = caCertificatesBundleS3ObjectVersion
@@ -3315,8 +3220,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             status: ElasticLoadBalancingv2ClientTypes.TrustStoreStatus? = nil,
             totalRevokedEntries: Swift.Int? = nil,
             trustStoreArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.numberOfCaCertificates = numberOfCaCertificates
             self.status = status
@@ -3332,8 +3236,7 @@ public struct CreateTrustStoreOutput: Swift.Sendable {
 
     public init(
         trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]? = nil
-    )
-    {
+    ) {
         self.trustStores = trustStores
     }
 }
@@ -3356,8 +3259,7 @@ public struct DeleteAssociationSameAccountException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3369,8 +3271,7 @@ public struct DeleteListenerInput: Swift.Sendable {
 
     public init(
         listenerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerArn = listenerArn
     }
 }
@@ -3387,8 +3288,7 @@ public struct DeleteLoadBalancerInput: Swift.Sendable {
 
     public init(
         loadBalancerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerArn = loadBalancerArn
     }
 }
@@ -3405,8 +3305,7 @@ public struct DeleteRuleInput: Swift.Sendable {
 
     public init(
         ruleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleArn = ruleArn
     }
 }
@@ -3434,8 +3333,7 @@ public struct TrustStoreAssociationNotFoundException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3451,8 +3349,7 @@ public struct DeleteSharedTrustStoreAssociationInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.trustStoreArn = trustStoreArn
     }
@@ -3470,8 +3367,7 @@ public struct DeleteTargetGroupInput: Swift.Sendable {
 
     public init(
         targetGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.targetGroupArn = targetGroupArn
     }
 }
@@ -3499,8 +3395,7 @@ public struct TrustStoreInUseException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3512,8 +3407,7 @@ public struct DeleteTrustStoreInput: Swift.Sendable {
 
     public init(
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustStoreArn = trustStoreArn
     }
 }
@@ -3541,8 +3435,7 @@ public struct InvalidTargetException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3563,8 +3456,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             availabilityZone: Swift.String? = nil,
             id: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.id = id
             self.port = port
@@ -3583,8 +3475,7 @@ public struct DeregisterTargetsInput: Swift.Sendable {
     public init(
         targetGroupArn: Swift.String? = nil,
         targets: [ElasticLoadBalancingv2ClientTypes.TargetDescription]? = nil
-    )
-    {
+    ) {
         self.targetGroupArn = targetGroupArn
         self.targets = targets
     }
@@ -3604,8 +3495,7 @@ public struct DescribeAccountLimitsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.pageSize = pageSize
     }
@@ -3665,8 +3555,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             max: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.max = max
             self.name = name
         }
@@ -3682,8 +3571,7 @@ public struct DescribeAccountLimitsOutput: Swift.Sendable {
     public init(
         limits: [ElasticLoadBalancingv2ClientTypes.Limit]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limits = limits
         self.nextMarker = nextMarker
     }
@@ -3696,8 +3584,7 @@ public struct DescribeCapacityReservationInput: Swift.Sendable {
 
     public init(
         loadBalancerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerArn = loadBalancerArn
     }
 }
@@ -3717,8 +3604,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             availabilityZone: Swift.String? = nil,
             effectiveCapacityUnits: Swift.Double? = nil,
             state: ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.effectiveCapacityUnits = effectiveCapacityUnits
             self.state = state
@@ -3735,8 +3621,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
         public init(
             capacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.capacityUnits = capacityUnits
         }
     }
@@ -3757,8 +3642,7 @@ public struct DescribeCapacityReservationOutput: Swift.Sendable {
         decreaseRequestsRemaining: Swift.Int? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         minimumLoadBalancerCapacity: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity? = nil
-    )
-    {
+    ) {
         self.capacityReservationState = capacityReservationState
         self.decreaseRequestsRemaining = decreaseRequestsRemaining
         self.lastModifiedTime = lastModifiedTime
@@ -3773,8 +3657,7 @@ public struct DescribeListenerAttributesInput: Swift.Sendable {
 
     public init(
         listenerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerArn = listenerArn
     }
 }
@@ -3834,8 +3717,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -3848,8 +3730,7 @@ public struct DescribeListenerAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -3867,8 +3748,7 @@ public struct DescribeListenerCertificatesInput: Swift.Sendable {
         listenerArn: Swift.String? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.listenerArn = listenerArn
         self.marker = marker
         self.pageSize = pageSize
@@ -3884,8 +3764,7 @@ public struct DescribeListenerCertificatesOutput: Swift.Sendable {
     public init(
         certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.nextMarker = nextMarker
     }
@@ -3906,8 +3785,7 @@ public struct DescribeListenersInput: Swift.Sendable {
         loadBalancerArn: Swift.String? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.listenerArns = listenerArns
         self.loadBalancerArn = loadBalancerArn
         self.marker = marker
@@ -3924,8 +3802,7 @@ public struct DescribeListenersOutput: Swift.Sendable {
     public init(
         listeners: [ElasticLoadBalancingv2ClientTypes.Listener]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.listeners = listeners
         self.nextMarker = nextMarker
     }
@@ -3938,8 +3815,7 @@ public struct DescribeLoadBalancerAttributesInput: Swift.Sendable {
 
     public init(
         loadBalancerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerArn = loadBalancerArn
     }
 }
@@ -4016,8 +3892,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4030,8 +3905,7 @@ public struct DescribeLoadBalancerAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -4051,8 +3925,7 @@ public struct DescribeLoadBalancersInput: Swift.Sendable {
         marker: Swift.String? = nil,
         names: [Swift.String]? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.loadBalancerArns = loadBalancerArns
         self.marker = marker
         self.names = names
@@ -4069,8 +3942,7 @@ public struct DescribeLoadBalancersOutput: Swift.Sendable {
     public init(
         loadBalancers: [ElasticLoadBalancingv2ClientTypes.LoadBalancer]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancers = loadBalancers
         self.nextMarker = nextMarker
     }
@@ -4091,8 +3963,7 @@ public struct DescribeRulesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         ruleArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.listenerArn = listenerArn
         self.marker = marker
         self.pageSize = pageSize
@@ -4109,8 +3980,7 @@ public struct DescribeRulesOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         rules: [ElasticLoadBalancingv2ClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.rules = rules
     }
@@ -4131,8 +4001,7 @@ public struct DescribeSSLPoliciesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         names: [Swift.String]? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.loadBalancerType = loadBalancerType
         self.marker = marker
         self.names = names
@@ -4158,8 +4027,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             name: Swift.String? = nil,
             sslProtocols: [Swift.String]? = nil,
             supportedLoadBalancerTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.ciphers = ciphers
             self.name = name
             self.sslProtocols = sslProtocols
@@ -4177,8 +4045,7 @@ public struct DescribeSSLPoliciesOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         sslPolicies: [ElasticLoadBalancingv2ClientTypes.SslPolicy]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.sslPolicies = sslPolicies
     }
@@ -4191,8 +4058,7 @@ public struct DescribeTagsInput: Swift.Sendable {
 
     public init(
         resourceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArns = resourceArns
     }
 }
@@ -4209,8 +4075,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             resourceArn: Swift.String? = nil,
             tags: [ElasticLoadBalancingv2ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -4223,8 +4088,7 @@ public struct DescribeTagsOutput: Swift.Sendable {
 
     public init(
         tagDescriptions: [ElasticLoadBalancingv2ClientTypes.TagDescription]? = nil
-    )
-    {
+    ) {
         self.tagDescriptions = tagDescriptions
     }
 }
@@ -4236,8 +4100,7 @@ public struct DescribeTargetGroupAttributesInput: Swift.Sendable {
 
     public init(
         targetGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.targetGroupArn = targetGroupArn
     }
 }
@@ -4322,8 +4185,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4336,8 +4198,7 @@ public struct DescribeTargetGroupAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -4360,8 +4221,7 @@ public struct DescribeTargetGroupsInput: Swift.Sendable {
         names: [Swift.String]? = nil,
         pageSize: Swift.Int? = nil,
         targetGroupArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.loadBalancerArn = loadBalancerArn
         self.marker = marker
         self.names = names
@@ -4379,8 +4239,7 @@ public struct DescribeTargetGroupsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroup]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.targetGroups = targetGroups
     }
@@ -4404,8 +4263,7 @@ public struct HealthUnavailableException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4452,8 +4310,7 @@ public struct DescribeTargetHealthInput: Swift.Sendable {
         include: [ElasticLoadBalancingv2ClientTypes.DescribeTargetHealthInputIncludeEnum]? = nil,
         targetGroupArn: Swift.String? = nil,
         targets: [ElasticLoadBalancingv2ClientTypes.TargetDescription]? = nil
-    )
-    {
+    ) {
         self.include = include
         self.targetGroupArn = targetGroupArn
         self.targets = targets
@@ -4616,8 +4473,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             description: Swift.String? = nil,
             reason: ElasticLoadBalancingv2ClientTypes.TargetHealthReasonEnum? = nil,
             state: ElasticLoadBalancingv2ClientTypes.TargetHealthStateEnum? = nil
-        )
-        {
+        ) {
             self.description = description
             self.reason = reason
             self.state = state
@@ -4646,8 +4502,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             healthCheckPort: Swift.String? = nil,
             target: ElasticLoadBalancingv2ClientTypes.TargetDescription? = nil,
             targetHealth: ElasticLoadBalancingv2ClientTypes.TargetHealth? = nil
-        )
-        {
+        ) {
             self.administrativeOverride = administrativeOverride
             self.anomalyDetection = anomalyDetection
             self.healthCheckPort = healthCheckPort
@@ -4663,8 +4518,7 @@ public struct DescribeTargetHealthOutput: Swift.Sendable {
 
     public init(
         targetHealthDescriptions: [ElasticLoadBalancingv2ClientTypes.TargetHealthDescription]? = nil
-    )
-    {
+    ) {
         self.targetHealthDescriptions = targetHealthDescriptions
     }
 }
@@ -4682,8 +4536,7 @@ public struct DescribeTrustStoreAssociationsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.pageSize = pageSize
         self.trustStoreArn = trustStoreArn
@@ -4699,8 +4552,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
         public init(
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceArn = resourceArn
         }
     }
@@ -4715,8 +4567,7 @@ public struct DescribeTrustStoreAssociationsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         trustStoreAssociations: [ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.trustStoreAssociations = trustStoreAssociations
     }
@@ -4740,8 +4591,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             revocationId: Swift.Int? = nil,
             revocationType: ElasticLoadBalancingv2ClientTypes.RevocationType? = nil,
             trustStoreArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.numberOfRevokedEntries = numberOfRevokedEntries
             self.revocationId = revocationId
             self.revocationType = revocationType
@@ -4768,8 +4618,7 @@ public struct RevocationIdNotFoundException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4790,8 +4639,7 @@ public struct DescribeTrustStoreRevocationsInput: Swift.Sendable {
         pageSize: Swift.Int? = nil,
         revocationIds: [Swift.Int]? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.pageSize = pageSize
         self.revocationIds = revocationIds
@@ -4808,8 +4656,7 @@ public struct DescribeTrustStoreRevocationsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         trustStoreRevocations: [ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.trustStoreRevocations = trustStoreRevocations
     }
@@ -4830,8 +4677,7 @@ public struct DescribeTrustStoresInput: Swift.Sendable {
         names: [Swift.String]? = nil,
         pageSize: Swift.Int? = nil,
         trustStoreArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.names = names
         self.pageSize = pageSize
@@ -4848,8 +4694,7 @@ public struct DescribeTrustStoresOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.trustStores = trustStores
     }
@@ -4873,8 +4718,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4886,8 +4730,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4898,8 +4741,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -4911,8 +4753,7 @@ public struct GetTrustStoreCaCertificatesBundleInput: Swift.Sendable {
 
     public init(
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustStoreArn = trustStoreArn
     }
 }
@@ -4923,8 +4764,7 @@ public struct GetTrustStoreCaCertificatesBundleOutput: Swift.Sendable {
 
     public init(
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.location = location
     }
 }
@@ -4940,8 +4780,7 @@ public struct GetTrustStoreRevocationContentInput: Swift.Sendable {
     public init(
         revocationId: Swift.Int? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.revocationId = revocationId
         self.trustStoreArn = trustStoreArn
     }
@@ -4953,8 +4792,7 @@ public struct GetTrustStoreRevocationContentOutput: Swift.Sendable {
 
     public init(
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.location = location
     }
 }
@@ -4977,8 +4815,7 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5001,8 +4838,7 @@ public struct PriorRequestNotCompleteException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5020,8 +4856,7 @@ public struct ModifyCapacityReservationInput: Swift.Sendable {
         loadBalancerArn: Swift.String? = nil,
         minimumLoadBalancerCapacity: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity? = nil,
         resetCapacityReservation: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.loadBalancerArn = loadBalancerArn
         self.minimumLoadBalancerCapacity = minimumLoadBalancerCapacity
         self.resetCapacityReservation = resetCapacityReservation
@@ -5043,8 +4878,7 @@ public struct ModifyCapacityReservationOutput: Swift.Sendable {
         decreaseRequestsRemaining: Swift.Int? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         minimumLoadBalancerCapacity: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity? = nil
-    )
-    {
+    ) {
         self.capacityReservationState = capacityReservationState
         self.decreaseRequestsRemaining = decreaseRequestsRemaining
         self.lastModifiedTime = lastModifiedTime
@@ -5093,8 +4927,7 @@ public struct ModifyListenerInput: Swift.Sendable {
         port: Swift.Int? = nil,
         `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum? = nil,
         sslPolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.alpnPolicy = alpnPolicy
         self.certificates = certificates
         self.defaultActions = defaultActions
@@ -5112,8 +4945,7 @@ public struct ModifyListenerOutput: Swift.Sendable {
 
     public init(
         listeners: [ElasticLoadBalancingv2ClientTypes.Listener]? = nil
-    )
-    {
+    ) {
         self.listeners = listeners
     }
 }
@@ -5129,8 +4961,7 @@ public struct ModifyListenerAttributesInput: Swift.Sendable {
     public init(
         attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]? = nil,
         listenerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.listenerArn = listenerArn
     }
@@ -5142,8 +4973,7 @@ public struct ModifyListenerAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -5159,8 +4989,7 @@ public struct ModifyLoadBalancerAttributesInput: Swift.Sendable {
     public init(
         attributes: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute]? = nil,
         loadBalancerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.loadBalancerArn = loadBalancerArn
     }
@@ -5172,8 +5001,7 @@ public struct ModifyLoadBalancerAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -5191,8 +5019,7 @@ public struct ModifyRuleInput: Swift.Sendable {
         actions: [ElasticLoadBalancingv2ClientTypes.Action]? = nil,
         conditions: [ElasticLoadBalancingv2ClientTypes.RuleCondition]? = nil,
         ruleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.conditions = conditions
         self.ruleArn = ruleArn
@@ -5205,8 +5032,7 @@ public struct ModifyRuleOutput: Swift.Sendable {
 
     public init(
         rules: [ElasticLoadBalancingv2ClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.rules = rules
     }
 }
@@ -5245,8 +5071,7 @@ public struct ModifyTargetGroupInput: Swift.Sendable {
         matcher: ElasticLoadBalancingv2ClientTypes.Matcher? = nil,
         targetGroupArn: Swift.String? = nil,
         unhealthyThresholdCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.healthCheckEnabled = healthCheckEnabled
         self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
         self.healthCheckPath = healthCheckPath
@@ -5266,8 +5091,7 @@ public struct ModifyTargetGroupOutput: Swift.Sendable {
 
     public init(
         targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroup]? = nil
-    )
-    {
+    ) {
         self.targetGroups = targetGroups
     }
 }
@@ -5283,8 +5107,7 @@ public struct ModifyTargetGroupAttributesInput: Swift.Sendable {
     public init(
         attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]? = nil,
         targetGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.targetGroupArn = targetGroupArn
     }
@@ -5296,8 +5119,7 @@ public struct ModifyTargetGroupAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -5320,8 +5142,7 @@ public struct ModifyTrustStoreInput: Swift.Sendable {
         caCertificatesBundleS3Key: Swift.String? = nil,
         caCertificatesBundleS3ObjectVersion: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.caCertificatesBundleS3Bucket = caCertificatesBundleS3Bucket
         self.caCertificatesBundleS3Key = caCertificatesBundleS3Key
         self.caCertificatesBundleS3ObjectVersion = caCertificatesBundleS3ObjectVersion
@@ -5335,8 +5156,7 @@ public struct ModifyTrustStoreOutput: Swift.Sendable {
 
     public init(
         trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]? = nil
-    )
-    {
+    ) {
         self.trustStores = trustStores
     }
 }
@@ -5352,8 +5172,7 @@ public struct RegisterTargetsInput: Swift.Sendable {
     public init(
         targetGroupArn: Swift.String? = nil,
         targets: [ElasticLoadBalancingv2ClientTypes.TargetDescription]? = nil
-    )
-    {
+    ) {
         self.targetGroupArn = targetGroupArn
         self.targets = targets
     }
@@ -5375,8 +5194,7 @@ public struct RemoveListenerCertificatesInput: Swift.Sendable {
     public init(
         certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]? = nil,
         listenerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.listenerArn = listenerArn
     }
@@ -5398,8 +5216,7 @@ public struct RemoveTagsInput: Swift.Sendable {
     public init(
         resourceArns: [Swift.String]? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArns = resourceArns
         self.tagKeys = tagKeys
     }
@@ -5421,8 +5238,7 @@ public struct RemoveTrustStoreRevocationsInput: Swift.Sendable {
     public init(
         revocationIds: [Swift.Int]? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.revocationIds = revocationIds
         self.trustStoreArn = trustStoreArn
     }
@@ -5444,8 +5260,7 @@ public struct SetIpAddressTypeInput: Swift.Sendable {
     public init(
         ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil,
         loadBalancerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAddressType = ipAddressType
         self.loadBalancerArn = loadBalancerArn
     }
@@ -5457,8 +5272,7 @@ public struct SetIpAddressTypeOutput: Swift.Sendable {
 
     public init(
         ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil
-    )
-    {
+    ) {
         self.ipAddressType = ipAddressType
     }
 }
@@ -5475,8 +5289,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             priority: Swift.Int? = nil,
             ruleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.ruleArn = ruleArn
         }
@@ -5490,8 +5303,7 @@ public struct SetRulePrioritiesInput: Swift.Sendable {
 
     public init(
         rulePriorities: [ElasticLoadBalancingv2ClientTypes.RulePriorityPair]? = nil
-    )
-    {
+    ) {
         self.rulePriorities = rulePriorities
     }
 }
@@ -5502,8 +5314,7 @@ public struct SetRulePrioritiesOutput: Swift.Sendable {
 
     public init(
         rules: [ElasticLoadBalancingv2ClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.rules = rules
     }
 }
@@ -5551,8 +5362,7 @@ public struct SetSecurityGroupsInput: Swift.Sendable {
         enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum? = nil,
         loadBalancerArn: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
         self.loadBalancerArn = loadBalancerArn
         self.securityGroups = securityGroups
@@ -5568,8 +5378,7 @@ public struct SetSecurityGroupsOutput: Swift.Sendable {
     public init(
         enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum? = nil,
         securityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
         self.securityGroupIds = securityGroupIds
     }
@@ -5594,8 +5403,7 @@ public struct SetSubnetsInput: Swift.Sendable {
         loadBalancerArn: Swift.String? = nil,
         subnetMappings: [ElasticLoadBalancingv2ClientTypes.SubnetMapping]? = nil,
         subnets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
         self.ipAddressType = ipAddressType
         self.loadBalancerArn = loadBalancerArn
@@ -5616,8 +5424,7 @@ public struct SetSubnetsOutput: Swift.Sendable {
         availabilityZones: [ElasticLoadBalancingv2ClientTypes.AvailabilityZone]? = nil,
         enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum? = nil,
         ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
         self.ipAddressType = ipAddressType

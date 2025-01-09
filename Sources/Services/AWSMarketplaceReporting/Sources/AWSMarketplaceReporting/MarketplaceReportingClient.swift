@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceReportingClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceReportingClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceReportingClient.MarketplaceReportingClientConfiguration
     let serviceName = "Marketplace Reporting"
@@ -328,7 +328,7 @@ extension MarketplaceReportingClient {
 }
 
 extension MarketplaceReportingClient {
-    /// Performs the `GetBuyerDashboard` operation on the `AWSMarketplaceReporting` service.
+    /// Performs the `GetBuyerDashboard` operation on the `MarketplaceReporting` service.
     ///
     /// Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user. This API is available only to Amazon Web Services Organization management accounts or delegated administrators registered for the procurement insights (procurement-insights.marketplace.amazonaws.com) feature. The following rules apply to a generated URL:
     ///

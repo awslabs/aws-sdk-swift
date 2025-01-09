@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CustomerProfilesClient: ClientRuntime.Client {
     public static let clientName = "CustomerProfilesClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: CustomerProfilesClient.CustomerProfilesClientConfiguration
     let serviceName = "Customer Profiles"
@@ -330,7 +330,7 @@ extension CustomerProfilesClient {
 }
 
 extension CustomerProfilesClient {
-    /// Performs the `AddProfileKey` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `AddProfileKey` operation on the `CustomerProfiles` service.
     ///
     /// Associates a new key value with a specific profile, such as a Contact Record ContactId. A profile object can have a single unique key and any number of additional keys that can be used to identify the profile that it belongs to.
     ///
@@ -403,7 +403,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetCalculatedAttributeForProfile` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `BatchGetCalculatedAttributeForProfile` operation on the `CustomerProfiles` service.
     ///
     /// Fetch the possible attribute values given the attribute name.
     ///
@@ -476,7 +476,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetProfile` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `BatchGetProfile` operation on the `CustomerProfiles` service.
     ///
     /// Get a batch of profiles.
     ///
@@ -549,7 +549,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCalculatedAttributeDefinition` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `CreateCalculatedAttributeDefinition` operation on the `CustomerProfiles` service.
     ///
     /// Creates a new calculated attribute definition. After creation, new object data ingested into Customer Profiles will be included in the calculated attribute, which can be retrieved for a profile using the [GetCalculatedAttributeForProfile](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetCalculatedAttributeForProfile.html) API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType.
     ///
@@ -622,7 +622,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDomain` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `CreateDomain` operation on the `CustomerProfiles` service.
     ///
     /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or [UpdateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply. It is not possible to associate a Customer Profiles domain with an Amazon Connect Instance directly from the API. If you would like to create a domain and associate a Customer Profiles domain, use the Amazon Connect admin website. For more information, see [Enable Customer Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/enable-customer-profiles.html#enable-customer-profiles-step1). Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
     ///
@@ -695,7 +695,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEventStream` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `CreateEventStream` operation on the `CustomerProfiles` service.
     ///
     /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain
     ///
@@ -768,7 +768,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEventTrigger` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `CreateEventTrigger` operation on the `CustomerProfiles` service.
     ///
     /// Creates an event trigger, which specifies the rules when to perform action based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream.
     ///
@@ -841,7 +841,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIntegrationWorkflow` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `CreateIntegrationWorkflow` operation on the `CustomerProfiles` service.
     ///
     /// Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
     ///
@@ -914,7 +914,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProfile` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `CreateProfile` operation on the `CustomerProfiles` service.
     ///
     /// Creates a standard profile. A standard profile represents the following attributes for a customer profile in a domain.
     ///
@@ -987,7 +987,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSegmentDefinition` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `CreateSegmentDefinition` operation on the `CustomerProfiles` service.
     ///
     /// Creates a segment definition associated to the given domain.
     ///
@@ -1060,7 +1060,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSegmentEstimate` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `CreateSegmentEstimate` operation on the `CustomerProfiles` service.
     ///
     /// Creates a segment estimate query.
     ///
@@ -1133,7 +1133,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSegmentSnapshot` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `CreateSegmentSnapshot` operation on the `CustomerProfiles` service.
     ///
     /// Triggers a job to export a segment to a specified destination.
     ///
@@ -1206,7 +1206,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCalculatedAttributeDefinition` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DeleteCalculatedAttributeDefinition` operation on the `CustomerProfiles` service.
     ///
     /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute is possible, however once deleted, you will be unable to undo that action and will need to recreate it on your own using the CreateCalculatedAttributeDefinition API if you want it back.
     ///
@@ -1276,7 +1276,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDomain` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DeleteDomain` operation on the `CustomerProfiles` service.
     ///
     /// Deletes a specific domain and all of its customer data, such as customer profile attributes and their related objects.
     ///
@@ -1346,7 +1346,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEventStream` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DeleteEventStream` operation on the `CustomerProfiles` service.
     ///
     /// Disables and deletes the specified event stream.
     ///
@@ -1416,7 +1416,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEventTrigger` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DeleteEventTrigger` operation on the `CustomerProfiles` service.
     ///
     /// Disable and deletes the Event Trigger. You cannot delete an Event Trigger with an active Integration associated.
     ///
@@ -1486,7 +1486,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIntegration` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DeleteIntegration` operation on the `CustomerProfiles` service.
     ///
     /// Removes an integration from a specific domain.
     ///
@@ -1559,7 +1559,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProfile` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DeleteProfile` operation on the `CustomerProfiles` service.
     ///
     /// Deletes the standard customer profile and all data pertaining to the profile.
     ///
@@ -1632,7 +1632,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProfileKey` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DeleteProfileKey` operation on the `CustomerProfiles` service.
     ///
     /// Removes a searchable key from a customer profile.
     ///
@@ -1705,7 +1705,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProfileObject` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DeleteProfileObject` operation on the `CustomerProfiles` service.
     ///
     /// Removes an object associated with a profile of a given ProfileObjectType.
     ///
@@ -1778,7 +1778,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProfileObjectType` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DeleteProfileObjectType` operation on the `CustomerProfiles` service.
     ///
     /// Removes a ProfileObjectType from a specific domain as well as removes all the ProfileObjects of that type. It also disables integrations from this specific ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that were populated from this ProfileObjectType.
     ///
@@ -1848,7 +1848,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSegmentDefinition` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DeleteSegmentDefinition` operation on the `CustomerProfiles` service.
     ///
     /// Deletes a segment definition from the domain.
     ///
@@ -1918,7 +1918,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkflow` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DeleteWorkflow` operation on the `CustomerProfiles` service.
     ///
     /// Deletes the specified workflow and all its corresponding resources. This is an async process.
     ///
@@ -1988,7 +1988,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectProfileObjectType` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `DetectProfileObjectType` operation on the `CustomerProfiles` service.
     ///
     /// The process of detecting profile object type mapping by using given objects.
     ///
@@ -2061,7 +2061,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAutoMergingPreview` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetAutoMergingPreview` operation on the `CustomerProfiles` service.
     ///
     /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would be merged. We strongly recommend you use this API to do a dry run of the automerging process before running the Identity Resolution Job. Include at least two matching attributes. If your matching list includes too few attributes (such as only FirstName or only LastName), there may be a large number of matches. This increases the chances of erroneous merges.
     ///
@@ -2134,7 +2134,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCalculatedAttributeDefinition` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetCalculatedAttributeDefinition` operation on the `CustomerProfiles` service.
     ///
     /// Provides more information on a calculated attribute definition for Customer Profiles.
     ///
@@ -2204,7 +2204,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCalculatedAttributeForProfile` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetCalculatedAttributeForProfile` operation on the `CustomerProfiles` service.
     ///
     /// Retrieve a calculated attribute for a customer profile.
     ///
@@ -2274,7 +2274,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomain` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetDomain` operation on the `CustomerProfiles` service.
     ///
     /// Returns information about a specific domain.
     ///
@@ -2344,7 +2344,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEventStream` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetEventStream` operation on the `CustomerProfiles` service.
     ///
     /// Returns information about the specified event stream in a specific domain.
     ///
@@ -2414,7 +2414,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEventTrigger` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetEventTrigger` operation on the `CustomerProfiles` service.
     ///
     /// Get a specific Event Trigger from the domain.
     ///
@@ -2484,7 +2484,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdentityResolutionJob` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetIdentityResolutionJob` operation on the `CustomerProfiles` service.
     ///
     /// Returns information about an Identity Resolution Job in a specific domain. Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see [Use Identity Resolution to consolidate similar profiles](https://docs.aws.amazon.com/connect/latest/adminguide/use-identity-resolution.html).
     ///
@@ -2554,7 +2554,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIntegration` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetIntegration` operation on the `CustomerProfiles` service.
     ///
     /// Returns an integration for a domain.
     ///
@@ -2627,7 +2627,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMatches` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetMatches` operation on the `CustomerProfiles` service.
     ///
     /// Before calling this API, use [CreateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_CreateDomain.html) or [UpdateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html) to enable identity resolution: set Matching to true. GetMatches returns potentially matching profiles, based on the results of the latest run of a machine learning process. The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3. Amazon Connect uses the following profile attributes to identify matches:
     ///
@@ -2717,7 +2717,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProfileObjectType` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetProfileObjectType` operation on the `CustomerProfiles` service.
     ///
     /// Returns the object types for a specific domain.
     ///
@@ -2787,7 +2787,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProfileObjectTypeTemplate` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetProfileObjectTypeTemplate` operation on the `CustomerProfiles` service.
     ///
     /// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as “Salesforce-Account” or “Salesforce-Contact.” When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template.
     ///
@@ -2857,7 +2857,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSegmentDefinition` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetSegmentDefinition` operation on the `CustomerProfiles` service.
     ///
     /// Gets a segment definition from the domain.
     ///
@@ -2927,7 +2927,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSegmentEstimate` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetSegmentEstimate` operation on the `CustomerProfiles` service.
     ///
     /// Gets the result of a segment estimate query.
     ///
@@ -2997,7 +2997,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSegmentMembership` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetSegmentMembership` operation on the `CustomerProfiles` service.
     ///
     /// Determines if the given profiles are within a segment.
     ///
@@ -3070,7 +3070,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSegmentSnapshot` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetSegmentSnapshot` operation on the `CustomerProfiles` service.
     ///
     /// Retrieve the latest status of a segment snapshot.
     ///
@@ -3140,7 +3140,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSimilarProfiles` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetSimilarProfiles` operation on the `CustomerProfiles` service.
     ///
     /// Returns a set of profiles that belong to the same matching group using the matchId or profileId. You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING.
     ///
@@ -3214,7 +3214,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflow` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetWorkflow` operation on the `CustomerProfiles` service.
     ///
     /// Get details of specified workflow.
     ///
@@ -3284,7 +3284,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflowSteps` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `GetWorkflowSteps` operation on the `CustomerProfiles` service.
     ///
     /// Get granular list of steps in workflow.
     ///
@@ -3355,7 +3355,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccountIntegrations` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListAccountIntegrations` operation on the `CustomerProfiles` service.
     ///
     /// Lists all of the integrations associated to a specific URI in the AWS account.
     ///
@@ -3429,7 +3429,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCalculatedAttributeDefinitions` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListCalculatedAttributeDefinitions` operation on the `CustomerProfiles` service.
     ///
     /// Lists calculated attribute definitions for Customer Profiles
     ///
@@ -3500,7 +3500,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCalculatedAttributesForProfile` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListCalculatedAttributesForProfile` operation on the `CustomerProfiles` service.
     ///
     /// Retrieve a list of calculated attributes for a customer profile.
     ///
@@ -3571,7 +3571,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomains` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListDomains` operation on the `CustomerProfiles` service.
     ///
     /// Returns a list of all the domains for an AWS account that have been created.
     ///
@@ -3642,7 +3642,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEventStreams` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListEventStreams` operation on the `CustomerProfiles` service.
     ///
     /// Returns a list of all the event streams in a specific domain.
     ///
@@ -3713,7 +3713,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEventTriggers` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListEventTriggers` operation on the `CustomerProfiles` service.
     ///
     /// List all Event Triggers under a domain.
     ///
@@ -3784,7 +3784,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdentityResolutionJobs` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListIdentityResolutionJobs` operation on the `CustomerProfiles` service.
     ///
     /// Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by JobStartTime.
     ///
@@ -3855,7 +3855,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIntegrations` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListIntegrations` operation on the `CustomerProfiles` service.
     ///
     /// Lists all of the integrations in your domain.
     ///
@@ -3926,7 +3926,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListObjectTypeAttributes` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListObjectTypeAttributes` operation on the `CustomerProfiles` service.
     ///
     /// Fetch the possible attribute values given the attribute name.
     ///
@@ -3997,7 +3997,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProfileAttributeValues` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListProfileAttributeValues` operation on the `CustomerProfiles` service.
     ///
     /// Fetch the possible attribute values given the attribute name.
     ///
@@ -4067,7 +4067,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProfileObjectTypeTemplates` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListProfileObjectTypeTemplates` operation on the `CustomerProfiles` service.
     ///
     /// Lists all of the template information for object types.
     ///
@@ -4138,7 +4138,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProfileObjectTypes` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListProfileObjectTypes` operation on the `CustomerProfiles` service.
     ///
     /// Lists all of the templates available within the service.
     ///
@@ -4209,7 +4209,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProfileObjects` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListProfileObjects` operation on the `CustomerProfiles` service.
     ///
     /// Returns a list of objects associated with a profile of a given ProfileObjectType.
     ///
@@ -4283,7 +4283,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRuleBasedMatches` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListRuleBasedMatches` operation on the `CustomerProfiles` service.
     ///
     /// Returns a set of MatchIds that belong to the given domain.
     ///
@@ -4354,7 +4354,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSegmentDefinitions` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListSegmentDefinitions` operation on the `CustomerProfiles` service.
     ///
     /// Lists all segment definitions under a domain.
     ///
@@ -4425,7 +4425,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListTagsForResource` operation on the `CustomerProfiles` service.
     ///
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     ///
@@ -4493,7 +4493,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkflows` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `ListWorkflows` operation on the `CustomerProfiles` service.
     ///
     /// Query to list all workflows.
     ///
@@ -4567,7 +4567,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `MergeProfiles` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `MergeProfiles` operation on the `CustomerProfiles` service.
     ///
     /// Runs an AWS Lambda job that does the following:
     ///
@@ -4666,7 +4666,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutIntegration` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `PutIntegration` operation on the `CustomerProfiles` service.
     ///
     /// Adds an integration between the service and a third-party service, which includes Amazon AppFlow and Amazon Connect. An integration can belong to only one domain. To add or remove tags on an existing Integration, see [ TagResource ](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[ UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
@@ -4739,7 +4739,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutProfileObject` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `PutProfileObject` operation on the `CustomerProfiles` service.
     ///
     /// Adds additional objects to customer profiles of a given ObjectType. When adding a specific profile object, like a Contact Record, an inferred profile can get created if it is not mapped to an existing profile. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already exists for the ProfileObject, it will provide data to a standard profile depending on the ProfileObjectType definition. PutProfileObject needs an ObjectType, which can be created using PutProfileObjectType.
     ///
@@ -4812,7 +4812,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutProfileObjectType` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `PutProfileObjectType` operation on the `CustomerProfiles` service.
     ///
     /// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see [ TagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
@@ -4885,7 +4885,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchProfiles` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `SearchProfiles` operation on the `CustomerProfiles` service.
     ///
     /// Searches for profiles within a specific domain using one or more predefined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic.
     ///
@@ -4959,7 +4959,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `TagResource` operation on the `CustomerProfiles` service.
     ///
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer Profiles resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
     ///
@@ -5030,7 +5030,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `UntagResource` operation on the `CustomerProfiles` service.
     ///
     /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     ///
@@ -5099,7 +5099,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCalculatedAttributeDefinition` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `UpdateCalculatedAttributeDefinition` operation on the `CustomerProfiles` service.
     ///
     /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated attribute will not trigger inclusion of historical data greater than the current date range.
     ///
@@ -5172,7 +5172,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDomain` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `UpdateDomain` operation on the `CustomerProfiles` service.
     ///
     /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name can’t be changed. Use this API or [CreateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_CreateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply. To add or remove tags on an existing Domain, see [TagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
@@ -5245,7 +5245,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEventTrigger` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `UpdateEventTrigger` operation on the `CustomerProfiles` service.
     ///
     /// Update the properties of an Event Trigger.
     ///
@@ -5318,7 +5318,7 @@ extension CustomerProfilesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProfile` operation on the `CustomerProfiles_20200815` service.
+    /// Performs the `UpdateProfile` operation on the `CustomerProfiles` service.
     ///
     /// Updates the properties of a profile. The ProfileId is required for updating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept.
     ///

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MWAAClient: ClientRuntime.Client {
     public static let clientName = "MWAAClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: MWAAClient.MWAAClientConfiguration
     let serviceName = "MWAA"
@@ -330,7 +330,7 @@ extension MWAAClient {
 }
 
 extension MWAAClient {
-    /// Performs the `CreateCliToken` operation on the `AmazonMWAA` service.
+    /// Performs the `CreateCliToken` operation on the `MWAA` service.
     ///
     /// Creates a CLI token for the Airflow CLI. To learn more, see [Creating an Apache Airflow CLI token](https://docs.aws.amazon.com/mwaa/latest/userguide/call-mwaa-apis-cli.html).
     ///
@@ -396,7 +396,7 @@ extension MWAAClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEnvironment` operation on the `AmazonMWAA` service.
+    /// Performs the `CreateEnvironment` operation on the `MWAA` service.
     ///
     /// Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
     ///
@@ -466,7 +466,7 @@ extension MWAAClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWebLoginToken` operation on the `AmazonMWAA` service.
+    /// Performs the `CreateWebLoginToken` operation on the `MWAA` service.
     ///
     /// Creates a web login token for the Airflow Web UI. To learn more, see [Creating an Apache Airflow web login token](https://docs.aws.amazon.com/mwaa/latest/userguide/call-mwaa-apis-web.html).
     ///
@@ -535,7 +535,7 @@ extension MWAAClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEnvironment` operation on the `AmazonMWAA` service.
+    /// Performs the `DeleteEnvironment` operation on the `MWAA` service.
     ///
     /// Deletes an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
     ///
@@ -603,7 +603,7 @@ extension MWAAClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEnvironment` operation on the `AmazonMWAA` service.
+    /// Performs the `GetEnvironment` operation on the `MWAA` service.
     ///
     /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     ///
@@ -671,7 +671,7 @@ extension MWAAClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InvokeRestApi` operation on the `AmazonMWAA` service.
+    /// Performs the `InvokeRestApi` operation on the `MWAA` service.
     ///
     /// Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see [Using the Apache Airflow REST API](https://docs.aws.amazon.com/mwaa/latest/userguide/access-mwaa-apache-airflow-rest-api.html)
     ///
@@ -745,7 +745,7 @@ extension MWAAClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEnvironments` operation on the `AmazonMWAA` service.
+    /// Performs the `ListEnvironments` operation on the `MWAA` service.
     ///
     /// Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
     ///
@@ -813,7 +813,7 @@ extension MWAAClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonMWAA` service.
+    /// Performs the `ListTagsForResource` operation on the `MWAA` service.
     ///
     /// Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging".
     ///
@@ -881,7 +881,7 @@ extension MWAAClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PublishMetrics` operation on the `AmazonMWAA` service.
+    /// Performs the `PublishMetrics` operation on the `MWAA` service.
     ///
     /// Internal only. Publishes environment health metrics to Amazon CloudWatch.
     @available(*, deprecated, message: "This API is for internal use and not meant for public use, and is no longer available.")
@@ -952,7 +952,7 @@ extension MWAAClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonMWAA` service.
+    /// Performs the `TagResource` operation on the `MWAA` service.
     ///
     /// Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     ///
@@ -1023,7 +1023,7 @@ extension MWAAClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonMWAA` service.
+    /// Performs the `UntagResource` operation on the `MWAA` service.
     ///
     /// Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging".
     ///
@@ -1092,7 +1092,7 @@ extension MWAAClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEnvironment` operation on the `AmazonMWAA` service.
+    /// Performs the `UpdateEnvironment` operation on the `MWAA` service.
     ///
     /// Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     ///

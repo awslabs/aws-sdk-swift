@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QBusinessClient: ClientRuntime.Client {
     public static let clientName = "QBusinessClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: QBusinessClient.QBusinessClientConfiguration
     let serviceName = "QBusiness"
@@ -334,7 +334,7 @@ extension QBusinessClient {
 }
 
 extension QBusinessClient {
-    /// Performs the `AssociatePermission` operation on the `ExpertQ` service.
+    /// Performs the `AssociatePermission` operation on the `QBusiness` service.
     ///
     /// Adds or updates a permission policy for a Q Business application, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Q Business application's resources.
     ///
@@ -409,7 +409,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteDocument` operation on the `ExpertQ` service.
+    /// Performs the `BatchDeleteDocument` operation on the `QBusiness` service.
     ///
     /// Asynchronously deletes one or more documents added using the BatchPutDocument API from an Amazon Q Business index. You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
     ///
@@ -483,7 +483,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchPutDocument` operation on the `ExpertQ` service.
+    /// Performs the `BatchPutDocument` operation on the `QBusiness` service.
     ///
     /// Adds one or more documents to an Amazon Q Business index. You use this API to:
     ///
@@ -567,7 +567,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Chat` operation on the `ExpertQ` service.
+    /// Performs the `Chat` operation on the `QBusiness` service.
     ///
     /// Starts or continues a streaming Amazon Q Business conversation.
     ///
@@ -646,7 +646,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ChatSync` operation on the `ExpertQ` service.
+    /// Performs the `ChatSync` operation on the `QBusiness` service.
     ///
     /// Starts or continues a non-streaming Amazon Q Business conversation.
     ///
@@ -724,7 +724,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `ExpertQ` service.
+    /// Performs the `CreateApplication` operation on the `QBusiness` service.
     ///
     /// Creates an Amazon Q Business application. There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#user-sub-tiers). You must use the Amazon Q Business console to assign subscription tiers to users. An Amazon Q Apps service linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is enabled in the request. For more information, see [ Using service-linked roles for Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles-qapps.html). When you create an application, Amazon Q Business may securely transmit data for processing from your selected Amazon Web Services region, but within your geography. For more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html).
     ///
@@ -800,7 +800,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataAccessor` operation on the `ExpertQ` service.
+    /// Performs the `CreateDataAccessor` operation on the `QBusiness` service.
     ///
     /// Creates a new data accessor for an ISV to access data from a Q Business application. The data accessor is an entity that represents the ISV's access to the Q Business application's data. It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created, an AWS IAM Identity Center application is also created to manage the ISV's identity and authentication for accessing the Q Business application.
     ///
@@ -876,7 +876,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataSource` operation on the `ExpertQ` service.
+    /// Performs the `CreateDataSource` operation on the `QBusiness` service.
     ///
     /// Creates a data source connector for an Amazon Q Business application. CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
     ///
@@ -952,7 +952,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIndex` operation on the `ExpertQ` service.
+    /// Performs the `CreateIndex` operation on the `QBusiness` service.
     ///
     /// Creates an Amazon Q Business index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the [BatchPutDocument](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html) API or the [CreateDataSource](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html) API.
     ///
@@ -1028,7 +1028,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePlugin` operation on the `ExpertQ` service.
+    /// Performs the `CreatePlugin` operation on the `QBusiness` service.
     ///
     /// Creates an Amazon Q Business plugin.
     ///
@@ -1104,7 +1104,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRetriever` operation on the `ExpertQ` service.
+    /// Performs the `CreateRetriever` operation on the `QBusiness` service.
     ///
     /// Adds a retriever to your Amazon Q Business application.
     ///
@@ -1180,7 +1180,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUser` operation on the `ExpertQ` service.
+    /// Performs the `CreateUser` operation on the `QBusiness` service.
     ///
     /// Creates a universally unique identifier (UUID) mapped to a list of local user ids within an application.
     ///
@@ -1256,7 +1256,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWebExperience` operation on the `ExpertQ` service.
+    /// Performs the `CreateWebExperience` operation on the `QBusiness` service.
     ///
     /// Creates an Amazon Q Business web experience.
     ///
@@ -1332,7 +1332,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `ExpertQ` service.
+    /// Performs the `DeleteApplication` operation on the `QBusiness` service.
     ///
     /// Deletes an Amazon Q Business application.
     ///
@@ -1403,7 +1403,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChatControlsConfiguration` operation on the `ExpertQ` service.
+    /// Performs the `DeleteChatControlsConfiguration` operation on the `QBusiness` service.
     ///
     /// Deletes chat controls configured for an existing Amazon Q Business application.
     ///
@@ -1473,7 +1473,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConversation` operation on the `ExpertQ` service.
+    /// Performs the `DeleteConversation` operation on the `QBusiness` service.
     ///
     /// Deletes an Amazon Q Business web experience conversation.
     ///
@@ -1545,7 +1545,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataAccessor` operation on the `ExpertQ` service.
+    /// Performs the `DeleteDataAccessor` operation on the `QBusiness` service.
     ///
     /// Deletes a specified data accessor. This operation permanently removes the data accessor and its associated AWS IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked
     ///
@@ -1616,7 +1616,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataSource` operation on the `ExpertQ` service.
+    /// Performs the `DeleteDataSource` operation on the `QBusiness` service.
     ///
     /// Deletes an Amazon Q Business data source connector. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING.
     ///
@@ -1687,7 +1687,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGroup` operation on the `ExpertQ` service.
+    /// Performs the `DeleteGroup` operation on the `QBusiness` service.
     ///
     /// Deletes a group so that all users and sub groups that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their chat results. If you want to delete, update, or replace users or sub groups of a group, you need to use the PutGroup operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling PutGroup.
     ///
@@ -1759,7 +1759,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIndex` operation on the `ExpertQ` service.
+    /// Performs the `DeleteIndex` operation on the `QBusiness` service.
     ///
     /// Deletes an Amazon Q Business index.
     ///
@@ -1830,7 +1830,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePlugin` operation on the `ExpertQ` service.
+    /// Performs the `DeletePlugin` operation on the `QBusiness` service.
     ///
     /// Deletes an Amazon Q Business plugin.
     ///
@@ -1901,7 +1901,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRetriever` operation on the `ExpertQ` service.
+    /// Performs the `DeleteRetriever` operation on the `QBusiness` service.
     ///
     /// Deletes the retriever used by an Amazon Q Business application.
     ///
@@ -1972,7 +1972,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUser` operation on the `ExpertQ` service.
+    /// Performs the `DeleteUser` operation on the `QBusiness` service.
     ///
     /// Deletes a user by email id.
     ///
@@ -2043,7 +2043,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWebExperience` operation on the `ExpertQ` service.
+    /// Performs the `DeleteWebExperience` operation on the `QBusiness` service.
     ///
     /// Deletes an Amazon Q Business web experience.
     ///
@@ -2114,7 +2114,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociatePermission` operation on the `ExpertQ` service.
+    /// Performs the `DisassociatePermission` operation on the `QBusiness` service.
     ///
     /// Removes a permission policy from a Q Business application, revoking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy.
     ///
@@ -2185,7 +2185,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplication` operation on the `ExpertQ` service.
+    /// Performs the `GetApplication` operation on the `QBusiness` service.
     ///
     /// Gets information about an existing Amazon Q Business application.
     ///
@@ -2255,7 +2255,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChatControlsConfiguration` operation on the `ExpertQ` service.
+    /// Performs the `GetChatControlsConfiguration` operation on the `QBusiness` service.
     ///
     /// Gets information about an chat controls configured for an existing Amazon Q Business application.
     ///
@@ -2326,7 +2326,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataAccessor` operation on the `ExpertQ` service.
+    /// Performs the `GetDataAccessor` operation on the `QBusiness` service.
     ///
     /// Retrieves information about a specified data accessor. This operation returns details about the data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated Q Business application and AWS IAM Identity Center application, the IAM role for the ISV, the action configurations, and the timestamps for when the data accessor was created and last updated.
     ///
@@ -2396,7 +2396,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataSource` operation on the `ExpertQ` service.
+    /// Performs the `GetDataSource` operation on the `QBusiness` service.
     ///
     /// Gets information about an existing Amazon Q Business data source connector.
     ///
@@ -2466,7 +2466,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGroup` operation on the `ExpertQ` service.
+    /// Performs the `GetGroup` operation on the `QBusiness` service.
     ///
     /// Describes a group by group name.
     ///
@@ -2538,7 +2538,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIndex` operation on the `ExpertQ` service.
+    /// Performs the `GetIndex` operation on the `QBusiness` service.
     ///
     /// Gets information about an existing Amazon Q Business index.
     ///
@@ -2608,7 +2608,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMedia` operation on the `ExpertQ` service.
+    /// Performs the `GetMedia` operation on the `QBusiness` service.
     ///
     /// Returns the image bytes corresponding to a media object. If you have implemented your own application with the Chat and ChatSync APIs, and have enabled content extraction from visual data in Amazon Q Business, you use the GetMedia API operation to download the images so you can show them in your UI with responses. For more information, see [Extracting semantic meaning from images and visuals](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/extracting-meaning-from-images.html).
     ///
@@ -2680,7 +2680,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPlugin` operation on the `ExpertQ` service.
+    /// Performs the `GetPlugin` operation on the `QBusiness` service.
     ///
     /// Gets information about an existing Amazon Q Business plugin.
     ///
@@ -2750,7 +2750,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPolicy` operation on the `ExpertQ` service.
+    /// Performs the `GetPolicy` operation on the `QBusiness` service.
     ///
     /// Retrieves the current permission policy for a Q Business application. The policy is returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources.
     ///
@@ -2820,7 +2820,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRetriever` operation on the `ExpertQ` service.
+    /// Performs the `GetRetriever` operation on the `QBusiness` service.
     ///
     /// Gets information about an existing retriever used by an Amazon Q Business application.
     ///
@@ -2890,7 +2890,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUser` operation on the `ExpertQ` service.
+    /// Performs the `GetUser` operation on the `QBusiness` service.
     ///
     /// Describes the universally unique identifier (UUID) associated with a local user in a data source.
     ///
@@ -2961,7 +2961,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWebExperience` operation on the `ExpertQ` service.
+    /// Performs the `GetWebExperience` operation on the `QBusiness` service.
     ///
     /// Gets information about an existing Amazon Q Business web experience.
     ///
@@ -3031,7 +3031,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `ExpertQ` service.
+    /// Performs the `ListApplications` operation on the `QBusiness` service.
     ///
     /// Lists Amazon Q Business applications. Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html).
     ///
@@ -3101,7 +3101,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAttachments` operation on the `ExpertQ` service.
+    /// Performs the `ListAttachments` operation on the `QBusiness` service.
     ///
     /// Gets a list of attachments associated with an Amazon Q Business web experience or a list of attachements associated with a specific Amazon Q Business conversation.
     ///
@@ -3173,7 +3173,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConversations` operation on the `ExpertQ` service.
+    /// Performs the `ListConversations` operation on the `QBusiness` service.
     ///
     /// Lists one or more Amazon Q Business conversations.
     ///
@@ -3245,7 +3245,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataAccessors` operation on the `ExpertQ` service.
+    /// Performs the `ListDataAccessors` operation on the `QBusiness` service.
     ///
     /// Lists the data accessors for a Q Business application. This operation returns a paginated list of data accessor summaries, including the friendly name, unique identifier, ARN, associated IAM role, and creation/update timestamps for each data accessor.
     ///
@@ -3316,7 +3316,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataSourceSyncJobs` operation on the `ExpertQ` service.
+    /// Performs the `ListDataSourceSyncJobs` operation on the `QBusiness` service.
     ///
     /// Get information about an Amazon Q Business data source connector synchronization.
     ///
@@ -3388,7 +3388,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataSources` operation on the `ExpertQ` service.
+    /// Performs the `ListDataSources` operation on the `QBusiness` service.
     ///
     /// Lists the Amazon Q Business data source connectors that you have created.
     ///
@@ -3459,7 +3459,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDocuments` operation on the `ExpertQ` service.
+    /// Performs the `ListDocuments` operation on the `QBusiness` service.
     ///
     /// A list of documents attached to an index.
     ///
@@ -3530,7 +3530,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGroups` operation on the `ExpertQ` service.
+    /// Performs the `ListGroups` operation on the `QBusiness` service.
     ///
     /// Provides a list of groups that are mapped to users.
     ///
@@ -3602,7 +3602,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIndices` operation on the `ExpertQ` service.
+    /// Performs the `ListIndices` operation on the `QBusiness` service.
     ///
     /// Lists the Amazon Q Business indices you have created.
     ///
@@ -3673,7 +3673,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMessages` operation on the `ExpertQ` service.
+    /// Performs the `ListMessages` operation on the `QBusiness` service.
     ///
     /// Gets a list of messages associated with an Amazon Q Business web experience.
     ///
@@ -3745,7 +3745,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPluginActions` operation on the `ExpertQ` service.
+    /// Performs the `ListPluginActions` operation on the `QBusiness` service.
     ///
     /// Lists configured Amazon Q Business actions for a specific plugin in an Amazon Q Business application.
     ///
@@ -3816,7 +3816,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPluginTypeActions` operation on the `ExpertQ` service.
+    /// Performs the `ListPluginTypeActions` operation on the `QBusiness` service.
     ///
     /// Lists configured Amazon Q Business actions for any plugin type—both built-in and custom.
     ///
@@ -3886,7 +3886,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPluginTypeMetadata` operation on the `ExpertQ` service.
+    /// Performs the `ListPluginTypeMetadata` operation on the `QBusiness` service.
     ///
     /// Lists metadata for all Amazon Q Business plugin types.
     ///
@@ -3956,7 +3956,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPlugins` operation on the `ExpertQ` service.
+    /// Performs the `ListPlugins` operation on the `QBusiness` service.
     ///
     /// Lists configured Amazon Q Business plugins.
     ///
@@ -4027,7 +4027,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRetrievers` operation on the `ExpertQ` service.
+    /// Performs the `ListRetrievers` operation on the `QBusiness` service.
     ///
     /// Lists the retriever used by an Amazon Q Business application.
     ///
@@ -4098,7 +4098,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `ExpertQ` service.
+    /// Performs the `ListTagsForResource` operation on the `QBusiness` service.
     ///
     /// Gets a list of tags associated with a specified resource. Amazon Q Business applications and data sources can have tags associated with them.
     ///
@@ -4168,7 +4168,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWebExperiences` operation on the `ExpertQ` service.
+    /// Performs the `ListWebExperiences` operation on the `QBusiness` service.
     ///
     /// Lists one or more Amazon Q Business Web Experiences.
     ///
@@ -4239,7 +4239,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutFeedback` operation on the `ExpertQ` service.
+    /// Performs the `PutFeedback` operation on the `QBusiness` service.
     ///
     /// Enables your end user to provide feedback on their Amazon Q Business generated chat responses.
     ///
@@ -4313,7 +4313,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutGroup` operation on the `ExpertQ` service.
+    /// Performs the `PutGroup` operation on the `QBusiness` service.
     ///
     /// Create, or updates, a mapping of users—who have access to a document—to groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results.
     ///
@@ -4388,7 +4388,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchRelevantContent` operation on the `ExpertQ` service.
+    /// Performs the `SearchRelevantContent` operation on the `QBusiness` service.
     ///
     /// Searches for relevant content in a Q Business application based on a query. This operation takes a search query text, the Q Business application identifier, and optional filters (such as content source and maximum results) as input. It returns a list of relevant content items, where each item includes the content text, the unique document identifier, the document title, the document URI, any relevant document attributes, and score attributes indicating the confidence level of the relevance.
     ///
@@ -4462,7 +4462,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDataSourceSyncJob` operation on the `ExpertQ` service.
+    /// Performs the `StartDataSourceSyncJob` operation on the `QBusiness` service.
     ///
     /// Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q Business returns a ConflictException.
     ///
@@ -4534,7 +4534,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopDataSourceSyncJob` operation on the `ExpertQ` service.
+    /// Performs the `StopDataSourceSyncJob` operation on the `QBusiness` service.
     ///
     /// Stops an Amazon Q Business data source connector synchronization job already in progress.
     ///
@@ -4605,7 +4605,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `ExpertQ` service.
+    /// Performs the `TagResource` operation on the `QBusiness` service.
     ///
     /// Adds the specified tag to the specified Amazon Q Business application or data source resource. If the tag already exists, the existing value is replaced with the new value.
     ///
@@ -4679,7 +4679,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `ExpertQ` service.
+    /// Performs the `UntagResource` operation on the `QBusiness` service.
     ///
     /// Removes a tag from an Amazon Q Business application or a data source.
     ///
@@ -4750,7 +4750,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `ExpertQ` service.
+    /// Performs the `UpdateApplication` operation on the `QBusiness` service.
     ///
     /// Updates an existing Amazon Q Business application. Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html). An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is enabled in the request. For more information, see [Using service-linked roles for Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles-qapps.html).
     ///
@@ -4824,7 +4824,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChatControlsConfiguration` operation on the `ExpertQ` service.
+    /// Performs the `UpdateChatControlsConfiguration` operation on the `QBusiness` service.
     ///
     /// Updates an set of chat controls configured for an existing Amazon Q Business application.
     ///
@@ -4900,7 +4900,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataAccessor` operation on the `ExpertQ` service.
+    /// Performs the `UpdateDataAccessor` operation on the `QBusiness` service.
     ///
     /// Updates an existing data accessor. This operation allows modifying the action configurations (the allowed actions and associated filters) and the display name of the data accessor. It does not allow changing the IAM role associated with the data accessor or other core properties of the data accessor.
     ///
@@ -4974,7 +4974,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataSource` operation on the `ExpertQ` service.
+    /// Performs the `UpdateDataSource` operation on the `QBusiness` service.
     ///
     /// Updates an existing Amazon Q Business data source connector.
     ///
@@ -5048,7 +5048,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIndex` operation on the `ExpertQ` service.
+    /// Performs the `UpdateIndex` operation on the `QBusiness` service.
     ///
     /// Updates an Amazon Q Business index.
     ///
@@ -5123,7 +5123,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePlugin` operation on the `ExpertQ` service.
+    /// Performs the `UpdatePlugin` operation on the `QBusiness` service.
     ///
     /// Updates an Amazon Q Business plugin.
     ///
@@ -5198,7 +5198,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRetriever` operation on the `ExpertQ` service.
+    /// Performs the `UpdateRetriever` operation on the `QBusiness` service.
     ///
     /// Updates the retriever used for your Amazon Q Business application.
     ///
@@ -5273,7 +5273,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUser` operation on the `ExpertQ` service.
+    /// Performs the `UpdateUser` operation on the `QBusiness` service.
     ///
     /// Updates a information associated with a user id.
     ///
@@ -5347,7 +5347,7 @@ extension QBusinessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWebExperience` operation on the `ExpertQ` service.
+    /// Performs the `UpdateWebExperience` operation on the `QBusiness` service.
     ///
     /// Updates an Amazon Q Business web experience.
     ///

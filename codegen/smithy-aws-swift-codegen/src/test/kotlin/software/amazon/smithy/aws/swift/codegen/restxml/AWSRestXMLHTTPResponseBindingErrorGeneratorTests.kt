@@ -93,8 +93,7 @@ public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
         header: Swift.String? = nil,
         nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil,
         topLevel: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.header = header
         self.properties.nested = nested
         self.properties.topLevel = topLevel

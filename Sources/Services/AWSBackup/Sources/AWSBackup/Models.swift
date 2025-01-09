@@ -153,8 +153,7 @@ extension BackupClientTypes {
         public init(
             backupOptions: [Swift.String: Swift.String]? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupOptions = backupOptions
             self.resourceType = resourceType
         }
@@ -225,8 +224,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
         creatorRequestId: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.arn = arn
         self.properties.code = code
         self.properties.context = context
@@ -254,8 +252,7 @@ extension BackupClientTypes {
             backupPlanId: Swift.String? = nil,
             backupPlanVersion: Swift.String? = nil,
             backupRuleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
             self.backupPlanVersion = backupPlanVersion
@@ -395,8 +392,7 @@ extension BackupClientTypes {
             startBy: Foundation.Date? = nil,
             state: BackupClientTypes.BackupJobState? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.backupJobId = backupJobId
             self.backupOptions = backupOptions
@@ -512,8 +508,7 @@ extension BackupClientTypes {
             resourceType: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             state: BackupClientTypes.BackupJobStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.count = count
             self.endTime = endTime
@@ -541,8 +536,7 @@ extension BackupClientTypes {
             deleteAfterDays: Swift.Int? = nil,
             moveToColdStorageAfterDays: Swift.Int? = nil,
             optInToArchiveForSupportedResources: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.deleteAfterDays = deleteAfterDays
             self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
             self.optInToArchiveForSupportedResources = optInToArchiveForSupportedResources
@@ -563,8 +557,7 @@ extension BackupClientTypes {
         public init(
             destinationBackupVaultArn: Swift.String? = nil,
             lifecycle: BackupClientTypes.Lifecycle? = nil
-        )
-        {
+        ) {
             self.destinationBackupVaultArn = destinationBackupVaultArn
             self.lifecycle = lifecycle
         }
@@ -584,8 +577,7 @@ extension BackupClientTypes {
 
         public init(
             resourceTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.resourceTypes = resourceTypes
         }
     }
@@ -635,8 +627,7 @@ extension BackupClientTypes {
             scheduleExpressionTimezone: Swift.String? = nil,
             startWindowMinutes: Swift.Int? = nil,
             targetBackupVaultName: Swift.String? = nil
-        )
-        {
+        ) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
             self.enableContinuousBackup = enableContinuousBackup
@@ -675,8 +666,7 @@ extension BackupClientTypes {
             advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]? = nil,
             backupPlanName: Swift.String? = nil,
             rules: [BackupClientTypes.BackupRule]? = nil
-        )
-        {
+        ) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
             self.rules = rules
@@ -729,8 +719,7 @@ extension BackupClientTypes {
             scheduleExpressionTimezone: Swift.String? = nil,
             startWindowMinutes: Swift.Int? = nil,
             targetBackupVaultName: Swift.String? = nil
-        )
-        {
+        ) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
             self.enableContinuousBackup = enableContinuousBackup
@@ -768,8 +757,7 @@ extension BackupClientTypes {
             advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]? = nil,
             backupPlanName: Swift.String? = nil,
             rules: [BackupClientTypes.BackupRuleInput]? = nil
-        )
-        {
+        ) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
             self.rules = rules
@@ -810,8 +798,7 @@ extension BackupClientTypes {
             deletionDate: Foundation.Date? = nil,
             lastExecutionDate: Foundation.Date? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -837,8 +824,7 @@ extension BackupClientTypes {
         public init(
             backupPlanTemplateId: Swift.String? = nil,
             backupPlanTemplateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupPlanTemplateId = backupPlanTemplateId
             self.backupPlanTemplateName = backupPlanTemplateName
         }
@@ -857,8 +843,7 @@ extension BackupClientTypes {
         public init(
             conditionKey: Swift.String? = nil,
             conditionValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.conditionKey = conditionKey
             self.conditionValue = conditionValue
         }
@@ -883,8 +868,7 @@ extension BackupClientTypes {
             stringLike: [BackupClientTypes.ConditionParameter]? = nil,
             stringNotEquals: [BackupClientTypes.ConditionParameter]? = nil,
             stringNotLike: [BackupClientTypes.ConditionParameter]? = nil
-        )
-        {
+        ) {
             self.stringEquals = stringEquals
             self.stringLike = stringLike
             self.stringNotEquals = stringNotEquals
@@ -937,8 +921,7 @@ extension BackupClientTypes {
             conditionKey: Swift.String? = nil,
             conditionType: BackupClientTypes.ConditionType? = nil,
             conditionValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.conditionKey = conditionKey
             self.conditionType = conditionType
             self.conditionValue = conditionValue
@@ -972,8 +955,7 @@ extension BackupClientTypes {
             notResources: [Swift.String]? = nil,
             resources: [Swift.String]? = nil,
             selectionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.conditions = conditions
             self.iamRoleArn = iamRoleArn
             self.listOfTags = listOfTags
@@ -1008,8 +990,7 @@ extension BackupClientTypes {
             iamRoleArn: Swift.String? = nil,
             selectionId: Swift.String? = nil,
             selectionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate
             self.creatorRequestId = creatorRequestId
@@ -1197,8 +1178,7 @@ extension BackupClientTypes {
             numberOfRecoveryPoints: Swift.Int = 0,
             vaultState: BackupClientTypes.VaultState? = nil,
             vaultType: BackupClientTypes.VaultType? = nil
-        )
-        {
+        ) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
@@ -1227,8 +1207,7 @@ extension BackupClientTypes {
         public init(
             deleteAt: Foundation.Date? = nil,
             moveToColdStorageAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.deleteAt = deleteAt
             self.moveToColdStorageAt = moveToColdStorageAt
         }
@@ -1261,8 +1240,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
         context: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.context = context
         self.properties.message = message
@@ -1296,8 +1274,7 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
         context: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.context = context
         self.properties.message = message
@@ -1331,8 +1308,7 @@ public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSCli
         context: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.context = context
         self.properties.message = message
@@ -1366,8 +1342,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         context: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.context = context
         self.properties.message = message
@@ -1401,8 +1376,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
         context: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.context = context
         self.properties.message = message
@@ -1424,8 +1398,7 @@ public struct CancelLegalHoldInput: Swift.Sendable {
         cancelDescription: Swift.String? = nil,
         legalHoldId: Swift.String? = nil,
         retainRecordInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.cancelDescription = cancelDescription
         self.legalHoldId = legalHoldId
         self.retainRecordInDays = retainRecordInDays
@@ -1463,8 +1436,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         context: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.context = context
         self.properties.message = message
@@ -1484,8 +1456,7 @@ extension BackupClientTypes {
         public init(
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
         }
@@ -1507,8 +1478,7 @@ extension BackupClientTypes {
             complianceResourceIds: [Swift.String]? = nil,
             complianceResourceTypes: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.complianceResourceIds = complianceResourceIds
             self.complianceResourceTypes = complianceResourceTypes
             self.tags = tags
@@ -1626,8 +1596,7 @@ extension BackupClientTypes {
             sourceRecoveryPointArn: Swift.String? = nil,
             state: BackupClientTypes.CopyJobState? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.childJobsInState = childJobsInState
@@ -1740,8 +1709,7 @@ extension BackupClientTypes {
             resourceType: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             state: BackupClientTypes.CopyJobStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.count = count
             self.endTime = endTime
@@ -1780,8 +1748,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         context: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.context = context
         self.properties.message = message
@@ -1802,8 +1769,7 @@ public struct CreateBackupPlanInput: Swift.Sendable {
         backupPlan: BackupClientTypes.BackupPlanInput? = nil,
         backupPlanTags: [Swift.String: Swift.String]? = nil,
         creatorRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlan = backupPlan
         self.backupPlanTags = backupPlanTags
         self.creatorRequestId = creatorRequestId
@@ -1833,8 +1799,7 @@ public struct CreateBackupPlanOutput: Swift.Sendable {
         backupPlanId: Swift.String? = nil,
         creationDate: Foundation.Date? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.advancedBackupSettings = advancedBackupSettings
         self.backupPlanArn = backupPlanArn
         self.backupPlanId = backupPlanId
@@ -1857,8 +1822,7 @@ public struct CreateBackupSelectionInput: Swift.Sendable {
         backupPlanId: Swift.String? = nil,
         backupSelection: BackupClientTypes.BackupSelection? = nil,
         creatorRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanId = backupPlanId
         self.backupSelection = backupSelection
         self.creatorRequestId = creatorRequestId
@@ -1877,8 +1841,7 @@ public struct CreateBackupSelectionOutput: Swift.Sendable {
         backupPlanId: Swift.String? = nil,
         creationDate: Foundation.Date? = nil,
         selectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanId = backupPlanId
         self.creationDate = creationDate
         self.selectionId = selectionId
@@ -1901,8 +1864,7 @@ public struct CreateBackupVaultInput: Swift.Sendable {
         backupVaultTags: [Swift.String: Swift.String]? = nil,
         creatorRequestId: Swift.String? = nil,
         encryptionKeyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
         self.backupVaultTags = backupVaultTags
         self.creatorRequestId = creatorRequestId
@@ -1927,8 +1889,7 @@ public struct CreateBackupVaultOutput: Swift.Sendable {
         backupVaultArn: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         creationDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.backupVaultArn = backupVaultArn
         self.backupVaultName = backupVaultName
         self.creationDate = creationDate
@@ -1951,8 +1912,7 @@ extension BackupClientTypes {
             controlInputParameters: [BackupClientTypes.ControlInputParameter]? = nil,
             controlName: Swift.String? = nil,
             controlScope: BackupClientTypes.ControlScope? = nil
-        )
-        {
+        ) {
             self.controlInputParameters = controlInputParameters
             self.controlName = controlName
             self.controlScope = controlScope
@@ -1980,8 +1940,7 @@ public struct CreateFrameworkInput: Swift.Sendable {
         frameworkName: Swift.String? = nil,
         frameworkTags: [Swift.String: Swift.String]? = nil,
         idempotencyToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.frameworkControls = frameworkControls
         self.frameworkDescription = frameworkDescription
         self.frameworkName = frameworkName
@@ -1999,8 +1958,7 @@ public struct CreateFrameworkOutput: Swift.Sendable {
     public init(
         frameworkArn: Swift.String? = nil,
         frameworkName: Swift.String? = nil
-    )
-    {
+    ) {
         self.frameworkArn = frameworkArn
         self.frameworkName = frameworkName
     }
@@ -2020,8 +1978,7 @@ extension BackupClientTypes {
         public init(
             fromDate: Foundation.Date? = nil,
             toDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.fromDate = fromDate
             self.toDate = toDate
         }
@@ -2043,8 +2000,7 @@ extension BackupClientTypes {
             dateRange: BackupClientTypes.DateRange? = nil,
             resourceIdentifiers: [Swift.String]? = nil,
             vaultNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
             self.resourceIdentifiers = resourceIdentifiers
             self.vaultNames = vaultNames
@@ -2072,8 +2028,7 @@ public struct CreateLegalHoldInput: Swift.Sendable {
         recoveryPointSelection: BackupClientTypes.RecoveryPointSelection? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.idempotencyToken = idempotencyToken
         self.recoveryPointSelection = recoveryPointSelection
@@ -2146,8 +2101,7 @@ public struct CreateLegalHoldOutput: Swift.Sendable {
         recoveryPointSelection: BackupClientTypes.RecoveryPointSelection? = nil,
         status: BackupClientTypes.LegalHoldStatus? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.description = description
         self.legalHoldArn = legalHoldArn
@@ -2184,8 +2138,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
         context: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.context = context
         self.properties.message = message
@@ -2214,8 +2167,7 @@ public struct CreateLogicallyAirGappedBackupVaultInput: Swift.Sendable {
         creatorRequestId: Swift.String? = nil,
         maxRetentionDays: Swift.Int? = nil,
         minRetentionDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
         self.backupVaultTags = backupVaultTags
         self.creatorRequestId = creatorRequestId
@@ -2244,8 +2196,7 @@ public struct CreateLogicallyAirGappedBackupVaultOutput: Swift.Sendable {
         backupVaultName: Swift.String? = nil,
         creationDate: Foundation.Date? = nil,
         vaultState: BackupClientTypes.VaultState? = nil
-    )
-    {
+    ) {
         self.backupVaultArn = backupVaultArn
         self.backupVaultName = backupVaultName
         self.creationDate = creationDate
@@ -2269,8 +2220,7 @@ extension BackupClientTypes {
             formats: [Swift.String]? = nil,
             s3BucketName: Swift.String? = nil,
             s3KeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.formats = formats
             self.s3BucketName = s3BucketName
             self.s3KeyPrefix = s3KeyPrefix
@@ -2303,8 +2253,7 @@ extension BackupClientTypes {
             organizationUnits: [Swift.String]? = nil,
             regions: [Swift.String]? = nil,
             reportTemplate: Swift.String? = nil
-        )
-        {
+        ) {
             self.accounts = accounts
             self.frameworkArns = frameworkArns
             self.numberOfFrameworks = numberOfFrameworks
@@ -2339,8 +2288,7 @@ public struct CreateReportPlanInput: Swift.Sendable {
         reportPlanName: Swift.String? = nil,
         reportPlanTags: [Swift.String: Swift.String]? = nil,
         reportSetting: BackupClientTypes.ReportSetting? = nil
-    )
-    {
+    ) {
         self.idempotencyToken = idempotencyToken
         self.reportDeliveryChannel = reportDeliveryChannel
         self.reportPlanDescription = reportPlanDescription
@@ -2362,8 +2310,7 @@ public struct CreateReportPlanOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         reportPlanArn: Swift.String? = nil,
         reportPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.reportPlanArn = reportPlanArn
         self.reportPlanName = reportPlanName
@@ -2449,8 +2396,7 @@ extension BackupClientTypes {
             includeVaults: [Swift.String]? = nil,
             recoveryPointTypes: [BackupClientTypes.RestoreTestingRecoveryPointType]? = nil,
             selectionWindowDays: Swift.Int = 0
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.excludeVaults = excludeVaults
             self.includeVaults = includeVaults
@@ -2484,8 +2430,7 @@ extension BackupClientTypes {
             scheduleExpression: Swift.String? = nil,
             scheduleExpressionTimezone: Swift.String? = nil,
             startWindowHours: Swift.Int = 0
-        )
-        {
+        ) {
             self.recoveryPointSelection = recoveryPointSelection
             self.restoreTestingPlanName = restoreTestingPlanName
             self.scheduleExpression = scheduleExpression
@@ -2508,8 +2453,7 @@ public struct CreateRestoreTestingPlanInput: Swift.Sendable {
         creatorRequestId: Swift.String? = nil,
         restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForCreate? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.restoreTestingPlan = restoreTestingPlan
         self.tags = tags
@@ -2536,8 +2480,7 @@ public struct CreateRestoreTestingPlanOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         restoreTestingPlanArn: Swift.String? = nil,
         restoreTestingPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.restoreTestingPlanArn = restoreTestingPlanArn
         self.restoreTestingPlanName = restoreTestingPlanName
@@ -2558,8 +2501,7 @@ extension BackupClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2578,8 +2520,7 @@ extension BackupClientTypes {
         public init(
             stringEquals: [BackupClientTypes.KeyValue]? = nil,
             stringNotEquals: [BackupClientTypes.KeyValue]? = nil
-        )
-        {
+        ) {
             self.stringEquals = stringEquals
             self.stringNotEquals = stringNotEquals
         }
@@ -2643,8 +2584,7 @@ extension BackupClientTypes {
             restoreMetadataOverrides: [Swift.String: Swift.String]? = nil,
             restoreTestingSelectionName: Swift.String? = nil,
             validationWindowHours: Swift.Int = 0
-        )
-        {
+        ) {
             self.iamRoleArn = iamRoleArn
             self.protectedResourceArns = protectedResourceArns
             self.protectedResourceConditions = protectedResourceConditions
@@ -2682,8 +2622,7 @@ public struct CreateRestoreTestingSelectionInput: Swift.Sendable {
         creatorRequestId: Swift.String? = nil,
         restoreTestingPlanName: Swift.String? = nil,
         restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForCreate? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.restoreTestingPlanName = restoreTestingPlanName
         self.restoreTestingSelection = restoreTestingSelection
@@ -2709,8 +2648,7 @@ public struct CreateRestoreTestingSelectionOutput: Swift.Sendable {
         restoreTestingPlanArn: Swift.String? = nil,
         restoreTestingPlanName: Swift.String? = nil,
         restoreTestingSelectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.restoreTestingPlanArn = restoreTestingPlanArn
         self.restoreTestingPlanName = restoreTestingPlanName
@@ -2725,8 +2663,7 @@ public struct DeleteBackupPlanInput: Swift.Sendable {
 
     public init(
         backupPlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanId = backupPlanId
     }
 }
@@ -2746,8 +2683,7 @@ public struct DeleteBackupPlanOutput: Swift.Sendable {
         backupPlanId: Swift.String? = nil,
         deletionDate: Foundation.Date? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanArn = backupPlanArn
         self.backupPlanId = backupPlanId
         self.deletionDate = deletionDate
@@ -2766,8 +2702,7 @@ public struct DeleteBackupSelectionInput: Swift.Sendable {
     public init(
         backupPlanId: Swift.String? = nil,
         selectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanId = backupPlanId
         self.selectionId = selectionId
     }
@@ -2780,8 +2715,7 @@ public struct DeleteBackupVaultInput: Swift.Sendable {
 
     public init(
         backupVaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
     }
 }
@@ -2793,8 +2727,7 @@ public struct DeleteBackupVaultAccessPolicyInput: Swift.Sendable {
 
     public init(
         backupVaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
     }
 }
@@ -2806,8 +2739,7 @@ public struct DeleteBackupVaultLockConfigurationInput: Swift.Sendable {
 
     public init(
         backupVaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
     }
 }
@@ -2819,8 +2751,7 @@ public struct DeleteBackupVaultNotificationsInput: Swift.Sendable {
 
     public init(
         backupVaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
     }
 }
@@ -2832,8 +2763,7 @@ public struct DeleteFrameworkInput: Swift.Sendable {
 
     public init(
         frameworkName: Swift.String? = nil
-    )
-    {
+    ) {
         self.frameworkName = frameworkName
     }
 }
@@ -2849,8 +2779,7 @@ public struct DeleteRecoveryPointInput: Swift.Sendable {
     public init(
         backupVaultName: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
         self.recoveryPointArn = recoveryPointArn
     }
@@ -2863,8 +2792,7 @@ public struct DeleteReportPlanInput: Swift.Sendable {
 
     public init(
         reportPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportPlanName = reportPlanName
     }
 }
@@ -2876,8 +2804,7 @@ public struct DeleteRestoreTestingPlanInput: Swift.Sendable {
 
     public init(
         restoreTestingPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.restoreTestingPlanName = restoreTestingPlanName
     }
 }
@@ -2893,8 +2820,7 @@ public struct DeleteRestoreTestingSelectionInput: Swift.Sendable {
     public init(
         restoreTestingPlanName: Swift.String? = nil,
         restoreTestingSelectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.restoreTestingPlanName = restoreTestingPlanName
         self.restoreTestingSelectionName = restoreTestingSelectionName
     }
@@ -2926,8 +2852,7 @@ public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientR
         context: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.context = context
         self.properties.message = message
@@ -2942,8 +2867,7 @@ public struct DescribeBackupJobInput: Swift.Sendable {
 
     public init(
         backupJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupJobId = backupJobId
     }
 }
@@ -3032,8 +2956,7 @@ public struct DescribeBackupJobOutput: Swift.Sendable {
         startBy: Foundation.Date? = nil,
         state: BackupClientTypes.BackupJobState? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.backupJobId = backupJobId
         self.backupOptions = backupOptions
@@ -3074,8 +2997,7 @@ public struct DescribeBackupVaultInput: Swift.Sendable {
     public init(
         backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
     }
@@ -3120,8 +3042,7 @@ public struct DescribeBackupVaultOutput: Swift.Sendable {
         numberOfRecoveryPoints: Swift.Int = 0,
         vaultState: BackupClientTypes.VaultState? = nil,
         vaultType: BackupClientTypes.VaultType? = nil
-    )
-    {
+    ) {
         self.backupVaultArn = backupVaultArn
         self.backupVaultName = backupVaultName
         self.creationDate = creationDate
@@ -3144,8 +3065,7 @@ public struct DescribeCopyJobInput: Swift.Sendable {
 
     public init(
         copyJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.copyJobId = copyJobId
     }
 }
@@ -3156,8 +3076,7 @@ public struct DescribeCopyJobOutput: Swift.Sendable {
 
     public init(
         copyJob: BackupClientTypes.CopyJob? = nil
-    )
-    {
+    ) {
         self.copyJob = copyJob
     }
 }
@@ -3169,8 +3088,7 @@ public struct DescribeFrameworkInput: Swift.Sendable {
 
     public init(
         frameworkName: Swift.String? = nil
-    )
-    {
+    ) {
         self.frameworkName = frameworkName
     }
 }
@@ -3210,8 +3128,7 @@ public struct DescribeFrameworkOutput: Swift.Sendable {
         frameworkName: Swift.String? = nil,
         frameworkStatus: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.deploymentStatus = deploymentStatus
         self.frameworkArn = frameworkArn
@@ -3237,8 +3154,7 @@ public struct DescribeGlobalSettingsOutput: Swift.Sendable {
     public init(
         globalSettings: [Swift.String: Swift.String]? = nil,
         lastUpdateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.globalSettings = globalSettings
         self.lastUpdateTime = lastUpdateTime
     }
@@ -3251,8 +3167,7 @@ public struct DescribeProtectedResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3287,8 +3202,7 @@ public struct DescribeProtectedResourceOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastBackupTime = lastBackupTime
         self.lastBackupVaultArn = lastBackupVaultArn
         self.lastRecoveryPointArn = lastRecoveryPointArn
@@ -3315,8 +3229,7 @@ public struct DescribeRecoveryPointInput: Swift.Sendable {
         backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
         self.recoveryPointArn = recoveryPointArn
@@ -3506,8 +3419,7 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         storageClass: BackupClientTypes.StorageClass? = nil,
         vaultType: BackupClientTypes.VaultType? = nil
-    )
-    {
+    ) {
         self.backupSizeInBytes = backupSizeInBytes
         self.backupVaultArn = backupVaultArn
         self.backupVaultName = backupVaultName
@@ -3551,8 +3463,7 @@ public struct DescribeRegionSettingsOutput: Swift.Sendable {
     public init(
         resourceTypeManagementPreference: [Swift.String: Swift.Bool]? = nil,
         resourceTypeOptInPreference: [Swift.String: Swift.Bool]? = nil
-    )
-    {
+    ) {
         self.resourceTypeManagementPreference = resourceTypeManagementPreference
         self.resourceTypeOptInPreference = resourceTypeOptInPreference
     }
@@ -3565,8 +3476,7 @@ public struct DescribeReportJobInput: Swift.Sendable {
 
     public init(
         reportJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportJobId = reportJobId
     }
 }
@@ -3583,8 +3493,7 @@ extension BackupClientTypes {
         public init(
             s3BucketName: Swift.String? = nil,
             s3Keys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.s3Keys = s3Keys
         }
@@ -3621,8 +3530,7 @@ extension BackupClientTypes {
             reportTemplate: Swift.String? = nil,
             status: Swift.String? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.reportDestination = reportDestination
@@ -3641,8 +3549,7 @@ public struct DescribeReportJobOutput: Swift.Sendable {
 
     public init(
         reportJob: BackupClientTypes.ReportJob? = nil
-    )
-    {
+    ) {
         self.reportJob = reportJob
     }
 }
@@ -3654,8 +3561,7 @@ public struct DescribeReportPlanInput: Swift.Sendable {
 
     public init(
         reportPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportPlanName = reportPlanName
     }
 }
@@ -3693,8 +3599,7 @@ extension BackupClientTypes {
             reportPlanDescription: Swift.String? = nil,
             reportPlanName: Swift.String? = nil,
             reportSetting: BackupClientTypes.ReportSetting? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.deploymentStatus = deploymentStatus
             self.lastAttemptedExecutionTime = lastAttemptedExecutionTime
@@ -3714,8 +3619,7 @@ public struct DescribeReportPlanOutput: Swift.Sendable {
 
     public init(
         reportPlan: BackupClientTypes.ReportPlan? = nil
-    )
-    {
+    ) {
         self.reportPlan = reportPlan
     }
 }
@@ -3727,8 +3631,7 @@ public struct DescribeRestoreJobInput: Swift.Sendable {
 
     public init(
         restoreJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.restoreJobId = restoreJobId
     }
 }
@@ -3742,8 +3645,7 @@ extension BackupClientTypes {
 
         public init(
             restoreTestingPlanArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.restoreTestingPlanArn = restoreTestingPlanArn
         }
     }
@@ -3914,8 +3816,7 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         validationStatus: BackupClientTypes.RestoreValidationStatus? = nil,
         validationStatusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.backupSizeInBytes = backupSizeInBytes
         self.completionDate = completionDate
@@ -3949,8 +3850,7 @@ public struct DisassociateRecoveryPointInput: Swift.Sendable {
     public init(
         backupVaultName: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
         self.recoveryPointArn = recoveryPointArn
     }
@@ -3967,8 +3867,7 @@ public struct DisassociateRecoveryPointFromParentInput: Swift.Sendable {
     public init(
         backupVaultName: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
         self.recoveryPointArn = recoveryPointArn
     }
@@ -3981,8 +3880,7 @@ public struct ExportBackupPlanTemplateInput: Swift.Sendable {
 
     public init(
         backupPlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanId = backupPlanId
     }
 }
@@ -3993,8 +3891,7 @@ public struct ExportBackupPlanTemplateOutput: Swift.Sendable {
 
     public init(
         backupPlanTemplateJson: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanTemplateJson = backupPlanTemplateJson
     }
 }
@@ -4009,8 +3906,7 @@ public struct GetBackupPlanInput: Swift.Sendable {
     public init(
         backupPlanId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanId = backupPlanId
         self.versionId = versionId
     }
@@ -4046,8 +3942,7 @@ public struct GetBackupPlanOutput: Swift.Sendable {
         deletionDate: Foundation.Date? = nil,
         lastExecutionDate: Foundation.Date? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.advancedBackupSettings = advancedBackupSettings
         self.backupPlan = backupPlan
         self.backupPlanArn = backupPlanArn
@@ -4067,8 +3962,7 @@ public struct GetBackupPlanFromJSONInput: Swift.Sendable {
 
     public init(
         backupPlanTemplateJson: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanTemplateJson = backupPlanTemplateJson
     }
 }
@@ -4079,8 +3973,7 @@ public struct GetBackupPlanFromJSONOutput: Swift.Sendable {
 
     public init(
         backupPlan: BackupClientTypes.BackupPlan? = nil
-    )
-    {
+    ) {
         self.backupPlan = backupPlan
     }
 }
@@ -4092,8 +3985,7 @@ public struct GetBackupPlanFromTemplateInput: Swift.Sendable {
 
     public init(
         backupPlanTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanTemplateId = backupPlanTemplateId
     }
 }
@@ -4104,8 +3996,7 @@ public struct GetBackupPlanFromTemplateOutput: Swift.Sendable {
 
     public init(
         backupPlanDocument: BackupClientTypes.BackupPlan? = nil
-    )
-    {
+    ) {
         self.backupPlanDocument = backupPlanDocument
     }
 }
@@ -4121,8 +4012,7 @@ public struct GetBackupSelectionInput: Swift.Sendable {
     public init(
         backupPlanId: Swift.String? = nil,
         selectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanId = backupPlanId
         self.selectionId = selectionId
     }
@@ -4146,8 +4036,7 @@ public struct GetBackupSelectionOutput: Swift.Sendable {
         creationDate: Foundation.Date? = nil,
         creatorRequestId: Swift.String? = nil,
         selectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanId = backupPlanId
         self.backupSelection = backupSelection
         self.creationDate = creationDate
@@ -4163,8 +4052,7 @@ public struct GetBackupVaultAccessPolicyInput: Swift.Sendable {
 
     public init(
         backupVaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
     }
 }
@@ -4181,8 +4069,7 @@ public struct GetBackupVaultAccessPolicyOutput: Swift.Sendable {
         backupVaultArn: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultArn = backupVaultArn
         self.backupVaultName = backupVaultName
         self.policy = policy
@@ -4196,8 +4083,7 @@ public struct GetBackupVaultNotificationsInput: Swift.Sendable {
 
     public init(
         backupVaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
     }
 }
@@ -4217,8 +4103,7 @@ public struct GetBackupVaultNotificationsOutput: Swift.Sendable {
         backupVaultEvents: [BackupClientTypes.BackupVaultEvent]? = nil,
         backupVaultName: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultArn = backupVaultArn
         self.backupVaultEvents = backupVaultEvents
         self.backupVaultName = backupVaultName
@@ -4233,8 +4118,7 @@ public struct GetLegalHoldInput: Swift.Sendable {
 
     public init(
         legalHoldId: Swift.String? = nil
-    )
-    {
+    ) {
         self.legalHoldId = legalHoldId
     }
 }
@@ -4272,8 +4156,7 @@ public struct GetLegalHoldOutput: Swift.Sendable {
         retainRecordUntil: Foundation.Date? = nil,
         status: BackupClientTypes.LegalHoldStatus? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.cancelDescription = cancelDescription
         self.cancellationDate = cancellationDate
         self.creationDate = creationDate
@@ -4298,8 +4181,7 @@ public struct GetRecoveryPointIndexDetailsInput: Swift.Sendable {
     public init(
         backupVaultName: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
         self.recoveryPointArn = recoveryPointArn
     }
@@ -4335,8 +4217,7 @@ public struct GetRecoveryPointIndexDetailsOutput: Swift.Sendable {
         recoveryPointArn: Swift.String? = nil,
         sourceResourceArn: Swift.String? = nil,
         totalItemsIndexed: Swift.Int? = nil
-    )
-    {
+    ) {
         self.backupVaultArn = backupVaultArn
         self.indexCompletionDate = indexCompletionDate
         self.indexCreationDate = indexCreationDate
@@ -4363,8 +4244,7 @@ public struct GetRecoveryPointRestoreMetadataInput: Swift.Sendable {
         backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
         self.recoveryPointArn = recoveryPointArn
@@ -4386,8 +4266,7 @@ public struct GetRecoveryPointRestoreMetadataOutput: Swift.Sendable {
         recoveryPointArn: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         restoreMetadata: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.backupVaultArn = backupVaultArn
         self.recoveryPointArn = recoveryPointArn
         self.resourceType = resourceType
@@ -4407,8 +4286,7 @@ public struct GetRestoreJobMetadataInput: Swift.Sendable {
 
     public init(
         restoreJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.restoreJobId = restoreJobId
     }
 }
@@ -4422,8 +4300,7 @@ public struct GetRestoreJobMetadataOutput: Swift.Sendable {
     public init(
         metadata: [Swift.String: Swift.String]? = nil,
         restoreJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
         self.restoreJobId = restoreJobId
     }
@@ -4448,8 +4325,7 @@ public struct GetRestoreTestingInferredMetadataInput: Swift.Sendable {
         backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
         self.recoveryPointArn = recoveryPointArn
@@ -4463,8 +4339,7 @@ public struct GetRestoreTestingInferredMetadataOutput: Swift.Sendable {
 
     public init(
         inferredMetadata: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.inferredMetadata = inferredMetadata
     }
 }
@@ -4476,8 +4351,7 @@ public struct GetRestoreTestingPlanInput: Swift.Sendable {
 
     public init(
         restoreTestingPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.restoreTestingPlanName = restoreTestingPlanName
     }
 }
@@ -4523,8 +4397,7 @@ extension BackupClientTypes {
             scheduleExpression: Swift.String? = nil,
             scheduleExpressionTimezone: Swift.String? = nil,
             startWindowHours: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
             self.lastExecutionTime = lastExecutionTime
@@ -4546,8 +4419,7 @@ public struct GetRestoreTestingPlanOutput: Swift.Sendable {
 
     public init(
         restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForGet? = nil
-    )
-    {
+    ) {
         self.restoreTestingPlan = restoreTestingPlan
     }
 }
@@ -4563,8 +4435,7 @@ public struct GetRestoreTestingSelectionInput: Swift.Sendable {
     public init(
         restoreTestingPlanName: Swift.String? = nil,
         restoreTestingSelectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.restoreTestingPlanName = restoreTestingPlanName
         self.restoreTestingSelectionName = restoreTestingSelectionName
     }
@@ -4611,8 +4482,7 @@ extension BackupClientTypes {
             restoreTestingPlanName: Swift.String? = nil,
             restoreTestingSelectionName: Swift.String? = nil,
             validationWindowHours: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
             self.iamRoleArn = iamRoleArn
@@ -4639,8 +4509,7 @@ public struct GetRestoreTestingSelectionOutput: Swift.Sendable {
 
     public init(
         restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForGet? = nil
-    )
-    {
+    ) {
         self.restoreTestingSelection = restoreTestingSelection
     }
 }
@@ -4683,8 +4552,7 @@ public struct GetSupportedResourceTypesOutput: Swift.Sendable {
 
     public init(
         resourceTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceTypes = resourceTypes
     }
 }
@@ -4763,8 +4631,7 @@ public struct ListBackupJobsInput: Swift.Sendable {
         byState: BackupClientTypes.BackupJobState? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.byAccountId = byAccountId
         self.byBackupVaultName = byBackupVaultName
         self.byCompleteAfter = byCompleteAfter
@@ -4790,8 +4657,7 @@ public struct ListBackupJobsOutput: Swift.Sendable {
     public init(
         backupJobs: [BackupClientTypes.BackupJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupJobs = backupJobs
         self.nextToken = nextToken
     }
@@ -4827,8 +4693,7 @@ public struct ListBackupJobSummariesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         state: BackupClientTypes.BackupJobStatus? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.aggregationPeriod = aggregationPeriod
         self.maxResults = maxResults
@@ -4857,8 +4722,7 @@ public struct ListBackupJobSummariesOutput: Swift.Sendable {
         aggregationPeriod: Swift.String? = nil,
         backupJobSummaries: [BackupClientTypes.BackupJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregationPeriod = aggregationPeriod
         self.backupJobSummaries = backupJobSummaries
         self.nextToken = nextToken
@@ -4877,8 +4741,7 @@ public struct ListBackupPlansInput: Swift.Sendable {
         includeDeleted: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeDeleted = includeDeleted
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4894,8 +4757,7 @@ public struct ListBackupPlansOutput: Swift.Sendable {
     public init(
         backupPlansList: [BackupClientTypes.BackupPlansListMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlansList = backupPlansList
         self.nextToken = nextToken
     }
@@ -4910,8 +4772,7 @@ public struct ListBackupPlanTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4926,8 +4787,7 @@ public struct ListBackupPlanTemplatesOutput: Swift.Sendable {
     public init(
         backupPlanTemplatesList: [BackupClientTypes.BackupPlanTemplatesListMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanTemplatesList = backupPlanTemplatesList
         self.nextToken = nextToken
     }
@@ -4946,8 +4806,7 @@ public struct ListBackupPlanVersionsInput: Swift.Sendable {
         backupPlanId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanId = backupPlanId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4963,8 +4822,7 @@ public struct ListBackupPlanVersionsOutput: Swift.Sendable {
     public init(
         backupPlanVersionsList: [BackupClientTypes.BackupPlansListMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanVersionsList = backupPlanVersionsList
         self.nextToken = nextToken
     }
@@ -4983,8 +4841,7 @@ public struct ListBackupSelectionsInput: Swift.Sendable {
         backupPlanId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlanId = backupPlanId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5000,8 +4857,7 @@ public struct ListBackupSelectionsOutput: Swift.Sendable {
     public init(
         backupSelectionsList: [BackupClientTypes.BackupSelectionsListMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupSelectionsList = backupSelectionsList
         self.nextToken = nextToken
     }
@@ -5022,8 +4878,7 @@ public struct ListBackupVaultsInput: Swift.Sendable {
         byVaultType: BackupClientTypes.VaultType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.byShared = byShared
         self.byVaultType = byVaultType
         self.maxResults = maxResults
@@ -5040,8 +4895,7 @@ public struct ListBackupVaultsOutput: Swift.Sendable {
     public init(
         backupVaultList: [BackupClientTypes.BackupVaultListMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultList = backupVaultList
         self.nextToken = nextToken
     }
@@ -5121,8 +4975,7 @@ public struct ListCopyJobsInput: Swift.Sendable {
         byState: BackupClientTypes.CopyJobState? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.byAccountId = byAccountId
         self.byCompleteAfter = byCompleteAfter
         self.byCompleteBefore = byCompleteBefore
@@ -5148,8 +5001,7 @@ public struct ListCopyJobsOutput: Swift.Sendable {
     public init(
         copyJobs: [BackupClientTypes.CopyJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.copyJobs = copyJobs
         self.nextToken = nextToken
     }
@@ -5185,8 +5037,7 @@ public struct ListCopyJobSummariesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         state: BackupClientTypes.CopyJobStatus? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.aggregationPeriod = aggregationPeriod
         self.maxResults = maxResults
@@ -5215,8 +5066,7 @@ public struct ListCopyJobSummariesOutput: Swift.Sendable {
         aggregationPeriod: Swift.String? = nil,
         copyJobSummaries: [BackupClientTypes.CopyJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregationPeriod = aggregationPeriod
         self.copyJobSummaries = copyJobSummaries
         self.nextToken = nextToken
@@ -5232,8 +5082,7 @@ public struct ListFrameworksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5263,8 +5112,7 @@ extension BackupClientTypes {
             frameworkDescription: Swift.String? = nil,
             frameworkName: Swift.String? = nil,
             numberOfControls: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.deploymentStatus = deploymentStatus
             self.frameworkArn = frameworkArn
@@ -5284,8 +5132,7 @@ public struct ListFrameworksOutput: Swift.Sendable {
     public init(
         frameworks: [BackupClientTypes.Framework]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.frameworks = frameworks
         self.nextToken = nextToken
     }
@@ -5319,8 +5166,7 @@ public struct ListIndexedRecoveryPointsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         sourceResourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.indexStatus = indexStatus
@@ -5368,8 +5214,7 @@ extension BackupClientTypes {
             recoveryPointArn: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             sourceResourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupCreationDate = backupCreationDate
             self.backupVaultArn = backupVaultArn
             self.iamRoleArn = iamRoleArn
@@ -5392,8 +5237,7 @@ public struct ListIndexedRecoveryPointsOutput: Swift.Sendable {
     public init(
         indexedRecoveryPoints: [BackupClientTypes.IndexedRecoveryPoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexedRecoveryPoints = indexedRecoveryPoints
         self.nextToken = nextToken
     }
@@ -5408,8 +5252,7 @@ public struct ListLegalHoldsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5442,8 +5285,7 @@ extension BackupClientTypes {
             legalHoldId: Swift.String? = nil,
             status: BackupClientTypes.LegalHoldStatus? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.cancellationDate = cancellationDate
             self.creationDate = creationDate
             self.description = description
@@ -5464,8 +5306,7 @@ public struct ListLegalHoldsOutput: Swift.Sendable {
     public init(
         legalHolds: [BackupClientTypes.LegalHold]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.legalHolds = legalHolds
         self.nextToken = nextToken
     }
@@ -5480,8 +5321,7 @@ public struct ListProtectedResourcesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5511,8 +5351,7 @@ extension BackupClientTypes {
             resourceArn: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastBackupTime = lastBackupTime
             self.lastBackupVaultArn = lastBackupVaultArn
             self.lastRecoveryPointArn = lastRecoveryPointArn
@@ -5532,8 +5371,7 @@ public struct ListProtectedResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [BackupClientTypes.ProtectedResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -5555,8 +5393,7 @@ public struct ListProtectedResourcesByBackupVaultInput: Swift.Sendable {
         backupVaultName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
         self.maxResults = maxResults
@@ -5573,8 +5410,7 @@ public struct ListProtectedResourcesByBackupVaultOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [BackupClientTypes.ProtectedResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -5646,8 +5482,7 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Sendable {
         byResourceType: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultAccountId = backupVaultAccountId
         self.backupVaultName = backupVaultName
         self.byBackupPlanId = byBackupPlanId
@@ -5742,8 +5577,7 @@ extension BackupClientTypes {
             status: BackupClientTypes.RecoveryPointStatus? = nil,
             statusMessage: Swift.String? = nil,
             vaultType: BackupClientTypes.VaultType? = nil
-        )
-        {
+        ) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -5782,8 +5616,7 @@ public struct ListRecoveryPointsByBackupVaultOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recoveryPoints: [BackupClientTypes.RecoveryPointByBackupVault]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recoveryPoints = recoveryPoints
     }
@@ -5802,8 +5635,7 @@ public struct ListRecoveryPointsByLegalHoldInput: Swift.Sendable {
         legalHoldId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.legalHoldId = legalHoldId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5828,8 +5660,7 @@ extension BackupClientTypes {
             recoveryPointArn: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
@@ -5847,8 +5678,7 @@ public struct ListRecoveryPointsByLegalHoldOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recoveryPoints: [BackupClientTypes.RecoveryPointMember]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recoveryPoints = recoveryPoints
     }
@@ -5870,8 +5700,7 @@ public struct ListRecoveryPointsByResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedByAWSBackupOnly = managedByAWSBackupOnly
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5924,8 +5753,7 @@ extension BackupClientTypes {
             status: BackupClientTypes.RecoveryPointStatus? = nil,
             statusMessage: Swift.String? = nil,
             vaultType: BackupClientTypes.VaultType? = nil
-        )
-        {
+        ) {
             self.backupSizeBytes = backupSizeBytes
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
@@ -5952,8 +5780,7 @@ public struct ListRecoveryPointsByResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recoveryPoints: [BackupClientTypes.RecoveryPointByResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recoveryPoints = recoveryPoints
     }
@@ -5980,8 +5807,7 @@ public struct ListReportJobsInput: Swift.Sendable {
         byStatus: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.byCreationAfter = byCreationAfter
         self.byCreationBefore = byCreationBefore
         self.byReportPlanName = byReportPlanName
@@ -6000,8 +5826,7 @@ public struct ListReportJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reportJobs: [BackupClientTypes.ReportJob]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reportJobs = reportJobs
     }
@@ -6016,8 +5841,7 @@ public struct ListReportPlansInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6032,8 +5856,7 @@ public struct ListReportPlansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reportPlans: [BackupClientTypes.ReportPlan]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reportPlans = reportPlans
     }
@@ -6104,8 +5927,7 @@ public struct ListRestoreJobsInput: Swift.Sendable {
         byStatus: BackupClientTypes.RestoreJobStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.byAccountId = byAccountId
         self.byCompleteAfter = byCompleteAfter
         self.byCompleteBefore = byCompleteBefore
@@ -6182,8 +6004,7 @@ extension BackupClientTypes {
             statusMessage: Swift.String? = nil,
             validationStatus: BackupClientTypes.RestoreValidationStatus? = nil,
             validationStatusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.completionDate = completionDate
@@ -6216,8 +6037,7 @@ public struct ListRestoreJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         restoreJobs: [BackupClientTypes.RestoreJobsListMember]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.restoreJobs = restoreJobs
     }
@@ -6245,8 +6065,7 @@ public struct ListRestoreJobsByProtectedResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.byRecoveryPointCreationDateAfter = byRecoveryPointCreationDateAfter
         self.byRecoveryPointCreationDateBefore = byRecoveryPointCreationDateBefore
         self.byStatus = byStatus
@@ -6265,8 +6084,7 @@ public struct ListRestoreJobsByProtectedResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         restoreJobs: [BackupClientTypes.RestoreJobsListMember]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.restoreJobs = restoreJobs
     }
@@ -6346,8 +6164,7 @@ public struct ListRestoreJobSummariesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         state: BackupClientTypes.RestoreJobState? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.aggregationPeriod = aggregationPeriod
         self.maxResults = maxResults
@@ -6384,8 +6201,7 @@ extension BackupClientTypes {
             resourceType: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             state: BackupClientTypes.RestoreJobState? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.count = count
             self.endTime = endTime
@@ -6415,8 +6231,7 @@ public struct ListRestoreJobSummariesOutput: Swift.Sendable {
         aggregationPeriod: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         restoreJobSummaries: [BackupClientTypes.RestoreJobSummary]? = nil
-    )
-    {
+    ) {
         self.aggregationPeriod = aggregationPeriod
         self.nextToken = nextToken
         self.restoreJobSummaries = restoreJobSummaries
@@ -6432,8 +6247,7 @@ public struct ListRestoreTestingPlansInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6473,8 +6287,7 @@ extension BackupClientTypes {
             scheduleExpression: Swift.String? = nil,
             scheduleExpressionTimezone: Swift.String? = nil,
             startWindowHours: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastExecutionTime = lastExecutionTime
             self.lastUpdateTime = lastUpdateTime
@@ -6497,8 +6310,7 @@ public struct ListRestoreTestingPlansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         restoreTestingPlans: [BackupClientTypes.RestoreTestingPlanForList]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.restoreTestingPlans = restoreTestingPlans
     }
@@ -6517,8 +6329,7 @@ public struct ListRestoreTestingSelectionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         restoreTestingPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.restoreTestingPlanName = restoreTestingPlanName
@@ -6554,8 +6365,7 @@ extension BackupClientTypes {
             restoreTestingPlanName: Swift.String? = nil,
             restoreTestingSelectionName: Swift.String? = nil,
             validationWindowHours: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.iamRoleArn = iamRoleArn
             self.protectedResourceType = protectedResourceType
@@ -6576,8 +6386,7 @@ public struct ListRestoreTestingSelectionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         restoreTestingSelections: [BackupClientTypes.RestoreTestingSelectionForList]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.restoreTestingSelections = restoreTestingSelections
     }
@@ -6596,8 +6405,7 @@ public struct ListTagsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -6613,8 +6421,7 @@ public struct ListTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -6635,8 +6442,7 @@ public struct PutBackupVaultAccessPolicyInput: Swift.Sendable {
     public init(
         backupVaultName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
         self.policy = policy
     }
@@ -6658,8 +6464,7 @@ public struct PutBackupVaultLockConfigurationInput: Swift.Sendable {
         changeableForDays: Swift.Int? = nil,
         maxRetentionDays: Swift.Int? = nil,
         minRetentionDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
         self.changeableForDays = changeableForDays
         self.maxRetentionDays = maxRetentionDays
@@ -6693,8 +6498,7 @@ public struct PutBackupVaultNotificationsInput: Swift.Sendable {
         backupVaultEvents: [BackupClientTypes.BackupVaultEvent]? = nil,
         backupVaultName: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultEvents = backupVaultEvents
         self.backupVaultName = backupVaultName
         self.snsTopicArn = snsTopicArn
@@ -6715,8 +6519,7 @@ public struct PutRestoreValidationResultInput: Swift.Sendable {
         restoreJobId: Swift.String? = nil,
         validationStatus: BackupClientTypes.RestoreValidationStatus? = nil,
         validationStatusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.restoreJobId = restoreJobId
         self.validationStatus = validationStatus
         self.validationStatusMessage = validationStatusMessage
@@ -6795,8 +6598,7 @@ public struct StartBackupJobInput: Swift.Sendable {
         recoveryPointTags: [Swift.String: Swift.String]? = nil,
         resourceArn: Swift.String? = nil,
         startWindowMinutes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.backupOptions = backupOptions
         self.backupVaultName = backupVaultName
         self.completeWindowMinutes = completeWindowMinutes
@@ -6830,8 +6632,7 @@ public struct StartBackupJobOutput: Swift.Sendable {
         creationDate: Foundation.Date? = nil,
         isParent: Swift.Bool = false,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupJobId = backupJobId
         self.creationDate = creationDate
         self.isParent = isParent
@@ -6864,8 +6665,7 @@ public struct StartCopyJobInput: Swift.Sendable {
         lifecycle: BackupClientTypes.Lifecycle? = nil,
         recoveryPointArn: Swift.String? = nil,
         sourceBackupVaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationBackupVaultArn = destinationBackupVaultArn
         self.iamRoleArn = iamRoleArn
         self.idempotencyToken = idempotencyToken
@@ -6887,8 +6687,7 @@ public struct StartCopyJobOutput: Swift.Sendable {
         copyJobId: Swift.String? = nil,
         creationDate: Foundation.Date? = nil,
         isParent: Swift.Bool = false
-    )
-    {
+    ) {
         self.copyJobId = copyJobId
         self.creationDate = creationDate
         self.isParent = isParent
@@ -6905,8 +6704,7 @@ public struct StartReportJobInput: Swift.Sendable {
     public init(
         idempotencyToken: Swift.String? = nil,
         reportPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.idempotencyToken = idempotencyToken
         self.reportPlanName = reportPlanName
     }
@@ -6918,8 +6716,7 @@ public struct StartReportJobOutput: Swift.Sendable {
 
     public init(
         reportJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportJobId = reportJobId
     }
 }
@@ -7007,8 +6804,7 @@ public struct StartRestoreJobInput: Swift.Sendable {
         metadata: [Swift.String: Swift.String]? = nil,
         recoveryPointArn: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.copySourceTagsToRestoredResource = copySourceTagsToRestoredResource
         self.iamRoleArn = iamRoleArn
         self.idempotencyToken = idempotencyToken
@@ -7029,8 +6825,7 @@ public struct StartRestoreJobOutput: Swift.Sendable {
 
     public init(
         restoreJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.restoreJobId = restoreJobId
     }
 }
@@ -7042,8 +6837,7 @@ public struct StopBackupJobInput: Swift.Sendable {
 
     public init(
         backupJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupJobId = backupJobId
     }
 }
@@ -7059,8 +6853,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -7082,8 +6875,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeyList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeyList = tagKeyList
     }
@@ -7105,8 +6897,7 @@ public struct UpdateBackupPlanInput: Swift.Sendable {
     public init(
         backupPlan: BackupClientTypes.BackupPlanInput? = nil,
         backupPlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPlan = backupPlan
         self.backupPlanId = backupPlanId
     }
@@ -7130,8 +6921,7 @@ public struct UpdateBackupPlanOutput: Swift.Sendable {
         backupPlanId: Swift.String? = nil,
         creationDate: Foundation.Date? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.advancedBackupSettings = advancedBackupSettings
         self.backupPlanArn = backupPlanArn
         self.backupPlanId = backupPlanId
@@ -7156,8 +6946,7 @@ public struct UpdateFrameworkInput: Swift.Sendable {
         frameworkDescription: Swift.String? = nil,
         frameworkName: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.frameworkControls = frameworkControls
         self.frameworkDescription = frameworkDescription
         self.frameworkName = frameworkName
@@ -7177,8 +6966,7 @@ public struct UpdateFrameworkOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         frameworkArn: Swift.String? = nil,
         frameworkName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.frameworkArn = frameworkArn
         self.frameworkName = frameworkName
@@ -7191,8 +6979,7 @@ public struct UpdateGlobalSettingsInput: Swift.Sendable {
 
     public init(
         globalSettings: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.globalSettings = globalSettings
     }
 }
@@ -7215,8 +7002,7 @@ public struct UpdateRecoveryPointIndexSettingsInput: Swift.Sendable {
         iamRoleArn: Swift.String? = nil,
         index: BackupClientTypes.Index? = nil,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
         self.iamRoleArn = iamRoleArn
         self.index = index
@@ -7239,8 +7025,7 @@ public struct UpdateRecoveryPointIndexSettingsOutput: Swift.Sendable {
         index: BackupClientTypes.Index? = nil,
         indexStatus: BackupClientTypes.IndexStatus? = nil,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
         self.index = index
         self.indexStatus = indexStatus
@@ -7262,8 +7047,7 @@ public struct UpdateRecoveryPointLifecycleInput: Swift.Sendable {
         backupVaultName: Swift.String? = nil,
         lifecycle: BackupClientTypes.Lifecycle? = nil,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultName = backupVaultName
         self.lifecycle = lifecycle
         self.recoveryPointArn = recoveryPointArn
@@ -7285,8 +7069,7 @@ public struct UpdateRecoveryPointLifecycleOutput: Swift.Sendable {
         calculatedLifecycle: BackupClientTypes.CalculatedLifecycle? = nil,
         lifecycle: BackupClientTypes.Lifecycle? = nil,
         recoveryPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupVaultArn = backupVaultArn
         self.calculatedLifecycle = calculatedLifecycle
         self.lifecycle = lifecycle
@@ -7303,8 +7086,7 @@ public struct UpdateRegionSettingsInput: Swift.Sendable {
     public init(
         resourceTypeManagementPreference: [Swift.String: Swift.Bool]? = nil,
         resourceTypeOptInPreference: [Swift.String: Swift.Bool]? = nil
-    )
-    {
+    ) {
         self.resourceTypeManagementPreference = resourceTypeManagementPreference
         self.resourceTypeOptInPreference = resourceTypeOptInPreference
     }
@@ -7329,8 +7111,7 @@ public struct UpdateReportPlanInput: Swift.Sendable {
         reportPlanDescription: Swift.String? = nil,
         reportPlanName: Swift.String? = nil,
         reportSetting: BackupClientTypes.ReportSetting? = nil
-    )
-    {
+    ) {
         self.idempotencyToken = idempotencyToken
         self.reportDeliveryChannel = reportDeliveryChannel
         self.reportPlanDescription = reportPlanDescription
@@ -7351,8 +7132,7 @@ public struct UpdateReportPlanOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         reportPlanArn: Swift.String? = nil,
         reportPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.reportPlanArn = reportPlanArn
         self.reportPlanName = reportPlanName
@@ -7377,8 +7157,7 @@ extension BackupClientTypes {
             scheduleExpression: Swift.String? = nil,
             scheduleExpressionTimezone: Swift.String? = nil,
             startWindowHours: Swift.Int = 0
-        )
-        {
+        ) {
             self.recoveryPointSelection = recoveryPointSelection
             self.scheduleExpression = scheduleExpression
             self.scheduleExpressionTimezone = scheduleExpressionTimezone
@@ -7398,8 +7177,7 @@ public struct UpdateRestoreTestingPlanInput: Swift.Sendable {
     public init(
         restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForUpdate? = nil,
         restoreTestingPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.restoreTestingPlan = restoreTestingPlan
         self.restoreTestingPlanName = restoreTestingPlanName
     }
@@ -7424,8 +7202,7 @@ public struct UpdateRestoreTestingPlanOutput: Swift.Sendable {
         restoreTestingPlanArn: Swift.String? = nil,
         restoreTestingPlanName: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.restoreTestingPlanArn = restoreTestingPlanArn
         self.restoreTestingPlanName = restoreTestingPlanName
@@ -7454,8 +7231,7 @@ extension BackupClientTypes {
             protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions? = nil,
             restoreMetadataOverrides: [Swift.String: Swift.String]? = nil,
             validationWindowHours: Swift.Int = 0
-        )
-        {
+        ) {
             self.iamRoleArn = iamRoleArn
             self.protectedResourceArns = protectedResourceArns
             self.protectedResourceConditions = protectedResourceConditions
@@ -7485,8 +7261,7 @@ public struct UpdateRestoreTestingSelectionInput: Swift.Sendable {
         restoreTestingPlanName: Swift.String? = nil,
         restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForUpdate? = nil,
         restoreTestingSelectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.restoreTestingPlanName = restoreTestingPlanName
         self.restoreTestingSelection = restoreTestingSelection
         self.restoreTestingSelectionName = restoreTestingSelectionName
@@ -7516,8 +7291,7 @@ public struct UpdateRestoreTestingSelectionOutput: Swift.Sendable {
         restoreTestingPlanName: Swift.String? = nil,
         restoreTestingSelectionName: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.restoreTestingPlanArn = restoreTestingPlanArn
         self.restoreTestingPlanName = restoreTestingPlanName

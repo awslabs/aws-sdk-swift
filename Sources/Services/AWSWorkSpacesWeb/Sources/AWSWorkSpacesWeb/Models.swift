@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -75,8 +74,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -104,8 +102,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -135,8 +132,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -170,8 +166,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -193,8 +188,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -260,8 +254,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [WorkSpacesWebClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: WorkSpacesWebClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -279,8 +272,7 @@ public struct AssociateBrowserSettingsInput: Swift.Sendable {
     public init(
         browserSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettingsArn = browserSettingsArn
         self.portalArn = portalArn
     }
@@ -297,8 +289,7 @@ public struct AssociateBrowserSettingsOutput: Swift.Sendable {
     public init(
         browserSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettingsArn = browserSettingsArn
         self.portalArn = portalArn
     }
@@ -315,8 +306,7 @@ public struct AssociateDataProtectionSettingsInput: Swift.Sendable {
     public init(
         dataProtectionSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataProtectionSettingsArn = dataProtectionSettingsArn
         self.portalArn = portalArn
     }
@@ -333,8 +323,7 @@ public struct AssociateDataProtectionSettingsOutput: Swift.Sendable {
     public init(
         dataProtectionSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataProtectionSettingsArn = dataProtectionSettingsArn
         self.portalArn = portalArn
     }
@@ -351,8 +340,7 @@ public struct AssociateIpAccessSettingsInput: Swift.Sendable {
     public init(
         ipAccessSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettingsArn = ipAccessSettingsArn
         self.portalArn = portalArn
     }
@@ -369,8 +357,7 @@ public struct AssociateIpAccessSettingsOutput: Swift.Sendable {
     public init(
         ipAccessSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettingsArn = ipAccessSettingsArn
         self.portalArn = portalArn
     }
@@ -387,8 +374,7 @@ public struct AssociateNetworkSettingsInput: Swift.Sendable {
     public init(
         networkSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettingsArn = networkSettingsArn
         self.portalArn = portalArn
     }
@@ -405,8 +391,7 @@ public struct AssociateNetworkSettingsOutput: Swift.Sendable {
     public init(
         networkSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettingsArn = networkSettingsArn
         self.portalArn = portalArn
     }
@@ -423,8 +408,7 @@ public struct AssociateTrustStoreInput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.trustStoreArn = trustStoreArn
     }
@@ -441,8 +425,7 @@ public struct AssociateTrustStoreOutput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.trustStoreArn = trustStoreArn
     }
@@ -459,8 +442,7 @@ public struct AssociateUserAccessLoggingSettingsInput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
     }
@@ -477,8 +459,7 @@ public struct AssociateUserAccessLoggingSettingsOutput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
     }
@@ -495,8 +476,7 @@ public struct AssociateUserSettingsInput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.userSettingsArn = userSettingsArn
     }
@@ -513,8 +493,7 @@ public struct AssociateUserSettingsOutput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.userSettingsArn = userSettingsArn
     }
@@ -579,8 +558,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -603,8 +581,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -636,8 +613,7 @@ public struct CreateBrowserSettingsInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         customerManagedKey: Swift.String? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.browserPolicy = browserPolicy
         self.clientToken = clientToken
@@ -658,8 +634,7 @@ public struct CreateBrowserSettingsOutput: Swift.Sendable {
 
     public init(
         browserSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettingsArn = browserSettingsArn
     }
 }
@@ -671,8 +646,7 @@ public struct DeleteBrowserSettingsInput: Swift.Sendable {
 
     public init(
         browserSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettingsArn = browserSettingsArn
     }
 }
@@ -689,8 +663,7 @@ public struct GetBrowserSettingsInput: Swift.Sendable {
 
     public init(
         browserSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettingsArn = browserSettingsArn
     }
 }
@@ -717,8 +690,7 @@ extension WorkSpacesWebClientTypes {
             browserPolicy: Swift.String? = nil,
             browserSettingsArn: Swift.String? = nil,
             customerManagedKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.browserPolicy = browserPolicy
@@ -739,8 +711,7 @@ public struct GetBrowserSettingsOutput: Swift.Sendable {
 
     public init(
         browserSettings: WorkSpacesWebClientTypes.BrowserSettings? = nil
-    )
-    {
+    ) {
         self.browserSettings = browserSettings
     }
 }
@@ -754,8 +725,7 @@ public struct ListBrowserSettingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -771,8 +741,7 @@ extension WorkSpacesWebClientTypes {
 
         public init(
             browserSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.browserSettingsArn = browserSettingsArn
         }
     }
@@ -787,8 +756,7 @@ public struct ListBrowserSettingsOutput: Swift.Sendable {
     public init(
         browserSettings: [WorkSpacesWebClientTypes.BrowserSettingsSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettings = browserSettings
         self.nextToken = nextToken
     }
@@ -807,8 +775,7 @@ public struct UpdateBrowserSettingsInput: Swift.Sendable {
         browserPolicy: Swift.String? = nil,
         browserSettingsArn: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserPolicy = browserPolicy
         self.browserSettingsArn = browserSettingsArn
         self.clientToken = clientToken
@@ -827,8 +794,7 @@ public struct UpdateBrowserSettingsOutput: Swift.Sendable {
 
     public init(
         browserSettings: WorkSpacesWebClientTypes.BrowserSettings? = nil
-    )
-    {
+    ) {
         self.browserSettings = browserSettings
     }
 }
@@ -853,8 +819,7 @@ extension WorkSpacesWebClientTypes {
             patternDescription: Swift.String? = nil,
             patternName: Swift.String? = nil,
             patternRegex: Swift.String? = nil
-        )
-        {
+        ) {
             self.keywordRegex = keywordRegex
             self.patternDescription = patternDescription
             self.patternName = patternName
@@ -907,8 +872,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             redactionPlaceHolderText: Swift.String? = nil,
             redactionPlaceHolderType: WorkSpacesWebClientTypes.RedactionPlaceHolderType? = nil
-        )
-        {
+        ) {
             self.redactionPlaceHolderText = redactionPlaceHolderText
             self.redactionPlaceHolderType = redactionPlaceHolderType
         }
@@ -945,8 +909,7 @@ extension WorkSpacesWebClientTypes {
             enforcedUrls: [Swift.String]? = nil,
             exemptUrls: [Swift.String]? = nil,
             redactionPlaceHolder: WorkSpacesWebClientTypes.RedactionPlaceHolder? = nil
-        )
-        {
+        ) {
             self.builtInPatternId = builtInPatternId
             self.confidenceLevel = confidenceLevel
             self.customPattern = customPattern
@@ -981,8 +944,7 @@ extension WorkSpacesWebClientTypes {
             globalEnforcedUrls: [Swift.String]? = nil,
             globalExemptUrls: [Swift.String]? = nil,
             inlineRedactionPatterns: [WorkSpacesWebClientTypes.InlineRedactionPattern]? = nil
-        )
-        {
+        ) {
             self.globalConfidenceLevel = globalConfidenceLevel
             self.globalEnforcedUrls = globalEnforcedUrls
             self.globalExemptUrls = globalExemptUrls
@@ -1020,8 +982,7 @@ public struct CreateDataProtectionSettingsInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.clientToken = clientToken
         self.customerManagedKey = customerManagedKey
@@ -1044,8 +1005,7 @@ public struct CreateDataProtectionSettingsOutput: Swift.Sendable {
 
     public init(
         dataProtectionSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataProtectionSettingsArn = dataProtectionSettingsArn
     }
 }
@@ -1057,8 +1017,7 @@ public struct DeleteDataProtectionSettingsInput: Swift.Sendable {
 
     public init(
         dataProtectionSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataProtectionSettingsArn = dataProtectionSettingsArn
     }
 }
@@ -1075,8 +1034,7 @@ public struct GetDataProtectionSettingsInput: Swift.Sendable {
 
     public init(
         dataProtectionSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataProtectionSettingsArn = dataProtectionSettingsArn
     }
 }
@@ -1112,8 +1070,7 @@ extension WorkSpacesWebClientTypes {
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.creationDate = creationDate
@@ -1137,8 +1094,7 @@ public struct GetDataProtectionSettingsOutput: Swift.Sendable {
 
     public init(
         dataProtectionSettings: WorkSpacesWebClientTypes.DataProtectionSettings? = nil
-    )
-    {
+    ) {
         self.dataProtectionSettings = dataProtectionSettings
     }
 }
@@ -1152,8 +1108,7 @@ public struct ListDataProtectionSettingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1178,8 +1133,7 @@ extension WorkSpacesWebClientTypes {
             dataProtectionSettingsArn: Swift.String? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.dataProtectionSettingsArn = dataProtectionSettingsArn
             self.description = description
@@ -1202,8 +1156,7 @@ public struct ListDataProtectionSettingsOutput: Swift.Sendable {
     public init(
         dataProtectionSettings: [WorkSpacesWebClientTypes.DataProtectionSettingsSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataProtectionSettings = dataProtectionSettings
         self.nextToken = nextToken
     }
@@ -1228,8 +1181,7 @@ public struct UpdateDataProtectionSettingsInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataProtectionSettingsArn = dataProtectionSettingsArn
         self.description = description
@@ -1250,8 +1202,7 @@ public struct UpdateDataProtectionSettingsOutput: Swift.Sendable {
 
     public init(
         dataProtectionSettings: WorkSpacesWebClientTypes.DataProtectionSettings? = nil
-    )
-    {
+    ) {
         self.dataProtectionSettings = dataProtectionSettings
     }
 }
@@ -1267,8 +1218,7 @@ public struct ExpireSessionInput: Swift.Sendable {
     public init(
         portalId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalId = portalId
         self.sessionId = sessionId
     }
@@ -1290,8 +1240,7 @@ public struct GetSessionInput: Swift.Sendable {
     public init(
         portalId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalId = portalId
         self.sessionId = sessionId
     }
@@ -1353,8 +1302,7 @@ extension WorkSpacesWebClientTypes {
             startTime: Foundation.Date? = nil,
             status: WorkSpacesWebClientTypes.SessionStatus? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIpAddresses = clientIpAddresses
             self.endTime = endTime
             self.portalArn = portalArn
@@ -1377,8 +1325,7 @@ public struct GetSessionOutput: Swift.Sendable {
 
     public init(
         session: WorkSpacesWebClientTypes.Session? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -1523,8 +1470,7 @@ public struct CreateIdentityProviderInput: Swift.Sendable {
         identityProviderType: WorkSpacesWebClientTypes.IdentityProviderType? = nil,
         portalArn: Swift.String? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.identityProviderDetails = identityProviderDetails
         self.identityProviderName = identityProviderName
@@ -1546,8 +1492,7 @@ public struct CreateIdentityProviderOutput: Swift.Sendable {
 
     public init(
         identityProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProviderArn = identityProviderArn
     }
 }
@@ -1559,8 +1504,7 @@ public struct DeleteIdentityProviderInput: Swift.Sendable {
 
     public init(
         identityProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProviderArn = identityProviderArn
     }
 }
@@ -1577,8 +1521,7 @@ public struct GetIdentityProviderInput: Swift.Sendable {
 
     public init(
         identityProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProviderArn = identityProviderArn
     }
 }
@@ -1676,8 +1619,7 @@ extension WorkSpacesWebClientTypes {
             identityProviderDetails: [Swift.String: Swift.String]? = nil,
             identityProviderName: Swift.String? = nil,
             identityProviderType: WorkSpacesWebClientTypes.IdentityProviderType? = nil
-        )
-        {
+        ) {
             self.identityProviderArn = identityProviderArn
             self.identityProviderDetails = identityProviderDetails
             self.identityProviderName = identityProviderName
@@ -1697,8 +1639,7 @@ public struct GetIdentityProviderOutput: Swift.Sendable {
 
     public init(
         identityProvider: WorkSpacesWebClientTypes.IdentityProvider? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
     }
 }
@@ -1716,8 +1657,7 @@ public struct ListIdentityProvidersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.portalArn = portalArn
@@ -1740,8 +1680,7 @@ extension WorkSpacesWebClientTypes {
             identityProviderArn: Swift.String? = nil,
             identityProviderName: Swift.String? = nil,
             identityProviderType: WorkSpacesWebClientTypes.IdentityProviderType? = nil
-        )
-        {
+        ) {
             self.identityProviderArn = identityProviderArn
             self.identityProviderName = identityProviderName
             self.identityProviderType = identityProviderType
@@ -1763,8 +1702,7 @@ public struct ListIdentityProvidersOutput: Swift.Sendable {
     public init(
         identityProviders: [WorkSpacesWebClientTypes.IdentityProviderSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProviders = identityProviders
         self.nextToken = nextToken
     }
@@ -1863,8 +1801,7 @@ public struct UpdateIdentityProviderInput: Swift.Sendable {
         identityProviderDetails: [Swift.String: Swift.String]? = nil,
         identityProviderName: Swift.String? = nil,
         identityProviderType: WorkSpacesWebClientTypes.IdentityProviderType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.identityProviderArn = identityProviderArn
         self.identityProviderDetails = identityProviderDetails
@@ -1885,8 +1822,7 @@ public struct UpdateIdentityProviderOutput: Swift.Sendable {
 
     public init(
         identityProvider: WorkSpacesWebClientTypes.IdentityProvider? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
     }
 }
@@ -1904,8 +1840,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             description: Swift.String? = nil,
             ipRange: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.ipRange = ipRange
         }
@@ -1942,8 +1877,7 @@ public struct CreateIpAccessSettingsInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         ipRules: [WorkSpacesWebClientTypes.IpRule]? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.clientToken = clientToken
         self.customerManagedKey = customerManagedKey
@@ -1966,8 +1900,7 @@ public struct CreateIpAccessSettingsOutput: Swift.Sendable {
 
     public init(
         ipAccessSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettingsArn = ipAccessSettingsArn
     }
 }
@@ -1979,8 +1912,7 @@ public struct DeleteIpAccessSettingsInput: Swift.Sendable {
 
     public init(
         ipAccessSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettingsArn = ipAccessSettingsArn
     }
 }
@@ -1997,8 +1929,7 @@ public struct GetIpAccessSettingsInput: Swift.Sendable {
 
     public init(
         ipAccessSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettingsArn = ipAccessSettingsArn
     }
 }
@@ -2034,8 +1965,7 @@ extension WorkSpacesWebClientTypes {
             displayName: Swift.String? = nil,
             ipAccessSettingsArn: Swift.String? = nil,
             ipRules: [WorkSpacesWebClientTypes.IpRule]? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.creationDate = creationDate
@@ -2059,8 +1989,7 @@ public struct GetIpAccessSettingsOutput: Swift.Sendable {
 
     public init(
         ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings? = nil
-    )
-    {
+    ) {
         self.ipAccessSettings = ipAccessSettings
     }
 }
@@ -2074,8 +2003,7 @@ public struct ListIpAccessSettingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2100,8 +2028,7 @@ extension WorkSpacesWebClientTypes {
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             ipAccessSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.description = description
             self.displayName = displayName
@@ -2124,8 +2051,7 @@ public struct ListIpAccessSettingsOutput: Swift.Sendable {
     public init(
         ipAccessSettings: [WorkSpacesWebClientTypes.IpAccessSettingsSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettings = ipAccessSettings
         self.nextToken = nextToken
     }
@@ -2150,8 +2076,7 @@ public struct UpdateIpAccessSettingsInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         ipAccessSettingsArn: Swift.String? = nil,
         ipRules: [WorkSpacesWebClientTypes.IpRule]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.displayName = displayName
@@ -2172,8 +2097,7 @@ public struct UpdateIpAccessSettingsOutput: Swift.Sendable {
 
     public init(
         ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings? = nil
-    )
-    {
+    ) {
         self.ipAccessSettings = ipAccessSettings
     }
 }
@@ -2232,8 +2156,7 @@ public struct ListSessionsInput: Swift.Sendable {
         sortBy: WorkSpacesWebClientTypes.SessionSortBy? = nil,
         status: WorkSpacesWebClientTypes.SessionStatus? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.portalId = portalId
@@ -2273,8 +2196,7 @@ extension WorkSpacesWebClientTypes {
             startTime: Foundation.Date? = nil,
             status: WorkSpacesWebClientTypes.SessionStatus? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.portalArn = portalArn
             self.sessionId = sessionId
@@ -2300,8 +2222,7 @@ public struct ListSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sessions: [WorkSpacesWebClientTypes.SessionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessions = sessions
     }
@@ -2314,8 +2235,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2326,8 +2246,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2358,8 +2277,7 @@ public struct CreateNetworkSettingsInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
@@ -2380,8 +2298,7 @@ public struct CreateNetworkSettingsOutput: Swift.Sendable {
 
     public init(
         networkSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettingsArn = networkSettingsArn
     }
 }
@@ -2393,8 +2310,7 @@ public struct DeleteNetworkSettingsInput: Swift.Sendable {
 
     public init(
         networkSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettingsArn = networkSettingsArn
     }
 }
@@ -2411,8 +2327,7 @@ public struct GetNetworkSettingsInput: Swift.Sendable {
 
     public init(
         networkSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettingsArn = networkSettingsArn
     }
 }
@@ -2439,8 +2354,7 @@ extension WorkSpacesWebClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedPortalArns = associatedPortalArns
             self.networkSettingsArn = networkSettingsArn
             self.securityGroupIds = securityGroupIds
@@ -2456,8 +2370,7 @@ public struct GetNetworkSettingsOutput: Swift.Sendable {
 
     public init(
         networkSettings: WorkSpacesWebClientTypes.NetworkSettings? = nil
-    )
-    {
+    ) {
         self.networkSettings = networkSettings
     }
 }
@@ -2471,8 +2384,7 @@ public struct ListNetworkSettingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2491,8 +2403,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             networkSettingsArn: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.networkSettingsArn = networkSettingsArn
             self.vpcId = vpcId
         }
@@ -2508,8 +2419,7 @@ public struct ListNetworkSettingsOutput: Swift.Sendable {
     public init(
         networkSettings: [WorkSpacesWebClientTypes.NetworkSettingsSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettings = networkSettings
         self.nextToken = nextToken
     }
@@ -2534,8 +2444,7 @@ public struct UpdateNetworkSettingsInput: Swift.Sendable {
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.networkSettingsArn = networkSettingsArn
         self.securityGroupIds = securityGroupIds
@@ -2551,8 +2460,7 @@ public struct UpdateNetworkSettingsOutput: Swift.Sendable {
 
     public init(
         networkSettings: WorkSpacesWebClientTypes.NetworkSettings? = nil
-    )
-    {
+    ) {
         self.networkSettings = networkSettings
     }
 }
@@ -2642,8 +2550,7 @@ public struct CreatePortalInput: Swift.Sendable {
         instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
         maxConcurrentSessions: Swift.Int? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.authenticationType = authenticationType
         self.clientToken = clientToken
@@ -2671,8 +2578,7 @@ public struct CreatePortalOutput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         portalEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.portalEndpoint = portalEndpoint
     }
@@ -2685,8 +2591,7 @@ public struct DeletePortalInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2703,8 +2608,7 @@ public struct DisassociateBrowserSettingsInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2721,8 +2625,7 @@ public struct DisassociateDataProtectionSettingsInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2739,8 +2642,7 @@ public struct DisassociateIpAccessSettingsInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2757,8 +2659,7 @@ public struct DisassociateNetworkSettingsInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2775,8 +2676,7 @@ public struct DisassociateTrustStoreInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2793,8 +2693,7 @@ public struct DisassociateUserAccessLoggingSettingsInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2811,8 +2710,7 @@ public struct DisassociateUserSettingsInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2829,8 +2727,7 @@ public struct GetPortalInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2960,8 +2857,7 @@ extension WorkSpacesWebClientTypes {
             trustStoreArn: Swift.String? = nil,
             userAccessLoggingSettingsArn: Swift.String? = nil,
             userSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
@@ -2997,8 +2893,7 @@ public struct GetPortalOutput: Swift.Sendable {
 
     public init(
         portal: WorkSpacesWebClientTypes.Portal? = nil
-    )
-    {
+    ) {
         self.portal = portal
     }
 }
@@ -3010,8 +2905,7 @@ public struct GetPortalServiceProviderMetadataInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -3026,8 +2920,7 @@ public struct GetPortalServiceProviderMetadataOutput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         serviceProviderSamlMetadata: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.serviceProviderSamlMetadata = serviceProviderSamlMetadata
     }
@@ -3042,8 +2935,7 @@ public struct ListPortalsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3107,8 +2999,7 @@ extension WorkSpacesWebClientTypes {
             trustStoreArn: Swift.String? = nil,
             userAccessLoggingSettingsArn: Swift.String? = nil,
             userSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
             self.browserType = browserType
@@ -3144,8 +3035,7 @@ public struct ListPortalsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         portals: [WorkSpacesWebClientTypes.PortalSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.portals = portals
     }
@@ -3170,8 +3060,7 @@ public struct UpdatePortalInput: Swift.Sendable {
         instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
         maxConcurrentSessions: Swift.Int? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationType = authenticationType
         self.displayName = displayName
         self.instanceType = instanceType
@@ -3191,8 +3080,7 @@ public struct UpdatePortalOutput: Swift.Sendable {
 
     public init(
         portal: WorkSpacesWebClientTypes.Portal? = nil
-    )
-    {
+    ) {
         self.portal = portal
     }
 }
@@ -3218,8 +3106,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -3239,8 +3126,7 @@ public struct TagResourceInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceArn = resourceArn
         self.tags = tags
@@ -3278,8 +3164,7 @@ extension WorkSpacesWebClientTypes {
             notValidBefore: Foundation.Date? = nil,
             subject: Swift.String? = nil,
             thumbprint: Swift.String? = nil
-        )
-        {
+        ) {
             self.issuer = issuer
             self.notValidAfter = notValidAfter
             self.notValidBefore = notValidBefore
@@ -3302,8 +3187,7 @@ public struct CreateTrustStoreInput: Swift.Sendable {
         certificateList: [Foundation.Data]? = nil,
         clientToken: Swift.String? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.certificateList = certificateList
         self.clientToken = clientToken
         self.tags = tags
@@ -3322,8 +3206,7 @@ public struct CreateTrustStoreOutput: Swift.Sendable {
 
     public init(
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustStoreArn = trustStoreArn
     }
 }
@@ -3335,8 +3218,7 @@ public struct DeleteTrustStoreInput: Swift.Sendable {
 
     public init(
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustStoreArn = trustStoreArn
     }
 }
@@ -3353,8 +3235,7 @@ public struct GetTrustStoreInput: Swift.Sendable {
 
     public init(
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustStoreArn = trustStoreArn
     }
 }
@@ -3372,8 +3253,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             associatedPortalArns: [Swift.String]? = nil,
             trustStoreArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedPortalArns = associatedPortalArns
             self.trustStoreArn = trustStoreArn
         }
@@ -3386,8 +3266,7 @@ public struct GetTrustStoreOutput: Swift.Sendable {
 
     public init(
         trustStore: WorkSpacesWebClientTypes.TrustStore? = nil
-    )
-    {
+    ) {
         self.trustStore = trustStore
     }
 }
@@ -3403,8 +3282,7 @@ public struct GetTrustStoreCertificateInput: Swift.Sendable {
     public init(
         thumbprint: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.thumbprint = thumbprint
         self.trustStoreArn = trustStoreArn
     }
@@ -3434,8 +3312,7 @@ extension WorkSpacesWebClientTypes {
             notValidBefore: Foundation.Date? = nil,
             subject: Swift.String? = nil,
             thumbprint: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.issuer = issuer
             self.notValidAfter = notValidAfter
@@ -3456,8 +3333,7 @@ public struct GetTrustStoreCertificateOutput: Swift.Sendable {
     public init(
         certificate: WorkSpacesWebClientTypes.Certificate? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.trustStoreArn = trustStoreArn
     }
@@ -3476,8 +3352,7 @@ public struct ListTrustStoreCertificatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.trustStoreArn = trustStoreArn
@@ -3497,8 +3372,7 @@ public struct ListTrustStoreCertificatesOutput: Swift.Sendable {
         certificateList: [WorkSpacesWebClientTypes.CertificateSummary]? = nil,
         nextToken: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateList = certificateList
         self.nextToken = nextToken
         self.trustStoreArn = trustStoreArn
@@ -3514,8 +3388,7 @@ public struct ListTrustStoresInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3530,8 +3403,7 @@ extension WorkSpacesWebClientTypes {
 
         public init(
             trustStoreArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.trustStoreArn = trustStoreArn
         }
     }
@@ -3546,8 +3418,7 @@ public struct ListTrustStoresOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trustStores: [WorkSpacesWebClientTypes.TrustStoreSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trustStores = trustStores
     }
@@ -3569,8 +3440,7 @@ public struct UpdateTrustStoreInput: Swift.Sendable {
         certificatesToDelete: [Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificatesToAdd = certificatesToAdd
         self.certificatesToDelete = certificatesToDelete
         self.clientToken = clientToken
@@ -3585,8 +3455,7 @@ public struct UpdateTrustStoreOutput: Swift.Sendable {
 
     public init(
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustStoreArn = trustStoreArn
     }
 }
@@ -3602,8 +3471,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3632,8 +3500,7 @@ public struct CreateUserAccessLoggingSettingsInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         kinesisStreamArn: Swift.String? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.kinesisStreamArn = kinesisStreamArn
         self.tags = tags
@@ -3652,8 +3519,7 @@ public struct CreateUserAccessLoggingSettingsOutput: Swift.Sendable {
 
     public init(
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
     }
 }
@@ -3665,8 +3531,7 @@ public struct DeleteUserAccessLoggingSettingsInput: Swift.Sendable {
 
     public init(
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
     }
 }
@@ -3683,8 +3548,7 @@ public struct GetUserAccessLoggingSettingsInput: Swift.Sendable {
 
     public init(
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
     }
 }
@@ -3705,8 +3569,7 @@ extension WorkSpacesWebClientTypes {
             associatedPortalArns: [Swift.String]? = nil,
             kinesisStreamArn: Swift.String? = nil,
             userAccessLoggingSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedPortalArns = associatedPortalArns
             self.kinesisStreamArn = kinesisStreamArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
@@ -3720,8 +3583,7 @@ public struct GetUserAccessLoggingSettingsOutput: Swift.Sendable {
 
     public init(
         userAccessLoggingSettings: WorkSpacesWebClientTypes.UserAccessLoggingSettings? = nil
-    )
-    {
+    ) {
         self.userAccessLoggingSettings = userAccessLoggingSettings
     }
 }
@@ -3735,8 +3597,7 @@ public struct ListUserAccessLoggingSettingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3755,8 +3616,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             kinesisStreamArn: Swift.String? = nil,
             userAccessLoggingSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kinesisStreamArn = kinesisStreamArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
         }
@@ -3772,8 +3632,7 @@ public struct ListUserAccessLoggingSettingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userAccessLoggingSettings: [WorkSpacesWebClientTypes.UserAccessLoggingSettingsSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userAccessLoggingSettings = userAccessLoggingSettings
     }
@@ -3792,8 +3651,7 @@ public struct UpdateUserAccessLoggingSettingsInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         kinesisStreamArn: Swift.String? = nil,
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.kinesisStreamArn = kinesisStreamArn
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
@@ -3807,8 +3665,7 @@ public struct UpdateUserAccessLoggingSettingsOutput: Swift.Sendable {
 
     public init(
         userAccessLoggingSettings: WorkSpacesWebClientTypes.UserAccessLoggingSettings? = nil
-    )
-    {
+    ) {
         self.userAccessLoggingSettings = userAccessLoggingSettings
     }
 }
@@ -3829,8 +3686,7 @@ extension WorkSpacesWebClientTypes {
             domain: Swift.String? = nil,
             name: Swift.String? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.name = name
             self.path = path
@@ -3856,8 +3712,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             allowlist: [WorkSpacesWebClientTypes.CookieSpecification]? = nil,
             blocklist: [WorkSpacesWebClientTypes.CookieSpecification]? = nil
-        )
-        {
+        ) {
             self.allowlist = allowlist
             self.blocklist = blocklist
         }
@@ -3946,8 +3801,7 @@ public struct CreateUserSettingsInput: Swift.Sendable {
         printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil,
         uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.clientToken = clientToken
         self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
@@ -3976,8 +3830,7 @@ public struct CreateUserSettingsOutput: Swift.Sendable {
 
     public init(
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userSettingsArn = userSettingsArn
     }
 }
@@ -3989,8 +3842,7 @@ public struct DeleteUserSettingsInput: Swift.Sendable {
 
     public init(
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userSettingsArn = userSettingsArn
     }
 }
@@ -4007,8 +3859,7 @@ public struct GetUserSettingsInput: Swift.Sendable {
 
     public init(
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userSettingsArn = userSettingsArn
     }
 }
@@ -4059,8 +3910,7 @@ extension WorkSpacesWebClientTypes {
             printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             userSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
@@ -4089,8 +3939,7 @@ public struct GetUserSettingsOutput: Swift.Sendable {
 
     public init(
         userSettings: WorkSpacesWebClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.userSettings = userSettings
     }
 }
@@ -4104,8 +3953,7 @@ public struct ListUserSettingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4148,8 +3996,7 @@ extension WorkSpacesWebClientTypes {
             printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             userSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.deepLinkAllowed = deepLinkAllowed
@@ -4178,8 +4025,7 @@ public struct ListUserSettingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userSettings: [WorkSpacesWebClientTypes.UserSettingsSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userSettings = userSettings
     }
@@ -4222,8 +4068,7 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
         printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
         self.copyAllowed = copyAllowed
@@ -4250,8 +4095,7 @@ public struct UpdateUserSettingsOutput: Swift.Sendable {
 
     public init(
         userSettings: WorkSpacesWebClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.userSettings = userSettings
     }
 }

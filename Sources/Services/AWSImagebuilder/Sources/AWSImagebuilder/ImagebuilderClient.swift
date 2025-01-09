@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ImagebuilderClient: ClientRuntime.Client {
     public static let clientName = "ImagebuilderClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: ImagebuilderClient.ImagebuilderClientConfiguration
     let serviceName = "imagebuilder"
@@ -331,7 +331,7 @@ extension ImagebuilderClient {
 }
 
 extension ImagebuilderClient {
-    /// Performs the `CancelImageCreation` operation on the `imagebuilder` service.
+    /// Performs the `CancelImageCreation` operation on the `Imagebuilder` service.
     ///
     /// CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.
     ///
@@ -408,7 +408,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelLifecycleExecution` operation on the `imagebuilder` service.
+    /// Performs the `CancelLifecycleExecution` operation on the `Imagebuilder` service.
     ///
     /// Cancel a specific image lifecycle policy runtime instance.
     ///
@@ -485,7 +485,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateComponent` operation on the `imagebuilder` service.
+    /// Performs the `CreateComponent` operation on the `Imagebuilder` service.
     ///
     /// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods:
     ///
@@ -569,7 +569,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateContainerRecipe` operation on the `imagebuilder` service.
+    /// Performs the `CreateContainerRecipe` operation on the `Imagebuilder` service.
     ///
     /// Creates a new container recipe. Container recipes define how images are configured, tested, and assessed.
     ///
@@ -649,7 +649,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDistributionConfiguration` operation on the `imagebuilder` service.
+    /// Performs the `CreateDistributionConfiguration` operation on the `Imagebuilder` service.
     ///
     /// Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
     ///
@@ -729,7 +729,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateImage` operation on the `imagebuilder` service.
+    /// Performs the `CreateImage` operation on the `Imagebuilder` service.
     ///
     /// Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
     ///
@@ -807,7 +807,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateImagePipeline` operation on the `imagebuilder` service.
+    /// Performs the `CreateImagePipeline` operation on the `Imagebuilder` service.
     ///
     /// Creates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images.
     ///
@@ -886,7 +886,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateImageRecipe` operation on the `imagebuilder` service.
+    /// Performs the `CreateImageRecipe` operation on the `Imagebuilder` service.
     ///
     /// Creates a new image recipe. Image recipes define how images are configured, tested, and assessed.
     ///
@@ -966,7 +966,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInfrastructureConfiguration` operation on the `imagebuilder` service.
+    /// Performs the `CreateInfrastructureConfiguration` operation on the `Imagebuilder` service.
     ///
     /// Creates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested.
     ///
@@ -1045,7 +1045,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLifecyclePolicy` operation on the `imagebuilder` service.
+    /// Performs the `CreateLifecyclePolicy` operation on the `Imagebuilder` service.
     ///
     /// Create a lifecycle policy resource.
     ///
@@ -1124,7 +1124,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkflow` operation on the `imagebuilder` service.
+    /// Performs the `CreateWorkflow` operation on the `Imagebuilder` service.
     ///
     /// Create a new workflow or a new version of an existing workflow.
     ///
@@ -1204,7 +1204,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteComponent` operation on the `imagebuilder` service.
+    /// Performs the `DeleteComponent` operation on the `Imagebuilder` service.
     ///
     /// Deletes a component build version.
     ///
@@ -1277,7 +1277,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteContainerRecipe` operation on the `imagebuilder` service.
+    /// Performs the `DeleteContainerRecipe` operation on the `Imagebuilder` service.
     ///
     /// Deletes a container recipe.
     ///
@@ -1350,7 +1350,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDistributionConfiguration` operation on the `imagebuilder` service.
+    /// Performs the `DeleteDistributionConfiguration` operation on the `Imagebuilder` service.
     ///
     /// Deletes a distribution configuration.
     ///
@@ -1423,7 +1423,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImage` operation on the `imagebuilder` service.
+    /// Performs the `DeleteImage` operation on the `Imagebuilder` service.
     ///
     /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images that are created during the image build process. You must clean those up separately, using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI commands.
     ///
@@ -1502,7 +1502,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImagePipeline` operation on the `imagebuilder` service.
+    /// Performs the `DeleteImagePipeline` operation on the `Imagebuilder` service.
     ///
     /// Deletes an image pipeline.
     ///
@@ -1575,7 +1575,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImageRecipe` operation on the `imagebuilder` service.
+    /// Performs the `DeleteImageRecipe` operation on the `Imagebuilder` service.
     ///
     /// Deletes an image recipe.
     ///
@@ -1648,7 +1648,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInfrastructureConfiguration` operation on the `imagebuilder` service.
+    /// Performs the `DeleteInfrastructureConfiguration` operation on the `Imagebuilder` service.
     ///
     /// Deletes an infrastructure configuration.
     ///
@@ -1721,7 +1721,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLifecyclePolicy` operation on the `imagebuilder` service.
+    /// Performs the `DeleteLifecyclePolicy` operation on the `Imagebuilder` service.
     ///
     /// Delete the specified lifecycle policy resource.
     ///
@@ -1794,7 +1794,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkflow` operation on the `imagebuilder` service.
+    /// Performs the `DeleteWorkflow` operation on the `Imagebuilder` service.
     ///
     /// Deletes a specific workflow resource.
     ///
@@ -1867,7 +1867,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComponent` operation on the `imagebuilder` service.
+    /// Performs the `GetComponent` operation on the `Imagebuilder` service.
     ///
     /// Gets a component object.
     ///
@@ -1939,7 +1939,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComponentPolicy` operation on the `imagebuilder` service.
+    /// Performs the `GetComponentPolicy` operation on the `Imagebuilder` service.
     ///
     /// Gets a component policy.
     ///
@@ -2011,7 +2011,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetContainerRecipe` operation on the `imagebuilder` service.
+    /// Performs the `GetContainerRecipe` operation on the `Imagebuilder` service.
     ///
     /// Retrieves a container recipe.
     ///
@@ -2083,7 +2083,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetContainerRecipePolicy` operation on the `imagebuilder` service.
+    /// Performs the `GetContainerRecipePolicy` operation on the `Imagebuilder` service.
     ///
     /// Retrieves the policy for a container recipe.
     ///
@@ -2155,7 +2155,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDistributionConfiguration` operation on the `imagebuilder` service.
+    /// Performs the `GetDistributionConfiguration` operation on the `Imagebuilder` service.
     ///
     /// Gets a distribution configuration.
     ///
@@ -2227,7 +2227,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImage` operation on the `imagebuilder` service.
+    /// Performs the `GetImage` operation on the `Imagebuilder` service.
     ///
     /// Gets an image.
     ///
@@ -2299,7 +2299,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImagePipeline` operation on the `imagebuilder` service.
+    /// Performs the `GetImagePipeline` operation on the `Imagebuilder` service.
     ///
     /// Gets an image pipeline.
     ///
@@ -2371,7 +2371,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImagePolicy` operation on the `imagebuilder` service.
+    /// Performs the `GetImagePolicy` operation on the `Imagebuilder` service.
     ///
     /// Gets an image policy.
     ///
@@ -2443,7 +2443,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImageRecipe` operation on the `imagebuilder` service.
+    /// Performs the `GetImageRecipe` operation on the `Imagebuilder` service.
     ///
     /// Gets an image recipe.
     ///
@@ -2515,7 +2515,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImageRecipePolicy` operation on the `imagebuilder` service.
+    /// Performs the `GetImageRecipePolicy` operation on the `Imagebuilder` service.
     ///
     /// Gets an image recipe policy.
     ///
@@ -2587,7 +2587,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInfrastructureConfiguration` operation on the `imagebuilder` service.
+    /// Performs the `GetInfrastructureConfiguration` operation on the `Imagebuilder` service.
     ///
     /// Gets an infrastructure configuration.
     ///
@@ -2659,7 +2659,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLifecycleExecution` operation on the `imagebuilder` service.
+    /// Performs the `GetLifecycleExecution` operation on the `Imagebuilder` service.
     ///
     /// Get the runtime information that was logged for a specific runtime instance of the lifecycle policy.
     ///
@@ -2731,7 +2731,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLifecyclePolicy` operation on the `imagebuilder` service.
+    /// Performs the `GetLifecyclePolicy` operation on the `Imagebuilder` service.
     ///
     /// Get details for the specified image lifecycle policy.
     ///
@@ -2803,7 +2803,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMarketplaceResource` operation on the `imagebuilder` service.
+    /// Performs the `GetMarketplaceResource` operation on the `Imagebuilder` service.
     ///
     /// Verify the subscription and perform resource dependency checks on the requested Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the components and their artifacts.
     ///
@@ -2877,7 +2877,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflow` operation on the `imagebuilder` service.
+    /// Performs the `GetWorkflow` operation on the `Imagebuilder` service.
     ///
     /// Get a workflow resource object.
     ///
@@ -2949,7 +2949,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflowExecution` operation on the `imagebuilder` service.
+    /// Performs the `GetWorkflowExecution` operation on the `Imagebuilder` service.
     ///
     /// Get the runtime information that was logged for a specific runtime instance of the workflow.
     ///
@@ -3021,7 +3021,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflowStepExecution` operation on the `imagebuilder` service.
+    /// Performs the `GetWorkflowStepExecution` operation on the `Imagebuilder` service.
     ///
     /// Get the runtime information that was logged for a specific runtime instance of the workflow step.
     ///
@@ -3093,7 +3093,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportComponent` operation on the `imagebuilder` service.
+    /// Performs the `ImportComponent` operation on the `Imagebuilder` service.
     ///
     /// Imports a component and transforms its data into a component document.
     ///
@@ -3172,7 +3172,81 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportVmImage` operation on the `imagebuilder` service.
+    /// Performs the `ImportDiskImage` operation on the `Imagebuilder` service.
+    ///
+    /// Import a Windows operating system image from a verified Microsoft ISO disk file. The following disk images are supported:
+    ///
+    /// * Windows 11 Enterprise
+    ///
+    /// - Parameter ImportDiskImageInput : [no documentation found]
+    ///
+    /// - Returns: `ImportDiskImageOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
+    public func importDiskImage(input: ImportDiskImageInput) async throws -> ImportDiskImageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "importDiskImage")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "imagebuilder")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ImportDiskImageInput, ImportDiskImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ImportDiskImageInput, ImportDiskImageOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportDiskImageInput, ImportDiskImageOutput>(ImportDiskImageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportDiskImageInput, ImportDiskImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportDiskImageInput, ImportDiskImageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ImportDiskImageInput, ImportDiskImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportDiskImageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportDiskImageInput, ImportDiskImageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportDiskImageOutput>(ImportDiskImageOutput.httpOutput(from:), ImportDiskImageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportDiskImageInput, ImportDiskImageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ImportDiskImageOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ImportDiskImageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportDiskImageInput, ImportDiskImageOutput>(serviceID: serviceName, version: ImagebuilderClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportDiskImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportDiskImageInput, ImportDiskImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportDiskImageInput, ImportDiskImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Imagebuilder")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportDiskImage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ImportVmImage` operation on the `Imagebuilder` service.
     ///
     /// When you export your virtual machine (VM) from its virtualization environment, that process creates a set of one or more disk container files that act as snapshots of your VM’s environment, settings, and data. The Amazon EC2 API [ImportImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportImage.html) action uses those files to import your VM and create an AMI. To import using the CLI command, see [import-image](https://docs.aws.amazon.com/cli/latest/reference/ec2/import-image.html) You can reference the task ID from the VM import to pull in the AMI that the import created as the base image for your Image Builder recipe.
     ///
@@ -3244,7 +3318,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListComponentBuildVersions` operation on the `imagebuilder` service.
+    /// Performs the `ListComponentBuildVersions` operation on the `Imagebuilder` service.
     ///
     /// Returns the list of component build versions for the specified component version Amazon Resource Name (ARN).
     ///
@@ -3319,7 +3393,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListComponents` operation on the `imagebuilder` service.
+    /// Performs the `ListComponents` operation on the `Imagebuilder` service.
     ///
     /// Returns the list of components that can be filtered by name, or by using the listed filters to streamline results. Newly created components can take up to two minutes to appear in the ListComponents API Results. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
     ///
@@ -3394,7 +3468,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContainerRecipes` operation on the `imagebuilder` service.
+    /// Performs the `ListContainerRecipes` operation on the `Imagebuilder` service.
     ///
     /// Returns a list of container recipes.
     ///
@@ -3469,7 +3543,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDistributionConfigurations` operation on the `imagebuilder` service.
+    /// Performs the `ListDistributionConfigurations` operation on the `Imagebuilder` service.
     ///
     /// Returns a list of distribution configurations.
     ///
@@ -3544,7 +3618,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImageBuildVersions` operation on the `imagebuilder` service.
+    /// Performs the `ListImageBuildVersions` operation on the `Imagebuilder` service.
     ///
     /// Returns a list of image build versions.
     ///
@@ -3619,7 +3693,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImagePackages` operation on the `imagebuilder` service.
+    /// Performs the `ListImagePackages` operation on the `Imagebuilder` service.
     ///
     /// List the Packages that are associated with an Image Build Version, as determined by Amazon Web Services Systems Manager Inventory at build time.
     ///
@@ -3695,7 +3769,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImagePipelineImages` operation on the `imagebuilder` service.
+    /// Performs the `ListImagePipelineImages` operation on the `Imagebuilder` service.
     ///
     /// Returns a list of images created by the specified pipeline.
     ///
@@ -3771,7 +3845,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImagePipelines` operation on the `imagebuilder` service.
+    /// Performs the `ListImagePipelines` operation on the `Imagebuilder` service.
     ///
     /// Returns a list of image pipelines.
     ///
@@ -3846,7 +3920,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImageRecipes` operation on the `imagebuilder` service.
+    /// Performs the `ListImageRecipes` operation on the `Imagebuilder` service.
     ///
     /// Returns a list of image recipes.
     ///
@@ -3921,7 +3995,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImageScanFindingAggregations` operation on the `imagebuilder` service.
+    /// Performs the `ListImageScanFindingAggregations` operation on the `Imagebuilder` service.
     ///
     /// Returns a list of image scan aggregations for your account. You can filter by the type of key that Image Builder uses to group results. For example, if you want to get a list of findings by severity level for one of your pipelines, you might specify your pipeline with the imagePipelineArn filter. If you don't specify a filter, Image Builder returns an aggregation for your account. To streamline results, you can use the following filters in your request:
     ///
@@ -4004,7 +4078,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImageScanFindings` operation on the `imagebuilder` service.
+    /// Performs the `ListImageScanFindings` operation on the `Imagebuilder` service.
     ///
     /// Returns a list of image scan findings for your account.
     ///
@@ -4079,7 +4153,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImages` operation on the `imagebuilder` service.
+    /// Performs the `ListImages` operation on the `Imagebuilder` service.
     ///
     /// Returns the list of images that you have access to. Newly created images can take up to two minutes to appear in the ListImages API Results.
     ///
@@ -4154,7 +4228,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInfrastructureConfigurations` operation on the `imagebuilder` service.
+    /// Performs the `ListInfrastructureConfigurations` operation on the `Imagebuilder` service.
     ///
     /// Returns a list of infrastructure configurations.
     ///
@@ -4229,7 +4303,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLifecycleExecutionResources` operation on the `imagebuilder` service.
+    /// Performs the `ListLifecycleExecutionResources` operation on the `Imagebuilder` service.
     ///
     /// List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
     ///
@@ -4304,7 +4378,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLifecycleExecutions` operation on the `imagebuilder` service.
+    /// Performs the `ListLifecycleExecutions` operation on the `Imagebuilder` service.
     ///
     /// Get the lifecycle runtime history for the specified resource.
     ///
@@ -4379,7 +4453,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLifecyclePolicies` operation on the `imagebuilder` service.
+    /// Performs the `ListLifecyclePolicies` operation on the `Imagebuilder` service.
     ///
     /// Get a list of lifecycle policies in your Amazon Web Services account.
     ///
@@ -4454,7 +4528,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `imagebuilder` service.
+    /// Performs the `ListTagsForResource` operation on the `Imagebuilder` service.
     ///
     /// Returns the list of tags for the specified resource.
     ///
@@ -4522,7 +4596,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWaitingWorkflowSteps` operation on the `imagebuilder` service.
+    /// Performs the `ListWaitingWorkflowSteps` operation on the `Imagebuilder` service.
     ///
     /// Get a list of workflow steps that are waiting for action for workflows in your Amazon Web Services account.
     ///
@@ -4597,7 +4671,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkflowBuildVersions` operation on the `imagebuilder` service.
+    /// Performs the `ListWorkflowBuildVersions` operation on the `Imagebuilder` service.
     ///
     /// Returns a list of build versions for a specific workflow resource.
     ///
@@ -4672,7 +4746,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkflowExecutions` operation on the `imagebuilder` service.
+    /// Performs the `ListWorkflowExecutions` operation on the `Imagebuilder` service.
     ///
     /// Returns a list of workflow runtime instance metadata objects for a specific image build version.
     ///
@@ -4747,7 +4821,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkflowStepExecutions` operation on the `imagebuilder` service.
+    /// Performs the `ListWorkflowStepExecutions` operation on the `Imagebuilder` service.
     ///
     /// Returns runtime data for each step in a runtime instance of the workflow that you specify in the request.
     ///
@@ -4822,7 +4896,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkflows` operation on the `imagebuilder` service.
+    /// Performs the `ListWorkflows` operation on the `Imagebuilder` service.
     ///
     /// Lists workflow build versions based on filtering parameters.
     ///
@@ -4897,7 +4971,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutComponentPolicy` operation on the `imagebuilder` service.
+    /// Performs the `PutComponentPolicy` operation on the `Imagebuilder` service.
     ///
     /// Applies a policy to a component. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
@@ -4973,7 +5047,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutContainerRecipePolicy` operation on the `imagebuilder` service.
+    /// Performs the `PutContainerRecipePolicy` operation on the `Imagebuilder` service.
     ///
     /// Applies a policy to a container image. We recommend that you call the RAM API CreateResourceShare (https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutContainerImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy (https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
@@ -5049,7 +5123,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutImagePolicy` operation on the `imagebuilder` service.
+    /// Performs the `PutImagePolicy` operation on the `Imagebuilder` service.
     ///
     /// Applies a policy to an image. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImagePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
@@ -5125,7 +5199,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutImageRecipePolicy` operation on the `imagebuilder` service.
+    /// Performs the `PutImageRecipePolicy` operation on the `Imagebuilder` service.
     ///
     /// Applies a policy to an image recipe. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImageRecipePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
@@ -5201,7 +5275,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendWorkflowStepAction` operation on the `imagebuilder` service.
+    /// Performs the `SendWorkflowStepAction` operation on the `Imagebuilder` service.
     ///
     /// Pauses or resumes image creation when the associated workflow runs a WaitForAction step.
     ///
@@ -5280,7 +5354,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartImagePipelineExecution` operation on the `imagebuilder` service.
+    /// Performs the `StartImagePipelineExecution` operation on the `Imagebuilder` service.
     ///
     /// Manually triggers a pipeline to create an image.
     ///
@@ -5358,7 +5432,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartResourceStateUpdate` operation on the `imagebuilder` service.
+    /// Performs the `StartResourceStateUpdate` operation on the `Imagebuilder` service.
     ///
     /// Begin asynchronous resource state update for lifecycle changes to the specified image resources.
     ///
@@ -5436,7 +5510,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `imagebuilder` service.
+    /// Performs the `TagResource` operation on the `Imagebuilder` service.
     ///
     /// Adds a tag to a resource.
     ///
@@ -5507,7 +5581,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `imagebuilder` service.
+    /// Performs the `UntagResource` operation on the `Imagebuilder` service.
     ///
     /// Removes a tag from a resource.
     ///
@@ -5576,7 +5650,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDistributionConfiguration` operation on the `imagebuilder` service.
+    /// Performs the `UpdateDistributionConfiguration` operation on the `Imagebuilder` service.
     ///
     /// Updates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
     ///
@@ -5654,7 +5728,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateImagePipeline` operation on the `imagebuilder` service.
+    /// Performs the `UpdateImagePipeline` operation on the `Imagebuilder` service.
     ///
     /// Updates an image pipeline. Image pipelines enable you to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn. UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
     ///
@@ -5731,7 +5805,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateInfrastructureConfiguration` operation on the `imagebuilder` service.
+    /// Performs the `UpdateInfrastructureConfiguration` operation on the `Imagebuilder` service.
     ///
     /// Updates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested.
     ///
@@ -5808,7 +5882,7 @@ extension ImagebuilderClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLifecyclePolicy` operation on the `imagebuilder` service.
+    /// Performs the `UpdateLifecyclePolicy` operation on the `Imagebuilder` service.
     ///
     /// Update the specified lifecycle policy.
     ///

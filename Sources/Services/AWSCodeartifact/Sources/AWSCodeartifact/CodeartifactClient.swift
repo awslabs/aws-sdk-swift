@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeartifactClient: ClientRuntime.Client {
     public static let clientName = "CodeartifactClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeartifactClient.CodeartifactClientConfiguration
     let serviceName = "codeartifact"
@@ -334,7 +334,7 @@ extension CodeartifactClient {
 }
 
 extension CodeartifactClient {
-    /// Performs the `AssociateExternalConnection` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `AssociateExternalConnection` operation on the `Codeartifact` service.
     ///
     /// Adds an existing external connection to a repository. One external connection is allowed per repository. A repository can have one or more upstream repositories, or an external connection.
     ///
@@ -407,7 +407,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CopyPackageVersions` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `CopyPackageVersions` operation on the `Codeartifact` service.
     ///
     /// Copies package versions from one repository to another repository in the same domain. You must specify versions or versionRevisions. You cannot specify both.
     ///
@@ -483,7 +483,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDomain` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `CreateDomain` operation on the `Codeartifact` service.
     ///
     /// Creates a domain. CodeArtifact domains make it easier to manage multiple repositories across an organization. You can use a domain to apply permissions across many repositories owned by different Amazon Web Services accounts. An asset is stored only once in a domain, even if it's in multiple repositories. Although you can have multiple domains, we recommend a single production domain that contains all published artifacts so that your development teams can find and share packages. You can use a second pre-production domain to test changes to the production domain configuration.
     ///
@@ -559,7 +559,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePackageGroup` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `CreatePackageGroup` operation on the `Codeartifact` service.
     ///
     /// Creates a package group. For more information about creating package groups, including example CLI commands, see [Create a package group](https://docs.aws.amazon.com/codeartifact/latest/ug/create-package-group.html) in the CodeArtifact User Guide.
     ///
@@ -635,7 +635,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRepository` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `CreateRepository` operation on the `Codeartifact` service.
     ///
     /// Creates a repository.
     ///
@@ -711,7 +711,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDomain` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DeleteDomain` operation on the `Codeartifact` service.
     ///
     /// Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain with repositories, first delete its repositories.
     ///
@@ -782,7 +782,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDomainPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DeleteDomainPermissionsPolicy` operation on the `Codeartifact` service.
     ///
     /// Deletes the resource policy set on a domain.
     ///
@@ -854,7 +854,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePackage` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DeletePackage` operation on the `Codeartifact` service.
     ///
     /// Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the [DeletePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DeletePackageVersions.html) API.
     ///
@@ -926,7 +926,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePackageGroup` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DeletePackageGroup` operation on the `Codeartifact` service.
     ///
     /// Deletes a package group. Deleting a package group does not delete packages or package versions associated with the package group. When a package group is deleted, the direct child package groups will become children of the package group's direct parent package group. Therefore, if any of the child groups are inheriting any settings from the parent, those settings could change.
     ///
@@ -999,7 +999,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePackageVersions` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DeletePackageVersions` operation on the `Codeartifact` service.
     ///
     /// Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)), but you can restore them using [UpdatePackageVersionsStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html).
     ///
@@ -1074,7 +1074,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRepository` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DeleteRepository` operation on the `Codeartifact` service.
     ///
     /// Deletes a repository.
     ///
@@ -1146,7 +1146,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRepositoryPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DeleteRepositoryPermissionsPolicy` operation on the `Codeartifact` service.
     ///
     /// Deletes the resource policy that is set on a repository. After a resource policy is deleted, the permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate. Use DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose permissions to perform the repository actions granted by the deleted policy.
     ///
@@ -1218,7 +1218,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomain` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DescribeDomain` operation on the `Codeartifact` service.
     ///
     /// Returns a [DomainDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainDescription.html) object that contains information about the requested domain.
     ///
@@ -1289,7 +1289,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePackage` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DescribePackage` operation on the `Codeartifact` service.
     ///
     /// Returns a [PackageDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html) object that contains information about the requested package.
     ///
@@ -1360,7 +1360,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePackageGroup` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DescribePackageGroup` operation on the `Codeartifact` service.
     ///
     /// Returns a [PackageGroupDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageGroupDescription.html) object that contains information about the requested package group.
     ///
@@ -1431,7 +1431,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePackageVersion` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DescribePackageVersion` operation on the `Codeartifact` service.
     ///
     /// Returns a [PackageVersionDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html) object that contains information about the requested package version.
     ///
@@ -1503,7 +1503,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRepository` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DescribeRepository` operation on the `Codeartifact` service.
     ///
     /// Returns a RepositoryDescription object that contains detailed information about the requested repository.
     ///
@@ -1574,7 +1574,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateExternalConnection` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DisassociateExternalConnection` operation on the `Codeartifact` service.
     ///
     /// Removes an existing external connection from a repository.
     ///
@@ -1647,7 +1647,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisposePackageVersions` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `DisposePackageVersions` operation on the `Codeartifact` service.
     ///
     /// Deletes the assets in package versions and sets the package versions' status to Disposed. A disposed package version cannot be restored in your repository because its assets are deleted. To view all disposed package versions in a repository, use [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html) and set the [status](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html#API_ListPackageVersions_RequestSyntax) parameter to Disposed. To view information about a disposed package version, use [DescribePackageVersion](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DescribePackageVersion.html).
     ///
@@ -1722,7 +1722,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssociatedPackageGroup` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `GetAssociatedPackageGroup` operation on the `Codeartifact` service.
     ///
     /// Returns the most closely associated package group to the specified package. This API does not require that the package exist in any repository in the domain. As such, GetAssociatedPackageGroup can be used to see which package group's origin configuration applies to a package before that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them. For information package group association and matching, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html) in the CodeArtifact User Guide.
     ///
@@ -1792,7 +1792,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAuthorizationToken` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `GetAuthorizationToken` operation on the `Codeartifact` service.
     ///
     /// Generates a temporary authorization token for accessing repositories in the domain. This API requires the codeartifact:GetAuthorizationToken and sts:GetServiceBearerToken permissions. For more information about authorization tokens, see [CodeArtifact authentication and tokens](https://docs.aws.amazon.com/codeartifact/latest/ug/tokens-authentication.html). CodeArtifact authorization tokens are valid for a period of 12 hours when created with the login command. You can call login periodically to refresh the token. When you create an authorization token with the GetAuthorizationToken API, you can set a custom authorization period, up to a maximum of 12 hours, with the durationSeconds parameter. The authorization period begins after login or GetAuthorizationToken is called. If login or GetAuthorizationToken is called while assuming a role, the token lifetime is independent of the maximum session duration of the role. For example, if you call sts assume-role and specify a session duration of 15 minutes, then generate a CodeArtifact authorization token, the token will be valid for the full authorization period even though this is longer than the 15-minute session duration. See [Using IAM Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) for more information on controlling session duration.
     ///
@@ -1863,7 +1863,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `GetDomainPermissionsPolicy` operation on the `Codeartifact` service.
     ///
     /// Returns the resource policy attached to the specified domain. The policy is a resource-based policy, not an identity-based policy. For more information, see [Identity-based policies and resource-based policies ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html) in the IAM User Guide.
     ///
@@ -1934,7 +1934,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPackageVersionAsset` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `GetPackageVersionAsset` operation on the `Codeartifact` service.
     ///
     /// Returns an asset (or file) that is in a package. For example, for a Maven package version, use GetPackageVersionAsset to download a JAR file, a POM file, or any other assets in the package version.
     ///
@@ -2006,7 +2006,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPackageVersionReadme` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `GetPackageVersionReadme` operation on the `Codeartifact` service.
     ///
     /// Gets the readme file or descriptive text for a package version. The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
     ///
@@ -2077,7 +2077,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRepositoryEndpoint` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `GetRepositoryEndpoint` operation on the `Codeartifact` service.
     ///
     /// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format:
     ///
@@ -2164,7 +2164,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRepositoryPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `GetRepositoryPermissionsPolicy` operation on the `Codeartifact` service.
     ///
     /// Returns the resource policy that is set on a repository.
     ///
@@ -2235,7 +2235,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAllowedRepositoriesForGroup` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListAllowedRepositoriesForGroup` operation on the `Codeartifact` service.
     ///
     /// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types and added repository lists, see [Package group origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-origin-controls.html) in the CodeArtifact User Guide.
     ///
@@ -2307,7 +2307,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssociatedPackages` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListAssociatedPackages` operation on the `Codeartifact` service.
     ///
     /// Returns a list of packages associated with the requested package group. For information package group association and matching, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html) in the CodeArtifact User Guide.
     ///
@@ -2377,7 +2377,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomains` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListDomains` operation on the `Codeartifact` service.
     ///
     /// Returns a list of [DomainSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html) objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
     ///
@@ -2449,7 +2449,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPackageGroups` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListPackageGroups` operation on the `Codeartifact` service.
     ///
     /// Returns a list of package groups in the requested domain.
     ///
@@ -2520,7 +2520,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPackageVersionAssets` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListPackageVersionAssets` operation on the `Codeartifact` service.
     ///
     /// Returns a list of [AssetSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html) objects for assets in a package version.
     ///
@@ -2591,7 +2591,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPackageVersionDependencies` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListPackageVersionDependencies` operation on the `Codeartifact` service.
     ///
     /// Returns the direct dependencies for a package version. The dependencies are returned as [PackageDependency](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html) objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the package format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
     ///
@@ -2662,7 +2662,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPackageVersions` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListPackageVersions` operation on the `Codeartifact` service.
     ///
     /// Returns a list of [PackageVersionSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionSummary.html) objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling list-package-versions with no --status parameter.
     ///
@@ -2733,7 +2733,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPackages` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListPackages` operation on the `Codeartifact` service.
     ///
     /// Returns a list of [PackageSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html) objects for packages in a repository that match the request parameters.
     ///
@@ -2804,7 +2804,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRepositories` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListRepositories` operation on the `Codeartifact` service.
     ///
     /// Returns a list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html) objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input parameters.
     ///
@@ -2874,7 +2874,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRepositoriesInDomain` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListRepositoriesInDomain` operation on the `Codeartifact` service.
     ///
     /// Returns a list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html) objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters.
     ///
@@ -2945,7 +2945,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSubPackageGroups` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListSubPackageGroups` operation on the `Codeartifact` service.
     ///
     /// Returns a list of direct children of the specified package group. For information package group hierarchy, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html) in the CodeArtifact User Guide.
     ///
@@ -3016,7 +3016,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `ListTagsForResource` operation on the `Codeartifact` service.
     ///
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
     ///
@@ -3086,7 +3086,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PublishPackageVersion` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `PublishPackageVersion` operation on the `Codeartifact` service.
     ///
     /// Creates a new package version containing one or more assets (or files). The unfinished flag can be used to keep the package version in the Unfinished state until all of its assets have been uploaded (see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status.html#package-version-status) in the CodeArtifact user guide). To set the package version’s status to Published, omit the unfinished flag when uploading the final asset, or set the status using [UpdatePackageVersionStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html). Once a package version’s status is set to Published, it cannot change back to Unfinished. Only generic packages can be published using this API. For more information, see [Using generic packages](https://docs.aws.amazon.com/codeartifact/latest/ug/using-generic.html) in the CodeArtifact User Guide.
     ///
@@ -3163,7 +3163,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDomainPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `PutDomainPermissionsPolicy` operation on the `Codeartifact` service.
     ///
     /// Sets a resource policy on a domain that specifies permissions to access it. When you call PutDomainPermissionsPolicy, the resource policy on the domain is ignored when evaluting permissions. This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being able to update the resource policy.
     ///
@@ -3238,7 +3238,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutPackageOriginConfiguration` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `PutPackageOriginConfiguration` operation on the `Codeartifact` service.
     ///
     /// Sets the package origin configuration for a package. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package origin controls and configuration, see [Editing package origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-origin-controls.html) in the CodeArtifact User Guide. PutPackageOriginConfiguration can be called on a package that doesn't yet exist in the repository. When called on a package that does not exist, a package is created in the repository with no versions and the requested restrictions are set on the package. This can be used to preemptively block ingesting or retaining any versions from external connections or upstream repositories, or to block publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.
     ///
@@ -3312,7 +3312,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRepositoryPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `PutRepositoryPermissionsPolicy` operation on the `Codeartifact` service.
     ///
     /// Sets the resource policy on a repository that specifies permissions to access it. When you call PutRepositoryPermissionsPolicy, the resource policy on the repository is ignored when evaluting permissions. This ensures that the owner of a repository cannot lock themselves out of the repository, which would prevent them from being able to update the resource policy.
     ///
@@ -3388,7 +3388,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `TagResource` operation on the `Codeartifact` service.
     ///
     /// Adds or updates tags for a resource in CodeArtifact.
     ///
@@ -3462,7 +3462,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `UntagResource` operation on the `Codeartifact` service.
     ///
     /// Removes tags from a resource in CodeArtifact.
     ///
@@ -3535,7 +3535,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePackageGroup` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `UpdatePackageGroup` operation on the `Codeartifact` service.
     ///
     /// Updates a package group. This API cannot be used to update a package group's origin configuration or pattern. To update a package group's origin configuration, use [UpdatePackageGroupOriginConfiguration](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageGroupOriginConfiguration.html).
     ///
@@ -3610,7 +3610,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePackageGroupOriginConfiguration` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `UpdatePackageGroupOriginConfiguration` operation on the `Codeartifact` service.
     ///
     /// Updates the package origin configuration for a package group. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package group origin controls and configuration, see [Package group origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-origin-controls.html) in the CodeArtifact User Guide.
     ///
@@ -3685,7 +3685,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePackageVersionsStatus` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `UpdatePackageVersionsStatus` operation on the `Codeartifact` service.
     ///
     /// Updates the status of one or more versions of a package. Using UpdatePackageVersionsStatus, you can update the status of package versions to Archived, Published, or Unlisted. To set the status of a package version to Disposed, use [DisposePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DisposePackageVersions.html).
     ///
@@ -3760,7 +3760,7 @@ extension CodeartifactClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRepository` operation on the `CodeArtifactControlPlaneService` service.
+    /// Performs the `UpdateRepository` operation on the `Codeartifact` service.
     ///
     /// Update the properties of a repository.
     ///

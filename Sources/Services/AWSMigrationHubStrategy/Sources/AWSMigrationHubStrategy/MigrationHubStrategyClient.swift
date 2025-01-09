@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubStrategyClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubStrategyClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubStrategyClient.MigrationHubStrategyClientConfiguration
     let serviceName = "MigrationHubStrategy"
@@ -330,7 +330,7 @@ extension MigrationHubStrategyClient {
 }
 
 extension MigrationHubStrategyClient {
-    /// Performs the `GetApplicationComponentDetails` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `GetApplicationComponentDetails` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves details about an application component.
     ///
@@ -398,7 +398,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplicationComponentStrategies` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `GetApplicationComponentStrategies` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves a list of all the recommended strategies and tools for an application component running on a server.
     ///
@@ -466,7 +466,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssessment` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `GetAssessment` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves the status of an on-going assessment.
     ///
@@ -535,7 +535,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImportFileTask` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `GetImportFileTask` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves the details about a specific import task.
     ///
@@ -605,7 +605,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLatestAssessmentId` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `GetLatestAssessmentId` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieve the latest ID of a specific assessment task.
     ///
@@ -674,7 +674,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPortfolioPreferences` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `GetPortfolioPreferences` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves your migration and modernization preferences.
     ///
@@ -743,7 +743,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPortfolioSummary` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `GetPortfolioSummary` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves overall summary including the number of servers to rehost and the overall number of anti-patterns.
     ///
@@ -811,7 +811,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRecommendationReportDetails` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `GetRecommendationReportDetails` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves detailed information about the specified recommendation report.
     ///
@@ -881,7 +881,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServerDetails` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `GetServerDetails` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves detailed information about a specified server.
     ///
@@ -952,7 +952,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServerStrategies` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `GetServerStrategies` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves recommended strategies and tools for the specified server.
     ///
@@ -1022,7 +1022,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAnalyzableServers` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `ListAnalyzableServers` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
     ///
@@ -1094,7 +1094,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationComponents` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `ListApplicationComponents` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves a list of all the application components (processes).
     ///
@@ -1166,7 +1166,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollectors` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `ListCollectors` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves a list of all the installed collectors.
     ///
@@ -1236,7 +1236,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImportFileTask` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `ListImportFileTask` operation on the `MigrationHubStrategy` service.
     ///
     /// Retrieves a list of all the imports performed.
     ///
@@ -1306,7 +1306,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServers` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `ListServers` operation on the `MigrationHubStrategy` service.
     ///
     /// Returns a list of all the servers.
     ///
@@ -1378,7 +1378,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutPortfolioPreferences` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `PutPortfolioPreferences` operation on the `MigrationHubStrategy` service.
     ///
     /// Saves the specified migration and modernization preferences.
     ///
@@ -1451,7 +1451,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAssessment` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `StartAssessment` operation on the `MigrationHubStrategy` service.
     ///
     /// Starts the assessment of an on-premises environment.
     ///
@@ -1523,7 +1523,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartImportFileTask` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `StartImportFileTask` operation on the `MigrationHubStrategy` service.
     ///
     /// Starts a file import.
     ///
@@ -1596,7 +1596,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartRecommendationReportGeneration` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `StartRecommendationReportGeneration` operation on the `MigrationHubStrategy` service.
     ///
     /// Starts generating a recommendation report.
     ///
@@ -1669,7 +1669,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopAssessment` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `StopAssessment` operation on the `MigrationHubStrategy` service.
     ///
     /// Stops the assessment of an on-premises environment.
     ///
@@ -1741,7 +1741,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplicationComponentConfig` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `UpdateApplicationComponentConfig` operation on the `MigrationHubStrategy` service.
     ///
     /// Updates the configuration of an application component.
     ///
@@ -1813,7 +1813,7 @@ extension MigrationHubStrategyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateServerConfig` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    /// Performs the `UpdateServerConfig` operation on the `MigrationHubStrategy` service.
     ///
     /// Updates the configuration of the specified server.
     ///

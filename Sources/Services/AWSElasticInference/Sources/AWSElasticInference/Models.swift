@@ -34,8 +34,7 @@ extension ElasticInferenceClientTypes {
 
         public init(
             sizeInMiB: Swift.Int = 0
-        )
-        {
+        ) {
             self.sizeInMiB = sizeInMiB
         }
     }
@@ -53,8 +52,7 @@ extension ElasticInferenceClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.Int = 0
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -76,8 +74,7 @@ extension ElasticInferenceClientTypes {
             acceleratorTypeName: Swift.String? = nil,
             memoryInfo: ElasticInferenceClientTypes.MemoryInfo? = nil,
             throughputInfo: [ElasticInferenceClientTypes.KeyValuePair]? = nil
-        )
-        {
+        ) {
             self.acceleratorTypeName = acceleratorTypeName
             self.memoryInfo = memoryInfo
             self.throughputInfo = throughputInfo
@@ -132,8 +129,7 @@ extension ElasticInferenceClientTypes {
             acceleratorType: Swift.String? = nil,
             location: Swift.String? = nil,
             locationType: ElasticInferenceClientTypes.LocationType? = nil
-        )
-        {
+        ) {
             self.acceleratorType = acceleratorType
             self.location = location
             self.locationType = locationType
@@ -159,8 +155,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -183,8 +178,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -207,8 +201,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -223,8 +216,7 @@ public struct DescribeAcceleratorOfferingsInput: Swift.Sendable {
     public init(
         acceleratorTypes: [Swift.String]? = nil,
         locationType: ElasticInferenceClientTypes.LocationType? = nil
-    )
-    {
+    ) {
         self.acceleratorTypes = acceleratorTypes
         self.locationType = locationType
     }
@@ -236,8 +228,7 @@ public struct DescribeAcceleratorOfferingsOutput: Swift.Sendable {
 
     public init(
         acceleratorTypeOfferings: [ElasticInferenceClientTypes.AcceleratorTypeOffering]? = nil
-    )
-    {
+    ) {
         self.acceleratorTypeOfferings = acceleratorTypeOfferings
     }
 }
@@ -254,8 +245,7 @@ extension ElasticInferenceClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -277,8 +267,7 @@ public struct DescribeAcceleratorsInput: Swift.Sendable {
         filters: [ElasticInferenceClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorIds = acceleratorIds
         self.filters = filters
         self.maxResults = maxResults
@@ -295,8 +284,7 @@ extension ElasticInferenceClientTypes {
 
         public init(
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -323,8 +311,7 @@ extension ElasticInferenceClientTypes {
             acceleratorType: Swift.String? = nil,
             attachedResource: Swift.String? = nil,
             availabilityZone: Swift.String? = nil
-        )
-        {
+        ) {
             self.acceleratorHealth = acceleratorHealth
             self.acceleratorId = acceleratorId
             self.acceleratorType = acceleratorType
@@ -343,8 +330,7 @@ public struct DescribeAcceleratorsOutput: Swift.Sendable {
     public init(
         acceleratorSet: [ElasticInferenceClientTypes.ElasticInferenceAccelerator]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceleratorSet = acceleratorSet
         self.nextToken = nextToken
     }
@@ -361,8 +347,7 @@ public struct DescribeAcceleratorTypesOutput: Swift.Sendable {
 
     public init(
         acceleratorTypes: [ElasticInferenceClientTypes.AcceleratorType]? = nil
-    )
-    {
+    ) {
         self.acceleratorTypes = acceleratorTypes
     }
 }
@@ -374,8 +359,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -386,8 +370,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -403,8 +386,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -426,8 +408,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

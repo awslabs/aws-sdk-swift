@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -80,8 +79,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -107,8 +105,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -140,8 +137,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -176,8 +172,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -199,8 +194,7 @@ extension NotificationsContactsClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -262,8 +256,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [NotificationsContactsClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: NotificationsContactsClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -281,8 +274,7 @@ public struct ActivateEmailContactInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         code: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.code = code
     }
@@ -333,8 +325,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -357,8 +348,7 @@ public struct CreateEmailContactInput: Swift.Sendable {
         emailAddress: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.emailAddress = emailAddress
         self.name = name
         self.tags = tags
@@ -377,8 +367,7 @@ public struct CreateEmailContactOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -390,8 +379,7 @@ public struct DeleteEmailContactInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -460,8 +448,7 @@ extension NotificationsContactsClientTypes {
             name: Swift.String? = nil,
             status: NotificationsContactsClientTypes.EmailContactStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.address = address
             self.arn = arn
             self.creationTime = creationTime
@@ -484,8 +471,7 @@ public struct GetEmailContactInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -497,8 +483,7 @@ public struct GetEmailContactOutput: Swift.Sendable {
 
     public init(
         emailContact: NotificationsContactsClientTypes.EmailContact? = nil
-    )
-    {
+    ) {
         self.emailContact = emailContact
     }
 }
@@ -512,8 +497,7 @@ public struct ListEmailContactsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -529,8 +513,7 @@ public struct ListEmailContactsOutput: Swift.Sendable {
     public init(
         emailContacts: [NotificationsContactsClientTypes.EmailContact]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailContacts = emailContacts
         self.nextToken = nextToken
     }
@@ -543,8 +526,7 @@ public struct SendActivationCodeInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -561,8 +543,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -573,8 +554,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -590,8 +570,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -613,8 +592,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }

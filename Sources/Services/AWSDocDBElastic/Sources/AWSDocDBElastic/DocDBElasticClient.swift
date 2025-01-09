@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DocDBElasticClient: ClientRuntime.Client {
     public static let clientName = "DocDBElasticClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: DocDBElasticClient.DocDBElasticClientConfiguration
     let serviceName = "DocDB Elastic"
@@ -330,7 +330,7 @@ extension DocDBElasticClient {
 }
 
 extension DocDBElasticClient {
-    /// Performs the `ApplyPendingMaintenanceAction` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `ApplyPendingMaintenanceAction` operation on the `DocDBElastic` service.
     ///
     /// The type of pending maintenance action to be applied to the resource.
     ///
@@ -404,7 +404,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CopyClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `CopyClusterSnapshot` operation on the `DocDBElastic` service.
     ///
     /// Copies a snapshot of an elastic cluster.
     ///
@@ -479,7 +479,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `CreateCluster` operation on the `DocDBElastic` service.
     ///
     /// Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
     ///
@@ -554,7 +554,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `CreateClusterSnapshot` operation on the `DocDBElastic` service.
     ///
     /// Creates a snapshot of an elastic cluster.
     ///
@@ -629,7 +629,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `DeleteCluster` operation on the `DocDBElastic` service.
     ///
     /// Delete an elastic cluster.
     ///
@@ -700,7 +700,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `DeleteClusterSnapshot` operation on the `DocDBElastic` service.
     ///
     /// Delete an elastic cluster snapshot.
     ///
@@ -771,7 +771,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `GetCluster` operation on the `DocDBElastic` service.
     ///
     /// Returns information about a specific elastic cluster.
     ///
@@ -841,7 +841,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `GetClusterSnapshot` operation on the `DocDBElastic` service.
     ///
     /// Returns information about a specific elastic cluster snapshot
     ///
@@ -911,7 +911,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPendingMaintenanceAction` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `GetPendingMaintenanceAction` operation on the `DocDBElastic` service.
     ///
     /// Retrieves all maintenance actions that are pending.
     ///
@@ -982,7 +982,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListClusterSnapshots` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `ListClusterSnapshots` operation on the `DocDBElastic` service.
     ///
     /// Returns information about snapshots for a specified elastic cluster.
     ///
@@ -1052,7 +1052,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListClusters` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `ListClusters` operation on the `DocDBElastic` service.
     ///
     /// Returns information about provisioned Amazon DocumentDB elastic clusters.
     ///
@@ -1122,7 +1122,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPendingMaintenanceActions` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `ListPendingMaintenanceActions` operation on the `DocDBElastic` service.
     ///
     /// Retrieves a list of all maintenance actions that are pending.
     ///
@@ -1192,7 +1192,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `ListTagsForResource` operation on the `DocDBElastic` service.
     ///
     /// Lists all tags on a elastic cluster resource
     ///
@@ -1261,7 +1261,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreClusterFromSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `RestoreClusterFromSnapshot` operation on the `DocDBElastic` service.
     ///
     /// Restores an elastic cluster from a snapshot.
     ///
@@ -1336,7 +1336,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `StartCluster` operation on the `DocDBElastic` service.
     ///
     /// Restarts the stopped elastic cluster that is specified by clusterARN.
     ///
@@ -1406,7 +1406,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `StopCluster` operation on the `DocDBElastic` service.
     ///
     /// Stops the running elastic cluster that is specified by clusterArn. The elastic cluster must be in the available state.
     ///
@@ -1476,7 +1476,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `TagResource` operation on the `DocDBElastic` service.
     ///
     /// Adds metadata tags to an elastic cluster resource
     ///
@@ -1548,7 +1548,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `UntagResource` operation on the `DocDBElastic` service.
     ///
     /// Removes metadata tags from an elastic cluster resource
     ///
@@ -1618,7 +1618,7 @@ extension DocDBElasticClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    /// Performs the `UpdateCluster` operation on the `DocDBElastic` service.
     ///
     /// Modifies an elastic cluster. This includes updating admin-username/password, upgrading the API version, and setting up a backup window and maintenance window
     ///

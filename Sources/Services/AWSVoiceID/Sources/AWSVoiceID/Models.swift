@@ -65,8 +65,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -157,8 +156,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         conflictType: VoiceIDClientTypes.ConflictType? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.conflictType = conflictType
         self.properties.message = message
     }
@@ -182,8 +180,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -253,8 +250,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceType: VoiceIDClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
@@ -278,8 +274,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -302,8 +297,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -326,8 +320,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -347,8 +340,7 @@ public struct AssociateFraudsterInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         fraudsterId: Swift.String? = nil,
         watchlistId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fraudsterId = fraudsterId
         self.watchlistId = watchlistId
@@ -378,8 +370,7 @@ extension VoiceIDClientTypes {
             domainId: Swift.String? = nil,
             generatedFraudsterId: Swift.String? = nil,
             watchlistIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.generatedFraudsterId = generatedFraudsterId
@@ -394,8 +385,7 @@ public struct AssociateFraudsterOutput: Swift.Sendable {
 
     public init(
         fraudster: VoiceIDClientTypes.Fraudster? = nil
-    )
-    {
+    ) {
         self.fraudster = fraudster
     }
 }
@@ -410,8 +400,7 @@ extension VoiceIDClientTypes {
 
         public init(
             acceptanceThreshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.acceptanceThreshold = acceptanceThreshold
         }
     }
@@ -491,8 +480,7 @@ extension VoiceIDClientTypes {
             decision: VoiceIDClientTypes.AuthenticationDecision? = nil,
             generatedSpeakerId: Swift.String? = nil,
             score: Swift.Int? = nil
-        )
-        {
+        ) {
             self.audioAggregationEndedAt = audioAggregationEndedAt
             self.audioAggregationStartedAt = audioAggregationStartedAt
             self.authenticationResultId = authenticationResultId
@@ -520,8 +508,7 @@ extension VoiceIDClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -541,8 +528,7 @@ extension VoiceIDClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -574,8 +560,7 @@ public struct CreateDomainInput: Swift.Sendable {
         name: Swift.String? = nil,
         serverSideEncryptionConfiguration: VoiceIDClientTypes.ServerSideEncryptionConfiguration? = nil,
         tags: [VoiceIDClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -668,8 +653,7 @@ extension VoiceIDClientTypes {
             message: Swift.String? = nil,
             oldKmsKeyId: Swift.String? = nil,
             updateStatus: VoiceIDClientTypes.ServerSideEncryptionUpdateStatus? = nil
-        )
-        {
+        ) {
             self.message = message
             self.oldKmsKeyId = oldKmsKeyId
             self.updateStatus = updateStatus
@@ -687,8 +671,7 @@ extension VoiceIDClientTypes {
 
         public init(
             defaultWatchlistId: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultWatchlistId = defaultWatchlistId
         }
     }
@@ -730,8 +713,7 @@ extension VoiceIDClientTypes {
             serverSideEncryptionUpdateDetails: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails? = nil,
             updatedAt: Foundation.Date? = nil,
             watchlistDetails: VoiceIDClientTypes.WatchlistDetails? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -757,8 +739,7 @@ public struct CreateDomainOutput: Swift.Sendable {
 
     public init(
         domain: VoiceIDClientTypes.Domain? = nil
-    )
-    {
+    ) {
         self.domain = domain
     }
 }
@@ -780,8 +761,7 @@ public struct CreateWatchlistInput: Swift.Sendable {
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.domainId = domainId
@@ -821,8 +801,7 @@ extension VoiceIDClientTypes {
             name: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             watchlistId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.defaultWatchlist = defaultWatchlist
             self.description = description
@@ -845,8 +824,7 @@ public struct CreateWatchlistOutput: Swift.Sendable {
 
     public init(
         watchlist: VoiceIDClientTypes.Watchlist? = nil
-    )
-    {
+    ) {
         self.watchlist = watchlist
     }
 }
@@ -858,8 +836,7 @@ public struct DeleteDomainInput: Swift.Sendable {
 
     public init(
         domainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
     }
 }
@@ -875,8 +852,7 @@ public struct DeleteFraudsterInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         fraudsterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fraudsterId = fraudsterId
     }
@@ -898,8 +874,7 @@ public struct DeleteSpeakerInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         speakerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.speakerId = speakerId
     }
@@ -921,8 +896,7 @@ public struct DeleteWatchlistInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         watchlistId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.watchlistId = watchlistId
     }
@@ -935,8 +909,7 @@ public struct DescribeDomainInput: Swift.Sendable {
 
     public init(
         domainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
     }
 }
@@ -947,8 +920,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
 
     public init(
         domain: VoiceIDClientTypes.Domain? = nil
-    )
-    {
+    ) {
         self.domain = domain
     }
 }
@@ -964,8 +936,7 @@ public struct DescribeFraudsterInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         fraudsterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fraudsterId = fraudsterId
     }
@@ -982,8 +953,7 @@ public struct DescribeFraudsterOutput: Swift.Sendable {
 
     public init(
         fraudster: VoiceIDClientTypes.Fraudster? = nil
-    )
-    {
+    ) {
         self.fraudster = fraudster
     }
 }
@@ -999,8 +969,7 @@ public struct DescribeFraudsterRegistrationJobInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.jobId = jobId
     }
@@ -1018,8 +987,7 @@ extension VoiceIDClientTypes {
         public init(
             message: Swift.String? = nil,
             statusCode: Swift.Int? = nil
-        )
-        {
+        ) {
             self.message = message
             self.statusCode = statusCode
         }
@@ -1036,8 +1004,7 @@ extension VoiceIDClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -1052,8 +1019,7 @@ extension VoiceIDClientTypes {
 
         public init(
             percentComplete: Swift.Int? = nil
-        )
-        {
+        ) {
             self.percentComplete = percentComplete
         }
     }
@@ -1110,8 +1076,7 @@ extension VoiceIDClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
         }
@@ -1162,8 +1127,7 @@ extension VoiceIDClientTypes {
             duplicateRegistrationAction: VoiceIDClientTypes.DuplicateRegistrationAction? = nil,
             fraudsterSimilarityThreshold: Swift.Int? = nil,
             watchlistIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.duplicateRegistrationAction = duplicateRegistrationAction
             self.fraudsterSimilarityThreshold = fraudsterSimilarityThreshold
             self.watchlistIds = watchlistIds
@@ -1213,8 +1177,7 @@ extension VoiceIDClientTypes {
             jobStatus: VoiceIDClientTypes.FraudsterRegistrationJobStatus? = nil,
             outputDataConfig: VoiceIDClientTypes.OutputDataConfig? = nil,
             registrationConfig: VoiceIDClientTypes.RegistrationConfig? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.dataAccessRoleArn = dataAccessRoleArn
             self.domainId = domainId
@@ -1242,8 +1205,7 @@ public struct DescribeFraudsterRegistrationJobOutput: Swift.Sendable {
 
     public init(
         job: VoiceIDClientTypes.FraudsterRegistrationJob? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -1259,8 +1221,7 @@ public struct DescribeSpeakerInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         speakerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.speakerId = speakerId
     }
@@ -1333,8 +1294,7 @@ extension VoiceIDClientTypes {
             lastAccessedAt: Foundation.Date? = nil,
             status: VoiceIDClientTypes.SpeakerStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.customerSpeakerId = customerSpeakerId
             self.domainId = domainId
@@ -1357,8 +1317,7 @@ public struct DescribeSpeakerOutput: Swift.Sendable {
 
     public init(
         speaker: VoiceIDClientTypes.Speaker? = nil
-    )
-    {
+    ) {
         self.speaker = speaker
     }
 }
@@ -1374,8 +1333,7 @@ public struct DescribeSpeakerEnrollmentJobInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.jobId = jobId
     }
@@ -1454,8 +1412,7 @@ extension VoiceIDClientTypes {
             fraudDetectionAction: VoiceIDClientTypes.FraudDetectionAction? = nil,
             riskThreshold: Swift.Int? = nil,
             watchlistIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.fraudDetectionAction = fraudDetectionAction
             self.riskThreshold = riskThreshold
             self.watchlistIds = watchlistIds
@@ -1475,8 +1432,7 @@ extension VoiceIDClientTypes {
         public init(
             existingEnrollmentAction: VoiceIDClientTypes.ExistingEnrollmentAction? = nil,
             fraudDetectionConfig: VoiceIDClientTypes.EnrollmentJobFraudDetectionConfig? = nil
-        )
-        {
+        ) {
             self.existingEnrollmentAction = existingEnrollmentAction
             self.fraudDetectionConfig = fraudDetectionConfig
         }
@@ -1563,8 +1519,7 @@ extension VoiceIDClientTypes {
             jobProgress: VoiceIDClientTypes.JobProgress? = nil,
             jobStatus: VoiceIDClientTypes.SpeakerEnrollmentJobStatus? = nil,
             outputDataConfig: VoiceIDClientTypes.OutputDataConfig? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.dataAccessRoleArn = dataAccessRoleArn
             self.domainId = domainId
@@ -1592,8 +1547,7 @@ public struct DescribeSpeakerEnrollmentJobOutput: Swift.Sendable {
 
     public init(
         job: VoiceIDClientTypes.SpeakerEnrollmentJob? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -1609,8 +1563,7 @@ public struct DescribeWatchlistInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         watchlistId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.watchlistId = watchlistId
     }
@@ -1622,8 +1575,7 @@ public struct DescribeWatchlistOutput: Swift.Sendable {
 
     public init(
         watchlist: VoiceIDClientTypes.Watchlist? = nil
-    )
-    {
+    ) {
         self.watchlist = watchlist
     }
 }
@@ -1643,8 +1595,7 @@ public struct DisassociateFraudsterInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         fraudsterId: Swift.String? = nil,
         watchlistId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fraudsterId = fraudsterId
         self.watchlistId = watchlistId
@@ -1662,8 +1613,7 @@ public struct DisassociateFraudsterOutput: Swift.Sendable {
 
     public init(
         fraudster: VoiceIDClientTypes.Fraudster? = nil
-    )
-    {
+    ) {
         self.fraudster = fraudster
     }
 }
@@ -1677,8 +1627,7 @@ public struct ListDomainsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1720,8 +1669,7 @@ extension VoiceIDClientTypes {
             serverSideEncryptionUpdateDetails: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails? = nil,
             updatedAt: Foundation.Date? = nil,
             watchlistDetails: VoiceIDClientTypes.WatchlistDetails? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -1750,8 +1698,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         domainSummaries: [VoiceIDClientTypes.DomainSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainSummaries = domainSummaries
         self.nextToken = nextToken
     }
@@ -1775,8 +1722,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         name: Swift.String? = nil,
         serverSideEncryptionConfiguration: VoiceIDClientTypes.ServerSideEncryptionConfiguration? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.name = name
@@ -1795,8 +1741,7 @@ public struct UpdateDomainOutput: Swift.Sendable {
 
     public init(
         domain: VoiceIDClientTypes.Domain? = nil
-    )
-    {
+    ) {
         self.domain = domain
     }
 }
@@ -1812,8 +1757,7 @@ public struct EvaluateSessionInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         sessionNameOrId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.sessionNameOrId = sessionNameOrId
     }
@@ -1831,8 +1775,7 @@ extension VoiceIDClientTypes {
         public init(
             riskThreshold: Swift.Int? = nil,
             watchlistId: Swift.String? = nil
-        )
-        {
+        ) {
             self.riskThreshold = riskThreshold
             self.watchlistId = watchlistId
         }
@@ -1913,8 +1856,7 @@ extension VoiceIDClientTypes {
         public init(
             generatedFraudsterId: Swift.String? = nil,
             riskScore: Swift.Int? = nil
-        )
-        {
+        ) {
             self.generatedFraudsterId = generatedFraudsterId
             self.riskScore = riskScore
         }
@@ -1931,8 +1873,7 @@ extension VoiceIDClientTypes {
 
         public init(
             riskScore: Swift.Int? = nil
-        )
-        {
+        ) {
             self.riskScore = riskScore
         }
     }
@@ -1952,8 +1893,7 @@ extension VoiceIDClientTypes {
         public init(
             knownFraudsterRisk: VoiceIDClientTypes.KnownFraudsterRisk? = nil,
             voiceSpoofingRisk: VoiceIDClientTypes.VoiceSpoofingRisk? = nil
-        )
-        {
+        ) {
             self.knownFraudsterRisk = knownFraudsterRisk
             self.voiceSpoofingRisk = voiceSpoofingRisk
         }
@@ -1987,8 +1927,7 @@ extension VoiceIDClientTypes {
             fraudDetectionResultId: Swift.String? = nil,
             reasons: [VoiceIDClientTypes.FraudDetectionReason]? = nil,
             riskDetails: VoiceIDClientTypes.FraudRiskDetails? = nil
-        )
-        {
+        ) {
             self.audioAggregationEndedAt = audioAggregationEndedAt
             self.audioAggregationStartedAt = audioAggregationStartedAt
             self.configuration = configuration
@@ -2053,8 +1992,7 @@ public struct EvaluateSessionOutput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         sessionName: Swift.String? = nil,
         streamingStatus: VoiceIDClientTypes.StreamingStatus? = nil
-    )
-    {
+    ) {
         self.authenticationResult = authenticationResult
         self.domainId = domainId
         self.fraudDetectionResult = fraudDetectionResult
@@ -2094,8 +2032,7 @@ extension VoiceIDClientTypes {
             jobName: Swift.String? = nil,
             jobProgress: VoiceIDClientTypes.JobProgress? = nil,
             jobStatus: VoiceIDClientTypes.FraudsterRegistrationJobStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.endedAt = endedAt
@@ -2131,8 +2068,7 @@ extension VoiceIDClientTypes {
             domainId: Swift.String? = nil,
             generatedFraudsterId: Swift.String? = nil,
             watchlistIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.generatedFraudsterId = generatedFraudsterId
@@ -2157,8 +2093,7 @@ public struct ListFraudsterRegistrationJobsInput: Swift.Sendable {
         jobStatus: VoiceIDClientTypes.FraudsterRegistrationJobStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.jobStatus = jobStatus
         self.maxResults = maxResults
@@ -2175,8 +2110,7 @@ public struct ListFraudsterRegistrationJobsOutput: Swift.Sendable {
     public init(
         jobSummaries: [VoiceIDClientTypes.FraudsterRegistrationJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobSummaries = jobSummaries
         self.nextToken = nextToken
     }
@@ -2198,8 +2132,7 @@ public struct ListFraudstersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         watchlistId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2216,8 +2149,7 @@ public struct ListFraudstersOutput: Swift.Sendable {
     public init(
         fraudsterSummaries: [VoiceIDClientTypes.FraudsterSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fraudsterSummaries = fraudsterSummaries
         self.nextToken = nextToken
     }
@@ -2239,8 +2171,7 @@ public struct ListSpeakerEnrollmentJobsInput: Swift.Sendable {
         jobStatus: VoiceIDClientTypes.SpeakerEnrollmentJobStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.jobStatus = jobStatus
         self.maxResults = maxResults
@@ -2278,8 +2209,7 @@ extension VoiceIDClientTypes {
             jobName: Swift.String? = nil,
             jobProgress: VoiceIDClientTypes.JobProgress? = nil,
             jobStatus: VoiceIDClientTypes.SpeakerEnrollmentJobStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.endedAt = endedAt
@@ -2306,8 +2236,7 @@ public struct ListSpeakerEnrollmentJobsOutput: Swift.Sendable {
     public init(
         jobSummaries: [VoiceIDClientTypes.SpeakerEnrollmentJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobSummaries = jobSummaries
         self.nextToken = nextToken
     }
@@ -2326,8 +2255,7 @@ public struct ListSpeakersInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2361,8 +2289,7 @@ extension VoiceIDClientTypes {
             lastAccessedAt: Foundation.Date? = nil,
             status: VoiceIDClientTypes.SpeakerStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.customerSpeakerId = customerSpeakerId
             self.domainId = domainId
@@ -2388,8 +2315,7 @@ public struct ListSpeakersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         speakerSummaries: [VoiceIDClientTypes.SpeakerSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.speakerSummaries = speakerSummaries
     }
@@ -2402,8 +2328,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2414,8 +2339,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [VoiceIDClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2433,8 +2357,7 @@ public struct ListWatchlistsInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2468,8 +2391,7 @@ extension VoiceIDClientTypes {
             name: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             watchlistId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.defaultWatchlist = defaultWatchlist
             self.description = description
@@ -2495,8 +2417,7 @@ public struct ListWatchlistsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         watchlistSummaries: [VoiceIDClientTypes.WatchlistSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.watchlistSummaries = watchlistSummaries
     }
@@ -2513,8 +2434,7 @@ public struct OptOutSpeakerInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         speakerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.speakerId = speakerId
     }
@@ -2531,8 +2451,7 @@ public struct OptOutSpeakerOutput: Swift.Sendable {
 
     public init(
         speaker: VoiceIDClientTypes.Speaker? = nil
-    )
-    {
+    ) {
         self.speaker = speaker
     }
 }
@@ -2565,8 +2484,7 @@ public struct StartFraudsterRegistrationJobInput: Swift.Sendable {
         jobName: Swift.String? = nil,
         outputDataConfig: VoiceIDClientTypes.OutputDataConfig? = nil,
         registrationConfig: VoiceIDClientTypes.RegistrationConfig? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.domainId = domainId
@@ -2588,8 +2506,7 @@ public struct StartFraudsterRegistrationJobOutput: Swift.Sendable {
 
     public init(
         job: VoiceIDClientTypes.FraudsterRegistrationJob? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -2622,8 +2539,7 @@ public struct StartSpeakerEnrollmentJobInput: Swift.Sendable {
         inputDataConfig: VoiceIDClientTypes.InputDataConfig? = nil,
         jobName: Swift.String? = nil,
         outputDataConfig: VoiceIDClientTypes.OutputDataConfig? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.domainId = domainId
@@ -2645,8 +2561,7 @@ public struct StartSpeakerEnrollmentJobOutput: Swift.Sendable {
 
     public init(
         job: VoiceIDClientTypes.SpeakerEnrollmentJob? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -2662,8 +2577,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [VoiceIDClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2685,8 +2599,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2719,8 +2632,7 @@ public struct UpdateWatchlistInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         name: Swift.String? = nil,
         watchlistId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.name = name
@@ -2739,8 +2651,7 @@ public struct UpdateWatchlistOutput: Swift.Sendable {
 
     public init(
         watchlist: VoiceIDClientTypes.Watchlist? = nil
-    )
-    {
+    ) {
         self.watchlist = watchlist
     }
 }

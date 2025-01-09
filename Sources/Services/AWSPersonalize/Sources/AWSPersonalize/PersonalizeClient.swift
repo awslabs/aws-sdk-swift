@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PersonalizeClient: ClientRuntime.Client {
     public static let clientName = "PersonalizeClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeClient.PersonalizeClientConfiguration
     let serviceName = "Personalize"
@@ -329,7 +329,7 @@ extension PersonalizeClient {
 }
 
 extension PersonalizeClient {
-    /// Performs the `CreateBatchInferenceJob` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateBatchInferenceJob` operation on the `Personalize` service.
     ///
     /// Generates batch recommendations based on a list of items or users stored in Amazon S3 and exports the recommendations to an Amazon S3 bucket. To generate batch recommendations, specify the ARN of a solution version and an Amazon S3 URI for the input and output data. For user personalization, popular items, and personalized ranking solutions, the batch inference job generates a list of recommended items for each user ID in the input file. For related items solutions, the job generates a list of recommended items for each item ID in the input file. For more information, see [Creating a batch inference job ](https://docs.aws.amazon.com/personalize/latest/dg/getting-batch-recommendations.html). If you use the Similar-Items recipe, Amazon Personalize can add descriptive themes to batch recommendations. To generate themes, set the job's mode to THEME_GENERATION and specify the name of the field that contains item names in the input data. For more information about generating themes, see [Batch recommendations with themes from Content Generator ](https://docs.aws.amazon.com/personalize/latest/dg/themed-batch-recommendations.html). You can't get batch recommendations with the Trending-Now or Next-Best-Action recipes.
     ///
@@ -404,7 +404,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBatchSegmentJob` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateBatchSegmentJob` operation on the `Personalize` service.
     ///
     /// Creates a batch segment job. The operation can handle up to 50 million records and the input file must be in JSON format. For more information, see [Getting batch recommendations and user segments](https://docs.aws.amazon.com/personalize/latest/dg/recommendations-batch.html).
     ///
@@ -479,7 +479,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCampaign` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateCampaign` operation on the `Personalize` service.
     ///
     /// You incur campaign costs while it is active. To avoid unnecessary costs, make sure to delete the campaign when you are finished. For information about campaign costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/). Creates a campaign that deploys a solution version. When a client calls the [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) and [GetPersonalizedRanking](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetPersonalizedRanking.html) APIs, a campaign is specified in the request. Minimum Provisioned TPS and Auto-Scaling A high minProvisionedTPS will increase your cost. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary. When you create an Amazon Personalize campaign, you can specify the minimum provisioned transactions per second (minProvisionedTPS) for the campaign. This is the baseline transaction throughput for the campaign provisioned by Amazon Personalize. It sets the minimum billing charge for the campaign while it is active. A transaction is a single GetRecommendations or GetPersonalizedRanking request. The default minProvisionedTPS is 1. If your TPS increases beyond the minProvisionedTPS, Amazon Personalize auto-scales the provisioned capacity up and down, but never below minProvisionedTPS. There's a short time delay while the capacity is increased that might cause loss of transactions. When your traffic reduces, capacity returns to the minProvisionedTPS. You are charged for the the minimum provisioned TPS or, if your requests exceed the minProvisionedTPS, the actual TPS. The actual TPS is the total number of recommendation requests you make. We recommend starting with a low minProvisionedTPS, track your usage using Amazon CloudWatch metrics, and then increase the minProvisionedTPS as necessary. For more information about campaign costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/). Status A campaign can be in one of the following states:
     ///
@@ -569,7 +569,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataDeletionJob` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateDataDeletionJob` operation on the `Personalize` service.
     ///
     /// Creates a batch job that deletes all references to specific users from an Amazon Personalize dataset group in batches. You specify the users to delete in a CSV file of userIds in an Amazon S3 bucket. After a job completes, Amazon Personalize no longer trains on the users’ data and no longer considers the users when generating user segments. For more information about creating a data deletion job, see [Deleting users](https://docs.aws.amazon.com/personalize/latest/dg/delete-records.html).
     ///
@@ -660,7 +660,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataset` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateDataset` operation on the `Personalize` service.
     ///
     /// Creates an empty dataset and adds it to the specified dataset group. Use [CreateDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html) to import your training data to a dataset. There are 5 types of datasets:
     ///
@@ -763,7 +763,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDatasetExportJob` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateDatasetExportJob` operation on the `Personalize` service.
     ///
     /// Creates a job that exports data from your dataset to an Amazon S3 bucket. To allow Amazon Personalize to export the training data, you must specify an service-linked IAM role that gives Amazon Personalize PutObject permissions for your Amazon S3 bucket. For information, see [Exporting a dataset](https://docs.aws.amazon.com/personalize/latest/dg/export-data.html) in the Amazon Personalize developer guide. Status A dataset export job can be in one of the following states:
     ///
@@ -843,7 +843,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDatasetGroup` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateDatasetGroup` operation on the `Personalize` service.
     ///
     /// Creates an empty dataset group. A dataset group is a container for Amazon Personalize resources. A dataset group can contain at most three datasets, one for each type of dataset:
     ///
@@ -951,7 +951,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDatasetImportJob` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateDatasetImportJob` operation on the `Personalize` service.
     ///
     /// Creates a job that imports training data from your data source (an Amazon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize to import the training data, you must specify an IAM service role that has permission to read from the data source, as Amazon Personalize makes a copy of your data and processes it internally. For information on granting access to your Amazon S3 bucket, see [Giving Amazon Personalize Access to Amazon S3 Resources](https://docs.aws.amazon.com/personalize/latest/dg/granting-personalize-s3-access.html). If you already created a recommender or deployed a custom solution version with a campaign, how new bulk records influence recommendations depends on the domain use case or recipe that you use. For more information, see [How new data influences real-time recommendations](https://docs.aws.amazon.com/personalize/latest/dg/how-new-data-influences-recommendations.html). By default, a dataset import job replaces any existing data in the dataset that you imported in bulk. To add new records without replacing existing data, specify INCREMENTAL for the import mode in the CreateDatasetImportJob operation. Status A dataset import job can be in one of the following states:
     ///
@@ -1035,7 +1035,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEventTracker` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateEventTracker` operation on the `Personalize` service.
     ///
     /// Creates an event tracker that you use when adding event data to a specified dataset group using the [PutEvents](https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html) API. Only one event tracker can be associated with a dataset group. You will get an error if you call CreateEventTracker using the same dataset group as an existing event tracker. When you create an event tracker, the response includes a tracking ID, which you pass as a parameter when you use the [PutEvents](https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html) operation. Amazon Personalize then appends the event data to the Item interactions dataset of the dataset group you specify in your event tracker. The event tracker can be in one of the following states:
     ///
@@ -1123,7 +1123,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFilter` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateFilter` operation on the `Personalize` service.
     ///
     /// Creates a recommendation filter. For more information, see [Filtering recommendations and user segments](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
     ///
@@ -1197,7 +1197,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMetricAttribution` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateMetricAttribution` operation on the `Personalize` service.
     ///
     /// Creates a metric attribution. A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you imported the data, you can view reports in Amazon CloudWatch or Amazon S3. For more information, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
     ///
@@ -1271,7 +1271,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRecommender` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateRecommender` operation on the `Personalize` service.
     ///
     /// Creates a recommender with the recipe (a Domain dataset group use case) you specify. You create recommenders for a Domain dataset group and specify the recommender's Amazon Resource Name (ARN) when you make a [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) request. Minimum recommendation requests per second A high minRecommendationRequestsPerSecond will increase your bill. We recommend starting with 1 for minRecommendationRequestsPerSecond (the default). Track your usage using Amazon CloudWatch metrics, and increase the minRecommendationRequestsPerSecond as necessary. When you create a recommender, you can configure the recommender's minimum recommendation requests per second. The minimum recommendation requests per second (minRecommendationRequestsPerSecond) specifies the baseline recommendation request throughput provisioned by Amazon Personalize. The default minRecommendationRequestsPerSecond is 1. A recommendation request is a single GetRecommendations operation. Request throughput is measured in requests per second and Amazon Personalize uses your requests per second to derive your requests per hour and the price of your recommender usage. If your requests per second increases beyond minRecommendationRequestsPerSecond, Amazon Personalize auto-scales the provisioned capacity up and down, but never below minRecommendationRequestsPerSecond. There's a short time delay while the capacity is increased that might cause loss of requests. Your bill is the greater of either the minimum requests per hour (based on minRecommendationRequestsPerSecond) or the actual number of requests. The actual request throughput used is calculated as the average requests/second within a one-hour window. We recommend starting with the default minRecommendationRequestsPerSecond, track your usage using Amazon CloudWatch metrics, and then increase the minRecommendationRequestsPerSecond as necessary. Status A recommender can be in one of the following states:
     ///
@@ -1363,7 +1363,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSchema` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateSchema` operation on the `Personalize` service.
     ///
     /// Creates an Amazon Personalize schema from the specified schema string. The schema you create must be in Avro JSON format. Amazon Personalize recognizes three schema variants. Each schema is associated with a dataset type and has a set of required field and keywords. If you are creating a schema for a dataset in a Domain dataset group, you provide the domain of the Domain dataset group. You specify a schema when you call [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html). Related APIs
     ///
@@ -1441,7 +1441,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSolution` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateSolution` operation on the `Personalize` service.
     ///
     /// By default, all new solutions use automatic training. With automatic training, you incur training costs while your solution is active. To avoid unnecessary costs, when you are finished you can [update the solution](https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html) to turn off automatic training. For information about training costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/). Creates the configuration for training a model (creating a solution version). This configuration includes the recipe to use for model training and optional training configuration, such as columns to use in training and feature transformation parameters. For more information about configuring a solution, see [Creating and configuring a solution](https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html). By default, new solutions use automatic training to create solution versions every 7 days. You can change the training frequency. Automatic solution version creation starts within one hour after the solution is ACTIVE. If you manually create a solution version within the hour, the solution skips the first automatic training. For more information, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html). To turn off automatic training, set performAutoTraining to false. If you turn off automatic training, you must manually create a solution version by calling the [CreateSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolutionVersion.html) operation. After training starts, you can get the solution version's Amazon Resource Name (ARN) with the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html) API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html). After training completes you can evaluate model accuracy by calling [GetSolutionMetrics](https://docs.aws.amazon.com/personalize/latest/dg/API_GetSolutionMetrics.html). When you are satisfied with the solution version, you deploy it using [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html). The campaign provides recommendations to a client through the [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) API. Amazon Personalize doesn't support configuring the hpoObjective for solution hyperparameter optimization at this time. Status A solution can be in one of the following states:
     ///
@@ -1540,7 +1540,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSolutionVersion` operation on the `AmazonPersonalize` service.
+    /// Performs the `CreateSolutionVersion` operation on the `Personalize` service.
     ///
     /// Trains or retrains an active solution in a Custom dataset group. A solution is created using the [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html) operation and must be in the ACTIVE state before calling CreateSolutionVersion. A new version of the solution is created every time you call this operation. Status A solution version can be in one of the following states:
     ///
@@ -1642,7 +1642,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCampaign` operation on the `AmazonPersonalize` service.
+    /// Performs the `DeleteCampaign` operation on the `Personalize` service.
     ///
     /// Removes a campaign by deleting the solution deployment. The solution that the campaign is based on is not deleted and can be redeployed when needed. A deleted campaign can no longer be specified in a [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) request. For information on creating campaigns, see [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html).
     ///
@@ -1714,7 +1714,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataset` operation on the `AmazonPersonalize` service.
+    /// Performs the `DeleteDataset` operation on the `Personalize` service.
     ///
     /// Deletes a dataset. You can't delete a dataset if an associated DatasetImportJob or SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
@@ -1786,7 +1786,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDatasetGroup` operation on the `AmazonPersonalize` service.
+    /// Performs the `DeleteDatasetGroup` operation on the `Personalize` service.
     ///
     /// Deletes a dataset group. Before you delete a dataset group, you must delete the following:
     ///
@@ -1864,7 +1864,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEventTracker` operation on the `AmazonPersonalize` service.
+    /// Performs the `DeleteEventTracker` operation on the `Personalize` service.
     ///
     /// Deletes the event tracker. Does not delete the dataset from the dataset group. For more information on event trackers, see [CreateEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateEventTracker.html).
     ///
@@ -1936,7 +1936,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFilter` operation on the `AmazonPersonalize` service.
+    /// Performs the `DeleteFilter` operation on the `Personalize` service.
     ///
     /// Deletes a filter.
     ///
@@ -2008,7 +2008,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMetricAttribution` operation on the `AmazonPersonalize` service.
+    /// Performs the `DeleteMetricAttribution` operation on the `Personalize` service.
     ///
     /// Deletes a metric attribution.
     ///
@@ -2080,7 +2080,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRecommender` operation on the `AmazonPersonalize` service.
+    /// Performs the `DeleteRecommender` operation on the `Personalize` service.
     ///
     /// Deactivates and removes a recommender. A deleted recommender can no longer be specified in a [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) request.
     ///
@@ -2152,7 +2152,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSchema` operation on the `AmazonPersonalize` service.
+    /// Performs the `DeleteSchema` operation on the `Personalize` service.
     ///
     /// Deletes a schema. Before deleting a schema, you must delete all datasets referencing the schema. For more information on schemas, see [CreateSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html).
     ///
@@ -2224,7 +2224,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSolution` operation on the `AmazonPersonalize` service.
+    /// Performs the `DeleteSolution` operation on the `Personalize` service.
     ///
     /// Deletes all versions of a solution and the Solution object itself. Before deleting a solution, you must delete all campaigns based on the solution. To determine what campaigns are using the solution, call [ListCampaigns](https://docs.aws.amazon.com/personalize/latest/dg/API_ListCampaigns.html) and supply the Amazon Resource Name (ARN) of the solution. You can't delete a solution if an associated SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html).
     ///
@@ -2296,7 +2296,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAlgorithm` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeAlgorithm` operation on the `Personalize` service.
     ///
     /// Describes the given algorithm.
     ///
@@ -2367,7 +2367,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBatchInferenceJob` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeBatchInferenceJob` operation on the `Personalize` service.
     ///
     /// Gets the properties of a batch inference job including name, Amazon Resource Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate the recommendations.
     ///
@@ -2438,7 +2438,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBatchSegmentJob` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeBatchSegmentJob` operation on the `Personalize` service.
     ///
     /// Gets the properties of a batch segment job including name, Amazon Resource Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate segments.
     ///
@@ -2509,7 +2509,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCampaign` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeCampaign` operation on the `Personalize` service.
     ///
     /// Describes the given campaign, including its status. A campaign can be in one of the following states:
     ///
@@ -2587,7 +2587,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataDeletionJob` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeDataDeletionJob` operation on the `Personalize` service.
     ///
     /// Describes the data deletion job created by [CreateDataDeletionJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataDeletionJob.html), including the job status.
     ///
@@ -2658,7 +2658,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataset` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeDataset` operation on the `Personalize` service.
     ///
     /// Describes the given dataset. For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
@@ -2729,7 +2729,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDatasetExportJob` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeDatasetExportJob` operation on the `Personalize` service.
     ///
     /// Describes the dataset export job created by [CreateDatasetExportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetExportJob.html), including the export job status.
     ///
@@ -2800,7 +2800,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDatasetGroup` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeDatasetGroup` operation on the `Personalize` service.
     ///
     /// Describes the given dataset group. For more information on dataset groups, see [CreateDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html).
     ///
@@ -2871,7 +2871,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDatasetImportJob` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeDatasetImportJob` operation on the `Personalize` service.
     ///
     /// Describes the dataset import job created by [CreateDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html), including the import job status.
     ///
@@ -2942,7 +2942,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventTracker` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeEventTracker` operation on the `Personalize` service.
     ///
     /// Describes an event tracker. The response includes the trackingId and status of the event tracker. For more information on event trackers, see [CreateEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateEventTracker.html).
     ///
@@ -3013,7 +3013,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFeatureTransformation` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeFeatureTransformation` operation on the `Personalize` service.
     ///
     /// Describes the given feature transformation.
     ///
@@ -3084,7 +3084,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFilter` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeFilter` operation on the `Personalize` service.
     ///
     /// Describes a filter's properties.
     ///
@@ -3155,7 +3155,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMetricAttribution` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeMetricAttribution` operation on the `Personalize` service.
     ///
     /// Describes a metric attribution.
     ///
@@ -3226,7 +3226,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRecipe` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeRecipe` operation on the `Personalize` service.
     ///
     /// Describes a recipe. A recipe contains three items:
     ///
@@ -3306,7 +3306,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRecommender` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeRecommender` operation on the `Personalize` service.
     ///
     /// Describes the given recommender, including its status. A recommender can be in one of the following states:
     ///
@@ -3386,7 +3386,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSchema` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeSchema` operation on the `Personalize` service.
     ///
     /// Describes a schema. For more information on schemas, see [CreateSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html).
     ///
@@ -3457,7 +3457,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSolution` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeSolution` operation on the `Personalize` service.
     ///
     /// Describes a solution. For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html).
     ///
@@ -3528,7 +3528,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSolutionVersion` operation on the `AmazonPersonalize` service.
+    /// Performs the `DescribeSolutionVersion` operation on the `Personalize` service.
     ///
     /// Describes a specific version of a solution. For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html)
     ///
@@ -3599,7 +3599,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSolutionMetrics` operation on the `AmazonPersonalize` service.
+    /// Performs the `GetSolutionMetrics` operation on the `Personalize` service.
     ///
     /// Gets the metrics for the specified solution version.
     ///
@@ -3671,7 +3671,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBatchInferenceJobs` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListBatchInferenceJobs` operation on the `Personalize` service.
     ///
     /// Gets a list of the batch inference jobs that have been performed off of a solution version.
     ///
@@ -3742,7 +3742,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBatchSegmentJobs` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListBatchSegmentJobs` operation on the `Personalize` service.
     ///
     /// Gets a list of the batch segment jobs that have been performed off of a solution version that you specify.
     ///
@@ -3813,7 +3813,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCampaigns` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListCampaigns` operation on the `Personalize` service.
     ///
     /// Returns a list of campaigns that use the given solution. When a solution is not specified, all the campaigns associated with the account are listed. The response provides the properties for each campaign, including the Amazon Resource Name (ARN). For more information on campaigns, see [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html).
     ///
@@ -3884,7 +3884,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataDeletionJobs` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListDataDeletionJobs` operation on the `Personalize` service.
     ///
     /// Returns a list of data deletion jobs for a dataset group ordered by creation time, with the most recent first. When a dataset group is not specified, all the data deletion jobs associated with the account are listed. The response provides the properties for each job, including the Amazon Resource Name (ARN). For more information on data deletion jobs, see [Deleting users](https://docs.aws.amazon.com/personalize/latest/dg/delete-records.html).
     ///
@@ -3955,7 +3955,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasetExportJobs` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListDatasetExportJobs` operation on the `Personalize` service.
     ///
     /// Returns a list of dataset export jobs that use the given dataset. When a dataset is not specified, all the dataset export jobs associated with the account are listed. The response provides the properties for each dataset export job, including the Amazon Resource Name (ARN). For more information on dataset export jobs, see [CreateDatasetExportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetExportJob.html). For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
@@ -4026,7 +4026,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasetGroups` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListDatasetGroups` operation on the `Personalize` service.
     ///
     /// Returns a list of dataset groups. The response provides the properties for each dataset group, including the Amazon Resource Name (ARN). For more information on dataset groups, see [CreateDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html).
     ///
@@ -4096,7 +4096,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasetImportJobs` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListDatasetImportJobs` operation on the `Personalize` service.
     ///
     /// Returns a list of dataset import jobs that use the given dataset. When a dataset is not specified, all the dataset import jobs associated with the account are listed. The response provides the properties for each dataset import job, including the Amazon Resource Name (ARN). For more information on dataset import jobs, see [CreateDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html). For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
@@ -4167,7 +4167,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasets` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListDatasets` operation on the `Personalize` service.
     ///
     /// Returns the list of datasets contained in the given dataset group. The response provides the properties for each dataset, including the Amazon Resource Name (ARN). For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
@@ -4238,7 +4238,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEventTrackers` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListEventTrackers` operation on the `Personalize` service.
     ///
     /// Returns the list of event trackers associated with the account. The response provides the properties for each event tracker, including the Amazon Resource Name (ARN) and tracking ID. For more information on event trackers, see [CreateEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateEventTracker.html).
     ///
@@ -4309,7 +4309,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFilters` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListFilters` operation on the `Personalize` service.
     ///
     /// Lists all filters that belong to a given dataset group.
     ///
@@ -4380,7 +4380,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMetricAttributionMetrics` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListMetricAttributionMetrics` operation on the `Personalize` service.
     ///
     /// Lists the metrics for the metric attribution.
     ///
@@ -4451,7 +4451,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMetricAttributions` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListMetricAttributions` operation on the `Personalize` service.
     ///
     /// Lists metric attributions.
     ///
@@ -4522,7 +4522,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecipes` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListRecipes` operation on the `Personalize` service.
     ///
     /// Returns a list of available recipes. The response provides the properties for each recipe, including the recipe's Amazon Resource Name (ARN).
     ///
@@ -4593,7 +4593,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecommenders` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListRecommenders` operation on the `Personalize` service.
     ///
     /// Returns a list of recommenders in a given Domain dataset group. When a Domain dataset group is not specified, all the recommenders associated with the account are listed. The response provides the properties for each recommender, including the Amazon Resource Name (ARN). For more information on recommenders, see [CreateRecommender](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateRecommender.html).
     ///
@@ -4664,7 +4664,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSchemas` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListSchemas` operation on the `Personalize` service.
     ///
     /// Returns the list of schemas associated with the account. The response provides the properties for each schema, including the Amazon Resource Name (ARN). For more information on schemas, see [CreateSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html).
     ///
@@ -4734,7 +4734,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSolutionVersions` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListSolutionVersions` operation on the `Personalize` service.
     ///
     /// Returns a list of solution versions for the given solution. When a solution is not specified, all the solution versions associated with the account are listed. The response provides the properties for each solution version, including the Amazon Resource Name (ARN).
     ///
@@ -4806,7 +4806,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSolutions` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListSolutions` operation on the `Personalize` service.
     ///
     /// Returns a list of solutions in a given dataset group. When a dataset group is not specified, all the solutions associated with the account are listed. The response provides the properties for each solution, including the Amazon Resource Name (ARN). For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html).
     ///
@@ -4877,7 +4877,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonPersonalize` service.
+    /// Performs the `ListTagsForResource` operation on the `Personalize` service.
     ///
     /// Get a list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) attached to a resource.
     ///
@@ -4949,7 +4949,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartRecommender` operation on the `AmazonPersonalize` service.
+    /// Performs the `StartRecommender` operation on the `Personalize` service.
     ///
     /// Starts a recommender that is INACTIVE. Starting a recommender does not create any new models, but resumes billing and automatic retraining for the recommender.
     ///
@@ -5021,7 +5021,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopRecommender` operation on the `AmazonPersonalize` service.
+    /// Performs the `StopRecommender` operation on the `Personalize` service.
     ///
     /// Stops a recommender that is ACTIVE. Stopping a recommender halts billing and automatic retraining for the recommender.
     ///
@@ -5093,7 +5093,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopSolutionVersionCreation` operation on the `AmazonPersonalize` service.
+    /// Performs the `StopSolutionVersionCreation` operation on the `Personalize` service.
     ///
     /// Stops creating a solution version that is in a state of CREATE_PENDING or CREATE IN_PROGRESS. Depending on the current state of the solution version, the solution version state changes as follows:
     ///
@@ -5172,7 +5172,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonPersonalize` service.
+    /// Performs the `TagResource` operation on the `Personalize` service.
     ///
     /// Add a list of tags to a resource.
     ///
@@ -5246,7 +5246,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonPersonalize` service.
+    /// Performs the `UntagResource` operation on the `Personalize` service.
     ///
     /// Removes the specified tags that are attached to a resource. For more information, see [Removing tags from Amazon Personalize resources](https://docs.aws.amazon.com/personalize/latest/dg/tags-remove.html).
     ///
@@ -5319,7 +5319,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCampaign` operation on the `AmazonPersonalize` service.
+    /// Performs the `UpdateCampaign` operation on the `Personalize` service.
     ///
     /// Updates a campaign to deploy a retrained solution version with an existing campaign, change your campaign's minProvisionedTPS, or modify your campaign's configuration. For example, you can set enableMetadataWithRecommendations to true for an existing campaign. To update a campaign to start automatically using the latest solution version, specify the following:
     ///
@@ -5398,7 +5398,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataset` operation on the `AmazonPersonalize` service.
+    /// Performs the `UpdateDataset` operation on the `Personalize` service.
     ///
     /// Update a dataset to replace its schema with a new or existing one. For more information, see [Replacing a dataset's schema](https://docs.aws.amazon.com/personalize/latest/dg/updating-dataset-schema.html).
     ///
@@ -5470,7 +5470,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMetricAttribution` operation on the `AmazonPersonalize` service.
+    /// Performs the `UpdateMetricAttribution` operation on the `Personalize` service.
     ///
     /// Updates a metric attribution.
     ///
@@ -5543,7 +5543,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRecommender` operation on the `AmazonPersonalize` service.
+    /// Performs the `UpdateRecommender` operation on the `Personalize` service.
     ///
     /// Updates the recommender to modify the recommender configuration. If you update the recommender to modify the columns used in training, Amazon Personalize automatically starts a full retraining of the models backing your recommender. While the update completes, you can still get recommendations from the recommender. The recommender uses the previous configuration until the update completes. To track the status of this update, use the latestRecommenderUpdate returned in the [DescribeRecommender](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecommender.html) operation.
     ///
@@ -5615,7 +5615,7 @@ extension PersonalizeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSolution` operation on the `AmazonPersonalize` service.
+    /// Performs the `UpdateSolution` operation on the `Personalize` service.
     ///
     /// Updates an Amazon Personalize solution to use a different automatic training configuration. When you update a solution, you can change whether the solution uses automatic training, and you can change the training frequency. For more information about updating a solution, see [Updating a solution](https://docs.aws.amazon.com/personalize/latest/dg/updating-solution.html). A solution update can be in one of the following states: CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED To get the status of a solution update, call the [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html) API operation and find the status in the latestSolutionUpdate.
     ///

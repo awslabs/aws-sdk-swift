@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FinspaceClient: ClientRuntime.Client {
     public static let clientName = "FinspaceClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: FinspaceClient.FinspaceClientConfiguration
     let serviceName = "finspace"
@@ -331,7 +331,7 @@ extension FinspaceClient {
 }
 
 extension FinspaceClient {
-    /// Performs the `CreateEnvironment` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `CreateEnvironment` operation on the `Finspace` service.
     ///
     /// Create a new FinSpace environment.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -406,7 +406,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKxChangeset` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `CreateKxChangeset` operation on the `Finspace` service.
     ///
     /// Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
     ///
@@ -482,7 +482,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKxCluster` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `CreateKxCluster` operation on the `Finspace` service.
     ///
     /// Creates a new kdb cluster.
     ///
@@ -558,7 +558,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKxDatabase` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `CreateKxDatabase` operation on the `Finspace` service.
     ///
     /// Creates a new kdb database in the environment.
     ///
@@ -635,7 +635,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKxDataview` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `CreateKxDataview` operation on the `Finspace` service.
     ///
     /// Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters.
     ///
@@ -712,7 +712,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKxEnvironment` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `CreateKxEnvironment` operation on the `Finspace` service.
     ///
     /// Creates a managed kdb environment for the account.
     ///
@@ -788,7 +788,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKxScalingGroup` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `CreateKxScalingGroup` operation on the `Finspace` service.
     ///
     /// Creates a new scaling group.
     ///
@@ -864,7 +864,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKxUser` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `CreateKxUser` operation on the `Finspace` service.
     ///
     /// Creates a user in FinSpace kdb environment with an associated IAM role.
     ///
@@ -941,7 +941,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKxVolume` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `CreateKxVolume` operation on the `Finspace` service.
     ///
     /// Creates a new volume with a specific amount of throughput and storage capacity.
     ///
@@ -1018,7 +1018,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEnvironment` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `DeleteEnvironment` operation on the `Finspace` service.
     ///
     /// Delete an FinSpace environment.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1089,7 +1089,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKxCluster` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `DeleteKxCluster` operation on the `Finspace` service.
     ///
     /// Deletes a kdb cluster.
     ///
@@ -1163,7 +1163,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKxClusterNode` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `DeleteKxClusterNode` operation on the `Finspace` service.
     ///
     /// Deletes the specified nodes from a cluster.
     ///
@@ -1233,7 +1233,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKxDatabase` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `DeleteKxDatabase` operation on the `Finspace` service.
     ///
     /// Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
     ///
@@ -1306,7 +1306,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKxDataview` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `DeleteKxDataview` operation on the `Finspace` service.
     ///
     /// Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use by any cluster.
     ///
@@ -1379,7 +1379,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKxEnvironment` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `DeleteKxEnvironment` operation on the `Finspace` service.
     ///
     /// Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
     ///
@@ -1452,7 +1452,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKxScalingGroup` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `DeleteKxScalingGroup` operation on the `Finspace` service.
     ///
     /// Deletes the specified scaling group. This action is irreversible. You cannot delete a scaling group until all the clusters running on it have been deleted.
     ///
@@ -1526,7 +1526,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKxUser` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `DeleteKxUser` operation on the `Finspace` service.
     ///
     /// Deletes a user in the specified kdb environment.
     ///
@@ -1599,7 +1599,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKxVolume` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `DeleteKxVolume` operation on the `Finspace` service.
     ///
     /// Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible.
     ///
@@ -1673,7 +1673,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEnvironment` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `GetEnvironment` operation on the `Finspace` service.
     ///
     /// Returns the FinSpace environment object.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1743,7 +1743,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKxChangeset` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `GetKxChangeset` operation on the `Finspace` service.
     ///
     /// Returns information about a kdb changeset.
     ///
@@ -1813,7 +1813,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKxCluster` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `GetKxCluster` operation on the `Finspace` service.
     ///
     /// Retrieves information about a kdb cluster.
     ///
@@ -1885,7 +1885,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKxConnectionString` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `GetKxConnectionString` operation on the `Finspace` service.
     ///
     /// Retrieves a connection string for a user to connect to a kdb cluster. You must call this API using the same role that you have defined while creating a user.
     ///
@@ -1956,7 +1956,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKxDatabase` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `GetKxDatabase` operation on the `Finspace` service.
     ///
     /// Returns database information for the specified environment ID.
     ///
@@ -2026,7 +2026,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKxDataview` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `GetKxDataview` operation on the `Finspace` service.
     ///
     /// Retrieves details of the dataview.
     ///
@@ -2096,7 +2096,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKxEnvironment` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `GetKxEnvironment` operation on the `Finspace` service.
     ///
     /// Retrieves all the information for the specified kdb environment.
     ///
@@ -2166,7 +2166,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKxScalingGroup` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `GetKxScalingGroup` operation on the `Finspace` service.
     ///
     /// Retrieves details of a scaling group.
     ///
@@ -2238,7 +2238,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKxUser` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `GetKxUser` operation on the `Finspace` service.
     ///
     /// Retrieves information about the specified kdb user.
     ///
@@ -2308,7 +2308,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKxVolume` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `GetKxVolume` operation on the `Finspace` service.
     ///
     /// Retrieves the information about the volume.
     ///
@@ -2380,7 +2380,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEnvironments` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `ListEnvironments` operation on the `Finspace` service.
     ///
     /// A list of all of your FinSpace environments.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -2450,7 +2450,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKxChangesets` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `ListKxChangesets` operation on the `Finspace` service.
     ///
     /// Returns a list of all the changesets for a database.
     ///
@@ -2521,7 +2521,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKxClusterNodes` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `ListKxClusterNodes` operation on the `Finspace` service.
     ///
     /// Lists all the nodes in a kdb cluster.
     ///
@@ -2593,7 +2593,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKxClusters` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `ListKxClusters` operation on the `Finspace` service.
     ///
     /// Returns a list of clusters.
     ///
@@ -2666,7 +2666,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKxDatabases` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `ListKxDatabases` operation on the `Finspace` service.
     ///
     /// Returns a list of all the databases in the kdb environment.
     ///
@@ -2737,7 +2737,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKxDataviews` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `ListKxDataviews` operation on the `Finspace` service.
     ///
     /// Returns a list of all the dataviews in the database.
     ///
@@ -2808,7 +2808,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKxEnvironments` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `ListKxEnvironments` operation on the `Finspace` service.
     ///
     /// Returns a list of kdb environments created in an account.
     ///
@@ -2877,7 +2877,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKxScalingGroups` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `ListKxScalingGroups` operation on the `Finspace` service.
     ///
     /// Returns a list of scaling groups in a kdb environment.
     ///
@@ -2950,7 +2950,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKxUsers` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `ListKxUsers` operation on the `Finspace` service.
     ///
     /// Lists all the users in a kdb environment.
     ///
@@ -3021,7 +3021,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKxVolumes` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `ListKxVolumes` operation on the `Finspace` service.
     ///
     /// Lists all the volumes in a kdb environment.
     ///
@@ -3094,7 +3094,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `ListTagsForResource` operation on the `Finspace` service.
     ///
     /// A list of all tags for a resource.
     ///
@@ -3162,7 +3162,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `TagResource` operation on the `Finspace` service.
     ///
     /// Adds metadata tags to a FinSpace resource.
     ///
@@ -3233,7 +3233,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `UntagResource` operation on the `Finspace` service.
     ///
     /// Removes metadata tags from a FinSpace resource.
     ///
@@ -3302,7 +3302,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEnvironment` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `UpdateEnvironment` operation on the `Finspace` service.
     ///
     /// Update your FinSpace environment.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -3376,7 +3376,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKxClusterCodeConfiguration` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `UpdateKxClusterCodeConfiguration` operation on the `Finspace` service.
     ///
     /// Allows you to update code configuration on a running cluster. By using this API you can update the code, the initialization script path, and the command line arguments for a specific cluster. The configuration that you want to update will override any existing configurations on the cluster.
     ///
@@ -3452,7 +3452,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKxClusterDatabases` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `UpdateKxClusterDatabases` operation on the `Finspace` service.
     ///
     /// Updates the databases mounted on a kdb cluster, which includes the changesetId and all the dbPaths to be cached. This API does not allow you to change a database name or add a database if you created a cluster without one. Using this API you can point a cluster to a different changeset and modify a list of partitions being cached.
     ///
@@ -3528,7 +3528,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKxDatabase` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `UpdateKxDatabase` operation on the `Finspace` service.
     ///
     /// Updates information for the given kdb database.
     ///
@@ -3603,7 +3603,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKxDataview` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `UpdateKxDataview` operation on the `Finspace` service.
     ///
     /// Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations
     ///
@@ -3679,7 +3679,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKxEnvironment` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `UpdateKxEnvironment` operation on the `Finspace` service.
     ///
     /// Updates information for the given kdb environment.
     ///
@@ -3754,7 +3754,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKxEnvironmentNetwork` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `UpdateKxEnvironmentNetwork` operation on the `Finspace` service.
     ///
     /// Updates environment network to connect to your internal network by using a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network.
     ///
@@ -3829,7 +3829,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKxUser` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `UpdateKxUser` operation on the `Finspace` service.
     ///
     /// Updates the user details. You can only update the IAM role associated with a user.
     ///
@@ -3905,7 +3905,7 @@ extension FinspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKxVolume` operation on the `AWSHabaneroManagementService` service.
+    /// Performs the `UpdateKxVolume` operation on the `Finspace` service.
     ///
     /// Updates the throughput or capacity of a volume. During the update process, the filesystem might be unavailable for a few minutes. You can retry any operations after the update is complete.
     ///

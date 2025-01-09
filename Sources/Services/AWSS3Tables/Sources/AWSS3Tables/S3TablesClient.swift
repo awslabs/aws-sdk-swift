@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3TablesClient: ClientRuntime.Client {
     public static let clientName = "S3TablesClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: S3TablesClient.S3TablesClientConfiguration
     let serviceName = "S3Tables"
@@ -330,7 +330,7 @@ extension S3TablesClient {
 }
 
 extension S3TablesClient {
-    /// Performs the `CreateNamespace` operation on the `S3TableBuckets` service.
+    /// Performs the `CreateNamespace` operation on the `S3Tables` service.
     ///
     /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see [Table namespaces](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace.html).
     ///
@@ -404,7 +404,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTable` operation on the `S3TableBuckets` service.
+    /// Performs the `CreateTable` operation on the `S3Tables` service.
     ///
     /// Creates a new table associated with the given namespace in a table bucket.
     ///
@@ -478,7 +478,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTableBucket` operation on the `S3TableBuckets` service.
+    /// Performs the `CreateTableBucket` operation on the `S3Tables` service.
     ///
     /// Creates a table bucket.
     ///
@@ -552,7 +552,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNamespace` operation on the `S3TableBuckets` service.
+    /// Performs the `DeleteNamespace` operation on the `S3Tables` service.
     ///
     /// Deletes a namespace.
     ///
@@ -623,7 +623,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTable` operation on the `S3TableBuckets` service.
+    /// Performs the `DeleteTable` operation on the `S3Tables` service.
     ///
     /// Deletes a table.
     ///
@@ -695,7 +695,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTableBucket` operation on the `S3TableBuckets` service.
+    /// Performs the `DeleteTableBucket` operation on the `S3Tables` service.
     ///
     /// Deletes a table bucket.
     ///
@@ -766,7 +766,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTableBucketPolicy` operation on the `S3TableBuckets` service.
+    /// Performs the `DeleteTableBucketPolicy` operation on the `S3Tables` service.
     ///
     /// Deletes a table bucket policy.
     ///
@@ -837,7 +837,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTablePolicy` operation on the `S3TableBuckets` service.
+    /// Performs the `DeleteTablePolicy` operation on the `S3Tables` service.
     ///
     /// Deletes a table policy.
     ///
@@ -908,7 +908,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNamespace` operation on the `S3TableBuckets` service.
+    /// Performs the `GetNamespace` operation on the `S3Tables` service.
     ///
     /// Gets details about a namespace.
     ///
@@ -980,7 +980,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTable` operation on the `S3TableBuckets` service.
+    /// Performs the `GetTable` operation on the `S3Tables` service.
     ///
     /// Gets details about a table.
     ///
@@ -1052,7 +1052,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTableBucket` operation on the `S3TableBuckets` service.
+    /// Performs the `GetTableBucket` operation on the `S3Tables` service.
     ///
     /// Gets details on a table bucket.
     ///
@@ -1124,7 +1124,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTableBucketMaintenanceConfiguration` operation on the `S3TableBuckets` service.
+    /// Performs the `GetTableBucketMaintenanceConfiguration` operation on the `S3Tables` service.
     ///
     /// Gets details about a maintenance configuration for a given table bucket.
     ///
@@ -1195,7 +1195,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTableBucketPolicy` operation on the `S3TableBuckets` service.
+    /// Performs the `GetTableBucketPolicy` operation on the `S3Tables` service.
     ///
     /// Gets details about a table bucket policy.
     ///
@@ -1266,7 +1266,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTableMaintenanceConfiguration` operation on the `S3TableBuckets` service.
+    /// Performs the `GetTableMaintenanceConfiguration` operation on the `S3Tables` service.
     ///
     /// Gets details about the maintenance configuration of a table.
     ///
@@ -1337,7 +1337,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTableMaintenanceJobStatus` operation on the `S3TableBuckets` service.
+    /// Performs the `GetTableMaintenanceJobStatus` operation on the `S3Tables` service.
     ///
     /// Gets the status of a maintenance job for a table.
     ///
@@ -1408,7 +1408,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTableMetadataLocation` operation on the `S3TableBuckets` service.
+    /// Performs the `GetTableMetadataLocation` operation on the `S3Tables` service.
     ///
     /// Gets the location of the table metadata.
     ///
@@ -1479,7 +1479,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTablePolicy` operation on the `S3TableBuckets` service.
+    /// Performs the `GetTablePolicy` operation on the `S3Tables` service.
     ///
     /// Gets details about a table policy.
     ///
@@ -1550,7 +1550,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNamespaces` operation on the `S3TableBuckets` service.
+    /// Performs the `ListNamespaces` operation on the `S3Tables` service.
     ///
     /// Lists the namespaces within a table bucket.
     ///
@@ -1623,7 +1623,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTableBuckets` operation on the `S3TableBuckets` service.
+    /// Performs the `ListTableBuckets` operation on the `S3Tables` service.
     ///
     /// Lists table buckets for your account.
     ///
@@ -1696,7 +1696,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTables` operation on the `S3TableBuckets` service.
+    /// Performs the `ListTables` operation on the `S3Tables` service.
     ///
     /// List tables in the given table bucket.
     ///
@@ -1768,7 +1768,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutTableBucketMaintenanceConfiguration` operation on the `S3TableBuckets` service.
+    /// Performs the `PutTableBucketMaintenanceConfiguration` operation on the `S3Tables` service.
     ///
     /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket.
     ///
@@ -1842,7 +1842,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutTableBucketPolicy` operation on the `S3TableBuckets` service.
+    /// Performs the `PutTableBucketPolicy` operation on the `S3Tables` service.
     ///
     /// Creates a new maintenance configuration or replaces an existing table bucket policy for a table bucket.
     ///
@@ -1916,7 +1916,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutTableMaintenanceConfiguration` operation on the `S3TableBuckets` service.
+    /// Performs the `PutTableMaintenanceConfiguration` operation on the `S3Tables` service.
     ///
     /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table.
     ///
@@ -1990,7 +1990,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutTablePolicy` operation on the `S3TableBuckets` service.
+    /// Performs the `PutTablePolicy` operation on the `S3Tables` service.
     ///
     /// Creates a new maintenance configuration or replaces an existing table policy for a table.
     ///
@@ -2064,7 +2064,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RenameTable` operation on the `S3TableBuckets` service.
+    /// Performs the `RenameTable` operation on the `S3Tables` service.
     ///
     /// Renames a table or a namespace.
     ///
@@ -2138,7 +2138,7 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTableMetadataLocation` operation on the `S3TableBuckets` service.
+    /// Performs the `UpdateTableMetadataLocation` operation on the `S3Tables` service.
     ///
     /// Updates the metadata location for a table.
     ///

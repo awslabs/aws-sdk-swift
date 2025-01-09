@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MgnClient: ClientRuntime.Client {
     public static let clientName = "MgnClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: MgnClient.MgnClientConfiguration
     let serviceName = "mgn"
@@ -330,7 +330,7 @@ extension MgnClient {
 }
 
 extension MgnClient {
-    /// Performs the `ArchiveApplication` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ArchiveApplication` operation on the `Mgn` service.
     ///
     /// Archive application.
     ///
@@ -402,7 +402,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ArchiveWave` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ArchiveWave` operation on the `Mgn` service.
     ///
     /// Archive wave.
     ///
@@ -474,7 +474,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateApplications` operation on the `ApplicationMigrationService` service.
+    /// Performs the `AssociateApplications` operation on the `Mgn` service.
     ///
     /// Associate applications to wave.
     ///
@@ -546,7 +546,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateSourceServers` operation on the `ApplicationMigrationService` service.
+    /// Performs the `AssociateSourceServers` operation on the `Mgn` service.
     ///
     /// Associate source servers to application.
     ///
@@ -618,7 +618,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ChangeServerLifeCycleState` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ChangeServerLifeCycleState` operation on the `Mgn` service.
     ///
     /// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
     ///
@@ -690,7 +690,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `ApplicationMigrationService` service.
+    /// Performs the `CreateApplication` operation on the `Mgn` service.
     ///
     /// Create application.
     ///
@@ -761,7 +761,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConnector` operation on the `ApplicationMigrationService` service.
+    /// Performs the `CreateConnector` operation on the `Mgn` service.
     ///
     /// Create Connector.
     ///
@@ -831,7 +831,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLaunchConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    /// Performs the `CreateLaunchConfigurationTemplate` operation on the `Mgn` service.
     ///
     /// Creates a new Launch Configuration Template.
     ///
@@ -902,7 +902,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReplicationConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    /// Performs the `CreateReplicationConfigurationTemplate` operation on the `Mgn` service.
     ///
     /// Creates a new ReplicationConfigurationTemplate.
     ///
@@ -973,7 +973,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWave` operation on the `ApplicationMigrationService` service.
+    /// Performs the `CreateWave` operation on the `Mgn` service.
     ///
     /// Create wave.
     ///
@@ -1044,7 +1044,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DeleteApplication` operation on the `Mgn` service.
     ///
     /// Delete application.
     ///
@@ -1115,7 +1115,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConnector` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DeleteConnector` operation on the `Mgn` service.
     ///
     /// Delete Connector.
     ///
@@ -1186,7 +1186,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteJob` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DeleteJob` operation on the `Mgn` service.
     ///
     /// Deletes a single Job by ID.
     ///
@@ -1257,7 +1257,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLaunchConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DeleteLaunchConfigurationTemplate` operation on the `Mgn` service.
     ///
     /// Deletes a single Launch Configuration Template by ID.
     ///
@@ -1328,7 +1328,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReplicationConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DeleteReplicationConfigurationTemplate` operation on the `Mgn` service.
     ///
     /// Deletes a single Replication Configuration Template by ID
     ///
@@ -1399,7 +1399,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSourceServer` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DeleteSourceServer` operation on the `Mgn` service.
     ///
     /// Deletes a single source server by ID.
     ///
@@ -1470,7 +1470,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVcenterClient` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DeleteVcenterClient` operation on the `Mgn` service.
     ///
     /// Deletes a given vCenter client by ID.
     ///
@@ -1541,7 +1541,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWave` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DeleteWave` operation on the `Mgn` service.
     ///
     /// Delete wave.
     ///
@@ -1612,7 +1612,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobLogItems` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DescribeJobLogItems` operation on the `Mgn` service.
     ///
     /// Retrieves detailed job log items with paging.
     ///
@@ -1682,7 +1682,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobs` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DescribeJobs` operation on the `Mgn` service.
     ///
     /// Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     ///
@@ -1752,7 +1752,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLaunchConfigurationTemplates` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DescribeLaunchConfigurationTemplates` operation on the `Mgn` service.
     ///
     /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
     ///
@@ -1823,7 +1823,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationConfigurationTemplates` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DescribeReplicationConfigurationTemplates` operation on the `Mgn` service.
     ///
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     ///
@@ -1894,7 +1894,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSourceServers` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DescribeSourceServers` operation on the `Mgn` service.
     ///
     /// Retrieves all SourceServers or multiple SourceServers by ID.
     ///
@@ -1964,7 +1964,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVcenterClients` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DescribeVcenterClients` operation on the `Mgn` service.
     ///
     /// Returns a list of the installed vCenter clients.
     ///
@@ -2033,7 +2033,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateApplications` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DisassociateApplications` operation on the `Mgn` service.
     ///
     /// Disassociate applications from wave.
     ///
@@ -2104,7 +2104,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateSourceServers` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DisassociateSourceServers` operation on the `Mgn` service.
     ///
     /// Disassociate source servers from application.
     ///
@@ -2175,7 +2175,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisconnectFromService` operation on the `ApplicationMigrationService` service.
+    /// Performs the `DisconnectFromService` operation on the `Mgn` service.
     ///
     /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
@@ -2246,7 +2246,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `FinalizeCutover` operation on the `ApplicationMigrationService` service.
+    /// Performs the `FinalizeCutover` operation on the `Mgn` service.
     ///
     /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
@@ -2318,7 +2318,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLaunchConfiguration` operation on the `ApplicationMigrationService` service.
+    /// Performs the `GetLaunchConfiguration` operation on the `Mgn` service.
     ///
     /// Lists all LaunchConfigurations available, filtered by Source Server IDs.
     ///
@@ -2388,7 +2388,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReplicationConfiguration` operation on the `ApplicationMigrationService` service.
+    /// Performs the `GetReplicationConfiguration` operation on the `Mgn` service.
     ///
     /// Lists all ReplicationConfigurations, filtered by Source Server ID.
     ///
@@ -2458,7 +2458,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InitializeService` operation on the `ApplicationMigrationService` service.
+    /// Performs the `InitializeService` operation on the `Mgn` service.
     ///
     /// Initialize Application Migration Service.
     ///
@@ -2525,7 +2525,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ListApplications` operation on the `Mgn` service.
     ///
     /// Retrieves all applications or multiple applications by ID.
     ///
@@ -2594,7 +2594,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConnectors` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ListConnectors` operation on the `Mgn` service.
     ///
     /// List Connectors.
     ///
@@ -2664,7 +2664,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExportErrors` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ListExportErrors` operation on the `Mgn` service.
     ///
     /// List export errors.
     ///
@@ -2734,7 +2734,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExports` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ListExports` operation on the `Mgn` service.
     ///
     /// List exports.
     ///
@@ -2803,7 +2803,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImportErrors` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ListImportErrors` operation on the `Mgn` service.
     ///
     /// List import errors.
     ///
@@ -2873,7 +2873,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImports` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ListImports` operation on the `Mgn` service.
     ///
     /// List imports.
     ///
@@ -2943,7 +2943,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListManagedAccounts` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ListManagedAccounts` operation on the `Mgn` service.
     ///
     /// List Managed Accounts.
     ///
@@ -3013,7 +3013,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSourceServerActions` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ListSourceServerActions` operation on the `Mgn` service.
     ///
     /// List source server post migration custom actions.
     ///
@@ -3083,7 +3083,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ListTagsForResource` operation on the `Mgn` service.
     ///
     /// List all tags for your Application Migration Service resources.
     ///
@@ -3153,7 +3153,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTemplateActions` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ListTemplateActions` operation on the `Mgn` service.
     ///
     /// List template post migration custom actions.
     ///
@@ -3223,7 +3223,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWaves` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ListWaves` operation on the `Mgn` service.
     ///
     /// Retrieves all waves or multiple waves by ID.
     ///
@@ -3292,7 +3292,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `MarkAsArchived` operation on the `ApplicationMigrationService` service.
+    /// Performs the `MarkAsArchived` operation on the `Mgn` service.
     ///
     /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
     ///
@@ -3363,7 +3363,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PauseReplication` operation on the `ApplicationMigrationService` service.
+    /// Performs the `PauseReplication` operation on the `Mgn` service.
     ///
     /// Pause Replication.
     ///
@@ -3436,7 +3436,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSourceServerAction` operation on the `ApplicationMigrationService` service.
+    /// Performs the `PutSourceServerAction` operation on the `Mgn` service.
     ///
     /// Put source server post migration custom action.
     ///
@@ -3508,7 +3508,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutTemplateAction` operation on the `ApplicationMigrationService` service.
+    /// Performs the `PutTemplateAction` operation on the `Mgn` service.
     ///
     /// Put template post migration custom action.
     ///
@@ -3580,7 +3580,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveSourceServerAction` operation on the `ApplicationMigrationService` service.
+    /// Performs the `RemoveSourceServerAction` operation on the `Mgn` service.
     ///
     /// Remove source server post migration custom action.
     ///
@@ -3651,7 +3651,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveTemplateAction` operation on the `ApplicationMigrationService` service.
+    /// Performs the `RemoveTemplateAction` operation on the `Mgn` service.
     ///
     /// Remove template post migration custom action.
     ///
@@ -3722,7 +3722,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResumeReplication` operation on the `ApplicationMigrationService` service.
+    /// Performs the `ResumeReplication` operation on the `Mgn` service.
     ///
     /// Resume Replication.
     ///
@@ -3795,7 +3795,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RetryDataReplication` operation on the `ApplicationMigrationService` service.
+    /// Performs the `RetryDataReplication` operation on the `Mgn` service.
     ///
     /// Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
     ///
@@ -3866,7 +3866,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartCutover` operation on the `ApplicationMigrationService` service.
+    /// Performs the `StartCutover` operation on the `Mgn` service.
     ///
     /// Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
     ///
@@ -3937,7 +3937,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartExport` operation on the `ApplicationMigrationService` service.
+    /// Performs the `StartExport` operation on the `Mgn` service.
     ///
     /// Start export.
     ///
@@ -4008,7 +4008,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartImport` operation on the `ApplicationMigrationService` service.
+    /// Performs the `StartImport` operation on the `Mgn` service.
     ///
     /// Start import.
     ///
@@ -4082,7 +4082,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartReplication` operation on the `ApplicationMigrationService` service.
+    /// Performs the `StartReplication` operation on the `Mgn` service.
     ///
     /// Starts replication for SNAPSHOT_SHIPPING agents.
     ///
@@ -4155,7 +4155,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTest` operation on the `ApplicationMigrationService` service.
+    /// Performs the `StartTest` operation on the `Mgn` service.
     ///
     /// Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
     ///
@@ -4226,7 +4226,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopReplication` operation on the `ApplicationMigrationService` service.
+    /// Performs the `StopReplication` operation on the `Mgn` service.
     ///
     /// Stop Replication.
     ///
@@ -4299,7 +4299,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `ApplicationMigrationService` service.
+    /// Performs the `TagResource` operation on the `Mgn` service.
     ///
     /// Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
     ///
@@ -4372,7 +4372,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TerminateTargetInstances` operation on the `ApplicationMigrationService` service.
+    /// Performs the `TerminateTargetInstances` operation on the `Mgn` service.
     ///
     /// Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.
     ///
@@ -4443,7 +4443,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UnarchiveApplication` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UnarchiveApplication` operation on the `Mgn` service.
     ///
     /// Unarchive application.
     ///
@@ -4514,7 +4514,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UnarchiveWave` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UnarchiveWave` operation on the `Mgn` service.
     ///
     /// Unarchive wave.
     ///
@@ -4585,7 +4585,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UntagResource` operation on the `Mgn` service.
     ///
     /// Deletes the specified set of tags from the specified set of Application Migration Service resources.
     ///
@@ -4656,7 +4656,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UpdateApplication` operation on the `Mgn` service.
     ///
     /// Update application.
     ///
@@ -4727,7 +4727,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConnector` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UpdateConnector` operation on the `Mgn` service.
     ///
     /// Update Connector.
     ///
@@ -4798,7 +4798,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLaunchConfiguration` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UpdateLaunchConfiguration` operation on the `Mgn` service.
     ///
     /// Updates multiple LaunchConfigurations by Source Server ID. bootMode valid values are LEGACY_BIOS | UEFI
     ///
@@ -4870,7 +4870,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLaunchConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UpdateLaunchConfigurationTemplate` operation on the `Mgn` service.
     ///
     /// Updates an existing Launch Configuration Template by ID.
     ///
@@ -4942,7 +4942,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateReplicationConfiguration` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UpdateReplicationConfiguration` operation on the `Mgn` service.
     ///
     /// Allows you to update multiple ReplicationConfigurations by Source Server ID.
     ///
@@ -5015,7 +5015,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateReplicationConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UpdateReplicationConfigurationTemplate` operation on the `Mgn` service.
     ///
     /// Updates multiple ReplicationConfigurationTemplates by ID.
     ///
@@ -5087,7 +5087,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSourceServer` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UpdateSourceServer` operation on the `Mgn` service.
     ///
     /// Update Source Server.
     ///
@@ -5158,7 +5158,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSourceServerReplicationType` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UpdateSourceServerReplicationType` operation on the `Mgn` service.
     ///
     /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.
     ///
@@ -5230,7 +5230,7 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWave` operation on the `ApplicationMigrationService` service.
+    /// Performs the `UpdateWave` operation on the `Mgn` service.
     ///
     /// Update wave.
     ///

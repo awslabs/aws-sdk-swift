@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKIdentityClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKIdentityClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKIdentityClient.ChimeSDKIdentityClientConfiguration
     let serviceName = "Chime SDK Identity"
@@ -331,7 +331,7 @@ extension ChimeSDKIdentityClient {
 }
 
 extension ChimeSDKIdentityClient {
-    /// Performs the `CreateAppInstance` operation on the `ChimeIdentityService` service.
+    /// Performs the `CreateAppInstance` operation on the `ChimeSDKIdentity` service.
     ///
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. identity
     ///
@@ -408,7 +408,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppInstanceAdmin` operation on the `ChimeIdentityService` service.
+    /// Performs the `CreateAppInstanceAdmin` operation on the `ChimeSDKIdentity` service.
     ///
     /// Promotes an AppInstanceUser or AppInstanceBot to an AppInstanceAdmin. The promoted entity can perform the following actions.
     ///
@@ -491,7 +491,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppInstanceBot` operation on the `ChimeIdentityService` service.
+    /// Performs the `CreateAppInstanceBot` operation on the `ChimeSDKIdentity` service.
     ///
     /// Creates a bot under an Amazon Chime AppInstance. The request consists of a unique Configuration and Name for that bot.
     ///
@@ -568,7 +568,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppInstanceUser` operation on the `ChimeIdentityService` service.
+    /// Performs the `CreateAppInstanceUser` operation on the `ChimeSDKIdentity` service.
     ///
     /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
     ///
@@ -645,7 +645,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppInstance` operation on the `ChimeIdentityService` service.
+    /// Performs the `DeleteAppInstance` operation on the `ChimeSDKIdentity` service.
     ///
     /// Deletes an AppInstance and all associated data asynchronously.
     ///
@@ -717,7 +717,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppInstanceAdmin` operation on the `ChimeIdentityService` service.
+    /// Performs the `DeleteAppInstanceAdmin` operation on the `ChimeSDKIdentity` service.
     ///
     /// Demotes an AppInstanceAdmin to an AppInstanceUser or AppInstanceBot. This action does not delete the user.
     ///
@@ -790,7 +790,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppInstanceBot` operation on the `ChimeIdentityService` service.
+    /// Performs the `DeleteAppInstanceBot` operation on the `ChimeSDKIdentity` service.
     ///
     /// Deletes an AppInstanceBot.
     ///
@@ -863,7 +863,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppInstanceUser` operation on the `ChimeIdentityService` service.
+    /// Performs the `DeleteAppInstanceUser` operation on the `ChimeSDKIdentity` service.
     ///
     /// Deletes an AppInstanceUser.
     ///
@@ -936,7 +936,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterAppInstanceUserEndpoint` operation on the `ChimeIdentityService` service.
+    /// Performs the `DeregisterAppInstanceUserEndpoint` operation on the `ChimeSDKIdentity` service.
     ///
     /// Deregisters an AppInstanceUserEndpoint.
     ///
@@ -1007,7 +1007,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppInstance` operation on the `ChimeIdentityService` service.
+    /// Performs the `DescribeAppInstance` operation on the `ChimeSDKIdentity` service.
     ///
     /// Returns the full details of an AppInstance.
     ///
@@ -1078,7 +1078,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppInstanceAdmin` operation on the `ChimeIdentityService` service.
+    /// Performs the `DescribeAppInstanceAdmin` operation on the `ChimeSDKIdentity` service.
     ///
     /// Returns the full details of an AppInstanceAdmin.
     ///
@@ -1149,7 +1149,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppInstanceBot` operation on the `ChimeIdentityService` service.
+    /// Performs the `DescribeAppInstanceBot` operation on the `ChimeSDKIdentity` service.
     ///
     /// The AppInstanceBot's information.
     ///
@@ -1221,7 +1221,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppInstanceUser` operation on the `ChimeIdentityService` service.
+    /// Performs the `DescribeAppInstanceUser` operation on the `ChimeSDKIdentity` service.
     ///
     /// Returns the full details of an AppInstanceUser.
     ///
@@ -1292,7 +1292,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppInstanceUserEndpoint` operation on the `ChimeIdentityService` service.
+    /// Performs the `DescribeAppInstanceUserEndpoint` operation on the `ChimeSDKIdentity` service.
     ///
     /// Returns the full details of an AppInstanceUserEndpoint.
     ///
@@ -1363,7 +1363,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAppInstanceRetentionSettings` operation on the `ChimeIdentityService` service.
+    /// Performs the `GetAppInstanceRetentionSettings` operation on the `ChimeSDKIdentity` service.
     ///
     /// Gets the retention settings for an AppInstance.
     ///
@@ -1434,7 +1434,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppInstanceAdmins` operation on the `ChimeIdentityService` service.
+    /// Performs the `ListAppInstanceAdmins` operation on the `ChimeSDKIdentity` service.
     ///
     /// Returns a list of the administrators in the AppInstance.
     ///
@@ -1507,7 +1507,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppInstanceBots` operation on the `ChimeIdentityService` service.
+    /// Performs the `ListAppInstanceBots` operation on the `ChimeSDKIdentity` service.
     ///
     /// Lists all AppInstanceBots created under a single AppInstance.
     ///
@@ -1580,7 +1580,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppInstanceUserEndpoints` operation on the `ChimeIdentityService` service.
+    /// Performs the `ListAppInstanceUserEndpoints` operation on the `ChimeSDKIdentity` service.
     ///
     /// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
     ///
@@ -1652,7 +1652,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppInstanceUsers` operation on the `ChimeIdentityService` service.
+    /// Performs the `ListAppInstanceUsers` operation on the `ChimeSDKIdentity` service.
     ///
     /// List all AppInstanceUsers created under a single AppInstance.
     ///
@@ -1724,7 +1724,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppInstances` operation on the `ChimeIdentityService` service.
+    /// Performs the `ListAppInstances` operation on the `ChimeSDKIdentity` service.
     ///
     /// Lists all Amazon Chime AppInstances created under a single AWS account.
     ///
@@ -1796,7 +1796,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `ChimeIdentityService` service.
+    /// Performs the `ListTagsForResource` operation on the `ChimeSDKIdentity` service.
     ///
     /// Lists the tags applied to an Amazon Chime SDK identity resource.
     ///
@@ -1868,7 +1868,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAppInstanceRetentionSettings` operation on the `ChimeIdentityService` service.
+    /// Performs the `PutAppInstanceRetentionSettings` operation on the `ChimeSDKIdentity` service.
     ///
     /// Sets the amount of time in days that a given AppInstance retains data.
     ///
@@ -1942,7 +1942,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAppInstanceUserExpirationSettings` operation on the `ChimeIdentityService` service.
+    /// Performs the `PutAppInstanceUserExpirationSettings` operation on the `ChimeSDKIdentity` service.
     ///
     /// Sets the number of days before the AppInstanceUser is automatically deleted. A background process deletes expired AppInstanceUsers within 6 hours of expiration. Actual deletion times may vary. Expired AppInstanceUsers that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings.
     ///
@@ -2017,7 +2017,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterAppInstanceUserEndpoint` operation on the `ChimeIdentityService` service.
+    /// Performs the `RegisterAppInstanceUserEndpoint` operation on the `ChimeSDKIdentity` service.
     ///
     /// Registers an endpoint under an Amazon Chime AppInstanceUser. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
     ///
@@ -2094,7 +2094,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `ChimeIdentityService` service.
+    /// Performs the `TagResource` operation on the `ChimeSDKIdentity` service.
     ///
     /// Applies the specified tags to the specified Amazon Chime SDK identity resource.
     ///
@@ -2170,7 +2170,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `ChimeIdentityService` service.
+    /// Performs the `UntagResource` operation on the `ChimeSDKIdentity` service.
     ///
     /// Removes the specified tags from the specified Amazon Chime SDK identity resource.
     ///
@@ -2245,7 +2245,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAppInstance` operation on the `ChimeIdentityService` service.
+    /// Performs the `UpdateAppInstance` operation on the `ChimeSDKIdentity` service.
     ///
     /// Updates AppInstance metadata.
     ///
@@ -2320,7 +2320,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAppInstanceBot` operation on the `ChimeIdentityService` service.
+    /// Performs the `UpdateAppInstanceBot` operation on the `ChimeSDKIdentity` service.
     ///
     /// Updates the name and metadata of an AppInstanceBot.
     ///
@@ -2396,7 +2396,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAppInstanceUser` operation on the `ChimeIdentityService` service.
+    /// Performs the `UpdateAppInstanceUser` operation on the `ChimeSDKIdentity` service.
     ///
     /// Updates the details of an AppInstanceUser. You can update names and metadata.
     ///
@@ -2472,7 +2472,7 @@ extension ChimeSDKIdentityClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAppInstanceUserEndpoint` operation on the `ChimeIdentityService` service.
+    /// Performs the `UpdateAppInstanceUserEndpoint` operation on the `ChimeSDKIdentity` service.
     ///
     /// Updates the details of an AppInstanceUserEndpoint. You can update the name and AllowMessage values.
     ///

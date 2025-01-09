@@ -48,8 +48,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -73,8 +72,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -98,8 +96,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -123,8 +120,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -148,8 +144,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -168,8 +163,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -198,8 +192,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         fieldList: [BedrockDataAutomationClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
     }
@@ -248,8 +241,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             kmsEncryptionContext: [Swift.String: Swift.String]? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsEncryptionContext = kmsEncryptionContext
             self.kmsKeyId = kmsKeyId
         }
@@ -311,8 +303,7 @@ public struct CreateBlueprintInput: Swift.Sendable {
         encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration? = nil,
         schema: Swift.String? = nil,
         type: BedrockDataAutomationClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.blueprintName = blueprintName
         self.blueprintStage = blueprintStage
         self.clientToken = clientToken
@@ -369,8 +360,7 @@ extension BedrockDataAutomationClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             schema: Swift.String? = nil,
             type: BedrockDataAutomationClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.blueprintArn = blueprintArn
             self.blueprintName = blueprintName
             self.blueprintStage = blueprintStage
@@ -398,8 +388,7 @@ public struct CreateBlueprintOutput: Swift.Sendable {
 
     public init(
         blueprint: BedrockDataAutomationClientTypes.Blueprint? = nil
-    )
-    {
+    ) {
         self.blueprint = blueprint
     }
 }
@@ -423,8 +412,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -440,8 +428,7 @@ public struct DeleteBlueprintInput: Swift.Sendable {
     public init(
         blueprintArn: Swift.String? = nil,
         blueprintVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintArn = blueprintArn
         self.blueprintVersion = blueprintVersion
     }
@@ -467,8 +454,7 @@ public struct GetBlueprintInput: Swift.Sendable {
         blueprintArn: Swift.String? = nil,
         blueprintStage: BedrockDataAutomationClientTypes.BlueprintStage? = nil,
         blueprintVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintArn = blueprintArn
         self.blueprintStage = blueprintStage
         self.blueprintVersion = blueprintVersion
@@ -483,8 +469,7 @@ public struct GetBlueprintOutput: Swift.Sendable {
 
     public init(
         blueprint: BedrockDataAutomationClientTypes.Blueprint? = nil
-    )
-    {
+    ) {
         self.blueprint = blueprint
     }
 }
@@ -565,8 +550,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             projectArn: Swift.String? = nil,
             projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil
-        )
-        {
+        ) {
             self.projectArn = projectArn
             self.projectStage = projectStage
         }
@@ -625,8 +609,7 @@ public struct ListBlueprintsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         projectFilter: BedrockDataAutomationClientTypes.DataAutomationProjectFilter? = nil,
         resourceOwner: BedrockDataAutomationClientTypes.ResourceOwner? = nil
-    )
-    {
+    ) {
         self.blueprintArn = blueprintArn
         self.blueprintStageFilter = blueprintStageFilter
         self.maxResults = maxResults
@@ -662,8 +645,7 @@ extension BedrockDataAutomationClientTypes {
             blueprintVersion: Swift.String? = nil,
             creationTime: Foundation.Date? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.blueprintArn = blueprintArn
             self.blueprintName = blueprintName
             self.blueprintStage = blueprintStage
@@ -690,8 +672,7 @@ public struct ListBlueprintsOutput: Swift.Sendable {
     public init(
         blueprints: [BedrockDataAutomationClientTypes.BlueprintSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprints = blueprints
         self.nextToken = nextToken
     }
@@ -712,8 +693,7 @@ public struct UpdateBlueprintInput: Swift.Sendable {
         blueprintArn: Swift.String? = nil,
         blueprintStage: BedrockDataAutomationClientTypes.BlueprintStage? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintArn = blueprintArn
         self.blueprintStage = blueprintStage
         self.schema = schema
@@ -733,8 +713,7 @@ public struct UpdateBlueprintOutput: Swift.Sendable {
 
     public init(
         blueprint: BedrockDataAutomationClientTypes.Blueprint? = nil
-    )
-    {
+    ) {
         self.blueprint = blueprint
     }
 }
@@ -750,8 +729,7 @@ public struct CreateBlueprintVersionInput: Swift.Sendable {
     public init(
         blueprintArn: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintArn = blueprintArn
         self.clientToken = clientToken
     }
@@ -765,8 +743,7 @@ public struct CreateBlueprintVersionOutput: Swift.Sendable {
 
     public init(
         blueprint: BedrockDataAutomationClientTypes.Blueprint? = nil
-    )
-    {
+    ) {
         self.blueprint = blueprint
     }
 }
@@ -787,8 +764,7 @@ extension BedrockDataAutomationClientTypes {
             blueprintArn: Swift.String? = nil,
             blueprintStage: BedrockDataAutomationClientTypes.BlueprintStage? = nil,
             blueprintVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintArn = blueprintArn
             self.blueprintStage = blueprintStage
             self.blueprintVersion = blueprintVersion
@@ -805,8 +781,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             blueprints: [BedrockDataAutomationClientTypes.BlueprintItem]? = nil
-        )
-        {
+        ) {
             self.blueprints = blueprints
         }
     }
@@ -851,8 +826,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -867,8 +841,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             splitter: BedrockDataAutomationClientTypes.SplitterConfiguration? = nil
-        )
-        {
+        ) {
             self.splitter = splitter
         }
     }
@@ -883,8 +856,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             document: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration? = nil
-        )
-        {
+        ) {
             self.document = document
         }
     }
@@ -935,8 +907,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil,
             types: [BedrockDataAutomationClientTypes.AudioExtractionCategoryType]? = nil
-        )
-        {
+        ) {
             self.state = state
             self.types = types
         }
@@ -953,8 +924,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             category: BedrockDataAutomationClientTypes.AudioExtractionCategory? = nil
-        )
-        {
+        ) {
             self.category = category
         }
     }
@@ -1005,8 +975,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil,
             types: [BedrockDataAutomationClientTypes.AudioStandardGenerativeFieldType]? = nil
-        )
-        {
+        ) {
             self.state = state
             self.types = types
         }
@@ -1025,8 +994,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             extraction: BedrockDataAutomationClientTypes.AudioStandardExtraction? = nil,
             generativeField: BedrockDataAutomationClientTypes.AudioStandardGenerativeField? = nil
-        )
-        {
+        ) {
             self.extraction = extraction
             self.generativeField = generativeField
         }
@@ -1043,8 +1011,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -1097,8 +1064,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             types: [BedrockDataAutomationClientTypes.DocumentExtractionGranularityType]? = nil
-        )
-        {
+        ) {
             self.types = types
         }
     }
@@ -1118,8 +1084,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             boundingBox: BedrockDataAutomationClientTypes.DocumentBoundingBox? = nil,
             granularity: BedrockDataAutomationClientTypes.DocumentExtractionGranularity? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.granularity = granularity
         }
@@ -1136,8 +1101,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -1153,8 +1117,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -1204,8 +1167,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             types: [BedrockDataAutomationClientTypes.DocumentOutputTextFormatType]? = nil
-        )
-        {
+        ) {
             self.types = types
         }
     }
@@ -1225,8 +1187,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             additionalFileFormat: BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat? = nil,
             textFormat: BedrockDataAutomationClientTypes.DocumentOutputTextFormat? = nil
-        )
-        {
+        ) {
             self.additionalFileFormat = additionalFileFormat
             self.textFormat = textFormat
         }
@@ -1248,8 +1209,7 @@ extension BedrockDataAutomationClientTypes {
             extraction: BedrockDataAutomationClientTypes.DocumentStandardExtraction? = nil,
             generativeField: BedrockDataAutomationClientTypes.DocumentStandardGenerativeField? = nil,
             outputFormat: BedrockDataAutomationClientTypes.DocumentOutputFormat? = nil
-        )
-        {
+        ) {
             self.extraction = extraction
             self.generativeField = generativeField
             self.outputFormat = outputFormat
@@ -1267,8 +1227,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -1316,8 +1275,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil,
             types: [BedrockDataAutomationClientTypes.ImageExtractionCategoryType]? = nil
-        )
-        {
+        ) {
             self.state = state
             self.types = types
         }
@@ -1338,8 +1296,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             boundingBox: BedrockDataAutomationClientTypes.ImageBoundingBox? = nil,
             category: BedrockDataAutomationClientTypes.ImageExtractionCategory? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.category = category
         }
@@ -1388,8 +1345,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil,
             types: [BedrockDataAutomationClientTypes.ImageStandardGenerativeFieldType]? = nil
-        )
-        {
+        ) {
             self.state = state
             self.types = types
         }
@@ -1408,8 +1364,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             extraction: BedrockDataAutomationClientTypes.ImageStandardExtraction? = nil,
             generativeField: BedrockDataAutomationClientTypes.ImageStandardGenerativeField? = nil
-        )
-        {
+        ) {
             self.extraction = extraction
             self.generativeField = generativeField
         }
@@ -1426,8 +1381,7 @@ extension BedrockDataAutomationClientTypes {
 
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -1478,8 +1432,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil,
             types: [BedrockDataAutomationClientTypes.VideoExtractionCategoryType]? = nil
-        )
-        {
+        ) {
             self.state = state
             self.types = types
         }
@@ -1500,8 +1453,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             boundingBox: BedrockDataAutomationClientTypes.VideoBoundingBox? = nil,
             category: BedrockDataAutomationClientTypes.VideoExtractionCategory? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.category = category
         }
@@ -1553,8 +1505,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil,
             types: [BedrockDataAutomationClientTypes.VideoStandardGenerativeFieldType]? = nil
-        )
-        {
+        ) {
             self.state = state
             self.types = types
         }
@@ -1573,8 +1524,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             extraction: BedrockDataAutomationClientTypes.VideoStandardExtraction? = nil,
             generativeField: BedrockDataAutomationClientTypes.VideoStandardGenerativeField? = nil
-        )
-        {
+        ) {
             self.extraction = extraction
             self.generativeField = generativeField
         }
@@ -1599,8 +1549,7 @@ extension BedrockDataAutomationClientTypes {
             document: BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration? = nil,
             image: BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration? = nil,
             video: BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration? = nil
-        )
-        {
+        ) {
             self.audio = audio
             self.document = document
             self.image = image
@@ -1639,8 +1588,7 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil,
         standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.customOutputConfiguration = customOutputConfiguration
         self.encryptionConfiguration = encryptionConfiguration
@@ -1704,8 +1652,7 @@ public struct CreateDataAutomationProjectOutput: Swift.Sendable {
         projectArn: Swift.String? = nil,
         projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil,
         status: BedrockDataAutomationClientTypes.DataAutomationProjectStatus? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
         self.projectStage = projectStage
         self.status = status
@@ -1720,8 +1667,7 @@ public struct DeleteDataAutomationProjectInput: Swift.Sendable {
 
     public init(
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
     }
 }
@@ -1737,8 +1683,7 @@ public struct DeleteDataAutomationProjectOutput: Swift.Sendable {
     public init(
         projectArn: Swift.String? = nil,
         status: BedrockDataAutomationClientTypes.DataAutomationProjectStatus? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
         self.status = status
     }
@@ -1755,8 +1700,7 @@ public struct GetDataAutomationProjectInput: Swift.Sendable {
     public init(
         projectArn: Swift.String? = nil,
         projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
         self.projectStage = projectStage
     }
@@ -1809,8 +1753,7 @@ extension BedrockDataAutomationClientTypes {
             projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil,
             standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration? = nil,
             status: BedrockDataAutomationClientTypes.DataAutomationProjectStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.customOutputConfiguration = customOutputConfiguration
             self.kmsEncryptionContext = kmsEncryptionContext
@@ -1840,8 +1783,7 @@ public struct GetDataAutomationProjectOutput: Swift.Sendable {
 
     public init(
         project: BedrockDataAutomationClientTypes.DataAutomationProject? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -1862,8 +1804,7 @@ extension BedrockDataAutomationClientTypes {
             blueprintArn: Swift.String? = nil,
             blueprintStage: BedrockDataAutomationClientTypes.BlueprintStage? = nil,
             blueprintVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintArn = blueprintArn
             self.blueprintStage = blueprintStage
             self.blueprintVersion = blueprintVersion
@@ -1923,8 +1864,7 @@ public struct ListDataAutomationProjectsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         projectStageFilter: BedrockDataAutomationClientTypes.DataAutomationProjectStageFilter? = nil,
         resourceOwner: BedrockDataAutomationClientTypes.ResourceOwner? = nil
-    )
-    {
+    ) {
         self.blueprintFilter = blueprintFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1953,8 +1893,7 @@ extension BedrockDataAutomationClientTypes {
             projectArn: Swift.String? = nil,
             projectName: Swift.String? = nil,
             projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.projectArn = projectArn
             self.projectName = projectName
@@ -1979,8 +1918,7 @@ public struct ListDataAutomationProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projects: [BedrockDataAutomationClientTypes.DataAutomationProjectSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projects = projects
     }
@@ -2010,8 +1948,7 @@ public struct UpdateDataAutomationProjectInput: Swift.Sendable {
         projectDescription: Swift.String? = nil,
         projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil,
         standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration? = nil
-    )
-    {
+    ) {
         self.customOutputConfiguration = customOutputConfiguration
         self.overrideConfiguration = overrideConfiguration
         self.projectArn = projectArn
@@ -2040,8 +1977,7 @@ public struct UpdateDataAutomationProjectOutput: Swift.Sendable {
         projectArn: Swift.String? = nil,
         projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil,
         status: BedrockDataAutomationClientTypes.DataAutomationProjectStatus? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
         self.projectStage = projectStage
         self.status = status

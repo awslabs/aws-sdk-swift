@@ -92,8 +92,7 @@ extension Route53ClientTypes {
         public init(
             type: Route53ClientTypes.AccountLimitType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -119,8 +118,7 @@ public struct ConcurrentModification: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -144,8 +142,7 @@ public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -168,8 +165,7 @@ public struct InvalidKeySigningKeyStatus: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -192,8 +188,7 @@ public struct InvalidKMSArn: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -216,8 +211,7 @@ public struct InvalidSigningStatus: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -240,8 +234,7 @@ public struct NoSuchKeySigningKey: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -257,8 +250,7 @@ public struct ActivateKeySigningKeyInput: Swift.Sendable {
     public init(
         hostedZoneId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.name = name
     }
@@ -314,8 +306,7 @@ extension Route53ClientTypes {
             id: Swift.String? = nil,
             status: Route53ClientTypes.ChangeStatus? = nil,
             submittedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.id = id
             self.status = status
@@ -331,8 +322,7 @@ public struct ActivateKeySigningKeyOutput: Swift.Sendable {
 
     public init(
         changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
     }
 }
@@ -352,6 +342,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast7
         case caCentral1
         case caWest1
         case cnNorth1
@@ -393,6 +384,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast7,
                 .caCentral1,
                 .caWest1,
                 .cnNorth1,
@@ -440,6 +432,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
             case .caWest1: return "ca-west-1"
             case .cnNorth1: return "cn-north-1"
@@ -489,8 +482,7 @@ extension Route53ClientTypes {
         public init(
             name: Swift.String? = nil,
             region: Route53ClientTypes.CloudWatchRegion? = nil
-        )
-        {
+        ) {
             self.name = name
             self.region = region
         }
@@ -609,8 +601,7 @@ extension Route53ClientTypes {
             dnsName: Swift.String? = nil,
             evaluateTargetHealth: Swift.Bool = false,
             hostedZoneId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dnsName = dnsName
             self.evaluateTargetHealth = evaluateTargetHealth
             self.hostedZoneId = hostedZoneId
@@ -642,8 +633,7 @@ public struct ConflictingDomainExists: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -667,8 +657,7 @@ public struct InvalidVPCId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -692,8 +681,7 @@ public struct LimitsExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -717,8 +705,7 @@ public struct NoSuchHostedZone: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -742,8 +729,7 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -766,8 +752,7 @@ public struct PriorRequestNotComplete: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -791,8 +776,7 @@ public struct PublicZoneVPCAssociation: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -812,6 +796,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast7
         case caCentral1
         case caWest1
         case cnNorth1
@@ -853,6 +838,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast7,
                 .caCentral1,
                 .caWest1,
                 .cnNorth1,
@@ -900,6 +886,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
             case .caWest1: return "ca-west-1"
             case .cnNorth1: return "cn-north-1"
@@ -943,8 +930,7 @@ extension Route53ClientTypes {
         public init(
             vpcId: Swift.String? = nil,
             vpcRegion: Route53ClientTypes.VPCRegion? = nil
-        )
-        {
+        ) {
             self.vpcId = vpcId
             self.vpcRegion = vpcRegion
         }
@@ -966,8 +952,7 @@ public struct AssociateVPCWithHostedZoneInput: Swift.Sendable {
         comment: Swift.String? = nil,
         hostedZoneId: Swift.String? = nil,
         vpc: Route53ClientTypes.VPC? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.hostedZoneId = hostedZoneId
         self.vpc = vpc
@@ -982,8 +967,7 @@ public struct AssociateVPCWithHostedZoneOutput: Swift.Sendable {
 
     public init(
         changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
     }
 }
@@ -1006,8 +990,7 @@ public struct CidrBlockInUseException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1030,8 +1013,7 @@ public struct CidrCollectionVersionMismatchException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1054,8 +1036,7 @@ public struct NoSuchCidrCollectionException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1107,8 +1088,7 @@ extension Route53ClientTypes {
             action: Route53ClientTypes.CidrCollectionChangeAction? = nil,
             cidrList: [Swift.String]? = nil,
             locationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.cidrList = cidrList
             self.locationName = locationName
@@ -1134,8 +1114,7 @@ public struct ChangeCidrCollectionInput: Swift.Sendable {
         changes: [Route53ClientTypes.CidrCollectionChange]? = nil,
         collectionVersion: Swift.Int? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.changes = changes
         self.collectionVersion = collectionVersion
         self.id = id
@@ -1149,8 +1128,7 @@ public struct ChangeCidrCollectionOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1176,8 +1154,7 @@ public struct InvalidChangeBatch: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         message: Swift.String? = nil,
         messages: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.messages = messages
     }
@@ -1202,8 +1179,7 @@ public struct NoSuchHealthCheck: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1254,8 +1230,7 @@ extension Route53ClientTypes {
         public init(
             collectionId: Swift.String? = nil,
             locationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.collectionId = collectionId
             self.locationName = locationName
         }
@@ -1323,8 +1298,7 @@ extension Route53ClientTypes {
             continentCode: Swift.String? = nil,
             countryCode: Swift.String? = nil,
             subdivisionCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.continentCode = continentCode
             self.countryCode = countryCode
             self.subdivisionCode = subdivisionCode
@@ -1346,8 +1320,7 @@ extension Route53ClientTypes {
         public init(
             latitude: Swift.String? = nil,
             longitude: Swift.String? = nil
-        )
-        {
+        ) {
             self.latitude = latitude
             self.longitude = longitude
         }
@@ -1376,8 +1349,7 @@ extension Route53ClientTypes {
             bias: Swift.Int? = nil,
             coordinates: Route53ClientTypes.Coordinates? = nil,
             localZoneGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.bias = bias
             self.coordinates = coordinates
@@ -1401,6 +1373,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast7
         case caCentral1
         case caWest1
         case cnNorth1
@@ -1437,6 +1410,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast7,
                 .caCentral1,
                 .caWest1,
                 .cnNorth1,
@@ -1479,6 +1453,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
             case .caWest1: return "ca-west-1"
             case .cnNorth1: return "cn-north-1"
@@ -1515,8 +1490,7 @@ extension Route53ClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -1776,8 +1750,7 @@ extension Route53ClientTypes {
             ttl: Swift.Int? = nil,
             type: Route53ClientTypes.RRType? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aliasTarget = aliasTarget
             self.cidrRoutingConfig = cidrRoutingConfig
             self.failover = failover
@@ -1817,8 +1790,7 @@ extension Route53ClientTypes {
         public init(
             action: Route53ClientTypes.ChangeAction? = nil,
             resourceRecordSet: Route53ClientTypes.ResourceRecordSet? = nil
-        )
-        {
+        ) {
             self.action = action
             self.resourceRecordSet = resourceRecordSet
         }
@@ -1838,8 +1810,7 @@ extension Route53ClientTypes {
         public init(
             changes: [Route53ClientTypes.Change]? = nil,
             comment: Swift.String? = nil
-        )
-        {
+        ) {
             self.changes = changes
             self.comment = comment
         }
@@ -1858,8 +1829,7 @@ public struct ChangeResourceRecordSetsInput: Swift.Sendable {
     public init(
         changeBatch: Route53ClientTypes.ChangeBatch? = nil,
         hostedZoneId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeBatch = changeBatch
         self.hostedZoneId = hostedZoneId
     }
@@ -1873,8 +1843,7 @@ public struct ChangeResourceRecordSetsOutput: Swift.Sendable {
 
     public init(
         changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
     }
 }
@@ -1897,8 +1866,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1927,8 +1895,7 @@ extension Route53ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1986,8 +1953,7 @@ public struct ChangeTagsForResourceInput: Swift.Sendable {
         removeTagKeys: [Swift.String]? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Route53ClientTypes.TagResourceType? = nil
-    )
-    {
+    ) {
         self.addTags = addTags
         self.removeTagKeys = removeTagKeys
         self.resourceId = resourceId
@@ -2019,8 +1985,7 @@ public struct CidrCollectionAlreadyExistsException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2036,8 +2001,7 @@ public struct CreateCidrCollectionInput: Swift.Sendable {
     public init(
         callerReference: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.callerReference = callerReference
         self.name = name
     }
@@ -2061,8 +2025,7 @@ extension Route53ClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -2080,8 +2043,7 @@ public struct CreateCidrCollectionOutput: Swift.Sendable {
     public init(
         collection: Route53ClientTypes.CidrCollection? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.collection = collection
         self.location = location
     }
@@ -2110,8 +2072,7 @@ public struct HealthCheckAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2134,8 +2095,7 @@ public struct TooManyHealthChecks: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2390,8 +2350,7 @@ extension Route53ClientTypes {
             routingControlArn: Swift.String? = nil,
             searchString: Swift.String? = nil,
             type: Route53ClientTypes.HealthCheckType? = nil
-        )
-        {
+        ) {
             self.alarmIdentifier = alarmIdentifier
             self.childHealthChecks = childHealthChecks
             self.disabled = disabled
@@ -2437,8 +2396,7 @@ public struct CreateHealthCheckInput: Swift.Sendable {
     public init(
         callerReference: Swift.String? = nil,
         healthCheckConfig: Route53ClientTypes.HealthCheckConfig? = nil
-    )
-    {
+    ) {
         self.callerReference = callerReference
         self.healthCheckConfig = healthCheckConfig
     }
@@ -2493,8 +2451,7 @@ extension Route53ClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2576,8 +2533,7 @@ extension Route53ClientTypes {
             period: Swift.Int? = nil,
             statistic: Route53ClientTypes.Statistic? = nil,
             threshold: Swift.Double? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.dimensions = dimensions
             self.evaluationPeriods = evaluationPeriods
@@ -2602,8 +2558,7 @@ extension Route53ClientTypes {
         public init(
             description: Swift.String? = nil,
             servicePrincipal: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.servicePrincipal = servicePrincipal
         }
@@ -2638,8 +2593,7 @@ extension Route53ClientTypes {
             healthCheckVersion: Swift.Int? = nil,
             id: Swift.String? = nil,
             linkedService: Route53ClientTypes.LinkedService? = nil
-        )
-        {
+        ) {
             self.callerReference = callerReference
             self.cloudWatchAlarmConfiguration = cloudWatchAlarmConfiguration
             self.healthCheckConfig = healthCheckConfig
@@ -2662,8 +2616,7 @@ public struct CreateHealthCheckOutput: Swift.Sendable {
     public init(
         healthCheck: Route53ClientTypes.HealthCheck? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheck = healthCheck
         self.location = location
     }
@@ -2688,8 +2641,7 @@ public struct DelegationSetNotAvailable: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2713,8 +2665,7 @@ public struct DelegationSetNotReusable: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2738,8 +2689,7 @@ public struct HostedZoneAlreadyExists: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2763,8 +2713,7 @@ public struct InvalidDomainName: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2788,8 +2737,7 @@ public struct NoSuchDelegationSet: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2813,8 +2761,7 @@ public struct TooManyHostedZones: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2831,8 +2778,7 @@ extension Route53ClientTypes {
         public init(
             comment: Swift.String? = nil,
             privateZone: Swift.Bool = false
-        )
-        {
+        ) {
             self.comment = comment
             self.privateZone = privateZone
         }
@@ -2867,8 +2813,7 @@ public struct CreateHostedZoneInput: Swift.Sendable {
         hostedZoneConfig: Route53ClientTypes.HostedZoneConfig? = nil,
         name: Swift.String? = nil,
         vpc: Route53ClientTypes.VPC? = nil
-    )
-    {
+    ) {
         self.callerReference = callerReference
         self.delegationSetId = delegationSetId
         self.hostedZoneConfig = hostedZoneConfig
@@ -2893,8 +2838,7 @@ extension Route53ClientTypes {
             callerReference: Swift.String? = nil,
             id: Swift.String? = nil,
             nameServers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.callerReference = callerReference
             self.id = id
             self.nameServers = nameServers
@@ -2929,8 +2873,7 @@ extension Route53ClientTypes {
             linkedService: Route53ClientTypes.LinkedService? = nil,
             name: Swift.String? = nil,
             resourceRecordSetCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.callerReference = callerReference
             self.config = config
             self.id = id
@@ -2964,8 +2907,7 @@ public struct CreateHostedZoneOutput: Swift.Sendable {
         hostedZone: Route53ClientTypes.HostedZone? = nil,
         location: Swift.String? = nil,
         vpc: Route53ClientTypes.VPC? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
         self.delegationSet = delegationSet
         self.hostedZone = hostedZone
@@ -2993,8 +2935,7 @@ public struct InvalidArgument: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3017,8 +2958,7 @@ public struct InvalidKeySigningKeyName: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3041,8 +2981,7 @@ public struct KeySigningKeyAlreadyExists: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3065,8 +3004,7 @@ public struct TooManyKeySigningKeys: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3108,8 +3046,7 @@ public struct CreateKeySigningKeyInput: Swift.Sendable {
         keyManagementServiceArn: Swift.String? = nil,
         name: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.callerReference = callerReference
         self.hostedZoneId = hostedZoneId
         self.keyManagementServiceArn = keyManagementServiceArn
@@ -3186,8 +3123,7 @@ extension Route53ClientTypes {
             signingAlgorithmType: Swift.Int = 0,
             status: Swift.String? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.digestAlgorithmMnemonic = digestAlgorithmMnemonic
             self.digestAlgorithmType = digestAlgorithmType
@@ -3223,8 +3159,7 @@ public struct CreateKeySigningKeyOutput: Swift.Sendable {
         changeInfo: Route53ClientTypes.ChangeInfo? = nil,
         keySigningKey: Route53ClientTypes.KeySigningKey? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
         self.keySigningKey = keySigningKey
         self.location = location
@@ -3259,8 +3194,7 @@ public struct InsufficientCloudWatchLogsResourcePolicy: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3283,8 +3217,7 @@ public struct NoSuchCloudWatchLogsLogGroup: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3307,8 +3240,7 @@ public struct QueryLoggingConfigAlreadyExists: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3324,8 +3256,7 @@ public struct CreateQueryLoggingConfigInput: Swift.Sendable {
     public init(
         cloudWatchLogsLogGroupArn: Swift.String? = nil,
         hostedZoneId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
         self.hostedZoneId = hostedZoneId
     }
@@ -3349,8 +3280,7 @@ extension Route53ClientTypes {
             cloudWatchLogsLogGroupArn: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.hostedZoneId = hostedZoneId
             self.id = id
@@ -3369,8 +3299,7 @@ public struct CreateQueryLoggingConfigOutput: Swift.Sendable {
     public init(
         location: Swift.String? = nil,
         queryLoggingConfig: Route53ClientTypes.QueryLoggingConfig? = nil
-    )
-    {
+    ) {
         self.location = location
         self.queryLoggingConfig = queryLoggingConfig
     }
@@ -3395,8 +3324,7 @@ public struct DelegationSetAlreadyCreated: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3420,8 +3348,7 @@ public struct DelegationSetAlreadyReusable: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3445,8 +3372,7 @@ public struct HostedZoneNotFound: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3461,8 +3387,7 @@ public struct CreateReusableDelegationSetInput: Swift.Sendable {
     public init(
         callerReference: Swift.String? = nil,
         hostedZoneId: Swift.String? = nil
-    )
-    {
+    ) {
         self.callerReference = callerReference
         self.hostedZoneId = hostedZoneId
     }
@@ -3479,8 +3404,7 @@ public struct CreateReusableDelegationSetOutput: Swift.Sendable {
     public init(
         delegationSet: Route53ClientTypes.DelegationSet? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegationSet = delegationSet
         self.location = location
     }
@@ -3505,8 +3429,7 @@ public struct InvalidTrafficPolicyDocument: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3530,8 +3453,7 @@ public struct TooManyTrafficPolicies: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3555,8 +3477,7 @@ public struct TrafficPolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3576,8 +3497,7 @@ public struct CreateTrafficPolicyInput: Swift.Sendable {
         comment: Swift.String? = nil,
         document: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.document = document
         self.name = name
@@ -3613,8 +3533,7 @@ extension Route53ClientTypes {
             name: Swift.String? = nil,
             type: Route53ClientTypes.RRType? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.document = document
             self.id = id
@@ -3637,8 +3556,7 @@ public struct CreateTrafficPolicyOutput: Swift.Sendable {
     public init(
         location: Swift.String? = nil,
         trafficPolicy: Route53ClientTypes.TrafficPolicy? = nil
-    )
-    {
+    ) {
         self.location = location
         self.trafficPolicy = trafficPolicy
     }
@@ -3663,8 +3581,7 @@ public struct NoSuchTrafficPolicy: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3688,8 +3605,7 @@ public struct TooManyTrafficPolicyInstances: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3713,8 +3629,7 @@ public struct TrafficPolicyInstanceAlreadyExists: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3743,8 +3658,7 @@ public struct CreateTrafficPolicyInstanceInput: Swift.Sendable {
         trafficPolicyId: Swift.String? = nil,
         trafficPolicyVersion: Swift.Int? = nil,
         ttl: Swift.Int? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.name = name
         self.trafficPolicyId = trafficPolicyId
@@ -3795,8 +3709,7 @@ extension Route53ClientTypes {
             trafficPolicyType: Route53ClientTypes.RRType? = nil,
             trafficPolicyVersion: Swift.Int? = nil,
             ttl: Swift.Int? = nil
-        )
-        {
+        ) {
             self.hostedZoneId = hostedZoneId
             self.id = id
             self.message = message
@@ -3822,8 +3735,7 @@ public struct CreateTrafficPolicyInstanceOutput: Swift.Sendable {
     public init(
         location: Swift.String? = nil,
         trafficPolicyInstance: Route53ClientTypes.TrafficPolicyInstance? = nil
-    )
-    {
+    ) {
         self.location = location
         self.trafficPolicyInstance = trafficPolicyInstance
     }
@@ -3848,8 +3760,7 @@ public struct TooManyTrafficPolicyVersionsForCurrentPolicy: ClientRuntime.Modele
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3869,8 +3780,7 @@ public struct CreateTrafficPolicyVersionInput: Swift.Sendable {
         comment: Swift.String? = nil,
         document: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.document = document
         self.id = id
@@ -3889,8 +3799,7 @@ public struct CreateTrafficPolicyVersionOutput: Swift.Sendable {
     public init(
         location: Swift.String? = nil,
         trafficPolicy: Route53ClientTypes.TrafficPolicy? = nil
-    )
-    {
+    ) {
         self.location = location
         self.trafficPolicy = trafficPolicy
     }
@@ -3915,8 +3824,7 @@ public struct TooManyVPCAssociationAuthorizations: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3933,8 +3841,7 @@ public struct CreateVPCAssociationAuthorizationInput: Swift.Sendable {
     public init(
         hostedZoneId: Swift.String? = nil,
         vpc: Route53ClientTypes.VPC? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.vpc = vpc
     }
@@ -3952,8 +3859,7 @@ public struct CreateVPCAssociationAuthorizationOutput: Swift.Sendable {
     public init(
         hostedZoneId: Swift.String? = nil,
         vpc: Route53ClientTypes.VPC? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.vpc = vpc
     }
@@ -3977,8 +3883,7 @@ public struct KeySigningKeyInParentDSRecord: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4001,8 +3906,7 @@ public struct KeySigningKeyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4018,8 +3922,7 @@ public struct DeactivateKeySigningKeyInput: Swift.Sendable {
     public init(
         hostedZoneId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.name = name
     }
@@ -4032,8 +3935,7 @@ public struct DeactivateKeySigningKeyOutput: Swift.Sendable {
 
     public init(
         changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
     }
 }
@@ -4056,8 +3958,7 @@ public struct CidrCollectionInUseException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4069,8 +3970,7 @@ public struct DeleteCidrCollectionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4100,8 +4000,7 @@ public struct HealthCheckInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4114,8 +4013,7 @@ public struct DeleteHealthCheckInput: Swift.Sendable {
 
     public init(
         healthCheckId: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheckId = healthCheckId
     }
 }
@@ -4145,8 +4043,7 @@ public struct HostedZoneNotEmpty: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4159,8 +4056,7 @@ public struct DeleteHostedZoneInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4173,8 +4069,7 @@ public struct DeleteHostedZoneOutput: Swift.Sendable {
 
     public init(
         changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
     }
 }
@@ -4190,8 +4085,7 @@ public struct DeleteKeySigningKeyInput: Swift.Sendable {
     public init(
         hostedZoneId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.name = name
     }
@@ -4204,8 +4098,7 @@ public struct DeleteKeySigningKeyOutput: Swift.Sendable {
 
     public init(
         changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
     }
 }
@@ -4228,8 +4121,7 @@ public struct NoSuchQueryLoggingConfig: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4241,8 +4133,7 @@ public struct DeleteQueryLoggingConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4271,8 +4162,7 @@ public struct DelegationSetInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4285,8 +4175,7 @@ public struct DeleteReusableDelegationSetInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4316,8 +4205,7 @@ public struct TrafficPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4334,8 +4222,7 @@ public struct DeleteTrafficPolicyInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.id = id
         self.version = version
     }
@@ -4366,8 +4253,7 @@ public struct NoSuchTrafficPolicyInstance: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4380,8 +4266,7 @@ public struct DeleteTrafficPolicyInstanceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4411,8 +4296,7 @@ public struct VPCAssociationAuthorizationNotFound: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4429,8 +4313,7 @@ public struct DeleteVPCAssociationAuthorizationInput: Swift.Sendable {
     public init(
         hostedZoneId: Swift.String? = nil,
         vpc: Route53ClientTypes.VPC? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.vpc = vpc
     }
@@ -4460,8 +4343,7 @@ public struct DNSSECNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4473,8 +4355,7 @@ public struct DisableHostedZoneDNSSECInput: Swift.Sendable {
 
     public init(
         hostedZoneId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
     }
 }
@@ -4486,8 +4367,7 @@ public struct DisableHostedZoneDNSSECOutput: Swift.Sendable {
 
     public init(
         changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
     }
 }
@@ -4511,8 +4391,7 @@ public struct LastVPCAssociation: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4536,8 +4415,7 @@ public struct VPCAssociationNotFound: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4557,8 +4435,7 @@ public struct DisassociateVPCFromHostedZoneInput: Swift.Sendable {
         comment: Swift.String? = nil,
         hostedZoneId: Swift.String? = nil,
         vpc: Route53ClientTypes.VPC? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.hostedZoneId = hostedZoneId
         self.vpc = vpc
@@ -4573,8 +4450,7 @@ public struct DisassociateVPCFromHostedZoneOutput: Swift.Sendable {
 
     public init(
         changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
     }
 }
@@ -4597,8 +4473,7 @@ public struct HostedZonePartiallyDelegated: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4621,8 +4496,7 @@ public struct KeySigningKeyWithActiveStatusNotFound: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4634,8 +4508,7 @@ public struct EnableHostedZoneDNSSECInput: Swift.Sendable {
 
     public init(
         hostedZoneId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
     }
 }
@@ -4647,8 +4520,7 @@ public struct EnableHostedZoneDNSSECOutput: Swift.Sendable {
 
     public init(
         changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
     }
 }
@@ -4671,8 +4543,7 @@ public struct GetAccountLimitInput: Swift.Sendable {
 
     public init(
         type: Route53ClientTypes.AccountLimitType? = nil
-    )
-    {
+    ) {
         self.type = type
     }
 }
@@ -4689,8 +4560,7 @@ public struct GetAccountLimitOutput: Swift.Sendable {
     public init(
         count: Swift.Int = 0,
         limit: Route53ClientTypes.AccountLimit? = nil
-    )
-    {
+    ) {
         self.count = count
         self.limit = limit
     }
@@ -4714,8 +4584,7 @@ public struct NoSuchChange: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4728,8 +4597,7 @@ public struct GetChangeInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4742,8 +4610,7 @@ public struct GetChangeOutput: Swift.Sendable {
 
     public init(
         changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
+    ) {
         self.changeInfo = changeInfo
     }
 }
@@ -4762,8 +4629,7 @@ public struct GetCheckerIpRangesOutput: Swift.Sendable {
 
     public init(
         checkerIpRanges: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.checkerIpRanges = checkerIpRanges
     }
 }
@@ -4775,8 +4641,7 @@ public struct GetDNSSECInput: Swift.Sendable {
 
     public init(
         hostedZoneId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
     }
 }
@@ -4793,8 +4658,7 @@ extension Route53ClientTypes {
         public init(
             serveSignature: Swift.String? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.serveSignature = serveSignature
             self.statusMessage = statusMessage
         }
@@ -4812,8 +4676,7 @@ public struct GetDNSSECOutput: Swift.Sendable {
     public init(
         keySigningKeys: [Route53ClientTypes.KeySigningKey]? = nil,
         status: Route53ClientTypes.DNSSECStatus? = nil
-    )
-    {
+    ) {
         self.keySigningKeys = keySigningKeys
         self.status = status
     }
@@ -4838,8 +4701,7 @@ public struct NoSuchGeoLocation: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4871,8 +4733,7 @@ public struct GetGeoLocationInput: Swift.Sendable {
         continentCode: Swift.String? = nil,
         countryCode: Swift.String? = nil,
         subdivisionCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.continentCode = continentCode
         self.countryCode = countryCode
         self.subdivisionCode = subdivisionCode
@@ -4903,8 +4764,7 @@ extension Route53ClientTypes {
             countryName: Swift.String? = nil,
             subdivisionCode: Swift.String? = nil,
             subdivisionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.continentCode = continentCode
             self.continentName = continentName
             self.countryCode = countryCode
@@ -4923,8 +4783,7 @@ public struct GetGeoLocationOutput: Swift.Sendable {
 
     public init(
         geoLocationDetails: Route53ClientTypes.GeoLocationDetails? = nil
-    )
-    {
+    ) {
         self.geoLocationDetails = geoLocationDetails
     }
 }
@@ -4947,8 +4806,7 @@ public struct IncompatibleVersion: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4961,8 +4819,7 @@ public struct GetHealthCheckInput: Swift.Sendable {
 
     public init(
         healthCheckId: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheckId = healthCheckId
     }
 }
@@ -4975,8 +4832,7 @@ public struct GetHealthCheckOutput: Swift.Sendable {
 
     public init(
         healthCheck: Route53ClientTypes.HealthCheck? = nil
-    )
-    {
+    ) {
         self.healthCheck = healthCheck
     }
 }
@@ -4995,8 +4851,7 @@ public struct GetHealthCheckCountOutput: Swift.Sendable {
 
     public init(
         healthCheckCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.healthCheckCount = healthCheckCount
     }
 }
@@ -5009,8 +4864,7 @@ public struct GetHealthCheckLastFailureReasonInput: Swift.Sendable {
 
     public init(
         healthCheckId: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheckId = healthCheckId
     }
 }
@@ -5027,8 +4881,7 @@ extension Route53ClientTypes {
         public init(
             checkedTime: Foundation.Date? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.checkedTime = checkedTime
             self.status = status
         }
@@ -5050,8 +4903,7 @@ extension Route53ClientTypes {
             ipAddress: Swift.String? = nil,
             region: Route53ClientTypes.HealthCheckRegion? = nil,
             statusReport: Route53ClientTypes.StatusReport? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.region = region
             self.statusReport = statusReport
@@ -5067,8 +4919,7 @@ public struct GetHealthCheckLastFailureReasonOutput: Swift.Sendable {
 
     public init(
         healthCheckObservations: [Route53ClientTypes.HealthCheckObservation]? = nil
-    )
-    {
+    ) {
         self.healthCheckObservations = healthCheckObservations
     }
 }
@@ -5081,8 +4932,7 @@ public struct GetHealthCheckStatusInput: Swift.Sendable {
 
     public init(
         healthCheckId: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheckId = healthCheckId
     }
 }
@@ -5095,8 +4945,7 @@ public struct GetHealthCheckStatusOutput: Swift.Sendable {
 
     public init(
         healthCheckObservations: [Route53ClientTypes.HealthCheckObservation]? = nil
-    )
-    {
+    ) {
         self.healthCheckObservations = healthCheckObservations
     }
 }
@@ -5109,8 +4958,7 @@ public struct GetHostedZoneInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5129,8 +4977,7 @@ public struct GetHostedZoneOutput: Swift.Sendable {
         delegationSet: Route53ClientTypes.DelegationSet? = nil,
         hostedZone: Route53ClientTypes.HostedZone? = nil,
         vpCs: [Route53ClientTypes.VPC]? = nil
-    )
-    {
+    ) {
         self.delegationSet = delegationSet
         self.hostedZone = hostedZone
         self.vpCs = vpCs
@@ -5151,8 +4998,7 @@ public struct GetHostedZoneCountOutput: Swift.Sendable {
 
     public init(
         hostedZoneCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.hostedZoneCount = hostedZoneCount
     }
 }
@@ -5176,8 +5022,7 @@ public struct HostedZoneNotPrivate: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5227,8 +5072,7 @@ public struct GetHostedZoneLimitInput: Swift.Sendable {
     public init(
         hostedZoneId: Swift.String? = nil,
         type: Route53ClientTypes.HostedZoneLimitType? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.type = type
     }
@@ -5252,8 +5096,7 @@ extension Route53ClientTypes {
         public init(
             type: Route53ClientTypes.HostedZoneLimitType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -5272,8 +5115,7 @@ public struct GetHostedZoneLimitOutput: Swift.Sendable {
     public init(
         count: Swift.Int = 0,
         limit: Route53ClientTypes.HostedZoneLimit? = nil
-    )
-    {
+    ) {
         self.count = count
         self.limit = limit
     }
@@ -5286,8 +5128,7 @@ public struct GetQueryLoggingConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5299,8 +5140,7 @@ public struct GetQueryLoggingConfigOutput: Swift.Sendable {
 
     public init(
         queryLoggingConfig: Route53ClientTypes.QueryLoggingConfig? = nil
-    )
-    {
+    ) {
         self.queryLoggingConfig = queryLoggingConfig
     }
 }
@@ -5313,8 +5153,7 @@ public struct GetReusableDelegationSetInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5327,8 +5166,7 @@ public struct GetReusableDelegationSetOutput: Swift.Sendable {
 
     public init(
         delegationSet: Route53ClientTypes.DelegationSet? = nil
-    )
-    {
+    ) {
         self.delegationSet = delegationSet
     }
 }
@@ -5371,8 +5209,7 @@ public struct GetReusableDelegationSetLimitInput: Swift.Sendable {
     public init(
         delegationSetId: Swift.String? = nil,
         type: Route53ClientTypes.ReusableDelegationSetLimitType? = nil
-    )
-    {
+    ) {
         self.delegationSetId = delegationSetId
         self.type = type
     }
@@ -5392,8 +5229,7 @@ extension Route53ClientTypes {
         public init(
             type: Route53ClientTypes.ReusableDelegationSetLimitType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -5412,8 +5248,7 @@ public struct GetReusableDelegationSetLimitOutput: Swift.Sendable {
     public init(
         count: Swift.Int = 0,
         limit: Route53ClientTypes.ReusableDelegationSetLimit? = nil
-    )
-    {
+    ) {
         self.count = count
         self.limit = limit
     }
@@ -5431,8 +5266,7 @@ public struct GetTrafficPolicyInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.id = id
         self.version = version
     }
@@ -5446,8 +5280,7 @@ public struct GetTrafficPolicyOutput: Swift.Sendable {
 
     public init(
         trafficPolicy: Route53ClientTypes.TrafficPolicy? = nil
-    )
-    {
+    ) {
         self.trafficPolicy = trafficPolicy
     }
 }
@@ -5460,8 +5293,7 @@ public struct GetTrafficPolicyInstanceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5474,8 +5306,7 @@ public struct GetTrafficPolicyInstanceOutput: Swift.Sendable {
 
     public init(
         trafficPolicyInstance: Route53ClientTypes.TrafficPolicyInstance? = nil
-    )
-    {
+    ) {
         self.trafficPolicyInstance = trafficPolicyInstance
     }
 }
@@ -5494,8 +5325,7 @@ public struct GetTrafficPolicyInstanceCountOutput: Swift.Sendable {
 
     public init(
         trafficPolicyInstanceCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.trafficPolicyInstanceCount = trafficPolicyInstanceCount
     }
 }
@@ -5518,8 +5348,7 @@ public struct NoSuchCidrLocationException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5540,8 +5369,7 @@ public struct ListCidrBlocksInput: Swift.Sendable {
         locationName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
         self.locationName = locationName
         self.maxResults = maxResults
@@ -5561,8 +5389,7 @@ extension Route53ClientTypes {
         public init(
             cidrBlock: Swift.String? = nil,
             locationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidrBlock = cidrBlock
             self.locationName = locationName
         }
@@ -5578,8 +5405,7 @@ public struct ListCidrBlocksOutput: Swift.Sendable {
     public init(
         cidrBlocks: [Route53ClientTypes.CidrBlockSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cidrBlocks = cidrBlocks
         self.nextToken = nextToken
     }
@@ -5594,8 +5420,7 @@ public struct ListCidrCollectionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5619,8 +5444,7 @@ extension Route53ClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -5638,8 +5462,7 @@ public struct ListCidrCollectionsOutput: Swift.Sendable {
     public init(
         cidrCollections: [Route53ClientTypes.CollectionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cidrCollections = cidrCollections
         self.nextToken = nextToken
     }
@@ -5658,8 +5481,7 @@ public struct ListCidrLocationsInput: Swift.Sendable {
         collectionId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5675,8 +5497,7 @@ extension Route53ClientTypes {
 
         public init(
             locationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.locationName = locationName
         }
     }
@@ -5691,8 +5512,7 @@ public struct ListCidrLocationsOutput: Swift.Sendable {
     public init(
         cidrLocations: [Route53ClientTypes.LocationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cidrLocations = cidrLocations
         self.nextToken = nextToken
     }
@@ -5714,8 +5534,7 @@ public struct ListGeoLocationsInput: Swift.Sendable {
         startContinentCode: Swift.String? = nil,
         startCountryCode: Swift.String? = nil,
         startSubdivisionCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.startContinentCode = startContinentCode
         self.startCountryCode = startCountryCode
@@ -5748,8 +5567,7 @@ public struct ListGeoLocationsOutput: Swift.Sendable {
         nextContinentCode: Swift.String? = nil,
         nextCountryCode: Swift.String? = nil,
         nextSubdivisionCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.geoLocationDetailsList = geoLocationDetailsList
         self.isTruncated = isTruncated
         self.maxItems = maxItems
@@ -5769,8 +5587,7 @@ public struct ListHealthChecksInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -5799,8 +5616,7 @@ public struct ListHealthChecksOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthChecks = healthChecks
         self.isTruncated = isTruncated
         self.marker = marker
@@ -5851,8 +5667,7 @@ public struct ListHostedZonesInput: Swift.Sendable {
         hostedZoneType: Route53ClientTypes.HostedZoneType? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.delegationSetId = delegationSetId
         self.hostedZoneType = hostedZoneType
         self.marker = marker
@@ -5882,8 +5697,7 @@ public struct ListHostedZonesOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostedZones = hostedZones
         self.isTruncated = isTruncated
         self.marker = marker
@@ -5905,8 +5719,7 @@ public struct ListHostedZonesByNameInput: Swift.Sendable {
         dnsName: Swift.String? = nil,
         hostedZoneId: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dnsName = dnsName
         self.hostedZoneId = hostedZoneId
         self.maxItems = maxItems
@@ -5941,8 +5754,7 @@ public struct ListHostedZonesByNameOutput: Swift.Sendable {
         maxItems: Swift.Int? = nil,
         nextDNSName: Swift.String? = nil,
         nextHostedZoneId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dnsName = dnsName
         self.hostedZoneId = hostedZoneId
         self.hostedZones = hostedZones
@@ -5971,8 +5783,7 @@ public struct InvalidPaginationToken: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5995,8 +5806,7 @@ public struct ListHostedZonesByVPCInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         vpcId: Swift.String? = nil,
         vpcRegion: Route53ClientTypes.VPCRegion? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.nextToken = nextToken
         self.vpcId = vpcId
@@ -6016,8 +5826,7 @@ extension Route53ClientTypes {
         public init(
             owningAccount: Swift.String? = nil,
             owningService: Swift.String? = nil
-        )
-        {
+        ) {
             self.owningAccount = owningAccount
             self.owningService = owningService
         }
@@ -6042,8 +5851,7 @@ extension Route53ClientTypes {
             hostedZoneId: Swift.String? = nil,
             name: Swift.String? = nil,
             owner: Route53ClientTypes.HostedZoneOwner? = nil
-        )
-        {
+        ) {
             self.hostedZoneId = hostedZoneId
             self.name = name
             self.owner = owner
@@ -6065,8 +5873,7 @@ public struct ListHostedZonesByVPCOutput: Swift.Sendable {
         hostedZoneSummaries: [Route53ClientTypes.HostedZoneSummary]? = nil,
         maxItems: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostedZoneSummaries = hostedZoneSummaries
         self.maxItems = maxItems
         self.nextToken = nextToken
@@ -6085,8 +5892,7 @@ public struct ListQueryLoggingConfigsInput: Swift.Sendable {
         hostedZoneId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6103,8 +5909,7 @@ public struct ListQueryLoggingConfigsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queryLoggingConfigs: [Route53ClientTypes.QueryLoggingConfig]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queryLoggingConfigs = queryLoggingConfigs
     }
@@ -6147,8 +5952,7 @@ public struct ListResourceRecordSetsInput: Swift.Sendable {
         startRecordIdentifier: Swift.String? = nil,
         startRecordName: Swift.String? = nil,
         startRecordType: Route53ClientTypes.RRType? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.maxItems = maxItems
         self.startRecordIdentifier = startRecordIdentifier
@@ -6182,8 +5986,7 @@ public struct ListResourceRecordSetsOutput: Swift.Sendable {
         nextRecordName: Swift.String? = nil,
         nextRecordType: Route53ClientTypes.RRType? = nil,
         resourceRecordSets: [Route53ClientTypes.ResourceRecordSet]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.maxItems = maxItems
         self.nextRecordIdentifier = nextRecordIdentifier
@@ -6203,8 +6006,7 @@ public struct ListReusableDelegationSetsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -6233,8 +6035,7 @@ public struct ListReusableDelegationSetsOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegationSets = delegationSets
         self.isTruncated = isTruncated
         self.marker = marker
@@ -6259,8 +6060,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         resourceType: Route53ClientTypes.TagResourceType? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.resourceType = resourceType
     }
@@ -6285,8 +6085,7 @@ extension Route53ClientTypes {
             resourceId: Swift.String? = nil,
             resourceType: Route53ClientTypes.TagResourceType? = nil,
             tags: [Route53ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.tags = tags
@@ -6302,8 +6101,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         resourceTagSet: Route53ClientTypes.ResourceTagSet? = nil
-    )
-    {
+    ) {
         self.resourceTagSet = resourceTagSet
     }
 }
@@ -6324,8 +6122,7 @@ public struct ListTagsForResourcesInput: Swift.Sendable {
     public init(
         resourceIds: [Swift.String]? = nil,
         resourceType: Route53ClientTypes.TagResourceType? = nil
-    )
-    {
+    ) {
         self.resourceIds = resourceIds
         self.resourceType = resourceType
     }
@@ -6339,8 +6136,7 @@ public struct ListTagsForResourcesOutput: Swift.Sendable {
 
     public init(
         resourceTagSets: [Route53ClientTypes.ResourceTagSet]? = nil
-    )
-    {
+    ) {
         self.resourceTagSets = resourceTagSets
     }
 }
@@ -6355,8 +6151,7 @@ public struct ListTrafficPoliciesInput: Swift.Sendable {
     public init(
         maxItems: Swift.Int? = nil,
         trafficPolicyIdMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.trafficPolicyIdMarker = trafficPolicyIdMarker
     }
@@ -6388,8 +6183,7 @@ extension Route53ClientTypes {
             name: Swift.String? = nil,
             trafficPolicyCount: Swift.Int? = nil,
             type: Route53ClientTypes.RRType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.latestVersion = latestVersion
             self.name = name
@@ -6419,8 +6213,7 @@ public struct ListTrafficPoliciesOutput: Swift.Sendable {
         maxItems: Swift.Int? = nil,
         trafficPolicyIdMarker: Swift.String? = nil,
         trafficPolicySummaries: [Route53ClientTypes.TrafficPolicySummary]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.maxItems = maxItems
         self.trafficPolicyIdMarker = trafficPolicyIdMarker
@@ -6444,8 +6237,7 @@ public struct ListTrafficPolicyInstancesInput: Swift.Sendable {
         maxItems: Swift.Int? = nil,
         trafficPolicyInstanceNameMarker: Swift.String? = nil,
         trafficPolicyInstanceTypeMarker: Route53ClientTypes.RRType? = nil
-    )
-    {
+    ) {
         self.hostedZoneIdMarker = hostedZoneIdMarker
         self.maxItems = maxItems
         self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
@@ -6478,8 +6270,7 @@ public struct ListTrafficPolicyInstancesOutput: Swift.Sendable {
         trafficPolicyInstanceNameMarker: Swift.String? = nil,
         trafficPolicyInstanceTypeMarker: Route53ClientTypes.RRType? = nil,
         trafficPolicyInstances: [Route53ClientTypes.TrafficPolicyInstance]? = nil
-    )
-    {
+    ) {
         self.hostedZoneIdMarker = hostedZoneIdMarker
         self.isTruncated = isTruncated
         self.maxItems = maxItems
@@ -6506,8 +6297,7 @@ public struct ListTrafficPolicyInstancesByHostedZoneInput: Swift.Sendable {
         maxItems: Swift.Int? = nil,
         trafficPolicyInstanceNameMarker: Swift.String? = nil,
         trafficPolicyInstanceTypeMarker: Route53ClientTypes.RRType? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.maxItems = maxItems
         self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
@@ -6537,8 +6327,7 @@ public struct ListTrafficPolicyInstancesByHostedZoneOutput: Swift.Sendable {
         trafficPolicyInstanceNameMarker: Swift.String? = nil,
         trafficPolicyInstanceTypeMarker: Route53ClientTypes.RRType? = nil,
         trafficPolicyInstances: [Route53ClientTypes.TrafficPolicyInstance]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.maxItems = maxItems
         self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
@@ -6571,8 +6360,7 @@ public struct ListTrafficPolicyInstancesByPolicyInput: Swift.Sendable {
         trafficPolicyInstanceNameMarker: Swift.String? = nil,
         trafficPolicyInstanceTypeMarker: Route53ClientTypes.RRType? = nil,
         trafficPolicyVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.hostedZoneIdMarker = hostedZoneIdMarker
         self.maxItems = maxItems
         self.trafficPolicyId = trafficPolicyId
@@ -6607,8 +6395,7 @@ public struct ListTrafficPolicyInstancesByPolicyOutput: Swift.Sendable {
         trafficPolicyInstanceNameMarker: Swift.String? = nil,
         trafficPolicyInstanceTypeMarker: Route53ClientTypes.RRType? = nil,
         trafficPolicyInstances: [Route53ClientTypes.TrafficPolicyInstance]? = nil
-    )
-    {
+    ) {
         self.hostedZoneIdMarker = hostedZoneIdMarker
         self.isTruncated = isTruncated
         self.maxItems = maxItems
@@ -6632,8 +6419,7 @@ public struct ListTrafficPolicyVersionsInput: Swift.Sendable {
         id: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         trafficPolicyVersionMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.maxItems = maxItems
         self.trafficPolicyVersionMarker = trafficPolicyVersionMarker
@@ -6660,8 +6446,7 @@ public struct ListTrafficPolicyVersionsOutput: Swift.Sendable {
         maxItems: Swift.Int? = nil,
         trafficPolicies: [Route53ClientTypes.TrafficPolicy]? = nil,
         trafficPolicyVersionMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.maxItems = maxItems
         self.trafficPolicies = trafficPolicies
@@ -6683,8 +6468,7 @@ public struct ListVPCAssociationAuthorizationsInput: Swift.Sendable {
         hostedZoneId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6706,8 +6490,7 @@ public struct ListVPCAssociationAuthorizationsOutput: Swift.Sendable {
         hostedZoneId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         vpCs: [Route53ClientTypes.VPC]? = nil
-    )
-    {
+    ) {
         self.hostedZoneId = hostedZoneId
         self.nextToken = nextToken
         self.vpCs = vpCs
@@ -6743,8 +6526,7 @@ public struct TestDNSAnswerInput: Swift.Sendable {
         recordName: Swift.String? = nil,
         recordType: Route53ClientTypes.RRType? = nil,
         resolverIP: Swift.String? = nil
-    )
-    {
+    ) {
         self.edns0ClientSubnetIP = edns0ClientSubnetIP
         self.edns0ClientSubnetMask = edns0ClientSubnetMask
         self.hostedZoneId = hostedZoneId
@@ -6782,8 +6564,7 @@ public struct TestDNSAnswerOutput: Swift.Sendable {
         recordName: Swift.String? = nil,
         recordType: Route53ClientTypes.RRType? = nil,
         responseCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.nameserver = nameserver
         self.`protocol` = `protocol`
         self.recordData = recordData
@@ -6811,8 +6592,7 @@ public struct HealthCheckVersionMismatch: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6968,8 +6748,7 @@ public struct UpdateHealthCheckInput: Swift.Sendable {
         resetElements: [Route53ClientTypes.ResettableElementName]? = nil,
         resourcePath: Swift.String? = nil,
         searchString: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmIdentifier = alarmIdentifier
         self.childHealthChecks = childHealthChecks
         self.disabled = disabled
@@ -6998,8 +6777,7 @@ public struct UpdateHealthCheckOutput: Swift.Sendable {
 
     public init(
         healthCheck: Route53ClientTypes.HealthCheck? = nil
-    )
-    {
+    ) {
         self.healthCheck = healthCheck
     }
 }
@@ -7015,8 +6793,7 @@ public struct UpdateHostedZoneCommentInput: Swift.Sendable {
     public init(
         comment: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.id = id
     }
@@ -7030,8 +6807,7 @@ public struct UpdateHostedZoneCommentOutput: Swift.Sendable {
 
     public init(
         hostedZone: Route53ClientTypes.HostedZone? = nil
-    )
-    {
+    ) {
         self.hostedZone = hostedZone
     }
 }
@@ -7052,8 +6828,7 @@ public struct UpdateTrafficPolicyCommentInput: Swift.Sendable {
         comment: Swift.String? = nil,
         id: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.id = id
         self.version = version
@@ -7068,8 +6843,7 @@ public struct UpdateTrafficPolicyCommentOutput: Swift.Sendable {
 
     public init(
         trafficPolicy: Route53ClientTypes.TrafficPolicy? = nil
-    )
-    {
+    ) {
         self.trafficPolicy = trafficPolicy
     }
 }
@@ -7093,8 +6867,7 @@ public struct ConflictingTypes: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7119,8 +6892,7 @@ public struct UpdateTrafficPolicyInstanceInput: Swift.Sendable {
         trafficPolicyId: Swift.String? = nil,
         trafficPolicyVersion: Swift.Int? = nil,
         ttl: Swift.Int? = nil
-    )
-    {
+    ) {
         self.id = id
         self.trafficPolicyId = trafficPolicyId
         self.trafficPolicyVersion = trafficPolicyVersion
@@ -7136,8 +6908,7 @@ public struct UpdateTrafficPolicyInstanceOutput: Swift.Sendable {
 
     public init(
         trafficPolicyInstance: Route53ClientTypes.TrafficPolicyInstance? = nil
-    )
-    {
+    ) {
         self.trafficPolicyInstance = trafficPolicyInstance
     }
 }

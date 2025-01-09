@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodestarnotificationsClient: ClientRuntime.Client {
     public static let clientName = "CodestarnotificationsClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: CodestarnotificationsClient.CodestarnotificationsClientConfiguration
     let serviceName = "codestar notifications"
@@ -331,7 +331,7 @@ extension CodestarnotificationsClient {
 }
 
 extension CodestarnotificationsClient {
-    /// Performs the `CreateNotificationRule` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `CreateNotificationRule` operation on the `Codestarnotifications` service.
     ///
     /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Chatbot topics or Chatbot clients configured for Slack) where you want to receive them.
     ///
@@ -406,7 +406,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNotificationRule` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `DeleteNotificationRule` operation on the `Codestarnotifications` service.
     ///
     /// Deletes a notification rule for a resource.
     ///
@@ -477,7 +477,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTarget` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `DeleteTarget` operation on the `Codestarnotifications` service.
     ///
     /// Deletes a specified target for notifications.
     ///
@@ -546,7 +546,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNotificationRule` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `DescribeNotificationRule` operation on the `Codestarnotifications` service.
     ///
     /// Returns information about a specified notification rule.
     ///
@@ -616,7 +616,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEventTypes` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `ListEventTypes` operation on the `Codestarnotifications` service.
     ///
     /// Returns information about the event types available for configuring notifications.
     ///
@@ -686,7 +686,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNotificationRules` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `ListNotificationRules` operation on the `Codestarnotifications` service.
     ///
     /// Returns a list of the notification rules for an Amazon Web Services account.
     ///
@@ -756,7 +756,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `ListTagsForResource` operation on the `Codestarnotifications` service.
     ///
     /// Returns a list of the tags associated with a notification rule.
     ///
@@ -826,7 +826,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTargets` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `ListTargets` operation on the `Codestarnotifications` service.
     ///
     /// Returns a list of the notification rule targets for an Amazon Web Services account.
     ///
@@ -896,7 +896,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Subscribe` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `Subscribe` operation on the `Codestarnotifications` service.
     ///
     /// Creates an association between a notification rule and an Chatbot topic or Chatbot client so that the associated target can receive notifications when the events described in the rule are triggered.
     ///
@@ -967,7 +967,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `TagResource` operation on the `Codestarnotifications` service.
     ///
     /// Associates a set of provided tags with a notification rule.
     ///
@@ -1039,7 +1039,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Unsubscribe` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `Unsubscribe` operation on the `Codestarnotifications` service.
     ///
     /// Removes an association between a notification rule and an Chatbot topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
     ///
@@ -1108,7 +1108,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `UntagResource` operation on the `Codestarnotifications` service.
     ///
     /// Removes the association between one or more provided tags and a notification rule.
     ///
@@ -1178,7 +1178,7 @@ extension CodestarnotificationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNotificationRule` operation on the `CodeStarNotifications_20191015` service.
+    /// Performs the `UpdateNotificationRule` operation on the `Codestarnotifications` service.
     ///
     /// Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications. To add or remove tags for a notification rule, you must use [TagResource] and [UntagResource].
     ///

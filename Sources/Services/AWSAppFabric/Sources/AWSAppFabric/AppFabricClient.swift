@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppFabricClient: ClientRuntime.Client {
     public static let clientName = "AppFabricClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: AppFabricClient.AppFabricClientConfiguration
     let serviceName = "AppFabric"
@@ -330,7 +330,7 @@ extension AppFabricClient {
 }
 
 extension AppFabricClient {
-    /// Performs the `BatchGetUserAccessTasks` operation on the `FabricFrontEndService` service.
+    /// Performs the `BatchGetUserAccessTasks` operation on the `AppFabric` service.
     ///
     /// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the StartUserAccessTasks action.
     ///
@@ -403,7 +403,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConnectAppAuthorization` operation on the `FabricFrontEndService` service.
+    /// Performs the `ConnectAppAuthorization` operation on the `AppFabric` service.
     ///
     /// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the application.
     ///
@@ -476,7 +476,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppAuthorization` operation on the `FabricFrontEndService` service.
+    /// Performs the `CreateAppAuthorization` operation on the `AppFabric` service.
     ///
     /// Creates an app authorization within an app bundle, which allows AppFabric to connect to an application.
     ///
@@ -552,7 +552,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppBundle` operation on the `FabricFrontEndService` service.
+    /// Performs the `CreateAppBundle` operation on the `AppFabric` service.
     ///
     /// Creates an app bundle to collect data from an application using AppFabric.
     ///
@@ -627,7 +627,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIngestion` operation on the `FabricFrontEndService` service.
+    /// Performs the `CreateIngestion` operation on the `AppFabric` service.
     ///
     /// Creates a data ingestion for an application.
     ///
@@ -702,7 +702,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIngestionDestination` operation on the `FabricFrontEndService` service.
+    /// Performs the `CreateIngestionDestination` operation on the `AppFabric` service.
     ///
     /// Creates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
     ///
@@ -777,7 +777,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppAuthorization` operation on the `FabricFrontEndService` service.
+    /// Performs the `DeleteAppAuthorization` operation on the `AppFabric` service.
     ///
     /// Deletes an app authorization. You must delete the associated ingestion before you can delete an app authorization.
     ///
@@ -847,7 +847,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppBundle` operation on the `FabricFrontEndService` service.
+    /// Performs the `DeleteAppBundle` operation on the `AppFabric` service.
     ///
     /// Deletes an app bundle. You must delete all associated app authorizations before you can delete an app bundle.
     ///
@@ -917,7 +917,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIngestion` operation on the `FabricFrontEndService` service.
+    /// Performs the `DeleteIngestion` operation on the `AppFabric` service.
     ///
     /// Deletes an ingestion. You must stop (disable) the ingestion and you must delete all associated ingestion destinations before you can delete an app ingestion.
     ///
@@ -987,7 +987,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIngestionDestination` operation on the `FabricFrontEndService` service.
+    /// Performs the `DeleteIngestionDestination` operation on the `AppFabric` service.
     ///
     /// Deletes an ingestion destination. This deletes the association between an ingestion and it's destination. It doesn't delete previously ingested data or the storage destination, such as the Amazon S3 bucket where the data is delivered. If the ingestion destination is deleted while the associated ingestion is enabled, the ingestion will fail and is eventually disabled.
     ///
@@ -1057,7 +1057,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAppAuthorization` operation on the `FabricFrontEndService` service.
+    /// Performs the `GetAppAuthorization` operation on the `AppFabric` service.
     ///
     /// Returns information about an app authorization.
     ///
@@ -1127,7 +1127,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAppBundle` operation on the `FabricFrontEndService` service.
+    /// Performs the `GetAppBundle` operation on the `AppFabric` service.
     ///
     /// Returns information about an app bundle.
     ///
@@ -1197,7 +1197,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIngestion` operation on the `FabricFrontEndService` service.
+    /// Performs the `GetIngestion` operation on the `AppFabric` service.
     ///
     /// Returns information about an ingestion.
     ///
@@ -1267,7 +1267,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIngestionDestination` operation on the `FabricFrontEndService` service.
+    /// Performs the `GetIngestionDestination` operation on the `AppFabric` service.
     ///
     /// Returns information about an ingestion destination.
     ///
@@ -1337,7 +1337,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppAuthorizations` operation on the `FabricFrontEndService` service.
+    /// Performs the `ListAppAuthorizations` operation on the `AppFabric` service.
     ///
     /// Returns a list of all app authorizations configured for an app bundle.
     ///
@@ -1408,7 +1408,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppBundles` operation on the `FabricFrontEndService` service.
+    /// Performs the `ListAppBundles` operation on the `AppFabric` service.
     ///
     /// Returns a list of app bundles.
     ///
@@ -1478,7 +1478,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIngestionDestinations` operation on the `FabricFrontEndService` service.
+    /// Performs the `ListIngestionDestinations` operation on the `AppFabric` service.
     ///
     /// Returns a list of all ingestion destinations configured for an ingestion.
     ///
@@ -1549,7 +1549,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIngestions` operation on the `FabricFrontEndService` service.
+    /// Performs the `ListIngestions` operation on the `AppFabric` service.
     ///
     /// Returns a list of all ingestions configured for an app bundle.
     ///
@@ -1620,7 +1620,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `FabricFrontEndService` service.
+    /// Performs the `ListTagsForResource` operation on the `AppFabric` service.
     ///
     /// Returns a list of tags for a resource.
     ///
@@ -1690,7 +1690,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartIngestion` operation on the `FabricFrontEndService` service.
+    /// Performs the `StartIngestion` operation on the `AppFabric` service.
     ///
     /// Starts (enables) an ingestion, which collects data from an application.
     ///
@@ -1761,7 +1761,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartUserAccessTasks` operation on the `FabricFrontEndService` service.
+    /// Performs the `StartUserAccessTasks` operation on the `AppFabric` service.
     ///
     /// Starts the tasks to search user access status for a specific email address. The tasks are stopped when the user access status data is found. The tasks are terminated when the API calls to the application time out.
     ///
@@ -1834,7 +1834,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopIngestion` operation on the `FabricFrontEndService` service.
+    /// Performs the `StopIngestion` operation on the `AppFabric` service.
     ///
     /// Stops (disables) an ingestion.
     ///
@@ -1905,7 +1905,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `FabricFrontEndService` service.
+    /// Performs the `TagResource` operation on the `AppFabric` service.
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource.
     ///
@@ -1978,7 +1978,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `FabricFrontEndService` service.
+    /// Performs the `UntagResource` operation on the `AppFabric` service.
     ///
     /// Removes a tag or tags from a resource.
     ///
@@ -2049,7 +2049,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAppAuthorization` operation on the `FabricFrontEndService` service.
+    /// Performs the `UpdateAppAuthorization` operation on the `AppFabric` service.
     ///
     /// Updates an app authorization within an app bundle, which allows AppFabric to connect to an application. If the app authorization was in a connected state, updating the app authorization will set it back to a PendingConnect state.
     ///
@@ -2122,7 +2122,7 @@ extension AppFabricClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIngestionDestination` operation on the `FabricFrontEndService` service.
+    /// Performs the `UpdateIngestionDestination` operation on the `AppFabric` service.
     ///
     /// Updates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
     ///

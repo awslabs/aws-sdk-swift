@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConfigClient: ClientRuntime.Client {
     public static let clientName = "ConfigClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: ConfigClient.ConfigClientConfiguration
     let serviceName = "Config"
@@ -330,7 +330,7 @@ extension ConfigClient {
 }
 
 extension ConfigClient {
-    /// Performs the `AssociateResourceTypes` operation on the `StarlingDoveService` service.
+    /// Performs the `AssociateResourceTypes` operation on the `Config` service.
     ///
     /// Adds all resource types specified in the ResourceTypes list to the [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) of specified configuration recorder and includes those resource types when recording. For this operation, the specified configuration recorder must use a [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
     ///
@@ -428,7 +428,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetAggregateResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `BatchGetAggregateResourceConfig` operation on the `Config` service.
     ///
     /// Returns the current configuration items for resources that are present in your Config aggregator. The operation also returns a list of resources that are not processed in the current request. If there are no unprocessed resources, the operation returns an empty unprocessedResourceIdentifiers list.
     ///
@@ -525,7 +525,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `BatchGetResourceConfig` operation on the `Config` service.
     ///
     /// Returns the BaseConfigurationItem for one or more requested resources. The operation also returns a list of resources that are not processed in the current request. If there are no unprocessed resources, the operation returns an empty unprocessedResourceKeys list.
     ///
@@ -622,7 +622,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAggregationAuthorization` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteAggregationAuthorization` operation on the `Config` service.
     ///
     /// Deletes the authorization granted to the specified configuration aggregator account in a specified region.
     ///
@@ -692,7 +692,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteConfigRule` operation on the `Config` service.
     ///
     /// Deletes the specified Config rule and all of its evaluation results. Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException. You can check the state of a rule by using the DescribeConfigRules request. Recommendation: Stop recording resource compliance before deleting rules It is highly recommended that you stop recording for the AWS::Config::ResourceCompliance resource type before you delete rules in your account. Deleting rules creates CIs for AWS::Config::ResourceCompliance and can affect your Config [configuration recorder](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) costs. If you are deleting rules which evaluate a large number of resource types, this can lead to a spike in the number of CIs recorded. Best practice:
     ///
@@ -783,7 +783,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationAggregator` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteConfigurationAggregator` operation on the `Config` service.
     ///
     /// Deletes the specified configuration aggregator and the aggregated data associated with the aggregator.
     ///
@@ -853,7 +853,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationRecorder` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteConfigurationRecorder` operation on the `Config` service.
     ///
     /// Deletes the customer managed configuration recorder. This operation does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the [GetResourceConfigHistory](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html) operation, but you will not be able to access this information in the Config console until you have created a new customer managed configuration recorder.
     ///
@@ -924,7 +924,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConformancePack` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteConformancePack` operation on the `Config` service.
     ///
     /// Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state.
     ///
@@ -1009,7 +1009,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDeliveryChannel` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteDeliveryChannel` operation on the `Config` service.
     ///
     /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the [StopConfigurationRecorder] operation to stop the customer managed configuration recorder.
     ///
@@ -1080,7 +1080,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEvaluationResults` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteEvaluationResults` operation on the `Config` service.
     ///
     /// Deletes the evaluation results for the specified Config rule. You can specify one Config rule per request. After you delete the evaluation results, you can call the [StartConfigRulesEvaluation] API to start evaluating your Amazon Web Services resources against the rule.
     ///
@@ -1165,7 +1165,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteOrganizationConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteOrganizationConfigRule` operation on the `Config` service.
     ///
     /// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization. Only a management account and a delegated administrator account can delete an organization Config rule. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a rule while it is in this state.
     ///
@@ -1262,7 +1262,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteOrganizationConformancePack` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteOrganizationConformancePack` operation on the `Config` service.
     ///
     /// Deletes the specified organization conformance pack and all of the Config rules and remediation actions from all member accounts in that organization. Only a management account or a delegated administrator account can delete an organization conformance pack. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state.
     ///
@@ -1359,7 +1359,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePendingAggregationRequest` operation on the `StarlingDoveService` service.
+    /// Performs the `DeletePendingAggregationRequest` operation on the `Config` service.
     ///
     /// Deletes pending authorization requests for a specified aggregator account in a specified region.
     ///
@@ -1429,7 +1429,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRemediationConfiguration` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteRemediationConfiguration` operation on the `Config` service.
     ///
     /// Deletes the remediation configuration.
     ///
@@ -1519,7 +1519,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRemediationExceptions` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteRemediationExceptions` operation on the `Config` service.
     ///
     /// Deletes one or more remediation exceptions mentioned in the resource keys. Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource. Remediation exceptions blocks auto-remediation until the exception is cleared.
     ///
@@ -1589,7 +1589,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteResourceConfig` operation on the `Config` service.
     ///
     /// Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
     ///
@@ -1682,7 +1682,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRetentionConfiguration` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteRetentionConfiguration` operation on the `Config` service.
     ///
     /// Deletes the retention configuration.
     ///
@@ -1753,7 +1753,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServiceLinkedConfigurationRecorder` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteServiceLinkedConfigurationRecorder` operation on the `Config` service.
     ///
     /// Deletes an existing service-linked configuration recorder. This operation does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the [GetResourceConfigHistory](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html) operation, but you will not be able to access this information in the Config console until you have created a new service-linked configuration recorder for the same service. The recording scope determines if you receive configuration items The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
     ///
@@ -1851,7 +1851,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStoredQuery` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteStoredQuery` operation on the `Config` service.
     ///
     /// Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
     ///
@@ -1944,7 +1944,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeliverConfigSnapshot` operation on the `StarlingDoveService` service.
+    /// Performs the `DeliverConfigSnapshot` operation on the `Config` service.
     ///
     /// Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, Config sends the following notifications using an Amazon SNS topic that you have specified.
     ///
@@ -2022,7 +2022,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAggregateComplianceByConfigRules` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeAggregateComplianceByConfigRules` operation on the `Config` service.
     ///
     /// Returns a list of compliant and noncompliant rules with the number of resources for compliant and noncompliant rules. Does not display rules that do not have compliance results. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
@@ -2117,7 +2117,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAggregateComplianceByConformancePacks` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeAggregateComplianceByConformancePacks` operation on the `Config` service.
     ///
     /// Returns a list of the existing and deleted conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
@@ -2212,7 +2212,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAggregationAuthorizations` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeAggregationAuthorizations` operation on the `Config` service.
     ///
     /// Returns a list of authorizations granted to various aggregator accounts and regions.
     ///
@@ -2284,7 +2284,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeComplianceByConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeComplianceByConfigRule` operation on the `Config` service.
     ///
     /// Indicates whether the specified Config rules are compliant. If a rule is noncompliant, this operation returns the number of Amazon Web Services resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply with it. It is noncompliant if any of these resources do not comply. If Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions:
     ///
@@ -2362,7 +2362,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeComplianceByResource` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeComplianceByResource` operation on the `Config` service.
     ///
     /// Indicates whether the specified Amazon Web Services resources are compliant. If a resource is noncompliant, this operation returns the number of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config rules that evaluate it. It is noncompliant if it does not comply with one or more of these rules. If Config has no current evaluation results for the resource, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions about the rules that evaluate the resource:
     ///
@@ -2439,7 +2439,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigRuleEvaluationStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigRuleEvaluationStatus` operation on the `Config` service.
     ///
     /// Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke the rule, and the related error for the last failure.
     ///
@@ -2511,7 +2511,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigRules` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigRules` operation on the `Config` service.
     ///
     /// Returns details about your Config rules.
     ///
@@ -2583,7 +2583,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationAggregatorSourcesStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigurationAggregatorSourcesStatus` operation on the `Config` service.
     ///
     /// Returns status information for sources within an aggregator. The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
     ///
@@ -2656,7 +2656,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationAggregators` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigurationAggregators` operation on the `Config` service.
     ///
     /// Returns the details of one or more configuration aggregators. If the configuration aggregator is not specified, this operation returns the details for all the configuration aggregators associated with the account.
     ///
@@ -2729,7 +2729,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationRecorderStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigurationRecorderStatus` operation on the `Config` service.
     ///
     /// Returns the current status of the configuration recorder you specify as well as the status of the last recording event for the configuration recorders. For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics. If a configuration recorder is not specified, this operation returns the status for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
     ///
@@ -2822,7 +2822,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationRecorders` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigurationRecorders` operation on the `Config` service.
     ///
     /// Returns details for the configuration recorder you specify. If a configuration recorder is not specified, this operation returns details for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
     ///
@@ -2915,7 +2915,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConformancePackCompliance` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConformancePackCompliance` operation on the `Config` service.
     ///
     /// Returns compliance details for each rule in that conformance pack. You must provide exact rule names.
     ///
@@ -2989,7 +2989,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConformancePackStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConformancePackStatus` operation on the `Config` service.
     ///
     /// Provides one or more conformance packs deployment status. If there are no conformance packs then you will see an empty result.
     ///
@@ -3061,7 +3061,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConformancePacks` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConformancePacks` operation on the `Config` service.
     ///
     /// Returns a list of one or more conformance packs.
     ///
@@ -3134,7 +3134,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDeliveryChannelStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeDeliveryChannelStatus` operation on the `Config` service.
     ///
     /// Returns the current status of the specified delivery channel. If a delivery channel is not specified, this operation returns the current status of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
     ///
@@ -3204,7 +3204,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDeliveryChannels` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeDeliveryChannels` operation on the `Config` service.
     ///
     /// Returns details about the specified delivery channel. If a delivery channel is not specified, this operation returns the details of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
     ///
@@ -3274,7 +3274,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrganizationConfigRuleStatuses` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeOrganizationConfigRuleStatuses` operation on the `Config` service.
     ///
     /// Provides organization Config rule deployment status for an organization. The status is not considered successful until organization Config rule is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names. It is only applicable, when you request all the organization Config rules.
     ///
@@ -3358,7 +3358,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrganizationConfigRules` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeOrganizationConfigRules` operation on the `Config` service.
     ///
     /// Returns a list of organization Config rules. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names. It is only applicable, when you request all the organization Config rules. For accounts within an organization If you deploy an organizational rule or conformance pack in an organization administrator account, and then establish a delegated administrator and deploy an organizational rule or conformance pack in the delegated administrator account, you won't be able to see the organizational rule or conformance pack in the organization administrator account from the delegated administrator account or see the organizational rule or conformance pack in the delegated administrator account from organization administrator account. The DescribeOrganizationConfigRules and DescribeOrganizationConformancePacks APIs can only see and interact with the organization-related resource that were deployed from within the account calling those APIs.
     ///
@@ -3442,7 +3442,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrganizationConformancePackStatuses` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeOrganizationConformancePackStatuses` operation on the `Config` service.
     ///
     /// Provides organization conformance pack deployment status for an organization. The status is not considered successful until organization conformance pack is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance pack names. They are only applicable, when you request all the organization conformance packs.
     ///
@@ -3526,7 +3526,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrganizationConformancePacks` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeOrganizationConformancePacks` operation on the `Config` service.
     ///
     /// Returns a list of organization conformance packs. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable, when you request all the organization conformance packs. For accounts within an organization If you deploy an organizational rule or conformance pack in an organization administrator account, and then establish a delegated administrator and deploy an organizational rule or conformance pack in the delegated administrator account, you won't be able to see the organizational rule or conformance pack in the organization administrator account from the delegated administrator account or see the organizational rule or conformance pack in the delegated administrator account from organization administrator account. The DescribeOrganizationConfigRules and DescribeOrganizationConformancePacks APIs can only see and interact with the organization-related resource that were deployed from within the account calling those APIs.
     ///
@@ -3610,7 +3610,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePendingAggregationRequests` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribePendingAggregationRequests` operation on the `Config` service.
     ///
     /// Returns a list of all pending aggregation requests.
     ///
@@ -3682,7 +3682,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRemediationConfigurations` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeRemediationConfigurations` operation on the `Config` service.
     ///
     /// Returns the details of one or more remediation configurations.
     ///
@@ -3747,7 +3747,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRemediationExceptions` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeRemediationExceptions` operation on the `Config` service.
     ///
     /// Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted. When you specify the limit and the next token, you receive a paginated response. Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource. Remediation exceptions blocks auto-remediation until the exception is cleared. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
     ///
@@ -3818,7 +3818,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRemediationExecutionStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeRemediationExecutionStatus` operation on the `Config` service.
     ///
     /// Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed. When you specify the limit and the next token, you receive a paginated response.
     ///
@@ -3890,7 +3890,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRetentionConfigurations` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeRetentionConfigurations` operation on the `Config` service.
     ///
     /// Returns the details of one or more retention configurations. If the retention configuration name is not specified, this operation returns the details for all the retention configurations for that account. Currently, Config supports only one retention configuration per region in your account.
     ///
@@ -3962,7 +3962,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateResourceTypes` operation on the `StarlingDoveService` service.
+    /// Performs the `DisassociateResourceTypes` operation on the `Config` service.
     ///
     /// Removes all resource types specified in the ResourceTypes list from the [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) of configuration recorder and excludes these resource types when recording. For this operation, the configuration recorder must use a [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
     ///
@@ -4060,7 +4060,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAggregateComplianceDetailsByConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `GetAggregateComplianceDetailsByConfigRule` operation on the `Config` service.
     ///
     /// Returns the evaluation results for the specified Config rule for a specific resource in a rule. The results indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule. The results can return an empty result page. But if you have a nextToken, the results are displayed on the next page.
     ///
@@ -4155,7 +4155,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAggregateConfigRuleComplianceSummary` operation on the `StarlingDoveService` service.
+    /// Performs the `GetAggregateConfigRuleComplianceSummary` operation on the `Config` service.
     ///
     /// Returns the number of compliant and noncompliant rules for one or more accounts and regions in an aggregator. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
@@ -4250,7 +4250,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAggregateConformancePackComplianceSummary` operation on the `StarlingDoveService` service.
+    /// Performs the `GetAggregateConformancePackComplianceSummary` operation on the `Config` service.
     ///
     /// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
@@ -4345,7 +4345,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAggregateDiscoveredResourceCounts` operation on the `StarlingDoveService` service.
+    /// Performs the `GetAggregateDiscoveredResourceCounts` operation on the `Config` service.
     ///
     /// Returns the resource counts across accounts and regions that are present in your Config aggregator. You can request the resource counts by providing filters and GroupByKey. For example, if the input contains accountID 12345678910 and region us-east-1 in filters, the API returns the count of resources in account ID 12345678910 and region us-east-1. If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
     ///
@@ -4440,7 +4440,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAggregateResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `GetAggregateResourceConfig` operation on the `Config` service.
     ///
     /// Returns configuration item that is aggregated for your specific resource in a specific source account and region. The API does not return results for deleted resources.
     ///
@@ -4535,7 +4535,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComplianceDetailsByConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `GetComplianceDetailsByConfigRule` operation on the `Config` service.
     ///
     /// Returns the evaluation results for the specified Config rule. The results indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule.
     ///
@@ -4607,7 +4607,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComplianceDetailsByResource` operation on the `StarlingDoveService` service.
+    /// Performs the `GetComplianceDetailsByResource` operation on the `Config` service.
     ///
     /// Returns the evaluation results for the specified Amazon Web Services resource. The results indicate which Config rules were used to evaluate the resource, when each rule was last invoked, and whether the resource complies with each rule.
     ///
@@ -4677,7 +4677,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComplianceSummaryByConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `GetComplianceSummaryByConfigRule` operation on the `Config` service.
     ///
     /// Returns the number of Config rules that are compliant and noncompliant, up to a maximum of 25 for each.
     ///
@@ -4742,7 +4742,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComplianceSummaryByResourceType` operation on the `StarlingDoveService` service.
+    /// Performs the `GetComplianceSummaryByResourceType` operation on the `Config` service.
     ///
     /// Returns the number of resources that are compliant and the number that are noncompliant. You can specify one or more resource types to get these numbers for each resource type. The maximum number returned is 100.
     ///
@@ -4812,7 +4812,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConformancePackComplianceDetails` operation on the `StarlingDoveService` service.
+    /// Performs the `GetConformancePackComplianceDetails` operation on the `Config` service.
     ///
     /// Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
     ///
@@ -4886,7 +4886,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConformancePackComplianceSummary` operation on the `StarlingDoveService` service.
+    /// Performs the `GetConformancePackComplianceSummary` operation on the `Config` service.
     ///
     /// Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
     ///
@@ -4958,7 +4958,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCustomRulePolicy` operation on the `StarlingDoveService` service.
+    /// Performs the `GetCustomRulePolicy` operation on the `Config` service.
     ///
     /// Returns the policy definition containing the logic for your Config Custom Policy rule.
     ///
@@ -5028,7 +5028,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDiscoveredResourceCounts` operation on the `StarlingDoveService` service.
+    /// Performs the `GetDiscoveredResourceCounts` operation on the `Config` service.
     ///
     /// Returns the resource types, the number of each resource type, and the total number of resources that Config is recording in this region for your Amazon Web Services account. Example
     ///
@@ -5147,7 +5147,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOrganizationConfigRuleDetailedStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `GetOrganizationConfigRuleDetailedStatus` operation on the `Config` service.
     ///
     /// Returns detailed status for each member account within an organization for a given organization Config rule.
     ///
@@ -5231,7 +5231,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOrganizationConformancePackDetailedStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `GetOrganizationConformancePackDetailedStatus` operation on the `Config` service.
     ///
     /// Returns detailed status for each member account within an organization for a given organization conformance pack.
     ///
@@ -5315,7 +5315,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOrganizationCustomRulePolicy` operation on the `StarlingDoveService` service.
+    /// Performs the `GetOrganizationCustomRulePolicy` operation on the `Config` service.
     ///
     /// Returns the policy definition containing the logic for your organization Config Custom Policy rule.
     ///
@@ -5397,7 +5397,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceConfigHistory` operation on the `StarlingDoveService` service.
+    /// Performs the `GetResourceConfigHistory` operation on the `Config` service.
     ///
     /// For accurate reporting on the compliance status, you must record the AWS::Config::ResourceCompliance resource type. For more information, see [Selecting Which Resources Config Records](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html). Returns a list of ConfigurationItems for the specified resource. The list contains details about each state of the resource during the specified time interval. If you specified a retention period to retain your ConfigurationItems between a minimum of 30 days and a maximum of 7 years (2557 days), Config returns the ConfigurationItems for the specified retention period. The response is paginated. By default, Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter. Each call to the API is limited to span a duration of seven days. It is likely that the number of records returned is smaller than the specified limit. In such cases, you can make another call, using the nextToken.
     ///
@@ -5494,7 +5494,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceEvaluationSummary` operation on the `StarlingDoveService` service.
+    /// Performs the `GetResourceEvaluationSummary` operation on the `Config` service.
     ///
     /// Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run. The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated, the evaluation mode that was run, and whether the resource details comply with the configuration of the proactive rules. To see additional information about the evaluation result, such as which rule flagged a resource as NON_COMPLIANT, use the [GetComplianceDetailsByResource](https://docs.aws.amazon.com/config/latest/APIReference/API_GetComplianceDetailsByResource.html) API. For more information, see the [Examples](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceEvaluationSummary.html#API_GetResourceEvaluationSummary_Examples) section.
     ///
@@ -5564,7 +5564,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStoredQuery` operation on the `StarlingDoveService` service.
+    /// Performs the `GetStoredQuery` operation on the `Config` service.
     ///
     /// Returns the details of a specific stored query.
     ///
@@ -5657,7 +5657,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAggregateDiscoveredResources` operation on the `StarlingDoveService` service.
+    /// Performs the `ListAggregateDiscoveredResources` operation on the `Config` service.
     ///
     /// Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions. A resource identifier includes the resource type, ID, (if available) the custom resource name, source account, and source region. You can narrow the results to include only resources that have specific resource IDs, or a resource name, or source account ID, or source region. For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type AWS::EC2::Instance then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
     ///
@@ -5752,7 +5752,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurationRecorders` operation on the `StarlingDoveService` service.
+    /// Performs the `ListConfigurationRecorders` operation on the `Config` service.
     ///
     /// Returns a list of configuration recorders depending on the filters you specify.
     ///
@@ -5844,7 +5844,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConformancePackComplianceScores` operation on the `StarlingDoveService` service.
+    /// Performs the `ListConformancePackComplianceScores` operation on the `Config` service.
     ///
     /// Returns a list of conformance pack compliance scores. A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack. This metric provides you with a high-level view of the compliance state of your conformance packs. You can use it to identify, investigate, and understand the level of compliance in your conformance packs. Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
     ///
@@ -5916,7 +5916,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDiscoveredResources` operation on the `StarlingDoveService` service.
+    /// Performs the `ListDiscoveredResources` operation on the `Config` service.
     ///
     /// Accepts a resource type and returns a list of resource identifiers for the resources of that type. A resource identifier includes the resource type, ID, and (if available) the custom resource name. The results consist of resources that Config has discovered, including those that Config is not currently recording. You can narrow the results to include only resources that have specific resource IDs or a resource name. You can specify either resource IDs or a resource name, but not both, in the same request. The response is paginated. By default, Config lists 100 resource identifiers on each page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.
     ///
@@ -6011,7 +6011,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceEvaluations` operation on the `StarlingDoveService` service.
+    /// Performs the `ListResourceEvaluations` operation on the `Config` service.
     ///
     /// Returns a list of proactive resource evaluations.
     ///
@@ -6083,7 +6083,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStoredQueries` operation on the `StarlingDoveService` service.
+    /// Performs the `ListStoredQueries` operation on the `Config` service.
     ///
     /// Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
     ///
@@ -6176,7 +6176,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `StarlingDoveService` service.
+    /// Performs the `ListTagsForResource` operation on the `Config` service.
     ///
     /// List the tags for Config resource.
     ///
@@ -6271,7 +6271,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAggregationAuthorization` operation on the `StarlingDoveService` service.
+    /// Performs the `PutAggregationAuthorization` operation on the `Config` service.
     ///
     /// Authorizes the aggregator account and region to collect data from the source account and region. Tags are added at creation and cannot be updated with this operation PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
@@ -6341,7 +6341,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `PutConfigRule` operation on the `Config` service.
     ///
     /// Adds or updates an Config rule to evaluate if your Amazon Web Services resources comply with your desired configurations. For information on how many Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. There are two types of rules: Config Managed Rules and Config Custom Rules. You can use PutConfigRule to create both Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). If you are adding an Config managed rule, you must specify the rule's identifier for the SourceIdentifier key. Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom Lambda rule, you first need to create an Lambda function that the rule invokes to evaluate your resources. When you use PutConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. You specify the ARN in the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object. For any new Config rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. For more information about developing and using Config rules, see [Evaluating Resources with Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html) in the Config Developer Guide. Tags are added at creation and cannot be updated with this operation PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
@@ -6446,7 +6446,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationAggregator` operation on the `StarlingDoveService` service.
+    /// Performs the `PutConfigurationAggregator` operation on the `Config` service.
     ///
     /// Creates and updates the configuration aggregator with the selected source accounts and regions. The source account can be individual account(s) or an organization. accountIds that are passed will be replaced with existing accounts. If you want to add additional accounts into the aggregator, call DescribeConfigurationAggregators to get the previous accounts and then append new ones. Config should be enabled in source accounts and regions you want to aggregate. If your source type is an organization, you must be signed in to the management account or a registered delegated administrator and all the features must be enabled in your organization. If the caller is a management account, Config calls EnableAwsServiceAccess API to enable integration between Config and Organizations. If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see [Register a Delegated Administrator](https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli) in the Config developer guide. Tags are added at creation and cannot be updated with this operation PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
@@ -6532,7 +6532,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationRecorder` operation on the `StarlingDoveService` service.
+    /// Performs the `PutConfigurationRecorder` operation on the `Config` service.
     ///
     /// Creates or updates the customer managed configuration recorder. You can use this operation to create a new customer managed configuration recorder or to update the roleARN and the recordingGroup for an existing customer managed configuration recorder. To start the customer managed configuration recorder and begin recording configuration changes for the resource types you specify, use the [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) operation. For more information, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide. One customer managed configuration recorder per account per Region You can create only one customer managed configuration recorder for each account for each Amazon Web Services Region. Default is to record all supported resource types, excluding the global IAM resource types If you have not specified values for the recordingGroup field, the default for the customer managed configuration recorder is to record all supported resource types, excluding the global IAM resource types: AWS::IAM::Group, AWS::IAM::Policy, AWS::IAM::Role, and AWS::IAM::User. Tags are added at creation and cannot be updated PutConfigurationRecorder is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
@@ -6644,7 +6644,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConformancePack` operation on the `StarlingDoveService` service.
+    /// Performs the `PutConformancePack` operation on the `Config` service.
     ///
     /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization. For information on how many conformance packs you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfigConforms in your account. The service-linked role is created only when the role does not exist in your account. You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
     ///
@@ -6749,7 +6749,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDeliveryChannel` operation on the `StarlingDoveService` service.
+    /// Performs the `PutDeliveryChannel` operation on the `Config` service.
     ///
     /// Creates or updates a delivery channel to deliver configuration information and other compliance information. You can use this operation to create a new delivery channel or to update the Amazon S3 bucket and the Amazon SNS topic of an existing delivery channel. For more information, see [ Working with the Delivery Channel ](https://docs.aws.amazon.com/config/latest/developerguide/manage-delivery-channel.html) in the Config Developer Guide. One delivery channel per account per Region You can have only one delivery channel for each account for each Amazon Web Services Region.
     ///
@@ -6826,7 +6826,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEvaluations` operation on the `StarlingDoveService` service.
+    /// Performs the `PutEvaluations` operation on the `Config` service.
     ///
     /// Used by an Lambda function to deliver evaluation results to Config. This operation is required in every Lambda function that is invoked by an Config rule.
     ///
@@ -6898,7 +6898,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutExternalEvaluation` operation on the `StarlingDoveService` service.
+    /// Performs the `PutExternalEvaluation` operation on the `Config` service.
     ///
     /// Add or updates the evaluations for process checks. This API checks if the rule is a process check when the name of the Config rule is provided.
     ///
@@ -6969,7 +6969,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutOrganizationConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `PutOrganizationConfigRule` operation on the `Config` service.
     ///
     /// Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your desired configurations. For information on how many organization Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. Only a management account and a delegated administrator can create or update an organization Config rule. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators. This API enables organization service access through the EnableAWSServiceAccess action and creates a service-linked role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization. The service-linked role is created only when the role does not exist in the caller account. Config verifies the existence of role with GetRole action. To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization register-delegated-administrator for config-multiaccountsetup.amazonaws.com. There are two types of rules: Config Managed Rules and Config Custom Rules. You can use PutOrganizationConfigRule to create both Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). If you are adding an Config managed rule, you must specify the rule's identifier for the RuleIdentifier key. Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom Lambda rule, you first need to create an Lambda function in the management account or a delegated administrator that the rule invokes to evaluate your resources. You also need to create an IAM role in the managed account that can be assumed by the Lambda function. When you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. Make sure to specify one of either OrganizationCustomPolicyRuleMetadata for Custom Policy rules, OrganizationCustomRuleMetadata for Custom Lambda rules, or OrganizationManagedRuleMetadata for managed rules.
     ///
@@ -7110,7 +7110,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutOrganizationConformancePack` operation on the `StarlingDoveService` service.
+    /// Performs the `PutOrganizationConformancePack` operation on the `Config` service.
     ///
     /// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. Only a management account and a delegated administrator can call this API. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators. This API enables organization service access for config-multiaccountsetup.amazonaws.com through the EnableAWSServiceAccess action and creates a service-linked role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization. The service-linked role is created only when the role does not exist in the caller account. To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization register-delegate-admin for config-multiaccountsetup.amazonaws.com. Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. You must specify either the TemplateS3Uri or the TemplateBody parameter, but not both. If you provide both Config uses the TemplateS3Uri parameter and ignores the TemplateBody parameter. Config sets the state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the conformance pack is created or updated. You cannot update a conformance pack while it is in this state.
     ///
@@ -7251,7 +7251,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRemediationConfigurations` operation on the `StarlingDoveService` service.
+    /// Performs the `PutRemediationConfigurations` operation on the `Config` service.
     ///
     /// Adds or updates the remediation configuration with a specific Config rule with the selected target or action. The API creates the RemediationConfiguration object for the Config rule. The Config rule must already exist for you to add a remediation configuration. The target (SSM document) must exist and have permissions to use the target. Be aware of backward incompatible changes If you make backward incompatible changes to the SSM document, you must call this again to ensure the remediations can run. This API does not support adding remediation configurations for service-linked Config Rules such as Organization Config rules, the rules deployed by conformance packs, and rules deployed by Amazon Web Services Security Hub. Required fields For manual remediation configuration, you need to provide a value for automationAssumeRole or use a value in the assumeRolefield to remediate your resources. The SSM automation document can use either as long as it maps to a valid parameter. However, for automatic remediation configuration, the only valid assumeRole field value is AutomationAssumeRole and you need to provide a value for AutomationAssumeRole to remediate your resources. Auto remediation can be initiated even for compliant resources If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html) API or the Config console, it initiates the remediation process for all non-compliant resources for that specific rule. The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis. Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
     ///
@@ -7339,7 +7339,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRemediationExceptions` operation on the `StarlingDoveService` service.
+    /// Performs the `PutRemediationExceptions` operation on the `Config` service.
     ///
     /// A remediation exception is when a specified resource is no longer considered for auto-remediation. This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule. Exceptions block auto remediation Config generates a remediation exception when a problem occurs running a remediation action for a specified resource. Remediation exceptions blocks auto-remediation until the exception is cleared. Manual remediation is recommended when placing an exception When placing an exception on an Amazon Web Services resource, it is recommended that remediation is set as manual remediation until the given Config rule for the specified resource evaluates the resource as NON_COMPLIANT. Once the resource has been evaluated as NON_COMPLIANT, you can add remediation exceptions and change the remediation type back from Manual to Auto if you want to use auto-remediation. Otherwise, using auto-remediation before a NON_COMPLIANT evaluation result can delete resources before the exception is applied. Exceptions can only be performed on non-compliant resources Placing an exception can only be performed on resources that are NON_COMPLIANT. If you use this API for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will not be generated. For more information on the conditions that initiate the possible Config evaluation results, see [Concepts | Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules) in the Config Developer Guide. Exceptions cannot be placed on service-linked remediation actions You cannot place an exception on service-linked remediation actions, such as remediation actions put by an organizational conformance pack. Auto remediation can be initiated even for compliant resources If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html) API or the Config console, it initiates the remediation process for all non-compliant resources for that specific rule. The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis. Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
     ///
@@ -7427,7 +7427,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `PutResourceConfig` operation on the `Config` service.
     ///
     /// Records the configuration state for the resource provided in the request. The configuration state of a resource is represented in Config as Configuration Items. Once this API records the configuration item, you can retrieve the list of configuration items for the custom resource type using existing Config APIs. The custom resource type must be registered with CloudFormation. This API accepts the configuration item registered with CloudFormation. When you call this API, Config only stores configuration state of the resource provided in the request. This API does not change or remediate the configuration of the resource. Write-only schema properites are not recorded as part of the published configuration item.
     ///
@@ -7539,7 +7539,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRetentionConfiguration` operation on the `StarlingDoveService` service.
+    /// Performs the `PutRetentionConfiguration` operation on the `Config` service.
     ///
     /// Creates and updates the retention configuration with details about retention period (number of days) that Config stores your historical information. The API creates the RetentionConfiguration object and names the object as default. When you have a RetentionConfiguration object named default, calling the API modifies the default object. Currently, Config supports only one retention configuration per region in your account.
     ///
@@ -7610,7 +7610,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutServiceLinkedConfigurationRecorder` operation on the `StarlingDoveService` service.
+    /// Performs the `PutServiceLinkedConfigurationRecorder` operation on the `Config` service.
     ///
     /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. For more information, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfig in your account. The service-linked role is created only when the role does not exist in your account. The recording scope determines if you receive configuration items The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel. Tags are added at creation and cannot be updated with this operation Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
@@ -7726,7 +7726,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutStoredQuery` operation on the `StarlingDoveService` service.
+    /// Performs the `PutStoredQuery` operation on the `Config` service.
     ///
     /// Saves a new query or updates an existing saved query. The QueryName must be unique for a single Amazon Web Services account and a single Amazon Web Services Region. You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region. Tags are added at creation and cannot be updated PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     ///
@@ -7820,7 +7820,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SelectAggregateResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `SelectAggregateResourceConfig` operation on the `Config` service.
     ///
     /// Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of Amazon Web Services resources across multiple accounts and regions, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the [ Query Components ](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html) section in the Config Developer Guide. If you run an aggregation query (i.e., using GROUP BY or using aggregate functions such as COUNT; e.g., SELECT resourceId, COUNT(*) WHERE resourceType = 'AWS::IAM::Role' GROUP BY resourceId) and do not specify the MaxResults or the Limit query parameters, the default page size is set to 500. If you run a non-aggregation query (i.e., not using GROUP BY or aggregate function; e.g., SELECT * WHERE resourceType = 'AWS::IAM::Role') and do not specify the MaxResults or the Limit query parameters, the default page size is set to 25.
     ///
@@ -7893,7 +7893,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SelectResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `SelectResourceConfig` operation on the `Config` service.
     ///
     /// Accepts a structured query language (SQL) SELECT command, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the [ Query Components ](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html) section in the Config Developer Guide.
     ///
@@ -7965,7 +7965,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartConfigRulesEvaluation` operation on the `StarlingDoveService` service.
+    /// Performs the `StartConfigRulesEvaluation` operation on the `Config` service.
     ///
     /// Runs an on-demand evaluation for the specified Config rules against the last known configuration state of the resources. Use StartConfigRulesEvaluation when you want to test that a rule you updated is working as expected. StartConfigRulesEvaluation does not re-record the latest configuration state for your resources. It re-runs an evaluation against the last known state of your resources. You can specify up to 25 Config rules per request. An existing StartConfigRulesEvaluation call for the specified rules must complete before you can call the API again. If you chose to have Config stream to an Amazon SNS topic, you will receive a ConfigRuleEvaluationStarted notification when the evaluation starts. You don't need to call the StartConfigRulesEvaluation API to run an evaluation for a new rule. When you create a rule, Config evaluates your resources against the rule automatically. The StartConfigRulesEvaluation API is useful if you want to run on-demand evaluations, such as the following example:
     ///
@@ -8062,7 +8062,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartConfigurationRecorder` operation on the `StarlingDoveService` service.
+    /// Performs the `StartConfigurationRecorder` operation on the `Config` service.
     ///
     /// Starts the customer managed configuration recorder. The customer managed configuration recorder will begin recording configuration changes for the resource types you specify. You must have created a delivery channel to successfully start the customer managed configuration recorder. You can use the [PutDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_PutDeliveryChannel.html) operation to create a delivery channel.
     ///
@@ -8134,7 +8134,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartRemediationExecution` operation on the `StarlingDoveService` service.
+    /// Performs the `StartRemediationExecution` operation on the `Config` service.
     ///
     /// Runs an on-demand remediation for the specified Config rules against the last known remediation configuration. It runs an execution against the current state of your resources. Remediation execution is asynchronous. You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
     ///
@@ -8223,7 +8223,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartResourceEvaluation` operation on the `StarlingDoveService` service.
+    /// Performs the `StartResourceEvaluation` operation on the `Config` service.
     ///
     /// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules. You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all of the Config rules in your account that match with the specified proactive mode and resource type. Ensure you have the cloudformation:DescribeType role setup to validate the resource type schema. You can find the [Resource type schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html) in "Amazon Web Services public extensions" within the CloudFormation registry or with the following CLI commmand: aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE. For more information, see [Managing extensions through the CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html#registry-view) and [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation User Guide.
     ///
@@ -8294,7 +8294,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopConfigurationRecorder` operation on the `StarlingDoveService` service.
+    /// Performs the `StopConfigurationRecorder` operation on the `Config` service.
     ///
     /// Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
     ///
@@ -8365,7 +8365,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `StarlingDoveService` service.
+    /// Performs the `TagResource` operation on the `Config` service.
     ///
     /// Associates the specified tags to a resource with the specified ResourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
@@ -8459,7 +8459,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `StarlingDoveService` service.
+    /// Performs the `UntagResource` operation on the `Config` service.
     ///
     /// Deletes specified tags from a resource.
     ///

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AthenaClient: ClientRuntime.Client {
     public static let clientName = "AthenaClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: AthenaClient.AthenaClientConfiguration
     let serviceName = "Athena"
@@ -330,7 +330,7 @@ extension AthenaClient {
 }
 
 extension AthenaClient {
-    /// Performs the `BatchGetNamedQuery` operation on the `AmazonAthena` service.
+    /// Performs the `BatchGetNamedQuery` operation on the `Athena` service.
     ///
     /// Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use [ListNamedQueriesInput] to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under [UnprocessedNamedQueryId]. Named queries differ from executed queries. Use [BatchGetQueryExecutionInput] to get details about each unique query execution, and [ListQueryExecutionsInput] to get a list of query execution IDs.
     ///
@@ -401,7 +401,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetPreparedStatement` operation on the `AmazonAthena` service.
+    /// Performs the `BatchGetPreparedStatement` operation on the `Athena` service.
     ///
     /// Returns the details of a single prepared statement or a list of up to 256 prepared statements for the array of prepared statement names that you provide. Requires you to have access to the workgroup to which the prepared statements belong. If a prepared statement cannot be retrieved for the name specified, the statement is listed in UnprocessedPreparedStatementNames.
     ///
@@ -472,7 +472,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetQueryExecution` operation on the `AmazonAthena` service.
+    /// Performs the `BatchGetQueryExecution` operation on the `Athena` service.
     ///
     /// Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. Requires you to have access to the workgroup in which the queries ran. To get a list of query execution IDs, use [ListQueryExecutionsInput$WorkGroup]. Query executions differ from named (saved) queries. Use [BatchGetNamedQueryInput] to get details about named queries.
     ///
@@ -543,7 +543,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelCapacityReservation` operation on the `AmazonAthena` service.
+    /// Performs the `CancelCapacityReservation` operation on the `Athena` service.
     ///
     /// Cancels the capacity reservation with the specified name. Cancelled reservations remain in your account and will be deleted 45 days after cancellation. During the 45 days, you cannot re-purpose or reuse a reservation that has been cancelled, but you can refer to its tags and view it for historical reference.
     ///
@@ -614,7 +614,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCapacityReservation` operation on the `AmazonAthena` service.
+    /// Performs the `CreateCapacityReservation` operation on the `Athena` service.
     ///
     /// Creates a capacity reservation with the specified name and number of requested data processing units.
     ///
@@ -685,7 +685,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataCatalog` operation on the `AmazonAthena` service.
+    /// Performs the `CreateDataCatalog` operation on the `Athena` service.
     ///
     /// Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same Amazon Web Services account. This API operation creates the following resources.
     ///
@@ -762,7 +762,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNamedQuery` operation on the `AmazonAthena` service.
+    /// Performs the `CreateNamedQuery` operation on the `Athena` service.
     ///
     /// Creates a named query in the specified workgroup. Requires that you have access to the workgroup.
     ///
@@ -834,7 +834,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNotebook` operation on the `AmazonAthena` service.
+    /// Performs the `CreateNotebook` operation on the `Athena` service.
     ///
     /// Creates an empty ipynb file in the specified Apache Spark enabled workgroup. Throws an error if a file in the workgroup with the same name already exists.
     ///
@@ -906,7 +906,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePreparedStatement` operation on the `AmazonAthena` service.
+    /// Performs the `CreatePreparedStatement` operation on the `Athena` service.
     ///
     /// Creates a prepared statement for use with SQL queries in Athena.
     ///
@@ -977,7 +977,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePresignedNotebookUrl` operation on the `AmazonAthena` service.
+    /// Performs the `CreatePresignedNotebookUrl` operation on the `Athena` service.
     ///
     /// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token. For information about granting programmatic access, see [Grant programmatic access](https://docs.aws.amazon.com/athena/latest/ug/setting-up.html#setting-up-grant-programmatic-access).
     ///
@@ -1049,7 +1049,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkGroup` operation on the `AmazonAthena` service.
+    /// Performs the `CreateWorkGroup` operation on the `Athena` service.
     ///
     /// Creates a workgroup with the specified name. A workgroup can be an Apache Spark enabled workgroup or an Athena SQL workgroup.
     ///
@@ -1120,7 +1120,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCapacityReservation` operation on the `AmazonAthena` service.
+    /// Performs the `DeleteCapacityReservation` operation on the `Athena` service.
     ///
     /// Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReservation, and deleted reservations do not appear in the output of ListCapacityReservations.
     ///
@@ -1191,7 +1191,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataCatalog` operation on the `AmazonAthena` service.
+    /// Performs the `DeleteDataCatalog` operation on the `Athena` service.
     ///
     /// Deletes a data catalog.
     ///
@@ -1262,7 +1262,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNamedQuery` operation on the `AmazonAthena` service.
+    /// Performs the `DeleteNamedQuery` operation on the `Athena` service.
     ///
     /// Deletes the named query if you have access to the workgroup in which the query was saved.
     ///
@@ -1334,7 +1334,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNotebook` operation on the `AmazonAthena` service.
+    /// Performs the `DeleteNotebook` operation on the `Athena` service.
     ///
     /// Deletes the specified notebook.
     ///
@@ -1406,7 +1406,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePreparedStatement` operation on the `AmazonAthena` service.
+    /// Performs the `DeletePreparedStatement` operation on the `Athena` service.
     ///
     /// Deletes the prepared statement with the specified name from the specified workgroup.
     ///
@@ -1478,7 +1478,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkGroup` operation on the `AmazonAthena` service.
+    /// Performs the `DeleteWorkGroup` operation on the `Athena` service.
     ///
     /// Deletes the workgroup with the specified name. The primary workgroup cannot be deleted.
     ///
@@ -1549,7 +1549,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportNotebook` operation on the `AmazonAthena` service.
+    /// Performs the `ExportNotebook` operation on the `Athena` service.
     ///
     /// Exports the specified notebook and its metadata.
     ///
@@ -1621,7 +1621,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCalculationExecution` operation on the `AmazonAthena` service.
+    /// Performs the `GetCalculationExecution` operation on the `Athena` service.
     ///
     /// Describes a previously submitted calculation execution.
     ///
@@ -1693,7 +1693,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCalculationExecutionCode` operation on the `AmazonAthena` service.
+    /// Performs the `GetCalculationExecutionCode` operation on the `Athena` service.
     ///
     /// Retrieves the unencrypted code that was executed for the calculation.
     ///
@@ -1765,7 +1765,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCalculationExecutionStatus` operation on the `AmazonAthena` service.
+    /// Performs the `GetCalculationExecutionStatus` operation on the `Athena` service.
     ///
     /// Gets the status of a current calculation.
     ///
@@ -1837,7 +1837,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCapacityAssignmentConfiguration` operation on the `AmazonAthena` service.
+    /// Performs the `GetCapacityAssignmentConfiguration` operation on the `Athena` service.
     ///
     /// Gets the capacity assignment configuration for a capacity reservation, if one exists.
     ///
@@ -1908,7 +1908,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCapacityReservation` operation on the `AmazonAthena` service.
+    /// Performs the `GetCapacityReservation` operation on the `Athena` service.
     ///
     /// Returns information about the capacity reservation with the specified name.
     ///
@@ -1979,7 +1979,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataCatalog` operation on the `AmazonAthena` service.
+    /// Performs the `GetDataCatalog` operation on the `Athena` service.
     ///
     /// Returns the specified data catalog.
     ///
@@ -2050,7 +2050,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDatabase` operation on the `AmazonAthena` service.
+    /// Performs the `GetDatabase` operation on the `Athena` service.
     ///
     /// Returns a database object for the specified database and data catalog.
     ///
@@ -2122,7 +2122,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNamedQuery` operation on the `AmazonAthena` service.
+    /// Performs the `GetNamedQuery` operation on the `Athena` service.
     ///
     /// Returns information about a single query. Requires that you have access to the workgroup in which the query was saved.
     ///
@@ -2193,7 +2193,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNotebookMetadata` operation on the `AmazonAthena` service.
+    /// Performs the `GetNotebookMetadata` operation on the `Athena` service.
     ///
     /// Retrieves notebook metadata for the specified notebook ID.
     ///
@@ -2265,7 +2265,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPreparedStatement` operation on the `AmazonAthena` service.
+    /// Performs the `GetPreparedStatement` operation on the `Athena` service.
     ///
     /// Retrieves the prepared statement with the specified name from the specified workgroup.
     ///
@@ -2337,7 +2337,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueryExecution` operation on the `AmazonAthena` service.
+    /// Performs the `GetQueryExecution` operation on the `Athena` service.
     ///
     /// Returns information about a single execution of a query if you have access to the workgroup in which the query ran. Each time a query executes, information about the query execution is saved with a unique ID.
     ///
@@ -2408,7 +2408,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueryResults` operation on the `AmazonAthena` service.
+    /// Performs the `GetQueryResults` operation on the `Athena` service.
     ///
     /// Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see [Working with query results, recent queries, and output files](https://docs.aws.amazon.com/athena/latest/ug/querying.html) in the Amazon Athena User Guide. This request does not execute the query but returns results. Use [StartQueryExecution] to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location. IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied.
     ///
@@ -2480,7 +2480,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueryRuntimeStatistics` operation on the `AmazonAthena` service.
+    /// Performs the `GetQueryRuntimeStatistics` operation on the `Athena` service.
     ///
     /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as [QueryExecutionStatus$State] is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query completes. The non-timeline statistics are also not included when a query has row-level filters defined in Lake Formation.
     ///
@@ -2551,7 +2551,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSession` operation on the `AmazonAthena` service.
+    /// Performs the `GetSession` operation on the `Athena` service.
     ///
     /// Gets the full details of a previously created session, including the session status and configuration.
     ///
@@ -2623,7 +2623,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSessionStatus` operation on the `AmazonAthena` service.
+    /// Performs the `GetSessionStatus` operation on the `Athena` service.
     ///
     /// Gets the current status of a session.
     ///
@@ -2695,7 +2695,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTableMetadata` operation on the `AmazonAthena` service.
+    /// Performs the `GetTableMetadata` operation on the `Athena` service.
     ///
     /// Returns table metadata for the specified catalog, database, and table.
     ///
@@ -2767,7 +2767,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkGroup` operation on the `AmazonAthena` service.
+    /// Performs the `GetWorkGroup` operation on the `Athena` service.
     ///
     /// Returns information about the workgroup with the specified name.
     ///
@@ -2838,7 +2838,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportNotebook` operation on the `AmazonAthena` service.
+    /// Performs the `ImportNotebook` operation on the `Athena` service.
     ///
     /// Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the request must specify a value for either Payload or NoteBookS3LocationUri. If neither is specified or both are specified, an InvalidRequestException occurs. The maximum file size that can be imported is 10 megabytes. If an ipynb file with the same name already exists in the workgroup, throws an error.
     ///
@@ -2910,7 +2910,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationDPUSizes` operation on the `AmazonAthena` service.
+    /// Performs the `ListApplicationDPUSizes` operation on the `Athena` service.
     ///
     /// Returns the supported DPU sizes for the supported application runtimes (for example, Athena notebook version 1).
     ///
@@ -2982,7 +2982,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCalculationExecutions` operation on the `AmazonAthena` service.
+    /// Performs the `ListCalculationExecutions` operation on the `Athena` service.
     ///
     /// Lists the calculations that have been submitted to a session in descending order. Newer calculations are listed first; older calculations are listed later.
     ///
@@ -3054,7 +3054,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCapacityReservations` operation on the `AmazonAthena` service.
+    /// Performs the `ListCapacityReservations` operation on the `Athena` service.
     ///
     /// Lists the capacity reservations for the current account.
     ///
@@ -3125,7 +3125,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataCatalogs` operation on the `AmazonAthena` service.
+    /// Performs the `ListDataCatalogs` operation on the `Athena` service.
     ///
     /// Lists the data catalogs in the current Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
     ///
@@ -3196,7 +3196,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatabases` operation on the `AmazonAthena` service.
+    /// Performs the `ListDatabases` operation on the `Athena` service.
     ///
     /// Lists the databases in the specified data catalog.
     ///
@@ -3268,7 +3268,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEngineVersions` operation on the `AmazonAthena` service.
+    /// Performs the `ListEngineVersions` operation on the `Athena` service.
     ///
     /// Returns a list of engine versions that are available to choose from, including the Auto option.
     ///
@@ -3339,7 +3339,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExecutors` operation on the `AmazonAthena` service.
+    /// Performs the `ListExecutors` operation on the `Athena` service.
     ///
     /// Lists, in descending order, the executors that joined a session. Newer executors are listed first; older executors are listed later. The result can be optionally filtered by state.
     ///
@@ -3411,7 +3411,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNamedQueries` operation on the `AmazonAthena` service.
+    /// Performs the `ListNamedQueries` operation on the `Athena` service.
     ///
     /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup.
     ///
@@ -3482,7 +3482,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNotebookMetadata` operation on the `AmazonAthena` service.
+    /// Performs the `ListNotebookMetadata` operation on the `Athena` service.
     ///
     /// Displays the notebook files for the specified workgroup in paginated format.
     ///
@@ -3554,7 +3554,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNotebookSessions` operation on the `AmazonAthena` service.
+    /// Performs the `ListNotebookSessions` operation on the `Athena` service.
     ///
     /// Lists, in descending order, the sessions that have been created in a notebook that are in an active state like CREATING, CREATED, IDLE or BUSY. Newer sessions are listed first; older sessions are listed later.
     ///
@@ -3626,7 +3626,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPreparedStatements` operation on the `AmazonAthena` service.
+    /// Performs the `ListPreparedStatements` operation on the `Athena` service.
     ///
     /// Lists the prepared statements in the specified workgroup.
     ///
@@ -3697,7 +3697,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQueryExecutions` operation on the `AmazonAthena` service.
+    /// Performs the `ListQueryExecutions` operation on the `Athena` service.
     ///
     /// Provides a list of available query execution IDs for the queries in the specified workgroup. Athena keeps a query history for 45 days. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran.
     ///
@@ -3768,7 +3768,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSessions` operation on the `AmazonAthena` service.
+    /// Performs the `ListSessions` operation on the `Athena` service.
     ///
     /// Lists the sessions in a workgroup that are in an active state like CREATING, CREATED, IDLE, or BUSY. Newer sessions are listed first; older sessions are listed later.
     ///
@@ -3840,7 +3840,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTableMetadata` operation on the `AmazonAthena` service.
+    /// Performs the `ListTableMetadata` operation on the `Athena` service.
     ///
     /// Lists the metadata for the tables in the specified data catalog database.
     ///
@@ -3912,7 +3912,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonAthena` service.
+    /// Performs the `ListTagsForResource` operation on the `Athena` service.
     ///
     /// Lists the tags associated with an Athena resource.
     ///
@@ -3984,7 +3984,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkGroups` operation on the `AmazonAthena` service.
+    /// Performs the `ListWorkGroups` operation on the `Athena` service.
     ///
     /// Lists available workgroups for the account.
     ///
@@ -4055,7 +4055,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutCapacityAssignmentConfiguration` operation on the `AmazonAthena` service.
+    /// Performs the `PutCapacityAssignmentConfiguration` operation on the `Athena` service.
     ///
     /// Puts a new capacity assignment configuration for a specified capacity reservation. If a capacity assignment configuration already exists for the capacity reservation, replaces the existing capacity assignment configuration.
     ///
@@ -4126,7 +4126,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartCalculationExecution` operation on the `AmazonAthena` service.
+    /// Performs the `StartCalculationExecution` operation on the `Athena` service.
     ///
     /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request. The request syntax requires the [StartCalculationExecutionRequest$CodeBlock] parameter or the [CalculationConfiguration$CodeBlock] parameter, but not both. Because [CalculationConfiguration$CodeBlock] is deprecated, use the [StartCalculationExecutionRequest$CodeBlock] parameter instead.
     ///
@@ -4198,7 +4198,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartQueryExecution` operation on the `AmazonAthena` service.
+    /// Performs the `StartQueryExecution` operation on the `Athena` service.
     ///
     /// Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires [GetDataCatalog] permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     ///
@@ -4271,7 +4271,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSession` operation on the `AmazonAthena` service.
+    /// Performs the `StartSession` operation on the `Athena` service.
     ///
     /// Creates a session for running calculations within a workgroup. The session is ready when it reaches an IDLE state.
     ///
@@ -4345,7 +4345,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopCalculationExecution` operation on the `AmazonAthena` service.
+    /// Performs the `StopCalculationExecution` operation on the `Athena` service.
     ///
     /// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED, FAILED, or COMPLETED) succeeds but has no effect. Cancelling a calculation is done on a best effort basis. If a calculation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that cannot be cancelled, consider terminating the session in which the calculation is running.
     ///
@@ -4417,7 +4417,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopQueryExecution` operation on the `AmazonAthena` service.
+    /// Performs the `StopQueryExecution` operation on the `Athena` service.
     ///
     /// Stops a query execution. Requires you to have access to the workgroup in which the query ran.
     ///
@@ -4489,7 +4489,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonAthena` service.
+    /// Performs the `TagResource` operation on the `Athena` service.
     ///
     /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups, data catalogs, or capacity reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     ///
@@ -4561,7 +4561,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TerminateSession` operation on the `AmazonAthena` service.
+    /// Performs the `TerminateSession` operation on the `Athena` service.
     ///
     /// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED, TERMINATED or TERMINATING state) succeeds but has no effect. Calculations running in the session when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED.
     ///
@@ -4633,7 +4633,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonAthena` service.
+    /// Performs the `UntagResource` operation on the `Athena` service.
     ///
     /// Removes one or more tags from an Athena resource.
     ///
@@ -4705,7 +4705,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCapacityReservation` operation on the `AmazonAthena` service.
+    /// Performs the `UpdateCapacityReservation` operation on the `Athena` service.
     ///
     /// Updates the number of requested data processing units for the capacity reservation with the specified name.
     ///
@@ -4776,7 +4776,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataCatalog` operation on the `AmazonAthena` service.
+    /// Performs the `UpdateDataCatalog` operation on the `Athena` service.
     ///
     /// Updates the data catalog that has the specified name.
     ///
@@ -4847,7 +4847,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNamedQuery` operation on the `AmazonAthena` service.
+    /// Performs the `UpdateNamedQuery` operation on the `Athena` service.
     ///
     /// Updates a [NamedQuery] object. The database or workgroup cannot be updated.
     ///
@@ -4918,7 +4918,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNotebook` operation on the `AmazonAthena` service.
+    /// Performs the `UpdateNotebook` operation on the `Athena` service.
     ///
     /// Updates the contents of a Spark notebook.
     ///
@@ -4990,7 +4990,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNotebookMetadata` operation on the `AmazonAthena` service.
+    /// Performs the `UpdateNotebookMetadata` operation on the `Athena` service.
     ///
     /// Updates the metadata for a notebook.
     ///
@@ -5062,7 +5062,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePreparedStatement` operation on the `AmazonAthena` service.
+    /// Performs the `UpdatePreparedStatement` operation on the `Athena` service.
     ///
     /// Updates a prepared statement.
     ///
@@ -5134,7 +5134,7 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkGroup` operation on the `AmazonAthena` service.
+    /// Performs the `UpdateWorkGroup` operation on the `Athena` service.
     ///
     /// Updates the workgroup with the specified name. The workgroup's name cannot be changed. Only ConfigurationUpdates can be specified.
     ///

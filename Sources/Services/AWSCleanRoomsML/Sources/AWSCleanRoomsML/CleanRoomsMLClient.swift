@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CleanRoomsMLClient: ClientRuntime.Client {
     public static let clientName = "CleanRoomsMLClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: CleanRoomsMLClient.CleanRoomsMLClientConfiguration
     let serviceName = "CleanRoomsML"
@@ -330,7 +330,7 @@ extension CleanRoomsMLClient {
 }
 
 extension CleanRoomsMLClient {
-    /// Performs the `CancelTrainedModel` operation on the `AWSStarkControlService` service.
+    /// Performs the `CancelTrainedModel` operation on the `CleanRoomsML` service.
     ///
     /// Submits a request to cancel the trained model job.
     ///
@@ -399,7 +399,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelTrainedModelInferenceJob` operation on the `AWSStarkControlService` service.
+    /// Performs the `CancelTrainedModelInferenceJob` operation on the `CleanRoomsML` service.
     ///
     /// Submits a request to cancel a trained model inference job.
     ///
@@ -468,7 +468,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAudienceModel` operation on the `AWSStarkControlService` service.
+    /// Performs the `CreateAudienceModel` operation on the `CleanRoomsML` service.
     ///
     /// Defines the information necessary to create an audience model. An audience model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the [StartAudienceGenerationJob] API.
     ///
@@ -541,7 +541,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfiguredAudienceModel` operation on the `AWSStarkControlService` service.
+    /// Performs the `CreateConfiguredAudienceModel` operation on the `CleanRoomsML` service.
     ///
     /// Defines the information necessary to create a configured audience model.
     ///
@@ -614,7 +614,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfiguredModelAlgorithm` operation on the `AWSStarkControlService` service.
+    /// Performs the `CreateConfiguredModelAlgorithm` operation on the `CleanRoomsML` service.
     ///
     /// Creates a configured model algorithm using a container image stored in an ECR repository.
     ///
@@ -686,7 +686,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfiguredModelAlgorithmAssociation` operation on the `AWSStarkControlService` service.
+    /// Performs the `CreateConfiguredModelAlgorithmAssociation` operation on the `CleanRoomsML` service.
     ///
     /// Associates a configured model algorithm to a collaboration for use by any member of the collaboration.
     ///
@@ -759,7 +759,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMLInputChannel` operation on the `AWSStarkControlService` service.
+    /// Performs the `CreateMLInputChannel` operation on the `CleanRoomsML` service.
     ///
     /// Provides the information to create an ML input channel. An ML input channel is the result of a query that can be used for ML modeling.
     ///
@@ -832,7 +832,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrainedModel` operation on the `AWSStarkControlService` service.
+    /// Performs the `CreateTrainedModel` operation on the `CleanRoomsML` service.
     ///
     /// Creates a trained model from an associated configured model algorithm using data from any member of the collaboration.
     ///
@@ -905,7 +905,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrainingDataset` operation on the `AWSStarkControlService` service.
+    /// Performs the `CreateTrainingDataset` operation on the `CleanRoomsML` service.
     ///
     /// Defines the information necessary to create a training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation.
     ///
@@ -976,7 +976,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAudienceGenerationJob` operation on the `AWSStarkControlService` service.
+    /// Performs the `DeleteAudienceGenerationJob` operation on the `CleanRoomsML` service.
     ///
     /// Deletes the specified audience generation job, and removes all data associated with the job.
     ///
@@ -1045,7 +1045,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAudienceModel` operation on the `AWSStarkControlService` service.
+    /// Performs the `DeleteAudienceModel` operation on the `CleanRoomsML` service.
     ///
     /// Specifies an audience model that you want to delete. You can't delete an audience model if there are any configured audience models that depend on the audience model.
     ///
@@ -1114,7 +1114,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfiguredAudienceModel` operation on the `AWSStarkControlService` service.
+    /// Performs the `DeleteConfiguredAudienceModel` operation on the `CleanRoomsML` service.
     ///
     /// Deletes the specified configured audience model. You can't delete a configured audience model if there are any lookalike models that use the configured audience model. If you delete a configured audience model, it will be removed from any collaborations that it is associated to.
     ///
@@ -1183,7 +1183,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfiguredAudienceModelPolicy` operation on the `AWSStarkControlService` service.
+    /// Performs the `DeleteConfiguredAudienceModelPolicy` operation on the `CleanRoomsML` service.
     ///
     /// Deletes the specified configured audience model policy.
     ///
@@ -1251,7 +1251,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfiguredModelAlgorithm` operation on the `AWSStarkControlService` service.
+    /// Performs the `DeleteConfiguredModelAlgorithm` operation on the `CleanRoomsML` service.
     ///
     /// Deletes a configured model algorithm.
     ///
@@ -1320,7 +1320,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfiguredModelAlgorithmAssociation` operation on the `AWSStarkControlService` service.
+    /// Performs the `DeleteConfiguredModelAlgorithmAssociation` operation on the `CleanRoomsML` service.
     ///
     /// Deletes a configured model algorithm association.
     ///
@@ -1389,7 +1389,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMLConfiguration` operation on the `AWSStarkControlService` service.
+    /// Performs the `DeleteMLConfiguration` operation on the `CleanRoomsML` service.
     ///
     /// Deletes a ML modeling configuration.
     ///
@@ -1457,7 +1457,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMLInputChannelData` operation on the `AWSStarkControlService` service.
+    /// Performs the `DeleteMLInputChannelData` operation on the `CleanRoomsML` service.
     ///
     /// Provides the information necessary to delete an ML input channel.
     ///
@@ -1526,7 +1526,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrainedModelOutput` operation on the `AWSStarkControlService` service.
+    /// Performs the `DeleteTrainedModelOutput` operation on the `CleanRoomsML` service.
     ///
     /// Deletes the output of a trained model.
     ///
@@ -1595,7 +1595,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrainingDataset` operation on the `AWSStarkControlService` service.
+    /// Performs the `DeleteTrainingDataset` operation on the `CleanRoomsML` service.
     ///
     /// Specifies a training dataset that you want to delete. You can't delete a training dataset if there are any audience models that depend on the training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation. This action deletes the metadata.
     ///
@@ -1664,7 +1664,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAudienceGenerationJob` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetAudienceGenerationJob` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about an audience generation job.
     ///
@@ -1732,7 +1732,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAudienceModel` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetAudienceModel` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about an audience model
     ///
@@ -1800,7 +1800,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCollaborationConfiguredModelAlgorithmAssociation` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetCollaborationConfiguredModelAlgorithmAssociation` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about the configured model algorithm association in a collaboration.
     ///
@@ -1868,7 +1868,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCollaborationMLInputChannel` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetCollaborationMLInputChannel` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about a specific ML input channel in a collaboration.
     ///
@@ -1936,7 +1936,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCollaborationTrainedModel` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetCollaborationTrainedModel` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about a trained model in a collaboration.
     ///
@@ -2004,7 +2004,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguredAudienceModel` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetConfiguredAudienceModel` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about a specified configured audience model.
     ///
@@ -2072,7 +2072,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguredAudienceModelPolicy` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetConfiguredAudienceModelPolicy` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about a configured audience model policy.
     ///
@@ -2140,7 +2140,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguredModelAlgorithm` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetConfiguredModelAlgorithm` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about a configured model algorithm.
     ///
@@ -2208,7 +2208,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguredModelAlgorithmAssociation` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetConfiguredModelAlgorithmAssociation` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about a configured model algorithm association.
     ///
@@ -2276,7 +2276,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMLConfiguration` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetMLConfiguration` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about a specific ML configuration.
     ///
@@ -2344,7 +2344,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMLInputChannel` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetMLInputChannel` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about an ML input channel.
     ///
@@ -2412,7 +2412,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTrainedModel` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetTrainedModel` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about a trained model.
     ///
@@ -2480,7 +2480,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTrainedModelInferenceJob` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetTrainedModelInferenceJob` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about a trained model inference job.
     ///
@@ -2548,7 +2548,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTrainingDataset` operation on the `AWSStarkControlService` service.
+    /// Performs the `GetTrainingDataset` operation on the `CleanRoomsML` service.
     ///
     /// Returns information about a training dataset.
     ///
@@ -2616,7 +2616,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAudienceExportJobs` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListAudienceExportJobs` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of the audience export jobs.
     ///
@@ -2684,7 +2684,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAudienceGenerationJobs` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListAudienceGenerationJobs` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of audience generation jobs.
     ///
@@ -2752,7 +2752,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAudienceModels` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListAudienceModels` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of audience models.
     ///
@@ -2820,7 +2820,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollaborationConfiguredModelAlgorithmAssociations` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListCollaborationConfiguredModelAlgorithmAssociations` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of the configured model algorithm associations in a collaboration.
     ///
@@ -2888,7 +2888,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollaborationMLInputChannels` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListCollaborationMLInputChannels` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of the ML input channels in a collaboration.
     ///
@@ -2956,7 +2956,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollaborationTrainedModelExportJobs` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListCollaborationTrainedModelExportJobs` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of the export jobs for a trained model in a collaboration.
     ///
@@ -3024,7 +3024,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollaborationTrainedModelInferenceJobs` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListCollaborationTrainedModelInferenceJobs` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of trained model inference jobs in a specified collaboration.
     ///
@@ -3092,7 +3092,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollaborationTrainedModels` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListCollaborationTrainedModels` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of the trained models in a collaboration.
     ///
@@ -3160,7 +3160,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfiguredAudienceModels` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListConfiguredAudienceModels` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of the configured audience models.
     ///
@@ -3228,7 +3228,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfiguredModelAlgorithmAssociations` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListConfiguredModelAlgorithmAssociations` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of configured model algorithm associations.
     ///
@@ -3296,7 +3296,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfiguredModelAlgorithms` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListConfiguredModelAlgorithms` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of configured model algorithms.
     ///
@@ -3364,7 +3364,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMLInputChannels` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListMLInputChannels` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of ML input channels.
     ///
@@ -3432,7 +3432,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListTagsForResource` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of tags for a provided resource.
     ///
@@ -3500,7 +3500,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrainedModelInferenceJobs` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListTrainedModelInferenceJobs` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of trained model inference jobs that match the request parameters.
     ///
@@ -3568,7 +3568,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrainedModels` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListTrainedModels` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of trained models.
     ///
@@ -3636,7 +3636,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrainingDatasets` operation on the `AWSStarkControlService` service.
+    /// Performs the `ListTrainingDatasets` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of training datasets.
     ///
@@ -3704,7 +3704,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfiguredAudienceModelPolicy` operation on the `AWSStarkControlService` service.
+    /// Performs the `PutConfiguredAudienceModelPolicy` operation on the `CleanRoomsML` service.
     ///
     /// Create or update the resource policy for a configured audience model.
     ///
@@ -3775,7 +3775,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutMLConfiguration` operation on the `AWSStarkControlService` service.
+    /// Performs the `PutMLConfiguration` operation on the `CleanRoomsML` service.
     ///
     /// Assigns information about an ML configuration.
     ///
@@ -3845,7 +3845,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAudienceExportJob` operation on the `AWSStarkControlService` service.
+    /// Performs the `StartAudienceExportJob` operation on the `CleanRoomsML` service.
     ///
     /// Export an audience of a specified size after you have generated an audience.
     ///
@@ -3918,7 +3918,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAudienceGenerationJob` operation on the `AWSStarkControlService` service.
+    /// Performs the `StartAudienceGenerationJob` operation on the `CleanRoomsML` service.
     ///
     /// Information necessary to start the audience generation job.
     ///
@@ -3991,7 +3991,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTrainedModelExportJob` operation on the `AWSStarkControlService` service.
+    /// Performs the `StartTrainedModelExportJob` operation on the `CleanRoomsML` service.
     ///
     /// Provides the information necessary to start a trained model export job.
     ///
@@ -4063,7 +4063,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTrainedModelInferenceJob` operation on the `AWSStarkControlService` service.
+    /// Performs the `StartTrainedModelInferenceJob` operation on the `CleanRoomsML` service.
     ///
     /// Defines the information necessary to begin a trained model inference job.
     ///
@@ -4136,7 +4136,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSStarkControlService` service.
+    /// Performs the `TagResource` operation on the `CleanRoomsML` service.
     ///
     /// Adds metadata tags to a specified resource.
     ///
@@ -4207,7 +4207,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSStarkControlService` service.
+    /// Performs the `UntagResource` operation on the `CleanRoomsML` service.
     ///
     /// Removes metadata tags from a specified resource.
     ///
@@ -4276,7 +4276,7 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfiguredAudienceModel` operation on the `AWSStarkControlService` service.
+    /// Performs the `UpdateConfiguredAudienceModel` operation on the `CleanRoomsML` service.
     ///
     /// Provides the information necessary to update a configured audience model. Updates that impact audience generation jobs take effect when a new job starts, but do not impact currently running jobs.
     ///

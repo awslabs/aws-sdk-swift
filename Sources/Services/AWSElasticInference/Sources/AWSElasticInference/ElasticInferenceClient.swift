@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticInferenceClient: ClientRuntime.Client {
     public static let clientName = "ElasticInferenceClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticInferenceClient.ElasticInferenceClientConfiguration
     let serviceName = "Elastic Inference"
@@ -329,7 +329,7 @@ extension ElasticInferenceClient {
 }
 
 extension ElasticInferenceClient {
-    /// Performs the `DescribeAcceleratorOfferings` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    /// Performs the `DescribeAcceleratorOfferings` operation on the `ElasticInference` service.
     ///
     /// Amazon Elastic Inference is no longer available. Describes the locations in which a given accelerator type or set of types is present in a given region.
     ///
@@ -400,7 +400,7 @@ extension ElasticInferenceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAcceleratorTypes` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    /// Performs the `DescribeAcceleratorTypes` operation on the `ElasticInference` service.
     ///
     /// Amazon Elastic Inference is no longer available. Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput.
     ///
@@ -466,7 +466,7 @@ extension ElasticInferenceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccelerators` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    /// Performs the `DescribeAccelerators` operation on the `ElasticInference` service.
     ///
     /// Amazon Elastic Inference is no longer available. Describes information over a provided set of accelerators belonging to an account.
     ///
@@ -537,7 +537,7 @@ extension ElasticInferenceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    /// Performs the `ListTagsForResource` operation on the `ElasticInference` service.
     ///
     /// Amazon Elastic Inference is no longer available. Returns all tags of an Elastic Inference Accelerator.
     ///
@@ -605,7 +605,7 @@ extension ElasticInferenceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    /// Performs the `TagResource` operation on the `ElasticInference` service.
     ///
     /// Amazon Elastic Inference is no longer available. Adds the specified tags to an Elastic Inference Accelerator.
     ///
@@ -676,7 +676,7 @@ extension ElasticInferenceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    /// Performs the `UntagResource` operation on the `ElasticInference` service.
     ///
     /// Amazon Elastic Inference is no longer available. Removes the specified tags from an Elastic Inference Accelerator.
     ///

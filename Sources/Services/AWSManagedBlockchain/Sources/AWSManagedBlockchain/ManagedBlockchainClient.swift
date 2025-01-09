@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ManagedBlockchainClient: ClientRuntime.Client {
     public static let clientName = "ManagedBlockchainClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: ManagedBlockchainClient.ManagedBlockchainClientConfiguration
     let serviceName = "ManagedBlockchain"
@@ -330,7 +330,7 @@ extension ManagedBlockchainClient {
 }
 
 extension ManagedBlockchainClient {
-    /// Performs the `CreateAccessor` operation on the `TaigaWebService` service.
+    /// Performs the `CreateAccessor` operation on the `ManagedBlockchain` service.
     ///
     /// Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access. The accessor contains information required for token based access.
     ///
@@ -406,7 +406,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMember` operation on the `TaigaWebService` service.
+    /// Performs the `CreateMember` operation on the `ManagedBlockchain` service.
     ///
     /// Creates a member within a Managed Blockchain network. Applies only to Hyperledger Fabric.
     ///
@@ -484,7 +484,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetwork` operation on the `TaigaWebService` service.
+    /// Performs the `CreateNetwork` operation on the `ManagedBlockchain` service.
     ///
     /// Creates a new blockchain network using Amazon Managed Blockchain. Applies only to Hyperledger Fabric.
     ///
@@ -560,7 +560,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNode` operation on the `TaigaWebService` service.
+    /// Performs the `CreateNode` operation on the `ManagedBlockchain` service.
     ///
     /// Creates a node on the specified blockchain network. Applies to Hyperledger Fabric and Ethereum.
     ///
@@ -638,7 +638,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProposal` operation on the `TaigaWebService` service.
+    /// Performs the `CreateProposal` operation on the `ManagedBlockchain` service.
     ///
     /// Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal. Applies only to Hyperledger Fabric.
     ///
@@ -714,7 +714,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessor` operation on the `TaigaWebService` service.
+    /// Performs the `DeleteAccessor` operation on the `ManagedBlockchain` service.
     ///
     /// Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the information required for token based access to your Ethereum nodes including, the BILLING_TOKEN. After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION. An accessor in the PENDING_DELETION state can’t be used for new WebSocket requests or HTTP requests. However, WebSocket connections that were initiated while the accessor was in the AVAILABLE state remain open until they expire (up to 2 hours).
     ///
@@ -784,7 +784,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMember` operation on the `TaigaWebService` service.
+    /// Performs the `DeleteMember` operation on the `ManagedBlockchain` service.
     ///
     /// Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network is deleted also. Applies only to Hyperledger Fabric.
     ///
@@ -855,7 +855,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNode` operation on the `TaigaWebService` service.
+    /// Performs the `DeleteNode` operation on the `ManagedBlockchain` service.
     ///
     /// Deletes a node that your Amazon Web Services account owns. All data on the node is lost and cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
     ///
@@ -927,7 +927,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessor` operation on the `TaigaWebService` service.
+    /// Performs the `GetAccessor` operation on the `ManagedBlockchain` service.
     ///
     /// Returns detailed information about an accessor. An accessor object is a container that has the information required for token based access to your Ethereum nodes.
     ///
@@ -997,7 +997,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMember` operation on the `TaigaWebService` service.
+    /// Performs the `GetMember` operation on the `ManagedBlockchain` service.
     ///
     /// Returns detailed information about a member. Applies only to Hyperledger Fabric.
     ///
@@ -1067,7 +1067,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNetwork` operation on the `TaigaWebService` service.
+    /// Performs the `GetNetwork` operation on the `ManagedBlockchain` service.
     ///
     /// Returns detailed information about a network. Applies to Hyperledger Fabric and Ethereum.
     ///
@@ -1137,7 +1137,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNode` operation on the `TaigaWebService` service.
+    /// Performs the `GetNode` operation on the `ManagedBlockchain` service.
     ///
     /// Returns detailed information about a node. Applies to Hyperledger Fabric and Ethereum.
     ///
@@ -1208,7 +1208,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProposal` operation on the `TaigaWebService` service.
+    /// Performs the `GetProposal` operation on the `ManagedBlockchain` service.
     ///
     /// Returns detailed information about a proposal. Applies only to Hyperledger Fabric.
     ///
@@ -1278,7 +1278,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccessors` operation on the `TaigaWebService` service.
+    /// Performs the `ListAccessors` operation on the `ManagedBlockchain` service.
     ///
     /// Returns a list of the accessors and their properties. Accessor objects are containers that have the information required for token based access to your Ethereum nodes.
     ///
@@ -1348,7 +1348,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInvitations` operation on the `TaigaWebService` service.
+    /// Performs the `ListInvitations` operation on the `ManagedBlockchain` service.
     ///
     /// Returns a list of all invitations for the current Amazon Web Services account. Applies only to Hyperledger Fabric.
     ///
@@ -1420,7 +1420,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMembers` operation on the `TaigaWebService` service.
+    /// Performs the `ListMembers` operation on the `ManagedBlockchain` service.
     ///
     /// Returns a list of the members in a network and properties of their configurations. Applies only to Hyperledger Fabric.
     ///
@@ -1490,7 +1490,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNetworks` operation on the `TaigaWebService` service.
+    /// Performs the `ListNetworks` operation on the `ManagedBlockchain` service.
     ///
     /// Returns information about the networks in which the current Amazon Web Services account participates. Applies to Hyperledger Fabric and Ethereum.
     ///
@@ -1560,7 +1560,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNodes` operation on the `TaigaWebService` service.
+    /// Performs the `ListNodes` operation on the `ManagedBlockchain` service.
     ///
     /// Returns information about the nodes within a network. Applies to Hyperledger Fabric and Ethereum.
     ///
@@ -1630,7 +1630,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProposalVotes` operation on the `TaigaWebService` service.
+    /// Performs the `ListProposalVotes` operation on the `ManagedBlockchain` service.
     ///
     /// Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote. Applies only to Hyperledger Fabric.
     ///
@@ -1700,7 +1700,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProposals` operation on the `TaigaWebService` service.
+    /// Performs the `ListProposals` operation on the `ManagedBlockchain` service.
     ///
     /// Returns a list of proposals for the network. Applies only to Hyperledger Fabric.
     ///
@@ -1771,7 +1771,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `TaigaWebService` service.
+    /// Performs the `ListTagsForResource` operation on the `ManagedBlockchain` service.
     ///
     /// Returns a list of tags for the specified resource. Each tag consists of a key and optional value. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     ///
@@ -1840,7 +1840,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectInvitation` operation on the `TaigaWebService` service.
+    /// Performs the `RejectInvitation` operation on the `ManagedBlockchain` service.
     ///
     /// Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invitation to create a member and join a network. Applies only to Hyperledger Fabric.
     ///
@@ -1911,7 +1911,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `TaigaWebService` service.
+    /// Performs the `TagResource` operation on the `ManagedBlockchain` service.
     ///
     /// Adds or overwrites the specified tags for the specified Amazon Managed Blockchain resource. Each tag consists of a key and optional value. When you specify a tag key that already exists, the tag value is overwritten with the new value. Use UntagResource to remove tag keys. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     ///
@@ -1984,7 +1984,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `TaigaWebService` service.
+    /// Performs the `UntagResource` operation on the `ManagedBlockchain` service.
     ///
     /// Removes the specified tags from the Amazon Managed Blockchain resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     ///
@@ -2054,7 +2054,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMember` operation on the `TaigaWebService` service.
+    /// Performs the `UpdateMember` operation on the `ManagedBlockchain` service.
     ///
     /// Updates a member configuration with new parameters. Applies only to Hyperledger Fabric.
     ///
@@ -2127,7 +2127,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNode` operation on the `TaigaWebService` service.
+    /// Performs the `UpdateNode` operation on the `ManagedBlockchain` service.
     ///
     /// Updates a node configuration with new parameters. Applies only to Hyperledger Fabric.
     ///
@@ -2200,7 +2200,7 @@ extension ManagedBlockchainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `VoteOnProposal` operation on the `TaigaWebService` service.
+    /// Performs the `VoteOnProposal` operation on the `ManagedBlockchain` service.
     ///
     /// Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId, must be in the same Amazon Web Services account as the principal that calls the action. Applies only to Hyperledger Fabric.
     ///

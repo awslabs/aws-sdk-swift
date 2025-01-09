@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ComprehendClient: ClientRuntime.Client {
     public static let clientName = "ComprehendClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: ComprehendClient.ComprehendClientConfiguration
     let serviceName = "Comprehend"
@@ -331,7 +331,7 @@ extension ComprehendClient {
 }
 
 extension ComprehendClient {
-    /// Performs the `BatchDetectDominantLanguage` operation on the `Comprehend_20171127` service.
+    /// Performs the `BatchDetectDominantLanguage` operation on the `Comprehend` service.
     ///
     /// Determines the dominant language of the input text for a batch of documents. For a list of languages that Amazon Comprehend can detect, see [Amazon Comprehend Supported Languages](https://docs.aws.amazon.com/comprehend/latest/dg/how-languages.html).
     ///
@@ -404,7 +404,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDetectEntities` operation on the `Comprehend_20171127` service.
+    /// Performs the `BatchDetectEntities` operation on the `Comprehend` service.
     ///
     /// Inspects the text of a batch of documents for named entities and returns information about them. For more information about named entities, see [Entities](https://docs.aws.amazon.com/comprehend/latest/dg/how-entities.html) in the Comprehend Developer Guide.
     ///
@@ -478,7 +478,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDetectKeyPhrases` operation on the `Comprehend_20171127` service.
+    /// Performs the `BatchDetectKeyPhrases` operation on the `Comprehend` service.
     ///
     /// Detects the key noun phrases found in a batch of documents.
     ///
@@ -552,7 +552,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDetectSentiment` operation on the `Comprehend_20171127` service.
+    /// Performs the `BatchDetectSentiment` operation on the `Comprehend` service.
     ///
     /// Inspects a batch of documents and returns an inference of the prevailing sentiment, POSITIVE, NEUTRAL, MIXED, or NEGATIVE, in each one.
     ///
@@ -626,7 +626,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDetectSyntax` operation on the `Comprehend_20171127` service.
+    /// Performs the `BatchDetectSyntax` operation on the `Comprehend` service.
     ///
     /// Inspects the text of a batch of documents for the syntax and part of speech of the words in the document and returns information about them. For more information, see [Syntax](https://docs.aws.amazon.com/comprehend/latest/dg/how-syntax.html) in the Comprehend Developer Guide.
     ///
@@ -700,7 +700,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDetectTargetedSentiment` operation on the `Comprehend_20171127` service.
+    /// Performs the `BatchDetectTargetedSentiment` operation on the `Comprehend` service.
     ///
     /// Inspects a batch of documents and returns a sentiment analysis for each entity identified in the documents. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -774,7 +774,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ClassifyDocument` operation on the `Comprehend_20171127` service.
+    /// Performs the `ClassifyDocument` operation on the `Comprehend` service.
     ///
     /// Creates a classification request to analyze a single document in real-time. ClassifyDocument supports the following model types:
     ///
@@ -854,7 +854,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ContainsPiiEntities` operation on the `Comprehend_20171127` service.
+    /// Performs the `ContainsPiiEntities` operation on the `Comprehend` service.
     ///
     /// Analyzes input text for the presence of personally identifiable information (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number.
     ///
@@ -927,7 +927,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataset` operation on the `Comprehend_20171127` service.
+    /// Performs the `CreateDataset` operation on the `Comprehend` service.
     ///
     /// Creates a dataset to upload training or test data for a model associated with a flywheel. For more information about datasets, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -1004,7 +1004,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDocumentClassifier` operation on the `Comprehend_20171127` service.
+    /// Performs the `CreateDocumentClassifier` operation on the `Comprehend` service.
     ///
     /// Creates a new document classifier that you can use to categorize documents. To create a classifier, you provide a set of training documents that are labeled with the categories that you want to use. For more information, see [Training classifier models](https://docs.aws.amazon.com/comprehend/latest/dg/training-classifier-model.html) in the Comprehend Developer Guide.
     ///
@@ -1082,7 +1082,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEndpoint` operation on the `Comprehend_20171127` service.
+    /// Performs the `CreateEndpoint` operation on the `Comprehend` service.
     ///
     /// Creates a model-specific endpoint for synchronous inference for a previously trained custom model For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     ///
@@ -1160,7 +1160,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEntityRecognizer` operation on the `Comprehend_20171127` service.
+    /// Performs the `CreateEntityRecognizer` operation on the `Comprehend` service.
     ///
     /// Creates an entity recognizer using submitted files. After your CreateEntityRecognizer request is submitted, you can check job status using the DescribeEntityRecognizer API.
     ///
@@ -1238,7 +1238,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFlywheel` operation on the `Comprehend_20171127` service.
+    /// Performs the `CreateFlywheel` operation on the `Comprehend` service.
     ///
     /// A flywheel is an Amazon Web Services resource that orchestrates the ongoing training of a model for custom classification or custom entity recognition. You can create a flywheel to start with an existing trained model, or Comprehend can create and train a new model. When you create the flywheel, Comprehend creates a data lake in your account. The data lake holds the training data and test data for all versions of the model. To use a flywheel with an existing trained model, you specify the active model version. Comprehend copies the model's training data and test data into the flywheel's data lake. To use the flywheel with a new model, you need to provide a dataset for training data (and optional test data) when you create the flywheel. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -1318,7 +1318,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDocumentClassifier` operation on the `Comprehend_20171127` service.
+    /// Performs the `DeleteDocumentClassifier` operation on the `Comprehend` service.
     ///
     /// Deletes a previously created document classifier Only those classifiers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the classifier into a DELETING state, and it is then removed by a background job. Once removed, the classifier disappears from your account and is no longer available for use.
     ///
@@ -1393,7 +1393,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEndpoint` operation on the `Comprehend_20171127` service.
+    /// Performs the `DeleteEndpoint` operation on the `Comprehend` service.
     ///
     /// Deletes a model-specific endpoint for a previously-trained custom model. All endpoints must be deleted in order for the model to be deleted. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     ///
@@ -1467,7 +1467,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEntityRecognizer` operation on the `Comprehend_20171127` service.
+    /// Performs the `DeleteEntityRecognizer` operation on the `Comprehend` service.
     ///
     /// Deletes an entity recognizer. Only those recognizers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the recognizer into a DELETING state, and it is then removed by a background job. Once removed, the recognizer disappears from your account and is no longer available for use.
     ///
@@ -1542,7 +1542,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFlywheel` operation on the `Comprehend_20171127` service.
+    /// Performs the `DeleteFlywheel` operation on the `Comprehend` service.
     ///
     /// Deletes a flywheel. When you delete the flywheel, Amazon Comprehend does not delete the data lake or the model associated with the flywheel. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -1617,7 +1617,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `Comprehend_20171127` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `Comprehend` service.
     ///
     /// Deletes a resource-based policy that is attached to a custom model.
     ///
@@ -1689,7 +1689,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataset` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeDataset` operation on the `Comprehend` service.
     ///
     /// Returns information about the dataset that you specify. For more information about datasets, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -1762,7 +1762,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDocumentClassificationJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeDocumentClassificationJob` operation on the `Comprehend` service.
     ///
     /// Gets the properties associated with a document classification job. Use this operation to get the status of a classification job.
     ///
@@ -1835,7 +1835,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDocumentClassifier` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeDocumentClassifier` operation on the `Comprehend` service.
     ///
     /// Gets the properties associated with a document classifier.
     ///
@@ -1908,7 +1908,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDominantLanguageDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeDominantLanguageDetectionJob` operation on the `Comprehend` service.
     ///
     /// Gets the properties associated with a dominant language detection job. Use this operation to get the status of a detection job.
     ///
@@ -1981,7 +1981,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEndpoint` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeEndpoint` operation on the `Comprehend` service.
     ///
     /// Gets the properties associated with a specific endpoint. Use this operation to get the status of an endpoint. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     ///
@@ -2054,7 +2054,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEntitiesDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeEntitiesDetectionJob` operation on the `Comprehend` service.
     ///
     /// Gets the properties associated with an entities detection job. Use this operation to get the status of a detection job.
     ///
@@ -2127,7 +2127,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEntityRecognizer` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeEntityRecognizer` operation on the `Comprehend` service.
     ///
     /// Provides details about an entity recognizer including status, S3 buckets containing training data, recognizer metadata, metrics, and so on.
     ///
@@ -2200,7 +2200,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventsDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeEventsDetectionJob` operation on the `Comprehend` service.
     ///
     /// Gets the status and details of an events detection job.
     ///
@@ -2273,7 +2273,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFlywheel` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeFlywheel` operation on the `Comprehend` service.
     ///
     /// Provides configuration information about the flywheel. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -2346,7 +2346,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFlywheelIteration` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeFlywheelIteration` operation on the `Comprehend` service.
     ///
     /// Retrieve the configuration properties of a flywheel iteration. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -2419,7 +2419,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeKeyPhrasesDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeKeyPhrasesDetectionJob` operation on the `Comprehend` service.
     ///
     /// Gets the properties associated with a key phrases detection job. Use this operation to get the status of a detection job.
     ///
@@ -2492,7 +2492,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePiiEntitiesDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribePiiEntitiesDetectionJob` operation on the `Comprehend` service.
     ///
     /// Gets the properties associated with a PII entities detection job. For example, you can use this operation to get the job status.
     ///
@@ -2565,7 +2565,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeResourcePolicy` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeResourcePolicy` operation on the `Comprehend` service.
     ///
     /// Gets the details of a resource-based policy that is attached to a custom model, including the JSON body of the policy.
     ///
@@ -2637,7 +2637,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSentimentDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeSentimentDetectionJob` operation on the `Comprehend` service.
     ///
     /// Gets the properties associated with a sentiment detection job. Use this operation to get the status of a detection job.
     ///
@@ -2710,7 +2710,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTargetedSentimentDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeTargetedSentimentDetectionJob` operation on the `Comprehend` service.
     ///
     /// Gets the properties associated with a targeted sentiment detection job. Use this operation to get the status of the job.
     ///
@@ -2783,7 +2783,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTopicsDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `DescribeTopicsDetectionJob` operation on the `Comprehend` service.
     ///
     /// Gets the properties associated with a topic detection job. Use this operation to get the status of a detection job.
     ///
@@ -2856,7 +2856,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectDominantLanguage` operation on the `Comprehend_20171127` service.
+    /// Performs the `DetectDominantLanguage` operation on the `Comprehend` service.
     ///
     /// Determines the dominant language of the input text. For a list of languages that Amazon Comprehend can detect, see [Amazon Comprehend Supported Languages](https://docs.aws.amazon.com/comprehend/latest/dg/how-languages.html).
     ///
@@ -2928,7 +2928,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectEntities` operation on the `Comprehend_20171127` service.
+    /// Performs the `DetectEntities` operation on the `Comprehend` service.
     ///
     /// Detects named entities in input text when you use the pre-trained model. Detects custom entities if you have a custom entity recognition model. When detecting named entities using the pre-trained model, use plain text as the input. For more information about named entities, see [Entities](https://docs.aws.amazon.com/comprehend/latest/dg/how-entities.html) in the Comprehend Developer Guide. When you use a custom entity recognition model, you can input plain text or you can upload a single-page input document (text, PDF, Word, or image). If the system detects errors while processing a page in the input document, the API response includes an entry in Errors for each error. If the system detects a document-level error in your input document, the API returns an InvalidRequestException error response. For details about this exception, see [ Errors in semi-structured documents](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync-err.html) in the Comprehend Developer Guide.
     ///
@@ -3002,7 +3002,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectKeyPhrases` operation on the `Comprehend_20171127` service.
+    /// Performs the `DetectKeyPhrases` operation on the `Comprehend` service.
     ///
     /// Detects the key noun phrases found in the text.
     ///
@@ -3075,7 +3075,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectPiiEntities` operation on the `Comprehend_20171127` service.
+    /// Performs the `DetectPiiEntities` operation on the `Comprehend` service.
     ///
     /// Inspects the input text for entities that contain personally identifiable information (PII) and returns information about them.
     ///
@@ -3148,7 +3148,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectSentiment` operation on the `Comprehend_20171127` service.
+    /// Performs the `DetectSentiment` operation on the `Comprehend` service.
     ///
     /// Inspects text and returns an inference of the prevailing sentiment (POSITIVE, NEUTRAL, MIXED, or NEGATIVE).
     ///
@@ -3221,7 +3221,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectSyntax` operation on the `Comprehend_20171127` service.
+    /// Performs the `DetectSyntax` operation on the `Comprehend` service.
     ///
     /// Inspects text for syntax and the part of speech of words in the document. For more information, see [Syntax](https://docs.aws.amazon.com/comprehend/latest/dg/how-syntax.html) in the Comprehend Developer Guide.
     ///
@@ -3294,7 +3294,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectTargetedSentiment` operation on the `Comprehend_20171127` service.
+    /// Performs the `DetectTargetedSentiment` operation on the `Comprehend` service.
     ///
     /// Inspects the input text and returns a sentiment analysis for each entity identified in the text. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -3367,7 +3367,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectToxicContent` operation on the `Comprehend_20171127` service.
+    /// Performs the `DetectToxicContent` operation on the `Comprehend` service.
     ///
     /// Performs toxicity analysis on the list of text strings that you provide as input. The API response contains a results list that matches the size of the input list. For more information about toxicity detection, see [Toxicity detection](https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -3440,7 +3440,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportModel` operation on the `Comprehend_20171127` service.
+    /// Performs the `ImportModel` operation on the `Comprehend` service.
     ///
     /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your Amazon Web Services account or another one. If the source model is in another Amazon Web Services account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same Amazon Web Services Region that you're using when you import. You can't import a model that's in a different Region.
     ///
@@ -3518,7 +3518,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasets` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListDatasets` operation on the `Comprehend` service.
     ///
     /// List the datasets that you have configured in this Region. For more information about datasets, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -3592,7 +3592,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDocumentClassificationJobs` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListDocumentClassificationJobs` operation on the `Comprehend` service.
     ///
     /// Gets a list of the documentation classification jobs that you have submitted.
     ///
@@ -3665,7 +3665,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDocumentClassifierSummaries` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListDocumentClassifierSummaries` operation on the `Comprehend` service.
     ///
     /// Gets a list of summaries of the document classifiers that you have created
     ///
@@ -3737,7 +3737,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDocumentClassifiers` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListDocumentClassifiers` operation on the `Comprehend` service.
     ///
     /// Gets a list of the document classifiers that you have created.
     ///
@@ -3810,7 +3810,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDominantLanguageDetectionJobs` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListDominantLanguageDetectionJobs` operation on the `Comprehend` service.
     ///
     /// Gets a list of the dominant language detection jobs that you have submitted.
     ///
@@ -3883,7 +3883,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEndpoints` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListEndpoints` operation on the `Comprehend` service.
     ///
     /// Gets a list of all existing endpoints that you've created. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     ///
@@ -3955,7 +3955,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEntitiesDetectionJobs` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListEntitiesDetectionJobs` operation on the `Comprehend` service.
     ///
     /// Gets a list of the entity detection jobs that you have submitted.
     ///
@@ -4028,7 +4028,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEntityRecognizerSummaries` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListEntityRecognizerSummaries` operation on the `Comprehend` service.
     ///
     /// Gets a list of summaries for the entity recognizers that you have created.
     ///
@@ -4100,7 +4100,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEntityRecognizers` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListEntityRecognizers` operation on the `Comprehend` service.
     ///
     /// Gets a list of the properties of all entity recognizers that you created, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed.
     ///
@@ -4173,7 +4173,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEventsDetectionJobs` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListEventsDetectionJobs` operation on the `Comprehend` service.
     ///
     /// Gets a list of the events detection jobs that you have submitted.
     ///
@@ -4246,7 +4246,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFlywheelIterationHistory` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListFlywheelIterationHistory` operation on the `Comprehend` service.
     ///
     /// Information about the history of a flywheel iteration. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -4320,7 +4320,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFlywheels` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListFlywheels` operation on the `Comprehend` service.
     ///
     /// Gets a list of the flywheels that you have created.
     ///
@@ -4393,7 +4393,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKeyPhrasesDetectionJobs` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListKeyPhrasesDetectionJobs` operation on the `Comprehend` service.
     ///
     /// Get a list of key phrase detection jobs that you have submitted.
     ///
@@ -4466,7 +4466,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPiiEntitiesDetectionJobs` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListPiiEntitiesDetectionJobs` operation on the `Comprehend` service.
     ///
     /// Gets a list of the PII entity detection jobs that you have submitted.
     ///
@@ -4539,7 +4539,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSentimentDetectionJobs` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListSentimentDetectionJobs` operation on the `Comprehend` service.
     ///
     /// Gets a list of sentiment detection jobs that you have submitted.
     ///
@@ -4612,7 +4612,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListTagsForResource` operation on the `Comprehend` service.
     ///
     /// Lists all tags associated with a given Amazon Comprehend resource.
     ///
@@ -4684,7 +4684,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTargetedSentimentDetectionJobs` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListTargetedSentimentDetectionJobs` operation on the `Comprehend` service.
     ///
     /// Gets a list of targeted sentiment detection jobs that you have submitted.
     ///
@@ -4757,7 +4757,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTopicsDetectionJobs` operation on the `Comprehend_20171127` service.
+    /// Performs the `ListTopicsDetectionJobs` operation on the `Comprehend` service.
     ///
     /// Gets a list of the topic detection jobs that you have submitted.
     ///
@@ -4830,7 +4830,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `Comprehend_20171127` service.
+    /// Performs the `PutResourcePolicy` operation on the `Comprehend` service.
     ///
     /// Attaches a resource-based policy to a custom model. You can use this policy to authorize an entity in another Amazon Web Services account to import the custom model, which replicates it in Amazon Comprehend in their account.
     ///
@@ -4902,7 +4902,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDocumentClassificationJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StartDocumentClassificationJob` operation on the `Comprehend` service.
     ///
     /// Starts an asynchronous document classification job using a custom classification model. Use the DescribeDocumentClassificationJob operation to track the progress of the job.
     ///
@@ -4980,7 +4980,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDominantLanguageDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StartDominantLanguageDetectionJob` operation on the `Comprehend` service.
     ///
     /// Starts an asynchronous dominant language detection job for a collection of documents. Use the operation to track the status of a job.
     ///
@@ -5056,7 +5056,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartEntitiesDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StartEntitiesDetectionJob` operation on the `Comprehend` service.
     ///
     /// Starts an asynchronous entity detection job for a collection of documents. Use the operation to track the status of a job. This API can be used for either standard entity detection or custom entity recognition. In order to be used for custom entity recognition, the optional EntityRecognizerArn must be used in order to provide access to the recognizer being used to detect the custom entity.
     ///
@@ -5134,7 +5134,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartEventsDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StartEventsDetectionJob` operation on the `Comprehend` service.
     ///
     /// Starts an asynchronous event detection job for a collection of documents.
     ///
@@ -5210,7 +5210,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartFlywheelIteration` operation on the `Comprehend_20171127` service.
+    /// Performs the `StartFlywheelIteration` operation on the `Comprehend` service.
     ///
     /// Start the flywheel iteration.This operation uses any new datasets to train a new model version. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
@@ -5284,7 +5284,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartKeyPhrasesDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StartKeyPhrasesDetectionJob` operation on the `Comprehend` service.
     ///
     /// Starts an asynchronous key phrase detection job for a collection of documents. Use the operation to track the status of a job.
     ///
@@ -5360,7 +5360,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartPiiEntitiesDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StartPiiEntitiesDetectionJob` operation on the `Comprehend` service.
     ///
     /// Starts an asynchronous PII entity detection job for a collection of documents.
     ///
@@ -5436,7 +5436,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSentimentDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StartSentimentDetectionJob` operation on the `Comprehend` service.
     ///
     /// Starts an asynchronous sentiment detection job for a collection of documents. Use the operation to track the status of a job.
     ///
@@ -5512,7 +5512,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTargetedSentimentDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StartTargetedSentimentDetectionJob` operation on the `Comprehend` service.
     ///
     /// Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the DescribeTargetedSentimentDetectionJob operation to track the status of a job.
     ///
@@ -5588,7 +5588,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTopicsDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StartTopicsDetectionJob` operation on the `Comprehend` service.
     ///
     /// Starts an asynchronous topic detection job. Use the DescribeTopicDetectionJob operation to track the status of a job.
     ///
@@ -5664,7 +5664,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopDominantLanguageDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StopDominantLanguageDetectionJob` operation on the `Comprehend` service.
     ///
     /// Stops a dominant language detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents already processed are written to the output location.
     ///
@@ -5736,7 +5736,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopEntitiesDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StopEntitiesDetectionJob` operation on the `Comprehend` service.
     ///
     /// Stops an entities detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents already processed are written to the output location.
     ///
@@ -5808,7 +5808,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopEventsDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StopEventsDetectionJob` operation on the `Comprehend` service.
     ///
     /// Stops an events detection job in progress.
     ///
@@ -5880,7 +5880,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopKeyPhrasesDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StopKeyPhrasesDetectionJob` operation on the `Comprehend` service.
     ///
     /// Stops a key phrases detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents already processed are written to the output location.
     ///
@@ -5952,7 +5952,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopPiiEntitiesDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StopPiiEntitiesDetectionJob` operation on the `Comprehend` service.
     ///
     /// Stops a PII entities detection job in progress.
     ///
@@ -6024,7 +6024,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopSentimentDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StopSentimentDetectionJob` operation on the `Comprehend` service.
     ///
     /// Stops a sentiment detection job in progress. If the job state is IN_PROGRESS, the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents already processed are written to the output location.
     ///
@@ -6096,7 +6096,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopTargetedSentimentDetectionJob` operation on the `Comprehend_20171127` service.
+    /// Performs the `StopTargetedSentimentDetectionJob` operation on the `Comprehend` service.
     ///
     /// Stops a targeted sentiment detection job in progress. If the job state is IN_PROGRESS, the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents already processed are written to the output location.
     ///
@@ -6168,7 +6168,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopTrainingDocumentClassifier` operation on the `Comprehend_20171127` service.
+    /// Performs the `StopTrainingDocumentClassifier` operation on the `Comprehend` service.
     ///
     /// Stops a document classifier training job while in progress. If the training job state is TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED; otherwise the training job is stopped and put into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body.
     ///
@@ -6241,7 +6241,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopTrainingEntityRecognizer` operation on the `Comprehend_20171127` service.
+    /// Performs the `StopTrainingEntityRecognizer` operation on the `Comprehend` service.
     ///
     /// Stops an entity recognizer training job while in progress. If the training job state is TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED; otherwise the training job is stopped and putted into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body.
     ///
@@ -6314,7 +6314,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `Comprehend_20171127` service.
+    /// Performs the `TagResource` operation on the `Comprehend` service.
     ///
     /// Associates a specific tag with an Amazon Comprehend resource. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     ///
@@ -6388,7 +6388,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `Comprehend_20171127` service.
+    /// Performs the `UntagResource` operation on the `Comprehend` service.
     ///
     /// Removes a specific tag associated with an Amazon Comprehend resource.
     ///
@@ -6462,7 +6462,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEndpoint` operation on the `Comprehend_20171127` service.
+    /// Performs the `UpdateEndpoint` operation on the `Comprehend` service.
     ///
     /// Updates information about the specified endpoint. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     ///
@@ -6538,7 +6538,7 @@ extension ComprehendClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFlywheel` operation on the `Comprehend_20171127` service.
+    /// Performs the `UpdateFlywheel` operation on the `Comprehend` service.
     ///
     /// Update the configuration information for an existing flywheel.
     ///

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PanoramaClient: ClientRuntime.Client {
     public static let clientName = "PanoramaClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: PanoramaClient.PanoramaClientConfiguration
     let serviceName = "Panorama"
@@ -330,7 +330,7 @@ extension PanoramaClient {
 }
 
 extension PanoramaClient {
-    /// Performs the `CreateApplicationInstance` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `CreateApplicationInstance` operation on the `Panorama` service.
     ///
     /// Creates an application instance and deploys it to a device.
     ///
@@ -402,7 +402,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateJobForDevices` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `CreateJobForDevices` operation on the `Panorama` service.
     ///
     /// Creates a job to run on a device. A job can update a device's software or reboot it.
     ///
@@ -475,7 +475,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNodeFromTemplateJob` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `CreateNodeFromTemplateJob` operation on the `Panorama` service.
     ///
     /// Creates a camera stream node.
     ///
@@ -547,7 +547,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePackage` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `CreatePackage` operation on the `Panorama` service.
     ///
     /// Creates a package and storage location in an Amazon S3 access point.
     ///
@@ -619,7 +619,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePackageImportJob` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `CreatePackageImportJob` operation on the `Panorama` service.
     ///
     /// Imports a node package.
     ///
@@ -691,7 +691,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDevice` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DeleteDevice` operation on the `Panorama` service.
     ///
     /// Deletes a device.
     ///
@@ -761,7 +761,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePackage` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DeletePackage` operation on the `Panorama` service.
     ///
     /// Deletes a package. To delete a package, you need permission to call s3:DeleteObject in addition to permissions for the AWS Panorama API.
     ///
@@ -832,7 +832,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterPackageVersion` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DeregisterPackageVersion` operation on the `Panorama` service.
     ///
     /// Deregisters a package version.
     ///
@@ -903,7 +903,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplicationInstance` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DescribeApplicationInstance` operation on the `Panorama` service.
     ///
     /// Returns information about an application instance on a device.
     ///
@@ -973,7 +973,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplicationInstanceDetails` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DescribeApplicationInstanceDetails` operation on the `Panorama` service.
     ///
     /// Returns information about an application instance's configuration manifest.
     ///
@@ -1043,7 +1043,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDevice` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DescribeDevice` operation on the `Panorama` service.
     ///
     /// Returns information about a device.
     ///
@@ -1112,7 +1112,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDeviceJob` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DescribeDeviceJob` operation on the `Panorama` service.
     ///
     /// Returns information about a device job.
     ///
@@ -1182,7 +1182,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNode` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DescribeNode` operation on the `Panorama` service.
     ///
     /// Returns information about a node.
     ///
@@ -1253,7 +1253,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNodeFromTemplateJob` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DescribeNodeFromTemplateJob` operation on the `Panorama` service.
     ///
     /// Returns information about a job to create a camera stream node.
     ///
@@ -1322,7 +1322,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePackage` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DescribePackage` operation on the `Panorama` service.
     ///
     /// Returns information about a package.
     ///
@@ -1392,7 +1392,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePackageImportJob` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DescribePackageImportJob` operation on the `Panorama` service.
     ///
     /// Returns information about a package import job.
     ///
@@ -1461,7 +1461,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePackageVersion` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `DescribePackageVersion` operation on the `Panorama` service.
     ///
     /// Returns information about a package version.
     ///
@@ -1532,7 +1532,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationInstanceDependencies` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `ListApplicationInstanceDependencies` operation on the `Panorama` service.
     ///
     /// Returns a list of application instance dependencies.
     ///
@@ -1600,7 +1600,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationInstanceNodeInstances` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `ListApplicationInstanceNodeInstances` operation on the `Panorama` service.
     ///
     /// Returns a list of application node instances.
     ///
@@ -1668,7 +1668,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationInstances` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `ListApplicationInstances` operation on the `Panorama` service.
     ///
     /// Returns a list of application instances.
     ///
@@ -1736,7 +1736,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDevices` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `ListDevices` operation on the `Panorama` service.
     ///
     /// Returns a list of devices.
     ///
@@ -1806,7 +1806,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDevicesJobs` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `ListDevicesJobs` operation on the `Panorama` service.
     ///
     /// Returns a list of jobs.
     ///
@@ -1877,7 +1877,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNodeFromTemplateJobs` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `ListNodeFromTemplateJobs` operation on the `Panorama` service.
     ///
     /// Returns a list of camera stream node jobs.
     ///
@@ -1947,7 +1947,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNodes` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `ListNodes` operation on the `Panorama` service.
     ///
     /// Returns a list of nodes.
     ///
@@ -2016,7 +2016,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPackageImportJobs` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `ListPackageImportJobs` operation on the `Panorama` service.
     ///
     /// Returns a list of package import jobs.
     ///
@@ -2086,7 +2086,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPackages` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `ListPackages` operation on the `Panorama` service.
     ///
     /// Returns a list of packages.
     ///
@@ -2157,7 +2157,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `ListTagsForResource` operation on the `Panorama` service.
     ///
     /// Returns a list of tags for a resource.
     ///
@@ -2225,7 +2225,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ProvisionDevice` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `ProvisionDevice` operation on the `Panorama` service.
     ///
     /// Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a provisioning certificate that is valid for 5 minutes. Name the configuration archive certificates-omni_device-name.zip and transfer it to the device within 5 minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
     ///
@@ -2298,7 +2298,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterPackageVersion` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `RegisterPackageVersion` operation on the `Panorama` service.
     ///
     /// Registers a package version.
     ///
@@ -2370,7 +2370,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveApplicationInstance` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `RemoveApplicationInstance` operation on the `Panorama` service.
     ///
     /// Removes an application instance.
     ///
@@ -2440,7 +2440,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SignalApplicationInstanceNodeInstances` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `SignalApplicationInstanceNodeInstances` operation on the `Panorama` service.
     ///
     /// Signal camera nodes to stop or resume.
     ///
@@ -2512,7 +2512,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `TagResource` operation on the `Panorama` service.
     ///
     /// Tags a resource.
     ///
@@ -2583,7 +2583,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `UntagResource` operation on the `Panorama` service.
     ///
     /// Removes tags from a resource.
     ///
@@ -2652,7 +2652,7 @@ extension PanoramaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDeviceMetadata` operation on the `OmniCloudServiceLambda` service.
+    /// Performs the `UpdateDeviceMetadata` operation on the `Panorama` service.
     ///
     /// Updates a device's metadata.
     ///

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationAutoScalingClient: ClientRuntime.Client {
     public static let clientName = "ApplicationAutoScalingClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationAutoScalingClient.ApplicationAutoScalingClientConfiguration
     let serviceName = "Application Auto Scaling"
@@ -330,7 +330,7 @@ extension ApplicationAutoScalingClient {
 }
 
 extension ApplicationAutoScalingClient {
-    /// Performs the `DeleteScalingPolicy` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `DeleteScalingPolicy` operation on the `ApplicationAutoScaling` service.
     ///
     /// Deletes the specified scaling policy for an Application Auto Scaling scalable target. Deleting a step scaling policy deletes the underlying alarm action, but does not delete the CloudWatch alarm associated with the scaling policy, even if it no longer has an associated action. For more information, see [Delete a step scaling policy](https://docs.aws.amazon.com/autoscaling/application/userguide/create-step-scaling-policy-cli.html#delete-step-scaling-policy) and [Delete a target tracking scaling policy](https://docs.aws.amazon.com/autoscaling/application/userguide/create-target-tracking-policy-cli.html#delete-target-tracking-policy) in the Application Auto Scaling User Guide.
     ///
@@ -403,7 +403,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteScheduledAction` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `DeleteScheduledAction` operation on the `ApplicationAutoScaling` service.
     ///
     /// Deletes the specified scheduled action for an Application Auto Scaling scalable target. For more information, see [Delete a scheduled action](https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-additional-cli-commands.html#delete-scheduled-action) in the Application Auto Scaling User Guide.
     ///
@@ -476,7 +476,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterScalableTarget` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `DeregisterScalableTarget` operation on the `ApplicationAutoScaling` service.
     ///
     /// Deregisters an Application Auto Scaling scalable target when you have finished using it. To see which resources have been registered, use [DescribeScalableTargets](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalableTargets.html). Deregistering a scalable target deletes the scaling policies and the scheduled actions that are associated with it.
     ///
@@ -549,7 +549,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeScalableTargets` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `DescribeScalableTargets` operation on the `ApplicationAutoScaling` service.
     ///
     /// Gets information about the scalable targets in the specified namespace. You can filter the results using ResourceIds and ScalableDimension.
     ///
@@ -622,7 +622,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeScalingActivities` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `DescribeScalingActivities` operation on the `ApplicationAutoScaling` service.
     ///
     /// Provides descriptive information about the scaling activities in the specified namespace from the previous six weeks. You can filter the results using ResourceId and ScalableDimension. For information about viewing scaling activities using the Amazon Web Services CLI, see [Scaling activities for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html).
     ///
@@ -695,7 +695,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeScalingPolicies` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `DescribeScalingPolicies` operation on the `ApplicationAutoScaling` service.
     ///
     /// Describes the Application Auto Scaling scaling policies for the specified service namespace. You can filter the results using ResourceId, ScalableDimension, and PolicyNames. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide.
     ///
@@ -769,7 +769,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeScheduledActions` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `DescribeScheduledActions` operation on the `ApplicationAutoScaling` service.
     ///
     /// Describes the Application Auto Scaling scheduled actions for the specified service namespace. You can filter the results using the ResourceId, ScalableDimension, and ScheduledActionNames parameters. For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html) in the Application Auto Scaling User Guide.
     ///
@@ -842,7 +842,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPredictiveScalingForecast` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `GetPredictiveScalingForecast` operation on the `ApplicationAutoScaling` service.
     ///
     /// Retrieves the forecast data for a predictive scaling policy. Load forecasts are predictions of the hourly load values using historical load data from CloudWatch and an analysis of historical trends. Capacity forecasts are represented as predicted values for the minimum capacity that is needed on an hourly basis, based on the hourly load forecast. A minimum of 24 hours of data is required to create the initial forecasts. However, having a full 14 days of historical data results in more accurate forecasts.
     ///
@@ -913,7 +913,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `ListTagsForResource` operation on the `ApplicationAutoScaling` service.
     ///
     /// Returns all the tags on the specified Application Auto Scaling scalable target. For general information about tags, including the format and syntax, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     ///
@@ -983,7 +983,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutScalingPolicy` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `PutScalingPolicy` operation on the `ApplicationAutoScaling` service.
     ///
     /// Creates or updates a scaling policy for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scaling policy applies to the scalable target identified by those three attributes. You cannot create a scaling policy until you have registered the resource as a scalable target. Multiple scaling policies can be in force at the same time for the same scalable target. You can have one or more target tracking scaling policies, one or more step scaling policies, or both. However, there is a chance that multiple policies could conflict, instructing the scalable target to scale out or in at the same time. Application Auto Scaling gives precedence to the policy that provides the largest capacity for both scale out and scale in. For example, if one policy increases capacity by 3, another policy increases capacity by 200 percent, and the current capacity is 10, Application Auto Scaling uses the policy with the highest calculated capacity (200% of 10 = 20) and scales out to 30. We recommend caution, however, when using target tracking scaling policies with step scaling policies because conflicts between these policies can cause undesirable behavior. For example, if the step scaling policy initiates a scale-in activity before the target tracking policy is ready to scale in, the scale-in activity will not be blocked. After the scale-in activity completes, the target tracking policy could instruct the scalable target to scale out again. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide. If a scalable target is deregistered, the scalable target is no longer available to use scaling policies. Any scaling policies that were specified for the scalable target are deleted.
     ///
@@ -1058,7 +1058,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutScheduledAction` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `PutScheduledAction` operation on the `ApplicationAutoScaling` service.
     ///
     /// Creates or updates a scheduled action for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scheduled action applies to the scalable target identified by those three attributes. You cannot create a scheduled action until you have registered the resource as a scalable target. When you specify start and end times with a recurring schedule using a cron expression or rates, they form the boundaries for when the recurring action starts and stops. To update a scheduled action, specify the parameters that you want to change. If you don't specify start and end times, the old values are deleted. For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html) in the Application Auto Scaling User Guide. If a scalable target is deregistered, the scalable target is no longer available to run scheduled actions. Any scheduled actions that were specified for the scalable target are deleted.
     ///
@@ -1132,7 +1132,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterScalableTarget` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `RegisterScalableTarget` operation on the `ApplicationAutoScaling` service.
     ///
     /// Registers or updates a scalable target, which is the resource that you want to scale. Scalable targets are uniquely identified by the combination of resource ID, scalable dimension, and namespace, which represents some capacity dimension of the underlying service. When you register a new scalable target, you must specify values for the minimum and maximum capacity. If the specified resource is not active in the target service, this operation does not change the resource's current capacity. Otherwise, it changes the resource's current capacity to a value that is inside of this range. If you add a scaling policy, current capacity is adjustable within the specified range when scaling starts. Application Auto Scaling scaling policies will not scale capacity to values that are outside of the minimum and maximum range. After you register a scalable target, you do not need to register it again to use other Application Auto Scaling operations. To see which resources have been registered, use [DescribeScalableTargets](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalableTargets.html). You can also view the scaling policies for a service namespace by using [DescribeScalableTargets](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalableTargets.html). If you no longer need a scalable target, you can deregister it by using [DeregisterScalableTarget](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DeregisterScalableTarget.html). To update a scalable target, specify the parameters that you want to change. Include the parameters that identify the scalable target: resource ID, scalable dimension, and namespace. Any parameters that you don't specify are not changed by this update request. If you call the RegisterScalableTarget API operation to create a scalable target, there might be a brief delay until the operation achieves [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency). You might become aware of this brief delay if you get unexpected errors when performing sequential operations. The typical strategy is to retry the request, and some Amazon Web Services SDKs include automatic backoff and retry logic. If you call the RegisterScalableTarget API operation to update an existing scalable target, Application Auto Scaling retrieves the current capacity of the resource. If it's below the minimum capacity or above the maximum capacity, Application Auto Scaling adjusts the capacity of the scalable target to place it within these bounds, even if you don't include the MinCapacity or MaxCapacity request parameters.
     ///
@@ -1205,7 +1205,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `TagResource` operation on the `ApplicationAutoScaling` service.
     ///
     /// Adds or edits tags on an Application Auto Scaling scalable target. Each tag consists of a tag key and a tag value, which are both case-sensitive strings. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value. You can use this operation to tag an Application Auto Scaling scalable target, but you cannot tag a scaling policy or scheduled action. You can also add tags to an Application Auto Scaling scalable target while creating it (RegisterScalableTarget). For general information about tags, including the format and syntax, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. Use tags to control access to a scalable target. For more information, see [Tagging support for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/resource-tagging-support.html) in the Application Auto Scaling User Guide.
     ///
@@ -1277,7 +1277,7 @@ extension ApplicationAutoScalingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AnyScaleFrontendService` service.
+    /// Performs the `UntagResource` operation on the `ApplicationAutoScaling` service.
     ///
     /// Deletes tags from an Application Auto Scaling scalable target. To delete a tag, specify the tag key and the Application Auto Scaling scalable target.
     ///

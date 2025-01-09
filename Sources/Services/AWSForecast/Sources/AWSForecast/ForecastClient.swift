@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ForecastClient: ClientRuntime.Client {
     public static let clientName = "ForecastClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: ForecastClient.ForecastClientConfiguration
     let serviceName = "forecast"
@@ -330,7 +330,7 @@ extension ForecastClient {
 }
 
 extension ForecastClient {
-    /// Performs the `CreateAutoPredictor` operation on the `AmazonForecast` service.
+    /// Performs the `CreateAutoPredictor` operation on the `Forecast` service.
     ///
     /// Creates an Amazon Forecast predictor. Amazon Forecast creates predictors with AutoPredictor, which involves applying the optimal combination of algorithms to each time series in your datasets. You can use [CreateAutoPredictor] to create new predictors or upgrade/retrain existing predictors. Creating new predictors The following parameters are required when creating a new predictor:
     ///
@@ -422,7 +422,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataset` operation on the `AmazonForecast` service.
+    /// Performs the `CreateDataset` operation on the `Forecast` service.
     ///
     /// Creates an Amazon Forecast dataset. The information about the dataset that you provide helps Forecast understand how to consume the data for model training. This includes the following:
     ///
@@ -503,7 +503,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDatasetGroup` operation on the `AmazonForecast` service.
+    /// Performs the `CreateDatasetGroup` operation on the `Forecast` service.
     ///
     /// Creates a dataset group, which holds a collection of related datasets. You can add datasets to the dataset group when you create the dataset group, or later by using the [UpdateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html) operation. After creating a dataset group and adding datasets, you use the dataset group when you create a predictor. For more information, see [Dataset groups](https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html). To get a list of all your datasets groups, use the [ListDatasetGroups](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetGroups.html) operation. The Status of a dataset group must be ACTIVE before you can use the dataset group to create a predictor. To get the status, use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation.
     ///
@@ -577,7 +577,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDatasetImportJob` operation on the `AmazonForecast` service.
+    /// Performs the `CreateDatasetImportJob` operation on the `Forecast` service.
     ///
     /// Imports your training data to an Amazon Forecast dataset. You provide the location of your training data in an Amazon Simple Storage Service (Amazon S3) bucket and the Amazon Resource Name (ARN) of the dataset that you want to import the data to. You must specify a [DataSource](https://docs.aws.amazon.com/forecast/latest/dg/API_DataSource.html) object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data, as Amazon Forecast makes a copy of your data and processes it in an internal Amazon Web Services system. For more information, see [Set up permissions](https://docs.aws.amazon.com/forecast/latest/dg/aws-forecast-iam-roles.html). The training data must be in CSV or Parquet format. The delimiter must be a comma (,). You can specify the path to a specific file, the S3 bucket, or to a folder in the S3 bucket. For the latter two cases, Amazon Forecast imports all files up to the limit of 10,000 files. Because dataset imports are not aggregated, your most recent dataset import is the one that is used when training a predictor or generating a forecast. Make sure that your most recent dataset import contains all of the data you want to model off of, and not just the new data collected since the previous import. To get a list of all your dataset import jobs, filtered by specified criteria, use the [ListDatasetImportJobs](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetImportJobs.html) operation.
     ///
@@ -651,7 +651,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateExplainability` operation on the `AmazonForecast` service.
+    /// Performs the `CreateExplainability` operation on the `Forecast` service.
     ///
     /// Explainability is only available for Forecasts and Predictors generated from an AutoPredictor ([CreateAutoPredictor]) Creates an Amazon Forecast Explainability. Explainability helps you better understand how the attributes in your datasets impact forecast. Amazon Forecast uses a metric called Impact scores to quantify the relative impact of each attribute and determine whether they increase or decrease forecast values. To enable Forecast Explainability, your predictor must include at least one of the following: related time series, item metadata, or additional datasets like Holidays and the Weather Index. CreateExplainability accepts either a Predictor ARN or Forecast ARN. To receive aggregated Impact scores for all time series and time points in your datasets, provide a Predictor ARN. To receive Impact scores for specific time series and time points, provide a Forecast ARN. CreateExplainability with a Predictor ARN You can only have one Explainability resource per predictor. If you already enabled ExplainPredictor in [CreateAutoPredictor], that predictor already has an Explainability resource. The following parameters are required when providing a Predictor ARN:
     ///
@@ -769,7 +769,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateExplainabilityExport` operation on the `AmazonForecast` service.
+    /// Performs the `CreateExplainabilityExport` operation on the `Forecast` service.
     ///
     /// Exports an Explainability resource created by the [CreateExplainability] operation. Exported files are exported to an Amazon Simple Storage Service (Amazon S3) bucket. You must specify a [DataDestination] object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. The Status of the export job must be ACTIVE before you can access the export in your Amazon S3 bucket. To get the status, use the [DescribeExplainabilityExport] operation.
     ///
@@ -843,7 +843,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateForecast` operation on the `AmazonForecast` service.
+    /// Performs the `CreateForecast` operation on the `Forecast` service.
     ///
     /// Creates a forecast for each item in the TARGET_TIME_SERIES dataset that was used to train the predictor. This is known as inference. To retrieve the forecast for a single item at low latency, use the operation. To export the complete forecast into your Amazon Simple Storage Service (Amazon S3) bucket, use the [CreateForecastExportJob] operation. The range of the forecast is determined by the ForecastHorizon value, which you specify in the [CreatePredictor] request. When you query a forecast, you can request a specific date range within the forecast. To get a list of all your forecasts, use the [ListForecasts] operation. The forecasts generated by Amazon Forecast are in the same time zone as the dataset that was used to create the predictor. For more information, see [howitworks-forecast]. The Status of the forecast must be ACTIVE before you can query or export the forecast. Use the [DescribeForecast] operation to get the status. By default, a forecast includes predictions for every item (item_id) in the dataset group that was used to train the predictor. However, you can use the TimeSeriesSelector object to generate a forecast on a subset of time series. Forecast creation is skipped for any time series that you specify that are not in the input dataset. The forecast export file will not contain these time series or their forecasted values.
     ///
@@ -917,7 +917,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateForecastExportJob` operation on the `AmazonForecast` service.
+    /// Performs the `CreateForecastExportJob` operation on the `Forecast` service.
     ///
     /// Exports a forecast created by the [CreateForecast] operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: __ where the component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. For more information, see [howitworks-forecast]. To get a list of all your forecast export jobs, use the [ListForecastExportJobs] operation. The Status of the forecast export job must be ACTIVE before you can access the forecast in your Amazon S3 bucket. To get the status, use the [DescribeForecastExportJob] operation.
     ///
@@ -991,7 +991,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMonitor` operation on the `AmazonForecast` service.
+    /// Performs the `CreateMonitor` operation on the `Forecast` service.
     ///
     /// Creates a predictor monitor resource for an existing auto predictor. Predictor monitoring allows you to see how your predictor's performance changes over time. For more information, see [Predictor Monitoring](https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring.html).
     ///
@@ -1065,7 +1065,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePredictor` operation on the `AmazonForecast` service.
+    /// Performs the `CreatePredictor` operation on the `Forecast` service.
     ///
     /// This operation creates a legacy predictor that does not include all the predictor functionalities provided by Amazon Forecast. To create a predictor that is compatible with all aspects of Forecast, use [CreateAutoPredictor]. Creates an Amazon Forecast predictor. In the request, provide a dataset group and either specify an algorithm or let Amazon Forecast choose an algorithm for you using AutoML. If you specify an algorithm, you also can override algorithm-specific hyperparameters. Amazon Forecast uses the algorithm to train a predictor using the latest version of the datasets in the specified dataset group. You can then generate a forecast using the [CreateForecast] operation. To see the evaluation metrics, use the [GetAccuracyMetrics] operation. You can specify a featurization configuration to fill and aggregate the data fields in the TARGET_TIME_SERIES dataset to improve model training. For more information, see [FeaturizationConfig]. For RELATED_TIME_SERIES datasets, CreatePredictor verifies that the DataFrequency specified when the dataset was created matches the ForecastFrequency. TARGET_TIME_SERIES datasets don't have this restriction. Amazon Forecast also verifies the delimiter and timestamp format. For more information, see [howitworks-datasets-groups]. By default, predictors are trained and evaluated at the 0.1 (P10), 0.5 (P50), and 0.9 (P90) quantiles. You can choose custom forecast types to train and evaluate your predictor by setting the ForecastTypes. AutoML If you want Amazon Forecast to evaluate each algorithm and choose the one that minimizes the objective function, set PerformAutoML to true. The objective function is defined as the mean of the weighted losses over the forecast types. By default, these are the p10, p50, and p90 quantile losses. For more information, see [EvaluationResult]. When AutoML is enabled, the following properties are disallowed:
     ///
@@ -1150,7 +1150,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePredictorBacktestExportJob` operation on the `AmazonForecast` service.
+    /// Performs the `CreatePredictorBacktestExportJob` operation on the `Forecast` service.
     ///
     /// Exports backtest forecasts and accuracy metrics generated by the [CreateAutoPredictor] or [CreatePredictor] operations. Two folders containing CSV or Parquet files are exported to your specified S3 bucket. The export file names will match the following conventions: __.csv The component is in Java SimpleDate format (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. The Status of the export job must be ACTIVE before you can access the export in your Amazon S3 bucket. To get the status, use the [DescribePredictorBacktestExportJob] operation.
     ///
@@ -1224,7 +1224,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWhatIfAnalysis` operation on the `AmazonForecast` service.
+    /// Performs the `CreateWhatIfAnalysis` operation on the `Forecast` service.
     ///
     /// What-if analysis is a scenario modeling technique where you make a hypothetical change to a time series and compare the forecasts generated by these changes against the baseline, unchanged time series. It is important to remember that the purpose of a what-if analysis is to understand how a forecast can change given different modifications to the baseline time series. For example, imagine you are a clothing retailer who is considering an end of season sale to clear space for new styles. After creating a baseline forecast, you can use a what-if analysis to investigate how different sales tactics might affect your goals. You could create a scenario where everything is given a 25% markdown, and another where everything is given a fixed dollar markdown. You could create a scenario where the sale lasts for one week and another where the sale lasts for one month. With a what-if analysis, you can compare many different scenarios against each other. Note that a what-if analysis is meant to display what the forecasting model has learned and how it will behave in the scenarios that you are evaluating. Do not blindly use the results of the what-if analysis to make business decisions. For instance, forecasts might not be accurate for novel scenarios where there is no reference available to determine whether a forecast is good. The [TimeSeriesSelector] object defines the items that you want in the what-if analysis.
     ///
@@ -1298,7 +1298,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWhatIfForecast` operation on the `AmazonForecast` service.
+    /// Performs the `CreateWhatIfForecast` operation on the `Forecast` service.
     ///
     /// A what-if forecast is a forecast that is created from a modified version of the baseline forecast. Each what-if forecast incorporates either a replacement dataset or a set of transformations to the original dataset.
     ///
@@ -1372,7 +1372,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWhatIfForecastExport` operation on the `AmazonForecast` service.
+    /// Performs the `CreateWhatIfForecastExport` operation on the `Forecast` service.
     ///
     /// Exports a forecast created by the [CreateWhatIfForecast] operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: ≈__ The component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. For more information, see [howitworks-forecast]. To get a list of all your what-if forecast export jobs, use the [ListWhatIfForecastExports] operation. The Status of the forecast export job must be ACTIVE before you can access the forecast in your Amazon S3 bucket. To get the status, use the [DescribeWhatIfForecastExport] operation.
     ///
@@ -1446,7 +1446,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataset` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteDataset` operation on the `Forecast` service.
     ///
     /// Deletes an Amazon Forecast dataset that was created using the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation. You can only delete datasets that have a status of ACTIVE or CREATE_FAILED. To get the status use the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation. Forecast does not automatically update any dataset groups that contain the deleted dataset. In order to update the dataset group, use the [UpdateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html) operation, omitting the deleted dataset's ARN.
     ///
@@ -1518,7 +1518,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDatasetGroup` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteDatasetGroup` operation on the `Forecast` service.
     ///
     /// Deletes a dataset group created using the [CreateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html) operation. You can only delete dataset groups that have a status of ACTIVE, CREATE_FAILED, or UPDATE_FAILED. To get the status, use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation. This operation deletes only the dataset group, not the datasets in the group.
     ///
@@ -1590,7 +1590,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDatasetImportJob` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteDatasetImportJob` operation on the `Forecast` service.
     ///
     /// Deletes a dataset import job created using the [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation. You can delete only dataset import jobs that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html) operation.
     ///
@@ -1662,7 +1662,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteExplainability` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteExplainability` operation on the `Forecast` service.
     ///
     /// Deletes an Explainability resource. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeExplainability] operation.
     ///
@@ -1734,7 +1734,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteExplainabilityExport` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteExplainabilityExport` operation on the `Forecast` service.
     ///
     /// Deletes an Explainability export.
     ///
@@ -1806,7 +1806,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteForecast` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteForecast` operation on the `Forecast` service.
     ///
     /// Deletes a forecast created using the [CreateForecast] operation. You can delete only forecasts that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeForecast] operation. You can't delete a forecast while it is being exported. After a forecast is deleted, you can no longer query the forecast.
     ///
@@ -1878,7 +1878,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteForecastExportJob` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteForecastExportJob` operation on the `Forecast` service.
     ///
     /// Deletes a forecast export job created using the [CreateForecastExportJob] operation. You can delete only export jobs that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeForecastExportJob] operation.
     ///
@@ -1950,7 +1950,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMonitor` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteMonitor` operation on the `Forecast` service.
     ///
     /// Deletes a monitor resource. You can only delete a monitor resource with a status of ACTIVE, ACTIVE_STOPPED, CREATE_FAILED, or CREATE_STOPPED.
     ///
@@ -2022,7 +2022,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePredictor` operation on the `AmazonForecast` service.
+    /// Performs the `DeletePredictor` operation on the `Forecast` service.
     ///
     /// Deletes a predictor created using the [DescribePredictor] or [CreatePredictor] operations. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribePredictor] operation.
     ///
@@ -2094,7 +2094,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePredictorBacktestExportJob` operation on the `AmazonForecast` service.
+    /// Performs the `DeletePredictorBacktestExportJob` operation on the `Forecast` service.
     ///
     /// Deletes a predictor backtest export job.
     ///
@@ -2166,7 +2166,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourceTree` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteResourceTree` operation on the `Forecast` service.
     ///
     /// Deletes an entire resource tree. This operation will delete the parent resource and its child resources. Child resources are resources that were created from another resource. For example, when a forecast is generated from a predictor, the forecast is the child resource and the predictor is the parent resource. Amazon Forecast resources possess the following parent-child resource hierarchies:
     ///
@@ -2249,7 +2249,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWhatIfAnalysis` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteWhatIfAnalysis` operation on the `Forecast` service.
     ///
     /// Deletes a what-if analysis created using the [CreateWhatIfAnalysis] operation. You can delete only what-if analyses that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfAnalysis] operation. You can't delete a what-if analysis while any of its forecasts are being exported.
     ///
@@ -2321,7 +2321,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWhatIfForecast` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteWhatIfForecast` operation on the `Forecast` service.
     ///
     /// Deletes a what-if forecast created using the [CreateWhatIfForecast] operation. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfForecast] operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analysis.
     ///
@@ -2393,7 +2393,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWhatIfForecastExport` operation on the `AmazonForecast` service.
+    /// Performs the `DeleteWhatIfForecastExport` operation on the `Forecast` service.
     ///
     /// Deletes a what-if forecast export created using the [CreateWhatIfForecastExport] operation. You can delete only what-if forecast exports that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfForecastExport] operation.
     ///
@@ -2465,7 +2465,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAutoPredictor` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeAutoPredictor` operation on the `Forecast` service.
     ///
     /// Describes a predictor created using the CreateAutoPredictor operation.
     ///
@@ -2536,7 +2536,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataset` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeDataset` operation on the `Forecast` service.
     ///
     /// Describes an Amazon Forecast dataset created using the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation. In addition to listing the parameters specified in the CreateDataset request, this operation includes the following dataset properties:
     ///
@@ -2613,7 +2613,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDatasetGroup` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeDatasetGroup` operation on the `Forecast` service.
     ///
     /// Describes a dataset group created using the [CreateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html) operation. In addition to listing the parameters provided in the CreateDatasetGroup request, this operation includes the following properties:
     ///
@@ -2692,7 +2692,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDatasetImportJob` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeDatasetImportJob` operation on the `Forecast` service.
     ///
     /// Describes a dataset import job created using the [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation. In addition to listing the parameters provided in the CreateDatasetImportJob request, this operation includes the following properties:
     ///
@@ -2775,7 +2775,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeExplainability` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeExplainability` operation on the `Forecast` service.
     ///
     /// Describes an Explainability resource created using the [CreateExplainability] operation.
     ///
@@ -2846,7 +2846,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeExplainabilityExport` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeExplainabilityExport` operation on the `Forecast` service.
     ///
     /// Describes an Explainability export created using the [CreateExplainabilityExport] operation.
     ///
@@ -2917,7 +2917,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeForecast` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeForecast` operation on the `Forecast` service.
     ///
     /// Describes a forecast created using the [CreateForecast] operation. In addition to listing the properties provided in the CreateForecast request, this operation lists the following properties:
     ///
@@ -2998,7 +2998,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeForecastExportJob` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeForecastExportJob` operation on the `Forecast` service.
     ///
     /// Describes a forecast export job created using the [CreateForecastExportJob] operation. In addition to listing the properties provided by the user in the CreateForecastExportJob request, this operation lists the following properties:
     ///
@@ -3077,7 +3077,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMonitor` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeMonitor` operation on the `Forecast` service.
     ///
     /// Describes a monitor resource. In addition to listing the properties provided in the [CreateMonitor] request, this operation lists the following properties:
     ///
@@ -3162,7 +3162,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePredictor` operation on the `AmazonForecast` service.
+    /// Performs the `DescribePredictor` operation on the `Forecast` service.
     ///
     /// This operation is only valid for legacy predictors created with CreatePredictor. If you are not using a legacy predictor, use [DescribeAutoPredictor]. Describes a predictor created using the [CreatePredictor] operation. In addition to listing the properties provided in the CreatePredictor request, this operation lists the following properties:
     ///
@@ -3245,7 +3245,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePredictorBacktestExportJob` operation on the `AmazonForecast` service.
+    /// Performs the `DescribePredictorBacktestExportJob` operation on the `Forecast` service.
     ///
     /// Describes a predictor backtest export job created using the [CreatePredictorBacktestExportJob] operation. In addition to listing the properties provided by the user in the CreatePredictorBacktestExportJob request, this operation lists the following properties:
     ///
@@ -3324,7 +3324,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeWhatIfAnalysis` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeWhatIfAnalysis` operation on the `Forecast` service.
     ///
     /// Describes the what-if analysis created using the [CreateWhatIfAnalysis] operation. In addition to listing the properties provided in the CreateWhatIfAnalysis request, this operation lists the following properties:
     ///
@@ -3403,7 +3403,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeWhatIfForecast` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeWhatIfForecast` operation on the `Forecast` service.
     ///
     /// Describes the what-if forecast created using the [CreateWhatIfForecast] operation. In addition to listing the properties provided in the CreateWhatIfForecast request, this operation lists the following properties:
     ///
@@ -3482,7 +3482,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeWhatIfForecastExport` operation on the `AmazonForecast` service.
+    /// Performs the `DescribeWhatIfForecastExport` operation on the `Forecast` service.
     ///
     /// Describes the what-if forecast export created using the [CreateWhatIfForecastExport] operation. In addition to listing the properties provided in the CreateWhatIfForecastExport request, this operation lists the following properties:
     ///
@@ -3561,7 +3561,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccuracyMetrics` operation on the `AmazonForecast` service.
+    /// Performs the `GetAccuracyMetrics` operation on the `Forecast` service.
     ///
     /// Provides metrics on the accuracy of the models that were trained by the [CreatePredictor] operation. Use metrics to see how well the model performed and to decide whether to use the predictor to generate a forecast. For more information, see [Predictor Metrics](https://docs.aws.amazon.com/forecast/latest/dg/metrics.html). This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows) is specified using the [EvaluationParameters] object, which is optionally included in the CreatePredictor request. If NumberOfBacktestWindows isn't specified, the number defaults to one. The parameters of the filling method determine which items contribute to the metrics. If you want all items to contribute, specify zero. If you want only those items that have complete data in the range being evaluated to contribute, specify nan. For more information, see [FeaturizationMethod]. Before you can get accuracy metrics, the Status of the predictor must be ACTIVE, signifying that training has completed. To get the status, use the [DescribePredictor] operation.
     ///
@@ -3633,7 +3633,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasetGroups` operation on the `AmazonForecast` service.
+    /// Performs the `ListDatasetGroups` operation on the `Forecast` service.
     ///
     /// Returns a list of dataset groups created using the [CreateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html) operation. For each dataset group, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the dataset group ARN with the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation.
     ///
@@ -3703,7 +3703,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasetImportJobs` operation on the `AmazonForecast` service.
+    /// Performs the `ListDatasetImportJobs` operation on the `Forecast` service.
     ///
     /// Returns a list of dataset import jobs created using the [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation. For each import job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the [DescribeDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html) operation. You can filter the list by providing an array of [Filter](https://docs.aws.amazon.com/forecast/latest/dg/API_Filter.html) objects.
     ///
@@ -3774,7 +3774,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasets` operation on the `AmazonForecast` service.
+    /// Performs the `ListDatasets` operation on the `Forecast` service.
     ///
     /// Returns a list of datasets created using the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation. For each dataset, a summary of its properties, including its Amazon Resource Name (ARN), is returned. To retrieve the complete set of properties, use the ARN with the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation.
     ///
@@ -3844,7 +3844,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExplainabilities` operation on the `AmazonForecast` service.
+    /// Performs the `ListExplainabilities` operation on the `Forecast` service.
     ///
     /// Returns a list of Explainability resources created using the [CreateExplainability] operation. This operation returns a summary for each Explainability. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular Explainability resource, use the ARN with the [DescribeExplainability] operation.
     ///
@@ -3915,7 +3915,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExplainabilityExports` operation on the `AmazonForecast` service.
+    /// Performs the `ListExplainabilityExports` operation on the `Forecast` service.
     ///
     /// Returns a list of Explainability exports created using the [CreateExplainabilityExport] operation. This operation returns a summary for each Explainability export. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular Explainability export, use the ARN with the [DescribeExplainability] operation.
     ///
@@ -3986,7 +3986,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListForecastExportJobs` operation on the `AmazonForecast` service.
+    /// Performs the `ListForecastExportJobs` operation on the `Forecast` service.
     ///
     /// Returns a list of forecast export jobs created using the [CreateForecastExportJob] operation. For each forecast export job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, use the ARN with the [DescribeForecastExportJob] operation. You can filter the list using an array of [Filter] objects.
     ///
@@ -4057,7 +4057,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListForecasts` operation on the `AmazonForecast` service.
+    /// Performs the `ListForecasts` operation on the `Forecast` service.
     ///
     /// Returns a list of forecasts created using the [CreateForecast] operation. For each forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, specify the ARN with the [DescribeForecast] operation. You can filter the list using an array of [Filter] objects.
     ///
@@ -4128,7 +4128,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMonitorEvaluations` operation on the `AmazonForecast` service.
+    /// Performs the `ListMonitorEvaluations` operation on the `Forecast` service.
     ///
     /// Returns a list of the monitoring evaluation results and predictor events collected by the monitor resource during different windows of time. For information about monitoring see [predictor-monitoring]. For more information about retrieving monitoring results see [Viewing Monitoring Results](https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring-results.html).
     ///
@@ -4200,7 +4200,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMonitors` operation on the `AmazonForecast` service.
+    /// Performs the `ListMonitors` operation on the `Forecast` service.
     ///
     /// Returns a list of monitors created with the [CreateMonitor] operation and [CreateAutoPredictor] operation. For each monitor resource, this operation returns of a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve a complete set of properties of a monitor resource by specify the monitor's ARN in the [DescribeMonitor] operation.
     ///
@@ -4271,7 +4271,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPredictorBacktestExportJobs` operation on the `AmazonForecast` service.
+    /// Performs the `ListPredictorBacktestExportJobs` operation on the `Forecast` service.
     ///
     /// Returns a list of predictor backtest export jobs created using the [CreatePredictorBacktestExportJob] operation. This operation returns a summary for each backtest export job. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular backtest export job, use the ARN with the [DescribePredictorBacktestExportJob] operation.
     ///
@@ -4342,7 +4342,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPredictors` operation on the `AmazonForecast` service.
+    /// Performs the `ListPredictors` operation on the `Forecast` service.
     ///
     /// Returns a list of predictors created using the [CreateAutoPredictor] or [CreatePredictor] operations. For each predictor, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the [DescribeAutoPredictor] and [DescribePredictor] operations. You can filter the list using an array of [Filter] objects.
     ///
@@ -4413,7 +4413,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonForecast` service.
+    /// Performs the `ListTagsForResource` operation on the `Forecast` service.
     ///
     /// Lists the tags for an Amazon Forecast resource.
     ///
@@ -4484,7 +4484,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWhatIfAnalyses` operation on the `AmazonForecast` service.
+    /// Performs the `ListWhatIfAnalyses` operation on the `Forecast` service.
     ///
     /// Returns a list of what-if analyses created using the [CreateWhatIfAnalysis] operation. For each what-if analysis, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if analysis ARN with the [DescribeWhatIfAnalysis] operation.
     ///
@@ -4555,7 +4555,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWhatIfForecastExports` operation on the `AmazonForecast` service.
+    /// Performs the `ListWhatIfForecastExports` operation on the `Forecast` service.
     ///
     /// Returns a list of what-if forecast exports created using the [CreateWhatIfForecastExport] operation. For each what-if forecast export, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast export ARN with the [DescribeWhatIfForecastExport] operation.
     ///
@@ -4626,7 +4626,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWhatIfForecasts` operation on the `AmazonForecast` service.
+    /// Performs the `ListWhatIfForecasts` operation on the `Forecast` service.
     ///
     /// Returns a list of what-if forecasts created using the [CreateWhatIfForecast] operation. For each what-if forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast ARN with the [DescribeWhatIfForecast] operation.
     ///
@@ -4697,7 +4697,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResumeResource` operation on the `AmazonForecast` service.
+    /// Performs the `ResumeResource` operation on the `Forecast` service.
     ///
     /// Resumes a stopped monitor resource.
     ///
@@ -4770,7 +4770,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopResource` operation on the `AmazonForecast` service.
+    /// Performs the `StopResource` operation on the `Forecast` service.
     ///
     /// Stops a resource. The resource undergoes the following states: CREATE_STOPPING and CREATE_STOPPED. You cannot resume a resource once it has been stopped. This operation can be applied to the following resources (and their corresponding child resources):
     ///
@@ -4856,7 +4856,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonForecast` service.
+    /// Performs the `TagResource` operation on the `Forecast` service.
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
@@ -4928,7 +4928,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonForecast` service.
+    /// Performs the `UntagResource` operation on the `Forecast` service.
     ///
     /// Deletes the specified tags from a resource.
     ///
@@ -4999,7 +4999,7 @@ extension ForecastClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDatasetGroup` operation on the `AmazonForecast` service.
+    /// Performs the `UpdateDatasetGroup` operation on the `Forecast` service.
     ///
     /// Replaces the datasets in a dataset group with the specified datasets. The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor. Use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation to get the status.
     ///

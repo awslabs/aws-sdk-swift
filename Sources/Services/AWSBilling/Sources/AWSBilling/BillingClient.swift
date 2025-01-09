@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BillingClient: ClientRuntime.Client {
     public static let clientName = "BillingClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: BillingClient.BillingClientConfiguration
     let serviceName = "Billing"
@@ -331,7 +331,7 @@ extension BillingClient {
 }
 
 extension BillingClient {
-    /// Performs the `CreateBillingView` operation on the `AWSBilling` service.
+    /// Performs the `CreateBillingView` operation on the `Billing` service.
     ///
     /// Creates a billing view with the specified billing view attributes.
     ///
@@ -407,7 +407,7 @@ extension BillingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBillingView` operation on the `AWSBilling` service.
+    /// Performs the `DeleteBillingView` operation on the `Billing` service.
     ///
     /// Deletes the specified billing view.
     ///
@@ -481,7 +481,7 @@ extension BillingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBillingView` operation on the `AWSBilling` service.
+    /// Performs the `GetBillingView` operation on the `Billing` service.
     ///
     /// Returns the metadata associated to the specified billing view ARN.
     ///
@@ -555,7 +555,7 @@ extension BillingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicy` operation on the `AWSBilling` service.
+    /// Performs the `GetResourcePolicy` operation on the `Billing` service.
     ///
     /// Returns the resource-based policy document attached to the resource in JSON format.
     ///
@@ -629,7 +629,7 @@ extension BillingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillingViews` operation on the `AWSBilling` service.
+    /// Performs the `ListBillingViews` operation on the `Billing` service.
     ///
     /// Lists the billing views available for a given time period. Every Amazon Web Services account has a unique PRIMARY billing view that represents the billing data available by default. Accounts that use Billing Conductor also have BILLING_GROUP billing views representing pro forma costs associated with each created billing group.
     ///
@@ -702,7 +702,7 @@ extension BillingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSourceViewsForBillingView` operation on the `AWSBilling` service.
+    /// Performs the `ListSourceViewsForBillingView` operation on the `Billing` service.
     ///
     /// Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
     ///
@@ -776,7 +776,7 @@ extension BillingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSBilling` service.
+    /// Performs the `ListTagsForResource` operation on the `Billing` service.
     ///
     /// Lists tags associated with the billing view resource.
     ///
@@ -850,7 +850,7 @@ extension BillingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSBilling` service.
+    /// Performs the `TagResource` operation on the `Billing` service.
     ///
     /// An API operation for adding one or more tags (key-value pairs) to a resource.
     ///
@@ -924,7 +924,7 @@ extension BillingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSBilling` service.
+    /// Performs the `UntagResource` operation on the `Billing` service.
     ///
     /// Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
     ///
@@ -998,7 +998,7 @@ extension BillingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBillingView` operation on the `AWSBilling` service.
+    /// Performs the `UpdateBillingView` operation on the `Billing` service.
     ///
     /// An API to update the attributes of the billing view.
     ///

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkSpacesWebClient: ClientRuntime.Client {
     public static let clientName = "WorkSpacesWebClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkSpacesWebClient.WorkSpacesWebClientConfiguration
     let serviceName = "WorkSpaces Web"
@@ -331,7 +331,7 @@ extension WorkSpacesWebClient {
 }
 
 extension WorkSpacesWebClient {
-    /// Performs the `AssociateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `AssociateBrowserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Associates a browser settings resource with a web portal.
     ///
@@ -403,7 +403,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateDataProtectionSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `AssociateDataProtectionSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Associates a data protection settings resource with a web portal.
     ///
@@ -475,7 +475,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `AssociateIpAccessSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Associates an IP access settings resource with a web portal.
     ///
@@ -547,7 +547,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `AssociateNetworkSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Associates a network settings resource with a web portal.
     ///
@@ -619,7 +619,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `AssociateTrustStore` operation on the `WorkSpacesWeb` service.
     ///
     /// Associates a trust store with a web portal.
     ///
@@ -691,7 +691,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `AssociateUserAccessLoggingSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Associates a user access logging settings resource with a web portal.
     ///
@@ -763,7 +763,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `AssociateUserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Associates a user settings resource with a web portal.
     ///
@@ -835,7 +835,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `CreateBrowserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
     ///
@@ -911,7 +911,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataProtectionSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `CreateDataProtectionSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Creates a data protection settings resource that can be associated with a web portal.
     ///
@@ -987,7 +987,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `CreateIdentityProvider` operation on the `WorkSpacesWeb` service.
     ///
     /// Creates an identity provider resource that is then associated with a web portal.
     ///
@@ -1063,7 +1063,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `CreateIpAccessSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Creates an IP access settings resource that can be associated with a web portal.
     ///
@@ -1138,7 +1138,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `CreateNetworkSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
     ///
@@ -1213,7 +1213,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePortal` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `CreatePortal` operation on the `WorkSpacesWeb` service.
     ///
     /// Creates a web portal.
     ///
@@ -1289,7 +1289,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `CreateTrustStore` operation on the `WorkSpacesWeb` service.
     ///
     /// Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
     ///
@@ -1364,7 +1364,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `CreateUserAccessLoggingSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Creates a user access logging settings resource that can be associated with a web portal.
     ///
@@ -1439,7 +1439,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `CreateUserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
     ///
@@ -1514,7 +1514,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DeleteBrowserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Deletes browser settings.
     ///
@@ -1584,7 +1584,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataProtectionSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DeleteDataProtectionSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Deletes data protection settings.
     ///
@@ -1654,7 +1654,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DeleteIdentityProvider` operation on the `WorkSpacesWeb` service.
     ///
     /// Deletes the identity provider.
     ///
@@ -1724,7 +1724,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DeleteIpAccessSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Deletes IP access settings.
     ///
@@ -1794,7 +1794,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DeleteNetworkSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Deletes network settings.
     ///
@@ -1864,7 +1864,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePortal` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DeletePortal` operation on the `WorkSpacesWeb` service.
     ///
     /// Deletes a web portal.
     ///
@@ -1934,7 +1934,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DeleteTrustStore` operation on the `WorkSpacesWeb` service.
     ///
     /// Deletes the trust store.
     ///
@@ -2004,7 +2004,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DeleteUserAccessLoggingSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Deletes user access logging settings.
     ///
@@ -2074,7 +2074,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DeleteUserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Deletes user settings.
     ///
@@ -2144,7 +2144,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DisassociateBrowserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Disassociates browser settings from a web portal.
     ///
@@ -2215,7 +2215,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateDataProtectionSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DisassociateDataProtectionSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Disassociates data protection settings from a web portal.
     ///
@@ -2286,7 +2286,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DisassociateIpAccessSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Disassociates IP access settings from a web portal.
     ///
@@ -2357,7 +2357,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DisassociateNetworkSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Disassociates network settings from a web portal.
     ///
@@ -2428,7 +2428,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DisassociateTrustStore` operation on the `WorkSpacesWeb` service.
     ///
     /// Disassociates a trust store from a web portal.
     ///
@@ -2499,7 +2499,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DisassociateUserAccessLoggingSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Disassociates user access logging settings from a web portal.
     ///
@@ -2570,7 +2570,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `DisassociateUserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Disassociates user settings from a web portal.
     ///
@@ -2641,7 +2641,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExpireSession` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ExpireSession` operation on the `WorkSpacesWeb` service.
     ///
     /// Expires an active secure browser session.
     ///
@@ -2711,7 +2711,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetBrowserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets browser settings.
     ///
@@ -2781,7 +2781,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataProtectionSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetDataProtectionSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets the data protection settings.
     ///
@@ -2851,7 +2851,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetIdentityProvider` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets the identity provider.
     ///
@@ -2921,7 +2921,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetIpAccessSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets the IP access settings.
     ///
@@ -2991,7 +2991,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetNetworkSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets the network settings.
     ///
@@ -3061,7 +3061,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPortal` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetPortal` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets the web portal.
     ///
@@ -3131,7 +3131,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPortalServiceProviderMetadata` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetPortalServiceProviderMetadata` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets the service provider metadata.
     ///
@@ -3201,7 +3201,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSession` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetSession` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets information for a secure browser session.
     ///
@@ -3271,7 +3271,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetTrustStore` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets the trust store.
     ///
@@ -3341,7 +3341,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTrustStoreCertificate` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetTrustStoreCertificate` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets the trust store certificate.
     ///
@@ -3412,7 +3412,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetUserAccessLoggingSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets user access logging settings.
     ///
@@ -3482,7 +3482,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `GetUserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Gets user settings.
     ///
@@ -3552,7 +3552,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListBrowserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Retrieves a list of browser settings.
     ///
@@ -3622,7 +3622,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataProtectionSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListDataProtectionSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Retrieves a list of data protection settings.
     ///
@@ -3692,7 +3692,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdentityProviders` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListIdentityProviders` operation on the `WorkSpacesWeb` service.
     ///
     /// Retrieves a list of identity providers for a specific web portal.
     ///
@@ -3762,7 +3762,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListIpAccessSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Retrieves a list of IP access settings.
     ///
@@ -3832,7 +3832,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListNetworkSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Retrieves a list of network settings.
     ///
@@ -3902,7 +3902,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPortals` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListPortals` operation on the `WorkSpacesWeb` service.
     ///
     /// Retrieves a list or web portals.
     ///
@@ -3972,7 +3972,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSessions` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListSessions` operation on the `WorkSpacesWeb` service.
     ///
     /// Lists information for multiple secure browser sessions from a specific portal.
     ///
@@ -4043,7 +4043,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListTagsForResource` operation on the `WorkSpacesWeb` service.
     ///
     /// Retrieves a list of tags for a resource.
     ///
@@ -4113,7 +4113,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrustStoreCertificates` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListTrustStoreCertificates` operation on the `WorkSpacesWeb` service.
     ///
     /// Retrieves a list of trust store certificates.
     ///
@@ -4184,7 +4184,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrustStores` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListTrustStores` operation on the `WorkSpacesWeb` service.
     ///
     /// Retrieves a list of trust stores.
     ///
@@ -4254,7 +4254,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListUserAccessLoggingSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Retrieves a list of user access logging settings.
     ///
@@ -4324,7 +4324,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `ListUserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Retrieves a list of user settings.
     ///
@@ -4394,7 +4394,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `TagResource` operation on the `WorkSpacesWeb` service.
     ///
     /// Adds or overwrites one or more tags for the specified resource.
     ///
@@ -4469,7 +4469,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `UntagResource` operation on the `WorkSpacesWeb` service.
     ///
     /// Removes one or more tags from the specified resource.
     ///
@@ -4540,7 +4540,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `UpdateBrowserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Updates browser settings.
     ///
@@ -4614,7 +4614,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataProtectionSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `UpdateDataProtectionSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Updates data protection settings.
     ///
@@ -4688,7 +4688,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `UpdateIdentityProvider` operation on the `WorkSpacesWeb` service.
     ///
     /// Updates the identity provider.
     ///
@@ -4762,7 +4762,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `UpdateIpAccessSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Updates IP access settings.
     ///
@@ -4836,7 +4836,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `UpdateNetworkSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Updates network settings.
     ///
@@ -4910,7 +4910,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePortal` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `UpdatePortal` operation on the `WorkSpacesWeb` service.
     ///
     /// Updates a web portal.
     ///
@@ -4985,7 +4985,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `UpdateTrustStore` operation on the `WorkSpacesWeb` service.
     ///
     /// Updates the trust store.
     ///
@@ -5060,7 +5060,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `UpdateUserAccessLoggingSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Updates the user access logging settings.
     ///
@@ -5134,7 +5134,7 @@ extension WorkSpacesWebClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    /// Performs the `UpdateUserSettings` operation on the `WorkSpacesWeb` service.
     ///
     /// Updates the user settings.
     ///

@@ -67,8 +67,7 @@ extension FisClientTypes {
         public init(
             description: Swift.String? = nil,
             `required`: Swift.Bool? = false
-        )
-        {
+        ) {
             self.description = description
             self.`required` = `required`
         }
@@ -84,8 +83,7 @@ extension FisClientTypes {
 
         public init(
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceType = resourceType
         }
     }
@@ -115,8 +113,7 @@ extension FisClientTypes {
             parameters: [Swift.String: FisClientTypes.ActionParameter]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             targets: [Swift.String: FisClientTypes.ActionTarget]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -177,8 +174,7 @@ extension FisClientTypes {
             id: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             targets: [Swift.String: FisClientTypes.ActionTarget]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -206,8 +202,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -230,8 +225,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -254,8 +248,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -278,8 +271,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -306,8 +298,7 @@ extension FisClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             startAfter: [Swift.String]? = nil,
             targets: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.description = description
             self.parameters = parameters
@@ -358,8 +349,7 @@ extension FisClientTypes {
         public init(
             accountTargeting: FisClientTypes.AccountTargeting? = nil,
             emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode? = nil
-        )
-        {
+        ) {
             self.accountTargeting = accountTargeting
             self.emptyTargetResolutionMode = emptyTargetResolutionMode
         }
@@ -375,8 +365,7 @@ extension FisClientTypes {
 
         public init(
             dashboardIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.dashboardIdentifier = dashboardIdentifier
         }
     }
@@ -391,8 +380,7 @@ extension FisClientTypes {
 
         public init(
             cloudWatchDashboards: [FisClientTypes.ReportConfigurationCloudWatchDashboardInput]? = nil
-        )
-        {
+        ) {
             self.cloudWatchDashboards = cloudWatchDashboards
         }
     }
@@ -410,8 +398,7 @@ extension FisClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.`prefix` = `prefix`
         }
@@ -427,8 +414,7 @@ extension FisClientTypes {
 
         public init(
             s3Configuration: FisClientTypes.ReportConfigurationS3OutputInput? = nil
-        )
-        {
+        ) {
             self.s3Configuration = s3Configuration
         }
     }
@@ -452,8 +438,7 @@ extension FisClientTypes {
             outputs: FisClientTypes.ExperimentTemplateReportConfigurationOutputsInput? = nil,
             postExperimentDuration: Swift.String? = nil,
             preExperimentDuration: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSources = dataSources
             self.outputs = outputs
             self.postExperimentDuration = postExperimentDuration
@@ -472,8 +457,7 @@ extension FisClientTypes {
 
         public init(
             logGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupArn = logGroupArn
         }
     }
@@ -492,8 +476,7 @@ extension FisClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.`prefix` = `prefix`
         }
@@ -516,8 +499,7 @@ extension FisClientTypes {
             cloudWatchLogsConfiguration: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput? = nil,
             logSchemaVersion: Swift.Int? = nil,
             s3Configuration: FisClientTypes.ExperimentTemplateS3LogConfigurationInput? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.logSchemaVersion = logSchemaVersion
             self.s3Configuration = s3Configuration
@@ -538,8 +520,7 @@ extension FisClientTypes {
         public init(
             source: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
             self.value = value
         }
@@ -560,8 +541,7 @@ extension FisClientTypes {
         public init(
             path: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.path = path
             self.values = values
         }
@@ -600,8 +580,7 @@ extension FisClientTypes {
             resourceTags: [Swift.String: Swift.String]? = nil,
             resourceType: Swift.String? = nil,
             selectionMode: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.parameters = parameters
             self.resourceArns = resourceArns
@@ -650,8 +629,7 @@ public struct CreateExperimentTemplateInput: Swift.Sendable {
         stopConditions: [FisClientTypes.CreateExperimentTemplateStopConditionInput]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targets: [Swift.String: FisClientTypes.CreateExperimentTemplateTargetInput]? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.clientToken = clientToken
         self.description = description
@@ -686,8 +664,7 @@ extension FisClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             startAfter: [Swift.String]? = nil,
             targets: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.description = description
             self.parameters = parameters
@@ -709,8 +686,7 @@ extension FisClientTypes {
         public init(
             accountTargeting: FisClientTypes.AccountTargeting? = nil,
             emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode? = nil
-        )
-        {
+        ) {
             self.accountTargeting = accountTargeting
             self.emptyTargetResolutionMode = emptyTargetResolutionMode
         }
@@ -726,8 +702,7 @@ extension FisClientTypes {
 
         public init(
             dashboardIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.dashboardIdentifier = dashboardIdentifier
         }
     }
@@ -742,8 +717,7 @@ extension FisClientTypes {
 
         public init(
             cloudWatchDashboards: [FisClientTypes.ExperimentTemplateReportConfigurationCloudWatchDashboard]? = nil
-        )
-        {
+        ) {
             self.cloudWatchDashboards = cloudWatchDashboards
         }
     }
@@ -761,8 +735,7 @@ extension FisClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.`prefix` = `prefix`
         }
@@ -778,8 +751,7 @@ extension FisClientTypes {
 
         public init(
             s3Configuration: FisClientTypes.ReportConfigurationS3Output? = nil
-        )
-        {
+        ) {
             self.s3Configuration = s3Configuration
         }
     }
@@ -803,8 +775,7 @@ extension FisClientTypes {
             outputs: FisClientTypes.ExperimentTemplateReportConfigurationOutputs? = nil,
             postExperimentDuration: Swift.String? = nil,
             preExperimentDuration: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSources = dataSources
             self.outputs = outputs
             self.postExperimentDuration = postExperimentDuration
@@ -822,8 +793,7 @@ extension FisClientTypes {
 
         public init(
             logGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupArn = logGroupArn
         }
     }
@@ -841,8 +811,7 @@ extension FisClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.`prefix` = `prefix`
         }
@@ -864,8 +833,7 @@ extension FisClientTypes {
             cloudWatchLogsConfiguration: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfiguration? = nil,
             logSchemaVersion: Swift.Int? = nil,
             s3Configuration: FisClientTypes.ExperimentTemplateS3LogConfiguration? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.logSchemaVersion = logSchemaVersion
             self.s3Configuration = s3Configuration
@@ -885,8 +853,7 @@ extension FisClientTypes {
         public init(
             source: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
             self.value = value
         }
@@ -905,8 +872,7 @@ extension FisClientTypes {
         public init(
             path: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.path = path
             self.values = values
         }
@@ -937,8 +903,7 @@ extension FisClientTypes {
             resourceTags: [Swift.String: Swift.String]? = nil,
             resourceType: Swift.String? = nil,
             selectionMode: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.parameters = parameters
             self.resourceArns = resourceArns
@@ -997,8 +962,7 @@ extension FisClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             targetAccountConfigurationsCount: Swift.Int? = nil,
             targets: [Swift.String: FisClientTypes.ExperimentTemplateTarget]? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.arn = arn
             self.creationTime = creationTime
@@ -1023,8 +987,7 @@ public struct CreateExperimentTemplateOutput: Swift.Sendable {
 
     public init(
         experimentTemplate: FisClientTypes.ExperimentTemplate? = nil
-    )
-    {
+    ) {
         self.experimentTemplate = experimentTemplate
     }
 }
@@ -1050,8 +1013,7 @@ public struct CreateTargetAccountConfigurationInput: Swift.Sendable {
         description: Swift.String? = nil,
         experimentTemplateId: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.clientToken = clientToken
         self.description = description
@@ -1075,8 +1037,7 @@ extension FisClientTypes {
             accountId: Swift.String? = nil,
             description: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.description = description
             self.roleArn = roleArn
@@ -1090,8 +1051,7 @@ public struct CreateTargetAccountConfigurationOutput: Swift.Sendable {
 
     public init(
         targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration? = nil
-    )
-    {
+    ) {
         self.targetAccountConfiguration = targetAccountConfiguration
     }
 }
@@ -1103,8 +1063,7 @@ public struct DeleteExperimentTemplateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1115,8 +1074,7 @@ public struct DeleteExperimentTemplateOutput: Swift.Sendable {
 
     public init(
         experimentTemplate: FisClientTypes.ExperimentTemplate? = nil
-    )
-    {
+    ) {
         self.experimentTemplate = experimentTemplate
     }
 }
@@ -1132,8 +1090,7 @@ public struct DeleteTargetAccountConfigurationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         experimentTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.experimentTemplateId = experimentTemplateId
     }
@@ -1145,8 +1102,7 @@ public struct DeleteTargetAccountConfigurationOutput: Swift.Sendable {
 
     public init(
         targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration? = nil
-    )
-    {
+    ) {
         self.targetAccountConfiguration = targetAccountConfiguration
     }
 }
@@ -1213,8 +1169,7 @@ extension FisClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: FisClientTypes.ExperimentActionStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -1251,8 +1206,7 @@ extension FisClientTypes {
             startTime: Foundation.Date? = nil,
             state: FisClientTypes.ExperimentActionState? = nil,
             targets: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.description = description
             self.endTime = endTime
@@ -1280,8 +1234,7 @@ extension FisClientTypes {
             accountTargeting: FisClientTypes.AccountTargeting? = nil,
             actionsMode: FisClientTypes.ActionsMode? = nil,
             emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode? = nil
-        )
-        {
+        ) {
             self.accountTargeting = accountTargeting
             self.actionsMode = actionsMode
             self.emptyTargetResolutionMode = emptyTargetResolutionMode
@@ -1301,8 +1254,7 @@ extension FisClientTypes {
         public init(
             arn: Swift.String? = nil,
             reportType: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.reportType = reportType
         }
@@ -1318,8 +1270,7 @@ extension FisClientTypes {
 
         public init(
             code: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
         }
     }
@@ -1378,8 +1329,7 @@ extension FisClientTypes {
             error: FisClientTypes.ExperimentReportError? = nil,
             reason: Swift.String? = nil,
             status: FisClientTypes.ExperimentReportStatus? = nil
-        )
-        {
+        ) {
             self.error = error
             self.reason = reason
             self.status = status
@@ -1399,8 +1349,7 @@ extension FisClientTypes {
         public init(
             s3Reports: [FisClientTypes.ExperimentReportS3Report]? = nil,
             state: FisClientTypes.ExperimentReportState? = nil
-        )
-        {
+        ) {
             self.s3Reports = s3Reports
             self.state = state
         }
@@ -1416,8 +1365,7 @@ extension FisClientTypes {
 
         public init(
             dashboardIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.dashboardIdentifier = dashboardIdentifier
         }
     }
@@ -1432,8 +1380,7 @@ extension FisClientTypes {
 
         public init(
             cloudWatchDashboards: [FisClientTypes.ExperimentReportConfigurationCloudWatchDashboard]? = nil
-        )
-        {
+        ) {
             self.cloudWatchDashboards = cloudWatchDashboards
         }
     }
@@ -1451,8 +1398,7 @@ extension FisClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.`prefix` = `prefix`
         }
@@ -1468,8 +1414,7 @@ extension FisClientTypes {
 
         public init(
             s3Configuration: FisClientTypes.ExperimentReportConfigurationOutputsS3Configuration? = nil
-        )
-        {
+        ) {
             self.s3Configuration = s3Configuration
         }
     }
@@ -1493,8 +1438,7 @@ extension FisClientTypes {
             outputs: FisClientTypes.ExperimentReportConfigurationOutputs? = nil,
             postExperimentDuration: Swift.String? = nil,
             preExperimentDuration: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSources = dataSources
             self.outputs = outputs
             self.postExperimentDuration = postExperimentDuration
@@ -1512,8 +1456,7 @@ extension FisClientTypes {
 
         public init(
             logGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupArn = logGroupArn
         }
     }
@@ -1531,8 +1474,7 @@ extension FisClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.`prefix` = `prefix`
         }
@@ -1554,8 +1496,7 @@ extension FisClientTypes {
             cloudWatchLogsConfiguration: FisClientTypes.ExperimentCloudWatchLogsLogConfiguration? = nil,
             logSchemaVersion: Swift.Int? = nil,
             s3Configuration: FisClientTypes.ExperimentS3LogConfiguration? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.logSchemaVersion = logSchemaVersion
             self.s3Configuration = s3Configuration
@@ -1578,8 +1519,7 @@ extension FisClientTypes {
             accountId: Swift.String? = nil,
             code: Swift.String? = nil,
             location: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.code = code
             self.location = location
@@ -1649,8 +1589,7 @@ extension FisClientTypes {
             error: FisClientTypes.ExperimentError? = nil,
             reason: Swift.String? = nil,
             status: FisClientTypes.ExperimentStatus? = nil
-        )
-        {
+        ) {
             self.error = error
             self.reason = reason
             self.status = status
@@ -1670,8 +1609,7 @@ extension FisClientTypes {
         public init(
             source: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
             self.value = value
         }
@@ -1690,8 +1628,7 @@ extension FisClientTypes {
         public init(
             path: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.path = path
             self.values = values
         }
@@ -1722,8 +1659,7 @@ extension FisClientTypes {
             resourceTags: [Swift.String: Swift.String]? = nil,
             resourceType: Swift.String? = nil,
             selectionMode: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.parameters = parameters
             self.resourceArns = resourceArns
@@ -1791,8 +1727,7 @@ extension FisClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             targetAccountConfigurationsCount: Swift.Int? = nil,
             targets: [Swift.String: FisClientTypes.ExperimentTarget]? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.arn = arn
             self.creationTime = creationTime
@@ -1841,8 +1776,7 @@ extension FisClientTypes {
             id: Swift.String? = nil,
             state: FisClientTypes.ExperimentState? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.experimentOptions = experimentOptions
@@ -1869,8 +1803,7 @@ extension FisClientTypes {
             accountId: Swift.String? = nil,
             description: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.description = description
             self.roleArn = roleArn
@@ -1893,8 +1826,7 @@ extension FisClientTypes {
             accountId: Swift.String? = nil,
             description: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.description = description
             self.roleArn = roleArn
@@ -1926,8 +1858,7 @@ extension FisClientTypes {
             id: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -1945,8 +1876,7 @@ public struct GetActionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1957,8 +1887,7 @@ public struct GetActionOutput: Swift.Sendable {
 
     public init(
         action: FisClientTypes.Action? = nil
-    )
-    {
+    ) {
         self.action = action
     }
 }
@@ -1970,8 +1899,7 @@ public struct GetExperimentInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1982,8 +1910,7 @@ public struct GetExperimentOutput: Swift.Sendable {
 
     public init(
         experiment: FisClientTypes.Experiment? = nil
-    )
-    {
+    ) {
         self.experiment = experiment
     }
 }
@@ -1999,8 +1926,7 @@ public struct GetExperimentTargetAccountConfigurationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         experimentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.experimentId = experimentId
     }
@@ -2012,8 +1938,7 @@ public struct GetExperimentTargetAccountConfigurationOutput: Swift.Sendable {
 
     public init(
         targetAccountConfiguration: FisClientTypes.ExperimentTargetAccountConfiguration? = nil
-    )
-    {
+    ) {
         self.targetAccountConfiguration = targetAccountConfiguration
     }
 }
@@ -2025,8 +1950,7 @@ public struct GetExperimentTemplateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2037,8 +1961,7 @@ public struct GetExperimentTemplateOutput: Swift.Sendable {
 
     public init(
         experimentTemplate: FisClientTypes.ExperimentTemplate? = nil
-    )
-    {
+    ) {
         self.experimentTemplate = experimentTemplate
     }
 }
@@ -2050,8 +1973,7 @@ public struct GetSafetyLeverInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2100,8 +2022,7 @@ extension FisClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: FisClientTypes.SafetyLeverStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -2123,8 +2044,7 @@ extension FisClientTypes {
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             state: FisClientTypes.SafetyLeverState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.state = state
@@ -2138,8 +2058,7 @@ public struct GetSafetyLeverOutput: Swift.Sendable {
 
     public init(
         safetyLever: FisClientTypes.SafetyLever? = nil
-    )
-    {
+    ) {
         self.safetyLever = safetyLever
     }
 }
@@ -2155,8 +2074,7 @@ public struct GetTargetAccountConfigurationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         experimentTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.experimentTemplateId = experimentTemplateId
     }
@@ -2168,8 +2086,7 @@ public struct GetTargetAccountConfigurationOutput: Swift.Sendable {
 
     public init(
         targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration? = nil
-    )
-    {
+    ) {
         self.targetAccountConfiguration = targetAccountConfiguration
     }
 }
@@ -2181,8 +2098,7 @@ public struct GetTargetResourceTypeInput: Swift.Sendable {
 
     public init(
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceType = resourceType
     }
 }
@@ -2199,8 +2115,7 @@ extension FisClientTypes {
         public init(
             description: Swift.String? = nil,
             `required`: Swift.Bool? = false
-        )
-        {
+        ) {
             self.description = description
             self.`required` = `required`
         }
@@ -2222,8 +2137,7 @@ extension FisClientTypes {
             description: Swift.String? = nil,
             parameters: [Swift.String: FisClientTypes.TargetResourceTypeParameter]? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.parameters = parameters
             self.resourceType = resourceType
@@ -2237,8 +2151,7 @@ public struct GetTargetResourceTypeOutput: Swift.Sendable {
 
     public init(
         targetResourceType: FisClientTypes.TargetResourceType? = nil
-    )
-    {
+    ) {
         self.targetResourceType = targetResourceType
     }
 }
@@ -2252,8 +2165,7 @@ public struct ListActionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2268,8 +2180,7 @@ public struct ListActionsOutput: Swift.Sendable {
     public init(
         actions: [FisClientTypes.ActionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.nextToken = nextToken
     }
@@ -2291,8 +2202,7 @@ public struct ListExperimentResolvedTargetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         targetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentId = experimentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2315,8 +2225,7 @@ extension FisClientTypes {
             resourceType: Swift.String? = nil,
             targetInformation: [Swift.String: Swift.String]? = nil,
             targetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceType = resourceType
             self.targetInformation = targetInformation
             self.targetName = targetName
@@ -2333,8 +2242,7 @@ public struct ListExperimentResolvedTargetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resolvedTargets: [FisClientTypes.ResolvedTarget]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resolvedTargets = resolvedTargets
     }
@@ -2352,8 +2260,7 @@ public struct ListExperimentsInput: Swift.Sendable {
         experimentTemplateId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentTemplateId = experimentTemplateId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2369,8 +2276,7 @@ public struct ListExperimentsOutput: Swift.Sendable {
     public init(
         experiments: [FisClientTypes.ExperimentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.experiments = experiments
         self.nextToken = nextToken
     }
@@ -2386,8 +2292,7 @@ public struct ListExperimentTargetAccountConfigurationsInput: Swift.Sendable {
     public init(
         experimentId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentId = experimentId
         self.nextToken = nextToken
     }
@@ -2402,8 +2307,7 @@ public struct ListExperimentTargetAccountConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         targetAccountConfigurations: [FisClientTypes.ExperimentTargetAccountConfigurationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.targetAccountConfigurations = targetAccountConfigurations
     }
@@ -2418,8 +2322,7 @@ public struct ListExperimentTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2434,8 +2337,7 @@ public struct ListExperimentTemplatesOutput: Swift.Sendable {
     public init(
         experimentTemplates: [FisClientTypes.ExperimentTemplateSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentTemplates = experimentTemplates
         self.nextToken = nextToken
     }
@@ -2448,8 +2350,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2460,8 +2361,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2479,8 +2379,7 @@ public struct ListTargetAccountConfigurationsInput: Swift.Sendable {
         experimentTemplateId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentTemplateId = experimentTemplateId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2502,8 +2401,7 @@ extension FisClientTypes {
             accountId: Swift.String? = nil,
             description: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.description = description
             self.roleArn = roleArn
@@ -2520,8 +2418,7 @@ public struct ListTargetAccountConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         targetAccountConfigurations: [FisClientTypes.TargetAccountConfigurationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.targetAccountConfigurations = targetAccountConfigurations
     }
@@ -2536,8 +2433,7 @@ public struct ListTargetResourceTypesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2555,8 +2451,7 @@ extension FisClientTypes {
         public init(
             description: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.resourceType = resourceType
         }
@@ -2572,8 +2467,7 @@ public struct ListTargetResourceTypesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         targetResourceTypes: [FisClientTypes.TargetResourceTypeSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.targetResourceTypes = targetResourceTypes
     }
@@ -2588,8 +2482,7 @@ extension FisClientTypes {
 
         public init(
             actionsMode: FisClientTypes.ActionsMode? = nil
-        )
-        {
+        ) {
             self.actionsMode = actionsMode
         }
     }
@@ -2612,8 +2505,7 @@ public struct StartExperimentInput: Swift.Sendable {
         experimentOptions: FisClientTypes.StartExperimentExperimentOptionsInput? = nil,
         experimentTemplateId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.experimentOptions = experimentOptions
         self.experimentTemplateId = experimentTemplateId
@@ -2627,8 +2519,7 @@ public struct StartExperimentOutput: Swift.Sendable {
 
     public init(
         experiment: FisClientTypes.Experiment? = nil
-    )
-    {
+    ) {
         self.experiment = experiment
     }
 }
@@ -2640,8 +2531,7 @@ public struct StopExperimentInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2652,8 +2542,7 @@ public struct StopExperimentOutput: Swift.Sendable {
 
     public init(
         experiment: FisClientTypes.Experiment? = nil
-    )
-    {
+    ) {
         self.experiment = experiment
     }
 }
@@ -2669,8 +2558,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2691,8 +2579,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2724,8 +2611,7 @@ extension FisClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             startAfter: [Swift.String]? = nil,
             targets: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.description = description
             self.parameters = parameters
@@ -2744,8 +2630,7 @@ extension FisClientTypes {
 
         public init(
             emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode? = nil
-        )
-        {
+        ) {
             self.emptyTargetResolutionMode = emptyTargetResolutionMode
         }
     }
@@ -2769,8 +2654,7 @@ extension FisClientTypes {
             outputs: FisClientTypes.ExperimentTemplateReportConfigurationOutputsInput? = nil,
             postExperimentDuration: Swift.String? = nil,
             preExperimentDuration: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSources = dataSources
             self.outputs = outputs
             self.postExperimentDuration = postExperimentDuration
@@ -2794,8 +2678,7 @@ extension FisClientTypes {
             cloudWatchLogsConfiguration: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput? = nil,
             logSchemaVersion: Swift.Int? = nil,
             s3Configuration: FisClientTypes.ExperimentTemplateS3LogConfigurationInput? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.logSchemaVersion = logSchemaVersion
             self.s3Configuration = s3Configuration
@@ -2816,8 +2699,7 @@ extension FisClientTypes {
         public init(
             source: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
             self.value = value
         }
@@ -2850,8 +2732,7 @@ extension FisClientTypes {
             resourceTags: [Swift.String: Swift.String]? = nil,
             resourceType: Swift.String? = nil,
             selectionMode: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.parameters = parameters
             self.resourceArns = resourceArns
@@ -2893,8 +2774,7 @@ public struct UpdateExperimentTemplateInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stopConditions: [FisClientTypes.UpdateExperimentTemplateStopConditionInput]? = nil,
         targets: [Swift.String: FisClientTypes.UpdateExperimentTemplateTargetInput]? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.description = description
         self.experimentOptions = experimentOptions
@@ -2913,8 +2793,7 @@ public struct UpdateExperimentTemplateOutput: Swift.Sendable {
 
     public init(
         experimentTemplate: FisClientTypes.ExperimentTemplate? = nil
-    )
-    {
+    ) {
         self.experimentTemplate = experimentTemplate
     }
 }
@@ -2962,8 +2841,7 @@ extension FisClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: FisClientTypes.SafetyLeverStatusInput? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -2981,8 +2859,7 @@ public struct UpdateSafetyLeverStateInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         state: FisClientTypes.UpdateSafetyLeverStateInput? = nil
-    )
-    {
+    ) {
         self.id = id
         self.state = state
     }
@@ -2994,8 +2871,7 @@ public struct UpdateSafetyLeverStateOutput: Swift.Sendable {
 
     public init(
         safetyLever: FisClientTypes.SafetyLever? = nil
-    )
-    {
+    ) {
         self.safetyLever = safetyLever
     }
 }
@@ -3017,8 +2893,7 @@ public struct UpdateTargetAccountConfigurationInput: Swift.Sendable {
         description: Swift.String? = nil,
         experimentTemplateId: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.description = description
         self.experimentTemplateId = experimentTemplateId
@@ -3032,8 +2907,7 @@ public struct UpdateTargetAccountConfigurationOutput: Swift.Sendable {
 
     public init(
         targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration? = nil
-    )
-    {
+    ) {
         self.targetAccountConfiguration = targetAccountConfiguration
     }
 }

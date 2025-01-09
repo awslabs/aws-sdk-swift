@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTSecureTunnelingClient: ClientRuntime.Client {
     public static let clientName = "IoTSecureTunnelingClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTSecureTunnelingClient.IoTSecureTunnelingClientConfiguration
     let serviceName = "IoTSecureTunneling"
@@ -330,7 +330,7 @@ extension IoTSecureTunnelingClient {
 }
 
 extension IoTSecureTunnelingClient {
-    /// Performs the `CloseTunnel` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `CloseTunnel` operation on the `IoTSecureTunneling` service.
     ///
     /// Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received, we close the WebSocket connections between the client and proxy server so no data can be transmitted. Requires permission to access the [CloseTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -401,7 +401,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTunnel` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `DescribeTunnel` operation on the `IoTSecureTunneling` service.
     ///
     /// Gets information about a tunnel identified by the unique tunnel id. Requires permission to access the [DescribeTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -471,7 +471,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `ListTagsForResource` operation on the `IoTSecureTunneling` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -542,7 +542,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTunnels` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `ListTunnels` operation on the `IoTSecureTunneling` service.
     ///
     /// List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels. Requires permission to access the [ListTunnels](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -608,7 +608,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `OpenTunnel` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `OpenTunnel` operation on the `IoTSecureTunneling` service.
     ///
     /// Creates a new tunnel, and returns two client access tokens for clients to use to connect to the IoT Secure Tunneling proxy server. Requires permission to access the [OpenTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -678,7 +678,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RotateTunnelAccessToken` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `RotateTunnelAccessToken` operation on the `IoTSecureTunneling` service.
     ///
     /// Revokes the current client access token (CAT) and returns new CAT for clients to use when reconnecting to secure tunneling to access the same tunnel. Requires permission to access the [RotateTunnelAccessToken](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Rotating the CAT doesn't extend the tunnel duration. For example, say the tunnel duration is 12 hours and the tunnel has already been open for 4 hours. When you rotate the access tokens, the new tokens that are generated can only be used for the remaining 8 hours.
     ///
@@ -748,7 +748,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `TagResource` operation on the `IoTSecureTunneling` service.
     ///
     /// A resource tag.
     ///
@@ -818,7 +818,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `UntagResource` operation on the `IoTSecureTunneling` service.
     ///
     /// Removes a tag from a resource.
     ///

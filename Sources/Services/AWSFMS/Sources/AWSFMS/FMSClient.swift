@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FMSClient: ClientRuntime.Client {
     public static let clientName = "FMSClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: FMSClient.FMSClientConfiguration
     let serviceName = "FMS"
@@ -330,7 +330,7 @@ extension FMSClient {
 }
 
 extension FMSClient {
-    /// Performs the `AssociateAdminAccount` operation on the `AWSFMS_20180101` service.
+    /// Performs the `AssociateAdminAccount` operation on the `FMS` service.
     ///
     /// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose resources you want to protect. For information about working with Firewall Manager administrator accounts, see [Managing Firewall Manager administrators](https://docs.aws.amazon.com/organizations/latest/userguide/fms-administrators.html) in the Firewall Manager Developer Guide.
     ///
@@ -404,7 +404,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateThirdPartyFirewall` operation on the `AWSFMS_20180101` service.
+    /// Performs the `AssociateThirdPartyFirewall` operation on the `FMS` service.
     ///
     /// Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account.
     ///
@@ -477,7 +477,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchAssociateResource` operation on the `AWSFMS_20180101` service.
+    /// Performs the `BatchAssociateResource` operation on the `FMS` service.
     ///
     /// Associate resources to a Firewall Manager resource set.
     ///
@@ -551,7 +551,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDisassociateResource` operation on the `AWSFMS_20180101` service.
+    /// Performs the `BatchDisassociateResource` operation on the `FMS` service.
     ///
     /// Disassociates resources from a Firewall Manager resource set.
     ///
@@ -624,7 +624,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppsList` operation on the `AWSFMS_20180101` service.
+    /// Performs the `DeleteAppsList` operation on the `FMS` service.
     ///
     /// Permanently deletes an Firewall Manager applications list.
     ///
@@ -696,7 +696,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNotificationChannel` operation on the `AWSFMS_20180101` service.
+    /// Performs the `DeleteNotificationChannel` operation on the `FMS` service.
     ///
     /// Deletes an Firewall Manager association with the IAM role and the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
     ///
@@ -768,7 +768,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePolicy` operation on the `AWSFMS_20180101` service.
+    /// Performs the `DeletePolicy` operation on the `FMS` service.
     ///
     /// Permanently deletes an Firewall Manager policy.
     ///
@@ -842,7 +842,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProtocolsList` operation on the `AWSFMS_20180101` service.
+    /// Performs the `DeleteProtocolsList` operation on the `FMS` service.
     ///
     /// Permanently deletes an Firewall Manager protocols list.
     ///
@@ -914,7 +914,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourceSet` operation on the `AWSFMS_20180101` service.
+    /// Performs the `DeleteResourceSet` operation on the `FMS` service.
     ///
     /// Deletes the specified [ResourceSet].
     ///
@@ -987,7 +987,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAdminAccount` operation on the `AWSFMS_20180101` service.
+    /// Performs the `DisassociateAdminAccount` operation on the `FMS` service.
     ///
     /// Disassociates an Firewall Manager administrator account. To set a different account as an Firewall Manager administrator, submit a [PutAdminAccount] request. To set an account as a default administrator account, you must submit an [AssociateAdminAccount] request. Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before you can disassociate your account.
     ///
@@ -1059,7 +1059,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateThirdPartyFirewall` operation on the `AWSFMS_20180101` service.
+    /// Performs the `DisassociateThirdPartyFirewall` operation on the `FMS` service.
     ///
     /// Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call DisassociateThirdPartyFirewall, the third-party firewall vendor deletes all of the firewalls that are associated with the account.
     ///
@@ -1132,7 +1132,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAdminAccount` operation on the `AWSFMS_20180101` service.
+    /// Performs the `GetAdminAccount` operation on the `FMS` service.
     ///
     /// Returns the Organizations account that is associated with Firewall Manager as the Firewall Manager default administrator.
     ///
@@ -1204,7 +1204,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAdminScope` operation on the `AWSFMS_20180101` service.
+    /// Performs the `GetAdminScope` operation on the `FMS` service.
     ///
     /// Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage.
     ///
@@ -1278,7 +1278,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAppsList` operation on the `AWSFMS_20180101` service.
+    /// Performs the `GetAppsList` operation on the `FMS` service.
     ///
     /// Returns information about the specified Firewall Manager applications list.
     ///
@@ -1350,7 +1350,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComplianceDetail` operation on the `AWSFMS_20180101` service.
+    /// Performs the `GetComplianceDetail` operation on the `FMS` service.
     ///
     /// Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy. The reasons for resources being considered compliant depend on the Firewall Manager policy type.
     ///
@@ -1423,7 +1423,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNotificationChannel` operation on the `AWSFMS_20180101` service.
+    /// Performs the `GetNotificationChannel` operation on the `FMS` service.
     ///
     /// Information about the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
     ///
@@ -1495,7 +1495,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPolicy` operation on the `AWSFMS_20180101` service.
+    /// Performs the `GetPolicy` operation on the `FMS` service.
     ///
     /// Returns information about the specified Firewall Manager policy.
     ///
@@ -1568,7 +1568,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProtectionStatus` operation on the `AWSFMS_20180101` service.
+    /// Performs the `GetProtectionStatus` operation on the `FMS` service.
     ///
     /// If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other policy types are currently unsupported.
     ///
@@ -1640,7 +1640,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProtocolsList` operation on the `AWSFMS_20180101` service.
+    /// Performs the `GetProtocolsList` operation on the `FMS` service.
     ///
     /// Returns information about the specified Firewall Manager protocols list.
     ///
@@ -1712,7 +1712,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceSet` operation on the `AWSFMS_20180101` service.
+    /// Performs the `GetResourceSet` operation on the `FMS` service.
     ///
     /// Gets information about a specific resource set.
     ///
@@ -1785,7 +1785,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetThirdPartyFirewallAssociationStatus` operation on the `AWSFMS_20180101` service.
+    /// Performs the `GetThirdPartyFirewallAssociationStatus` operation on the `FMS` service.
     ///
     /// The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant.
     ///
@@ -1858,7 +1858,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetViolationDetails` operation on the `AWSFMS_20180101` service.
+    /// Performs the `GetViolationDetails` operation on the `FMS` service.
     ///
     /// Retrieves violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account.
     ///
@@ -1930,7 +1930,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAdminAccountsForOrganization` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListAdminAccountsForOrganization` operation on the `FMS` service.
     ///
     /// Returns a AdminAccounts object that lists the Firewall Manager administrators within the organization that are onboarded to Firewall Manager by [AssociateAdminAccount]. This operation can be called only from the organization's management account.
     ///
@@ -2003,7 +2003,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAdminsManagingAccount` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListAdminsManagingAccount` operation on the `FMS` service.
     ///
     /// Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only returns the managing administrators that have the requested account within their [AdminScope].
     ///
@@ -2075,7 +2075,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppsLists` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListAppsLists` operation on the `FMS` service.
     ///
     /// Returns an array of AppsListDataSummary objects.
     ///
@@ -2148,7 +2148,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListComplianceStatus` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListComplianceStatus` operation on the `FMS` service.
     ///
     /// Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy.
     ///
@@ -2219,7 +2219,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDiscoveredResources` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListDiscoveredResources` operation on the `FMS` service.
     ///
     /// Returns an array of resources in the organization's accounts that are available to be associated with a resource set.
     ///
@@ -2291,7 +2291,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMemberAccounts` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListMemberAccounts` operation on the `FMS` service.
     ///
     /// Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. Either an Firewall Manager administrator or the organization's management account can make this request.
     ///
@@ -2362,7 +2362,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPolicies` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListPolicies` operation on the `FMS` service.
     ///
     /// Returns an array of PolicySummary objects.
     ///
@@ -2435,7 +2435,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProtocolsLists` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListProtocolsLists` operation on the `FMS` service.
     ///
     /// Returns an array of ProtocolsListDataSummary objects.
     ///
@@ -2507,7 +2507,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceSetResources` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListResourceSetResources` operation on the `FMS` service.
     ///
     /// Returns an array of resources that are currently associated to a resource set.
     ///
@@ -2580,7 +2580,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceSets` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListResourceSets` operation on the `FMS` service.
     ///
     /// Returns an array of ResourceSetSummary objects.
     ///
@@ -2652,7 +2652,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListTagsForResource` operation on the `FMS` service.
     ///
     /// Retrieves the list of tags for the specified Amazon Web Services resource.
     ///
@@ -2725,7 +2725,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThirdPartyFirewallFirewallPolicies` operation on the `AWSFMS_20180101` service.
+    /// Performs the `ListThirdPartyFirewallFirewallPolicies` operation on the `FMS` service.
     ///
     /// Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
     ///
@@ -2798,7 +2798,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAdminAccount` operation on the `AWSFMS_20180101` service.
+    /// Performs the `PutAdminAccount` operation on the `FMS` service.
     ///
     /// Creates or updates an Firewall Manager administrator account. The account must be a member of the organization that was onboarded to Firewall Manager by [AssociateAdminAccount]. Only the organization's management account can create an Firewall Manager administrator account. When you create an Firewall Manager administrator account, the service checks to see if the account is already a delegated administrator within Organizations. If the account isn't a delegated administrator, Firewall Manager calls Organizations to delegate the account within Organizations. For more information about administrator accounts within Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
     ///
@@ -2871,7 +2871,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAppsList` operation on the `AWSFMS_20180101` service.
+    /// Performs the `PutAppsList` operation on the `FMS` service.
     ///
     /// Creates an Firewall Manager applications list.
     ///
@@ -2945,7 +2945,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutNotificationChannel` operation on the `AWSFMS_20180101` service.
+    /// Performs the `PutNotificationChannel` operation on the `FMS` service.
     ///
     /// Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall Manager uses to record SNS logs. To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs. If the SnsRoleName provided is a role other than the AWSServiceRoleForFMS service-linked role, this role must have a trust relationship configured to allow the Firewall Manager service principal fms.amazonaws.com to assume this role. For information about configuring an SNS access policy, see [Service roles for Firewall Manager](https://docs.aws.amazon.com/waf/latest/developerguide/fms-security_iam_service-with-iam.html#fms-security_iam_service-with-iam-roles-service) in the Firewall Manager Developer Guide.
     ///
@@ -3017,7 +3017,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutPolicy` operation on the `AWSFMS_20180101` service.
+    /// Performs the `PutPolicy` operation on the `FMS` service.
     ///
     /// Creates an Firewall Manager policy. A Firewall Manager policy is specific to the individual policy type. If you want to enforce multiple policy types across accounts, you can create multiple policies. You can create more than one policy for each type. If you add a new account to an organization that you created with Organizations, Firewall Manager automatically applies the policy to the resources in that account that are within scope of the policy. Firewall Manager provides the following types of policies:
     ///
@@ -3110,7 +3110,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutProtocolsList` operation on the `AWSFMS_20180101` service.
+    /// Performs the `PutProtocolsList` operation on the `FMS` service.
     ///
     /// Creates an Firewall Manager protocols list.
     ///
@@ -3184,7 +3184,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourceSet` operation on the `AWSFMS_20180101` service.
+    /// Performs the `PutResourceSet` operation on the `FMS` service.
     ///
     /// Creates the resource set. An Firewall Manager resource set defines the resources to import into an Firewall Manager policy from another Amazon Web Services service.
     ///
@@ -3257,7 +3257,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSFMS_20180101` service.
+    /// Performs the `TagResource` operation on the `FMS` service.
     ///
     /// Adds one or more tags to an Amazon Web Services resource.
     ///
@@ -3331,7 +3331,7 @@ extension FMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSFMS_20180101` service.
+    /// Performs the `UntagResource` operation on the `FMS` service.
     ///
     /// Removes one or more tags from an Amazon Web Services resource.
     ///

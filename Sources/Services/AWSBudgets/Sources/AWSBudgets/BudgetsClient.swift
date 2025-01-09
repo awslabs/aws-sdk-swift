@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BudgetsClient: ClientRuntime.Client {
     public static let clientName = "BudgetsClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: BudgetsClient.BudgetsClientConfiguration
     let serviceName = "Budgets"
@@ -329,7 +329,7 @@ extension BudgetsClient {
 }
 
 extension BudgetsClient {
-    /// Performs the `CreateBudget` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `CreateBudget` operation on the `Budgets` service.
     ///
     /// Creates a budget and, if included, notifications and subscribers. Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples) section.
     ///
@@ -405,7 +405,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBudgetAction` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `CreateBudgetAction` operation on the `Budgets` service.
     ///
     /// Creates a budget action.
     ///
@@ -482,7 +482,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNotification` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `CreateNotification` operation on the `Budgets` service.
     ///
     /// Creates a notification. You must create the budget before you create the associated notification.
     ///
@@ -558,7 +558,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSubscriber` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `CreateSubscriber` operation on the `Budgets` service.
     ///
     /// Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
     ///
@@ -634,7 +634,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBudget` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DeleteBudget` operation on the `Budgets` service.
     ///
     /// Deletes a budget. You can delete your budget at any time. Deleting a budget also deletes the notifications and subscribers that are associated with that budget.
     ///
@@ -708,7 +708,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBudgetAction` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DeleteBudgetAction` operation on the `Budgets` service.
     ///
     /// Deletes a budget action.
     ///
@@ -783,7 +783,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNotification` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DeleteNotification` operation on the `Budgets` service.
     ///
     /// Deletes a notification. Deleting a notification also deletes the subscribers that are associated with the notification.
     ///
@@ -857,7 +857,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSubscriber` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DeleteSubscriber` operation on the `Budgets` service.
     ///
     /// Deletes a subscriber. Deleting the last subscriber to a notification also deletes the notification.
     ///
@@ -931,7 +931,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBudget` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DescribeBudget` operation on the `Budgets` service.
     ///
     /// Describes a budget. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples) section.
     ///
@@ -1005,7 +1005,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBudgetAction` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DescribeBudgetAction` operation on the `Budgets` service.
     ///
     /// Describes a budget action detail.
     ///
@@ -1079,7 +1079,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBudgetActionHistories` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DescribeBudgetActionHistories` operation on the `Budgets` service.
     ///
     /// Describes a budget action history detail.
     ///
@@ -1154,7 +1154,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBudgetActionsForAccount` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DescribeBudgetActionsForAccount` operation on the `Budgets` service.
     ///
     /// Describes all of the budget actions for an account.
     ///
@@ -1228,7 +1228,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBudgetActionsForBudget` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DescribeBudgetActionsForBudget` operation on the `Budgets` service.
     ///
     /// Describes all of the budget actions for a budget.
     ///
@@ -1303,7 +1303,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBudgetNotificationsForAccount` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DescribeBudgetNotificationsForAccount` operation on the `Budgets` service.
     ///
     /// Lists the budget names and notifications that are associated with an account.
     ///
@@ -1379,7 +1379,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBudgetPerformanceHistory` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DescribeBudgetPerformanceHistory` operation on the `Budgets` service.
     ///
     /// Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
     ///
@@ -1455,7 +1455,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBudgets` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DescribeBudgets` operation on the `Budgets` service.
     ///
     /// Lists the budgets that are associated with an account. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples) section.
     ///
@@ -1531,7 +1531,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNotificationsForBudget` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DescribeNotificationsForBudget` operation on the `Budgets` service.
     ///
     /// Lists the notifications that are associated with a budget.
     ///
@@ -1607,7 +1607,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSubscribersForNotification` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `DescribeSubscribersForNotification` operation on the `Budgets` service.
     ///
     /// Lists the subscribers that are associated with a notification.
     ///
@@ -1683,7 +1683,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExecuteBudgetAction` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `ExecuteBudgetAction` operation on the `Budgets` service.
     ///
     /// Executes a budget action.
     ///
@@ -1758,7 +1758,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `ListTagsForResource` operation on the `Budgets` service.
     ///
     /// Lists tags associated with a budget or budget action resource.
     ///
@@ -1832,7 +1832,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `TagResource` operation on the `Budgets` service.
     ///
     /// Creates tags for a budget or budget action resource.
     ///
@@ -1907,7 +1907,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `UntagResource` operation on the `Budgets` service.
     ///
     /// Deletes tags associated with a budget or budget action resource.
     ///
@@ -1981,7 +1981,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBudget` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `UpdateBudget` operation on the `Budgets` service.
     ///
     /// Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until Amazon Web Services has new usage data to use for forecasting. Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples) section.
     ///
@@ -2055,7 +2055,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBudgetAction` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `UpdateBudgetAction` operation on the `Budgets` service.
     ///
     /// Updates a budget action.
     ///
@@ -2130,7 +2130,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNotification` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `UpdateNotification` operation on the `Budgets` service.
     ///
     /// Updates a notification.
     ///
@@ -2205,7 +2205,7 @@ extension BudgetsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSubscriber` operation on the `AWSBudgetServiceGateway` service.
+    /// Performs the `UpdateSubscriber` operation on the `Budgets` service.
     ///
     /// Updates a subscriber.
     ///

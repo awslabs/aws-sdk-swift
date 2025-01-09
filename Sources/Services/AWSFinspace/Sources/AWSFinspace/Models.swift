@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -101,8 +100,7 @@ extension FinspaceClientTypes {
             minNodeCount: Swift.Int? = nil,
             scaleInCooldownSeconds: Swift.Double? = nil,
             scaleOutCooldownSeconds: Swift.Double? = nil
-        )
-        {
+        ) {
             self.autoScalingMetric = autoScalingMetric
             self.maxNodeCount = maxNodeCount
             self.metricTarget = metricTarget
@@ -131,8 +129,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -155,8 +152,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -179,8 +175,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -203,8 +198,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -227,8 +221,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -286,8 +279,7 @@ extension FinspaceClientTypes {
             federationURN: Swift.String? = nil,
             samlMetadataDocument: Swift.String? = nil,
             samlMetadataURL: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationCallBackURL = applicationCallBackURL
             self.attributeMap = attributeMap
             self.federationProviderName = federationProviderName
@@ -316,8 +308,7 @@ extension FinspaceClientTypes {
             emailAddress: Swift.String? = nil,
             firstName: Swift.String? = nil,
             lastName: Swift.String? = nil
-        )
-        {
+        ) {
             self.emailAddress = emailAddress
             self.firstName = firstName
             self.lastName = lastName
@@ -366,8 +357,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         name: Swift.String? = nil,
         superuserParameters: FinspaceClientTypes.SuperuserParameters? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.dataBundles = dataBundles
         self.description = description
         self.federationMode = federationMode
@@ -391,8 +381,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
         environmentArn: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         environmentUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentArn = environmentArn
         self.environmentId = environmentId
         self.environmentUrl = environmentUrl
@@ -420,8 +409,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -445,8 +433,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -501,8 +488,7 @@ extension FinspaceClientTypes {
             changeType: FinspaceClientTypes.ChangeType? = nil,
             dbPath: Swift.String? = nil,
             s3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.changeType = changeType
             self.dbPath = dbPath
             self.s3Path = s3Path
@@ -546,8 +532,7 @@ public struct CreateKxChangesetInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeRequests = changeRequests
         self.clientToken = clientToken
         self.databaseName = databaseName
@@ -614,8 +599,7 @@ extension FinspaceClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             errorType: FinspaceClientTypes.ErrorDetails? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.errorType = errorType
         }
@@ -692,8 +676,7 @@ public struct CreateKxChangesetOutput: Swift.Sendable {
         errorInfo: FinspaceClientTypes.ErrorInfo? = nil,
         lastModifiedTimestamp: Foundation.Date? = nil,
         status: FinspaceClientTypes.ChangesetStatus? = nil
-    )
-    {
+    ) {
         self.changeRequests = changeRequests
         self.changesetId = changesetId
         self.createdTimestamp = createdTimestamp
@@ -757,8 +740,7 @@ extension FinspaceClientTypes {
         public init(
             size: Swift.Int? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.size = size
             self.type = type
         }
@@ -791,8 +773,7 @@ extension FinspaceClientTypes {
         public init(
             nodeCount: Swift.Int? = nil,
             nodeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.nodeCount = nodeCount
             self.nodeType = nodeType
         }
@@ -852,8 +833,7 @@ extension FinspaceClientTypes {
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil,
             s3ObjectVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
             self.s3ObjectVersion = s3ObjectVersion
@@ -873,8 +853,7 @@ extension FinspaceClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -900,8 +879,7 @@ extension FinspaceClientTypes {
             cacheType: Swift.String? = nil,
             dataviewName: Swift.String? = nil,
             dbPaths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.cacheType = cacheType
             self.dataviewName = dataviewName
             self.dbPaths = dbPaths
@@ -926,8 +904,7 @@ extension FinspaceClientTypes {
             dbPaths: [Swift.String]? = nil,
             onDemand: Swift.Bool = false,
             volumeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbPaths = dbPaths
             self.onDemand = onDemand
             self.volumeName = volumeName
@@ -953,8 +930,7 @@ extension FinspaceClientTypes {
             dataviewName: Swift.String? = nil,
             dataviewVersionId: Swift.String? = nil,
             segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
-        )
-        {
+        ) {
             self.changesetId = changesetId
             self.dataviewName = dataviewName
             self.dataviewVersionId = dataviewVersionId
@@ -985,8 +961,7 @@ extension FinspaceClientTypes {
             databaseName: Swift.String? = nil,
             dataviewConfiguration: FinspaceClientTypes.KxDataviewConfiguration? = nil,
             dataviewName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cacheConfigurations = cacheConfigurations
             self.changesetId = changesetId
             self.databaseName = databaseName
@@ -1039,8 +1014,7 @@ extension FinspaceClientTypes {
             size: Swift.Int? = nil,
             type: FinspaceClientTypes.KxSavedownStorageType? = nil,
             volumeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.size = size
             self.type = type
             self.volumeName = volumeName
@@ -1072,8 +1046,7 @@ extension FinspaceClientTypes {
             memoryReservation: Swift.Int? = nil,
             nodeCount: Swift.Int? = nil,
             scalingGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cpu = cpu
             self.memoryLimit = memoryLimit
             self.memoryReservation = memoryReservation
@@ -1092,8 +1065,7 @@ extension FinspaceClientTypes {
 
         public init(
             tickerplantLogVolumes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.tickerplantLogVolumes = tickerplantLogVolumes
         }
     }
@@ -1145,8 +1117,7 @@ extension FinspaceClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddressType = ipAddressType
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -1241,8 +1212,7 @@ public struct CreateKxClusterInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration? = nil,
         vpcConfiguration: FinspaceClientTypes.VpcConfiguration? = nil
-    )
-    {
+    ) {
         self.autoScalingConfiguration = autoScalingConfiguration
         self.availabilityZoneId = availabilityZoneId
         self.azMode = azMode
@@ -1352,8 +1322,7 @@ extension FinspaceClientTypes {
         public init(
             volumeName: Swift.String? = nil,
             volumeType: FinspaceClientTypes.VolumeType? = nil
-        )
-        {
+        ) {
             self.volumeName = volumeName
             self.volumeType = volumeType
         }
@@ -1465,8 +1434,7 @@ public struct CreateKxClusterOutput: Swift.Sendable {
         tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration? = nil,
         volumes: [FinspaceClientTypes.Volume]? = nil,
         vpcConfiguration: FinspaceClientTypes.VpcConfiguration? = nil
-    )
-    {
+    ) {
         self.autoScalingConfiguration = autoScalingConfiguration
         self.availabilityZoneId = availabilityZoneId
         self.azMode = azMode
@@ -1512,8 +1480,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1539,8 +1506,7 @@ public struct CreateKxDatabaseInput: Swift.Sendable {
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.databaseName = databaseName
         self.description = description
@@ -1570,8 +1536,7 @@ public struct CreateKxDatabaseOutput: Swift.Sendable {
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         lastModifiedTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.databaseArn = databaseArn
         self.databaseName = databaseName
@@ -1633,8 +1598,7 @@ public struct CreateKxDataviewInput: Swift.Sendable {
         readWrite: Swift.Bool? = false,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoUpdate = autoUpdate
         self.availabilityZoneId = availabilityZoneId
         self.azMode = azMode
@@ -1736,8 +1700,7 @@ public struct CreateKxDataviewOutput: Swift.Sendable {
         readWrite: Swift.Bool = false,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         status: FinspaceClientTypes.KxDataviewStatus? = nil
-    )
-    {
+    ) {
         self.autoUpdate = autoUpdate
         self.availabilityZoneId = availabilityZoneId
         self.azMode = azMode
@@ -1774,8 +1737,7 @@ public struct CreateKxEnvironmentInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.kmsKeyId = kmsKeyId
@@ -1870,8 +1832,7 @@ public struct CreateKxEnvironmentOutput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         status: FinspaceClientTypes.EnvironmentStatus? = nil
-    )
-    {
+    ) {
         self.creationTimestamp = creationTimestamp
         self.description = description
         self.environmentArn = environmentArn
@@ -1926,8 +1887,7 @@ public struct CreateKxScalingGroupInput: Swift.Sendable {
         hostType: Swift.String? = nil,
         scalingGroupName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZoneId = availabilityZoneId
         self.clientToken = clientToken
         self.environmentId = environmentId
@@ -2018,8 +1978,7 @@ public struct CreateKxScalingGroupOutput: Swift.Sendable {
         lastModifiedTimestamp: Foundation.Date? = nil,
         scalingGroupName: Swift.String? = nil,
         status: FinspaceClientTypes.KxScalingGroupStatus? = nil
-    )
-    {
+    ) {
         self.availabilityZoneId = availabilityZoneId
         self.createdTimestamp = createdTimestamp
         self.environmentId = environmentId
@@ -2051,8 +2010,7 @@ public struct CreateKxUserInput: Swift.Sendable {
         iamRole: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.environmentId = environmentId
         self.iamRole = iamRole
@@ -2076,8 +2034,7 @@ public struct CreateKxUserOutput: Swift.Sendable {
         iamRole: Swift.String? = nil,
         userArn: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.iamRole = iamRole
         self.userArn = userArn
@@ -2129,8 +2086,7 @@ extension FinspaceClientTypes {
         public init(
             size: Swift.Int? = nil,
             type: FinspaceClientTypes.KxNAS1Type? = nil
-        )
-        {
+        ) {
             self.size = size
             self.type = type
         }
@@ -2198,8 +2154,7 @@ public struct CreateKxVolumeInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         volumeName: Swift.String? = nil,
         volumeType: FinspaceClientTypes.KxVolumeType? = nil
-    )
-    {
+    ) {
         self.availabilityZoneIds = availabilityZoneIds
         self.azMode = azMode
         self.clientToken = clientToken
@@ -2316,8 +2271,7 @@ public struct CreateKxVolumeOutput: Swift.Sendable {
         volumeArn: Swift.String? = nil,
         volumeName: Swift.String? = nil,
         volumeType: FinspaceClientTypes.KxVolumeType? = nil
-    )
-    {
+    ) {
         self.availabilityZoneIds = availabilityZoneIds
         self.azMode = azMode
         self.createdTimestamp = createdTimestamp
@@ -2339,8 +2293,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -2364,8 +2317,7 @@ public struct DeleteKxClusterInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterName = clusterName
         self.environmentId = environmentId
@@ -2392,8 +2344,7 @@ public struct DeleteKxClusterNodeInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         nodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.environmentId = environmentId
         self.nodeId = nodeId
@@ -2420,8 +2371,7 @@ public struct DeleteKxDatabaseInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.databaseName = databaseName
         self.environmentId = environmentId
@@ -2452,8 +2402,7 @@ public struct DeleteKxDataviewInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         dataviewName: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.databaseName = databaseName
         self.dataviewName = dataviewName
@@ -2476,8 +2425,7 @@ public struct DeleteKxEnvironmentInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.environmentId = environmentId
     }
@@ -2502,8 +2450,7 @@ public struct DeleteKxScalingGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         scalingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.environmentId = environmentId
         self.scalingGroupName = scalingGroupName
@@ -2529,8 +2476,7 @@ public struct DeleteKxUserInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.environmentId = environmentId
         self.userName = userName
@@ -2556,8 +2502,7 @@ public struct DeleteKxVolumeInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         volumeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.environmentId = environmentId
         self.volumeName = volumeName
@@ -2576,8 +2521,7 @@ public struct GetEnvironmentInput: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -2624,8 +2568,7 @@ extension FinspaceClientTypes {
             name: Swift.String? = nil,
             sageMakerStudioDomainUrl: Swift.String? = nil,
             status: FinspaceClientTypes.EnvironmentStatus? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.dedicatedServiceAccountId = dedicatedServiceAccountId
             self.description = description
@@ -2648,8 +2591,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
 
     public init(
         environment: FinspaceClientTypes.Environment? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
@@ -2669,8 +2611,7 @@ public struct GetKxChangesetInput: Swift.Sendable {
         changesetId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changesetId = changesetId
         self.databaseName = databaseName
         self.environmentId = environmentId
@@ -2715,8 +2656,7 @@ public struct GetKxChangesetOutput: Swift.Sendable {
         errorInfo: FinspaceClientTypes.ErrorInfo? = nil,
         lastModifiedTimestamp: Foundation.Date? = nil,
         status: FinspaceClientTypes.ChangesetStatus? = nil
-    )
-    {
+    ) {
         self.activeFromTimestamp = activeFromTimestamp
         self.changeRequests = changeRequests
         self.changesetId = changesetId
@@ -2740,8 +2680,7 @@ public struct GetKxClusterInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.environmentId = environmentId
     }
@@ -2849,8 +2788,7 @@ public struct GetKxClusterOutput: Swift.Sendable {
         tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration? = nil,
         volumes: [FinspaceClientTypes.Volume]? = nil,
         vpcConfiguration: FinspaceClientTypes.VpcConfiguration? = nil
-    )
-    {
+    ) {
         self.autoScalingConfiguration = autoScalingConfiguration
         self.availabilityZoneId = availabilityZoneId
         self.azMode = azMode
@@ -2892,8 +2830,7 @@ public struct GetKxConnectionStringInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.environmentId = environmentId
         self.userArn = userArn
@@ -2906,8 +2843,7 @@ public struct GetKxConnectionStringOutput: Swift.Sendable {
 
     public init(
         signedConnectionString: Swift.String? = nil
-    )
-    {
+    ) {
         self.signedConnectionString = signedConnectionString
     }
 }
@@ -2928,8 +2864,7 @@ public struct GetKxDatabaseInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.environmentId = environmentId
     }
@@ -2968,8 +2903,7 @@ public struct GetKxDatabaseOutput: Swift.Sendable {
         numBytes: Swift.Int = 0,
         numChangesets: Swift.Int = 0,
         numFiles: Swift.Int = 0
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.databaseArn = databaseArn
         self.databaseName = databaseName
@@ -2998,8 +2932,7 @@ public struct GetKxDataviewInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         dataviewName: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.dataviewName = dataviewName
         self.environmentId = environmentId
@@ -3027,8 +2960,7 @@ extension FinspaceClientTypes {
             createdTimestamp: Foundation.Date? = nil,
             segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachedClusters = attachedClusters
             self.changesetId = changesetId
             self.createdTimestamp = createdTimestamp
@@ -3092,8 +3024,7 @@ public struct GetKxDataviewOutput: Swift.Sendable {
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         status: FinspaceClientTypes.KxDataviewStatus? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeVersions = activeVersions
         self.autoUpdate = autoUpdate
         self.availabilityZoneId = availabilityZoneId
@@ -3119,8 +3050,7 @@ public struct GetKxEnvironmentInput: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -3139,8 +3069,7 @@ extension FinspaceClientTypes {
         public init(
             customDNSServerIP: Swift.String? = nil,
             customDNSServerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.customDNSServerIP = customDNSServerIP
             self.customDNSServerName = customDNSServerName
         }
@@ -3237,8 +3166,7 @@ extension FinspaceClientTypes {
         public init(
             code: Swift.Int = 0,
             type: Swift.Int = 0
-        )
-        {
+        ) {
             self.code = code
             self.type = type
         }
@@ -3259,8 +3187,7 @@ extension FinspaceClientTypes {
         public init(
             from: Swift.Int = 0,
             to: Swift.Int = 0
-        )
-        {
+        ) {
             self.from = from
             self.to = to
         }
@@ -3324,8 +3251,7 @@ extension FinspaceClientTypes {
             `protocol`: Swift.String? = nil,
             ruleAction: FinspaceClientTypes.RuleAction? = nil,
             ruleNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cidrBlock = cidrBlock
             self.icmpTypeCode = icmpTypeCode
             self.portRange = portRange
@@ -3353,8 +3279,7 @@ extension FinspaceClientTypes {
             attachmentNetworkAclConfiguration: [FinspaceClientTypes.NetworkACLEntry]? = nil,
             routableCIDRSpace: Swift.String? = nil,
             transitGatewayID: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentNetworkAclConfiguration = attachmentNetworkAclConfiguration
             self.routableCIDRSpace = routableCIDRSpace
             self.transitGatewayID = transitGatewayID
@@ -3416,8 +3341,7 @@ public struct GetKxEnvironmentOutput: Swift.Sendable {
         tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
         transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
         updateTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.availabilityZoneIds = availabilityZoneIds
         self.awsAccountId = awsAccountId
         self.certificateAuthorityArn = certificateAuthorityArn
@@ -3449,8 +3373,7 @@ public struct GetKxScalingGroupInput: Swift.Sendable {
     public init(
         environmentId: Swift.String? = nil,
         scalingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.scalingGroupName = scalingGroupName
     }
@@ -3520,8 +3443,7 @@ public struct GetKxScalingGroupOutput: Swift.Sendable {
         scalingGroupName: Swift.String? = nil,
         status: FinspaceClientTypes.KxScalingGroupStatus? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.availabilityZoneId = availabilityZoneId
         self.clusters = clusters
         self.createdTimestamp = createdTimestamp
@@ -3545,8 +3467,7 @@ public struct GetKxUserInput: Swift.Sendable {
     public init(
         environmentId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.userName = userName
     }
@@ -3567,8 +3488,7 @@ public struct GetKxUserOutput: Swift.Sendable {
         iamRole: Swift.String? = nil,
         userArn: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.iamRole = iamRole
         self.userArn = userArn
@@ -3587,8 +3507,7 @@ public struct GetKxVolumeInput: Swift.Sendable {
     public init(
         environmentId: Swift.String? = nil,
         volumeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.volumeName = volumeName
     }
@@ -3625,8 +3544,7 @@ extension FinspaceClientTypes {
             clusterName: Swift.String? = nil,
             clusterStatus: FinspaceClientTypes.KxClusterStatus? = nil,
             clusterType: FinspaceClientTypes.KxClusterType? = nil
-        )
-        {
+        ) {
             self.clusterName = clusterName
             self.clusterStatus = clusterStatus
             self.clusterType = clusterType
@@ -3694,8 +3612,7 @@ public struct GetKxVolumeOutput: Swift.Sendable {
         volumeArn: Swift.String? = nil,
         volumeName: Swift.String? = nil,
         volumeType: FinspaceClientTypes.KxVolumeType? = nil
-    )
-    {
+    ) {
         self.attachedClusters = attachedClusters
         self.availabilityZoneIds = availabilityZoneIds
         self.azMode = azMode
@@ -3721,8 +3638,7 @@ public struct ListEnvironmentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3737,8 +3653,7 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     public init(
         environments: [FinspaceClientTypes.Environment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environments = environments
         self.nextToken = nextToken
     }
@@ -3761,8 +3676,7 @@ public struct ListKxChangesetsInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.environmentId = environmentId
         self.maxResults = maxResults
@@ -3799,8 +3713,7 @@ extension FinspaceClientTypes {
             createdTimestamp: Foundation.Date? = nil,
             lastModifiedTimestamp: Foundation.Date? = nil,
             status: FinspaceClientTypes.ChangesetStatus? = nil
-        )
-        {
+        ) {
             self.activeFromTimestamp = activeFromTimestamp
             self.changesetId = changesetId
             self.createdTimestamp = createdTimestamp
@@ -3819,8 +3732,7 @@ public struct ListKxChangesetsOutput: Swift.Sendable {
     public init(
         kxChangesets: [FinspaceClientTypes.KxChangesetListEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.kxChangesets = kxChangesets
         self.nextToken = nextToken
     }
@@ -3843,8 +3755,7 @@ public struct ListKxClusterNodesInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.environmentId = environmentId
         self.maxResults = maxResults
@@ -3903,8 +3814,7 @@ extension FinspaceClientTypes {
             launchTime: Foundation.Date? = nil,
             nodeId: Swift.String? = nil,
             status: FinspaceClientTypes.KxNodeStatus? = nil
-        )
-        {
+        ) {
             self.availabilityZoneId = availabilityZoneId
             self.launchTime = launchTime
             self.nodeId = nodeId
@@ -3922,8 +3832,7 @@ public struct ListKxClusterNodesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         nodes: [FinspaceClientTypes.KxNode]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.nodes = nodes
     }
@@ -3955,8 +3864,7 @@ public struct ListKxClustersInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterType = clusterType
         self.environmentId = environmentId
         self.maxResults = maxResults
@@ -4039,8 +3947,7 @@ extension FinspaceClientTypes {
             status: FinspaceClientTypes.KxClusterStatus? = nil,
             statusReason: Swift.String? = nil,
             volumes: [FinspaceClientTypes.Volume]? = nil
-        )
-        {
+        ) {
             self.availabilityZoneId = availabilityZoneId
             self.azMode = azMode
             self.clusterDescription = clusterDescription
@@ -4067,8 +3974,7 @@ public struct ListKxClustersOutput: Swift.Sendable {
     public init(
         kxClusterSummaries: [FinspaceClientTypes.KxCluster]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.kxClusterSummaries = kxClusterSummaries
         self.nextToken = nextToken
     }
@@ -4087,8 +3993,7 @@ public struct ListKxDatabasesInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4110,8 +4015,7 @@ extension FinspaceClientTypes {
             createdTimestamp: Foundation.Date? = nil,
             databaseName: Swift.String? = nil,
             lastModifiedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.databaseName = databaseName
             self.lastModifiedTimestamp = lastModifiedTimestamp
@@ -4128,8 +4032,7 @@ public struct ListKxDatabasesOutput: Swift.Sendable {
     public init(
         kxDatabases: [FinspaceClientTypes.KxDatabaseListEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.kxDatabases = kxDatabases
         self.nextToken = nextToken
     }
@@ -4152,8 +4055,7 @@ public struct ListKxDataviewsInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.environmentId = environmentId
         self.maxResults = maxResults
@@ -4212,8 +4114,7 @@ extension FinspaceClientTypes {
             segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
             status: FinspaceClientTypes.KxDataviewStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeVersions = activeVersions
             self.autoUpdate = autoUpdate
             self.availabilityZoneId = availabilityZoneId
@@ -4242,8 +4143,7 @@ public struct ListKxDataviewsOutput: Swift.Sendable {
     public init(
         kxDataviews: [FinspaceClientTypes.KxDataviewListEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.kxDataviews = kxDataviews
         self.nextToken = nextToken
     }
@@ -4258,8 +4158,7 @@ public struct ListKxEnvironmentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4340,8 +4239,7 @@ extension FinspaceClientTypes {
             tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
             transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
             updateTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.availabilityZoneIds = availabilityZoneIds
             self.awsAccountId = awsAccountId
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -4372,8 +4270,7 @@ public struct ListKxEnvironmentsOutput: Swift.Sendable {
     public init(
         environments: [FinspaceClientTypes.KxEnvironment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environments = environments
         self.nextToken = nextToken
     }
@@ -4392,8 +4289,7 @@ public struct ListKxScalingGroupsInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4448,8 +4344,7 @@ extension FinspaceClientTypes {
             scalingGroupName: Swift.String? = nil,
             status: FinspaceClientTypes.KxScalingGroupStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZoneId = availabilityZoneId
             self.clusters = clusters
             self.createdTimestamp = createdTimestamp
@@ -4471,8 +4366,7 @@ public struct ListKxScalingGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scalingGroups: [FinspaceClientTypes.KxScalingGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scalingGroups = scalingGroups
     }
@@ -4491,8 +4385,7 @@ public struct ListKxUsersInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4520,8 +4413,7 @@ extension FinspaceClientTypes {
             updateTimestamp: Foundation.Date? = nil,
             userArn: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createTimestamp = createTimestamp
             self.iamRole = iamRole
             self.updateTimestamp = updateTimestamp
@@ -4540,8 +4432,7 @@ public struct ListKxUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         users: [FinspaceClientTypes.KxUser]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.users = users
     }
@@ -4563,8 +4454,7 @@ public struct ListKxVolumesInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         volumeType: FinspaceClientTypes.KxVolumeType? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4623,8 +4513,7 @@ extension FinspaceClientTypes {
             statusReason: Swift.String? = nil,
             volumeName: Swift.String? = nil,
             volumeType: FinspaceClientTypes.KxVolumeType? = nil
-        )
-        {
+        ) {
             self.availabilityZoneIds = availabilityZoneIds
             self.azMode = azMode
             self.createdTimestamp = createdTimestamp
@@ -4647,8 +4536,7 @@ public struct ListKxVolumesOutput: Swift.Sendable {
     public init(
         kxVolumeSummaries: [FinspaceClientTypes.KxVolume]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.kxVolumeSummaries = kxVolumeSummaries
         self.nextToken = nextToken
     }
@@ -4672,8 +4560,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4685,8 +4572,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4697,8 +4583,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4714,8 +4599,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4737,8 +4621,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4772,8 +4655,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         federationMode: FinspaceClientTypes.FederationMode? = nil,
         federationParameters: FinspaceClientTypes.FederationParameters? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.environmentId = environmentId
         self.federationMode = federationMode
@@ -4788,8 +4670,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
 
     public init(
         environment: FinspaceClientTypes.Environment? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
@@ -4842,8 +4723,7 @@ extension FinspaceClientTypes {
 
         public init(
             deploymentStrategy: FinspaceClientTypes.KxClusterCodeDeploymentStrategy? = nil
-        )
-        {
+        ) {
             self.deploymentStrategy = deploymentStrategy
         }
     }
@@ -4876,8 +4756,7 @@ public struct UpdateKxClusterCodeConfigurationInput: Swift.Sendable {
         deploymentConfiguration: FinspaceClientTypes.KxClusterCodeDeploymentConfiguration? = nil,
         environmentId: Swift.String? = nil,
         initializationScript: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterName = clusterName
         self.code = code
@@ -4936,8 +4815,7 @@ extension FinspaceClientTypes {
 
         public init(
             deploymentStrategy: FinspaceClientTypes.KxDeploymentStrategy? = nil
-        )
-        {
+        ) {
             self.deploymentStrategy = deploymentStrategy
         }
     }
@@ -4964,8 +4842,7 @@ public struct UpdateKxClusterDatabasesInput: Swift.Sendable {
         databases: [FinspaceClientTypes.KxDatabaseConfiguration]? = nil,
         deploymentConfiguration: FinspaceClientTypes.KxDeploymentConfiguration? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterName = clusterName
         self.databases = databases
@@ -4997,8 +4874,7 @@ public struct UpdateKxDatabaseInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.databaseName = databaseName
         self.description = description
@@ -5021,8 +4897,7 @@ public struct UpdateKxDatabaseOutput: Swift.Sendable {
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         lastModifiedTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.description = description
         self.environmentId = environmentId
@@ -5058,8 +4933,7 @@ public struct UpdateKxDataviewInput: Swift.Sendable {
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
-    )
-    {
+    ) {
         self.changesetId = changesetId
         self.clientToken = clientToken
         self.databaseName = databaseName
@@ -5121,8 +4995,7 @@ public struct UpdateKxDataviewOutput: Swift.Sendable {
         readWrite: Swift.Bool = false,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         status: FinspaceClientTypes.KxDataviewStatus? = nil
-    )
-    {
+    ) {
         self.activeVersions = activeVersions
         self.autoUpdate = autoUpdate
         self.availabilityZoneId = availabilityZoneId
@@ -5156,8 +5029,7 @@ public struct UpdateKxEnvironmentInput: Swift.Sendable {
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.environmentId = environmentId
@@ -5216,8 +5088,7 @@ public struct UpdateKxEnvironmentOutput: Swift.Sendable {
         tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
         transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
         updateTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.availabilityZoneIds = availabilityZoneIds
         self.awsAccountId = awsAccountId
         self.creationTimestamp = creationTimestamp
@@ -5253,8 +5124,7 @@ public struct UpdateKxEnvironmentNetworkInput: Swift.Sendable {
         customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]? = nil,
         environmentId: Swift.String? = nil,
         transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.customDNSConfiguration = customDNSConfiguration
         self.environmentId = environmentId
@@ -5313,8 +5183,7 @@ public struct UpdateKxEnvironmentNetworkOutput: Swift.Sendable {
         tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
         transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
         updateTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.availabilityZoneIds = availabilityZoneIds
         self.awsAccountId = awsAccountId
         self.creationTimestamp = creationTimestamp
@@ -5352,8 +5221,7 @@ public struct UpdateKxUserInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         iamRole: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.environmentId = environmentId
         self.iamRole = iamRole
@@ -5376,8 +5244,7 @@ public struct UpdateKxUserOutput: Swift.Sendable {
         iamRole: Swift.String? = nil,
         userArn: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.iamRole = iamRole
         self.userArn = userArn
@@ -5405,8 +5272,7 @@ public struct UpdateKxVolumeInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         nas1Configuration: FinspaceClientTypes.KxNAS1Configuration? = nil,
         volumeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.environmentId = environmentId
@@ -5475,8 +5341,7 @@ public struct UpdateKxVolumeOutput: Swift.Sendable {
         volumeArn: Swift.String? = nil,
         volumeName: Swift.String? = nil,
         volumeType: FinspaceClientTypes.KxVolumeType? = nil
-    )
-    {
+    ) {
         self.attachedClusters = attachedClusters
         self.availabilityZoneIds = availabilityZoneIds
         self.azMode = azMode

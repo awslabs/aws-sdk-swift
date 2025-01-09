@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WellArchitectedClient: ClientRuntime.Client {
     public static let clientName = "WellArchitectedClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: WellArchitectedClient.WellArchitectedClientConfiguration
     let serviceName = "WellArchitected"
@@ -330,7 +330,7 @@ extension WellArchitectedClient {
 }
 
 extension WellArchitectedClient {
-    /// Performs the `AssociateLenses` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `AssociateLenses` operation on the `WellArchitected` service.
     ///
     /// Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a single API operation. A maximum of 20 lenses can be associated with a workload. Disclaimer By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
     ///
@@ -404,7 +404,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateProfiles` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `AssociateProfiles` operation on the `WellArchitected` service.
     ///
     /// Associate a profile with a workload.
     ///
@@ -478,7 +478,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLensShare` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `CreateLensShare` operation on the `WellArchitected` service.
     ///
     /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared. Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see [Sharing a custom lens](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-sharing.html) in the Well-Architected Tool User Guide. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
@@ -554,7 +554,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLensVersion` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `CreateLensVersion` operation on the `WellArchitected` service.
     ///
     /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
     ///
@@ -630,7 +630,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMilestone` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `CreateMilestone` operation on the `WellArchitected` service.
     ///
     /// Create a milestone for an existing workload.
     ///
@@ -706,7 +706,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProfile` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `CreateProfile` operation on the `WellArchitected` service.
     ///
     /// Create a profile.
     ///
@@ -781,7 +781,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProfileShare` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `CreateProfileShare` operation on the `WellArchitected` service.
     ///
     /// Create a profile share.
     ///
@@ -857,7 +857,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReviewTemplate` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `CreateReviewTemplate` operation on the `WellArchitected` service.
     ///
     /// Create a review template. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     ///
@@ -933,7 +933,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTemplateShare` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `CreateTemplateShare` operation on the `WellArchitected` service.
     ///
     /// Create a review template share. The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a review template is not removed until the review template share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template. Disclaimer By sharing your review template with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your review template available to those other accounts.
     ///
@@ -1009,7 +1009,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkload` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `CreateWorkload` operation on the `WellArchitected` service.
     ///
     /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html) in the Well-Architected Tool User Guide. Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section. When creating a workload using a review template, you must have the following IAM permissions:
     ///
@@ -1093,7 +1093,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkloadShare` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `CreateWorkloadShare` operation on the `WellArchitected` service.
     ///
     /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see [Sharing a workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html) in the Well-Architected Tool User Guide.
     ///
@@ -1169,7 +1169,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLens` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `DeleteLens` operation on the `WellArchitected` service.
     ///
     /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
@@ -1242,7 +1242,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLensShare` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `DeleteLensShare` operation on the `WellArchitected` service.
     ///
     /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
@@ -1315,7 +1315,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProfile` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `DeleteProfile` operation on the `WellArchitected` service.
     ///
     /// Delete a profile. Disclaimer By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile available to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
@@ -1388,7 +1388,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProfileShare` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `DeleteProfileShare` operation on the `WellArchitected` service.
     ///
     /// Delete a profile share.
     ///
@@ -1461,7 +1461,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReviewTemplate` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `DeleteReviewTemplate` operation on the `WellArchitected` service.
     ///
     /// Delete a review template. Only the owner of a review template can delete it. After the review template is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
     ///
@@ -1534,7 +1534,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTemplateShare` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `DeleteTemplateShare` operation on the `WellArchitected` service.
     ///
     /// Delete a review template share. After the review template share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
     ///
@@ -1607,7 +1607,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkload` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `DeleteWorkload` operation on the `WellArchitected` service.
     ///
     /// Delete an existing workload.
     ///
@@ -1680,7 +1680,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkloadShare` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `DeleteWorkloadShare` operation on the `WellArchitected` service.
     ///
     /// Delete a workload share.
     ///
@@ -1753,7 +1753,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateLenses` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `DisassociateLenses` operation on the `WellArchitected` service.
     ///
     /// Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload in a single API operation. The Amazon Web Services Well-Architected Framework lens (wellarchitected) cannot be removed from a workload.
     ///
@@ -1827,7 +1827,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateProfiles` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `DisassociateProfiles` operation on the `WellArchitected` service.
     ///
     /// Disassociate a profile from a workload.
     ///
@@ -1901,7 +1901,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportLens` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ExportLens` operation on the `WellArchitected` service.
     ///
     /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     ///
@@ -1972,7 +1972,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAnswer` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetAnswer` operation on the `WellArchitected` service.
     ///
     /// Get the answer to a specific question in a workload review.
     ///
@@ -2043,7 +2043,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConsolidatedReport` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetConsolidatedReport` operation on the `WellArchitected` service.
     ///
     /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you.
     ///
@@ -2114,7 +2114,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGlobalSettings` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetGlobalSettings` operation on the `WellArchitected` service.
     ///
     /// Global settings for all workloads.
     ///
@@ -2183,7 +2183,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLens` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetLens` operation on the `WellArchitected` service.
     ///
     /// Get an existing lens.
     ///
@@ -2254,7 +2254,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLensReview` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetLensReview` operation on the `WellArchitected` service.
     ///
     /// Get lens review.
     ///
@@ -2325,7 +2325,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLensReviewReport` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetLensReviewReport` operation on the `WellArchitected` service.
     ///
     /// Get lens review report.
     ///
@@ -2396,7 +2396,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLensVersionDifference` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetLensVersionDifference` operation on the `WellArchitected` service.
     ///
     /// Get lens version differences.
     ///
@@ -2467,7 +2467,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMilestone` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetMilestone` operation on the `WellArchitected` service.
     ///
     /// Get a milestone for an existing workload.
     ///
@@ -2537,7 +2537,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProfile` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetProfile` operation on the `WellArchitected` service.
     ///
     /// Get profile information.
     ///
@@ -2608,7 +2608,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProfileTemplate` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetProfileTemplate` operation on the `WellArchitected` service.
     ///
     /// Get profile template.
     ///
@@ -2678,7 +2678,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReviewTemplate` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetReviewTemplate` operation on the `WellArchitected` service.
     ///
     /// Get review template.
     ///
@@ -2748,7 +2748,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReviewTemplateAnswer` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetReviewTemplateAnswer` operation on the `WellArchitected` service.
     ///
     /// Get review template answer.
     ///
@@ -2818,7 +2818,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReviewTemplateLensReview` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetReviewTemplateLensReview` operation on the `WellArchitected` service.
     ///
     /// Get a lens review associated with a review template.
     ///
@@ -2888,7 +2888,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkload` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `GetWorkload` operation on the `WellArchitected` service.
     ///
     /// Get an existing workload.
     ///
@@ -2958,7 +2958,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportLens` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ImportLens` operation on the `WellArchitected` service.
     ///
     /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias. If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with [CreateLensVersion]. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     ///
@@ -3034,7 +3034,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAnswers` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListAnswers` operation on the `WellArchitected` service.
     ///
     /// List of answers for a particular workload and lens.
     ///
@@ -3105,7 +3105,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCheckDetails` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListCheckDetails` operation on the `WellArchitected` service.
     ///
     /// List of Trusted Advisor check details by account related to the workload.
     ///
@@ -3178,7 +3178,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCheckSummaries` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListCheckSummaries` operation on the `WellArchitected` service.
     ///
     /// List of Trusted Advisor checks summarized for all accounts related to the workload.
     ///
@@ -3251,7 +3251,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLensReviewImprovements` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListLensReviewImprovements` operation on the `WellArchitected` service.
     ///
     /// List the improvements of a particular lens review.
     ///
@@ -3322,7 +3322,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLensReviews` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListLensReviews` operation on the `WellArchitected` service.
     ///
     /// List lens reviews for a particular workload.
     ///
@@ -3393,7 +3393,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLensShares` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListLensShares` operation on the `WellArchitected` service.
     ///
     /// List the lens shares associated with the lens.
     ///
@@ -3464,7 +3464,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLenses` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListLenses` operation on the `WellArchitected` service.
     ///
     /// List the available lenses.
     ///
@@ -3534,7 +3534,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMilestones` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListMilestones` operation on the `WellArchitected` service.
     ///
     /// List all milestones for an existing workload.
     ///
@@ -3607,7 +3607,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNotifications` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListNotifications` operation on the `WellArchitected` service.
     ///
     /// List lens notifications.
     ///
@@ -3679,7 +3679,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProfileNotifications` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListProfileNotifications` operation on the `WellArchitected` service.
     ///
     /// List profile notifications.
     ///
@@ -3749,7 +3749,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProfileShares` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListProfileShares` operation on the `WellArchitected` service.
     ///
     /// List profile shares.
     ///
@@ -3820,7 +3820,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProfiles` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListProfiles` operation on the `WellArchitected` service.
     ///
     /// List profiles.
     ///
@@ -3890,7 +3890,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReviewTemplateAnswers` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListReviewTemplateAnswers` operation on the `WellArchitected` service.
     ///
     /// List the answers of a review template.
     ///
@@ -3961,7 +3961,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReviewTemplates` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListReviewTemplates` operation on the `WellArchitected` service.
     ///
     /// List review templates.
     ///
@@ -4031,7 +4031,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListShareInvitations` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListShareInvitations` operation on the `WellArchitected` service.
     ///
     /// List the share invitations. WorkloadNamePrefix, LensNamePrefix, ProfileNamePrefix, and TemplateNamePrefix are mutually exclusive. Use the parameter that matches your ShareResourceType.
     ///
@@ -4101,7 +4101,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListTagsForResource` operation on the `WellArchitected` service.
     ///
     /// List the tags for a resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
     ///
@@ -4168,7 +4168,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTemplateShares` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListTemplateShares` operation on the `WellArchitected` service.
     ///
     /// List review template shares.
     ///
@@ -4239,7 +4239,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkloadShares` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListWorkloadShares` operation on the `WellArchitected` service.
     ///
     /// List the workload shares associated with the workload.
     ///
@@ -4310,7 +4310,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkloads` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `ListWorkloads` operation on the `WellArchitected` service.
     ///
     /// Paginated list of workloads.
     ///
@@ -4382,7 +4382,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `TagResource` operation on the `WellArchitected` service.
     ///
     /// Adds one or more tags to the specified resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
     ///
@@ -4452,7 +4452,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UntagResource` operation on the `WellArchitected` service.
     ///
     /// Deletes specified tags from a resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN. To specify multiple tags, use separate tagKeys parameters, for example: DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
     ///
@@ -4520,7 +4520,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAnswer` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpdateAnswer` operation on the `WellArchitected` service.
     ///
     /// Update the answer to a specific question in a workload review.
     ///
@@ -4594,7 +4594,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGlobalSettings` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpdateGlobalSettings` operation on the `WellArchitected` service.
     ///
     /// Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
     ///
@@ -4667,7 +4667,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIntegration` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpdateIntegration` operation on the `WellArchitected` service.
     ///
     /// Update integration features.
     ///
@@ -4742,7 +4742,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLensReview` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpdateLensReview` operation on the `WellArchitected` service.
     ///
     /// Update lens review for a particular workload.
     ///
@@ -4816,7 +4816,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProfile` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpdateProfile` operation on the `WellArchitected` service.
     ///
     /// Update a profile.
     ///
@@ -4890,7 +4890,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateReviewTemplate` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpdateReviewTemplate` operation on the `WellArchitected` service.
     ///
     /// Update a review template.
     ///
@@ -4964,7 +4964,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateReviewTemplateAnswer` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpdateReviewTemplateAnswer` operation on the `WellArchitected` service.
     ///
     /// Update a review template answer.
     ///
@@ -5038,7 +5038,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateReviewTemplateLensReview` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpdateReviewTemplateLensReview` operation on the `WellArchitected` service.
     ///
     /// Update a lens review associated with a review template.
     ///
@@ -5112,7 +5112,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateShareInvitation` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpdateShareInvitation` operation on the `WellArchitected` service.
     ///
     /// Update a workload or custom lens share invitation. This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
     ///
@@ -5186,7 +5186,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkload` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpdateWorkload` operation on the `WellArchitected` service.
     ///
     /// Update an existing workload.
     ///
@@ -5260,7 +5260,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkloadShare` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpdateWorkloadShare` operation on the `WellArchitected` service.
     ///
     /// Update a workload share.
     ///
@@ -5334,7 +5334,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpgradeLensReview` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpgradeLensReview` operation on the `WellArchitected` service.
     ///
     /// Upgrade lens review for a particular workload.
     ///
@@ -5409,7 +5409,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpgradeProfileVersion` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpgradeProfileVersion` operation on the `WellArchitected` service.
     ///
     /// Upgrade a profile.
     ///
@@ -5485,7 +5485,7 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpgradeReviewTemplateLensReview` operation on the `WellArchitectedApiServiceLambda` service.
+    /// Performs the `UpgradeReviewTemplateLensReview` operation on the `WellArchitected` service.
     ///
     /// Upgrade the lens review of a review template.
     ///

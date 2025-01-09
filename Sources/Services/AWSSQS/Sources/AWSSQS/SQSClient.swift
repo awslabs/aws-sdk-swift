@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SQSClient: ClientRuntime.Client {
     public static let clientName = "SQSClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: SQSClient.SQSClientConfiguration
     let serviceName = "SQS"
@@ -330,7 +330,7 @@ extension SQSClient {
 }
 
 extension SQSClient {
-    /// Performs the `AddPermission` operation on the `AmazonSQS` service.
+    /// Performs the `AddPermission` operation on the `SQS` service.
     ///
     /// Adds a permission to a queue for a specific [principal](https://docs.aws.amazon.com/general/latest/gr/glos-chap.html#P). This allows sharing access to the queue. When you create a queue, you have full control access rights for the queue. Only you, the owner of the queue, can grant or deny permissions to the queue. For more information about these permissions, see [Allow Developers to Write Messages to a Shared Queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-writing-an-sqs-policy.html#write-messages-to-shared-queue) in the Amazon SQS Developer Guide.
     ///
@@ -421,7 +421,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelMessageMoveTask` operation on the `AmazonSQS` service.
+    /// Performs the `CancelMessageMoveTask` operation on the `SQS` service.
     ///
     /// Cancels a specified message movement task. A message movement can only be cancelled when the current status is RUNNING. Cancelling a message movement task does not revert the messages that have already been moved. It can only stop the messages that have not been moved yet.
     ///
@@ -504,7 +504,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ChangeMessageVisibility` operation on the `AmazonSQS` service.
+    /// Performs the `ChangeMessageVisibility` operation on the `SQS` service.
     ///
     /// Changes the visibility timeout of a specified message in a queue to a new value. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours. For more information, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide. For example, if the default timeout for a queue is 60 seconds, 15 seconds have elapsed since you received the message, and you send a ChangeMessageVisibility call with VisibilityTimeout set to 10 seconds, the 10 seconds begin to count from the time that you make the ChangeMessageVisibility call. Thus, any attempt to change the visibility timeout or to delete that message 10 seconds after you initially change the visibility timeout (a total of 25 seconds) might result in an error. An Amazon SQS message has three basic states:
     ///
@@ -594,7 +594,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ChangeMessageVisibilityBatch` operation on the `AmazonSQS` service.
+    /// Performs the `ChangeMessageVisibilityBatch` operation on the `SQS` service.
     ///
     /// Changes the visibility timeout of multiple messages. This is a batch version of [ChangeMessageVisibility]. The result of the action on each message is reported individually in the response. You can send up to 10 [ChangeMessageVisibility] requests with each ChangeMessageVisibilityBatch action. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
@@ -677,7 +677,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateQueue` operation on the `AmazonSQS` service.
+    /// Performs the `CreateQueue` operation on the `SQS` service.
     ///
     /// Creates a new standard or FIFO queue. You can pass one or more attributes in the request. Keep the following in mind:
     ///
@@ -775,7 +775,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMessage` operation on the `AmazonSQS` service.
+    /// Performs the `DeleteMessage` operation on the `SQS` service.
     ///
     /// Deletes the specified message from the specified queue. To select the message to delete, use the ReceiptHandle of the message (not the MessageId which you receive when you send the message). Amazon SQS can delete a message from a queue even if a visibility timeout setting causes the message to be locked by another consumer. Amazon SQS automatically deletes messages left in a queue longer than the retention period configured for the queue. Each time you receive a message, meaning when a consumer retrieves a message from the queue, it comes with a unique ReceiptHandle. If you receive the same message more than once, you will get a different ReceiptHandle each time. When you want to delete a message using the DeleteMessage action, you must use the ReceiptHandle from the most recent time you received the message. If you use an old ReceiptHandle, the request will succeed, but the message might not be deleted. For standard queues, it is possible to receive a message even after you delete it. This might happen on rare occasions if one of the servers which stores a copy of the message is unavailable when you send the request to delete the message. The copy remains on the server and might be returned to you during a subsequent receive request. You should ensure that your application is idempotent, so that receiving a message more than once does not cause issues.
     ///
@@ -856,7 +856,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMessageBatch` operation on the `AmazonSQS` service.
+    /// Performs the `DeleteMessageBatch` operation on the `SQS` service.
     ///
     /// Deletes up to ten messages from the specified queue. This is a batch version of [DeleteMessage]. The result of the action on each message is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
@@ -939,7 +939,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQueue` operation on the `AmazonSQS` service.
+    /// Performs the `DeleteQueue` operation on the `SQS` service.
     ///
     /// Deletes the queue specified by the QueueUrl, regardless of the queue's contents. Be careful with the DeleteQueue action: When you delete a queue, any messages in the queue are no longer available. When you delete a queue, the deletion process takes up to 60 seconds. Requests you send involving that queue during the 60 seconds might succeed. For example, a [SendMessage] request might succeed, but after 60 seconds the queue and the message you sent no longer exist. When you delete a queue, you must wait at least 60 seconds before creating a queue with the same name. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide. The delete operation uses the HTTP GET verb.
     ///
@@ -1018,7 +1018,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueueAttributes` operation on the `AmazonSQS` service.
+    /// Performs the `GetQueueAttributes` operation on the `SQS` service.
     ///
     /// Gets attributes for the specified queue. To determine whether a queue is [FIFO](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html), you can check whether QueueName ends with the .fifo suffix.
     ///
@@ -1098,7 +1098,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueueUrl` operation on the `AmazonSQS` service.
+    /// Performs the `GetQueueUrl` operation on the `SQS` service.
     ///
     /// The GetQueueUrl API returns the URL of an existing Amazon SQS queue. This is useful when you know the queue's name but need to retrieve its URL for further operations. To access a queue owned by another Amazon Web Services account, use the QueueOwnerAWSAccountId parameter to specify the account ID of the queue's owner. Note that the queue owner must grant you the necessary permissions to access the queue. For more information about accessing shared queues, see the [AddPermission] API or [Allow developers to write messages to a shared queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-writing-an-sqs-policy.html#write-messages-to-shared-queue) in the Amazon SQS Developer Guide.
     ///
@@ -1177,7 +1177,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeadLetterSourceQueues` operation on the `AmazonSQS` service.
+    /// Performs the `ListDeadLetterSourceQueues` operation on the `SQS` service.
     ///
     /// Returns a list of your queues that have the RedrivePolicy queue attribute configured with a dead-letter queue. The ListDeadLetterSourceQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults, the response includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken. Use NextToken as a parameter in your next request to ListDeadLetterSourceQueues to receive the next page of results. For more information about using dead-letter queues, see [Using Amazon SQS Dead-Letter Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) in the Amazon SQS Developer Guide.
     ///
@@ -1256,7 +1256,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMessageMoveTasks` operation on the `AmazonSQS` service.
+    /// Performs the `ListMessageMoveTasks` operation on the `SQS` service.
     ///
     /// Gets the most recent message movement tasks (up to 10) under a specific source queue.
     ///
@@ -1339,7 +1339,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQueueTags` operation on the `AmazonSQS` service.
+    /// Performs the `ListQueueTags` operation on the `SQS` service.
     ///
     /// List all cost allocation tags added to the specified Amazon SQS queue. For an overview, see [Tagging Your Amazon SQS Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-tags.html) in the Amazon SQS Developer Guide. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
     ///
@@ -1418,7 +1418,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQueues` operation on the `AmazonSQS` service.
+    /// Performs the `ListQueues` operation on the `SQS` service.
     ///
     /// Returns a list of your queues in the current region. The response includes a maximum of 1,000 results. If you specify a value for the optional QueueNamePrefix parameter, only queues with a name that begins with the specified value are returned. The listQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults, the response includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken. Use NextToken as a parameter in your next request to listQueues to receive the next page of results. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
     ///
@@ -1496,7 +1496,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PurgeQueue` operation on the `AmazonSQS` service.
+    /// Performs the `PurgeQueue` operation on the `SQS` service.
     ///
     /// Deletes available messages in a queue (including in-flight messages) specified by the QueueURL parameter. When you use the PurgeQueue action, you can't retrieve any messages deleted from a queue. The message deletion process takes up to 60 seconds. We recommend waiting for 60 seconds regardless of your queue's size. Messages sent to the queue before you call PurgeQueue might be received but are deleted within the next minute. Messages sent to the queue after you call PurgeQueue might be deleted while the queue is being purged.
     ///
@@ -1576,7 +1576,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReceiveMessage` operation on the `AmazonSQS` service.
+    /// Performs the `ReceiveMessage` operation on the `SQS` service.
     ///
     /// Retrieves one or more messages (up to 10), from the specified queue. Using the WaitTimeSeconds parameter enables long-poll support. For more information, see [Amazon SQS Long Polling](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-long-polling.html) in the Amazon SQS Developer Guide. Short poll is the default behavior where a weighted random set of machines is sampled on a ReceiveMessage call. Therefore, only the messages on the sampled machines are returned. If the number of messages in the queue is small (fewer than 1,000), you most likely get fewer messages than you requested per ReceiveMessage call. If the number of messages in the queue is extremely small, you might not receive any messages in a particular ReceiveMessage response. If this happens, repeat the request. For each message returned, the response includes the following:
     ///
@@ -1682,7 +1682,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemovePermission` operation on the `AmazonSQS` service.
+    /// Performs the `RemovePermission` operation on the `SQS` service.
     ///
     /// Revokes any permissions in the queue policy that matches the specified Label parameter.
     ///
@@ -1767,7 +1767,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendMessage` operation on the `AmazonSQS` service.
+    /// Performs the `SendMessage` operation on the `SQS` service.
     ///
     /// Delivers a message to the specified queue. A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets). #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Amazon SQS does not throw an exception or completely reject the message if it contains invalid characters. Instead, it replaces those invalid characters with U+FFFD before storing the message in the queue, as long as the message body contains at least one valid character.
     ///
@@ -1858,7 +1858,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendMessageBatch` operation on the `AmazonSQS` service.
+    /// Performs the `SendMessageBatch` operation on the `SQS` service.
     ///
     /// You can use SendMessageBatch to send up to 10 messages to the specified queue by assigning either identical or different values to each message (or by not assigning values at all). This is a batch version of [SendMessage]. For a FIFO queue, multiple messages within a single batch are enqueued in the order they are sent. The result of sending each message is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. The maximum allowed individual message size and the maximum total payload size (the sum of the individual lengths of all of the batched messages) are both 256 KiB (262,144 bytes). A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets). #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Amazon SQS does not throw an exception or completely reject the message if it contains invalid characters. Instead, it replaces those invalid characters with U+FFFD before storing the message in the queue, as long as the message body contains at least one valid character. If you don't specify the DelaySeconds parameter for an entry, Amazon SQS uses the default value for the queue.
     ///
@@ -1953,7 +1953,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetQueueAttributes` operation on the `AmazonSQS` service.
+    /// Performs the `SetQueueAttributes` operation on the `SQS` service.
     ///
     /// Sets the value of one or more queue attributes, like a policy. When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
@@ -2041,7 +2041,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMessageMoveTask` operation on the `AmazonSQS` service.
+    /// Performs the `StartMessageMoveTask` operation on the `SQS` service.
     ///
     /// Starts an asynchronous task to move messages from a specified source queue to a specified destination queue.
     ///
@@ -2126,7 +2126,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagQueue` operation on the `AmazonSQS` service.
+    /// Performs the `TagQueue` operation on the `SQS` service.
     ///
     /// Add cost allocation tags to the specified Amazon SQS queue. For an overview, see [Tagging Your Amazon SQS Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-tags.html) in the Amazon SQS Developer Guide. When you use queue tags, keep the following guidelines in mind:
     ///
@@ -2216,7 +2216,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagQueue` operation on the `AmazonSQS` service.
+    /// Performs the `UntagQueue` operation on the `SQS` service.
     ///
     /// Remove cost allocation tags from the specified Amazon SQS queue. For an overview, see [Tagging Your Amazon SQS Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-tags.html) in the Amazon SQS Developer Guide. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
     ///

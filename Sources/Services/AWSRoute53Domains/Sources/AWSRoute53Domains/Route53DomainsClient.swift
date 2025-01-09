@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53DomainsClient: ClientRuntime.Client {
     public static let clientName = "Route53DomainsClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53DomainsClient.Route53DomainsClientConfiguration
     let serviceName = "Route 53 Domains"
@@ -330,7 +330,7 @@ extension Route53DomainsClient {
 }
 
 extension Route53DomainsClient {
-    /// Performs the `AcceptDomainTransferFromAnotherAwsAccount` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `AcceptDomainTransferFromAnotherAwsAccount` operation on the `Route53Domains` service.
     ///
     /// Accepts the transfer of a domain from another Amazon Web Services account to the currentAmazon Web Services account. You initiate a transfer between Amazon Web Services accounts using [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html). If you use the CLI command at [accept-domain-transfer-from-another-aws-account](https://docs.aws.amazon.com/cli/latest/reference/route53domains/accept-domain-transfer-from-another-aws-account.html), use JSON format as input instead of text because otherwise CLI will throw an error from domain transfer input that includes single quotes. Use either [ListOperations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html) or [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to determine whether the operation succeeded. [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
     ///
@@ -403,7 +403,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateDelegationSignerToDomain` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `AssociateDelegationSignerToDomain` operation on the `Route53Domains` service.
     ///
     /// Creates a delegation signer (DS) record in the registry zone for this domain name. Note that creating DS record at the registry impacts DNSSEC validation of your DNS records. This action may render your domain name unavailable on the internet if the steps are completed in the wrong order, or with incorrect timing. For more information about DNSSEC signing, see [Configuring DNSSEC signing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring-dnssec.html) in the Route 53 developer guide.
     ///
@@ -478,7 +478,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelDomainTransferToAnotherAwsAccount` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `CancelDomainTransferToAnotherAwsAccount` operation on the `Route53Domains` service.
     ///
     /// Cancels the transfer of a domain from the current Amazon Web Services account to another Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html). You must cancel the transfer before the other Amazon Web Services account accepts the transfer using [AcceptDomainTransferFromAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html). Use either [ListOperations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html) or [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to determine whether the operation succeeded. [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
     ///
@@ -550,7 +550,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CheckDomainAvailability` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `CheckDomainAvailability` operation on the `Route53Domains` service.
     ///
     /// This operation checks the availability of one domain name. Note that if the availability status of a domain is pending, you must submit another request to determine the availability of the domain name.
     ///
@@ -621,7 +621,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CheckDomainTransferability` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `CheckDomainTransferability` operation on the `Route53Domains` service.
     ///
     /// Checks whether a domain name can be transferred to Amazon Route 53.
     ///
@@ -692,7 +692,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDomain` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `DeleteDomain` operation on the `Route53Domains` service.
     ///
     /// This operation deletes the specified domain. This action is permanent. For more information, see [Deleting a domain name registration](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-delete.html). To transfer the domain registration to another registrar, use the transfer process that’s provided by the registrar to which you want to transfer the registration. Otherwise, the following apply:
     ///
@@ -771,7 +771,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTagsForDomain` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `DeleteTagsForDomain` operation on the `Route53Domains` service.
     ///
     /// This operation deletes the specified tags for a domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
     ///
@@ -843,7 +843,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableDomainAutoRenew` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `DisableDomainAutoRenew` operation on the `Route53Domains` service.
     ///
     /// This operation disables automatic renewal of domain registration for the specified domain.
     ///
@@ -914,7 +914,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableDomainTransferLock` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `DisableDomainTransferLock` operation on the `Route53Domains` service.
     ///
     /// This operation removes the transfer lock on the domain (specifically the clientTransferProhibited status) to allow domain transfers. We recommend you refrain from performing this action unless you intend to transfer the domain to a different registrar. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
@@ -988,7 +988,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateDelegationSignerFromDomain` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `DisassociateDelegationSignerFromDomain` operation on the `Route53Domains` service.
     ///
     /// Deletes a delegation signer (DS) record in the registry zone for this domain name.
     ///
@@ -1062,7 +1062,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableDomainAutoRenew` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `EnableDomainAutoRenew` operation on the `Route53Domains` service.
     ///
     /// This operation configures Amazon Route 53 to automatically renew the specified domain before the domain registration expires. The cost of renewing your domain registration is billed to your Amazon Web Services account. The period during which you can renew a domain name varies by TLD. For a list of TLDs and their renewal policies, see [Domains That You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. Route 53 requires that you renew before the end of the renewal period so we can complete processing before the deadline.
     ///
@@ -1134,7 +1134,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableDomainTransferLock` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `EnableDomainTransferLock` operation on the `Route53Domains` service.
     ///
     /// This operation sets the transfer lock on the domain (specifically the clientTransferProhibited status) to prevent domain transfers. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
@@ -1208,7 +1208,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetContactReachabilityStatus` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `GetContactReachabilityStatus` operation on the `Route53Domains` service.
     ///
     /// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation returns information about whether the registrant contact has responded. If you want us to resend the email, use the ResendContactReachabilityEmail operation.
     ///
@@ -1280,7 +1280,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainDetail` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `GetDomainDetail` operation on the `Route53Domains` service.
     ///
     /// This operation returns detailed information about a specified domain that is associated with the current Amazon Web Services account. Contact information for the domain is also returned as part of the output.
     ///
@@ -1351,7 +1351,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainSuggestions` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `GetDomainSuggestions` operation on the `Route53Domains` service.
     ///
     /// The GetDomainSuggestions operation returns a list of suggested domain names.
     ///
@@ -1422,7 +1422,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOperationDetail` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `GetOperationDetail` operation on the `Route53Domains` service.
     ///
     /// This operation returns the current status of an operation that is not completed.
     ///
@@ -1492,7 +1492,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomains` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `ListDomains` operation on the `Route53Domains` service.
     ///
     /// This operation returns all the domain names registered with Amazon Route 53 for the current Amazon Web Services account if no filtering conditions are used.
     ///
@@ -1562,7 +1562,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOperations` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `ListOperations` operation on the `Route53Domains` service.
     ///
     /// Returns information about all of the operations that return an operation ID and that have ever been performed on domains that were registered by the current account. This command runs only in the us-east-1 Region.
     ///
@@ -1632,7 +1632,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPrices` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `ListPrices` operation on the `Route53Domains` service.
     ///
     /// Lists the following prices for either all the TLDs supported by Route 53, or the specified TLD:
     ///
@@ -1713,7 +1713,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForDomain` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `ListTagsForDomain` operation on the `Route53Domains` service.
     ///
     /// This operation returns all of the tags that are associated with the specified domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
     ///
@@ -1785,7 +1785,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PushDomain` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `PushDomain` operation on the `Route53Domains` service.
     ///
     /// Moves a domain from Amazon Web Services to another registrar. Supported actions:
     ///
@@ -1859,7 +1859,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterDomain` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `RegisterDomain` operation on the `Route53Domains` service.
     ///
     /// This operation registers a domain. For some top-level domains (TLDs), this operation requires extra parameters. When you register a domain, Amazon Route 53 does the following:
     ///
@@ -1944,7 +1944,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectDomainTransferFromAnotherAwsAccount` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `RejectDomainTransferFromAnotherAwsAccount` operation on the `Route53Domains` service.
     ///
     /// Rejects the transfer of a domain from another Amazon Web Services account to the current Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html). Use either [ListOperations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html) or [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to determine whether the operation succeeded. [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
     ///
@@ -2016,7 +2016,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RenewDomain` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `RenewDomain` operation on the `Route53Domains` service.
     ///
     /// This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your Amazon Web Services account. We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see [Renewing Registration for a Domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-renew.html) in the Amazon Route 53 Developer Guide.
     ///
@@ -2090,7 +2090,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResendContactReachabilityEmail` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `ResendContactReachabilityEmail` operation on the `Route53Domains` service.
     ///
     /// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation resends the confirmation email to the current email address for the registrant contact.
     ///
@@ -2162,7 +2162,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResendOperationAuthorization` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `ResendOperationAuthorization` operation on the `Route53Domains` service.
     ///
     /// Resend the form of authorization email for this operation.
     ///
@@ -2232,7 +2232,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RetrieveDomainAuthCode` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `RetrieveDomainAuthCode` operation on the `Route53Domains` service.
     ///
     /// This operation returns the authorization code for the domain. To transfer a domain to another registrar, you provide this value to the new registrar.
     ///
@@ -2303,7 +2303,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TransferDomain` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `TransferDomain` operation on the `Route53Domains` service.
     ///
     /// Transfers a domain from another registrar to Amazon Route 53. For more information about transferring domains, see the following topics:
     ///
@@ -2387,7 +2387,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TransferDomainToAnotherAwsAccount` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `TransferDomainToAnotherAwsAccount` operation on the `Route53Domains` service.
     ///
     /// Transfers a domain from the current Amazon Web Services account to another Amazon Web Services account. Note the following:
     ///
@@ -2469,7 +2469,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDomainContact` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `UpdateDomainContact` operation on the `Route53Domains` service.
     ///
     /// This operation updates the contact information for a particular domain. You must specify information for at least one contact: registrant, administrator, or technical. If the update is successful, this method returns an operation ID that you can use to track the progress and completion of the operation. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
@@ -2543,7 +2543,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDomainContactPrivacy` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `UpdateDomainContactPrivacy` operation on the `Route53Domains` service.
     ///
     /// This operation updates the specified domain contact's privacy setting. When privacy protection is enabled, your contact information is replaced with contact information for the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of owner." While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. This operation affects only the contact information for the specified contact type (administrative, registrant, or technical). If the request succeeds, Amazon Route 53 returns an operation ID that you can use with [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to track the progress and completion of the action. If the request doesn't complete successfully, the domain registrant will be notified by email. By disabling the privacy service via API, you consent to the publication of the contact information provided for this domain via the public WHOIS database. You certify that you are the registrant of this domain name and have the authority to make this decision. You may withdraw your consent at any time by enabling privacy protection using either UpdateDomainContactPrivacy or the Route 53 console. Enabling privacy protection removes the contact information provided for this domain from the WHOIS database. For more information on our privacy practices, see [https://aws.amazon.com/privacy/](https://aws.amazon.com/privacy/).
     ///
@@ -2617,7 +2617,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDomainNameservers` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `UpdateDomainNameservers` operation on the `Route53Domains` service.
     ///
     /// This operation replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain. If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
@@ -2691,7 +2691,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTagsForDomain` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `UpdateTagsForDomain` operation on the `Route53Domains` service.
     ///
     /// This operation adds or updates tags for a specified domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
     ///
@@ -2763,7 +2763,7 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ViewBilling` operation on the `Route53Domains_v20140515` service.
+    /// Performs the `ViewBilling` operation on the `Route53Domains` service.
     ///
     /// Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
     ///

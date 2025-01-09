@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MailManagerClient: ClientRuntime.Client {
     public static let clientName = "MailManagerClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: MailManagerClient.MailManagerClientConfiguration
     let serviceName = "MailManager"
@@ -331,7 +331,7 @@ extension MailManagerClient {
 }
 
 extension MailManagerClient {
-    /// Performs the `CreateAddonInstance` operation on the `MailManagerSvc` service.
+    /// Performs the `CreateAddonInstance` operation on the `MailManager` service.
     ///
     /// Creates an Add On instance for the subscription indicated in the request. The resulting Amazon Resource Name (ARN) can be used in a conditional statement for a rule set or traffic policy.
     ///
@@ -405,7 +405,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAddonSubscription` operation on the `MailManagerSvc` service.
+    /// Performs the `CreateAddonSubscription` operation on the `MailManager` service.
     ///
     /// Creates a subscription for an Add On representing the acceptance of its terms of use and additional pricing. The subscription can then be used to create an instance for use in rule sets or traffic policies.
     ///
@@ -478,7 +478,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateArchive` operation on the `MailManagerSvc` service.
+    /// Performs the `CreateArchive` operation on the `MailManager` service.
     ///
     /// Creates a new email archive resource for storing and retaining emails.
     ///
@@ -553,7 +553,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIngressPoint` operation on the `MailManagerSvc` service.
+    /// Performs the `CreateIngressPoint` operation on the `MailManager` service.
     ///
     /// Provision a new ingress endpoint resource.
     ///
@@ -626,7 +626,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRelay` operation on the `MailManagerSvc` service.
+    /// Performs the `CreateRelay` operation on the `MailManager` service.
     ///
     /// Creates a relay resource which can be used in rules to relay incoming emails to defined relay destinations.
     ///
@@ -699,7 +699,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRuleSet` operation on the `MailManagerSvc` service.
+    /// Performs the `CreateRuleSet` operation on the `MailManager` service.
     ///
     /// Provision a new rule set.
     ///
@@ -772,7 +772,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrafficPolicy` operation on the `MailManagerSvc` service.
+    /// Performs the `CreateTrafficPolicy` operation on the `MailManager` service.
     ///
     /// Provision a new traffic policy resource.
     ///
@@ -845,7 +845,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAddonInstance` operation on the `MailManagerSvc` service.
+    /// Performs the `DeleteAddonInstance` operation on the `MailManager` service.
     ///
     /// Deletes an Add On instance.
     ///
@@ -916,7 +916,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAddonSubscription` operation on the `MailManagerSvc` service.
+    /// Performs the `DeleteAddonSubscription` operation on the `MailManager` service.
     ///
     /// Deletes an Add On subscription.
     ///
@@ -987,7 +987,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteArchive` operation on the `MailManagerSvc` service.
+    /// Performs the `DeleteArchive` operation on the `MailManager` service.
     ///
     /// Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period.
     ///
@@ -1060,7 +1060,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIngressPoint` operation on the `MailManagerSvc` service.
+    /// Performs the `DeleteIngressPoint` operation on the `MailManager` service.
     ///
     /// Delete an ingress endpoint resource.
     ///
@@ -1132,7 +1132,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRelay` operation on the `MailManagerSvc` service.
+    /// Performs the `DeleteRelay` operation on the `MailManager` service.
     ///
     /// Deletes an existing relay resource.
     ///
@@ -1204,7 +1204,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRuleSet` operation on the `MailManagerSvc` service.
+    /// Performs the `DeleteRuleSet` operation on the `MailManager` service.
     ///
     /// Delete a rule set.
     ///
@@ -1275,7 +1275,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrafficPolicy` operation on the `MailManagerSvc` service.
+    /// Performs the `DeleteTrafficPolicy` operation on the `MailManager` service.
     ///
     /// Delete a traffic policy resource.
     ///
@@ -1347,7 +1347,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAddonInstance` operation on the `MailManagerSvc` service.
+    /// Performs the `GetAddonInstance` operation on the `MailManager` service.
     ///
     /// Gets detailed information about an Add On instance.
     ///
@@ -1418,7 +1418,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAddonSubscription` operation on the `MailManagerSvc` service.
+    /// Performs the `GetAddonSubscription` operation on the `MailManager` service.
     ///
     /// Gets detailed information about an Add On subscription.
     ///
@@ -1489,7 +1489,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetArchive` operation on the `MailManagerSvc` service.
+    /// Performs the `GetArchive` operation on the `MailManager` service.
     ///
     /// Retrieves the full details and current state of a specified email archive.
     ///
@@ -1562,7 +1562,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetArchiveExport` operation on the `MailManagerSvc` service.
+    /// Performs the `GetArchiveExport` operation on the `MailManager` service.
     ///
     /// Retrieves the details and current status of a specific email archive export job.
     ///
@@ -1634,7 +1634,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetArchiveMessage` operation on the `MailManagerSvc` service.
+    /// Performs the `GetArchiveMessage` operation on the `MailManager` service.
     ///
     /// Returns a pre-signed URL that provides temporary download access to the specific email message stored in the archive.
     ///
@@ -1706,7 +1706,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetArchiveMessageContent` operation on the `MailManagerSvc` service.
+    /// Performs the `GetArchiveMessageContent` operation on the `MailManager` service.
     ///
     /// Returns the textual content of a specific email message stored in the archive. Attachments are not included.
     ///
@@ -1778,7 +1778,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetArchiveSearch` operation on the `MailManagerSvc` service.
+    /// Performs the `GetArchiveSearch` operation on the `MailManager` service.
     ///
     /// Retrieves the details and current status of a specific email archive search job.
     ///
@@ -1850,7 +1850,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetArchiveSearchResults` operation on the `MailManagerSvc` service.
+    /// Performs the `GetArchiveSearchResults` operation on the `MailManager` service.
     ///
     /// Returns the results of a completed email archive search job.
     ///
@@ -1923,7 +1923,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIngressPoint` operation on the `MailManagerSvc` service.
+    /// Performs the `GetIngressPoint` operation on the `MailManager` service.
     ///
     /// Fetch ingress endpoint resource attributes.
     ///
@@ -1994,7 +1994,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRelay` operation on the `MailManagerSvc` service.
+    /// Performs the `GetRelay` operation on the `MailManager` service.
     ///
     /// Fetch the relay resource and it's attributes.
     ///
@@ -2065,7 +2065,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRuleSet` operation on the `MailManagerSvc` service.
+    /// Performs the `GetRuleSet` operation on the `MailManager` service.
     ///
     /// Fetch attributes of a rule set.
     ///
@@ -2136,7 +2136,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTrafficPolicy` operation on the `MailManagerSvc` service.
+    /// Performs the `GetTrafficPolicy` operation on the `MailManager` service.
     ///
     /// Fetch attributes of a traffic policy resource.
     ///
@@ -2207,7 +2207,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAddonInstances` operation on the `MailManagerSvc` service.
+    /// Performs the `ListAddonInstances` operation on the `MailManager` service.
     ///
     /// Lists all Add On instances in your account.
     ///
@@ -2277,7 +2277,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAddonSubscriptions` operation on the `MailManagerSvc` service.
+    /// Performs the `ListAddonSubscriptions` operation on the `MailManager` service.
     ///
     /// Lists all Add On subscriptions in your account.
     ///
@@ -2347,7 +2347,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListArchiveExports` operation on the `MailManagerSvc` service.
+    /// Performs the `ListArchiveExports` operation on the `MailManager` service.
     ///
     /// Returns a list of email archive export jobs.
     ///
@@ -2420,7 +2420,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListArchiveSearches` operation on the `MailManagerSvc` service.
+    /// Performs the `ListArchiveSearches` operation on the `MailManager` service.
     ///
     /// Returns a list of email archive search jobs.
     ///
@@ -2493,7 +2493,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListArchives` operation on the `MailManagerSvc` service.
+    /// Performs the `ListArchives` operation on the `MailManager` service.
     ///
     /// Returns a list of all email archives in your account.
     ///
@@ -2565,7 +2565,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIngressPoints` operation on the `MailManagerSvc` service.
+    /// Performs the `ListIngressPoints` operation on the `MailManager` service.
     ///
     /// List all ingress endpoint resources.
     ///
@@ -2635,7 +2635,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRelays` operation on the `MailManagerSvc` service.
+    /// Performs the `ListRelays` operation on the `MailManager` service.
     ///
     /// Lists all the existing relay resources.
     ///
@@ -2705,7 +2705,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRuleSets` operation on the `MailManagerSvc` service.
+    /// Performs the `ListRuleSets` operation on the `MailManager` service.
     ///
     /// List rule sets for this account.
     ///
@@ -2775,7 +2775,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `MailManagerSvc` service.
+    /// Performs the `ListTagsForResource` operation on the `MailManager` service.
     ///
     /// Retrieves the list of tags (keys and values) assigned to the resource.
     ///
@@ -2846,7 +2846,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrafficPolicies` operation on the `MailManagerSvc` service.
+    /// Performs the `ListTrafficPolicies` operation on the `MailManager` service.
     ///
     /// List traffic policy resources.
     ///
@@ -2916,7 +2916,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartArchiveExport` operation on the `MailManagerSvc` service.
+    /// Performs the `StartArchiveExport` operation on the `MailManager` service.
     ///
     /// Initiates an export of emails from the specified archive.
     ///
@@ -2990,7 +2990,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartArchiveSearch` operation on the `MailManagerSvc` service.
+    /// Performs the `StartArchiveSearch` operation on the `MailManager` service.
     ///
     /// Initiates a search across emails in the specified archive.
     ///
@@ -3065,7 +3065,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopArchiveExport` operation on the `MailManagerSvc` service.
+    /// Performs the `StopArchiveExport` operation on the `MailManager` service.
     ///
     /// Stops an in-progress export of emails from an archive.
     ///
@@ -3137,7 +3137,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopArchiveSearch` operation on the `MailManagerSvc` service.
+    /// Performs the `StopArchiveSearch` operation on the `MailManager` service.
     ///
     /// Stops an in-progress archive search job.
     ///
@@ -3209,7 +3209,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `MailManagerSvc` service.
+    /// Performs the `TagResource` operation on the `MailManager` service.
     ///
     /// Adds one or more tags (keys and values) to a specified resource.
     ///
@@ -3282,7 +3282,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `MailManagerSvc` service.
+    /// Performs the `UntagResource` operation on the `MailManager` service.
     ///
     /// Remove one or more tags (keys and values) from a specified resource.
     ///
@@ -3354,7 +3354,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateArchive` operation on the `MailManagerSvc` service.
+    /// Performs the `UpdateArchive` operation on the `MailManager` service.
     ///
     /// Updates the attributes of an existing email archive.
     ///
@@ -3429,7 +3429,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIngressPoint` operation on the `MailManagerSvc` service.
+    /// Performs the `UpdateIngressPoint` operation on the `MailManager` service.
     ///
     /// Update attributes of a provisioned ingress endpoint resource.
     ///
@@ -3501,7 +3501,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRelay` operation on the `MailManagerSvc` service.
+    /// Performs the `UpdateRelay` operation on the `MailManager` service.
     ///
     /// Updates the attributes of an existing relay resource.
     ///
@@ -3573,7 +3573,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRuleSet` operation on the `MailManagerSvc` service.
+    /// Performs the `UpdateRuleSet` operation on the `MailManager` service.
     ///
     /// Update attributes of an already provisioned rule set.
     ///
@@ -3645,7 +3645,7 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTrafficPolicy` operation on the `MailManagerSvc` service.
+    /// Performs the `UpdateTrafficPolicy` operation on the `MailManager` service.
     ///
     /// Update attributes of an already provisioned traffic policy resource.
     ///

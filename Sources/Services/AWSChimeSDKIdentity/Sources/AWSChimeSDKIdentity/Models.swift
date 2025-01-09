@@ -112,8 +112,7 @@ extension ChimeSDKIdentityClientTypes {
             lastUpdatedTimestamp: Foundation.Date? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appInstanceArn = appInstanceArn
             self.createdTimestamp = createdTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -140,8 +139,7 @@ extension ChimeSDKIdentityClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -168,8 +166,7 @@ extension ChimeSDKIdentityClientTypes {
             admin: ChimeSDKIdentityClientTypes.Identity? = nil,
             appInstanceArn: Swift.String? = nil,
             createdTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.admin = admin
             self.appInstanceArn = appInstanceArn
             self.createdTimestamp = createdTimestamp
@@ -186,8 +183,7 @@ extension ChimeSDKIdentityClientTypes {
 
         public init(
             admin: ChimeSDKIdentityClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.admin = admin
         }
     }
@@ -283,8 +279,7 @@ extension ChimeSDKIdentityClientTypes {
         public init(
             standardMessages: ChimeSDKIdentityClientTypes.StandardMessages? = nil,
             targetedMessages: ChimeSDKIdentityClientTypes.TargetedMessages? = nil
-        )
-        {
+        ) {
             self.standardMessages = standardMessages
             self.targetedMessages = targetedMessages
         }
@@ -340,8 +335,7 @@ extension ChimeSDKIdentityClientTypes {
             localeId: Swift.String? = nil,
             respondsTo: ChimeSDKIdentityClientTypes.RespondsTo? = nil,
             welcomeIntent: Swift.String? = nil
-        )
-        {
+        ) {
             self.invokedBy = invokedBy
             self.lexBotAliasArn = lexBotAliasArn
             self.localeId = localeId
@@ -361,8 +355,7 @@ extension ChimeSDKIdentityClientTypes {
 
         public init(
             lex: ChimeSDKIdentityClientTypes.LexConfiguration? = nil
-        )
-        {
+        ) {
             self.lex = lex
         }
     }
@@ -392,8 +385,7 @@ extension ChimeSDKIdentityClientTypes {
             lastUpdatedTimestamp: Foundation.Date? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appInstanceBotArn = appInstanceBotArn
             self.configuration = configuration
             self.createdTimestamp = createdTimestamp
@@ -424,8 +416,7 @@ extension ChimeSDKIdentityClientTypes {
             appInstanceBotArn: Swift.String? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appInstanceBotArn = appInstanceBotArn
             self.metadata = metadata
             self.name = name
@@ -453,8 +444,7 @@ extension ChimeSDKIdentityClientTypes {
             appInstanceArn: Swift.String? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appInstanceArn = appInstanceArn
             self.metadata = metadata
             self.name = name
@@ -476,8 +466,7 @@ extension ChimeSDKIdentityClientTypes {
 
         public init(
             retentionDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.retentionDays = retentionDays
         }
     }
@@ -492,8 +481,7 @@ extension ChimeSDKIdentityClientTypes {
 
         public init(
             channelRetentionSettings: ChimeSDKIdentityClientTypes.ChannelRetentionSettings? = nil
-        )
-        {
+        ) {
             self.channelRetentionSettings = channelRetentionSettings
         }
     }
@@ -539,8 +527,7 @@ extension ChimeSDKIdentityClientTypes {
         public init(
             expirationCriterion: ChimeSDKIdentityClientTypes.ExpirationCriterion? = nil,
             expirationDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.expirationCriterion = expirationCriterion
             self.expirationDays = expirationDays
         }
@@ -571,8 +558,7 @@ extension ChimeSDKIdentityClientTypes {
             lastUpdatedTimestamp: Foundation.Date? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appInstanceUserArn = appInstanceUserArn
             self.createdTimestamp = createdTimestamp
             self.expirationSettings = expirationSettings
@@ -601,8 +587,7 @@ extension ChimeSDKIdentityClientTypes {
         public init(
             deviceToken: Swift.String? = nil,
             voipDeviceToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceToken = deviceToken
             self.voipDeviceToken = voipDeviceToken
         }
@@ -693,8 +678,7 @@ extension ChimeSDKIdentityClientTypes {
         public init(
             status: ChimeSDKIdentityClientTypes.EndpointStatus? = nil,
             statusReason: ChimeSDKIdentityClientTypes.EndpointStatusReason? = nil
-        )
-        {
+        ) {
             self.status = status
             self.statusReason = statusReason
         }
@@ -777,8 +761,7 @@ extension ChimeSDKIdentityClientTypes {
             name: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             type: ChimeSDKIdentityClientTypes.AppInstanceUserEndpointType? = nil
-        )
-        {
+        ) {
             self.allowMessages = allowMessages
             self.appInstanceUserArn = appInstanceUserArn
             self.createdTimestamp = createdTimestamp
@@ -822,8 +805,7 @@ extension ChimeSDKIdentityClientTypes {
             endpointState: ChimeSDKIdentityClientTypes.EndpointState? = nil,
             name: Swift.String? = nil,
             type: ChimeSDKIdentityClientTypes.AppInstanceUserEndpointType? = nil
-        )
-        {
+        ) {
             self.allowMessages = allowMessages
             self.appInstanceUserArn = appInstanceUserArn
             self.endpointId = endpointId
@@ -854,8 +836,7 @@ extension ChimeSDKIdentityClientTypes {
             appInstanceUserArn: Swift.String? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appInstanceUserArn = appInstanceUserArn
             self.metadata = metadata
             self.name = name
@@ -956,8 +937,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -983,8 +963,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1010,8 +989,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1037,8 +1015,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1064,8 +1041,7 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1091,8 +1067,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1118,8 +1093,7 @@ public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1145,8 +1119,7 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
     public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1166,8 +1139,7 @@ extension ChimeSDKIdentityClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1196,8 +1168,7 @@ public struct CreateAppInstanceInput: Swift.Sendable {
         metadata: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [ChimeSDKIdentityClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.metadata = metadata
         self.name = name
@@ -1216,8 +1187,7 @@ public struct CreateAppInstanceOutput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -1233,8 +1203,7 @@ public struct CreateAppInstanceAdminInput: Swift.Sendable {
     public init(
         appInstanceAdminArn: Swift.String? = nil,
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceAdminArn = appInstanceAdminArn
         self.appInstanceArn = appInstanceArn
     }
@@ -1249,8 +1218,7 @@ public struct CreateAppInstanceAdminOutput: Swift.Sendable {
     public init(
         appInstanceAdmin: ChimeSDKIdentityClientTypes.Identity? = nil,
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceAdmin = appInstanceAdmin
         self.appInstanceArn = appInstanceArn
     }
@@ -1280,8 +1248,7 @@ public struct CreateAppInstanceBotInput: Swift.Sendable {
         metadata: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [ChimeSDKIdentityClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.clientRequestToken = clientRequestToken
         self.configuration = configuration
@@ -1302,8 +1269,7 @@ public struct CreateAppInstanceBotOutput: Swift.Sendable {
 
     public init(
         appInstanceBotArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceBotArn = appInstanceBotArn
     }
 }
@@ -1336,8 +1302,7 @@ public struct CreateAppInstanceUserInput: Swift.Sendable {
         metadata: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [ChimeSDKIdentityClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.appInstanceUserId = appInstanceUserId
         self.clientRequestToken = clientRequestToken
@@ -1359,8 +1324,7 @@ public struct CreateAppInstanceUserOutput: Swift.Sendable {
 
     public init(
         appInstanceUserArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
     }
 }
@@ -1372,8 +1336,7 @@ public struct DeleteAppInstanceInput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -1389,8 +1352,7 @@ public struct DeleteAppInstanceAdminInput: Swift.Sendable {
     public init(
         appInstanceAdminArn: Swift.String? = nil,
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceAdminArn = appInstanceAdminArn
         self.appInstanceArn = appInstanceArn
     }
@@ -1403,8 +1365,7 @@ public struct DeleteAppInstanceBotInput: Swift.Sendable {
 
     public init(
         appInstanceBotArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceBotArn = appInstanceBotArn
     }
 }
@@ -1416,8 +1377,7 @@ public struct DeleteAppInstanceUserInput: Swift.Sendable {
 
     public init(
         appInstanceUserArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
     }
 }
@@ -1433,8 +1393,7 @@ public struct DeregisterAppInstanceUserEndpointInput: Swift.Sendable {
     public init(
         appInstanceUserArn: Swift.String? = nil,
         endpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.endpointId = endpointId
     }
@@ -1447,8 +1406,7 @@ public struct DescribeAppInstanceInput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -1459,8 +1417,7 @@ public struct DescribeAppInstanceOutput: Swift.Sendable {
 
     public init(
         appInstance: ChimeSDKIdentityClientTypes.AppInstance? = nil
-    )
-    {
+    ) {
         self.appInstance = appInstance
     }
 }
@@ -1476,8 +1433,7 @@ public struct DescribeAppInstanceAdminInput: Swift.Sendable {
     public init(
         appInstanceAdminArn: Swift.String? = nil,
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceAdminArn = appInstanceAdminArn
         self.appInstanceArn = appInstanceArn
     }
@@ -1489,8 +1445,7 @@ public struct DescribeAppInstanceAdminOutput: Swift.Sendable {
 
     public init(
         appInstanceAdmin: ChimeSDKIdentityClientTypes.AppInstanceAdmin? = nil
-    )
-    {
+    ) {
         self.appInstanceAdmin = appInstanceAdmin
     }
 }
@@ -1515,8 +1470,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1529,8 +1483,7 @@ public struct DescribeAppInstanceBotInput: Swift.Sendable {
 
     public init(
         appInstanceBotArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceBotArn = appInstanceBotArn
     }
 }
@@ -1541,8 +1494,7 @@ public struct DescribeAppInstanceBotOutput: Swift.Sendable {
 
     public init(
         appInstanceBot: ChimeSDKIdentityClientTypes.AppInstanceBot? = nil
-    )
-    {
+    ) {
         self.appInstanceBot = appInstanceBot
     }
 }
@@ -1554,8 +1506,7 @@ public struct DescribeAppInstanceUserInput: Swift.Sendable {
 
     public init(
         appInstanceUserArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
     }
 }
@@ -1566,8 +1517,7 @@ public struct DescribeAppInstanceUserOutput: Swift.Sendable {
 
     public init(
         appInstanceUser: ChimeSDKIdentityClientTypes.AppInstanceUser? = nil
-    )
-    {
+    ) {
         self.appInstanceUser = appInstanceUser
     }
 }
@@ -1583,8 +1533,7 @@ public struct DescribeAppInstanceUserEndpointInput: Swift.Sendable {
     public init(
         appInstanceUserArn: Swift.String? = nil,
         endpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.endpointId = endpointId
     }
@@ -1596,8 +1545,7 @@ public struct DescribeAppInstanceUserEndpointOutput: Swift.Sendable {
 
     public init(
         appInstanceUserEndpoint: ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint? = nil
-    )
-    {
+    ) {
         self.appInstanceUserEndpoint = appInstanceUserEndpoint
     }
 }
@@ -1609,8 +1557,7 @@ public struct GetAppInstanceRetentionSettingsInput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -1624,8 +1571,7 @@ public struct GetAppInstanceRetentionSettingsOutput: Swift.Sendable {
     public init(
         appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings? = nil,
         initiateDeletionTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.appInstanceRetentionSettings = appInstanceRetentionSettings
         self.initiateDeletionTimestamp = initiateDeletionTimestamp
     }
@@ -1644,8 +1590,7 @@ public struct ListAppInstanceAdminsInput: Swift.Sendable {
         appInstanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1669,8 +1614,7 @@ public struct ListAppInstanceAdminsOutput: Swift.Sendable {
         appInstanceAdmins: [ChimeSDKIdentityClientTypes.AppInstanceAdminSummary]? = nil,
         appInstanceArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceAdmins = appInstanceAdmins
         self.appInstanceArn = appInstanceArn
         self.nextToken = nextToken
@@ -1695,8 +1639,7 @@ public struct ListAppInstanceBotsInput: Swift.Sendable {
         appInstanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1720,8 +1663,7 @@ public struct ListAppInstanceBotsOutput: Swift.Sendable {
         appInstanceArn: Swift.String? = nil,
         appInstanceBots: [ChimeSDKIdentityClientTypes.AppInstanceBotSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.appInstanceBots = appInstanceBots
         self.nextToken = nextToken
@@ -1742,8 +1684,7 @@ public struct ListAppInstancesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1763,8 +1704,7 @@ public struct ListAppInstancesOutput: Swift.Sendable {
     public init(
         appInstances: [ChimeSDKIdentityClientTypes.AppInstanceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstances = appInstances
         self.nextToken = nextToken
     }
@@ -1788,8 +1728,7 @@ public struct ListAppInstanceUserEndpointsInput: Swift.Sendable {
         appInstanceUserArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1810,8 +1749,7 @@ public struct ListAppInstanceUserEndpointsOutput: Swift.Sendable {
     public init(
         appInstanceUserEndpoints: [ChimeSDKIdentityClientTypes.AppInstanceUserEndpointSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserEndpoints = appInstanceUserEndpoints
         self.nextToken = nextToken
     }
@@ -1835,8 +1773,7 @@ public struct ListAppInstanceUsersInput: Swift.Sendable {
         appInstanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1860,8 +1797,7 @@ public struct ListAppInstanceUsersOutput: Swift.Sendable {
         appInstanceArn: Swift.String? = nil,
         appInstanceUsers: [ChimeSDKIdentityClientTypes.AppInstanceUserSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.appInstanceUsers = appInstanceUsers
         self.nextToken = nextToken
@@ -1880,8 +1816,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -1892,8 +1827,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ChimeSDKIdentityClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1909,8 +1843,7 @@ public struct PutAppInstanceRetentionSettingsInput: Swift.Sendable {
     public init(
         appInstanceArn: Swift.String? = nil,
         appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.appInstanceRetentionSettings = appInstanceRetentionSettings
     }
@@ -1925,8 +1858,7 @@ public struct PutAppInstanceRetentionSettingsOutput: Swift.Sendable {
     public init(
         appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings? = nil,
         initiateDeletionTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.appInstanceRetentionSettings = appInstanceRetentionSettings
         self.initiateDeletionTimestamp = initiateDeletionTimestamp
     }
@@ -1942,8 +1874,7 @@ public struct PutAppInstanceUserExpirationSettingsInput: Swift.Sendable {
     public init(
         appInstanceUserArn: Swift.String? = nil,
         expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.expirationSettings = expirationSettings
     }
@@ -1958,8 +1889,7 @@ public struct PutAppInstanceUserExpirationSettingsOutput: Swift.Sendable {
     public init(
         appInstanceUserArn: Swift.String? = nil,
         expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.expirationSettings = expirationSettings
     }
@@ -2003,8 +1933,7 @@ public struct RegisterAppInstanceUserEndpointInput: Swift.Sendable {
         name: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         type: ChimeSDKIdentityClientTypes.AppInstanceUserEndpointType? = nil
-    )
-    {
+    ) {
         self.allowMessages = allowMessages
         self.appInstanceUserArn = appInstanceUserArn
         self.clientRequestToken = clientRequestToken
@@ -2029,8 +1958,7 @@ public struct RegisterAppInstanceUserEndpointOutput: Swift.Sendable {
     public init(
         appInstanceUserArn: Swift.String? = nil,
         endpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.endpointId = endpointId
     }
@@ -2047,8 +1975,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [ChimeSDKIdentityClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -2065,8 +1992,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -2092,8 +2018,7 @@ public struct UpdateAppInstanceInput: Swift.Sendable {
         appInstanceArn: Swift.String? = nil,
         metadata: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.metadata = metadata
         self.name = name
@@ -2111,8 +2036,7 @@ public struct UpdateAppInstanceOutput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -2135,8 +2059,7 @@ public struct UpdateAppInstanceBotInput: Swift.Sendable {
         configuration: ChimeSDKIdentityClientTypes.Configuration? = nil,
         metadata: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceBotArn = appInstanceBotArn
         self.configuration = configuration
         self.metadata = metadata
@@ -2155,8 +2078,7 @@ public struct UpdateAppInstanceBotOutput: Swift.Sendable {
 
     public init(
         appInstanceBotArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceBotArn = appInstanceBotArn
     }
 }
@@ -2176,8 +2098,7 @@ public struct UpdateAppInstanceUserInput: Swift.Sendable {
         appInstanceUserArn: Swift.String? = nil,
         metadata: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.metadata = metadata
         self.name = name
@@ -2195,8 +2116,7 @@ public struct UpdateAppInstanceUserOutput: Swift.Sendable {
 
     public init(
         appInstanceUserArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
     }
 }
@@ -2218,8 +2138,7 @@ public struct UpdateAppInstanceUserEndpointInput: Swift.Sendable {
         appInstanceUserArn: Swift.String? = nil,
         endpointId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowMessages = allowMessages
         self.appInstanceUserArn = appInstanceUserArn
         self.endpointId = endpointId
@@ -2241,8 +2160,7 @@ public struct UpdateAppInstanceUserEndpointOutput: Swift.Sendable {
     public init(
         appInstanceUserArn: Swift.String? = nil,
         endpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.endpointId = endpointId
     }

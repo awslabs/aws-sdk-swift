@@ -73,8 +73,7 @@ extension EKSClientTypes {
         public init(
             authenticationMode: EKSClientTypes.AuthenticationMode? = nil,
             bootstrapClusterCreatorAdminPermissions: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.authenticationMode = authenticationMode
             self.bootstrapClusterCreatorAdminPermissions = bootstrapClusterCreatorAdminPermissions
         }
@@ -100,8 +99,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -139,8 +137,7 @@ extension EKSClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             type: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessEntryArn = accessEntryArn
             self.clusterName = clusterName
             self.createdAt = createdAt
@@ -166,8 +163,7 @@ extension EKSClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -215,8 +211,7 @@ extension EKSClientTypes {
         public init(
             namespaces: [Swift.String]? = nil,
             type: EKSClientTypes.AccessScopeType? = nil
-        )
-        {
+        ) {
             self.namespaces = namespaces
             self.type = type
         }
@@ -291,8 +286,7 @@ extension EKSClientTypes {
             code: EKSClientTypes.AddonIssueCode? = nil,
             message: Swift.String? = nil,
             resourceIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.resourceIds = resourceIds
@@ -309,8 +303,7 @@ extension EKSClientTypes {
 
         public init(
             issues: [EKSClientTypes.AddonIssue]? = nil
-        )
-        {
+        ) {
             self.issues = issues
         }
     }
@@ -328,8 +321,7 @@ extension EKSClientTypes {
         public init(
             productId: Swift.String? = nil,
             productUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.productId = productId
             self.productUrl = productUrl
         }
@@ -434,8 +426,7 @@ extension EKSClientTypes {
             serviceAccountRoleArn: Swift.String? = nil,
             status: EKSClientTypes.AddonStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.addonArn = addonArn
             self.addonName = addonName
             self.addonVersion = addonVersion
@@ -467,8 +458,7 @@ extension EKSClientTypes {
         public init(
             compatibleVersions: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.compatibleVersions = compatibleVersions
             self.name = name
         }
@@ -490,8 +480,7 @@ extension EKSClientTypes {
             clusterVersion: Swift.String? = nil,
             defaultVersion: Swift.Bool = false,
             platformVersions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.clusterVersion = clusterVersion
             self.defaultVersion = defaultVersion
             self.platformVersions = platformVersions
@@ -523,8 +512,7 @@ extension EKSClientTypes {
             computeTypes: [Swift.String]? = nil,
             requiresConfiguration: Swift.Bool = false,
             requiresIamPermissions: Swift.Bool = false
-        )
-        {
+        ) {
             self.addonVersion = addonVersion
             self.architecture = architecture
             self.compatibilities = compatibilities
@@ -559,8 +547,7 @@ extension EKSClientTypes {
             owner: Swift.String? = nil,
             publisher: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.addonName = addonName
             self.addonVersions = addonVersions
             self.marketplaceInformation = marketplaceInformation
@@ -585,8 +572,7 @@ extension EKSClientTypes {
         public init(
             roleArn: Swift.String? = nil,
             serviceAccount: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.serviceAccount = serviceAccount
         }
@@ -605,8 +591,7 @@ extension EKSClientTypes {
         public init(
             recommendedManagedPolicies: [Swift.String]? = nil,
             serviceAccount: Swift.String? = nil
-        )
-        {
+        ) {
             self.recommendedManagedPolicies = recommendedManagedPolicies
             self.serviceAccount = serviceAccount
         }
@@ -718,8 +703,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         nodegroupName: Swift.String? = nil,
         subscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.addonName = addonName
         self.properties.clusterName = clusterName
         self.properties.fargateProfileName = fargateProfileName
@@ -760,8 +744,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
         message: Swift.String? = nil,
         nodegroupName: Swift.String? = nil,
         subscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.addonName = addonName
         self.properties.clusterName = clusterName
         self.properties.message = message
@@ -804,8 +787,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         nodegroupName: Swift.String? = nil,
         subscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.addonName = addonName
         self.properties.clusterName = clusterName
         self.properties.fargateProfileName = fargateProfileName
@@ -846,8 +828,7 @@ public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
         message: Swift.String? = nil,
         nodegroupName: Swift.String? = nil,
         subscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.addonName = addonName
         self.properties.clusterName = clusterName
         self.properties.message = message
@@ -875,8 +856,7 @@ public struct AssociateAccessPolicyInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         policyArn: Swift.String? = nil,
         principalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessScope = accessScope
         self.clusterName = clusterName
         self.policyArn = policyArn
@@ -902,8 +882,7 @@ extension EKSClientTypes {
             associatedAt: Foundation.Date? = nil,
             modifiedAt: Foundation.Date? = nil,
             policyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessScope = accessScope
             self.associatedAt = associatedAt
             self.modifiedAt = modifiedAt
@@ -924,8 +903,7 @@ public struct AssociateAccessPolicyOutput: Swift.Sendable {
         associatedAccessPolicy: EKSClientTypes.AssociatedAccessPolicy? = nil,
         clusterName: Swift.String? = nil,
         principalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedAccessPolicy = associatedAccessPolicy
         self.clusterName = clusterName
         self.principalArn = principalArn
@@ -963,8 +941,7 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
         message: Swift.String? = nil,
         nodegroupName: Swift.String? = nil,
         subscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.addonName = addonName
         self.properties.clusterName = clusterName
         self.properties.message = message
@@ -1001,8 +978,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
         clusterName: Swift.String? = nil,
         message: Swift.String? = nil,
         nodegroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.addonName = addonName
         self.properties.clusterName = clusterName
         self.properties.message = message
@@ -1019,8 +995,7 @@ extension EKSClientTypes {
 
         public init(
             keyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyArn = keyArn
         }
     }
@@ -1038,8 +1013,7 @@ extension EKSClientTypes {
         public init(
             provider: EKSClientTypes.Provider? = nil,
             resources: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.provider = provider
             self.resources = resources
         }
@@ -1060,8 +1034,7 @@ public struct AssociateEncryptionConfigInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         encryptionConfig: [EKSClientTypes.EncryptionConfig]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.encryptionConfig = encryptionConfig
@@ -1171,8 +1144,7 @@ extension EKSClientTypes {
             errorCode: EKSClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             resourceIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.resourceIds = resourceIds
@@ -1317,8 +1289,7 @@ extension EKSClientTypes {
         public init(
             type: EKSClientTypes.UpdateParamType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1446,8 +1417,7 @@ extension EKSClientTypes {
             params: [EKSClientTypes.UpdateParam]? = nil,
             status: EKSClientTypes.UpdateStatus? = nil,
             type: EKSClientTypes.UpdateType? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.errors = errors
             self.id = id
@@ -1464,8 +1434,7 @@ public struct AssociateEncryptionConfigOutput: Swift.Sendable {
 
     public init(
         update: EKSClientTypes.Update? = nil
-    )
-    {
+    ) {
         self.update = update
     }
 }
@@ -1503,8 +1472,7 @@ extension EKSClientTypes {
             requiredClaims: [Swift.String: Swift.String]? = nil,
             usernameClaim: Swift.String? = nil,
             usernamePrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.groupsClaim = groupsClaim
             self.groupsPrefix = groupsPrefix
@@ -1534,8 +1502,7 @@ public struct AssociateIdentityProviderConfigInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         oidc: EKSClientTypes.OidcIdentityProviderConfigRequest? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.oidc = oidc
@@ -1552,8 +1519,7 @@ public struct AssociateIdentityProviderConfigOutput: Swift.Sendable {
     public init(
         tags: [Swift.String: Swift.String]? = nil,
         update: EKSClientTypes.Update? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.update = update
     }
@@ -1568,8 +1534,7 @@ extension EKSClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1603,8 +1568,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
         message: Swift.String? = nil,
         nodegroupName: Swift.String? = nil,
         subscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.clusterName = clusterName
         self.properties.message = message
         self.properties.nodegroupName = nodegroupName
@@ -1638,8 +1602,7 @@ public struct CreateAccessEntryInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.kubernetesGroups = kubernetesGroups
@@ -1656,8 +1619,7 @@ public struct CreateAccessEntryOutput: Swift.Sendable {
 
     public init(
         accessEntry: EKSClientTypes.AccessEntry? = nil
-    )
-    {
+    ) {
         self.accessEntry = accessEntry
     }
 }
@@ -1735,8 +1697,7 @@ public struct CreateAddonInput: Swift.Sendable {
         resolveConflicts: EKSClientTypes.ResolveConflicts? = nil,
         serviceAccountRoleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.addonVersion = addonVersion
         self.clientRequestToken = clientRequestToken
@@ -1755,8 +1716,7 @@ public struct CreateAddonOutput: Swift.Sendable {
 
     public init(
         addon: EKSClientTypes.Addon? = nil
-    )
-    {
+    ) {
         self.addon = addon
     }
 }
@@ -1780,8 +1740,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1814,8 +1773,7 @@ public struct UnsupportedAvailabilityZoneException: ClientRuntime.ModeledError, 
         message: Swift.String? = nil,
         nodegroupName: Swift.String? = nil,
         validZones: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.properties.clusterName = clusterName
         self.properties.message = message
         self.properties.nodegroupName = nodegroupName
@@ -1835,8 +1793,7 @@ extension EKSClientTypes {
         public init(
             authenticationMode: EKSClientTypes.AuthenticationMode? = nil,
             bootstrapClusterCreatorAdminPermissions: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.authenticationMode = authenticationMode
             self.bootstrapClusterCreatorAdminPermissions = bootstrapClusterCreatorAdminPermissions
         }
@@ -1858,8 +1815,7 @@ extension EKSClientTypes {
             enabled: Swift.Bool? = nil,
             nodePools: [Swift.String]? = nil,
             nodeRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.nodePools = nodePools
             self.nodeRoleArn = nodeRoleArn
@@ -1876,8 +1832,7 @@ extension EKSClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -1936,8 +1891,7 @@ extension EKSClientTypes {
             elasticLoadBalancing: EKSClientTypes.ElasticLoadBalancing? = nil,
             ipFamily: EKSClientTypes.IpFamily? = nil,
             serviceIpv4Cidr: Swift.String? = nil
-        )
-        {
+        ) {
             self.elasticLoadBalancing = elasticLoadBalancing
             self.ipFamily = ipFamily
             self.serviceIpv4Cidr = serviceIpv4Cidr
@@ -1995,8 +1949,7 @@ extension EKSClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             types: [EKSClientTypes.LogType]? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.types = types
         }
@@ -2012,8 +1965,7 @@ extension EKSClientTypes {
 
         public init(
             clusterLogging: [EKSClientTypes.LogSetup]? = nil
-        )
-        {
+        ) {
             self.clusterLogging = clusterLogging
         }
     }
@@ -2028,8 +1980,7 @@ extension EKSClientTypes {
 
         public init(
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupName = groupName
         }
     }
@@ -2052,8 +2003,7 @@ extension EKSClientTypes {
             controlPlaneInstanceType: Swift.String? = nil,
             controlPlanePlacement: EKSClientTypes.ControlPlanePlacementRequest? = nil,
             outpostArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
             self.controlPlanePlacement = controlPlanePlacement
             self.outpostArns = outpostArns
@@ -2094,8 +2044,7 @@ extension EKSClientTypes {
 
         public init(
             cidrs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.cidrs = cidrs
         }
     }
@@ -2118,8 +2067,7 @@ extension EKSClientTypes {
 
         public init(
             cidrs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.cidrs = cidrs
         }
     }
@@ -2153,8 +2101,7 @@ extension EKSClientTypes {
         public init(
             remoteNodeNetworks: [EKSClientTypes.RemoteNodeNetwork]? = nil,
             remotePodNetworks: [EKSClientTypes.RemotePodNetwork]? = nil
-        )
-        {
+        ) {
             self.remoteNodeNetworks = remoteNodeNetworks
             self.remotePodNetworks = remotePodNetworks
         }
@@ -2182,8 +2129,7 @@ extension EKSClientTypes {
             publicAccessCidrs: [Swift.String]? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
             self.publicAccessCidrs = publicAccessCidrs
@@ -2202,8 +2148,7 @@ extension EKSClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -2218,8 +2163,7 @@ extension EKSClientTypes {
 
         public init(
             blockStorage: EKSClientTypes.BlockStorage? = nil
-        )
-        {
+        ) {
             self.blockStorage = blockStorage
         }
     }
@@ -2263,8 +2207,7 @@ extension EKSClientTypes {
 
         public init(
             supportType: EKSClientTypes.SupportType? = nil
-        )
-        {
+        ) {
             self.supportType = supportType
         }
     }
@@ -2279,8 +2222,7 @@ extension EKSClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -2343,8 +2285,7 @@ public struct CreateClusterInput: Swift.Sendable {
         upgradePolicy: EKSClientTypes.UpgradePolicyRequest? = nil,
         version: Swift.String? = nil,
         zonalShiftConfig: EKSClientTypes.ZonalShiftConfigRequest? = nil
-    )
-    {
+    ) {
         self.accessConfig = accessConfig
         self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
         self.clientRequestToken = clientRequestToken
@@ -2374,8 +2315,7 @@ extension EKSClientTypes {
 
         public init(
             data: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
         }
     }
@@ -2396,8 +2336,7 @@ extension EKSClientTypes {
             enabled: Swift.Bool? = nil,
             nodePools: [Swift.String]? = nil,
             nodeRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.nodePools = nodePools
             self.nodeRoleArn = nodeRoleArn
@@ -2426,8 +2365,7 @@ extension EKSClientTypes {
             activationId: Swift.String? = nil,
             provider: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.activationCode = activationCode
             self.activationExpiry = activationExpiry
             self.activationId = activationId
@@ -2532,8 +2470,7 @@ extension EKSClientTypes {
             code: EKSClientTypes.ClusterIssueCode? = nil,
             message: Swift.String? = nil,
             resourceIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.resourceIds = resourceIds
@@ -2550,8 +2487,7 @@ extension EKSClientTypes {
 
         public init(
             issues: [EKSClientTypes.ClusterIssue]? = nil
-        )
-        {
+        ) {
             self.issues = issues
         }
     }
@@ -2566,8 +2502,7 @@ extension EKSClientTypes {
 
         public init(
             issuer: Swift.String? = nil
-        )
-        {
+        ) {
             self.issuer = issuer
         }
     }
@@ -2582,8 +2517,7 @@ extension EKSClientTypes {
 
         public init(
             oidc: EKSClientTypes.OIDC? = nil
-        )
-        {
+        ) {
             self.oidc = oidc
         }
     }
@@ -2607,8 +2541,7 @@ extension EKSClientTypes {
             ipFamily: EKSClientTypes.IpFamily? = nil,
             serviceIpv4Cidr: Swift.String? = nil,
             serviceIpv6Cidr: Swift.String? = nil
-        )
-        {
+        ) {
             self.elasticLoadBalancing = elasticLoadBalancing
             self.ipFamily = ipFamily
             self.serviceIpv4Cidr = serviceIpv4Cidr
@@ -2626,8 +2559,7 @@ extension EKSClientTypes {
 
         public init(
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupName = groupName
         }
     }
@@ -2650,8 +2582,7 @@ extension EKSClientTypes {
             controlPlaneInstanceType: Swift.String? = nil,
             controlPlanePlacement: EKSClientTypes.ControlPlanePlacementResponse? = nil,
             outpostArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
             self.controlPlanePlacement = controlPlanePlacement
             self.outpostArns = outpostArns
@@ -2671,8 +2602,7 @@ extension EKSClientTypes {
         public init(
             remoteNodeNetworks: [EKSClientTypes.RemoteNodeNetwork]? = nil,
             remotePodNetworks: [EKSClientTypes.RemotePodNetwork]? = nil
-        )
-        {
+        ) {
             self.remoteNodeNetworks = remoteNodeNetworks
             self.remotePodNetworks = remotePodNetworks
         }
@@ -2706,8 +2636,7 @@ extension EKSClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterSecurityGroupId = clusterSecurityGroupId
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
@@ -2769,8 +2698,7 @@ extension EKSClientTypes {
 
         public init(
             blockStorage: EKSClientTypes.BlockStorage? = nil
-        )
-        {
+        ) {
             self.blockStorage = blockStorage
         }
     }
@@ -2785,8 +2713,7 @@ extension EKSClientTypes {
 
         public init(
             supportType: EKSClientTypes.SupportType? = nil
-        )
-        {
+        ) {
             self.supportType = supportType
         }
     }
@@ -2801,8 +2728,7 @@ extension EKSClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -2892,8 +2818,7 @@ extension EKSClientTypes {
             upgradePolicy: EKSClientTypes.UpgradePolicyResponse? = nil,
             version: Swift.String? = nil,
             zonalShiftConfig: EKSClientTypes.ZonalShiftConfigResponse? = nil
-        )
-        {
+        ) {
             self.accessConfig = accessConfig
             self.arn = arn
             self.certificateAuthority = certificateAuthority
@@ -2930,8 +2855,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: EKSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -3000,8 +2924,7 @@ extension EKSClientTypes {
         public init(
             duration: Swift.Int = 0,
             unit: EKSClientTypes.EksAnywhereSubscriptionTermUnit? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.unit = unit
         }
@@ -3034,8 +2957,7 @@ public struct CreateEksAnywhereSubscriptionInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         term: EKSClientTypes.EksAnywhereSubscriptionTerm? = nil
-    )
-    {
+    ) {
         self.autoRenew = autoRenew
         self.clientRequestToken = clientRequestToken
         self.licenseQuantity = licenseQuantity
@@ -3088,8 +3010,7 @@ extension EKSClientTypes {
             status: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             term: EKSClientTypes.EksAnywhereSubscriptionTerm? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.autoRenew = autoRenew
             self.createdAt = createdAt
@@ -3112,8 +3033,7 @@ public struct CreateEksAnywhereSubscriptionOutput: Swift.Sendable {
 
     public init(
         subscription: EKSClientTypes.EksAnywhereSubscription? = nil
-    )
-    {
+    ) {
         self.subscription = subscription
     }
 }
@@ -3130,8 +3050,7 @@ extension EKSClientTypes {
         public init(
             labels: [Swift.String: Swift.String]? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.labels = labels
             self.namespace = namespace
         }
@@ -3165,8 +3084,7 @@ public struct CreateFargateProfileInput: Swift.Sendable {
         selectors: [EKSClientTypes.FargateProfileSelector]? = nil,
         subnets: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.fargateProfileName = fargateProfileName
@@ -3227,8 +3145,7 @@ extension EKSClientTypes {
             code: EKSClientTypes.FargateProfileIssueCode? = nil,
             message: Swift.String? = nil,
             resourceIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.resourceIds = resourceIds
@@ -3245,8 +3162,7 @@ extension EKSClientTypes {
 
         public init(
             issues: [EKSClientTypes.FargateProfileIssue]? = nil
-        )
-        {
+        ) {
             self.issues = issues
         }
     }
@@ -3326,8 +3242,7 @@ extension EKSClientTypes {
             status: EKSClientTypes.FargateProfileStatus? = nil,
             subnets: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.clusterName = clusterName
             self.createdAt = createdAt
             self.fargateProfileArn = fargateProfileArn
@@ -3348,8 +3263,7 @@ public struct CreateFargateProfileOutput: Swift.Sendable {
 
     public init(
         fargateProfile: EKSClientTypes.FargateProfile? = nil
-    )
-    {
+    ) {
         self.fargateProfile = fargateProfile
     }
 }
@@ -3401,8 +3315,7 @@ extension EKSClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.version = version
@@ -3419,8 +3332,7 @@ extension EKSClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -3438,8 +3350,7 @@ extension EKSClientTypes {
         public init(
             ec2SshKey: Swift.String? = nil,
             sourceSecurityGroups: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.ec2SshKey = ec2SshKey
             self.sourceSecurityGroups = sourceSecurityGroups
         }
@@ -3461,8 +3372,7 @@ extension EKSClientTypes {
             desiredSize: Swift.Int? = nil,
             maxSize: Swift.Int? = nil,
             minSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.desiredSize = desiredSize
             self.maxSize = maxSize
             self.minSize = minSize
@@ -3517,8 +3427,7 @@ extension EKSClientTypes {
             effect: EKSClientTypes.TaintEffect? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.effect = effect
             self.key = key
             self.value = value
@@ -3538,8 +3447,7 @@ extension EKSClientTypes {
         public init(
             maxUnavailable: Swift.Int? = nil,
             maxUnavailablePercentage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxUnavailable = maxUnavailable
             self.maxUnavailablePercentage = maxUnavailablePercentage
         }
@@ -3610,8 +3518,7 @@ public struct CreateNodegroupInput: Swift.Sendable {
         taints: [EKSClientTypes.Taint]? = nil,
         updateConfig: EKSClientTypes.NodegroupUpdateConfig? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.amiType = amiType
         self.capacityType = capacityType
         self.clientRequestToken = clientRequestToken
@@ -3812,8 +3719,7 @@ extension EKSClientTypes {
             code: EKSClientTypes.NodegroupIssueCode? = nil,
             message: Swift.String? = nil,
             resourceIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.resourceIds = resourceIds
@@ -3830,8 +3736,7 @@ extension EKSClientTypes {
 
         public init(
             issues: [EKSClientTypes.Issue]? = nil
-        )
-        {
+        ) {
             self.issues = issues
         }
     }
@@ -3849,8 +3754,7 @@ extension EKSClientTypes {
         public init(
             autoScalingGroups: [EKSClientTypes.AutoScalingGroup]? = nil,
             remoteAccessSecurityGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoScalingGroups = autoScalingGroups
             self.remoteAccessSecurityGroup = remoteAccessSecurityGroup
         }
@@ -3979,8 +3883,7 @@ extension EKSClientTypes {
             taints: [EKSClientTypes.Taint]? = nil,
             updateConfig: EKSClientTypes.NodegroupUpdateConfig? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.amiType = amiType
             self.capacityType = capacityType
             self.clusterName = clusterName
@@ -4015,8 +3918,7 @@ public struct CreateNodegroupOutput: Swift.Sendable {
 
     public init(
         nodegroup: EKSClientTypes.Nodegroup? = nil
-    )
-    {
+    ) {
         self.nodegroup = nodegroup
     }
 }
@@ -4060,8 +3962,7 @@ public struct CreatePodIdentityAssociationInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         serviceAccount: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.namespace = namespace
@@ -4121,8 +4022,7 @@ extension EKSClientTypes {
             roleArn: Swift.String? = nil,
             serviceAccount: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.clusterName = clusterName
@@ -4143,8 +4043,7 @@ public struct CreatePodIdentityAssociationOutput: Swift.Sendable {
 
     public init(
         association: EKSClientTypes.PodIdentityAssociation? = nil
-    )
-    {
+    ) {
         self.association = association
     }
 }
@@ -4160,8 +4059,7 @@ public struct DeleteAccessEntryInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         principalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.principalArn = principalArn
     }
@@ -4186,8 +4084,7 @@ public struct DeleteAddonInput: Swift.Sendable {
         addonName: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         preserve: Swift.Bool? = false
-    )
-    {
+    ) {
         self.addonName = addonName
         self.clusterName = clusterName
         self.preserve = preserve
@@ -4200,8 +4097,7 @@ public struct DeleteAddonOutput: Swift.Sendable {
 
     public init(
         addon: EKSClientTypes.Addon? = nil
-    )
-    {
+    ) {
         self.addon = addon
     }
 }
@@ -4213,8 +4109,7 @@ public struct DeleteClusterInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4225,8 +4120,7 @@ public struct DeleteClusterOutput: Swift.Sendable {
 
     public init(
         cluster: EKSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -4238,8 +4132,7 @@ public struct DeleteEksAnywhereSubscriptionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4250,8 +4143,7 @@ public struct DeleteEksAnywhereSubscriptionOutput: Swift.Sendable {
 
     public init(
         subscription: EKSClientTypes.EksAnywhereSubscription? = nil
-    )
-    {
+    ) {
         self.subscription = subscription
     }
 }
@@ -4267,8 +4159,7 @@ public struct DeleteFargateProfileInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         fargateProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.fargateProfileName = fargateProfileName
     }
@@ -4280,8 +4171,7 @@ public struct DeleteFargateProfileOutput: Swift.Sendable {
 
     public init(
         fargateProfile: EKSClientTypes.FargateProfile? = nil
-    )
-    {
+    ) {
         self.fargateProfile = fargateProfile
     }
 }
@@ -4297,8 +4187,7 @@ public struct DeleteNodegroupInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         nodegroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.nodegroupName = nodegroupName
     }
@@ -4310,8 +4199,7 @@ public struct DeleteNodegroupOutput: Swift.Sendable {
 
     public init(
         nodegroup: EKSClientTypes.Nodegroup? = nil
-    )
-    {
+    ) {
         self.nodegroup = nodegroup
     }
 }
@@ -4327,8 +4215,7 @@ public struct DeletePodIdentityAssociationInput: Swift.Sendable {
     public init(
         associationId: Swift.String? = nil,
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.clusterName = clusterName
     }
@@ -4340,8 +4227,7 @@ public struct DeletePodIdentityAssociationOutput: Swift.Sendable {
 
     public init(
         association: EKSClientTypes.PodIdentityAssociation? = nil
-    )
-    {
+    ) {
         self.association = association
     }
 }
@@ -4353,8 +4239,7 @@ public struct DeregisterClusterInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4365,8 +4250,7 @@ public struct DeregisterClusterOutput: Swift.Sendable {
 
     public init(
         cluster: EKSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -4382,8 +4266,7 @@ public struct DescribeAccessEntryInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         principalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.principalArn = principalArn
     }
@@ -4395,8 +4278,7 @@ public struct DescribeAccessEntryOutput: Swift.Sendable {
 
     public init(
         accessEntry: EKSClientTypes.AccessEntry? = nil
-    )
-    {
+    ) {
         self.accessEntry = accessEntry
     }
 }
@@ -4412,8 +4294,7 @@ public struct DescribeAddonInput: Swift.Sendable {
     public init(
         addonName: Swift.String? = nil,
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.clusterName = clusterName
     }
@@ -4425,8 +4306,7 @@ public struct DescribeAddonOutput: Swift.Sendable {
 
     public init(
         addon: EKSClientTypes.Addon? = nil
-    )
-    {
+    ) {
         self.addon = addon
     }
 }
@@ -4442,8 +4322,7 @@ public struct DescribeAddonConfigurationInput: Swift.Sendable {
     public init(
         addonName: Swift.String? = nil,
         addonVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.addonVersion = addonVersion
     }
@@ -4464,8 +4343,7 @@ public struct DescribeAddonConfigurationOutput: Swift.Sendable {
         addonVersion: Swift.String? = nil,
         configurationSchema: Swift.String? = nil,
         podIdentityConfiguration: [EKSClientTypes.AddonPodIdentityConfiguration]? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.addonVersion = addonVersion
         self.configurationSchema = configurationSchema
@@ -4497,8 +4375,7 @@ public struct DescribeAddonVersionsInput: Swift.Sendable {
         owners: [Swift.String]? = nil,
         publishers: [Swift.String]? = nil,
         types: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.kubernetesVersion = kubernetesVersion
         self.maxResults = maxResults
@@ -4518,8 +4395,7 @@ public struct DescribeAddonVersionsOutput: Swift.Sendable {
     public init(
         addons: [EKSClientTypes.AddonInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.addons = addons
         self.nextToken = nextToken
     }
@@ -4532,8 +4408,7 @@ public struct DescribeClusterInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4544,8 +4419,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
 
     public init(
         cluster: EKSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -4606,8 +4480,7 @@ public struct DescribeClusterVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: EKSClientTypes.ClusterVersionStatus? = nil
-    )
-    {
+    ) {
         self.clusterType = clusterType
         self.clusterVersions = clusterVersions
         self.defaultOnly = defaultOnly
@@ -4651,8 +4524,7 @@ extension EKSClientTypes {
             kubernetesPatchVersion: Swift.String? = nil,
             releaseDate: Foundation.Date? = nil,
             status: EKSClientTypes.ClusterVersionStatus? = nil
-        )
-        {
+        ) {
             self.clusterType = clusterType
             self.clusterVersion = clusterVersion
             self.defaultPlatformVersion = defaultPlatformVersion
@@ -4675,8 +4547,7 @@ public struct DescribeClusterVersionsOutput: Swift.Sendable {
     public init(
         clusterVersions: [EKSClientTypes.ClusterVersionInformation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterVersions = clusterVersions
         self.nextToken = nextToken
     }
@@ -4689,8 +4560,7 @@ public struct DescribeEksAnywhereSubscriptionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4701,8 +4571,7 @@ public struct DescribeEksAnywhereSubscriptionOutput: Swift.Sendable {
 
     public init(
         subscription: EKSClientTypes.EksAnywhereSubscription? = nil
-    )
-    {
+    ) {
         self.subscription = subscription
     }
 }
@@ -4718,8 +4587,7 @@ public struct DescribeFargateProfileInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         fargateProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.fargateProfileName = fargateProfileName
     }
@@ -4731,8 +4599,7 @@ public struct DescribeFargateProfileOutput: Swift.Sendable {
 
     public init(
         fargateProfile: EKSClientTypes.FargateProfile? = nil
-    )
-    {
+    ) {
         self.fargateProfile = fargateProfile
     }
 }
@@ -4751,8 +4618,7 @@ extension EKSClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -4770,8 +4636,7 @@ public struct DescribeIdentityProviderConfigInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         identityProviderConfig: EKSClientTypes.IdentityProviderConfig? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.identityProviderConfig = identityProviderConfig
     }
@@ -4851,8 +4716,7 @@ extension EKSClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             usernameClaim: Swift.String? = nil,
             usernamePrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.clusterName = clusterName
             self.groupsClaim = groupsClaim
@@ -4878,8 +4742,7 @@ extension EKSClientTypes {
 
         public init(
             oidc: EKSClientTypes.OidcIdentityProviderConfig? = nil
-        )
-        {
+        ) {
             self.oidc = oidc
         }
     }
@@ -4891,8 +4754,7 @@ public struct DescribeIdentityProviderConfigOutput: Swift.Sendable {
 
     public init(
         identityProviderConfig: EKSClientTypes.IdentityProviderConfigResponse? = nil
-    )
-    {
+    ) {
         self.identityProviderConfig = identityProviderConfig
     }
 }
@@ -4908,8 +4770,7 @@ public struct DescribeInsightInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.id = id
     }
@@ -4956,8 +4817,7 @@ extension EKSClientTypes {
             lastRequestTime: Foundation.Date? = nil,
             numberOfRequestsLast30Days: Swift.Int = 0,
             userAgent: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastRequestTime = lastRequestTime
             self.numberOfRequestsLast30Days = numberOfRequestsLast30Days
             self.userAgent = userAgent
@@ -4986,8 +4846,7 @@ extension EKSClientTypes {
             startServingReplacementVersion: Swift.String? = nil,
             stopServingVersion: Swift.String? = nil,
             usage: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientStats = clientStats
             self.replacedWith = replacedWith
             self.startServingReplacementVersion = startServingReplacementVersion
@@ -5009,8 +4868,7 @@ extension EKSClientTypes {
         public init(
             addonCompatibilityDetails: [EKSClientTypes.AddonCompatibilityDetail]? = nil,
             deprecationDetails: [EKSClientTypes.DeprecationDetail]? = nil
-        )
-        {
+        ) {
             self.addonCompatibilityDetails = addonCompatibilityDetails
             self.deprecationDetails = deprecationDetails
         }
@@ -5064,8 +4922,7 @@ extension EKSClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: EKSClientTypes.InsightStatusValue? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -5087,8 +4944,7 @@ extension EKSClientTypes {
             arn: Swift.String? = nil,
             insightStatus: EKSClientTypes.InsightStatus? = nil,
             kubernetesResourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.insightStatus = insightStatus
             self.kubernetesResourceUri = kubernetesResourceUri
@@ -5138,8 +4994,7 @@ extension EKSClientTypes {
             name: Swift.String? = nil,
             recommendation: Swift.String? = nil,
             resources: [EKSClientTypes.InsightResourceDetail]? = nil
-        )
-        {
+        ) {
             self.additionalInfo = additionalInfo
             self.category = category
             self.categorySpecificSummary = categorySpecificSummary
@@ -5162,8 +5017,7 @@ public struct DescribeInsightOutput: Swift.Sendable {
 
     public init(
         insight: EKSClientTypes.Insight? = nil
-    )
-    {
+    ) {
         self.insight = insight
     }
 }
@@ -5179,8 +5033,7 @@ public struct DescribeNodegroupInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         nodegroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.nodegroupName = nodegroupName
     }
@@ -5192,8 +5045,7 @@ public struct DescribeNodegroupOutput: Swift.Sendable {
 
     public init(
         nodegroup: EKSClientTypes.Nodegroup? = nil
-    )
-    {
+    ) {
         self.nodegroup = nodegroup
     }
 }
@@ -5209,8 +5061,7 @@ public struct DescribePodIdentityAssociationInput: Swift.Sendable {
     public init(
         associationId: Swift.String? = nil,
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.clusterName = clusterName
     }
@@ -5222,8 +5073,7 @@ public struct DescribePodIdentityAssociationOutput: Swift.Sendable {
 
     public init(
         association: EKSClientTypes.PodIdentityAssociation? = nil
-    )
-    {
+    ) {
         self.association = association
     }
 }
@@ -5246,8 +5096,7 @@ public struct DescribeUpdateInput: Swift.Sendable {
         name: Swift.String? = nil,
         nodegroupName: Swift.String? = nil,
         updateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.name = name
         self.nodegroupName = nodegroupName
@@ -5261,8 +5110,7 @@ public struct DescribeUpdateOutput: Swift.Sendable {
 
     public init(
         update: EKSClientTypes.Update? = nil
-    )
-    {
+    ) {
         self.update = update
     }
 }
@@ -5282,8 +5130,7 @@ public struct DisassociateAccessPolicyInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         policyArn: Swift.String? = nil,
         principalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.policyArn = policyArn
         self.principalArn = principalArn
@@ -5309,8 +5156,7 @@ public struct DisassociateIdentityProviderConfigInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         identityProviderConfig: EKSClientTypes.IdentityProviderConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.identityProviderConfig = identityProviderConfig
@@ -5323,8 +5169,7 @@ public struct DisassociateIdentityProviderConfigOutput: Swift.Sendable {
 
     public init(
         update: EKSClientTypes.Update? = nil
-    )
-    {
+    ) {
         self.update = update
     }
 }
@@ -5345,8 +5190,7 @@ public struct ListAccessEntriesInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedPolicyArn = associatedPolicyArn
         self.clusterName = clusterName
         self.maxResults = maxResults
@@ -5363,8 +5207,7 @@ public struct ListAccessEntriesOutput: Swift.Sendable {
     public init(
         accessEntries: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessEntries = accessEntries
         self.nextToken = nextToken
     }
@@ -5379,8 +5222,7 @@ public struct ListAccessPoliciesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5395,8 +5237,7 @@ public struct ListAccessPoliciesOutput: Swift.Sendable {
     public init(
         accessPolicies: [EKSClientTypes.AccessPolicy]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPolicies = accessPolicies
         self.nextToken = nextToken
     }
@@ -5415,8 +5256,7 @@ public struct ListAddonsInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5432,8 +5272,7 @@ public struct ListAddonsOutput: Swift.Sendable {
     public init(
         addons: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.addons = addons
         self.nextToken = nextToken
     }
@@ -5456,8 +5295,7 @@ public struct ListAssociatedAccessPoliciesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         principalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5480,8 +5318,7 @@ public struct ListAssociatedAccessPoliciesOutput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         principalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedAccessPolicies = associatedAccessPolicies
         self.clusterName = clusterName
         self.nextToken = nextToken
@@ -5501,8 +5338,7 @@ public struct ListClustersInput: Swift.Sendable {
         include: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.include = include
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5518,8 +5354,7 @@ public struct ListClustersOutput: Swift.Sendable {
     public init(
         clusters: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.nextToken = nextToken
     }
@@ -5578,8 +5413,7 @@ public struct ListEksAnywhereSubscriptionsInput: Swift.Sendable {
         includeStatus: [EKSClientTypes.EksAnywhereSubscriptionStatus]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeStatus = includeStatus
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5595,8 +5429,7 @@ public struct ListEksAnywhereSubscriptionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subscriptions: [EKSClientTypes.EksAnywhereSubscription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subscriptions = subscriptions
     }
@@ -5615,8 +5448,7 @@ public struct ListFargateProfilesInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5632,8 +5464,7 @@ public struct ListFargateProfilesOutput: Swift.Sendable {
     public init(
         fargateProfileNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fargateProfileNames = fargateProfileNames
         self.nextToken = nextToken
     }
@@ -5652,8 +5483,7 @@ public struct ListIdentityProviderConfigsInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5669,8 +5499,7 @@ public struct ListIdentityProviderConfigsOutput: Swift.Sendable {
     public init(
         identityProviderConfigs: [EKSClientTypes.IdentityProviderConfig]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProviderConfigs = identityProviderConfigs
         self.nextToken = nextToken
     }
@@ -5691,8 +5520,7 @@ extension EKSClientTypes {
             categories: [EKSClientTypes.Category]? = nil,
             kubernetesVersions: [Swift.String]? = nil,
             statuses: [EKSClientTypes.InsightStatusValue]? = nil
-        )
-        {
+        ) {
             self.categories = categories
             self.kubernetesVersions = kubernetesVersions
             self.statuses = statuses
@@ -5716,8 +5544,7 @@ public struct ListInsightsInput: Swift.Sendable {
         filter: EKSClientTypes.InsightsFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.filter = filter
         self.maxResults = maxResults
@@ -5755,8 +5582,7 @@ extension EKSClientTypes {
             lastRefreshTime: Foundation.Date? = nil,
             lastTransitionTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.description = description
             self.id = id
@@ -5778,8 +5604,7 @@ public struct ListInsightsOutput: Swift.Sendable {
     public init(
         insights: [EKSClientTypes.InsightSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.insights = insights
         self.nextToken = nextToken
     }
@@ -5798,8 +5623,7 @@ public struct ListNodegroupsInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5815,8 +5639,7 @@ public struct ListNodegroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         nodegroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.nodegroups = nodegroups
     }
@@ -5841,8 +5664,7 @@ public struct ListPodIdentityAssociationsInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         serviceAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.maxResults = maxResults
         self.namespace = namespace
@@ -5883,8 +5705,7 @@ extension EKSClientTypes {
             namespace: Swift.String? = nil,
             ownerArn: Swift.String? = nil,
             serviceAccount: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.clusterName = clusterName
@@ -5912,8 +5733,7 @@ public struct ListPodIdentityAssociationsOutput: Swift.Sendable {
     public init(
         associations: [EKSClientTypes.PodIdentityAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associations = associations
         self.nextToken = nextToken
     }
@@ -5938,8 +5758,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5963,8 +5782,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5976,8 +5794,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5988,8 +5805,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -6013,8 +5829,7 @@ public struct ListUpdatesInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         nodegroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.maxResults = maxResults
         self.name = name
@@ -6032,8 +5847,7 @@ public struct ListUpdatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         updateIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.updateIds = updateIds
     }
@@ -6058,8 +5872,7 @@ public struct ResourcePropagationDelayException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6128,8 +5941,7 @@ extension EKSClientTypes {
         public init(
             provider: EKSClientTypes.ConnectorConfigProvider? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.provider = provider
             self.roleArn = roleArn
         }
@@ -6153,8 +5965,7 @@ public struct RegisterClusterInput: Swift.Sendable {
         connectorConfig: EKSClientTypes.ConnectorConfigRequest? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.connectorConfig = connectorConfig
         self.name = name
@@ -6168,8 +5979,7 @@ public struct RegisterClusterOutput: Swift.Sendable {
 
     public init(
         cluster: EKSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -6185,8 +5995,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6208,8 +6017,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -6240,8 +6048,7 @@ public struct UpdateAccessEntryInput: Swift.Sendable {
         kubernetesGroups: [Swift.String]? = nil,
         principalArn: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.kubernetesGroups = kubernetesGroups
@@ -6256,8 +6063,7 @@ public struct UpdateAccessEntryOutput: Swift.Sendable {
 
     public init(
         accessEntry: EKSClientTypes.AccessEntry? = nil
-    )
-    {
+    ) {
         self.accessEntry = accessEntry
     }
 }
@@ -6297,8 +6103,7 @@ public struct UpdateAddonInput: Swift.Sendable {
         podIdentityAssociations: [EKSClientTypes.AddonPodIdentityAssociations]? = nil,
         resolveConflicts: EKSClientTypes.ResolveConflicts? = nil,
         serviceAccountRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.addonVersion = addonVersion
         self.clientRequestToken = clientRequestToken
@@ -6316,8 +6121,7 @@ public struct UpdateAddonOutput: Swift.Sendable {
 
     public init(
         update: EKSClientTypes.Update? = nil
-    )
-    {
+    ) {
         self.update = update
     }
 }
@@ -6331,8 +6135,7 @@ extension EKSClientTypes {
 
         public init(
             authenticationMode: EKSClientTypes.AuthenticationMode? = nil
-        )
-        {
+        ) {
             self.authenticationMode = authenticationMode
         }
     }
@@ -6372,8 +6175,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         storageConfig: EKSClientTypes.StorageConfigRequest? = nil,
         upgradePolicy: EKSClientTypes.UpgradePolicyRequest? = nil,
         zonalShiftConfig: EKSClientTypes.ZonalShiftConfigRequest? = nil
-    )
-    {
+    ) {
         self.accessConfig = accessConfig
         self.clientRequestToken = clientRequestToken
         self.computeConfig = computeConfig
@@ -6393,8 +6195,7 @@ public struct UpdateClusterConfigOutput: Swift.Sendable {
 
     public init(
         update: EKSClientTypes.Update? = nil
-    )
-    {
+    ) {
         self.update = update
     }
 }
@@ -6413,8 +6214,7 @@ public struct UpdateClusterVersionInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.version = version
@@ -6427,8 +6227,7 @@ public struct UpdateClusterVersionOutput: Swift.Sendable {
 
     public init(
         update: EKSClientTypes.Update? = nil
-    )
-    {
+    ) {
         self.update = update
     }
 }
@@ -6447,8 +6246,7 @@ public struct UpdateEksAnywhereSubscriptionInput: Swift.Sendable {
         autoRenew: Swift.Bool? = false,
         clientRequestToken: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoRenew = autoRenew
         self.clientRequestToken = clientRequestToken
         self.id = id
@@ -6461,8 +6259,7 @@ public struct UpdateEksAnywhereSubscriptionOutput: Swift.Sendable {
 
     public init(
         subscription: EKSClientTypes.EksAnywhereSubscription? = nil
-    )
-    {
+    ) {
         self.subscription = subscription
     }
 }
@@ -6479,8 +6276,7 @@ extension EKSClientTypes {
         public init(
             addOrUpdateLabels: [Swift.String: Swift.String]? = nil,
             removeLabels: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.addOrUpdateLabels = addOrUpdateLabels
             self.removeLabels = removeLabels
         }
@@ -6499,8 +6295,7 @@ extension EKSClientTypes {
         public init(
             addOrUpdateTaints: [EKSClientTypes.Taint]? = nil,
             removeTaints: [EKSClientTypes.Taint]? = nil
-        )
-        {
+        ) {
             self.addOrUpdateTaints = addOrUpdateTaints
             self.removeTaints = removeTaints
         }
@@ -6536,8 +6331,7 @@ public struct UpdateNodegroupConfigInput: Swift.Sendable {
         scalingConfig: EKSClientTypes.NodegroupScalingConfig? = nil,
         taints: EKSClientTypes.UpdateTaintsPayload? = nil,
         updateConfig: EKSClientTypes.NodegroupUpdateConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.labels = labels
@@ -6555,8 +6349,7 @@ public struct UpdateNodegroupConfigOutput: Swift.Sendable {
 
     public init(
         update: EKSClientTypes.Update? = nil
-    )
-    {
+    ) {
         self.update = update
     }
 }
@@ -6587,8 +6380,7 @@ public struct UpdateNodegroupVersionInput: Swift.Sendable {
         nodegroupName: Swift.String? = nil,
         releaseVersion: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.force = force
@@ -6605,8 +6397,7 @@ public struct UpdateNodegroupVersionOutput: Swift.Sendable {
 
     public init(
         update: EKSClientTypes.Update? = nil
-    )
-    {
+    ) {
         self.update = update
     }
 }
@@ -6628,8 +6419,7 @@ public struct UpdatePodIdentityAssociationInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
@@ -6643,8 +6433,7 @@ public struct UpdatePodIdentityAssociationOutput: Swift.Sendable {
 
     public init(
         association: EKSClientTypes.PodIdentityAssociation? = nil
-    )
-    {
+    ) {
         self.association = association
     }
 }

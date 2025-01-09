@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -183,8 +182,7 @@ public struct BatchGetMemberAccountDetailsInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         membershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.membershipId = membershipId
     }
@@ -208,8 +206,7 @@ extension SecurityIRClientTypes {
             accountId: Swift.String? = nil,
             error: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.error = error
             self.message = message
@@ -287,8 +284,7 @@ extension SecurityIRClientTypes {
             accountId: Swift.String? = nil,
             relationshipStatus: SecurityIRClientTypes.MembershipAccountRelationshipStatus? = nil,
             relationshipType: SecurityIRClientTypes.MembershipAccountRelationshipType? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.relationshipStatus = relationshipStatus
             self.relationshipType = relationshipType
@@ -305,8 +301,7 @@ public struct BatchGetMemberAccountDetailsOutput: Swift.Sendable {
     public init(
         errors: [SecurityIRClientTypes.GetMembershipAccountDetailError]? = nil,
         items: [SecurityIRClientTypes.GetMembershipAccountDetailItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.items = items
     }
@@ -319,8 +314,7 @@ public struct CancelMembershipInput: Swift.Sendable {
 
     public init(
         membershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipId = membershipId
     }
 }
@@ -332,8 +326,7 @@ public struct CancelMembershipOutput: Swift.Sendable {
 
     public init(
         membershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipId = membershipId
     }
 }
@@ -345,8 +338,7 @@ public struct CloseCaseInput: Swift.Sendable {
 
     public init(
         caseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
     }
 }
@@ -404,8 +396,7 @@ public struct CloseCaseOutput: Swift.Sendable {
     public init(
         caseStatus: SecurityIRClientTypes.CaseStatus? = nil,
         closedDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.caseStatus = caseStatus
         self.closedDate = closedDate
     }
@@ -450,8 +441,7 @@ extension SecurityIRClientTypes {
 
         public init(
             region: SecurityIRClientTypes.AwsRegion? = nil
-        )
-        {
+        ) {
             self.region = region
         }
     }
@@ -499,8 +489,7 @@ extension SecurityIRClientTypes {
         public init(
             ipAddress: Swift.String? = nil,
             userAgent: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.userAgent = userAgent
         }
@@ -528,8 +517,7 @@ extension SecurityIRClientTypes {
             email: Swift.String? = nil,
             jobTitle: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.email = email
             self.jobTitle = jobTitle
             self.name = name
@@ -588,8 +576,7 @@ public struct CreateCaseInput: Swift.Sendable {
         threatActorIpAddresses: [SecurityIRClientTypes.ThreatActorIp]? = nil,
         title: Swift.String? = nil,
         watchers: [SecurityIRClientTypes.Watcher]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.engagementType = engagementType
@@ -617,8 +604,7 @@ public struct CreateCaseOutput: Swift.Sendable {
 
     public init(
         caseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
     }
 }
@@ -637,8 +623,7 @@ public struct CreateCaseCommentInput: Swift.Sendable {
         body: Swift.String? = nil,
         caseId: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.caseId = caseId
         self.clientToken = clientToken
@@ -657,8 +642,7 @@ public struct CreateCaseCommentOutput: Swift.Sendable {
 
     public init(
         commentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.commentId = commentId
     }
 }
@@ -670,8 +654,7 @@ public struct GetCaseInput: Swift.Sendable {
 
     public init(
         caseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
     }
 }
@@ -734,8 +717,7 @@ extension SecurityIRClientTypes {
             createdDate: Foundation.Date? = nil,
             creator: Swift.String? = nil,
             fileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.attachmentStatus = attachmentStatus
             self.createdDate = createdDate
@@ -874,8 +856,7 @@ public struct GetCaseOutput: Swift.Sendable {
         threatActorIpAddresses: [SecurityIRClientTypes.ThreatActorIp]? = nil,
         title: Swift.String? = nil,
         watchers: [SecurityIRClientTypes.Watcher]? = nil
-    )
-    {
+    ) {
         self.actualIncidentStartDate = actualIncidentStartDate
         self.caseArn = caseArn
         self.caseAttachments = caseAttachments
@@ -914,8 +895,7 @@ public struct GetCaseAttachmentDownloadUrlInput: Swift.Sendable {
     public init(
         attachmentId: Swift.String? = nil,
         caseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
         self.caseId = caseId
     }
@@ -928,8 +908,7 @@ public struct GetCaseAttachmentDownloadUrlOutput: Swift.Sendable {
 
     public init(
         attachmentPresignedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentPresignedUrl = attachmentPresignedUrl
     }
 }
@@ -957,8 +936,7 @@ public struct GetCaseAttachmentUploadUrlInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         contentLength: Swift.Int? = nil,
         fileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.clientToken = clientToken
         self.contentLength = contentLength
@@ -978,8 +956,7 @@ public struct GetCaseAttachmentUploadUrlOutput: Swift.Sendable {
 
     public init(
         attachmentPresignedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentPresignedUrl = attachmentPresignedUrl
     }
 }
@@ -1002,8 +979,7 @@ public struct ListCaseEditsInput: Swift.Sendable {
         caseId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1028,8 +1004,7 @@ extension SecurityIRClientTypes {
             eventTimestamp: Foundation.Date? = nil,
             message: Swift.String? = nil,
             principal: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.eventTimestamp = eventTimestamp
             self.message = message
@@ -1050,8 +1025,7 @@ public struct ListCaseEditsOutput: Swift.Sendable {
         items: [SecurityIRClientTypes.CaseEditItem]? = nil,
         nextToken: Swift.String? = nil,
         total: Swift.Int? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
         self.total = total
@@ -1067,8 +1041,7 @@ public struct ListCasesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1111,8 +1084,7 @@ extension SecurityIRClientTypes {
             pendingAction: SecurityIRClientTypes.PendingAction? = nil,
             resolverType: SecurityIRClientTypes.ResolverType? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.caseArn = caseArn
             self.caseId = caseId
             self.caseStatus = caseStatus
@@ -1144,8 +1116,7 @@ public struct ListCasesOutput: Swift.Sendable {
         items: [SecurityIRClientTypes.ListCasesItem]? = nil,
         nextToken: Swift.String? = nil,
         total: Swift.Int? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
         self.total = total
@@ -1165,8 +1136,7 @@ public struct ListCommentsInput: Swift.Sendable {
         caseId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1198,8 +1168,7 @@ extension SecurityIRClientTypes {
             creator: Swift.String? = nil,
             lastUpdatedBy: Swift.String? = nil,
             lastUpdatedDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.body = body
             self.commentId = commentId
             self.createdDate = createdDate
@@ -1227,8 +1196,7 @@ public struct ListCommentsOutput: Swift.Sendable {
         items: [SecurityIRClientTypes.ListCommentsItem]? = nil,
         nextToken: Swift.String? = nil,
         total: Swift.Int? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
         self.total = total
@@ -1287,8 +1255,7 @@ public struct UpdateCaseInput: Swift.Sendable {
         title: Swift.String? = nil,
         watchersToAdd: [SecurityIRClientTypes.Watcher]? = nil,
         watchersToDelete: [SecurityIRClientTypes.Watcher]? = nil
-    )
-    {
+    ) {
         self.actualIncidentStartDate = actualIncidentStartDate
         self.caseId = caseId
         self.description = description
@@ -1333,8 +1300,7 @@ public struct UpdateCaseCommentInput: Swift.Sendable {
         body: Swift.String? = nil,
         caseId: Swift.String? = nil,
         commentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.caseId = caseId
         self.commentId = commentId
@@ -1356,8 +1322,7 @@ public struct UpdateCaseCommentOutput: Swift.Sendable {
     public init(
         body: Swift.String? = nil,
         commentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.commentId = commentId
     }
@@ -1414,8 +1379,7 @@ public struct UpdateCaseStatusInput: Swift.Sendable {
     public init(
         caseId: Swift.String? = nil,
         caseStatus: SecurityIRClientTypes.SelfManagedCaseStatus? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.caseStatus = caseStatus
     }
@@ -1427,8 +1391,7 @@ public struct UpdateCaseStatusOutput: Swift.Sendable {
 
     public init(
         caseStatus: SecurityIRClientTypes.SelfManagedCaseStatus? = nil
-    )
-    {
+    ) {
         self.caseStatus = caseStatus
     }
 }
@@ -1444,8 +1407,7 @@ public struct UpdateResolverTypeInput: Swift.Sendable {
     public init(
         caseId: Swift.String? = nil,
         resolverType: SecurityIRClientTypes.ResolverType? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.resolverType = resolverType
     }
@@ -1464,8 +1426,7 @@ public struct UpdateResolverTypeOutput: Swift.Sendable {
         caseId: Swift.String? = nil,
         caseStatus: SecurityIRClientTypes.CaseStatus? = nil,
         resolverType: SecurityIRClientTypes.ResolverType? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.caseStatus = caseStatus
         self.resolverType = resolverType
@@ -1499,8 +1460,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -1525,8 +1485,7 @@ extension SecurityIRClientTypes {
             email: Swift.String? = nil,
             jobTitle: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.email = email
             self.jobTitle = jobTitle
             self.name = name
@@ -1579,8 +1538,7 @@ extension SecurityIRClientTypes {
         public init(
             featureName: SecurityIRClientTypes.OptInFeatureName? = nil,
             isEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.featureName = featureName
             self.isEnabled = isEnabled
         }
@@ -1607,8 +1565,7 @@ public struct CreateMembershipInput: Swift.Sendable {
         membershipName: Swift.String? = nil,
         optInFeatures: [SecurityIRClientTypes.OptInFeature]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.incidentResponseTeam = incidentResponseTeam
         self.membershipName = membershipName
@@ -1629,8 +1586,7 @@ public struct CreateMembershipOutput: Swift.Sendable {
 
     public init(
         membershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipId = membershipId
     }
 }
@@ -1671,8 +1627,7 @@ public struct GetMembershipInput: Swift.Sendable {
 
     public init(
         membershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipId = membershipId
     }
 }
@@ -1749,8 +1704,7 @@ public struct GetMembershipOutput: Swift.Sendable {
         numberOfAccountsCovered: Swift.Int? = nil,
         optInFeatures: [SecurityIRClientTypes.OptInFeature]? = nil,
         region: SecurityIRClientTypes.AwsRegion? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.customerType = customerType
         self.incidentResponseTeam = incidentResponseTeam
@@ -1793,8 +1747,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -1819,8 +1772,7 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1847,8 +1799,7 @@ extension SecurityIRClientTypes {
             membershipId: Swift.String? = nil,
             membershipStatus: SecurityIRClientTypes.MembershipStatus? = nil,
             region: SecurityIRClientTypes.AwsRegion? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.membershipArn = membershipArn
             self.membershipId = membershipId
@@ -1867,8 +1818,7 @@ public struct ListMembershipsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1883,8 +1833,7 @@ public struct ListMembershipsOutput: Swift.Sendable {
     public init(
         items: [SecurityIRClientTypes.ListMembershipItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1909,8 +1858,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1929,8 +1877,7 @@ extension SecurityIRClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -1998,8 +1945,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [SecurityIRClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: SecurityIRClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -2013,8 +1959,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2026,8 +1971,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2048,8 +1992,7 @@ public struct UpdateMembershipInput: Swift.Sendable {
         membershipId: Swift.String? = nil,
         membershipName: Swift.String? = nil,
         optInFeatures: [SecurityIRClientTypes.OptInFeature]? = nil
-    )
-    {
+    ) {
         self.incidentResponseTeam = incidentResponseTeam
         self.membershipId = membershipId
         self.membershipName = membershipName
@@ -2086,8 +2029,7 @@ public struct SecurityIncidentResponseNotActiveException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2127,8 +2069,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -2148,8 +2089,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2188,8 +2128,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -2208,8 +2147,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

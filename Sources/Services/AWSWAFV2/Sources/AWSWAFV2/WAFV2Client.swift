@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WAFV2Client: ClientRuntime.Client {
     public static let clientName = "WAFV2Client"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: WAFV2Client.WAFV2ClientConfiguration
     let serviceName = "WAFV2"
@@ -330,7 +330,7 @@ extension WAFV2Client {
 }
 
 extension WAFV2Client {
-    /// Performs the `AssociateWebACL` operation on the `AWSWAF_20190729` service.
+    /// Performs the `AssociateWebACL` operation on the `WAFV2` service.
     ///
     /// Associates a web ACL with a regional application resource, to protect the resource. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. For Amazon CloudFront, don't use this call. Instead, use your CloudFront distribution configuration. To associate a web ACL, in the CloudFront call UpdateDistribution, set the web ACL ID to the Amazon Resource Name (ARN) of the web ACL. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront Developer Guide. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for AssociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-AssociateWebACL) in the WAF Developer Guide. Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes. The following are examples of the temporary inconsistencies that you might notice during change propagation:
     ///
@@ -420,7 +420,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CheckCapacity` operation on the `AWSWAF_20190729` service.
+    /// Performs the `CheckCapacity` operation on the `WAFV2` service.
     ///
     /// Returns the web ACL capacity unit (WCU) requirements for a specified scope and set of rules. You can use this to check the capacity requirements for the rules you want to use in a [RuleGroup] or [WebACL]. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
     ///
@@ -506,7 +506,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAPIKey` operation on the `AWSWAF_20190729` service.
+    /// Performs the `CreateAPIKey` operation on the `WAFV2` service.
     ///
     /// Creates an API key that contains a set of token domains. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide. You can use a single key for up to 5 domains. After you generate a key, you can copy it for use in your JavaScript integration.
     ///
@@ -587,7 +587,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIPSet` operation on the `AWSWAF_20190729` service.
+    /// Performs the `CreateIPSet` operation on the `WAFV2` service.
     ///
     /// Creates an [IPSet], which you use to identify web requests that originate from specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from a ranges of IP addresses, you can configure WAF to block them using an IPSet that lists those IP addresses.
     ///
@@ -672,7 +672,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRegexPatternSet` operation on the `AWSWAF_20190729` service.
+    /// Performs the `CreateRegexPatternSet` operation on the `WAFV2` service.
     ///
     /// Creates a [RegexPatternSet], which you reference in a [RegexPatternSetReferenceStatement], to have WAF inspect a web request component for the specified patterns.
     ///
@@ -757,7 +757,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRuleGroup` operation on the `AWSWAF_20190729` service.
+    /// Performs the `CreateRuleGroup` operation on the `WAFV2` service.
     ///
     /// Creates a [RuleGroup] per the specifications provided. A rule group defines a collection of rules to inspect and control web requests that you can use in a [WebACL]. When you create a rule group, you define an immutable capacity limit. If you update a rule group, you must stay within the capacity. This allows others to reuse the rule group with confidence in its capacity requirements.
     ///
@@ -845,7 +845,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWebACL` operation on the `AWSWAF_20190729` service.
+    /// Performs the `CreateWebACL` operation on the `WAFV2` service.
     ///
     /// Creates a [WebACL] per the specifications provided. A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.
     ///
@@ -936,7 +936,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAPIKey` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DeleteAPIKey` operation on the `WAFV2` service.
     ///
     /// Deletes the specified API key. After you delete a key, it can take up to 24 hours for WAF to disallow use of the key in all regions.
     ///
@@ -1018,7 +1018,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFirewallManagerRuleGroups` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DeleteFirewallManagerRuleGroups` operation on the `WAFV2` service.
     ///
     /// Deletes all rule groups that are managed by Firewall Manager from the specified [WebACL]. You can only use this if ManagedByFirewallManager and RetrofittedByFirewallManager are both false in the web ACL.
     ///
@@ -1100,7 +1100,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIPSet` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DeleteIPSet` operation on the `WAFV2` service.
     ///
     /// Deletes the specified [IPSet].
     ///
@@ -1185,7 +1185,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLoggingConfiguration` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DeleteLoggingConfiguration` operation on the `WAFV2` service.
     ///
     /// Deletes the [LoggingConfiguration] from the specified web ACL.
     ///
@@ -1267,7 +1267,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePermissionPolicy` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DeletePermissionPolicy` operation on the `WAFV2` service.
     ///
     /// Permanently deletes an IAM policy from the specified rule group. You must be the owner of the rule group to perform this operation.
     ///
@@ -1347,7 +1347,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRegexPatternSet` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DeleteRegexPatternSet` operation on the `WAFV2` service.
     ///
     /// Deletes the specified [RegexPatternSet].
     ///
@@ -1432,7 +1432,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRuleGroup` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DeleteRuleGroup` operation on the `WAFV2` service.
     ///
     /// Deletes the specified [RuleGroup].
     ///
@@ -1517,7 +1517,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWebACL` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DeleteWebACL` operation on the `WAFV2` service.
     ///
     /// Deletes the specified [WebACL]. You can only use this if ManagedByFirewallManager is false in the web ACL. Before deleting any web ACL, first disassociate it from all resources.
     ///
@@ -1617,7 +1617,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAllManagedProducts` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DescribeAllManagedProducts` operation on the `WAFV2` service.
     ///
     /// Provides high-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
     ///
@@ -1697,7 +1697,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeManagedProductsByVendor` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DescribeManagedProductsByVendor` operation on the `WAFV2` service.
     ///
     /// Provides high-level information for the managed rule groups owned by a specific vendor.
     ///
@@ -1777,7 +1777,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeManagedRuleGroup` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DescribeManagedRuleGroup` operation on the `WAFV2` service.
     ///
     /// Provides high-level information for a managed rule group, including descriptions of the rules.
     ///
@@ -1860,7 +1860,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateWebACL` operation on the `AWSWAF_20190729` service.
+    /// Performs the `DisassociateWebACL` operation on the `WAFV2` service.
     ///
     /// Disassociates the specified regional application resource from any existing web ACL association. A resource can have at most one web ACL association. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. For Amazon CloudFront, don't use this call. Instead, use your CloudFront distribution configuration. To disassociate a web ACL, provide an empty web ACL ID in the CloudFront call UpdateDistribution. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for DisassociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-DisassociateWebACL) in the WAF Developer Guide.
     ///
@@ -1941,7 +1941,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateMobileSdkReleaseUrl` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GenerateMobileSdkReleaseUrl` operation on the `WAFV2` service.
     ///
     /// Generates a presigned download URL for the specified release of the mobile SDK. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
@@ -2022,7 +2022,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDecryptedAPIKey` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetDecryptedAPIKey` operation on the `WAFV2` service.
     ///
     /// Returns your API key in decrypted form. Use this to check the token domains that you have defined for the key. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
@@ -2104,7 +2104,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIPSet` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetIPSet` operation on the `WAFV2` service.
     ///
     /// Retrieves the specified [IPSet].
     ///
@@ -2185,7 +2185,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLoggingConfiguration` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetLoggingConfiguration` operation on the `WAFV2` service.
     ///
     /// Returns the [LoggingConfiguration] for the specified web ACL.
     ///
@@ -2266,7 +2266,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetManagedRuleSet` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetManagedRuleSet` operation on the `WAFV2` service.
     ///
     /// Retrieves the specified managed rule set. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
     ///
@@ -2347,7 +2347,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMobileSdkRelease` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetMobileSdkRelease` operation on the `WAFV2` service.
     ///
     /// Retrieves information for the specified mobile SDK release, including release notes and tags. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
@@ -2428,7 +2428,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPermissionPolicy` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetPermissionPolicy` operation on the `WAFV2` service.
     ///
     /// Returns the IAM policy that is attached to the specified rule group. You must be the owner of the rule group to perform this operation.
     ///
@@ -2508,7 +2508,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRateBasedStatementManagedKeys` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetRateBasedStatementManagedKeys` operation on the `WAFV2` service.
     ///
     /// Retrieves the IP addresses that are currently blocked by a rate-based rule instance. This is only available for rate-based rules that aggregate solely on the IP address or on the forwarded IP address. The maximum number of addresses that can be blocked for a single rate-based rule instance is 10,000. If more than 10,000 addresses exceed the rate limit, those with the highest rates are blocked. For a rate-based rule that you've defined inside a rule group, provide the name of the rule group reference statement in your request, in addition to the rate-based rule name and the web ACL name. WAF monitors web requests and manages keys independently for each unique combination of web ACL, optional rule group, and rate-based rule. For example, if you define a rate-based rule inside a rule group, and then use the rule group in a web ACL, WAF monitors web requests and manages keys for that web ACL, rule group reference statement, and rate-based rule instance. If you use the same rule group in a second web ACL, WAF monitors web requests and manages keys for this second usage completely independent of your first.
     ///
@@ -2590,7 +2590,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRegexPatternSet` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetRegexPatternSet` operation on the `WAFV2` service.
     ///
     /// Retrieves the specified [RegexPatternSet].
     ///
@@ -2671,7 +2671,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRuleGroup` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetRuleGroup` operation on the `WAFV2` service.
     ///
     /// Retrieves the specified [RuleGroup].
     ///
@@ -2752,7 +2752,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSampledRequests` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetSampledRequests` operation on the `WAFV2` service.
     ///
     /// Gets detailed information about a specified number of requests--a sample--that WAF randomly selects from among the first 5,000 requests that your Amazon Web Services resource received during a time range that you choose. You can specify a sample size of up to 500 requests, and you can specify any time range in the previous three hours. GetSampledRequests returns a time range, which is usually the time range that you specified. However, if your resource (such as a CloudFront distribution) received 5,000 requests before the specified time range elapsed, GetSampledRequests returns an updated time range. This new time range indicates the actual period during which WAF selected the requests in the sample.
     ///
@@ -2832,7 +2832,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWebACL` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetWebACL` operation on the `WAFV2` service.
     ///
     /// Retrieves the specified [WebACL].
     ///
@@ -2913,7 +2913,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWebACLForResource` operation on the `AWSWAF_20190729` service.
+    /// Performs the `GetWebACLForResource` operation on the `WAFV2` service.
     ///
     /// Retrieves the [WebACL] for the specified resource. This call uses GetWebACL, to verify that your account has permission to access the retrieved web ACL. If you get an error that indicates that your account isn't authorized to perform wafv2:GetWebACL on the resource, that error won't be included in your CloudTrail event history. For Amazon CloudFront, don't use this call. Instead, call the CloudFront action GetDistributionConfig. For information, see [GetDistributionConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistributionConfig.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for GetWebACLForResource](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-GetWebACLForResource) in the WAF Developer Guide.
     ///
@@ -2995,7 +2995,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAPIKeys` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListAPIKeys` operation on the `WAFV2` service.
     ///
     /// Retrieves a list of the API keys that you've defined for the specified scope. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
@@ -3076,7 +3076,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAvailableManagedRuleGroupVersions` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListAvailableManagedRuleGroupVersions` operation on the `WAFV2` service.
     ///
     /// Returns a list of the available versions for the specified managed rule group.
     ///
@@ -3157,7 +3157,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAvailableManagedRuleGroups` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListAvailableManagedRuleGroups` operation on the `WAFV2` service.
     ///
     /// Retrieves an array of managed rule groups that are available for you to use. This list includes all Amazon Web Services Managed Rules rule groups and all of the Amazon Web Services Marketplace managed rule groups that you're subscribed to.
     ///
@@ -3237,7 +3237,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIPSets` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListIPSets` operation on the `WAFV2` service.
     ///
     /// Retrieves an array of [IPSetSummary] objects for the IP sets that you manage.
     ///
@@ -3317,7 +3317,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLoggingConfigurations` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListLoggingConfigurations` operation on the `WAFV2` service.
     ///
     /// Retrieves an array of your [LoggingConfiguration] objects.
     ///
@@ -3397,7 +3397,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListManagedRuleSets` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListManagedRuleSets` operation on the `WAFV2` service.
     ///
     /// Retrieves the managed rule sets that you own. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
     ///
@@ -3477,7 +3477,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMobileSdkReleases` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListMobileSdkReleases` operation on the `WAFV2` service.
     ///
     /// Retrieves a list of the available releases for the mobile SDK and the specified device platform. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
@@ -3557,7 +3557,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRegexPatternSets` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListRegexPatternSets` operation on the `WAFV2` service.
     ///
     /// Retrieves an array of [RegexPatternSetSummary] objects for the regex pattern sets that you manage.
     ///
@@ -3637,7 +3637,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourcesForWebACL` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListResourcesForWebACL` operation on the `WAFV2` service.
     ///
     /// Retrieves an array of the Amazon Resource Names (ARNs) for the regional resources that are associated with the specified web ACL. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for ListResourcesForWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-ListResourcesForWebACL) in the WAF Developer Guide.
     ///
@@ -3718,7 +3718,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRuleGroups` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListRuleGroups` operation on the `WAFV2` service.
     ///
     /// Retrieves an array of [RuleGroupSummary] objects for the rule groups that you manage.
     ///
@@ -3798,7 +3798,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListTagsForResource` operation on the `WAFV2` service.
     ///
     /// Retrieves the [TagInfoForResource] for the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console.
     ///
@@ -3881,7 +3881,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWebACLs` operation on the `AWSWAF_20190729` service.
+    /// Performs the `ListWebACLs` operation on the `WAFV2` service.
     ///
     /// Retrieves an array of [WebACLSummary] objects for the web ACLs that you manage.
     ///
@@ -3961,7 +3961,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutLoggingConfiguration` operation on the `AWSWAF_20190729` service.
+    /// Performs the `PutLoggingConfiguration` operation on the `WAFV2` service.
     ///
     /// Enables the specified [LoggingConfiguration], to start logging from a web ACL, according to the configuration provided. This operation completely replaces any mutable specifications that you already have for a logging configuration with the ones that you provide to this call. To modify an existing logging configuration, do the following:
     ///
@@ -4062,7 +4062,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutManagedRuleSetVersions` operation on the `AWSWAF_20190729` service.
+    /// Performs the `PutManagedRuleSetVersions` operation on the `WAFV2` service.
     ///
     /// Defines the versions of your managed rule set that you are offering to the customers. Customers see your offerings as managed rule groups with versioning. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate. Customers retrieve their managed rule group list by calling [ListAvailableManagedRuleGroups]. The name that you provide here for your managed rule set is the name the customer sees for the corresponding managed rule group. Customers can retrieve the available versions for a managed rule group by calling [ListAvailableManagedRuleGroupVersions]. You provide a rule group specification for each version. For each managed rule set, you must specify a version that you recommend using. To initiate the expiration of a managed rule group version, use [UpdateManagedRuleSetVersionExpiryDate].
     ///
@@ -4144,7 +4144,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutPermissionPolicy` operation on the `AWSWAF_20190729` service.
+    /// Performs the `PutPermissionPolicy` operation on the `WAFV2` service.
     ///
     /// Use this to share a rule group with other accounts. This action attaches an IAM policy to the specified resource. You must be the owner of the rule group to perform this operation. This action is subject to the following restrictions:
     ///
@@ -4247,7 +4247,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSWAF_20190729` service.
+    /// Performs the `TagResource` operation on the `WAFV2` service.
     ///
     /// Associates tags with the specified Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console.
     ///
@@ -4331,7 +4331,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSWAF_20190729` service.
+    /// Performs the `UntagResource` operation on the `WAFV2` service.
     ///
     /// Disassociates tags from an Amazon Web Services resource. Tags are key:value pairs that you can associate with Amazon Web Services resources. For example, the tag key might be "customer" and the tag value might be "companyA." You can specify one or more tags to add to each container. You can add up to 50 tags to each Amazon Web Services resource.
     ///
@@ -4414,7 +4414,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIPSet` operation on the `AWSWAF_20190729` service.
+    /// Performs the `UpdateIPSet` operation on the `WAFV2` service.
     ///
     /// Updates the specified [IPSet]. This operation completely replaces the mutable specifications that you already have for the IP set with the ones that you provide to this call. To modify an IP set, do the following:
     ///
@@ -4515,7 +4515,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateManagedRuleSetVersionExpiryDate` operation on the `AWSWAF_20190729` service.
+    /// Performs the `UpdateManagedRuleSetVersionExpiryDate` operation on the `WAFV2` service.
     ///
     /// Updates the expiration information for your managed rule set. Use this to initiate the expiration of a managed rule group version. After you initiate expiration for a version, WAF excludes it from the response to [ListAvailableManagedRuleGroupVersions] for the managed rule group. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
     ///
@@ -4597,7 +4597,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRegexPatternSet` operation on the `AWSWAF_20190729` service.
+    /// Performs the `UpdateRegexPatternSet` operation on the `WAFV2` service.
     ///
     /// Updates the specified [RegexPatternSet]. This operation completely replaces the mutable specifications that you already have for the regex pattern set with the ones that you provide to this call. To modify a regex pattern set, do the following:
     ///
@@ -4698,7 +4698,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRuleGroup` operation on the `AWSWAF_20190729` service.
+    /// Performs the `UpdateRuleGroup` operation on the `WAFV2` service.
     ///
     /// Updates the specified [RuleGroup]. This operation completely replaces the mutable specifications that you already have for the rule group with the ones that you provide to this call. To modify a rule group, do the following:
     ///
@@ -4802,7 +4802,7 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWebACL` operation on the `AWSWAF_20190729` service.
+    /// Performs the `UpdateWebACL` operation on the `WAFV2` service.
     ///
     /// Updates the specified [WebACL]. While updating a web ACL, WAF provides continuous coverage to the resources that you have associated with the web ACL. This operation completely replaces the mutable specifications that you already have for the web ACL with the ones that you provide to this call. To modify a web ACL, do the following:
     ///

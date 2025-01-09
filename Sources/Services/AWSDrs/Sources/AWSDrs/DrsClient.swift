@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DrsClient: ClientRuntime.Client {
     public static let clientName = "DrsClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: DrsClient.DrsClientConfiguration
     let serviceName = "drs"
@@ -329,7 +329,7 @@ extension DrsClient {
 }
 
 extension DrsClient {
-    /// Performs the `AssociateSourceNetworkStack` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `AssociateSourceNetworkStack` operation on the `Drs` service.
     ///
     /// Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
     ///
@@ -404,7 +404,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateExtendedSourceServer` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `CreateExtendedSourceServer` operation on the `Drs` service.
     ///
     /// Create an extended source server in the target Account based on the source server in staging account.
     ///
@@ -479,7 +479,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLaunchConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `CreateLaunchConfigurationTemplate` operation on the `Drs` service.
     ///
     /// Creates a new Launch Configuration Template.
     ///
@@ -553,7 +553,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReplicationConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `CreateReplicationConfigurationTemplate` operation on the `Drs` service.
     ///
     /// Creates a new ReplicationConfigurationTemplate.
     ///
@@ -627,7 +627,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSourceNetwork` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `CreateSourceNetwork` operation on the `Drs` service.
     ///
     /// Create a new Source Network resource for a provided VPC ID.
     ///
@@ -702,7 +702,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteJob` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DeleteJob` operation on the `Drs` service.
     ///
     /// Deletes a single Job by ID.
     ///
@@ -775,7 +775,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLaunchAction` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DeleteLaunchAction` operation on the `Drs` service.
     ///
     /// Deletes a resource launch action.
     ///
@@ -848,7 +848,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLaunchConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DeleteLaunchConfigurationTemplate` operation on the `Drs` service.
     ///
     /// Deletes a single Launch Configuration Template by ID.
     ///
@@ -921,7 +921,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRecoveryInstance` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DeleteRecoveryInstance` operation on the `Drs` service.
     ///
     /// Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it.
     ///
@@ -994,7 +994,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReplicationConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DeleteReplicationConfigurationTemplate` operation on the `Drs` service.
     ///
     /// Deletes a single Replication Configuration Template by ID
     ///
@@ -1067,7 +1067,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSourceNetwork` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DeleteSourceNetwork` operation on the `Drs` service.
     ///
     /// Delete Source Network resource.
     ///
@@ -1140,7 +1140,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSourceServer` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DeleteSourceServer` operation on the `Drs` service.
     ///
     /// Deletes a single Source Server by ID. The Source Server must be disconnected first.
     ///
@@ -1213,7 +1213,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobLogItems` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DescribeJobLogItems` operation on the `Drs` service.
     ///
     /// Retrieves a detailed Job log with pagination.
     ///
@@ -1285,7 +1285,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobs` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DescribeJobs` operation on the `Drs` service.
     ///
     /// Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     ///
@@ -1357,7 +1357,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLaunchConfigurationTemplates` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DescribeLaunchConfigurationTemplates` operation on the `Drs` service.
     ///
     /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
     ///
@@ -1430,7 +1430,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRecoveryInstances` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DescribeRecoveryInstances` operation on the `Drs` service.
     ///
     /// Lists all Recovery Instances or multiple Recovery Instances by ID.
     ///
@@ -1502,7 +1502,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRecoverySnapshots` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DescribeRecoverySnapshots` operation on the `Drs` service.
     ///
     /// Lists all Recovery Snapshots for a single Source Server.
     ///
@@ -1575,7 +1575,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationConfigurationTemplates` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DescribeReplicationConfigurationTemplates` operation on the `Drs` service.
     ///
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     ///
@@ -1648,7 +1648,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSourceNetworks` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DescribeSourceNetworks` operation on the `Drs` service.
     ///
     /// Lists all Source Networks or multiple Source Networks filtered by ID.
     ///
@@ -1720,7 +1720,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSourceServers` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DescribeSourceServers` operation on the `Drs` service.
     ///
     /// Lists all Source Servers or multiple Source Servers filtered by ID.
     ///
@@ -1792,7 +1792,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisconnectRecoveryInstance` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DisconnectRecoveryInstance` operation on the `Drs` service.
     ///
     /// Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the Recovery Instance will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
@@ -1866,7 +1866,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisconnectSourceServer` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `DisconnectSourceServer` operation on the `Drs` service.
     ///
     /// Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
@@ -1939,7 +1939,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportSourceNetworkCfnTemplate` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `ExportSourceNetworkCfnTemplate` operation on the `Drs` service.
     ///
     /// Export the Source Network CloudFormation template to an S3 bucket.
     ///
@@ -2013,7 +2013,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFailbackReplicationConfiguration` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `GetFailbackReplicationConfiguration` operation on the `Drs` service.
     ///
     /// Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
     ///
@@ -2085,7 +2085,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLaunchConfiguration` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `GetLaunchConfiguration` operation on the `Drs` service.
     ///
     /// Gets a LaunchConfiguration, filtered by Source Server IDs.
     ///
@@ -2157,7 +2157,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReplicationConfiguration` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `GetReplicationConfiguration` operation on the `Drs` service.
     ///
     /// Gets a ReplicationConfiguration, filtered by Source Server ID.
     ///
@@ -2230,7 +2230,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InitializeService` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `InitializeService` operation on the `Drs` service.
     ///
     /// Initialize Elastic Disaster Recovery.
     ///
@@ -2299,7 +2299,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExtensibleSourceServers` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `ListExtensibleSourceServers` operation on the `Drs` service.
     ///
     /// Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.
     ///
@@ -2372,7 +2372,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLaunchActions` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `ListLaunchActions` operation on the `Drs` service.
     ///
     /// Lists resource launch actions.
     ///
@@ -2445,7 +2445,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStagingAccounts` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `ListStagingAccounts` operation on the `Drs` service.
     ///
     /// Returns an array of staging accounts for existing extended source servers.
     ///
@@ -2516,7 +2516,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `ListTagsForResource` operation on the `Drs` service.
     ///
     /// List all tags for your Elastic Disaster Recovery resources.
     ///
@@ -2586,7 +2586,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutLaunchAction` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `PutLaunchAction` operation on the `Drs` service.
     ///
     /// Puts a resource launch action.
     ///
@@ -2660,7 +2660,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RetryDataReplication` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `RetryDataReplication` operation on the `Drs` service.
     ///
     /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
     @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
@@ -2734,7 +2734,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReverseReplication` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `ReverseReplication` operation on the `Drs` service.
     ///
     /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them.
     ///
@@ -2809,7 +2809,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartFailbackLaunch` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `StartFailbackLaunch` operation on the `Drs` service.
     ///
     /// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process.
     ///
@@ -2883,7 +2883,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartRecovery` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `StartRecovery` operation on the `Drs` service.
     ///
     /// Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot.
     ///
@@ -2956,7 +2956,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartReplication` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `StartReplication` operation on the `Drs` service.
     ///
     /// Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it.
     ///
@@ -3029,7 +3029,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSourceNetworkRecovery` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `StartSourceNetworkRecovery` operation on the `Drs` service.
     ///
     /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.
     ///
@@ -3103,7 +3103,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSourceNetworkReplication` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `StartSourceNetworkReplication` operation on the `Drs` service.
     ///
     /// Starts replication for a Source Network. This action would make the Source Network protected.
     ///
@@ -3176,7 +3176,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopFailback` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `StopFailback` operation on the `Drs` service.
     ///
     /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
     ///
@@ -3248,7 +3248,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopReplication` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `StopReplication` operation on the `Drs` service.
     ///
     /// Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it.
     ///
@@ -3321,7 +3321,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopSourceNetworkReplication` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `StopSourceNetworkReplication` operation on the `Drs` service.
     ///
     /// Stops replication for a Source Network. This action would make the Source Network unprotected.
     ///
@@ -3395,7 +3395,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `TagResource` operation on the `Drs` service.
     ///
     /// Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
     ///
@@ -3468,7 +3468,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TerminateRecoveryInstances` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `TerminateRecoveryInstances` operation on the `Drs` service.
     ///
     /// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service.
     ///
@@ -3541,7 +3541,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `UntagResource` operation on the `Drs` service.
     ///
     /// Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources.
     ///
@@ -3612,7 +3612,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFailbackReplicationConfiguration` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `UpdateFailbackReplicationConfiguration` operation on the `Drs` service.
     ///
     /// Allows you to update the failback replication configuration of a Recovery Instance by ID.
     ///
@@ -3685,7 +3685,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLaunchConfiguration` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `UpdateLaunchConfiguration` operation on the `Drs` service.
     ///
     /// Updates a LaunchConfiguration by Source Server ID.
     ///
@@ -3759,7 +3759,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLaunchConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `UpdateLaunchConfigurationTemplate` operation on the `Drs` service.
     ///
     /// Updates an existing Launch Configuration Template by ID.
     ///
@@ -3833,7 +3833,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateReplicationConfiguration` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `UpdateReplicationConfiguration` operation on the `Drs` service.
     ///
     /// Allows you to update a ReplicationConfiguration by Source Server ID.
     ///
@@ -3908,7 +3908,7 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateReplicationConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
+    /// Performs the `UpdateReplicationConfigurationTemplate` operation on the `Drs` service.
     ///
     /// Updates a ReplicationConfigurationTemplate by ID.
     ///

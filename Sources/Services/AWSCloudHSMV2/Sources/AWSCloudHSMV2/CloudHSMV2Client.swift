@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudHSMV2Client: ClientRuntime.Client {
     public static let clientName = "CloudHSMV2Client"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudHSMV2Client.CloudHSMV2ClientConfiguration
     let serviceName = "CloudHSM V2"
@@ -329,7 +329,7 @@ extension CloudHSMV2Client {
 }
 
 extension CloudHSMV2Client {
-    /// Performs the `CopyBackupToRegion` operation on the `BaldrApiService` service.
+    /// Performs the `CopyBackupToRegion` operation on the `CloudHSMV2` service.
     ///
     /// Copy an CloudHSM cluster backup to a different region. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
@@ -404,7 +404,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCluster` operation on the `BaldrApiService` service.
+    /// Performs the `CreateCluster` operation on the `CloudHSMV2` service.
     ///
     /// Creates a new CloudHSM cluster. Cross-account use: Yes. To perform this operation with an CloudHSM backup in a different AWS account, specify the full backup ARN in the value of the SourceBackupId parameter.
     ///
@@ -479,7 +479,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateHsm` operation on the `BaldrApiService` service.
+    /// Performs the `CreateHsm` operation on the `CloudHSMV2` service.
     ///
     /// Creates a new hardware security module (HSM) in the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Service account.
     ///
@@ -553,7 +553,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBackup` operation on the `BaldrApiService` service.
+    /// Performs the `DeleteBackup` operation on the `CloudHSMV2` service.
     ///
     /// Deletes a specified CloudHSM backup. A backup can be restored up to 7 days after the DeleteBackup request is made. For more information on restoring a backup, see [RestoreBackup]. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
@@ -627,7 +627,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCluster` operation on the `BaldrApiService` service.
+    /// Performs the `DeleteCluster` operation on the `CloudHSMV2` service.
     ///
     /// Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use [DescribeClusters]. To delete an HSM, use [DeleteHsm]. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     ///
@@ -702,7 +702,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteHsm` operation on the `BaldrApiService` service.
+    /// Performs the `DeleteHsm` operation on the `CloudHSMV2` service.
     ///
     /// Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these values. To find these values, use [DescribeClusters]. Cross-account use: No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account.
     ///
@@ -776,7 +776,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `BaldrApiService` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `CloudHSMV2` service.
     ///
     /// Deletes an CloudHSM resource policy. Deleting a resource policy will result in the resource being unshared and removed from any RAM resource shares. Deleting the resource policy attached to a backup will not impact any clusters created from that backup. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
@@ -850,7 +850,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBackups` operation on the `BaldrApiService` service.
+    /// Performs the `DescribeBackups` operation on the `CloudHSMV2` service.
     ///
     /// Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parameter is true. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get. Cross-account use: Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
     ///
@@ -925,7 +925,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeClusters` operation on the `BaldrApiService` service.
+    /// Performs the `DescribeClusters` operation on the `CloudHSMV2` service.
     ///
     /// Gets information about CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the clusters. When the response contains only a subset of clusters, it includes a NextToken value. Use this value in a subsequent DescribeClusters request to get more clusters. When you receive a response with no NextToken (or an empty or null value), that means there are no more clusters to get. Cross-account use: No. You cannot perform this operation on CloudHSM clusters in a different Amazon Web Services account.
     ///
@@ -999,7 +999,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicy` operation on the `BaldrApiService` service.
+    /// Performs the `GetResourcePolicy` operation on the `CloudHSMV2` service.
     ///
     /// Retrieves the resource policy document attached to a given resource. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
@@ -1073,7 +1073,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InitializeCluster` operation on the `BaldrApiService` service.
+    /// Performs the `InitializeCluster` operation on the `CloudHSMV2` service.
     ///
     /// Claims an CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certificate. Before you can claim a cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get the cluster's CSR, use [DescribeClusters]. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     ///
@@ -1147,7 +1147,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTags` operation on the `BaldrApiService` service.
+    /// Performs the `ListTags` operation on the `CloudHSMV2` service.
     ///
     /// Gets a list of tags for the specified CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
@@ -1222,7 +1222,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyBackupAttributes` operation on the `BaldrApiService` service.
+    /// Performs the `ModifyBackupAttributes` operation on the `CloudHSMV2` service.
     ///
     /// Modifies attributes for CloudHSM backup. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
@@ -1296,7 +1296,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyCluster` operation on the `BaldrApiService` service.
+    /// Performs the `ModifyCluster` operation on the `CloudHSMV2` service.
     ///
     /// Modifies CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     ///
@@ -1370,7 +1370,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `BaldrApiService` service.
+    /// Performs the `PutResourcePolicy` operation on the `CloudHSMV2` service.
     ///
     /// Creates or updates an CloudHSM resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your CloudHSM resources. The following resources support CloudHSM resource policies:
     ///
@@ -1449,7 +1449,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreBackup` operation on the `BaldrApiService` service.
+    /// Performs the `RestoreBackup` operation on the `CloudHSMV2` service.
     ///
     /// Restores a specified CloudHSM backup that is in the PENDING_DELETION state. For more information on deleting a backup, see [DeleteBackup]. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
@@ -1523,7 +1523,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `BaldrApiService` service.
+    /// Performs the `TagResource` operation on the `CloudHSMV2` service.
     ///
     /// Adds or overwrites one or more tags for the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
@@ -1599,7 +1599,7 @@ extension CloudHSMV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `BaldrApiService` service.
+    /// Performs the `UntagResource` operation on the `CloudHSMV2` service.
     ///
     /// Removes the specified tag or tags from the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///

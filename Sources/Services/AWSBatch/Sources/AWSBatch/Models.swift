@@ -65,8 +65,7 @@ extension BatchClientTypes {
 
         public init(
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.size = size
         }
     }
@@ -87,8 +86,7 @@ extension BatchClientTypes {
             index: Swift.Int? = nil,
             size: Swift.Int? = nil,
             statusSummary: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.index = index
             self.size = size
             self.statusSummary = statusSummary
@@ -108,8 +106,7 @@ extension BatchClientTypes {
         public init(
             index: Swift.Int? = nil,
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.index = index
             self.size = size
         }
@@ -160,8 +157,7 @@ extension BatchClientTypes {
             attachmentId: Swift.String? = nil,
             ipv6Address: Swift.String? = nil,
             privateIpv4Address: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.ipv6Address = ipv6Address
             self.privateIpv4Address = privateIpv4Address
@@ -193,8 +189,7 @@ extension BatchClientTypes {
             networkInterfaces: [BatchClientTypes.NetworkInterface]? = nil,
             reason: Swift.String? = nil,
             taskArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerInstanceArn = containerInstanceArn
             self.exitCode = exitCode
             self.logStreamName = logStreamName
@@ -226,8 +221,7 @@ extension BatchClientTypes {
             name: Swift.String? = nil,
             networkInterfaces: [BatchClientTypes.NetworkInterface]? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.exitCode = exitCode
             self.logStreamName = logStreamName
             self.name = name
@@ -252,8 +246,7 @@ extension BatchClientTypes {
             containerInstanceArn: Swift.String? = nil,
             containers: [BatchClientTypes.AttemptTaskContainerDetails]? = nil,
             taskArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerInstanceArn = containerInstanceArn
             self.containers = containers
             self.taskArn = taskArn
@@ -282,8 +275,7 @@ extension BatchClientTypes {
             statusReason: Swift.String? = nil,
             stoppedAt: Swift.Int? = nil,
             taskProperties: [BatchClientTypes.AttemptEcsTaskDetails]? = nil
-        )
-        {
+        ) {
             self.container = container
             self.startedAt = startedAt
             self.statusReason = statusReason
@@ -311,8 +303,7 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -335,8 +326,7 @@ public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -353,8 +343,7 @@ public struct CancelJobInput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.reason = reason
     }
@@ -416,8 +405,7 @@ extension BatchClientTypes {
             imageIdOverride: Swift.String? = nil,
             imageKubernetesVersion: Swift.String? = nil,
             imageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageIdOverride = imageIdOverride
             self.imageKubernetesVersion = imageKubernetesVersion
             self.imageType = imageType
@@ -451,8 +439,7 @@ extension BatchClientTypes {
             launchTemplateName: Swift.String? = nil,
             targetInstanceTypes: [Swift.String]? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.targetInstanceTypes = targetInstanceTypes
@@ -479,8 +466,7 @@ extension BatchClientTypes {
             launchTemplateName: Swift.String? = nil,
             overrides: [BatchClientTypes.LaunchTemplateSpecificationOverride]? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.overrides = overrides
@@ -585,8 +571,7 @@ extension BatchClientTypes {
             subnets: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: BatchClientTypes.CRType? = nil
-        )
-        {
+        ) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
             self.desiredvCpus = desiredvCpus
@@ -622,8 +607,7 @@ extension BatchClientTypes {
         public init(
             eksClusterArn: Swift.String? = nil,
             kubernetesNamespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.eksClusterArn = eksClusterArn
             self.kubernetesNamespace = kubernetesNamespace
         }
@@ -721,8 +705,7 @@ public struct CreateComputeEnvironmentInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: BatchClientTypes.CEType? = nil,
         unmanagedvCpus: Swift.Int? = nil
-    )
-    {
+    ) {
         self.computeEnvironmentName = computeEnvironmentName
         self.computeResources = computeResources
         self.context = context
@@ -744,8 +727,7 @@ public struct CreateComputeEnvironmentOutput: Swift.Sendable {
     public init(
         computeEnvironmentArn: Swift.String? = nil,
         computeEnvironmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeEnvironmentArn = computeEnvironmentArn
         self.computeEnvironmentName = computeEnvironmentName
     }
@@ -765,8 +747,7 @@ extension BatchClientTypes {
         public init(
             computeEnvironment: Swift.String? = nil,
             order: Swift.Int? = nil
-        )
-        {
+        ) {
             self.computeEnvironment = computeEnvironment
             self.order = order
         }
@@ -847,8 +828,7 @@ extension BatchClientTypes {
             maxTimeSeconds: Swift.Int? = nil,
             reason: Swift.String? = nil,
             state: BatchClientTypes.JobStateTimeLimitActionsState? = nil
-        )
-        {
+        ) {
             self.action = action
             self.maxTimeSeconds = maxTimeSeconds
             self.reason = reason
@@ -914,8 +894,7 @@ public struct CreateJobQueueInput: Swift.Sendable {
         schedulingPolicyArn: Swift.String? = nil,
         state: BatchClientTypes.JQState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.computeEnvironmentOrder = computeEnvironmentOrder
         self.jobQueueName = jobQueueName
         self.jobStateTimeLimitActions = jobStateTimeLimitActions
@@ -937,8 +916,7 @@ public struct CreateJobQueueOutput: Swift.Sendable {
     public init(
         jobQueueArn: Swift.String? = nil,
         jobQueueName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobQueueArn = jobQueueArn
         self.jobQueueName = jobQueueName
     }
@@ -957,8 +935,7 @@ extension BatchClientTypes {
         public init(
             shareIdentifier: Swift.String? = nil,
             weightFactor: Swift.Float? = nil
-        )
-        {
+        ) {
             self.shareIdentifier = shareIdentifier
             self.weightFactor = weightFactor
         }
@@ -980,8 +957,7 @@ extension BatchClientTypes {
             computeReservation: Swift.Int? = nil,
             shareDecaySeconds: Swift.Int? = nil,
             shareDistribution: [BatchClientTypes.ShareAttributes]? = nil
-        )
-        {
+        ) {
             self.computeReservation = computeReservation
             self.shareDecaySeconds = shareDecaySeconds
             self.shareDistribution = shareDistribution
@@ -1003,8 +979,7 @@ public struct CreateSchedulingPolicyInput: Swift.Sendable {
         fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.fairsharePolicy = fairsharePolicy
         self.name = name
         self.tags = tags
@@ -1022,8 +997,7 @@ public struct CreateSchedulingPolicyOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -1037,8 +1011,7 @@ public struct DeleteComputeEnvironmentInput: Swift.Sendable {
 
     public init(
         computeEnvironment: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeEnvironment = computeEnvironment
     }
 }
@@ -1056,8 +1029,7 @@ public struct DeleteJobQueueInput: Swift.Sendable {
 
     public init(
         jobQueue: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobQueue = jobQueue
     }
 }
@@ -1075,8 +1047,7 @@ public struct DeleteSchedulingPolicyInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1093,8 +1064,7 @@ public struct DeregisterJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinition: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinition = jobDefinition
     }
 }
@@ -1117,8 +1087,7 @@ public struct DescribeComputeEnvironmentsInput: Swift.Sendable {
         computeEnvironments: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeEnvironments = computeEnvironments
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1207,8 +1176,7 @@ extension BatchClientTypes {
         public init(
             jobExecutionTimeoutMinutes: Swift.Int? = nil,
             terminateJobsOnUpdate: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.jobExecutionTimeoutMinutes = jobExecutionTimeoutMinutes
             self.terminateJobsOnUpdate = terminateJobsOnUpdate
         }
@@ -1271,8 +1239,7 @@ extension BatchClientTypes {
             unmanagedvCpus: Swift.Int? = nil,
             updatePolicy: BatchClientTypes.UpdatePolicy? = nil,
             uuid: Swift.String? = nil
-        )
-        {
+        ) {
             self.computeEnvironmentArn = computeEnvironmentArn
             self.computeEnvironmentName = computeEnvironmentName
             self.computeResources = computeResources
@@ -1302,8 +1269,7 @@ public struct DescribeComputeEnvironmentsOutput: Swift.Sendable {
     public init(
         computeEnvironments: [BatchClientTypes.ComputeEnvironmentDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeEnvironments = computeEnvironments
         self.nextToken = nextToken
     }
@@ -1328,8 +1294,7 @@ public struct DescribeJobDefinitionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
         self.jobDefinitions = jobDefinitions
         self.maxResults = maxResults
@@ -1350,8 +1315,7 @@ extension BatchClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1368,8 +1332,7 @@ extension BatchClientTypes {
 
         public init(
             sizeInGiB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.sizeInGiB = sizeInGiB
         }
     }
@@ -1384,8 +1347,7 @@ extension BatchClientTypes {
 
         public init(
             platformVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.platformVersion = platformVersion
         }
     }
@@ -1439,8 +1401,7 @@ extension BatchClientTypes {
             containerPath: Swift.String? = nil,
             hostPath: Swift.String? = nil,
             permissions: [BatchClientTypes.DeviceCgroupPermission]? = nil
-        )
-        {
+        ) {
             self.containerPath = containerPath
             self.hostPath = hostPath
             self.permissions = permissions
@@ -1465,8 +1426,7 @@ extension BatchClientTypes {
             containerPath: Swift.String? = nil,
             mountOptions: [Swift.String]? = nil,
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.containerPath = containerPath
             self.mountOptions = mountOptions
             self.size = size
@@ -1507,8 +1467,7 @@ extension BatchClientTypes {
             sharedMemorySize: Swift.Int? = nil,
             swappiness: Swift.Int? = nil,
             tmpfs: [BatchClientTypes.Tmpfs]? = nil
-        )
-        {
+        ) {
             self.devices = devices
             self.initProcessEnabled = initProcessEnabled
             self.maxSwap = maxSwap
@@ -1584,8 +1543,7 @@ extension BatchClientTypes {
         public init(
             name: Swift.String? = nil,
             valueFrom: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.valueFrom = valueFrom
         }
@@ -1608,8 +1566,7 @@ extension BatchClientTypes {
             logDriver: BatchClientTypes.LogDriver? = nil,
             options: [Swift.String: Swift.String]? = nil,
             secretOptions: [BatchClientTypes.Secret]? = nil
-        )
-        {
+        ) {
             self.logDriver = logDriver
             self.options = options
             self.secretOptions = secretOptions
@@ -1632,8 +1589,7 @@ extension BatchClientTypes {
             containerPath: Swift.String? = nil,
             readOnly: Swift.Bool? = nil,
             sourceVolume: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerPath = containerPath
             self.readOnly = readOnly
             self.sourceVolume = sourceVolume
@@ -1650,8 +1606,7 @@ extension BatchClientTypes {
 
         public init(
             assignPublicIp: BatchClientTypes.AssignPublicIp? = nil
-        )
-        {
+        ) {
             self.assignPublicIp = assignPublicIp
         }
     }
@@ -1667,8 +1622,7 @@ extension BatchClientTypes {
 
         public init(
             credentialsParameter: Swift.String? = nil
-        )
-        {
+        ) {
             self.credentialsParameter = credentialsParameter
         }
     }
@@ -1720,8 +1674,7 @@ extension BatchClientTypes {
         public init(
             type: BatchClientTypes.ResourceType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1740,8 +1693,7 @@ extension BatchClientTypes {
         public init(
             cpuArchitecture: Swift.String? = nil,
             operatingSystemFamily: Swift.String? = nil
-        )
-        {
+        ) {
             self.cpuArchitecture = cpuArchitecture
             self.operatingSystemFamily = operatingSystemFamily
         }
@@ -1766,8 +1718,7 @@ extension BatchClientTypes {
             hardLimit: Swift.Int? = nil,
             name: Swift.String? = nil,
             softLimit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.hardLimit = hardLimit
             self.name = name
             self.softLimit = softLimit
@@ -1816,8 +1767,7 @@ extension BatchClientTypes {
         public init(
             accessPointId: Swift.String? = nil,
             iam: BatchClientTypes.EFSAuthorizationConfigIAM? = nil
-        )
-        {
+        ) {
             self.accessPointId = accessPointId
             self.iam = iam
         }
@@ -1875,8 +1825,7 @@ extension BatchClientTypes {
             rootDirectory: Swift.String? = nil,
             transitEncryption: BatchClientTypes.EFSTransitEncryption? = nil,
             transitEncryptionPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.authorizationConfig = authorizationConfig
             self.fileSystemId = fileSystemId
             self.rootDirectory = rootDirectory
@@ -1895,8 +1844,7 @@ extension BatchClientTypes {
 
         public init(
             sourcePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourcePath = sourcePath
         }
     }
@@ -1917,8 +1865,7 @@ extension BatchClientTypes {
             efsVolumeConfiguration: BatchClientTypes.EFSVolumeConfiguration? = nil,
             host: BatchClientTypes.Host? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.efsVolumeConfiguration = efsVolumeConfiguration
             self.host = host
             self.name = name
@@ -2013,8 +1960,7 @@ extension BatchClientTypes {
             user: Swift.String? = nil,
             vcpus: Swift.Int? = nil,
             volumes: [BatchClientTypes.Volume]? = nil
-        )
-        {
+        ) {
             self.command = command
             self.environment = environment
             self.ephemeralStorage = ephemeralStorage
@@ -2060,8 +2006,7 @@ extension BatchClientTypes {
         public init(
             condition: Swift.String? = nil,
             containerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.containerName = containerName
         }
@@ -2138,8 +2083,7 @@ extension BatchClientTypes {
             secrets: [BatchClientTypes.Secret]? = nil,
             ulimits: [BatchClientTypes.Ulimit]? = nil,
             user: Swift.String? = nil
-        )
-        {
+        ) {
             self.command = command
             self.dependsOn = dependsOn
             self.environment = environment
@@ -2197,8 +2141,7 @@ extension BatchClientTypes {
             runtimePlatform: BatchClientTypes.RuntimePlatform? = nil,
             taskRoleArn: Swift.String? = nil,
             volumes: [BatchClientTypes.Volume]? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.ephemeralStorage = ephemeralStorage
             self.executionRoleArn = executionRoleArn
@@ -2223,8 +2166,7 @@ extension BatchClientTypes {
 
         public init(
             taskProperties: [BatchClientTypes.EcsTaskProperties]? = nil
-        )
-        {
+        ) {
             self.taskProperties = taskProperties
         }
     }
@@ -2243,8 +2185,7 @@ extension BatchClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2263,8 +2204,7 @@ extension BatchClientTypes {
         public init(
             limits: [Swift.String: Swift.String]? = nil,
             requests: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.limits = limits
             self.requests = requests
         }
@@ -2295,8 +2235,7 @@ extension BatchClientTypes {
             runAsGroup: Swift.Int? = nil,
             runAsNonRoot: Swift.Bool? = nil,
             runAsUser: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowPrivilegeEscalation = allowPrivilegeEscalation
             self.privileged = privileged
             self.readOnlyRootFilesystem = readOnlyRootFilesystem
@@ -2325,8 +2264,7 @@ extension BatchClientTypes {
             name: Swift.String? = nil,
             readOnly: Swift.Bool? = nil,
             subPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.mountPath = mountPath
             self.name = name
             self.readOnly = readOnly
@@ -2369,8 +2307,7 @@ extension BatchClientTypes {
             resources: BatchClientTypes.EksContainerResourceRequirements? = nil,
             securityContext: BatchClientTypes.EksContainerSecurityContext? = nil,
             volumeMounts: [BatchClientTypes.EksContainerVolumeMount]? = nil
-        )
-        {
+        ) {
             self.args = args
             self.command = command
             self.env = env
@@ -2394,8 +2331,7 @@ extension BatchClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -2434,8 +2370,7 @@ extension BatchClientTypes {
             annotations: [Swift.String: Swift.String]? = nil,
             labels: [Swift.String: Swift.String]? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.annotations = annotations
             self.labels = labels
             self.namespace = namespace
@@ -2455,8 +2390,7 @@ extension BatchClientTypes {
         public init(
             medium: Swift.String? = nil,
             sizeLimit: Swift.String? = nil
-        )
-        {
+        ) {
             self.medium = medium
             self.sizeLimit = sizeLimit
         }
@@ -2472,8 +2406,7 @@ extension BatchClientTypes {
 
         public init(
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.path = path
         }
     }
@@ -2492,8 +2425,7 @@ extension BatchClientTypes {
         public init(
             claimName: Swift.String? = nil,
             readOnly: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.claimName = claimName
             self.readOnly = readOnly
         }
@@ -2513,8 +2445,7 @@ extension BatchClientTypes {
         public init(
             `optional`: Swift.Bool? = nil,
             secretName: Swift.String? = nil
-        )
-        {
+        ) {
             self.`optional` = `optional`
             self.secretName = secretName
         }
@@ -2543,8 +2474,7 @@ extension BatchClientTypes {
             name: Swift.String? = nil,
             persistentVolumeClaim: BatchClientTypes.EksPersistentVolumeClaim? = nil,
             secret: BatchClientTypes.EksSecret? = nil
-        )
-        {
+        ) {
             self.emptyDir = emptyDir
             self.hostPath = hostPath
             self.name = name
@@ -2587,8 +2517,7 @@ extension BatchClientTypes {
             serviceAccountName: Swift.String? = nil,
             shareProcessNamespace: Swift.Bool? = nil,
             volumes: [BatchClientTypes.EksVolume]? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
             self.hostNetwork = hostNetwork
@@ -2611,8 +2540,7 @@ extension BatchClientTypes {
 
         public init(
             podProperties: BatchClientTypes.EksPodProperties? = nil
-        )
-        {
+        ) {
             self.podProperties = podProperties
         }
     }
@@ -2640,8 +2568,7 @@ extension BatchClientTypes {
             eksProperties: BatchClientTypes.EksProperties? = nil,
             instanceTypes: [Swift.String]? = nil,
             targetNodes: Swift.String? = nil
-        )
-        {
+        ) {
             self.container = container
             self.ecsProperties = ecsProperties
             self.eksProperties = eksProperties
@@ -2669,8 +2596,7 @@ extension BatchClientTypes {
             mainNode: Swift.Int? = nil,
             nodeRangeProperties: [BatchClientTypes.NodeRangeProperty]? = nil,
             numNodes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.mainNode = mainNode
             self.nodeRangeProperties = nodeRangeProperties
             self.numNodes = numNodes
@@ -2755,8 +2681,7 @@ extension BatchClientTypes {
             onExitCode: Swift.String? = nil,
             onReason: Swift.String? = nil,
             onStatusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.onExitCode = onExitCode
             self.onReason = onReason
@@ -2777,8 +2702,7 @@ extension BatchClientTypes {
         public init(
             attempts: Swift.Int? = nil,
             evaluateOnExit: [BatchClientTypes.EvaluateOnExit]? = nil
-        )
-        {
+        ) {
             self.attempts = attempts
             self.evaluateOnExit = evaluateOnExit
         }
@@ -2794,8 +2718,7 @@ extension BatchClientTypes {
 
         public init(
             attemptDurationSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.attemptDurationSeconds = attemptDurationSeconds
         }
     }
@@ -2862,8 +2785,7 @@ extension BatchClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             timeout: BatchClientTypes.JobTimeout? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerOrchestrationType = containerOrchestrationType
             self.containerProperties = containerProperties
             self.ecsProperties = ecsProperties
@@ -2894,8 +2816,7 @@ public struct DescribeJobDefinitionsOutput: Swift.Sendable {
     public init(
         jobDefinitions: [BatchClientTypes.JobDefinition]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitions = jobDefinitions
         self.nextToken = nextToken
     }
@@ -2914,8 +2835,7 @@ public struct DescribeJobQueuesInput: Swift.Sendable {
         jobQueues: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobQueues = jobQueues
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3004,8 +2924,7 @@ extension BatchClientTypes {
             status: BatchClientTypes.JQStatus? = nil,
             statusReason: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueArn = jobQueueArn
             self.jobQueueName = jobQueueName
@@ -3029,8 +2948,7 @@ public struct DescribeJobQueuesOutput: Swift.Sendable {
     public init(
         jobQueues: [BatchClientTypes.JobQueueDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobQueues = jobQueues
         self.nextToken = nextToken
     }
@@ -3044,8 +2962,7 @@ public struct DescribeJobsInput: Swift.Sendable {
 
     public init(
         jobs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
     }
 }
@@ -3143,8 +3060,7 @@ extension BatchClientTypes {
             user: Swift.String? = nil,
             vcpus: Swift.Int? = nil,
             volumes: [BatchClientTypes.Volume]? = nil
-        )
-        {
+        ) {
             self.command = command
             self.containerInstanceArn = containerInstanceArn
             self.environment = environment
@@ -3190,8 +3106,7 @@ extension BatchClientTypes {
         public init(
             jobId: Swift.String? = nil,
             type: BatchClientTypes.ArrayJobDependency? = nil
-        )
-        {
+        ) {
             self.jobId = jobId
             self.type = type
         }
@@ -3280,8 +3195,7 @@ extension BatchClientTypes {
             secrets: [BatchClientTypes.Secret]? = nil,
             ulimits: [BatchClientTypes.Ulimit]? = nil,
             user: Swift.String? = nil
-        )
-        {
+        ) {
             self.command = command
             self.dependsOn = dependsOn
             self.environment = environment
@@ -3348,8 +3262,7 @@ extension BatchClientTypes {
             taskArn: Swift.String? = nil,
             taskRoleArn: Swift.String? = nil,
             volumes: [BatchClientTypes.Volume]? = nil
-        )
-        {
+        ) {
             self.containerInstanceArn = containerInstanceArn
             self.containers = containers
             self.ephemeralStorage = ephemeralStorage
@@ -3375,8 +3288,7 @@ extension BatchClientTypes {
 
         public init(
             taskProperties: [BatchClientTypes.EcsTaskDetails]? = nil
-        )
-        {
+        ) {
             self.taskProperties = taskProperties
         }
     }
@@ -3400,8 +3312,7 @@ extension BatchClientTypes {
             exitCode: Swift.Int? = nil,
             name: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerID = containerID
             self.exitCode = exitCode
             self.name = name
@@ -3443,8 +3354,7 @@ extension BatchClientTypes {
             startedAt: Swift.Int? = nil,
             statusReason: Swift.String? = nil,
             stoppedAt: Swift.Int? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.eksClusterArn = eksClusterArn
             self.initContainers = initContainers
@@ -3497,8 +3407,7 @@ extension BatchClientTypes {
             resources: BatchClientTypes.EksContainerResourceRequirements? = nil,
             securityContext: BatchClientTypes.EksContainerSecurityContext? = nil,
             volumeMounts: [BatchClientTypes.EksContainerVolumeMount]? = nil
-        )
-        {
+        ) {
             self.args = args
             self.command = command
             self.env = env
@@ -3553,8 +3462,7 @@ extension BatchClientTypes {
             serviceAccountName: Swift.String? = nil,
             shareProcessNamespace: Swift.Bool? = nil,
             volumes: [BatchClientTypes.EksVolume]? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
             self.hostNetwork = hostNetwork
@@ -3579,8 +3487,7 @@ extension BatchClientTypes {
 
         public init(
             podProperties: BatchClientTypes.EksPodPropertiesDetail? = nil
-        )
-        {
+        ) {
             self.podProperties = podProperties
         }
     }
@@ -3598,8 +3505,7 @@ extension BatchClientTypes {
         public init(
             isMainNode: Swift.Bool? = nil,
             nodeIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isMainNode = isMainNode
             self.nodeIndex = nodeIndex
         }
@@ -3757,8 +3663,7 @@ extension BatchClientTypes {
             stoppedAt: Swift.Int? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             timeout: BatchClientTypes.JobTimeout? = nil
-        )
-        {
+        ) {
             self.arrayProperties = arrayProperties
             self.attempts = attempts
             self.container = container
@@ -3798,8 +3703,7 @@ public struct DescribeJobsOutput: Swift.Sendable {
 
     public init(
         jobs: [BatchClientTypes.JobDetail]? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
     }
 }
@@ -3812,8 +3716,7 @@ public struct DescribeSchedulingPoliciesInput: Swift.Sendable {
 
     public init(
         arns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arns = arns
     }
 }
@@ -3838,8 +3741,7 @@ extension BatchClientTypes {
             fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.fairsharePolicy = fairsharePolicy
             self.name = name
@@ -3854,8 +3756,7 @@ public struct DescribeSchedulingPoliciesOutput: Swift.Sendable {
 
     public init(
         schedulingPolicies: [BatchClientTypes.SchedulingPolicyDetail]? = nil
-    )
-    {
+    ) {
         self.schedulingPolicies = schedulingPolicies
     }
 }
@@ -3867,8 +3768,7 @@ public struct GetJobQueueSnapshotInput: Swift.Sendable {
 
     public init(
         jobQueue: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobQueue = jobQueue
     }
 }
@@ -3885,8 +3785,7 @@ extension BatchClientTypes {
         public init(
             earliestTimeAtPosition: Swift.Int? = nil,
             jobArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.earliestTimeAtPosition = earliestTimeAtPosition
             self.jobArn = jobArn
         }
@@ -3905,8 +3804,7 @@ extension BatchClientTypes {
         public init(
             jobs: [BatchClientTypes.FrontOfQueueJobSummary]? = nil,
             lastUpdatedAt: Swift.Int? = nil
-        )
-        {
+        ) {
             self.jobs = jobs
             self.lastUpdatedAt = lastUpdatedAt
         }
@@ -3919,8 +3817,7 @@ public struct GetJobQueueSnapshotOutput: Swift.Sendable {
 
     public init(
         frontOfQueue: BatchClientTypes.FrontOfQueueDetail? = nil
-    )
-    {
+    ) {
         self.frontOfQueue = frontOfQueue
     }
 }
@@ -3937,8 +3834,7 @@ extension BatchClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3978,8 +3874,7 @@ public struct ListJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         multiNodeJobId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arrayJobId = arrayJobId
         self.filters = filters
         self.jobQueue = jobQueue
@@ -4002,8 +3897,7 @@ extension BatchClientTypes {
         public init(
             exitCode: Swift.Int? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.exitCode = exitCode
             self.reason = reason
         }
@@ -4025,8 +3919,7 @@ extension BatchClientTypes {
             isMainNode: Swift.Bool? = nil,
             nodeIndex: Swift.Int? = nil,
             numNodes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isMainNode = isMainNode
             self.nodeIndex = nodeIndex
             self.numNodes = numNodes
@@ -4078,8 +3971,7 @@ extension BatchClientTypes {
             status: BatchClientTypes.JobStatus? = nil,
             statusReason: Swift.String? = nil,
             stoppedAt: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arrayProperties = arrayProperties
             self.container = container
             self.createdAt = createdAt
@@ -4106,8 +3998,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobSummaryList: [BatchClientTypes.JobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobSummaryList = jobSummaryList
         self.nextToken = nextToken
     }
@@ -4123,8 +4014,7 @@ public struct ListSchedulingPoliciesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4140,8 +4030,7 @@ extension BatchClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -4156,8 +4045,7 @@ public struct ListSchedulingPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schedulingPolicies: [BatchClientTypes.SchedulingPolicyListingDetail]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schedulingPolicies = schedulingPolicies
     }
@@ -4171,8 +4059,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4183,8 +4070,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4270,8 +4156,7 @@ public struct RegisterJobDefinitionInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         timeout: BatchClientTypes.JobTimeout? = nil,
         type: BatchClientTypes.JobDefinitionType? = nil
-    )
-    {
+    ) {
         self.containerProperties = containerProperties
         self.ecsProperties = ecsProperties
         self.eksProperties = eksProperties
@@ -4303,8 +4188,7 @@ public struct RegisterJobDefinitionOutput: Swift.Sendable {
         jobDefinitionArn: Swift.String? = nil,
         jobDefinitionName: Swift.String? = nil,
         revision: Swift.Int? = nil
-    )
-    {
+    ) {
         self.jobDefinitionArn = jobDefinitionArn
         self.jobDefinitionName = jobDefinitionName
         self.revision = revision
@@ -4337,8 +4221,7 @@ extension BatchClientTypes {
             memory: Swift.Int? = nil,
             resourceRequirements: [BatchClientTypes.ResourceRequirement]? = nil,
             vcpus: Swift.Int? = nil
-        )
-        {
+        ) {
             self.command = command
             self.environment = environment
             self.instanceType = instanceType
@@ -4367,8 +4250,7 @@ extension BatchClientTypes {
             environment: [BatchClientTypes.KeyValuePair]? = nil,
             name: Swift.String? = nil,
             resourceRequirements: [BatchClientTypes.ResourceRequirement]? = nil
-        )
-        {
+        ) {
             self.command = command
             self.environment = environment
             self.name = name
@@ -4386,8 +4268,7 @@ extension BatchClientTypes {
 
         public init(
             containers: [BatchClientTypes.TaskContainerOverrides]? = nil
-        )
-        {
+        ) {
             self.containers = containers
         }
     }
@@ -4402,8 +4283,7 @@ extension BatchClientTypes {
 
         public init(
             taskProperties: [BatchClientTypes.TaskPropertiesOverride]? = nil
-        )
-        {
+        ) {
             self.taskProperties = taskProperties
         }
     }
@@ -4433,8 +4313,7 @@ extension BatchClientTypes {
             image: Swift.String? = nil,
             name: Swift.String? = nil,
             resources: BatchClientTypes.EksContainerResourceRequirements? = nil
-        )
-        {
+        ) {
             self.args = args
             self.command = command
             self.env = env
@@ -4460,8 +4339,7 @@ extension BatchClientTypes {
             containers: [BatchClientTypes.EksContainerOverride]? = nil,
             initContainers: [BatchClientTypes.EksContainerOverride]? = nil,
             metadata: BatchClientTypes.EksMetadata? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.initContainers = initContainers
             self.metadata = metadata
@@ -4478,8 +4356,7 @@ extension BatchClientTypes {
 
         public init(
             podProperties: BatchClientTypes.EksPodPropertiesOverride? = nil
-        )
-        {
+        ) {
             self.podProperties = podProperties
         }
     }
@@ -4507,8 +4384,7 @@ extension BatchClientTypes {
             eksPropertiesOverride: BatchClientTypes.EksPropertiesOverride? = nil,
             instanceTypes: [Swift.String]? = nil,
             targetNodes: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerOverrides = containerOverrides
             self.ecsPropertiesOverride = ecsPropertiesOverride
             self.eksPropertiesOverride = eksPropertiesOverride
@@ -4536,8 +4412,7 @@ extension BatchClientTypes {
         public init(
             nodePropertyOverrides: [BatchClientTypes.NodePropertyOverride]? = nil,
             numNodes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.nodePropertyOverrides = nodePropertyOverrides
             self.numNodes = numNodes
         }
@@ -4599,8 +4474,7 @@ public struct SubmitJobInput: Swift.Sendable {
         shareIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         timeout: BatchClientTypes.JobTimeout? = nil
-    )
-    {
+    ) {
         self.arrayProperties = arrayProperties
         self.containerOverrides = containerOverrides
         self.dependsOn = dependsOn
@@ -4634,8 +4508,7 @@ public struct SubmitJobOutput: Swift.Sendable {
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
         self.jobId = jobId
         self.jobName = jobName
@@ -4654,8 +4527,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4678,8 +4550,7 @@ public struct TerminateJobInput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.reason = reason
     }
@@ -4702,8 +4573,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4803,8 +4673,7 @@ extension BatchClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             type: BatchClientTypes.CRType? = nil,
             updateToLatestImageVersion: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
             self.desiredvCpus = desiredvCpus
@@ -4852,8 +4721,7 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
         state: BatchClientTypes.CEState? = nil,
         unmanagedvCpus: Swift.Int? = nil,
         updatePolicy: BatchClientTypes.UpdatePolicy? = nil
-    )
-    {
+    ) {
         self.computeEnvironment = computeEnvironment
         self.computeResources = computeResources
         self.context = context
@@ -4873,8 +4741,7 @@ public struct UpdateComputeEnvironmentOutput: Swift.Sendable {
     public init(
         computeEnvironmentArn: Swift.String? = nil,
         computeEnvironmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeEnvironmentArn = computeEnvironmentArn
         self.computeEnvironmentName = computeEnvironmentName
     }
@@ -4903,8 +4770,7 @@ public struct UpdateJobQueueInput: Swift.Sendable {
         priority: Swift.Int? = nil,
         schedulingPolicyArn: Swift.String? = nil,
         state: BatchClientTypes.JQState? = nil
-    )
-    {
+    ) {
         self.computeEnvironmentOrder = computeEnvironmentOrder
         self.jobQueue = jobQueue
         self.jobStateTimeLimitActions = jobStateTimeLimitActions
@@ -4923,8 +4789,7 @@ public struct UpdateJobQueueOutput: Swift.Sendable {
     public init(
         jobQueueArn: Swift.String? = nil,
         jobQueueName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobQueueArn = jobQueueArn
         self.jobQueueName = jobQueueName
     }
@@ -4941,8 +4806,7 @@ public struct UpdateSchedulingPolicyInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.fairsharePolicy = fairsharePolicy
     }

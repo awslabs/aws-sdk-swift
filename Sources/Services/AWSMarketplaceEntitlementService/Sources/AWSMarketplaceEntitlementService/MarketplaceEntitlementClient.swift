@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceEntitlementClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceEntitlementClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceEntitlementClient.MarketplaceEntitlementClientConfiguration
     let serviceName = "Marketplace Entitlement"
@@ -329,7 +329,7 @@ extension MarketplaceEntitlementClient {
 }
 
 extension MarketplaceEntitlementClient {
-    /// Performs the `GetEntitlements` operation on the `AWSMPEntitlementService` service.
+    /// Performs the `GetEntitlements` operation on the `MarketplaceEntitlement` service.
     ///
     /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
     ///

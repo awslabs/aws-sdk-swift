@@ -192,8 +192,7 @@ extension S3ControlClientTypes {
 
         public init(
             daysAfterInitiation: Swift.Int = 0
-        )
-        {
+        ) {
             self.daysAfterInitiation = daysAfterInitiation
         }
     }
@@ -235,8 +234,7 @@ extension S3ControlClientTypes {
 
         public init(
             owner: S3ControlClientTypes.OwnerOverride? = nil
-        )
-        {
+        ) {
             self.owner = owner
         }
     }
@@ -267,8 +265,7 @@ extension S3ControlClientTypes {
             identityCenterApplicationArn: Swift.String? = nil,
             identityCenterArn: Swift.String? = nil,
             identityCenterInstanceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.accessGrantsInstanceId = accessGrantsInstanceId
             self.createdAt = createdAt
@@ -288,8 +285,7 @@ extension S3ControlClientTypes {
 
         public init(
             s3SubPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3SubPrefix = s3SubPrefix
         }
     }
@@ -345,8 +341,7 @@ extension S3ControlClientTypes {
         public init(
             granteeIdentifier: Swift.String? = nil,
             granteeType: S3ControlClientTypes.GranteeType? = nil
-        )
-        {
+        ) {
             self.granteeIdentifier = granteeIdentifier
             self.granteeType = granteeType
         }
@@ -424,8 +419,7 @@ extension S3ControlClientTypes {
             grantScope: Swift.String? = nil,
             grantee: S3ControlClientTypes.Grantee? = nil,
             permission: S3ControlClientTypes.Permission? = nil
-        )
-        {
+        ) {
             self.accessGrantArn = accessGrantArn
             self.accessGrantId = accessGrantId
             self.accessGrantsLocationConfiguration = accessGrantsLocationConfiguration
@@ -460,8 +454,7 @@ extension S3ControlClientTypes {
             createdAt: Foundation.Date? = nil,
             iamRoleArn: Swift.String? = nil,
             locationScope: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessGrantsLocationArn = accessGrantsLocationArn
             self.accessGrantsLocationId = accessGrantsLocationId
             self.createdAt = createdAt
@@ -510,8 +503,7 @@ extension S3ControlClientTypes {
 
         public init(
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.vpcId = vpcId
         }
     }
@@ -547,8 +539,7 @@ extension S3ControlClientTypes {
             name: Swift.String? = nil,
             networkOrigin: S3ControlClientTypes.NetworkOrigin? = nil,
             vpcConfiguration: S3ControlClientTypes.VpcConfiguration? = nil
-        )
-        {
+        ) {
             self.accessPointArn = accessPointArn
             self.alias = alias
             self.bucket = bucket
@@ -569,8 +560,7 @@ extension S3ControlClientTypes {
 
         public init(
             isEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.isEnabled = isEnabled
         }
     }
@@ -585,8 +575,7 @@ extension S3ControlClientTypes {
 
         public init(
             isEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.isEnabled = isEnabled
         }
     }
@@ -601,8 +590,7 @@ extension S3ControlClientTypes {
 
         public init(
             isEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.isEnabled = isEnabled
         }
     }
@@ -617,8 +605,7 @@ extension S3ControlClientTypes {
 
         public init(
             isEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.isEnabled = isEnabled
         }
     }
@@ -639,8 +626,7 @@ extension S3ControlClientTypes {
             delimiter: Swift.String? = nil,
             maxDepth: Swift.Int? = nil,
             minStorageBytesPercentage: Swift.Double? = nil
-        )
-        {
+        ) {
             self.delimiter = delimiter
             self.maxDepth = maxDepth
             self.minStorageBytesPercentage = minStorageBytesPercentage
@@ -660,8 +646,7 @@ extension S3ControlClientTypes {
         public init(
             isEnabled: Swift.Bool = false,
             selectionCriteria: S3ControlClientTypes.SelectionCriteria? = nil
-        )
-        {
+        ) {
             self.isEnabled = isEnabled
             self.selectionCriteria = selectionCriteria
         }
@@ -678,8 +663,7 @@ extension S3ControlClientTypes {
 
         public init(
             storageMetrics: S3ControlClientTypes.PrefixLevelStorageMetrics? = nil
-        )
-        {
+        ) {
             self.storageMetrics = storageMetrics
         }
     }
@@ -706,8 +690,7 @@ extension S3ControlClientTypes {
             advancedDataProtectionMetrics: S3ControlClientTypes.AdvancedDataProtectionMetrics? = nil,
             detailedStatusCodesMetrics: S3ControlClientTypes.DetailedStatusCodesMetrics? = nil,
             prefixLevel: S3ControlClientTypes.PrefixLevel? = nil
-        )
-        {
+        ) {
             self.activityMetrics = activityMetrics
             self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
             self.advancedDataProtectionMetrics = advancedDataProtectionMetrics
@@ -729,8 +712,7 @@ extension S3ControlClientTypes {
         public init(
             exclude: [Swift.String]? = nil,
             include: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.exclude = exclude
             self.include = include
         }
@@ -746,8 +728,7 @@ extension S3ControlClientTypes {
 
         public init(
             selectionCriteria: S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria? = nil
-        )
-        {
+        ) {
             self.selectionCriteria = selectionCriteria
         }
     }
@@ -778,8 +759,7 @@ extension S3ControlClientTypes {
             bucketLevel: S3ControlClientTypes.BucketLevel? = nil,
             detailedStatusCodesMetrics: S3ControlClientTypes.DetailedStatusCodesMetrics? = nil,
             storageLensGroupLevel: S3ControlClientTypes.StorageLensGroupLevel? = nil
-        )
-        {
+        ) {
             self.activityMetrics = activityMetrics
             self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
             self.advancedDataProtectionMetrics = advancedDataProtectionMetrics
@@ -801,8 +781,7 @@ public struct AssociateAccessGrantsIdentityCenterInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         identityCenterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.identityCenterArn = identityCenterArn
     }
@@ -826,8 +805,7 @@ extension S3ControlClientTypes {
             message: Swift.String? = nil,
             requestId: Swift.String? = nil,
             resource: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.requestId = requestId
@@ -895,8 +873,7 @@ extension S3ControlClientTypes {
             blockPublicPolicy: Swift.Bool = false,
             ignorePublicAcls: Swift.Bool = false,
             restrictPublicBuckets: Swift.Bool = false
-        )
-        {
+        ) {
             self.blockPublicAcls = blockPublicAcls
             self.blockPublicPolicy = blockPublicPolicy
             self.ignorePublicAcls = ignorePublicAcls
@@ -918,8 +895,7 @@ extension S3ControlClientTypes {
         public init(
             bucket: Swift.String? = nil,
             bucketAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
         }
@@ -943,8 +919,7 @@ extension S3ControlClientTypes {
             name: Swift.String? = nil,
             publicAccessBlock: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil,
             regions: [S3ControlClientTypes.Region]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.publicAccessBlock = publicAccessBlock
             self.regions = regions
@@ -962,8 +937,7 @@ extension S3ControlClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -983,8 +957,7 @@ extension S3ControlClientTypes {
         public init(
             name: Swift.String? = nil,
             policy: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.policy = policy
         }
@@ -1006,8 +979,7 @@ extension S3ControlClientTypes {
             createMultiRegionAccessPointRequest: S3ControlClientTypes.CreateMultiRegionAccessPointInput? = nil,
             deleteMultiRegionAccessPointRequest: S3ControlClientTypes.DeleteMultiRegionAccessPointInput? = nil,
             putMultiRegionAccessPointPolicyRequest: S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput? = nil
-        )
-        {
+        ) {
             self.createMultiRegionAccessPointRequest = createMultiRegionAccessPointRequest
             self.deleteMultiRegionAccessPointRequest = deleteMultiRegionAccessPointRequest
             self.putMultiRegionAccessPointPolicyRequest = putMultiRegionAccessPointPolicyRequest
@@ -1027,8 +999,7 @@ extension S3ControlClientTypes {
         public init(
             name: Swift.String? = nil,
             requestStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.requestStatus = requestStatus
         }
@@ -1044,8 +1015,7 @@ extension S3ControlClientTypes {
 
         public init(
             regions: [S3ControlClientTypes.MultiRegionAccessPointRegionalResponse]? = nil
-        )
-        {
+        ) {
             self.regions = regions
         }
     }
@@ -1063,8 +1033,7 @@ extension S3ControlClientTypes {
         public init(
             errorDetails: S3ControlClientTypes.AsyncErrorDetails? = nil,
             multiRegionAccessPointDetails: S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse? = nil
-        )
-        {
+        ) {
             self.errorDetails = errorDetails
             self.multiRegionAccessPointDetails = multiRegionAccessPointDetails
         }
@@ -1095,8 +1064,7 @@ extension S3ControlClientTypes {
             requestStatus: Swift.String? = nil,
             requestTokenARN: Swift.String? = nil,
             responseDetails: S3ControlClientTypes.AsyncResponseDetails? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.operation = operation
             self.requestParameters = requestParameters
@@ -1120,8 +1088,7 @@ extension S3ControlClientTypes {
         public init(
             functionArn: Swift.String? = nil,
             functionPayload: Swift.String? = nil
-        )
-        {
+        ) {
             self.functionArn = functionArn
             self.functionPayload = functionPayload
         }
@@ -1168,8 +1135,7 @@ extension S3ControlClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1213,8 +1179,7 @@ public struct CreateAccessGrantInput: Swift.Sendable {
         permission: S3ControlClientTypes.Permission? = nil,
         s3PrefixType: S3ControlClientTypes.S3PrefixType? = nil,
         tags: [S3ControlClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accessGrantsLocationConfiguration = accessGrantsLocationConfiguration
         self.accessGrantsLocationId = accessGrantsLocationId
         self.accountId = accountId
@@ -1262,8 +1227,7 @@ public struct CreateAccessGrantOutput: Swift.Sendable {
         grantScope: Swift.String? = nil,
         grantee: S3ControlClientTypes.Grantee? = nil,
         permission: S3ControlClientTypes.Permission? = nil
-    )
-    {
+    ) {
         self.accessGrantArn = accessGrantArn
         self.accessGrantId = accessGrantId
         self.accessGrantsLocationConfiguration = accessGrantsLocationConfiguration
@@ -1289,8 +1253,7 @@ public struct CreateAccessGrantsInstanceInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         identityCenterArn: Swift.String? = nil,
         tags: [S3ControlClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.identityCenterArn = identityCenterArn
         self.tags = tags
@@ -1319,8 +1282,7 @@ public struct CreateAccessGrantsInstanceOutput: Swift.Sendable {
         identityCenterApplicationArn: Swift.String? = nil,
         identityCenterArn: Swift.String? = nil,
         identityCenterInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsInstanceArn = accessGrantsInstanceArn
         self.accessGrantsInstanceId = accessGrantsInstanceId
         self.createdAt = createdAt
@@ -1348,8 +1310,7 @@ public struct CreateAccessGrantsLocationInput: Swift.Sendable {
         iamRoleArn: Swift.String? = nil,
         locationScope: Swift.String? = nil,
         tags: [S3ControlClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.iamRoleArn = iamRoleArn
         self.locationScope = locationScope
@@ -1375,8 +1336,7 @@ public struct CreateAccessGrantsLocationOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         iamRoleArn: Swift.String? = nil,
         locationScope: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsLocationArn = accessGrantsLocationArn
         self.accessGrantsLocationId = accessGrantsLocationId
         self.createdAt = createdAt
@@ -1409,8 +1369,7 @@ public struct CreateAccessPointInput: Swift.Sendable {
         name: Swift.String? = nil,
         publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil,
         vpcConfiguration: S3ControlClientTypes.VpcConfiguration? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
         self.bucketAccountId = bucketAccountId
@@ -1429,8 +1388,7 @@ public struct CreateAccessPointOutput: Swift.Sendable {
     public init(
         accessPointArn: Swift.String? = nil,
         alias: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPointArn = accessPointArn
         self.alias = alias
     }
@@ -1530,8 +1488,7 @@ extension S3ControlClientTypes {
         public init(
             actions: [S3ControlClientTypes.ObjectLambdaTransformationConfigurationAction]? = nil,
             contentTransformation: S3ControlClientTypes.ObjectLambdaContentTransformation? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.contentTransformation = contentTransformation
         }
@@ -1558,8 +1515,7 @@ extension S3ControlClientTypes {
             cloudWatchMetricsEnabled: Swift.Bool = false,
             supportingAccessPoint: Swift.String? = nil,
             transformationConfigurations: [S3ControlClientTypes.ObjectLambdaTransformationConfiguration]? = nil
-        )
-        {
+        ) {
             self.allowedFeatures = allowedFeatures
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.supportingAccessPoint = supportingAccessPoint
@@ -1583,8 +1539,7 @@ public struct CreateAccessPointForObjectLambdaInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         configuration: S3ControlClientTypes.ObjectLambdaConfiguration? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.configuration = configuration
         self.name = name
@@ -1632,8 +1587,7 @@ extension S3ControlClientTypes {
         public init(
             status: S3ControlClientTypes.ObjectLambdaAccessPointAliasStatus? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.value = value
         }
@@ -1649,8 +1603,7 @@ public struct CreateAccessPointForObjectLambdaOutput: Swift.Sendable {
     public init(
         alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias? = nil,
         objectLambdaAccessPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.objectLambdaAccessPointArn = objectLambdaAccessPointArn
     }
@@ -1782,8 +1735,7 @@ extension S3ControlClientTypes {
 
         public init(
             locationConstraint: S3ControlClientTypes.BucketLocationConstraint? = nil
-        )
-        {
+        ) {
             self.locationConstraint = locationConstraint
         }
     }
@@ -1823,8 +1775,7 @@ public struct CreateBucketInput: Swift.Sendable {
         grantWriteACP: Swift.String? = nil,
         objectLockEnabledForBucket: Swift.Bool? = false,
         outpostId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acl = acl
         self.bucket = bucket
         self.createBucketConfiguration = createBucketConfiguration
@@ -1847,8 +1798,7 @@ public struct CreateBucketOutput: Swift.Sendable {
     public init(
         bucketArn: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketArn = bucketArn
         self.location = location
     }
@@ -1872,8 +1822,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1896,8 +1845,7 @@ public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1920,8 +1868,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1944,8 +1891,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1967,8 +1913,7 @@ extension S3ControlClientTypes {
             eTag: Swift.String? = nil,
             objectArn: Swift.String? = nil,
             objectVersionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.eTag = eTag
             self.objectArn = objectArn
             self.objectVersionId = objectVersionId
@@ -2053,8 +1998,7 @@ extension S3ControlClientTypes {
         public init(
             fields: [S3ControlClientTypes.JobManifestFieldName]? = nil,
             format: S3ControlClientTypes.JobManifestFormat? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.format = format
         }
@@ -2075,8 +2019,7 @@ extension S3ControlClientTypes {
         public init(
             location: S3ControlClientTypes.JobManifestLocation? = nil,
             spec: S3ControlClientTypes.JobManifestSpec? = nil
-        )
-        {
+        ) {
             self.location = location
             self.spec = spec
         }
@@ -2098,8 +2041,7 @@ extension S3ControlClientTypes {
             matchAnyPrefix: [Swift.String]? = nil,
             matchAnySubstring: [Swift.String]? = nil,
             matchAnySuffix: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.matchAnyPrefix = matchAnyPrefix
             self.matchAnySubstring = matchAnySubstring
             self.matchAnySuffix = matchAnySuffix
@@ -2216,8 +2158,7 @@ extension S3ControlClientTypes {
             objectReplicationStatuses: [S3ControlClientTypes.ReplicationStatus]? = nil,
             objectSizeGreaterThanBytes: Swift.Int? = 0,
             objectSizeLessThanBytes: Swift.Int? = 0
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.eligibleForReplication = eligibleForReplication
@@ -2240,8 +2181,7 @@ extension S3ControlClientTypes {
 
         public init(
             keyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyId = keyId
         }
     }
@@ -2268,8 +2208,7 @@ extension S3ControlClientTypes {
         public init(
             ssekms: S3ControlClientTypes.SSEKMSEncryption? = nil,
             sses3: S3ControlClientTypes.SSES3Encryption? = nil
-        )
-        {
+        ) {
             self.ssekms = ssekms
             self.sses3 = sses3
         }
@@ -2325,8 +2264,7 @@ extension S3ControlClientTypes {
             manifestEncryption: S3ControlClientTypes.GeneratedManifestEncryption? = nil,
             manifestFormat: S3ControlClientTypes.GeneratedManifestFormat? = nil,
             manifestPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.expectedManifestBucketOwner = expectedManifestBucketOwner
             self.manifestEncryption = manifestEncryption
@@ -2359,8 +2297,7 @@ extension S3ControlClientTypes {
             filter: S3ControlClientTypes.JobManifestGeneratorFilter? = nil,
             manifestOutputLocation: S3ControlClientTypes.S3ManifestOutputLocation? = nil,
             sourceBucket: Swift.String? = nil
-        )
-        {
+        ) {
             self.enableManifestOutput = enableManifestOutput
             self.expectedBucketOwner = expectedBucketOwner
             self.filter = filter
@@ -2395,8 +2332,7 @@ extension S3ControlClientTypes {
             functionArn: Swift.String? = nil,
             invocationSchemaVersion: Swift.String? = nil,
             userArguments: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.functionArn = functionArn
             self.invocationSchemaVersion = invocationSchemaVersion
             self.userArguments = userArguments
@@ -2454,8 +2390,7 @@ extension S3ControlClientTypes {
         public init(
             expirationInDays: Swift.Int? = 0,
             glacierJobTier: S3ControlClientTypes.S3GlacierJobTier? = nil
-        )
-        {
+        ) {
             self.expirationInDays = expirationInDays
             self.glacierJobTier = glacierJobTier
         }
@@ -2509,8 +2444,7 @@ extension S3ControlClientTypes {
             displayName: Swift.String? = nil,
             identifier: Swift.String? = nil,
             typeIdentifier: S3ControlClientTypes.S3GranteeTypeIdentifier? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.identifier = identifier
             self.typeIdentifier = typeIdentifier
@@ -2568,8 +2502,7 @@ extension S3ControlClientTypes {
         public init(
             grantee: S3ControlClientTypes.S3Grantee? = nil,
             permission: S3ControlClientTypes.S3Permission? = nil
-        )
-        {
+        ) {
             self.grantee = grantee
             self.permission = permission
         }
@@ -2588,8 +2521,7 @@ extension S3ControlClientTypes {
         public init(
             displayName: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.id = id
         }
@@ -2609,8 +2541,7 @@ extension S3ControlClientTypes {
         public init(
             grants: [S3ControlClientTypes.S3Grant]? = nil,
             owner: S3ControlClientTypes.S3ObjectOwner? = nil
-        )
-        {
+        ) {
             self.grants = grants
             self.owner = owner
         }
@@ -2673,8 +2604,7 @@ extension S3ControlClientTypes {
         public init(
             accessControlList: S3ControlClientTypes.S3AccessControlList? = nil,
             cannedAccessControlList: S3ControlClientTypes.S3CannedAccessControlList? = nil
-        )
-        {
+        ) {
             self.accessControlList = accessControlList
             self.cannedAccessControlList = cannedAccessControlList
         }
@@ -2690,8 +2620,7 @@ extension S3ControlClientTypes {
 
         public init(
             accessControlPolicy: S3ControlClientTypes.S3AccessControlPolicy? = nil
-        )
-        {
+        ) {
             self.accessControlPolicy = accessControlPolicy
         }
     }
@@ -2832,8 +2761,7 @@ extension S3ControlClientTypes {
             requesterCharged: Swift.Bool = false,
             sseAlgorithm: S3ControlClientTypes.S3SSEAlgorithm? = nil,
             userMetadata: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.cacheControl = cacheControl
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
@@ -2863,8 +2791,7 @@ extension S3ControlClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2993,8 +2920,7 @@ extension S3ControlClientTypes {
             targetKeyPrefix: Swift.String? = nil,
             targetResource: Swift.String? = nil,
             unModifiedSinceConstraint: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accessControlGrants = accessControlGrants
             self.bucketKeyEnabled = bucketKeyEnabled
             self.cannedAccessControlList = cannedAccessControlList
@@ -3027,8 +2953,7 @@ extension S3ControlClientTypes {
 
         public init(
             status: S3ControlClientTypes.S3ObjectLockLegalHoldStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -3044,8 +2969,7 @@ extension S3ControlClientTypes {
 
         public init(
             legalHold: S3ControlClientTypes.S3ObjectLockLegalHold? = nil
-        )
-        {
+        ) {
             self.legalHold = legalHold
         }
     }
@@ -3092,8 +3016,7 @@ extension S3ControlClientTypes {
         public init(
             mode: S3ControlClientTypes.S3ObjectLockRetentionMode? = nil,
             retainUntilDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.mode = mode
             self.retainUntilDate = retainUntilDate
         }
@@ -3113,8 +3036,7 @@ extension S3ControlClientTypes {
         public init(
             bypassGovernanceRetention: Swift.Bool? = false,
             retention: S3ControlClientTypes.S3Retention? = nil
-        )
-        {
+        ) {
             self.bypassGovernanceRetention = bypassGovernanceRetention
             self.retention = retention
         }
@@ -3130,8 +3052,7 @@ extension S3ControlClientTypes {
 
         public init(
             tagSet: [S3ControlClientTypes.S3Tag]? = nil
-        )
-        {
+        ) {
             self.tagSet = tagSet
         }
     }
@@ -3179,8 +3100,7 @@ extension S3ControlClientTypes {
             s3PutObjectRetention: S3ControlClientTypes.S3SetObjectRetentionOperation? = nil,
             s3PutObjectTagging: S3ControlClientTypes.S3SetObjectTaggingOperation? = nil,
             s3ReplicateObject: S3ControlClientTypes.S3ReplicateObjectOperation? = nil
-        )
-        {
+        ) {
             self.lambdaInvoke = lambdaInvoke
             self.s3DeleteObjectTagging = s3DeleteObjectTagging
             self.s3InitiateRestoreObject = s3InitiateRestoreObject
@@ -3271,8 +3191,7 @@ extension S3ControlClientTypes {
             format: S3ControlClientTypes.JobReportFormat? = nil,
             `prefix`: Swift.String? = nil,
             reportScope: S3ControlClientTypes.JobReportScope? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.enabled = enabled
             self.format = format
@@ -3324,8 +3243,7 @@ public struct CreateJobInput: Swift.Sendable {
         report: S3ControlClientTypes.JobReport? = nil,
         roleArn: Swift.String? = nil,
         tags: [S3ControlClientTypes.S3Tag]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.clientRequestToken = clientRequestToken
         self.confirmationRequired = confirmationRequired
@@ -3346,8 +3264,7 @@ public struct CreateJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3367,8 +3284,7 @@ public struct CreateMultiRegionAccessPointInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         details: S3ControlClientTypes.CreateMultiRegionAccessPointInput? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.clientToken = clientToken
         self.details = details
@@ -3381,8 +3297,7 @@ public struct CreateMultiRegionAccessPointOutput: Swift.Sendable {
 
     public init(
         requestTokenARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestTokenARN = requestTokenARN
     }
 }
@@ -3399,8 +3314,7 @@ extension S3ControlClientTypes {
         public init(
             daysGreaterThan: Swift.Int = 0,
             daysLessThan: Swift.Int = 0
-        )
-        {
+        ) {
             self.daysGreaterThan = daysGreaterThan
             self.daysLessThan = daysLessThan
         }
@@ -3419,8 +3333,7 @@ extension S3ControlClientTypes {
         public init(
             bytesGreaterThan: Swift.Int = 0,
             bytesLessThan: Swift.Int = 0
-        )
-        {
+        ) {
             self.bytesGreaterThan = bytesGreaterThan
             self.bytesLessThan = bytesLessThan
         }
@@ -3448,8 +3361,7 @@ extension S3ControlClientTypes {
             matchAnyTag: [S3ControlClientTypes.S3Tag]? = nil,
             matchObjectAge: S3ControlClientTypes.MatchObjectAge? = nil,
             matchObjectSize: S3ControlClientTypes.MatchObjectSize? = nil
-        )
-        {
+        ) {
             self.matchAnyPrefix = matchAnyPrefix
             self.matchAnySuffix = matchAnySuffix
             self.matchAnyTag = matchAnyTag
@@ -3480,8 +3392,7 @@ extension S3ControlClientTypes {
             matchAnyTag: [S3ControlClientTypes.S3Tag]? = nil,
             matchObjectAge: S3ControlClientTypes.MatchObjectAge? = nil,
             matchObjectSize: S3ControlClientTypes.MatchObjectSize? = nil
-        )
-        {
+        ) {
             self.matchAnyPrefix = matchAnyPrefix
             self.matchAnySuffix = matchAnySuffix
             self.matchAnyTag = matchAnyTag
@@ -3518,8 +3429,7 @@ extension S3ControlClientTypes {
             matchObjectAge: S3ControlClientTypes.MatchObjectAge? = nil,
             matchObjectSize: S3ControlClientTypes.MatchObjectSize? = nil,
             or: S3ControlClientTypes.StorageLensGroupOrOperator? = nil
-        )
-        {
+        ) {
             self.and = and
             self.matchAnyPrefix = matchAnyPrefix
             self.matchAnySuffix = matchAnySuffix
@@ -3548,8 +3458,7 @@ extension S3ControlClientTypes {
             filter: S3ControlClientTypes.StorageLensGroupFilter? = nil,
             name: Swift.String? = nil,
             storageLensGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.name = name
             self.storageLensGroupArn = storageLensGroupArn
@@ -3571,8 +3480,7 @@ public struct CreateStorageLensGroupInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         storageLensGroup: S3ControlClientTypes.StorageLensGroup? = nil,
         tags: [S3ControlClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.storageLensGroup = storageLensGroup
         self.tags = tags
@@ -3590,8 +3498,7 @@ public struct DeleteAccessGrantInput: Swift.Sendable {
     public init(
         accessGrantId: Swift.String? = nil,
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantId = accessGrantId
         self.accountId = accountId
     }
@@ -3604,8 +3511,7 @@ public struct DeleteAccessGrantsInstanceInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -3617,8 +3523,7 @@ public struct DeleteAccessGrantsInstanceResourcePolicyInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -3634,8 +3539,7 @@ public struct DeleteAccessGrantsLocationInput: Swift.Sendable {
     public init(
         accessGrantsLocationId: Swift.String? = nil,
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsLocationId = accessGrantsLocationId
         self.accountId = accountId
     }
@@ -3652,8 +3556,7 @@ public struct DeleteAccessPointInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -3670,8 +3573,7 @@ public struct DeleteAccessPointForObjectLambdaInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -3688,8 +3590,7 @@ public struct DeleteAccessPointPolicyInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -3706,8 +3607,7 @@ public struct DeleteAccessPointPolicyForObjectLambdaInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -3724,8 +3624,7 @@ public struct DeleteBucketInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
     }
@@ -3742,8 +3641,7 @@ public struct DeleteBucketLifecycleConfigurationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
     }
@@ -3760,8 +3658,7 @@ public struct DeleteBucketPolicyInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
     }
@@ -3778,8 +3675,7 @@ public struct DeleteBucketReplicationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
     }
@@ -3796,8 +3692,7 @@ public struct DeleteBucketTaggingInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
     }
@@ -3821,8 +3716,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3838,8 +3732,7 @@ public struct DeleteJobTaggingInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.jobId = jobId
     }
@@ -3865,8 +3758,7 @@ public struct DeleteMultiRegionAccessPointInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         details: S3ControlClientTypes.DeleteMultiRegionAccessPointInput? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.clientToken = clientToken
         self.details = details
@@ -3879,8 +3771,7 @@ public struct DeleteMultiRegionAccessPointOutput: Swift.Sendable {
 
     public init(
         requestTokenARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestTokenARN = requestTokenARN
     }
 }
@@ -3892,8 +3783,7 @@ public struct DeletePublicAccessBlockInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -3909,8 +3799,7 @@ public struct DeleteStorageLensConfigurationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         configId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.configId = configId
     }
@@ -3927,8 +3816,7 @@ public struct DeleteStorageLensConfigurationTaggingInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         configId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.configId = configId
     }
@@ -3950,8 +3838,7 @@ public struct DeleteStorageLensGroupInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -3968,8 +3855,7 @@ public struct DescribeJobInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.jobId = jobId
     }
@@ -3987,8 +3873,7 @@ extension S3ControlClientTypes {
         public init(
             failureCode: Swift.String? = nil,
             failureReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureReason = failureReason
         }
@@ -4007,8 +3892,7 @@ extension S3ControlClientTypes {
         public init(
             format: S3ControlClientTypes.GeneratedManifestFormat? = nil,
             location: S3ControlClientTypes.JobManifestLocation? = nil
-        )
-        {
+        ) {
             self.format = format
             self.location = location
         }
@@ -4024,8 +3908,7 @@ extension S3ControlClientTypes {
 
         public init(
             elapsedTimeInActiveSeconds: Swift.Int? = 0
-        )
-        {
+        ) {
             self.elapsedTimeInActiveSeconds = elapsedTimeInActiveSeconds
         }
     }
@@ -4049,8 +3932,7 @@ extension S3ControlClientTypes {
             numberOfTasksSucceeded: Swift.Int? = 0,
             timers: S3ControlClientTypes.JobTimers? = nil,
             totalNumberOfTasks: Swift.Int? = 0
-        )
-        {
+        ) {
             self.numberOfTasksFailed = numberOfTasksFailed
             self.numberOfTasksSucceeded = numberOfTasksSucceeded
             self.timers = timers
@@ -4184,8 +4066,7 @@ extension S3ControlClientTypes {
             suspendedCause: Swift.String? = nil,
             suspendedDate: Foundation.Date? = nil,
             terminationDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.confirmationRequired = confirmationRequired
             self.creationTime = creationTime
             self.description = description
@@ -4215,8 +4096,7 @@ public struct DescribeJobOutput: Swift.Sendable {
 
     public init(
         job: S3ControlClientTypes.JobDescriptor? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -4232,8 +4112,7 @@ public struct DescribeMultiRegionAccessPointOperationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         requestTokenARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.requestTokenARN = requestTokenARN
     }
@@ -4245,8 +4124,7 @@ public struct DescribeMultiRegionAccessPointOperationOutput: Swift.Sendable {
 
     public init(
         asyncOperation: S3ControlClientTypes.AsyncOperation? = nil
-    )
-    {
+    ) {
         self.asyncOperation = asyncOperation
     }
 }
@@ -4258,8 +4136,7 @@ public struct DissociateAccessGrantsIdentityCenterInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -4275,8 +4152,7 @@ public struct GetAccessGrantInput: Swift.Sendable {
     public init(
         accessGrantId: Swift.String? = nil,
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantId = accessGrantId
         self.accountId = accountId
     }
@@ -4318,8 +4194,7 @@ public struct GetAccessGrantOutput: Swift.Sendable {
         grantScope: Swift.String? = nil,
         grantee: S3ControlClientTypes.Grantee? = nil,
         permission: S3ControlClientTypes.Permission? = nil
-    )
-    {
+    ) {
         self.accessGrantArn = accessGrantArn
         self.accessGrantId = accessGrantId
         self.accessGrantsLocationConfiguration = accessGrantsLocationConfiguration
@@ -4339,8 +4214,7 @@ public struct GetAccessGrantsInstanceInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -4367,8 +4241,7 @@ public struct GetAccessGrantsInstanceOutput: Swift.Sendable {
         identityCenterApplicationArn: Swift.String? = nil,
         identityCenterArn: Swift.String? = nil,
         identityCenterInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsInstanceArn = accessGrantsInstanceArn
         self.accessGrantsInstanceId = accessGrantsInstanceId
         self.createdAt = createdAt
@@ -4389,8 +4262,7 @@ public struct GetAccessGrantsInstanceForPrefixInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         s3Prefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.s3Prefix = s3Prefix
     }
@@ -4405,8 +4277,7 @@ public struct GetAccessGrantsInstanceForPrefixOutput: Swift.Sendable {
     public init(
         accessGrantsInstanceArn: Swift.String? = nil,
         accessGrantsInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsInstanceArn = accessGrantsInstanceArn
         self.accessGrantsInstanceId = accessGrantsInstanceId
     }
@@ -4419,8 +4290,7 @@ public struct GetAccessGrantsInstanceResourcePolicyInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -4437,8 +4307,7 @@ public struct GetAccessGrantsInstanceResourcePolicyOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         organization: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.organization = organization
         self.policy = policy
@@ -4456,8 +4325,7 @@ public struct GetAccessGrantsLocationInput: Swift.Sendable {
     public init(
         accessGrantsLocationId: Swift.String? = nil,
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsLocationId = accessGrantsLocationId
         self.accountId = accountId
     }
@@ -4481,8 +4349,7 @@ public struct GetAccessGrantsLocationOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         iamRoleArn: Swift.String? = nil,
         locationScope: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsLocationArn = accessGrantsLocationArn
         self.accessGrantsLocationId = accessGrantsLocationId
         self.createdAt = createdAt
@@ -4502,8 +4369,7 @@ public struct GetAccessPointInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -4542,8 +4408,7 @@ public struct GetAccessPointOutput: Swift.Sendable {
         networkOrigin: S3ControlClientTypes.NetworkOrigin? = nil,
         publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil,
         vpcConfiguration: S3ControlClientTypes.VpcConfiguration? = nil
-    )
-    {
+    ) {
         self.accessPointArn = accessPointArn
         self.alias = alias
         self.bucket = bucket
@@ -4568,8 +4433,7 @@ public struct GetAccessPointConfigurationForObjectLambdaInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -4581,8 +4445,7 @@ public struct GetAccessPointConfigurationForObjectLambdaOutput: Swift.Sendable {
 
     public init(
         configuration: S3ControlClientTypes.ObjectLambdaConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -4598,8 +4461,7 @@ public struct GetAccessPointForObjectLambdaInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -4620,8 +4482,7 @@ public struct GetAccessPointForObjectLambdaOutput: Swift.Sendable {
         creationDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.creationDate = creationDate
         self.name = name
@@ -4640,8 +4501,7 @@ public struct GetAccessPointPolicyInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -4653,8 +4513,7 @@ public struct GetAccessPointPolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -4670,8 +4529,7 @@ public struct GetAccessPointPolicyForObjectLambdaInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -4683,8 +4541,7 @@ public struct GetAccessPointPolicyForObjectLambdaOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -4700,8 +4557,7 @@ public struct GetAccessPointPolicyStatusInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -4716,8 +4572,7 @@ extension S3ControlClientTypes {
 
         public init(
             isPublic: Swift.Bool = false
-        )
-        {
+        ) {
             self.isPublic = isPublic
         }
     }
@@ -4729,8 +4584,7 @@ public struct GetAccessPointPolicyStatusOutput: Swift.Sendable {
 
     public init(
         policyStatus: S3ControlClientTypes.PolicyStatus? = nil
-    )
-    {
+    ) {
         self.policyStatus = policyStatus
     }
 }
@@ -4746,8 +4600,7 @@ public struct GetAccessPointPolicyStatusForObjectLambdaInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -4759,8 +4612,7 @@ public struct GetAccessPointPolicyStatusForObjectLambdaOutput: Swift.Sendable {
 
     public init(
         policyStatus: S3ControlClientTypes.PolicyStatus? = nil
-    )
-    {
+    ) {
         self.policyStatus = policyStatus
     }
 }
@@ -4776,8 +4628,7 @@ public struct GetBucketInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
     }
@@ -4795,8 +4646,7 @@ public struct GetBucketOutput: Swift.Sendable {
         bucket: Swift.String? = nil,
         creationDate: Foundation.Date? = nil,
         publicAccessBlockEnabled: Swift.Bool = false
-    )
-    {
+    ) {
         self.bucket = bucket
         self.creationDate = creationDate
         self.publicAccessBlockEnabled = publicAccessBlockEnabled
@@ -4814,8 +4664,7 @@ public struct GetBucketLifecycleConfigurationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
     }
@@ -4836,8 +4685,7 @@ extension S3ControlClientTypes {
             date: Foundation.Date? = nil,
             days: Swift.Int = 0,
             expiredObjectDeleteMarker: Swift.Bool = false
-        )
-        {
+        ) {
             self.date = date
             self.days = days
             self.expiredObjectDeleteMarker = expiredObjectDeleteMarker
@@ -4863,8 +4711,7 @@ extension S3ControlClientTypes {
             objectSizeLessThan: Swift.Int? = 0,
             `prefix`: Swift.String? = nil,
             tags: [S3ControlClientTypes.S3Tag]? = nil
-        )
-        {
+        ) {
             self.objectSizeGreaterThan = objectSizeGreaterThan
             self.objectSizeLessThan = objectSizeLessThan
             self.`prefix` = `prefix`
@@ -4894,8 +4741,7 @@ extension S3ControlClientTypes {
             objectSizeLessThan: Swift.Int? = 0,
             `prefix`: Swift.String? = nil,
             tag: S3ControlClientTypes.S3Tag? = nil
-        )
-        {
+        ) {
             self.and = and
             self.objectSizeGreaterThan = objectSizeGreaterThan
             self.objectSizeLessThan = objectSizeLessThan
@@ -4917,8 +4763,7 @@ extension S3ControlClientTypes {
         public init(
             newerNoncurrentVersions: Swift.Int? = 0,
             noncurrentDays: Swift.Int = 0
-        )
-        {
+        ) {
             self.newerNoncurrentVersions = newerNoncurrentVersions
             self.noncurrentDays = noncurrentDays
         }
@@ -4975,8 +4820,7 @@ extension S3ControlClientTypes {
         public init(
             noncurrentDays: Swift.Int = 0,
             storageClass: S3ControlClientTypes.TransitionStorageClass? = nil
-        )
-        {
+        ) {
             self.noncurrentDays = noncurrentDays
             self.storageClass = storageClass
         }
@@ -5027,8 +4871,7 @@ extension S3ControlClientTypes {
             date: Foundation.Date? = nil,
             days: Swift.Int = 0,
             storageClass: S3ControlClientTypes.TransitionStorageClass? = nil
-        )
-        {
+        ) {
             self.date = date
             self.days = days
             self.storageClass = storageClass
@@ -5067,8 +4910,7 @@ extension S3ControlClientTypes {
             noncurrentVersionTransitions: [S3ControlClientTypes.NoncurrentVersionTransition]? = nil,
             status: S3ControlClientTypes.ExpirationStatus? = nil,
             transitions: [S3ControlClientTypes.Transition]? = nil
-        )
-        {
+        ) {
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expiration = expiration
             self.filter = filter
@@ -5087,8 +4929,7 @@ public struct GetBucketLifecycleConfigurationOutput: Swift.Sendable {
 
     public init(
         rules: [S3ControlClientTypes.LifecycleRule]? = nil
-    )
-    {
+    ) {
         self.rules = rules
     }
 }
@@ -5104,8 +4945,7 @@ public struct GetBucketPolicyInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
     }
@@ -5117,8 +4957,7 @@ public struct GetBucketPolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -5134,8 +4973,7 @@ public struct GetBucketReplicationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
     }
@@ -5180,8 +5018,7 @@ extension S3ControlClientTypes {
 
         public init(
             status: S3ControlClientTypes.DeleteMarkerReplicationStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -5196,8 +5033,7 @@ extension S3ControlClientTypes {
 
         public init(
             replicaKmsKeyID: Swift.String? = nil
-        )
-        {
+        ) {
             self.replicaKmsKeyID = replicaKmsKeyID
         }
     }
@@ -5212,8 +5048,7 @@ extension S3ControlClientTypes {
 
         public init(
             minutes: Swift.Int? = 0
-        )
-        {
+        ) {
             self.minutes = minutes
         }
     }
@@ -5261,8 +5096,7 @@ extension S3ControlClientTypes {
         public init(
             eventThreshold: S3ControlClientTypes.ReplicationTimeValue? = nil,
             status: S3ControlClientTypes.MetricsStatus? = nil
-        )
-        {
+        ) {
             self.eventThreshold = eventThreshold
             self.status = status
         }
@@ -5312,8 +5146,7 @@ extension S3ControlClientTypes {
         public init(
             status: S3ControlClientTypes.ReplicationTimeStatus? = nil,
             time: S3ControlClientTypes.ReplicationTimeValue? = nil
-        )
-        {
+        ) {
             self.status = status
             self.time = time
         }
@@ -5398,8 +5231,7 @@ extension S3ControlClientTypes {
             metrics: S3ControlClientTypes.Metrics? = nil,
             replicationTime: S3ControlClientTypes.ReplicationTime? = nil,
             storageClass: S3ControlClientTypes.ReplicationStorageClass? = nil
-        )
-        {
+        ) {
             self.accessControlTranslation = accessControlTranslation
             self.account = account
             self.bucket = bucket
@@ -5450,8 +5282,7 @@ extension S3ControlClientTypes {
 
         public init(
             status: S3ControlClientTypes.ExistingObjectReplicationStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -5473,8 +5304,7 @@ extension S3ControlClientTypes {
         public init(
             `prefix`: Swift.String? = nil,
             tags: [S3ControlClientTypes.S3Tag]? = nil
-        )
-        {
+        ) {
             self.`prefix` = `prefix`
             self.tags = tags
         }
@@ -5500,8 +5330,7 @@ extension S3ControlClientTypes {
             and: S3ControlClientTypes.ReplicationRuleAndOperator? = nil,
             `prefix`: Swift.String? = nil,
             tag: S3ControlClientTypes.S3Tag? = nil
-        )
-        {
+        ) {
             self.and = and
             self.`prefix` = `prefix`
             self.tag = tag
@@ -5548,8 +5377,7 @@ extension S3ControlClientTypes {
 
         public init(
             status: S3ControlClientTypes.ReplicaModificationsStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -5594,8 +5422,7 @@ extension S3ControlClientTypes {
 
         public init(
             status: S3ControlClientTypes.SseKmsEncryptedObjectsStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -5613,8 +5440,7 @@ extension S3ControlClientTypes {
         public init(
             replicaModifications: S3ControlClientTypes.ReplicaModifications? = nil,
             sseKmsEncryptedObjects: S3ControlClientTypes.SseKmsEncryptedObjects? = nil
-        )
-        {
+        ) {
             self.replicaModifications = replicaModifications
             self.sseKmsEncryptedObjects = sseKmsEncryptedObjects
         }
@@ -5690,8 +5516,7 @@ extension S3ControlClientTypes {
             priority: Swift.Int? = 0,
             sourceSelectionCriteria: S3ControlClientTypes.SourceSelectionCriteria? = nil,
             status: S3ControlClientTypes.ReplicationRuleStatus? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.deleteMarkerReplication = deleteMarkerReplication
             self.destination = destination
@@ -5720,8 +5545,7 @@ extension S3ControlClientTypes {
         public init(
             role: Swift.String? = nil,
             rules: [S3ControlClientTypes.ReplicationRule]? = nil
-        )
-        {
+        ) {
             self.role = role
             self.rules = rules
         }
@@ -5734,8 +5558,7 @@ public struct GetBucketReplicationOutput: Swift.Sendable {
 
     public init(
         replicationConfiguration: S3ControlClientTypes.ReplicationConfiguration? = nil
-    )
-    {
+    ) {
         self.replicationConfiguration = replicationConfiguration
     }
 }
@@ -5751,8 +5574,7 @@ public struct GetBucketTaggingInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
     }
@@ -5765,8 +5587,7 @@ public struct GetBucketTaggingOutput: Swift.Sendable {
 
     public init(
         tagSet: [S3ControlClientTypes.S3Tag]? = nil
-    )
-    {
+    ) {
         self.tagSet = tagSet
     }
 }
@@ -5782,8 +5603,7 @@ public struct GetBucketVersioningInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
     }
@@ -5856,8 +5676,7 @@ public struct GetBucketVersioningOutput: Swift.Sendable {
     public init(
         mfaDelete: S3ControlClientTypes.MFADeleteStatus? = nil,
         status: S3ControlClientTypes.BucketVersioningStatus? = nil
-    )
-    {
+    ) {
         self.mfaDelete = mfaDelete
         self.status = status
     }
@@ -5926,8 +5745,7 @@ public struct GetDataAccessInput: Swift.Sendable {
         privilege: S3ControlClientTypes.Privilege? = nil,
         target: Swift.String? = nil,
         targetType: S3ControlClientTypes.S3PrefixType? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.durationSeconds = durationSeconds
         self.permission = permission
@@ -5955,8 +5773,7 @@ extension S3ControlClientTypes {
             expiration: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretAccessKey = secretAccessKey
@@ -5980,8 +5797,7 @@ public struct GetDataAccessOutput: Swift.Sendable {
     public init(
         credentials: S3ControlClientTypes.Credentials? = nil,
         matchedGrantTarget: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.matchedGrantTarget = matchedGrantTarget
     }
@@ -6003,8 +5819,7 @@ public struct GetJobTaggingInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.jobId = jobId
     }
@@ -6016,8 +5831,7 @@ public struct GetJobTaggingOutput: Swift.Sendable {
 
     public init(
         tags: [S3ControlClientTypes.S3Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -6033,8 +5847,7 @@ public struct GetMultiRegionAccessPointInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -6055,8 +5868,7 @@ extension S3ControlClientTypes {
             bucket: Swift.String? = nil,
             bucketAccountId: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
             self.region = region
@@ -6129,8 +5941,7 @@ extension S3ControlClientTypes {
             publicAccessBlock: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil,
             regions: [S3ControlClientTypes.RegionReport]? = nil,
             status: S3ControlClientTypes.MultiRegionAccessPointStatus? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.createdAt = createdAt
             self.name = name
@@ -6147,8 +5958,7 @@ public struct GetMultiRegionAccessPointOutput: Swift.Sendable {
 
     public init(
         accessPoint: S3ControlClientTypes.MultiRegionAccessPointReport? = nil
-    )
-    {
+    ) {
         self.accessPoint = accessPoint
     }
 }
@@ -6164,8 +5974,7 @@ public struct GetMultiRegionAccessPointPolicyInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -6180,8 +5989,7 @@ extension S3ControlClientTypes {
 
         public init(
             policy: Swift.String? = nil
-        )
-        {
+        ) {
             self.policy = policy
         }
     }
@@ -6196,8 +6004,7 @@ extension S3ControlClientTypes {
 
         public init(
             policy: Swift.String? = nil
-        )
-        {
+        ) {
             self.policy = policy
         }
     }
@@ -6215,8 +6022,7 @@ extension S3ControlClientTypes {
         public init(
             established: S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy? = nil,
             proposed: S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy? = nil
-        )
-        {
+        ) {
             self.established = established
             self.proposed = proposed
         }
@@ -6229,8 +6035,7 @@ public struct GetMultiRegionAccessPointPolicyOutput: Swift.Sendable {
 
     public init(
         policy: S3ControlClientTypes.MultiRegionAccessPointPolicyDocument? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -6246,8 +6051,7 @@ public struct GetMultiRegionAccessPointPolicyStatusInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -6259,8 +6063,7 @@ public struct GetMultiRegionAccessPointPolicyStatusOutput: Swift.Sendable {
 
     public init(
         established: S3ControlClientTypes.PolicyStatus? = nil
-    )
-    {
+    ) {
         self.established = established
     }
 }
@@ -6276,8 +6079,7 @@ public struct GetMultiRegionAccessPointRoutesInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         mrap: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.mrap = mrap
     }
@@ -6299,8 +6101,7 @@ extension S3ControlClientTypes {
             bucket: Swift.String? = nil,
             region: Swift.String? = nil,
             trafficDialPercentage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.region = region
             self.trafficDialPercentage = trafficDialPercentage
@@ -6317,8 +6118,7 @@ public struct GetMultiRegionAccessPointRoutesOutput: Swift.Sendable {
     public init(
         mrap: Swift.String? = nil,
         routes: [S3ControlClientTypes.MultiRegionAccessPointRoute]? = nil
-    )
-    {
+    ) {
         self.mrap = mrap
         self.routes = routes
     }
@@ -6342,8 +6142,7 @@ public struct NoSuchPublicAccessBlockConfiguration: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6355,8 +6154,7 @@ public struct GetPublicAccessBlockInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -6367,8 +6165,7 @@ public struct GetPublicAccessBlockOutput: Swift.Sendable {
 
     public init(
         publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil
-    )
-    {
+    ) {
         self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
     }
 }
@@ -6384,8 +6181,7 @@ public struct GetStorageLensConfigurationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         configId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.configId = configId
     }
@@ -6401,8 +6197,7 @@ extension S3ControlClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -6418,8 +6213,7 @@ extension S3ControlClientTypes {
 
         public init(
             isEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.isEnabled = isEnabled
         }
     }
@@ -6435,8 +6229,7 @@ extension S3ControlClientTypes {
 
         public init(
             keyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyId = keyId
         }
     }
@@ -6463,8 +6256,7 @@ extension S3ControlClientTypes {
         public init(
             ssekms: S3ControlClientTypes.SSEKMS? = nil,
             sses3: S3ControlClientTypes.SSES3? = nil
-        )
-        {
+        ) {
             self.ssekms = ssekms
             self.sses3 = sses3
         }
@@ -6554,8 +6346,7 @@ extension S3ControlClientTypes {
             format: S3ControlClientTypes.Format? = nil,
             outputSchemaVersion: S3ControlClientTypes.OutputSchemaVersion? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.encryption = encryption
@@ -6578,8 +6369,7 @@ extension S3ControlClientTypes {
         public init(
             cloudWatchMetrics: S3ControlClientTypes.CloudWatchMetrics? = nil,
             s3BucketDestination: S3ControlClientTypes.S3BucketDestination? = nil
-        )
-        {
+        ) {
             self.cloudWatchMetrics = cloudWatchMetrics
             self.s3BucketDestination = s3BucketDestination
         }
@@ -6598,8 +6388,7 @@ extension S3ControlClientTypes {
         public init(
             buckets: [Swift.String]? = nil,
             regions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.buckets = buckets
             self.regions = regions
         }
@@ -6618,8 +6407,7 @@ extension S3ControlClientTypes {
         public init(
             buckets: [Swift.String]? = nil,
             regions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.buckets = buckets
             self.regions = regions
         }
@@ -6659,8 +6447,7 @@ extension S3ControlClientTypes {
             include: S3ControlClientTypes.Include? = nil,
             isEnabled: Swift.Bool = false,
             storageLensArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountLevel = accountLevel
             self.awsOrg = awsOrg
             self.dataExport = dataExport
@@ -6679,8 +6466,7 @@ public struct GetStorageLensConfigurationOutput: Swift.Sendable {
 
     public init(
         storageLensConfiguration: S3ControlClientTypes.StorageLensConfiguration? = nil
-    )
-    {
+    ) {
         self.storageLensConfiguration = storageLensConfiguration
     }
 }
@@ -6696,8 +6482,7 @@ public struct GetStorageLensConfigurationTaggingInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         configId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.configId = configId
     }
@@ -6717,8 +6502,7 @@ extension S3ControlClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -6731,8 +6515,7 @@ public struct GetStorageLensConfigurationTaggingOutput: Swift.Sendable {
 
     public init(
         tags: [S3ControlClientTypes.StorageLensTag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -6748,8 +6531,7 @@ public struct GetStorageLensGroupInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
     }
@@ -6761,8 +6543,7 @@ public struct GetStorageLensGroupOutput: Swift.Sendable {
 
     public init(
         storageLensGroup: S3ControlClientTypes.StorageLensGroup? = nil
-    )
-    {
+    ) {
         self.storageLensGroup = storageLensGroup
     }
 }
@@ -6807,8 +6588,7 @@ public struct ListAccessGrantsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         permission: S3ControlClientTypes.Permission? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.applicationArn = applicationArn
         self.grantScope = grantScope
@@ -6829,8 +6609,7 @@ public struct ListAccessGrantsOutput: Swift.Sendable {
     public init(
         accessGrantsList: [S3ControlClientTypes.ListAccessGrantEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsList = accessGrantsList
         self.nextToken = nextToken
     }
@@ -6849,8 +6628,7 @@ public struct ListAccessGrantsInstancesInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6866,8 +6644,7 @@ public struct ListAccessGrantsInstancesOutput: Swift.Sendable {
     public init(
         accessGrantsInstancesList: [S3ControlClientTypes.ListAccessGrantsInstanceEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsInstancesList = accessGrantsInstancesList
         self.nextToken = nextToken
     }
@@ -6889,8 +6666,7 @@ public struct ListAccessGrantsLocationsInput: Swift.Sendable {
         locationScope: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.locationScope = locationScope
         self.maxResults = maxResults
@@ -6907,8 +6683,7 @@ public struct ListAccessGrantsLocationsOutput: Swift.Sendable {
     public init(
         accessGrantsLocationsList: [S3ControlClientTypes.ListAccessGrantsLocationsEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsLocationsList = accessGrantsLocationsList
         self.nextToken = nextToken
     }
@@ -6930,8 +6705,7 @@ public struct ListAccessPointsInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
         self.maxResults = maxResults
@@ -6948,8 +6722,7 @@ public struct ListAccessPointsOutput: Swift.Sendable {
     public init(
         accessPointList: [S3ControlClientTypes.AccessPoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPointList = accessPointList
         self.nextToken = nextToken
     }
@@ -6968,8 +6741,7 @@ public struct ListAccessPointsForObjectLambdaInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6992,8 +6764,7 @@ extension S3ControlClientTypes {
             alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias? = nil,
             name: Swift.String? = nil,
             objectLambdaAccessPointArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.name = name
             self.objectLambdaAccessPointArn = objectLambdaAccessPointArn
@@ -7010,8 +6781,7 @@ public struct ListAccessPointsForObjectLambdaOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         objectLambdaAccessPointList: [S3ControlClientTypes.ObjectLambdaAccessPoint]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.objectLambdaAccessPointList = objectLambdaAccessPointList
     }
@@ -7036,8 +6806,7 @@ public struct ListCallerAccessGrantsInput: Swift.Sendable {
         grantScope: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.allowedByApplication = allowedByApplication
         self.grantScope = grantScope
@@ -7067,8 +6836,7 @@ extension S3ControlClientTypes {
             applicationArn: Swift.String? = nil,
             grantScope: Swift.String? = nil,
             permission: S3ControlClientTypes.Permission? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.grantScope = grantScope
             self.permission = permission
@@ -7085,8 +6853,7 @@ public struct ListCallerAccessGrantsOutput: Swift.Sendable {
     public init(
         callerAccessGrantsList: [S3ControlClientTypes.ListCallerAccessGrantsEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.callerAccessGrantsList = callerAccessGrantsList
         self.nextToken = nextToken
     }
@@ -7110,8 +6877,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7134,8 +6900,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7156,8 +6921,7 @@ public struct ListJobsInput: Swift.Sendable {
         jobStatuses: [S3ControlClientTypes.JobStatus]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.jobStatuses = jobStatuses
         self.maxResults = maxResults
@@ -7245,8 +7009,7 @@ extension S3ControlClientTypes {
             progressSummary: S3ControlClientTypes.JobProgressSummary? = nil,
             status: S3ControlClientTypes.JobStatus? = nil,
             terminationDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.jobId = jobId
@@ -7268,8 +7031,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobs: [S3ControlClientTypes.JobListDescriptor]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -7288,8 +7050,7 @@ public struct ListMultiRegionAccessPointsInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7305,8 +7066,7 @@ public struct ListMultiRegionAccessPointsOutput: Swift.Sendable {
     public init(
         accessPoints: [S3ControlClientTypes.MultiRegionAccessPointReport]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPoints = accessPoints
         self.nextToken = nextToken
     }
@@ -7328,8 +7088,7 @@ public struct ListRegionalBucketsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         outpostId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7361,8 +7120,7 @@ extension S3ControlClientTypes {
             creationDate: Foundation.Date? = nil,
             outpostId: Swift.String? = nil,
             publicAccessBlockEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.bucket = bucket
             self.bucketArn = bucketArn
             self.creationDate = creationDate
@@ -7381,8 +7139,7 @@ public struct ListRegionalBucketsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         regionalBucketList: [S3ControlClientTypes.RegionalBucket]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.regionalBucketList = regionalBucketList
     }
@@ -7398,8 +7155,7 @@ public struct ListStorageLensConfigurationsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.nextToken = nextToken
     }
@@ -7426,8 +7182,7 @@ extension S3ControlClientTypes {
             id: Swift.String? = nil,
             isEnabled: Swift.Bool = false,
             storageLensArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.homeRegion = homeRegion
             self.id = id
             self.isEnabled = isEnabled
@@ -7445,8 +7200,7 @@ public struct ListStorageLensConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         storageLensConfigurationList: [S3ControlClientTypes.ListStorageLensConfigurationEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.storageLensConfigurationList = storageLensConfigurationList
     }
@@ -7462,8 +7216,7 @@ public struct ListStorageLensGroupsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.nextToken = nextToken
     }
@@ -7487,8 +7240,7 @@ extension S3ControlClientTypes {
             homeRegion: Swift.String? = nil,
             name: Swift.String? = nil,
             storageLensGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.homeRegion = homeRegion
             self.name = name
             self.storageLensGroupArn = storageLensGroupArn
@@ -7505,8 +7257,7 @@ public struct ListStorageLensGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         storageLensGroupList: [S3ControlClientTypes.ListStorageLensGroupEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.storageLensGroupList = storageLensGroupList
     }
@@ -7523,8 +7274,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.resourceArn = resourceArn
     }
@@ -7536,8 +7286,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [S3ControlClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -7556,8 +7305,7 @@ public struct PutAccessGrantsInstanceResourcePolicyInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         organization: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.organization = organization
         self.policy = policy
@@ -7576,8 +7324,7 @@ public struct PutAccessGrantsInstanceResourcePolicyOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         organization: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.organization = organization
         self.policy = policy
@@ -7599,8 +7346,7 @@ public struct PutAccessPointConfigurationForObjectLambdaInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         configuration: S3ControlClientTypes.ObjectLambdaConfiguration? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.configuration = configuration
         self.name = name
@@ -7622,8 +7368,7 @@ public struct PutAccessPointPolicyInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
         self.policy = policy
@@ -7645,8 +7390,7 @@ public struct PutAccessPointPolicyForObjectLambdaInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
         self.policy = policy
@@ -7662,8 +7406,7 @@ extension S3ControlClientTypes {
 
         public init(
             rules: [S3ControlClientTypes.LifecycleRule]? = nil
-        )
-        {
+        ) {
             self.rules = rules
         }
     }
@@ -7683,8 +7426,7 @@ public struct PutBucketLifecycleConfigurationInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil,
         lifecycleConfiguration: S3ControlClientTypes.LifecycleConfiguration? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
         self.lifecycleConfiguration = lifecycleConfiguration
@@ -7709,8 +7451,7 @@ public struct PutBucketPolicyInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         confirmRemoveSelfBucketAccess: Swift.Bool? = false,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
         self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
@@ -7733,8 +7474,7 @@ public struct PutBucketReplicationInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil,
         replicationConfiguration: S3ControlClientTypes.ReplicationConfiguration? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
         self.replicationConfiguration = replicationConfiguration
@@ -7751,8 +7491,7 @@ extension S3ControlClientTypes {
 
         public init(
             tagSet: [S3ControlClientTypes.S3Tag]? = nil
-        )
-        {
+        ) {
             self.tagSet = tagSet
         }
     }
@@ -7773,8 +7512,7 @@ public struct PutBucketTaggingInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil,
         tagging: S3ControlClientTypes.Tagging? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
         self.tagging = tagging
@@ -7822,8 +7560,7 @@ extension S3ControlClientTypes {
         public init(
             mfaDelete: S3ControlClientTypes.MFADelete? = nil,
             status: S3ControlClientTypes.BucketVersioningStatus? = nil
-        )
-        {
+        ) {
             self.mfaDelete = mfaDelete
             self.status = status
         }
@@ -7848,8 +7585,7 @@ public struct PutBucketVersioningInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         mfa: Swift.String? = nil,
         versioningConfiguration: S3ControlClientTypes.VersioningConfiguration? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.bucket = bucket
         self.mfa = mfa
@@ -7875,8 +7611,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7896,8 +7631,7 @@ public struct PutJobTaggingInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         tags: [S3ControlClientTypes.S3Tag]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.jobId = jobId
         self.tags = tags
@@ -7924,8 +7658,7 @@ public struct PutMultiRegionAccessPointPolicyInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         details: S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.clientToken = clientToken
         self.details = details
@@ -7938,8 +7671,7 @@ public struct PutMultiRegionAccessPointPolicyOutput: Swift.Sendable {
 
     public init(
         requestTokenARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestTokenARN = requestTokenARN
     }
 }
@@ -7955,8 +7687,7 @@ public struct PutPublicAccessBlockInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
     }
@@ -7980,8 +7711,7 @@ public struct PutStorageLensConfigurationInput: Swift.Sendable {
         configId: Swift.String? = nil,
         storageLensConfiguration: S3ControlClientTypes.StorageLensConfiguration? = nil,
         tags: [S3ControlClientTypes.StorageLensTag]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.configId = configId
         self.storageLensConfiguration = storageLensConfiguration
@@ -8004,8 +7734,7 @@ public struct PutStorageLensConfigurationTaggingInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         configId: Swift.String? = nil,
         tags: [S3ControlClientTypes.StorageLensTag]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.configId = configId
         self.tags = tags
@@ -8032,8 +7761,7 @@ public struct SubmitMultiRegionAccessPointRoutesInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         mrap: Swift.String? = nil,
         routeUpdates: [S3ControlClientTypes.MultiRegionAccessPointRoute]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.mrap = mrap
         self.routeUpdates = routeUpdates
@@ -8060,8 +7788,7 @@ public struct TagResourceInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         tags: [S3ControlClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.resourceArn = resourceArn
         self.tags = tags
@@ -8088,8 +7815,7 @@ public struct UntagResourceInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
@@ -8116,8 +7842,7 @@ public struct UpdateAccessGrantsLocationInput: Swift.Sendable {
         accessGrantsLocationId: Swift.String? = nil,
         accountId: Swift.String? = nil,
         iamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsLocationId = accessGrantsLocationId
         self.accountId = accountId
         self.iamRoleArn = iamRoleArn
@@ -8142,8 +7867,7 @@ public struct UpdateAccessGrantsLocationOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         iamRoleArn: Swift.String? = nil,
         locationScope: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessGrantsLocationArn = accessGrantsLocationArn
         self.accessGrantsLocationId = accessGrantsLocationId
         self.createdAt = createdAt
@@ -8167,8 +7891,7 @@ public struct UpdateJobPriorityInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         priority: Swift.Int? = 0
-    )
-    {
+    ) {
         self.accountId = accountId
         self.jobId = jobId
         self.priority = priority
@@ -8186,8 +7909,7 @@ public struct UpdateJobPriorityOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         priority: Swift.Int = 0
-    )
-    {
+    ) {
         self.jobId = jobId
         self.priority = priority
     }
@@ -8211,8 +7933,7 @@ public struct JobStatusException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8264,8 +7985,7 @@ public struct UpdateJobStatusInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         requestedJobStatus: S3ControlClientTypes.RequestedJobStatus? = nil,
         statusUpdateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.jobId = jobId
         self.requestedJobStatus = requestedJobStatus
@@ -8285,8 +8005,7 @@ public struct UpdateJobStatusOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         status: S3ControlClientTypes.JobStatus? = nil,
         statusUpdateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.status = status
         self.statusUpdateReason = statusUpdateReason
@@ -8308,8 +8027,7 @@ public struct UpdateStorageLensGroupInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         name: Swift.String? = nil,
         storageLensGroup: S3ControlClientTypes.StorageLensGroup? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
         self.storageLensGroup = storageLensGroup

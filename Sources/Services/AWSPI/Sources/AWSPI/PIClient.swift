@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PIClient: ClientRuntime.Client {
     public static let clientName = "PIClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: PIClient.PIClientConfiguration
     let serviceName = "PI"
@@ -330,7 +330,7 @@ extension PIClient {
 }
 
 extension PIClient {
-    /// Performs the `CreatePerformanceAnalysisReport` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `CreatePerformanceAnalysisReport` operation on the `PI` service.
     ///
     /// Creates a new performance analysis report for a specific time period for the DB instance.
     ///
@@ -402,7 +402,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePerformanceAnalysisReport` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `DeletePerformanceAnalysisReport` operation on the `PI` service.
     ///
     /// Deletes a performance analysis report.
     ///
@@ -474,7 +474,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDimensionKeys` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `DescribeDimensionKeys` operation on the `PI` service.
     ///
     /// For a specific time period, retrieve the top N dimension keys for a metric. Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
     ///
@@ -546,7 +546,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDimensionKeyDetails` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `GetDimensionKeyDetails` operation on the `PI` service.
     ///
     /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text.
     ///
@@ -618,7 +618,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPerformanceAnalysisReport` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `GetPerformanceAnalysisReport` operation on the `PI` service.
     ///
     /// Retrieves the report including the report ID, status, time details, and the insights with recommendations. The report status can be RUNNING, SUCCEEDED, or FAILED. The insights include the description and recommendation fields.
     ///
@@ -690,7 +690,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceMetadata` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `GetResourceMetadata` operation on the `PI` service.
     ///
     /// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB instance.
     ///
@@ -762,7 +762,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceMetrics` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `GetResourceMetrics` operation on the `PI` service.
     ///
     /// Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide specific dimension groups and dimensions, and provide filtering criteria for each group. You must specify an aggregate function for each metric. Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
     ///
@@ -834,7 +834,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAvailableResourceDimensions` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `ListAvailableResourceDimensions` operation on the `PI` service.
     ///
     /// Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
     ///
@@ -906,7 +906,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAvailableResourceMetrics` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `ListAvailableResourceMetrics` operation on the `PI` service.
     ///
     /// Retrieve metrics of the specified types that can be queried for a specified DB instance.
     ///
@@ -978,7 +978,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPerformanceAnalysisReports` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `ListPerformanceAnalysisReports` operation on the `PI` service.
     ///
     /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
     ///
@@ -1050,7 +1050,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `ListTagsForResource` operation on the `PI` service.
     ///
     /// Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
     ///
@@ -1122,7 +1122,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `TagResource` operation on the `PI` service.
     ///
     /// Adds metadata tags to the Amazon RDS Performance Insights resource.
     ///
@@ -1194,7 +1194,7 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `PerformanceInsightsv20180227` service.
+    /// Performs the `UntagResource` operation on the `PI` service.
     ///
     /// Deletes the metadata tags from the Amazon RDS Performance Insights resource.
     ///

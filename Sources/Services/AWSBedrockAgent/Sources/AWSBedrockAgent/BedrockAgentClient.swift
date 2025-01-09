@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentClient.BedrockAgentClientConfiguration
     let serviceName = "Bedrock Agent"
@@ -331,7 +331,7 @@ extension BedrockAgentClient {
 }
 
 extension BedrockAgentClient {
-    /// Performs the `AssociateAgentCollaborator` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `AssociateAgentCollaborator` operation on the `BedrockAgent` service.
     ///
     /// Makes an agent a collaborator for another agent.
     ///
@@ -407,7 +407,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateAgentKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `AssociateAgentKnowledgeBase` operation on the `BedrockAgent` service.
     ///
     /// Associates a knowledge base with an agent. If a knowledge base is associated and its indexState is set to Enabled, the agent queries the knowledge base for information to augment its response to the user.
     ///
@@ -482,7 +482,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAgent` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `CreateAgent` operation on the `BedrockAgent` service.
     ///
     /// Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.
     ///
@@ -576,7 +576,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAgentActionGroup` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `CreateAgentActionGroup` operation on the `BedrockAgent` service.
     ///
     /// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task, add an action group with the parentActionGroupSignature field set to AMAZON.UserInput. To allow your agent to generate, run, and troubleshoot code when trying to complete a task, add an action group with the parentActionGroupSignature field set to AMAZON.CodeInterpreter. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
     ///
@@ -652,7 +652,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAgentAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `CreateAgentAlias` operation on the `BedrockAgent` service.
     ///
     /// Creates an alias of an agent that can be used to deploy the agent.
     ///
@@ -728,7 +728,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataSource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `CreateDataSource` operation on the `BedrockAgent` service.
     ///
     /// Connects a knowledge base to a data source. You specify the configuration for the specific data source service in the dataSourceConfiguration field. You can't change the chunkingConfiguration after you create the data source connector.
     ///
@@ -804,7 +804,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFlow` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `CreateFlow` operation on the `BedrockAgent` service.
     ///
     /// Creates a prompt flow that you can use to send an input through various steps to yield an output. Configure nodes, each of which corresponds to a step of the flow, and create connections between the nodes to create paths to different outputs. For more information, see [How it works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-how-it-works.html) and [Create a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-create.html) in the Amazon Bedrock User Guide.
     ///
@@ -879,7 +879,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFlowAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `CreateFlowAlias` operation on the `BedrockAgent` service.
     ///
     /// Creates an alias of a flow for deployment. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html) in the Amazon Bedrock User Guide.
     ///
@@ -955,7 +955,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFlowVersion` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `CreateFlowVersion` operation on the `BedrockAgent` service.
     ///
     /// Creates a version of the flow that you can deploy. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html) in the Amazon Bedrock User Guide.
     ///
@@ -1031,7 +1031,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `CreateKnowledgeBase` operation on the `BedrockAgent` service.
     ///
     /// Creates a knowledge base. A knowledge base contains your data sources so that Large Language Models (LLMs) can use your data. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see [Set up a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowlege-base-prereq.html). If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon OpenSearch Service, use the console. For more information, see [Create a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create).
     ///
@@ -1122,7 +1122,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePrompt` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `CreatePrompt` operation on the `BedrockAgent` service.
     ///
     /// Creates a prompt in your prompt library that you can add to a flow. For more information, see [Prompt management in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html), [Create a prompt using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html) and [Prompt flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows.html) in the Amazon Bedrock User Guide.
     ///
@@ -1197,7 +1197,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePromptVersion` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `CreatePromptVersion` operation on the `BedrockAgent` service.
     ///
     /// Creates a static snapshot of your prompt that can be deployed to production. For more information, see [Deploy prompts using Prompt management by creating versions](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html) in the Amazon Bedrock User Guide.
     ///
@@ -1273,7 +1273,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAgent` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DeleteAgent` operation on the `BedrockAgent` service.
     ///
     /// Deletes an agent.
     ///
@@ -1345,7 +1345,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAgentActionGroup` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DeleteAgentActionGroup` operation on the `BedrockAgent` service.
     ///
     /// Deletes an action group in an agent.
     ///
@@ -1417,7 +1417,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAgentAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DeleteAgentAlias` operation on the `BedrockAgent` service.
     ///
     /// Deletes an alias of an agent.
     ///
@@ -1487,7 +1487,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAgentVersion` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DeleteAgentVersion` operation on the `BedrockAgent` service.
     ///
     /// Deletes a version of an agent.
     ///
@@ -1559,7 +1559,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataSource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DeleteDataSource` operation on the `BedrockAgent` service.
     ///
     /// Deletes a data source from a knowledge base.
     ///
@@ -1630,7 +1630,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFlow` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DeleteFlow` operation on the `BedrockAgent` service.
     ///
     /// Deletes a flow.
     ///
@@ -1702,7 +1702,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFlowAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DeleteFlowAlias` operation on the `BedrockAgent` service.
     ///
     /// Deletes an alias of a flow.
     ///
@@ -1773,7 +1773,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFlowVersion` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DeleteFlowVersion` operation on the `BedrockAgent` service.
     ///
     /// Deletes a version of a flow.
     ///
@@ -1845,7 +1845,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DeleteKnowledgeBase` operation on the `BedrockAgent` service.
     ///
     /// Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the knowledge base from any agents that it is associated with by making a [DisassociateAgentKnowledgeBase](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_DisassociateAgentKnowledgeBase.html) request.
     ///
@@ -1916,7 +1916,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKnowledgeBaseDocuments` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DeleteKnowledgeBaseDocuments` operation on the `BedrockAgent` service.
     ///
     /// Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
     ///
@@ -1991,7 +1991,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePrompt` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DeletePrompt` operation on the `BedrockAgent` service.
     ///
     /// Deletes a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see [Delete prompts from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-delete.html) and [Delete a version of a prompt from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-delete.html) in the Amazon Bedrock User Guide.
     ///
@@ -2063,7 +2063,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAgentCollaborator` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DisassociateAgentCollaborator` operation on the `BedrockAgent` service.
     ///
     /// Disassociates an agent collaborator.
     ///
@@ -2134,7 +2134,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAgentKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `DisassociateAgentKnowledgeBase` operation on the `BedrockAgent` service.
     ///
     /// Disassociates a knowledge base from an agent.
     ///
@@ -2205,7 +2205,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAgent` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetAgent` operation on the `BedrockAgent` service.
     ///
     /// Gets information about an agent.
     ///
@@ -2275,7 +2275,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAgentActionGroup` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetAgentActionGroup` operation on the `BedrockAgent` service.
     ///
     /// Gets information about an action group for an agent.
     ///
@@ -2345,7 +2345,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAgentAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetAgentAlias` operation on the `BedrockAgent` service.
     ///
     /// Gets information about an alias of an agent.
     ///
@@ -2415,7 +2415,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAgentCollaborator` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetAgentCollaborator` operation on the `BedrockAgent` service.
     ///
     /// Retrieves information about an agent's collaborator.
     ///
@@ -2485,7 +2485,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAgentKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetAgentKnowledgeBase` operation on the `BedrockAgent` service.
     ///
     /// Gets information about a knowledge base associated with an agent.
     ///
@@ -2555,7 +2555,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAgentVersion` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetAgentVersion` operation on the `BedrockAgent` service.
     ///
     /// Gets details about a version of an agent.
     ///
@@ -2625,7 +2625,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataSource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetDataSource` operation on the `BedrockAgent` service.
     ///
     /// Gets information about a data source.
     ///
@@ -2695,7 +2695,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFlow` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetFlow` operation on the `BedrockAgent` service.
     ///
     /// Retrieves information about a flow. For more information, see [Manage a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-manage.html) in the Amazon Bedrock User Guide.
     ///
@@ -2765,7 +2765,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFlowAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetFlowAlias` operation on the `BedrockAgent` service.
     ///
     /// Retrieves information about a flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html) in the Amazon Bedrock User Guide.
     ///
@@ -2835,7 +2835,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFlowVersion` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetFlowVersion` operation on the `BedrockAgent` service.
     ///
     /// Retrieves information about a version of a flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html) in the Amazon Bedrock User Guide.
     ///
@@ -2905,7 +2905,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIngestionJob` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetIngestionJob` operation on the `BedrockAgent` service.
     ///
     /// Gets information about a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
     ///
@@ -2975,7 +2975,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetKnowledgeBase` operation on the `BedrockAgent` service.
     ///
     /// Gets information about a knoweldge base.
     ///
@@ -3045,7 +3045,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKnowledgeBaseDocuments` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetKnowledgeBaseDocuments` operation on the `BedrockAgent` service.
     ///
     /// Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
     ///
@@ -3119,7 +3119,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPrompt` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `GetPrompt` operation on the `BedrockAgent` service.
     ///
     /// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html) and [View information about a version of your prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-view.html) in the Amazon Bedrock User Guide.
     ///
@@ -3190,7 +3190,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `IngestKnowledgeBaseDocuments` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `IngestKnowledgeBaseDocuments` operation on the `BedrockAgent` service.
     ///
     /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
     ///
@@ -3265,7 +3265,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAgentActionGroups` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListAgentActionGroups` operation on the `BedrockAgent` service.
     ///
     /// Lists the action groups for an agent and information about each one.
     ///
@@ -3338,7 +3338,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAgentAliases` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListAgentAliases` operation on the `BedrockAgent` service.
     ///
     /// Lists the aliases of an agent and information about each one.
     ///
@@ -3411,7 +3411,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAgentCollaborators` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListAgentCollaborators` operation on the `BedrockAgent` service.
     ///
     /// Retrieve a list of an agent's collaborators.
     ///
@@ -3484,7 +3484,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAgentKnowledgeBases` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListAgentKnowledgeBases` operation on the `BedrockAgent` service.
     ///
     /// Lists knowledge bases associated with an agent and information about each one.
     ///
@@ -3557,7 +3557,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAgentVersions` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListAgentVersions` operation on the `BedrockAgent` service.
     ///
     /// Lists the versions of an agent and information about each version.
     ///
@@ -3630,7 +3630,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAgents` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListAgents` operation on the `BedrockAgent` service.
     ///
     /// Lists the agents belonging to an account and information about each agent.
     ///
@@ -3702,7 +3702,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataSources` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListDataSources` operation on the `BedrockAgent` service.
     ///
     /// Lists the data sources in a knowledge base and information about each one.
     ///
@@ -3775,7 +3775,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFlowAliases` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListFlowAliases` operation on the `BedrockAgent` service.
     ///
     /// Returns a list of aliases for a flow.
     ///
@@ -3846,7 +3846,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFlowVersions` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListFlowVersions` operation on the `BedrockAgent` service.
     ///
     /// Returns a list of information about each flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html) in the Amazon Bedrock User Guide.
     ///
@@ -3917,7 +3917,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFlows` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListFlows` operation on the `BedrockAgent` service.
     ///
     /// Returns a list of flows and information about each flow. For more information, see [Manage a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-manage.html) in the Amazon Bedrock User Guide.
     ///
@@ -3987,7 +3987,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIngestionJobs` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListIngestionJobs` operation on the `BedrockAgent` service.
     ///
     /// Lists the data ingestion jobs for a data source. The list also includes information about each job.
     ///
@@ -4060,7 +4060,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKnowledgeBaseDocuments` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListKnowledgeBaseDocuments` operation on the `BedrockAgent` service.
     ///
     /// Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
     ///
@@ -4134,7 +4134,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKnowledgeBases` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListKnowledgeBases` operation on the `BedrockAgent` service.
     ///
     /// Lists the knowledge bases in an account. The list also includesinformation about each knowledge base.
     ///
@@ -4206,7 +4206,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPrompts` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListPrompts` operation on the `BedrockAgent` service.
     ///
     /// Returns either information about the working draft (DRAFT version) of each prompt in an account, or information about of all versions of a prompt, depending on whether you include the promptIdentifier field or not. For more information, see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html) in the Amazon Bedrock User Guide.
     ///
@@ -4277,7 +4277,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ListTagsForResource` operation on the `BedrockAgent` service.
     ///
     /// List all the tags for the resource you specify.
     ///
@@ -4347,7 +4347,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PrepareAgent` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `PrepareAgent` operation on the `BedrockAgent` service.
     ///
     /// Creates a DRAFT version of the agent that can be used for internal testing.
     ///
@@ -4419,7 +4419,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PrepareFlow` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `PrepareFlow` operation on the `BedrockAgent` service.
     ///
     /// Prepares the DRAFT version of a flow so that it can be invoked. For more information, see [Test a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html) in the Amazon Bedrock User Guide.
     ///
@@ -4491,7 +4491,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartIngestionJob` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `StartIngestionJob` operation on the `BedrockAgent` service.
     ///
     /// Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
     ///
@@ -4567,7 +4567,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopIngestionJob` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `StopIngestionJob` operation on the `BedrockAgent` service.
     ///
     /// Stops a currently running data ingestion job. You can send a StartIngestionJob request again to ingest the rest of your data when you are ready.
     ///
@@ -4638,7 +4638,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `TagResource` operation on the `BedrockAgent` service.
     ///
     /// Associate tags with a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the Amazon Bedrock User Guide.
     ///
@@ -4712,7 +4712,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `UntagResource` operation on the `BedrockAgent` service.
     ///
     /// Remove tags from a resource.
     ///
@@ -4783,7 +4783,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAgent` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `UpdateAgent` operation on the `BedrockAgent` service.
     ///
     /// Updates the configuration of an agent.
     ///
@@ -4858,7 +4858,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAgentActionGroup` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `UpdateAgentActionGroup` operation on the `BedrockAgent` service.
     ///
     /// Updates the configuration for an action group for an agent.
     ///
@@ -4933,7 +4933,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAgentAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `UpdateAgentAlias` operation on the `BedrockAgent` service.
     ///
     /// Updates configurations for an alias of an agent.
     ///
@@ -5008,7 +5008,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAgentCollaborator` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `UpdateAgentCollaborator` operation on the `BedrockAgent` service.
     ///
     /// Updates an agent's collaborator.
     ///
@@ -5083,7 +5083,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAgentKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `UpdateAgentKnowledgeBase` operation on the `BedrockAgent` service.
     ///
     /// Updates the configuration for a knowledge base that has been associated with an agent.
     ///
@@ -5157,7 +5157,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataSource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `UpdateDataSource` operation on the `BedrockAgent` service.
     ///
     /// Updates the configurations for a data source connector. You can't change the chunkingConfiguration after you create the data source connector. Specify the existing chunkingConfiguration.
     ///
@@ -5231,7 +5231,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFlow` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `UpdateFlow` operation on the `BedrockAgent` service.
     ///
     /// Modifies a flow. Include both fields that you want to keep and fields that you want to change. For more information, see [How it works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-how-it-works.html) and [Create a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-create.html) in the Amazon Bedrock User Guide.
     ///
@@ -5306,7 +5306,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFlowAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `UpdateFlowAlias` operation on the `BedrockAgent` service.
     ///
     /// Modifies the alias of a flow. Include both fields that you want to keep and ones that you want to change. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html) in the Amazon Bedrock User Guide.
     ///
@@ -5381,7 +5381,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `UpdateKnowledgeBase` operation on the `BedrockAgent` service.
     ///
     /// Updates the configuration of a knowledge base with the fields that you specify. Because all fields will be overwritten, you must include the same values for fields that you want to keep the same. You can change the following fields:
     ///
@@ -5464,7 +5464,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePrompt` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `UpdatePrompt` operation on the `BedrockAgent` service.
     ///
     /// Modifies a prompt in your prompt library. Include both fields that you want to keep and fields that you want to replace. For more information, see [Prompt management in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html) and [Edit prompts in your prompt library](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-edit) in the Amazon Bedrock User Guide.
     ///
@@ -5539,7 +5539,7 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ValidateFlowDefinition` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    /// Performs the `ValidateFlowDefinition` operation on the `BedrockAgent` service.
     ///
     /// Validates the definition of a flow.
     ///

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubClient.MigrationHubClientConfiguration
     let serviceName = "Migration Hub"
@@ -330,7 +330,7 @@ extension MigrationHubClient {
 }
 
 extension MigrationHubClient {
-    /// Performs the `AssociateCreatedArtifact` operation on the `AWSMigrationHub` service.
+    /// Performs the `AssociateCreatedArtifact` operation on the `MigrationHub` service.
     ///
     /// Associates a created artifact of an AWS cloud resource, the target receiving the migration, with the migration task performed by a migration tool. This API has the following traits:
     ///
@@ -414,7 +414,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateDiscoveredResource` operation on the `AWSMigrationHub` service.
+    /// Performs the `AssociateDiscoveredResource` operation on the `MigrationHub` service.
     ///
     /// Associates a discovered resource ID from Application Discovery Service with a migration task.
     ///
@@ -493,7 +493,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateSourceResource` operation on the `AWSMigrationHub` service.
+    /// Performs the `AssociateSourceResource` operation on the `MigrationHub` service.
     ///
     /// Associates a source resource with a migration task. For example, the source resource can be a source server, an application, or a migration wave.
     ///
@@ -570,7 +570,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProgressUpdateStream` operation on the `AWSMigrationHub` service.
+    /// Performs the `CreateProgressUpdateStream` operation on the `MigrationHub` service.
     ///
     /// Creates a progress update stream which is an AWS resource used for access control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
     ///
@@ -647,7 +647,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProgressUpdateStream` operation on the `AWSMigrationHub` service.
+    /// Performs the `DeleteProgressUpdateStream` operation on the `MigrationHub` service.
     ///
     /// Deletes a progress update stream, including all of its tasks, which was previously created as an AWS resource used for access control. This API has the following traits:
     ///
@@ -735,7 +735,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplicationState` operation on the `AWSMigrationHub` service.
+    /// Performs the `DescribeApplicationState` operation on the `MigrationHub` service.
     ///
     /// Gets the migration status of an application.
     ///
@@ -812,7 +812,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMigrationTask` operation on the `AWSMigrationHub` service.
+    /// Performs the `DescribeMigrationTask` operation on the `MigrationHub` service.
     ///
     /// Retrieves a list of all attributes associated with a specific migration task.
     ///
@@ -888,7 +888,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateCreatedArtifact` operation on the `AWSMigrationHub` service.
+    /// Performs the `DisassociateCreatedArtifact` operation on the `MigrationHub` service.
     ///
     /// Disassociates a created artifact of an AWS resource with a migration task performed by a migration tool that was previously associated. This API has the following traits:
     ///
@@ -972,7 +972,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateDiscoveredResource` operation on the `AWSMigrationHub` service.
+    /// Performs the `DisassociateDiscoveredResource` operation on the `MigrationHub` service.
     ///
     /// Disassociate an Application Discovery Service discovered resource from a migration task.
     ///
@@ -1050,7 +1050,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateSourceResource` operation on the `AWSMigrationHub` service.
+    /// Performs the `DisassociateSourceResource` operation on the `MigrationHub` service.
     ///
     /// Removes the association between a source resource and a migration task.
     ///
@@ -1127,7 +1127,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportMigrationTask` operation on the `AWSMigrationHub` service.
+    /// Performs the `ImportMigrationTask` operation on the `MigrationHub` service.
     ///
     /// Registers a new migration task which represents a server, database, etc., being migrated to AWS by a migration tool. This API is a prerequisite to calling the NotifyMigrationTaskState API as the migration tool must first register the migration task with Migration Hub.
     ///
@@ -1205,7 +1205,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationStates` operation on the `AWSMigrationHub` service.
+    /// Performs the `ListApplicationStates` operation on the `MigrationHub` service.
     ///
     /// Lists all the migration statuses for your applications. If you use the optional ApplicationIds parameter, only the migration statuses for those applications will be returned.
     ///
@@ -1280,7 +1280,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCreatedArtifacts` operation on the `AWSMigrationHub` service.
+    /// Performs the `ListCreatedArtifacts` operation on the `MigrationHub` service.
     ///
     /// Lists the created artifacts attached to a given migration task in an update stream. This API has the following traits:
     ///
@@ -1362,7 +1362,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDiscoveredResources` operation on the `AWSMigrationHub` service.
+    /// Performs the `ListDiscoveredResources` operation on the `MigrationHub` service.
     ///
     /// Lists discovered resources associated with the given MigrationTask.
     ///
@@ -1438,7 +1438,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMigrationTaskUpdates` operation on the `AWSMigrationHub` service.
+    /// Performs the `ListMigrationTaskUpdates` operation on the `MigrationHub` service.
     ///
     /// This is a paginated API that returns all the migration-task states for the specified MigrationTaskName and ProgressUpdateStream.
     ///
@@ -1513,7 +1513,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMigrationTasks` operation on the `AWSMigrationHub` service.
+    /// Performs the `ListMigrationTasks` operation on the `MigrationHub` service.
     ///
     /// Lists all, or filtered by resource name, migration tasks associated with the user account making this call. This API has the following traits:
     ///
@@ -1596,7 +1596,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProgressUpdateStreams` operation on the `AWSMigrationHub` service.
+    /// Performs the `ListProgressUpdateStreams` operation on the `MigrationHub` service.
     ///
     /// Lists progress update streams associated with the user account making this call.
     ///
@@ -1671,7 +1671,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSourceResources` operation on the `AWSMigrationHub` service.
+    /// Performs the `ListSourceResources` operation on the `MigrationHub` service.
     ///
     /// Lists all the source resource that are associated with the specified MigrationTaskName and ProgressUpdateStream.
     ///
@@ -1746,7 +1746,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `NotifyApplicationState` operation on the `AWSMigrationHub` service.
+    /// Performs the `NotifyApplicationState` operation on the `MigrationHub` service.
     ///
     /// Sets the migration state of an application. For a given application identified by the value passed to ApplicationId, its status is set or updated by passing one of three values to Status: NOT_STARTED | IN_PROGRESS | COMPLETED.
     ///
@@ -1825,7 +1825,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `NotifyMigrationTaskState` operation on the `AWSMigrationHub` service.
+    /// Performs the `NotifyMigrationTaskState` operation on the `MigrationHub` service.
     ///
     /// Notifies Migration Hub of the current status, progress, or other detail regarding a migration task. This API has the following traits:
     ///
@@ -1909,7 +1909,7 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourceAttributes` operation on the `AWSMigrationHub` service.
+    /// Performs the `PutResourceAttributes` operation on the `MigrationHub` service.
     ///
     /// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns.
     ///

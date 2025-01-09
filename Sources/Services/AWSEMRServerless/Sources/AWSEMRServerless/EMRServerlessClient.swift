@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EMRServerlessClient: ClientRuntime.Client {
     public static let clientName = "EMRServerlessClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: EMRServerlessClient.EMRServerlessClientConfiguration
     let serviceName = "EMR Serverless"
@@ -331,7 +331,7 @@ extension EMRServerlessClient {
 }
 
 extension EMRServerlessClient {
-    /// Performs the `CancelJobRun` operation on the `AwsToledoWebService` service.
+    /// Performs the `CancelJobRun` operation on the `EMRServerless` service.
     ///
     /// Cancels a job run.
     ///
@@ -399,7 +399,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `AwsToledoWebService` service.
+    /// Performs the `CreateApplication` operation on the `EMRServerless` service.
     ///
     /// Creates an application.
     ///
@@ -472,7 +472,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `AwsToledoWebService` service.
+    /// Performs the `DeleteApplication` operation on the `EMRServerless` service.
     ///
     /// Deletes an application. An application has to be in a stopped or created state in order to be deleted.
     ///
@@ -540,7 +540,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplication` operation on the `AwsToledoWebService` service.
+    /// Performs the `GetApplication` operation on the `EMRServerless` service.
     ///
     /// Displays detailed information about a specified application.
     ///
@@ -608,7 +608,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDashboardForJobRun` operation on the `AwsToledoWebService` service.
+    /// Performs the `GetDashboardForJobRun` operation on the `EMRServerless` service.
     ///
     /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user interface such as the Spark or Tez web UI. For completed jobs, the application UI is a persistent application user interface such as the Spark History Server or persistent Tez UI. The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
     ///
@@ -677,7 +677,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetJobRun` operation on the `AwsToledoWebService` service.
+    /// Performs the `GetJobRun` operation on the `EMRServerless` service.
     ///
     /// Displays detailed information about a job run.
     ///
@@ -746,7 +746,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `AwsToledoWebService` service.
+    /// Performs the `ListApplications` operation on the `EMRServerless` service.
     ///
     /// Lists applications based on a set of parameters.
     ///
@@ -814,7 +814,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobRunAttempts` operation on the `AwsToledoWebService` service.
+    /// Performs the `ListJobRunAttempts` operation on the `EMRServerless` service.
     ///
     /// Lists all attempt of a job run.
     ///
@@ -883,7 +883,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobRuns` operation on the `AwsToledoWebService` service.
+    /// Performs the `ListJobRuns` operation on the `EMRServerless` service.
     ///
     /// Lists job runs based on a set of parameters.
     ///
@@ -951,7 +951,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AwsToledoWebService` service.
+    /// Performs the `ListTagsForResource` operation on the `EMRServerless` service.
     ///
     /// Lists the tags assigned to the resources.
     ///
@@ -1019,7 +1019,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartApplication` operation on the `AwsToledoWebService` service.
+    /// Performs the `StartApplication` operation on the `EMRServerless` service.
     ///
     /// Starts a specified application and initializes initial capacity if configured.
     ///
@@ -1088,7 +1088,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartJobRun` operation on the `AwsToledoWebService` service.
+    /// Performs the `StartJobRun` operation on the `EMRServerless` service.
     ///
     /// Starts a job run.
     ///
@@ -1161,7 +1161,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopApplication` operation on the `AwsToledoWebService` service.
+    /// Performs the `StopApplication` operation on the `EMRServerless` service.
     ///
     /// Stops a specified application and releases initial capacity if configured. All scheduled and running jobs must be completed or cancelled before stopping an application.
     ///
@@ -1229,7 +1229,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AwsToledoWebService` service.
+    /// Performs the `TagResource` operation on the `EMRServerless` service.
     ///
     /// Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it.
     ///
@@ -1300,7 +1300,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AwsToledoWebService` service.
+    /// Performs the `UntagResource` operation on the `EMRServerless` service.
     ///
     /// Removes tags from resources.
     ///
@@ -1369,7 +1369,7 @@ extension EMRServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `AwsToledoWebService` service.
+    /// Performs the `UpdateApplication` operation on the `EMRServerless` service.
     ///
     /// Updates a specified application. An application has to be in a stopped or created state in order to be updated.
     ///

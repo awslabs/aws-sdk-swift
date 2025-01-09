@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentRuntimeClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentRuntimeClient.BedrockAgentRuntimeClientConfiguration
     let serviceName = "Bedrock Agent Runtime"
@@ -330,7 +330,7 @@ extension BedrockAgentRuntimeClient {
 }
 
 extension BedrockAgentRuntimeClient {
-    /// Performs the `DeleteAgentMemory` operation on the `AmazonBedrockAgentRunTimeService` service.
+    /// Performs the `DeleteAgentMemory` operation on the `BedrockAgentRuntime` service.
     ///
     /// Deletes memory from the specified memory identifier.
     ///
@@ -405,7 +405,7 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateQuery` operation on the `AmazonBedrockAgentRunTimeService` service.
+    /// Performs the `GenerateQuery` operation on the `BedrockAgentRuntime` service.
     ///
     /// Generates an SQL query from a natural language query. For more information, see [Generate a query for structured data](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-generate-query.html) in the Amazon Bedrock User Guide.
     ///
@@ -482,7 +482,7 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAgentMemory` operation on the `AmazonBedrockAgentRunTimeService` service.
+    /// Performs the `GetAgentMemory` operation on the `BedrockAgentRuntime` service.
     ///
     /// Gets the sessions stored in the memory of the agent.
     ///
@@ -557,7 +557,7 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InvokeAgent` operation on the `AmazonBedrockAgentRunTimeService` service.
+    /// Performs the `InvokeAgent` operation on the `BedrockAgentRuntime` service.
     ///
     /// The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeAgent. Sends a prompt for the agent to process and respond to. Note the following fields for the request:
     ///
@@ -666,7 +666,7 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InvokeFlow` operation on the `AmazonBedrockAgentRunTimeService` service.
+    /// Performs the `InvokeFlow` operation on the `BedrockAgentRuntime` service.
     ///
     /// Invokes an alias of a flow to run the inputs that you specify and return the output of each node as a stream. If there's an error, the error is returned. For more information, see [Test a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html). The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeFlow.
     ///
@@ -743,7 +743,7 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InvokeInlineAgent` operation on the `AmazonBedrockAgentRunTimeService` service.
+    /// Performs the `InvokeInlineAgent` operation on the `BedrockAgentRuntime` service.
     ///
     /// Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.
     ///
@@ -836,7 +836,7 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `OptimizePrompt` operation on the `AmazonBedrockAgentRunTimeService` service.
+    /// Performs the `OptimizePrompt` operation on the `BedrockAgentRuntime` service.
     ///
     /// Optimizes a prompt for the task that you specify. For more information, see [Optimize a prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-optimize.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -910,7 +910,7 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Rerank` operation on the `AmazonBedrockAgentRunTimeService` service.
+    /// Performs the `Rerank` operation on the `BedrockAgentRuntime` service.
     ///
     /// Reranks the relevance of sources based on queries. For more information, see [Improve the relevance of query responses with a reranker model](https://docs.aws.amazon.com/bedrock/latest/userguide/rerank.html).
     ///
@@ -987,7 +987,7 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Retrieve` operation on the `AmazonBedrockAgentRunTimeService` service.
+    /// Performs the `Retrieve` operation on the `BedrockAgentRuntime` service.
     ///
     /// Queries a knowledge base and retrieves information from it.
     ///
@@ -1064,7 +1064,7 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RetrieveAndGenerate` operation on the `AmazonBedrockAgentRunTimeService` service.
+    /// Performs the `RetrieveAndGenerate` operation on the `BedrockAgentRuntime` service.
     ///
     /// Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html). The response only cites sources that are relevant to the query.
     ///
@@ -1141,7 +1141,7 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RetrieveAndGenerateStream` operation on the `AmazonBedrockAgentRunTimeService` service.
+    /// Performs the `RetrieveAndGenerateStream` operation on the `BedrockAgentRuntime` service.
     ///
     /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format. The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.
     ///

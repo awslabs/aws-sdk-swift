@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DLMClient: ClientRuntime.Client {
     public static let clientName = "DLMClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: DLMClient.DLMClientConfiguration
     let serviceName = "DLM"
@@ -329,7 +329,7 @@ extension DLMClient {
 }
 
 extension DLMClient {
-    /// Performs the `CreateLifecyclePolicy` operation on the `dlm_20180112` service.
+    /// Performs the `CreateLifecyclePolicy` operation on the `DLM` service.
     ///
     /// Creates an Amazon Data Lifecycle Manager lifecycle policy. Amazon Data Lifecycle Manager supports the following policy types:
     ///
@@ -413,7 +413,7 @@ extension DLMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLifecyclePolicy` operation on the `dlm_20180112` service.
+    /// Performs the `DeleteLifecyclePolicy` operation on the `DLM` service.
     ///
     /// Deletes the specified lifecycle policy and halts the automated operations that the policy specified. For more information about deleting a policy, see [Delete lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#delete).
     ///
@@ -481,7 +481,7 @@ extension DLMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLifecyclePolicies` operation on the `dlm_20180112` service.
+    /// Performs the `GetLifecyclePolicies` operation on the `DLM` service.
     ///
     /// Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use [GetLifecyclePolicy](https://docs.aws.amazon.com/dlm/latest/APIReference/API_GetLifecyclePolicy.html).
     ///
@@ -551,7 +551,7 @@ extension DLMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLifecyclePolicy` operation on the `dlm_20180112` service.
+    /// Performs the `GetLifecyclePolicy` operation on the `DLM` service.
     ///
     /// Gets detailed information about the specified lifecycle policy.
     ///
@@ -619,7 +619,7 @@ extension DLMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `dlm_20180112` service.
+    /// Performs the `ListTagsForResource` operation on the `DLM` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -687,7 +687,7 @@ extension DLMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `dlm_20180112` service.
+    /// Performs the `TagResource` operation on the `DLM` service.
     ///
     /// Adds the specified tags to the specified resource.
     ///
@@ -758,7 +758,7 @@ extension DLMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `dlm_20180112` service.
+    /// Performs the `UntagResource` operation on the `DLM` service.
     ///
     /// Removes the specified tags from the specified resource.
     ///
@@ -827,7 +827,7 @@ extension DLMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLifecyclePolicy` operation on the `dlm_20180112` service.
+    /// Performs the `UpdateLifecyclePolicy` operation on the `DLM` service.
     ///
     /// Updates the specified lifecycle policy. For more information about updating a policy, see [Modify lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#modify).
     ///

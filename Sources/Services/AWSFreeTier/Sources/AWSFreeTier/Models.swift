@@ -43,8 +43,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -68,8 +67,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -93,8 +91,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -199,8 +196,7 @@ extension FreeTierClientTypes {
             key: FreeTierClientTypes.Dimension? = nil,
             matchOptions: [FreeTierClientTypes.MatchOption]? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.matchOptions = matchOptions
             self.values = values
@@ -244,8 +240,7 @@ extension FreeTierClientTypes {
             service: Swift.String? = nil,
             unit: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.actualUsageAmount = actualUsageAmount
             self.description = description
             self.forecastedUsageAmount = forecastedUsageAmount
@@ -270,8 +265,7 @@ public struct GetFreeTierUsageOutput: Swift.Sendable {
     public init(
         freeTierUsages: [FreeTierClientTypes.FreeTierUsage]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.freeTierUsages = freeTierUsages
         self.nextToken = nextToken
     }
@@ -302,8 +296,7 @@ extension FreeTierClientTypes {
             dimensions: FreeTierClientTypes.DimensionValues? = nil,
             not: FreeTierClientTypes.Expression? = nil,
             or: [FreeTierClientTypes.Expression]? = nil
-        )
-        {
+        ) {
             self.and = and
             self.dimensions = dimensions
             self.not = not
@@ -324,8 +317,7 @@ public struct GetFreeTierUsageInput: Swift.Sendable {
         filter: FreeTierClientTypes.Expression? = nil,
         maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken

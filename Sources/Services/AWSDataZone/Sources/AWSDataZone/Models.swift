@@ -83,8 +83,7 @@ extension DataZoneClientTypes {
             editedValue: Swift.String? = nil,
             predictionChoice: Swift.Int? = nil,
             predictionTarget: Swift.String? = nil
-        )
-        {
+        ) {
             self.editedValue = editedValue
             self.predictionChoice = predictionChoice
             self.predictionTarget = predictionTarget
@@ -111,8 +110,7 @@ extension DataZoneClientTypes {
         public init(
             assetId: Swift.String? = nil,
             filterIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.filterIds = filterIds
         }
@@ -138,8 +136,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -163,8 +160,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -188,8 +184,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -213,8 +208,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -238,8 +232,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -263,8 +256,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -310,8 +302,7 @@ extension DataZoneClientTypes {
         public init(
             rule: DataZoneClientTypes.AcceptRuleBehavior? = nil,
             threshold: Swift.Float? = nil
-        )
-        {
+        ) {
             self.rule = rule
             self.threshold = threshold
         }
@@ -341,8 +332,7 @@ public struct AcceptPredictionsInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         revision: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptChoices = acceptChoices
         self.acceptRule = acceptRule
         self.clientToken = clientToken
@@ -367,8 +357,7 @@ public struct AcceptPredictionsOutput: Swift.Sendable {
         assetId: Swift.String? = nil,
         domainId: Swift.String? = nil,
         revision: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.domainId = domainId
         self.revision = revision
@@ -392,8 +381,7 @@ public struct AcceptSubscriptionRequestInput: Swift.Sendable {
         decisionComment: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetScopes = assetScopes
         self.decisionComment = decisionComment
         self.domainIdentifier = domainIdentifier
@@ -425,8 +413,7 @@ extension DataZoneClientTypes {
             formName: Swift.String? = nil,
             typeName: Swift.String? = nil,
             typeRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.formName = formName
             self.typeName = typeName
@@ -493,8 +480,7 @@ extension DataZoneClientTypes {
             errorMessage: Swift.String? = nil,
             filterIds: [Swift.String]? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.errorMessage = errorMessage
             self.filterIds = filterIds
@@ -515,8 +501,7 @@ extension DataZoneClientTypes {
         public init(
             name: Swift.String? = nil,
             shortDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.shortDescription = shortDescription
         }
@@ -552,8 +537,7 @@ extension DataZoneClientTypes {
             entityType: Swift.String? = nil,
             forms: Swift.String? = nil,
             glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil
-        )
-        {
+        ) {
             self.assetScope = assetScope
             self.entityId = entityId
             self.entityRevision = entityRevision
@@ -579,8 +563,7 @@ extension DataZoneClientTypes {
             entityId: Swift.String? = nil,
             entityRevision: Swift.String? = nil,
             entityType: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.entityRevision = entityRevision
             self.entityType = entityType
@@ -612,8 +595,7 @@ extension DataZoneClientTypes {
             entityRevision: Swift.String? = nil,
             glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetListings = assetListings
             self.description = description
             self.entityId = entityId
@@ -668,8 +650,7 @@ extension DataZoneClientTypes {
             ownerProjectId: Swift.String? = nil,
             ownerProjectName: Swift.String? = nil,
             revision: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
             self.item = item
@@ -698,8 +679,7 @@ extension DataZoneClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -775,8 +755,7 @@ public struct AcceptSubscriptionRequestOutput: Swift.Sendable {
         subscribedPrincipals: [DataZoneClientTypes.SubscribedPrincipal]? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.decisionComment = decisionComment
@@ -808,8 +787,7 @@ extension DataZoneClientTypes {
 
         public init(
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.uri = uri
         }
     }
@@ -844,8 +822,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -886,8 +863,7 @@ extension DataZoneClientTypes {
 
         public init(
             groupIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupIdentifier = groupIdentifier
         }
     }
@@ -903,8 +879,7 @@ extension DataZoneClientTypes {
 
         public init(
             userIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.userIdentifier = userIdentifier
         }
     }
@@ -944,8 +919,7 @@ public struct AddEntityOwnerInput: Swift.Sendable {
         entityIdentifier: Swift.String? = nil,
         entityType: DataZoneClientTypes.DataZoneEntityType? = nil,
         owner: DataZoneClientTypes.OwnerProperties? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.entityIdentifier = entityIdentifier
@@ -968,8 +942,7 @@ extension DataZoneClientTypes {
 
         public init(
             includeChildDomainUnits: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
     }
@@ -984,8 +957,7 @@ extension DataZoneClientTypes {
 
         public init(
             includeChildDomainUnits: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
     }
@@ -1000,8 +972,7 @@ extension DataZoneClientTypes {
 
         public init(
             includeChildDomainUnits: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
     }
@@ -1025,8 +996,7 @@ extension DataZoneClientTypes {
 
         public init(
             domainUnitId: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainUnitId = domainUnitId
         }
     }
@@ -1041,8 +1011,7 @@ extension DataZoneClientTypes {
 
         public init(
             includeChildDomainUnits: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
     }
@@ -1057,8 +1026,7 @@ extension DataZoneClientTypes {
 
         public init(
             includeChildDomainUnits: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
     }
@@ -1073,8 +1041,7 @@ extension DataZoneClientTypes {
 
         public init(
             includeChildDomainUnits: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
     }
@@ -1092,8 +1059,7 @@ extension DataZoneClientTypes {
         public init(
             includeChildDomainUnits: Swift.Bool? = nil,
             projectProfiles: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.includeChildDomainUnits = includeChildDomainUnits
             self.projectProfiles = projectProfiles
         }
@@ -1109,8 +1075,7 @@ extension DataZoneClientTypes {
 
         public init(
             includeChildDomainUnits: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
     }
@@ -1125,8 +1090,7 @@ extension DataZoneClientTypes {
 
         public init(
             includeChildDomainUnits: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
     }
@@ -1321,8 +1285,7 @@ extension DataZoneClientTypes {
             domainUnitDesignation: DataZoneClientTypes.DomainUnitDesignation? = nil,
             domainUnitGrantFilter: DataZoneClientTypes.DomainUnitGrantFilter? = nil,
             domainUnitIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainUnitDesignation = domainUnitDesignation
             self.domainUnitGrantFilter = domainUnitGrantFilter
             self.domainUnitIdentifier = domainUnitIdentifier
@@ -1385,8 +1348,7 @@ extension DataZoneClientTypes {
         public init(
             domainUnit: Swift.String? = nil,
             includeChildDomainUnits: Swift.Bool? = false
-        )
-        {
+        ) {
             self.domainUnit = domainUnit
             self.includeChildDomainUnits = includeChildDomainUnits
         }
@@ -1419,8 +1381,7 @@ extension DataZoneClientTypes {
             projectDesignation: DataZoneClientTypes.ProjectDesignation? = nil,
             projectGrantFilter: DataZoneClientTypes.ProjectGrantFilter? = nil,
             projectIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.projectDesignation = projectDesignation
             self.projectGrantFilter = projectGrantFilter
             self.projectIdentifier = projectIdentifier
@@ -1495,8 +1456,7 @@ public struct AddPolicyGrantInput: Swift.Sendable {
         entityType: DataZoneClientTypes.TargetEntityType? = nil,
         policyType: DataZoneClientTypes.ManagedPolicyType? = nil,
         principal: DataZoneClientTypes.PolicyGrantPrincipal? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.detail = detail
         self.domainIdentifier = domainIdentifier
@@ -1558,8 +1518,7 @@ extension DataZoneClientTypes {
         public init(
             listingId: Swift.String? = nil,
             listingStatus: DataZoneClientTypes.ListingStatus? = nil
-        )
-        {
+        ) {
             self.listingId = listingId
             self.listingStatus = listingStatus
         }
@@ -1585,8 +1544,7 @@ extension DataZoneClientTypes {
             formName: Swift.String? = nil,
             typeIdentifier: Swift.String? = nil,
             typeRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.formName = formName
             self.typeIdentifier = typeIdentifier
@@ -1610,8 +1568,7 @@ extension DataZoneClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -1626,8 +1583,7 @@ extension DataZoneClientTypes {
 
         public init(
             businessNameGeneration: DataZoneClientTypes.BusinessNameGenerationConfiguration? = nil
-        )
-        {
+        ) {
             self.businessNameGeneration = businessNameGeneration
         }
     }
@@ -1673,8 +1629,7 @@ public struct CreateAssetInput: Swift.Sendable {
         predictionConfiguration: DataZoneClientTypes.PredictionConfiguration? = nil,
         typeIdentifier: Swift.String? = nil,
         typeRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.domainIdentifier = domainIdentifier
@@ -1721,8 +1676,7 @@ extension DataZoneClientTypes {
             timestamp: Foundation.Date? = nil,
             typeIdentifier: Swift.String? = nil,
             typeRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentSummary = contentSummary
             self.formName = formName
             self.id = id
@@ -1801,8 +1755,7 @@ public struct CreateAssetOutput: Swift.Sendable {
         revision: Swift.String? = nil,
         typeIdentifier: Swift.String? = nil,
         typeRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -1863,8 +1816,7 @@ public struct CreateAssetRevisionInput: Swift.Sendable {
         name: Swift.String? = nil,
         predictionConfiguration: DataZoneClientTypes.PredictionConfiguration? = nil,
         typeRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.domainIdentifier = domainIdentifier
@@ -1950,8 +1902,7 @@ public struct CreateAssetRevisionOutput: Swift.Sendable {
         revision: Swift.String? = nil,
         typeIdentifier: Swift.String? = nil,
         typeRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -1990,8 +1941,7 @@ public struct DeleteAssetInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -2016,8 +1966,7 @@ public struct GetAssetInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         revision: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.revision = revision
@@ -2089,8 +2038,7 @@ public struct GetAssetOutput: Swift.Sendable {
         revision: Swift.String? = nil,
         typeIdentifier: Swift.String? = nil,
         typeRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -2126,8 +2074,7 @@ extension DataZoneClientTypes {
 
         public init(
             includedColumnNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.includedColumnNames = includedColumnNames
         }
     }
@@ -2147,8 +2094,7 @@ extension DataZoneClientTypes {
         public init(
             columnName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.value = value
         }
@@ -2169,8 +2115,7 @@ extension DataZoneClientTypes {
         public init(
             columnName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.value = value
         }
@@ -2191,8 +2136,7 @@ extension DataZoneClientTypes {
         public init(
             columnName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.value = value
         }
@@ -2213,8 +2157,7 @@ extension DataZoneClientTypes {
         public init(
             columnName: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.values = values
         }
@@ -2231,8 +2174,7 @@ extension DataZoneClientTypes {
 
         public init(
             columnName: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
         }
     }
@@ -2248,8 +2190,7 @@ extension DataZoneClientTypes {
 
         public init(
             columnName: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
         }
     }
@@ -2269,8 +2210,7 @@ extension DataZoneClientTypes {
         public init(
             columnName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.value = value
         }
@@ -2291,8 +2231,7 @@ extension DataZoneClientTypes {
         public init(
             columnName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.value = value
         }
@@ -2313,8 +2252,7 @@ extension DataZoneClientTypes {
         public init(
             columnName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.value = value
         }
@@ -2335,8 +2273,7 @@ extension DataZoneClientTypes {
         public init(
             columnName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.value = value
         }
@@ -2357,8 +2294,7 @@ extension DataZoneClientTypes {
         public init(
             columnName: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.values = values
         }
@@ -2379,8 +2315,7 @@ extension DataZoneClientTypes {
         public init(
             columnName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.value = value
         }
@@ -2488,8 +2423,7 @@ extension DataZoneClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: DataZoneClientTypes.FilterStatus? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.createdAt = createdAt
             self.description = description
@@ -2524,8 +2458,7 @@ extension DataZoneClientTypes {
             formsOutput: [DataZoneClientTypes.FormOutput]? = nil,
             latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
             readOnlyFormsOutput: [DataZoneClientTypes.FormOutput]? = nil
-        )
-        {
+        ) {
             self.formsOutput = formsOutput
             self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
             self.readOnlyFormsOutput = readOnlyFormsOutput
@@ -2587,8 +2520,7 @@ extension DataZoneClientTypes {
             owningProjectId: Swift.String? = nil,
             typeIdentifier: Swift.String? = nil,
             typeRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2642,8 +2574,7 @@ extension DataZoneClientTypes {
             glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil,
             latestTimeSeriesDataPointForms: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
             owningProjectId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.assetRevision = assetRevision
             self.assetType = assetType
@@ -2668,8 +2599,7 @@ extension DataZoneClientTypes {
         public init(
             forms: Swift.String? = nil,
             latestTimeSeriesDataPointForms: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil
-        )
-        {
+        ) {
             self.forms = forms
             self.latestTimeSeriesDataPointForms = latestTimeSeriesDataPointForms
         }
@@ -2721,8 +2651,7 @@ extension DataZoneClientTypes {
             listingUpdatedBy: Swift.String? = nil,
             name: Swift.String? = nil,
             owningProjectId: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
             self.description = description
@@ -2766,8 +2695,7 @@ extension DataZoneClientTypes {
             domainId: Swift.String? = nil,
             id: Swift.String? = nil,
             revision: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -2791,8 +2719,7 @@ extension DataZoneClientTypes {
         public init(
             assetId: Swift.String? = nil,
             targetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.targetName = targetName
         }
@@ -2816,8 +2743,7 @@ extension DataZoneClientTypes {
             `required`: Swift.Bool? = nil,
             typeIdentifier: Swift.String? = nil,
             typeRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.`required` = `required`
             self.typeIdentifier = typeIdentifier
             self.typeRevision = typeRevision
@@ -2847,8 +2773,7 @@ public struct CreateAssetTypeInput: Swift.Sendable {
         formsInput: [Swift.String: DataZoneClientTypes.FormEntryInput]? = nil,
         name: Swift.String? = nil,
         owningProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.formsInput = formsInput
@@ -2879,8 +2804,7 @@ extension DataZoneClientTypes {
             `required`: Swift.Bool? = nil,
             typeName: Swift.String? = nil,
             typeRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.`required` = `required`
             self.typeName = typeName
             self.typeRevision = typeRevision
@@ -2936,8 +2860,7 @@ public struct CreateAssetTypeOutput: Swift.Sendable {
         revision: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -2969,8 +2892,7 @@ public struct DeleteAssetTypeInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -2995,8 +2917,7 @@ public struct GetAssetTypeInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         revision: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.revision = revision
@@ -3047,8 +2968,7 @@ public struct GetAssetTypeOutput: Swift.Sendable {
         revision: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -3116,8 +3036,7 @@ extension DataZoneClientTypes {
             revision: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -3181,8 +3100,7 @@ extension DataZoneClientTypes {
         public init(
             selectionMode: DataZoneClientTypes.RuleScopeSelectionMode? = nil,
             specificAssetTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.selectionMode = selectionMode
             self.specificAssetTypes = specificAssetTypes
         }
@@ -3204,8 +3122,7 @@ public struct AssociateEnvironmentRoleInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         environmentRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.environmentRoleArn = environmentRoleArn
@@ -3226,8 +3143,7 @@ extension DataZoneClientTypes {
 
         public init(
             workgroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.workgroupName = workgroupName
         }
     }
@@ -3242,8 +3158,7 @@ extension DataZoneClientTypes {
 
         public init(
             workgroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.workgroupName = workgroupName
         }
     }
@@ -3258,8 +3173,7 @@ extension DataZoneClientTypes {
 
         public init(
             workgroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.workgroupName = workgroupName
         }
     }
@@ -3309,8 +3223,7 @@ extension DataZoneClientTypes {
         public init(
             authorizationCode: Swift.String? = nil,
             redirectUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationCode = authorizationCode
             self.redirectUri = redirectUri
         }
@@ -3329,8 +3242,7 @@ extension DataZoneClientTypes {
         public init(
             aWSManagedClientApplicationReference: Swift.String? = nil,
             userManagedClientApplicationClientId: Swift.String? = nil
-        )
-        {
+        ) {
             self.aWSManagedClientApplicationReference = aWSManagedClientApplicationReference
             self.userManagedClientApplicationClientId = userManagedClientApplicationClientId
         }
@@ -3355,8 +3267,7 @@ extension DataZoneClientTypes {
             jwtToken: Swift.String? = nil,
             refreshToken: Swift.String? = nil,
             userManagedClientApplicationClientSecret: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.jwtToken = jwtToken
             self.refreshToken = refreshToken
@@ -3427,8 +3338,7 @@ extension DataZoneClientTypes {
             oAuth2GrantType: DataZoneClientTypes.OAuth2GrantType? = nil,
             tokenUrl: Swift.String? = nil,
             tokenUrlParametersMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.authorizationCodeProperties = authorizationCodeProperties
             self.oAuth2ClientApplication = oAuth2ClientApplication
             self.oAuth2Credentials = oAuth2Credentials
@@ -3459,8 +3369,7 @@ extension DataZoneClientTypes {
             authenticationType: DataZoneClientTypes.AuthenticationType? = nil,
             oAuth2Properties: DataZoneClientTypes.OAuth2Properties? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.oAuth2Properties = oAuth2Properties
             self.secretArn = secretArn
@@ -3480,8 +3389,7 @@ extension DataZoneClientTypes {
         public init(
             password: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.userName = userName
         }
@@ -3518,8 +3426,7 @@ extension DataZoneClientTypes {
             kmsKeyArn: Swift.String? = nil,
             oAuth2Properties: DataZoneClientTypes.OAuth2Properties? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.basicAuthenticationCredentials = basicAuthenticationCredentials
             self.customAuthenticationCredentials = customAuthenticationCredentials
@@ -3547,8 +3454,7 @@ extension DataZoneClientTypes {
         public init(
             basicAuthenticationCredentials: DataZoneClientTypes.BasicAuthenticationCredentials? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.basicAuthenticationCredentials = basicAuthenticationCredentials
             self.secretArn = secretArn
         }
@@ -3619,8 +3525,7 @@ extension DataZoneClientTypes {
             awsAccountId: Swift.String? = nil,
             awsRegion: Swift.String? = nil,
             iamConnectionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessRole = accessRole
             self.awsAccountId = awsAccountId
             self.awsRegion = awsRegion
@@ -3640,8 +3545,7 @@ public struct CancelMetadataGenerationRunInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -3663,8 +3567,7 @@ public struct CancelSubscriptionInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -3746,8 +3649,7 @@ public struct CancelSubscriptionOutput: Swift.Sendable {
         subscriptionRequestId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.domainId = domainId
@@ -3801,8 +3703,7 @@ extension DataZoneClientTypes {
 
         public init(
             templateUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.templateUrl = templateUrl
         }
     }
@@ -3852,8 +3753,7 @@ extension DataZoneClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -3906,8 +3806,7 @@ extension DataZoneClientTypes {
             auth: DataZoneClientTypes.ConfigurableActionTypeAuthorization? = nil,
             parameters: [DataZoneClientTypes.ConfigurableActionParameter]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.auth = auth
             self.parameters = parameters
             self.type = type
@@ -3933,8 +3832,7 @@ extension DataZoneClientTypes {
             expiration: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretAccessKey = secretAccessKey
@@ -4029,8 +3927,7 @@ extension DataZoneClientTypes {
             securityGroupIdList: [Swift.String]? = nil,
             subnetId: Swift.String? = nil,
             subnetIdList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.securityGroupIdList = securityGroupIdList
             self.subnetId = subnetId
@@ -4081,8 +3978,7 @@ extension DataZoneClientTypes {
             sparkProperties: [Swift.String: Swift.String]? = nil,
             validateCredentials: Swift.Bool? = nil,
             validateForComputeEnvironments: [DataZoneClientTypes.ComputeEnvironments]? = nil
-        )
-        {
+        ) {
             self.athenaProperties = athenaProperties
             self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
@@ -4108,8 +4004,7 @@ extension DataZoneClientTypes {
 
         public init(
             glueConnectionInput: DataZoneClientTypes.GlueConnectionInput? = nil
-        )
-        {
+        ) {
             self.glueConnectionInput = glueConnectionInput
         }
     }
@@ -4125,8 +4020,7 @@ extension DataZoneClientTypes {
 
         public init(
             clusterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterName = clusterName
         }
     }
@@ -4141,8 +4035,7 @@ extension DataZoneClientTypes {
 
         public init(
             glueLineageSyncEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.glueLineageSyncEnabled = glueLineageSyncEnabled
         }
     }
@@ -4162,8 +4055,7 @@ extension DataZoneClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -4197,8 +4089,7 @@ extension DataZoneClientTypes {
 
         public init(
             schedule: Swift.String? = nil
-        )
-        {
+        ) {
             self.schedule = schedule
         }
     }
@@ -4216,8 +4107,7 @@ extension DataZoneClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             schedule: DataZoneClientTypes.LineageSyncSchedule? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.schedule = schedule
         }
@@ -4260,8 +4150,7 @@ extension DataZoneClientTypes {
             lineageSync: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput? = nil,
             port: Swift.Int? = nil,
             storage: DataZoneClientTypes.RedshiftStorageProperties? = nil
-        )
-        {
+        ) {
             self.credentials = credentials
             self.databaseName = databaseName
             self.host = host
@@ -4304,8 +4193,7 @@ extension DataZoneClientTypes {
             pythonVirtualEnv: Swift.String? = nil,
             runtimeRole: Swift.String? = nil,
             trustedCertificatesS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.computeArn = computeArn
             self.instanceProfileArn = instanceProfileArn
             self.javaVirtualEnv = javaVirtualEnv
@@ -4326,8 +4214,7 @@ extension DataZoneClientTypes {
 
         public init(
             connection: Swift.String? = nil
-        )
-        {
+        ) {
             self.connection = connection
         }
     }
@@ -4363,8 +4250,7 @@ extension DataZoneClientTypes {
             numberOfWorkers: Swift.Int? = nil,
             pythonVirtualEnv: Swift.String? = nil,
             workerType: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalArgs = additionalArgs
             self.glueConnectionName = glueConnectionName
             self.glueVersion = glueVersion
@@ -4458,8 +4344,7 @@ extension DataZoneClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             status: DataZoneClientTypes.ConnectionStatus? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.status = status
         }
@@ -4511,8 +4396,7 @@ extension DataZoneClientTypes {
             clusterArn: Swift.String? = nil,
             clusterName: Swift.String? = nil,
             orchestrator: DataZoneClientTypes.HyperPodOrchestrator? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
             self.orchestrator = orchestrator
@@ -4532,8 +4416,7 @@ extension DataZoneClientTypes {
         public init(
             environmentId: Swift.String? = nil,
             glueLineageSyncEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.environmentId = environmentId
             self.glueLineageSyncEnabled = glueLineageSyncEnabled
         }
@@ -4555,8 +4438,7 @@ extension DataZoneClientTypes {
             enabled: Swift.Bool? = nil,
             lineageJobId: Swift.String? = nil,
             schedule: DataZoneClientTypes.LineageSyncSchedule? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.lineageJobId = lineageJobId
             self.schedule = schedule
@@ -4597,8 +4479,7 @@ extension DataZoneClientTypes {
             redshiftTempDir: Swift.String? = nil,
             status: DataZoneClientTypes.ConnectionStatus? = nil,
             storage: DataZoneClientTypes.RedshiftStorageProperties? = nil
-        )
-        {
+        ) {
             self.credentials = credentials
             self.databaseName = databaseName
             self.isProvisionedSecret = isProvisionedSecret
@@ -4685,8 +4566,7 @@ extension DataZoneClientTypes {
             pythonVirtualEnv: Swift.String? = nil,
             runtimeRole: Swift.String? = nil,
             trustedCertificatesS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.computeArn = computeArn
             self.credentials = credentials
             self.credentialsExpiration = credentialsExpiration
@@ -4737,8 +4617,7 @@ extension DataZoneClientTypes {
             numberOfWorkers: Swift.Int? = nil,
             pythonVirtualEnv: Swift.String? = nil,
             workerType: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalArgs = additionalArgs
             self.glueConnectionName = glueConnectionName
             self.glueVersion = glueVersion
@@ -4788,8 +4667,7 @@ extension DataZoneClientTypes {
             authenticationConfiguration: DataZoneClientTypes.AuthenticationConfigurationPatch? = nil,
             connectionProperties: [Swift.String: Swift.String]? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
             self.description = description
@@ -4806,8 +4684,7 @@ extension DataZoneClientTypes {
 
         public init(
             glueConnectionInput: DataZoneClientTypes.GlueConnectionPatch? = nil
-        )
-        {
+        ) {
             self.glueConnectionInput = glueConnectionInput
         }
     }
@@ -4822,8 +4699,7 @@ extension DataZoneClientTypes {
 
         public init(
             glueLineageSyncEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.glueLineageSyncEnabled = glueLineageSyncEnabled
         }
     }
@@ -4853,8 +4729,7 @@ extension DataZoneClientTypes {
             lineageSync: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput? = nil,
             port: Swift.Int? = nil,
             storage: DataZoneClientTypes.RedshiftStorageProperties? = nil
-        )
-        {
+        ) {
             self.credentials = credentials
             self.databaseName = databaseName
             self.host = host
@@ -4897,8 +4772,7 @@ extension DataZoneClientTypes {
             pythonVirtualEnv: Swift.String? = nil,
             runtimeRole: Swift.String? = nil,
             trustedCertificatesS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.computeArn = computeArn
             self.instanceProfileArn = instanceProfileArn
             self.javaVirtualEnv = javaVirtualEnv
@@ -5068,8 +4942,7 @@ extension DataZoneClientTypes {
             sparkProperties: [Swift.String: Swift.String]? = nil,
             status: DataZoneClientTypes.ConnectionStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.athenaProperties = athenaProperties
             self.authenticationConfiguration = authenticationConfiguration
             self.compatibleComputeEnvironments = compatibleComputeEnvironments
@@ -5163,8 +5036,7 @@ extension DataZoneClientTypes {
             port: Swift.Int? = nil,
             `protocol`: DataZoneClientTypes.ModelProtocol? = nil,
             stage: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsLocation = awsLocation
             self.glueConnection = glueConnection
             self.glueConnectionName = glueConnectionName
@@ -5215,8 +5087,7 @@ extension DataZoneClientTypes {
             projectId: Swift.String? = nil,
             props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
             type: DataZoneClientTypes.ConnectionType? = nil
-        )
-        {
+        ) {
             self.connectionId = connectionId
             self.domainId = domainId
             self.domainUnitId = domainUnitId
@@ -5257,8 +5128,7 @@ public struct CreateConnectionInput: Swift.Sendable {
         environmentIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         props: DataZoneClientTypes.ConnectionPropertiesInput? = nil
-    )
-    {
+    ) {
         self.awsLocation = awsLocation
         self.clientToken = clientToken
         self.description = description
@@ -5313,8 +5183,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         projectId: Swift.String? = nil,
         props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
         type: DataZoneClientTypes.ConnectionType? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.description = description
         self.domainId = domainId
@@ -5379,8 +5248,7 @@ extension DataZoneClientTypes {
             identifier: Swift.String? = nil,
             itemType: DataZoneClientTypes.DataProductItemType? = nil,
             revision: Swift.String? = nil
-        )
-        {
+        ) {
             self.glossaryTerms = glossaryTerms
             self.identifier = identifier
             self.itemType = itemType
@@ -5419,8 +5287,7 @@ public struct CreateDataProductInput: Swift.Sendable {
         items: [DataZoneClientTypes.DataProductItem]? = nil,
         name: Swift.String? = nil,
         owningProjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.domainIdentifier = domainIdentifier
@@ -5520,8 +5387,7 @@ public struct CreateDataProductOutput: Swift.Sendable {
         owningProjectId: Swift.String? = nil,
         revision: Swift.String? = nil,
         status: DataZoneClientTypes.DataProductStatus? = .created
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -5574,8 +5440,7 @@ public struct CreateDataProductRevisionInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         items: [DataZoneClientTypes.DataProductItem]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.domainIdentifier = domainIdentifier
@@ -5643,8 +5508,7 @@ public struct CreateDataProductRevisionOutput: Swift.Sendable {
         owningProjectId: Swift.String? = nil,
         revision: Swift.String? = nil,
         status: DataZoneClientTypes.DataProductStatus? = .created
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -5710,8 +5574,7 @@ extension DataZoneClientTypes {
         public init(
             expression: Swift.String? = nil,
             type: DataZoneClientTypes.FilterExpressionType? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.type = type
         }
@@ -5734,8 +5597,7 @@ extension DataZoneClientTypes {
             databaseName: Swift.String? = nil,
             filterExpressions: [DataZoneClientTypes.FilterExpression]? = nil,
             schemaName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.filterExpressions = filterExpressions
             self.schemaName = schemaName
@@ -5762,8 +5624,7 @@ extension DataZoneClientTypes {
             catalogName: Swift.String? = nil,
             dataAccessRole: Swift.String? = nil,
             relationalFilterConfigurations: [DataZoneClientTypes.RelationalFilterConfiguration]? = nil
-        )
-        {
+        ) {
             self.autoImportDataQualityResult = autoImportDataQualityResult
             self.catalogName = catalogName
             self.dataAccessRole = dataAccessRole
@@ -5782,8 +5643,7 @@ extension DataZoneClientTypes {
 
         public init(
             secretManagerArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.secretManagerArn = secretManagerArn
         }
     }
@@ -5799,8 +5659,7 @@ extension DataZoneClientTypes {
 
         public init(
             clusterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterName = clusterName
         }
     }
@@ -5816,8 +5675,7 @@ extension DataZoneClientTypes {
 
         public init(
             workgroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.workgroupName = workgroupName
         }
     }
@@ -5854,8 +5712,7 @@ extension DataZoneClientTypes {
             redshiftCredentialConfiguration: DataZoneClientTypes.RedshiftCredentialConfiguration? = nil,
             redshiftStorage: DataZoneClientTypes.RedshiftStorage? = nil,
             relationalFilterConfigurations: [DataZoneClientTypes.RelationalFilterConfiguration]? = nil
-        )
-        {
+        ) {
             self.dataAccessRole = dataAccessRole
             self.redshiftCredentialConfiguration = redshiftCredentialConfiguration
             self.redshiftStorage = redshiftStorage
@@ -5874,8 +5731,7 @@ extension DataZoneClientTypes {
 
         public init(
             trackingAssets: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.trackingAssets = trackingAssets
         }
     }
@@ -5933,8 +5789,7 @@ extension DataZoneClientTypes {
 
         public init(
             enableBusinessNameGeneration: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableBusinessNameGeneration = enableBusinessNameGeneration
         }
     }
@@ -6167,8 +6022,7 @@ extension DataZoneClientTypes {
         public init(
             schedule: Swift.String? = nil,
             timezone: DataZoneClientTypes.Timezone? = nil
-        )
-        {
+        ) {
             self.schedule = schedule
             self.timezone = timezone
         }
@@ -6230,8 +6084,7 @@ public struct CreateDataSourceInput: Swift.Sendable {
         recommendation: DataZoneClientTypes.RecommendationConfiguration? = nil,
         schedule: DataZoneClientTypes.ScheduleConfiguration? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetFormsInput = assetFormsInput
         self.clientToken = clientToken
         self.configuration = configuration
@@ -6279,8 +6132,7 @@ extension DataZoneClientTypes {
             dataAccessRole: Swift.String? = nil,
             region: Swift.String? = nil,
             relationalFilterConfigurations: [DataZoneClientTypes.RelationalFilterConfiguration]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.autoImportDataQualityResult = autoImportDataQualityResult
             self.catalogName = catalogName
@@ -6317,8 +6169,7 @@ extension DataZoneClientTypes {
             redshiftStorage: DataZoneClientTypes.RedshiftStorage? = nil,
             region: Swift.String? = nil,
             relationalFilterConfigurations: [DataZoneClientTypes.RelationalFilterConfiguration]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.dataAccessRole = dataAccessRole
             self.redshiftCredentialConfiguration = redshiftCredentialConfiguration
@@ -6345,8 +6196,7 @@ extension DataZoneClientTypes {
             accountId: Swift.String? = nil,
             region: Swift.String? = nil,
             trackingAssets: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.region = region
             self.trackingAssets = trackingAssets
@@ -6425,8 +6275,7 @@ extension DataZoneClientTypes {
         public init(
             errorDetail: Swift.String? = nil,
             errorType: DataZoneClientTypes.DataSourceErrorType? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.errorType = errorType
         }
@@ -6588,8 +6437,7 @@ public struct CreateDataSourceOutput: Swift.Sendable {
         status: DataZoneClientTypes.DataSourceStatus? = nil,
         type: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.assetFormsOutput = assetFormsOutput
         self.configuration = configuration
         self.connectionId = connectionId
@@ -6689,8 +6537,7 @@ extension DataZoneClientTypes {
         public init(
             type: DataZoneClientTypes.AuthType? = nil,
             userAssignment: DataZoneClientTypes.UserAssignment? = nil
-        )
-        {
+        ) {
             self.type = type
             self.userAssignment = userAssignment
         }
@@ -6729,8 +6576,7 @@ public struct CreateDomainInput: Swift.Sendable {
         serviceRole: Swift.String? = nil,
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.domainExecutionRole = domainExecutionRole
@@ -6827,8 +6673,7 @@ public struct CreateDomainOutput: Swift.Sendable {
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil,
         status: DataZoneClientTypes.DomainStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.domainExecutionRole = domainExecutionRole
@@ -6866,8 +6711,7 @@ public struct CreateDomainUnitInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         parentDomainUnitIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.domainIdentifier = domainIdentifier
@@ -6890,8 +6734,7 @@ extension DataZoneClientTypes {
 
         public init(
             groupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
         }
     }
@@ -6906,8 +6749,7 @@ extension DataZoneClientTypes {
 
         public init(
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userId = userId
         }
     }
@@ -6960,8 +6802,7 @@ public struct CreateDomainUnitOutput: Swift.Sendable {
         name: Swift.String? = nil,
         owners: [DataZoneClientTypes.DomainUnitOwnerProperties]? = nil,
         parentDomainUnitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ancestorDomainUnitIds = ancestorDomainUnitIds
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -6991,8 +6832,7 @@ extension DataZoneClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -7042,8 +6882,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         name: Swift.String? = nil,
         projectIdentifier: Swift.String? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentParameter]? = nil
-    )
-    {
+    ) {
         self.deploymentOrder = deploymentOrder
         self.description = description
         self.domainIdentifier = domainIdentifier
@@ -7071,8 +6910,7 @@ extension DataZoneClientTypes {
         public init(
             endTimeoutMinutes: Swift.Int? = nil,
             startTimeoutMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endTimeoutMinutes = endTimeoutMinutes
             self.startTimeoutMinutes = startTimeoutMinutes
         }
@@ -7159,8 +6997,7 @@ extension DataZoneClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -7191,8 +7028,7 @@ extension DataZoneClientTypes {
             failureReason: DataZoneClientTypes.EnvironmentError? = nil,
             isDeploymentComplete: Swift.Bool? = nil,
             messages: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.deploymentId = deploymentId
             self.deploymentStatus = deploymentStatus
             self.deploymentType = deploymentType
@@ -7223,8 +7059,7 @@ extension DataZoneClientTypes {
             provider: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.provider = provider
             self.type = type
@@ -7331,8 +7166,7 @@ extension DataZoneClientTypes {
             isEditable: Swift.Bool? = nil,
             isOptional: Swift.Bool? = nil,
             keyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.fieldType = fieldType
@@ -7419,8 +7253,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
         status: DataZoneClientTypes.EnvironmentStatus? = nil,
         updatedAt: Foundation.Date? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.awsAccountRegion = awsAccountRegion
         self.createdAt = createdAt
@@ -7472,8 +7305,7 @@ public struct CreateEnvironmentActionInput: Swift.Sendable {
         environmentIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         parameters: DataZoneClientTypes.ActionParameters? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
@@ -7508,8 +7340,7 @@ public struct CreateEnvironmentActionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         parameters: DataZoneClientTypes.ActionParameters? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.environmentId = environmentId
@@ -7550,8 +7381,7 @@ public struct CreateEnvironmentProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         projectIdentifier: Swift.String? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentParameter]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.awsAccountRegion = awsAccountRegion
         self.description = description
@@ -7612,8 +7442,7 @@ public struct CreateEnvironmentProfileOutput: Swift.Sendable {
         projectId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.awsAccountRegion = awsAccountRegion
         self.createdAt = createdAt
@@ -7698,8 +7527,7 @@ public struct CreateFormTypeInput: Swift.Sendable {
         name: Swift.String? = nil,
         owningProjectIdentifier: Swift.String? = nil,
         status: DataZoneClientTypes.FormTypeStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.model = model
@@ -7741,8 +7569,7 @@ public struct CreateFormTypeOutput: Swift.Sendable {
         originProjectId: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
         revision: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.name = name
@@ -7811,8 +7638,7 @@ public struct CreateGlossaryInput: Swift.Sendable {
         name: Swift.String? = nil,
         owningProjectIdentifier: Swift.String? = nil,
         status: DataZoneClientTypes.GlossaryStatus? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.domainIdentifier = domainIdentifier
@@ -7852,8 +7678,7 @@ public struct CreateGlossaryOutput: Swift.Sendable {
         name: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
         status: DataZoneClientTypes.GlossaryStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.id = id
@@ -7909,8 +7734,7 @@ extension DataZoneClientTypes {
         public init(
             classifies: [Swift.String]? = nil,
             isa: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.classifies = classifies
             self.isa = isa
         }
@@ -7947,8 +7771,7 @@ public struct CreateGlossaryTermInput: Swift.Sendable {
         shortDescription: Swift.String? = nil,
         status: DataZoneClientTypes.GlossaryTermStatus? = nil,
         termRelations: DataZoneClientTypes.TermRelations? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.glossaryIdentifier = glossaryIdentifier
@@ -7997,8 +7820,7 @@ public struct CreateGlossaryTermOutput: Swift.Sendable {
         shortDescription: Swift.String? = nil,
         status: DataZoneClientTypes.GlossaryTermStatus? = nil,
         termRelations: DataZoneClientTypes.TermRelations? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.glossaryId = glossaryId
         self.id = id
@@ -8029,8 +7851,7 @@ public struct CreateGroupProfileInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         groupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.groupIdentifier = groupIdentifier
@@ -8081,8 +7902,7 @@ public struct CreateGroupProfileOutput: Swift.Sendable {
         groupName: Swift.String? = nil,
         id: Swift.String? = nil,
         status: DataZoneClientTypes.GroupProfileStatus? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.groupName = groupName
         self.id = id
@@ -8149,8 +7969,7 @@ public struct CreateListingChangeSetInput: Swift.Sendable {
         entityIdentifier: Swift.String? = nil,
         entityRevision: Swift.String? = nil,
         entityType: DataZoneClientTypes.EntityType? = nil
-    )
-    {
+    ) {
         self.action = action
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
@@ -8175,8 +7994,7 @@ public struct CreateListingChangeSetOutput: Swift.Sendable {
         listingId: Swift.String? = nil,
         listingRevision: Swift.String? = nil,
         status: DataZoneClientTypes.ListingStatus? = nil
-    )
-    {
+    ) {
         self.listingId = listingId
         self.listingRevision = listingRevision
         self.status = status
@@ -8195,8 +8013,7 @@ extension DataZoneClientTypes {
         public init(
             environmentConfigurationName: Swift.String? = nil,
             environmentParameters: [DataZoneClientTypes.EnvironmentParameter]? = nil
-        )
-        {
+        ) {
             self.environmentConfigurationName = environmentConfigurationName
             self.environmentParameters = environmentParameters
         }
@@ -8234,8 +8051,7 @@ public struct CreateProjectInput: Swift.Sendable {
         name: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.domainUnitId = domainUnitId
@@ -8301,8 +8117,7 @@ extension DataZoneClientTypes {
         public init(
             environmentFailureReasons: [Swift.String: [DataZoneClientTypes.EnvironmentError]]? = nil,
             overallDeploymentStatus: DataZoneClientTypes.OverallDeploymentStatus? = nil
-        )
-        {
+        ) {
             self.environmentFailureReasons = environmentFailureReasons
             self.overallDeploymentStatus = overallDeploymentStatus
         }
@@ -8321,8 +8136,7 @@ extension DataZoneClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -8410,8 +8224,7 @@ public struct CreateProjectOutput: Swift.Sendable {
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -8503,8 +8316,7 @@ public struct CreateProjectMembershipInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         member: DataZoneClientTypes.Member? = nil,
         projectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.designation = designation
         self.domainIdentifier = domainIdentifier
         self.member = member
@@ -8544,8 +8356,7 @@ extension DataZoneClientTypes {
             isEditable: Swift.Bool? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.isEditable = isEditable
             self.name = name
             self.value = value
@@ -8568,8 +8379,7 @@ extension DataZoneClientTypes {
             parameterOverrides: [DataZoneClientTypes.EnvironmentConfigurationParameter]? = nil,
             resolvedParameters: [DataZoneClientTypes.EnvironmentConfigurationParameter]? = nil,
             ssmPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterOverrides = parameterOverrides
             self.resolvedParameters = resolvedParameters
             self.ssmPath = ssmPath
@@ -8643,8 +8453,7 @@ extension DataZoneClientTypes {
             environmentBlueprintId: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsAccount = awsAccount
             self.awsRegion = awsRegion
             self.configurationParameters = configurationParameters
@@ -8715,8 +8524,7 @@ public struct CreateProjectProfileInput: Swift.Sendable {
         environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]? = nil,
         name: Swift.String? = nil,
         status: DataZoneClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.domainUnitIdentifier = domainUnitIdentifier
@@ -8768,8 +8576,7 @@ public struct CreateProjectProfileOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: DataZoneClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -8828,8 +8635,7 @@ extension DataZoneClientTypes {
         public init(
             typeIdentifier: Swift.String? = nil,
             typeRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.typeIdentifier = typeIdentifier
             self.typeRevision = typeRevision
         }
@@ -8845,8 +8651,7 @@ extension DataZoneClientTypes {
 
         public init(
             requiredMetadataForms: [DataZoneClientTypes.MetadataFormReference]? = nil
-        )
-        {
+        ) {
             self.requiredMetadataForms = requiredMetadataForms
         }
     }
@@ -8875,8 +8680,7 @@ extension DataZoneClientTypes {
         public init(
             selectionMode: DataZoneClientTypes.RuleScopeSelectionMode? = nil,
             specificProjects: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.selectionMode = selectionMode
             self.specificProjects = specificProjects
         }
@@ -8898,8 +8702,7 @@ extension DataZoneClientTypes {
             assetType: DataZoneClientTypes.AssetTypesForRule? = nil,
             dataProduct: Swift.Bool? = nil,
             project: DataZoneClientTypes.ProjectsForRule? = nil
-        )
-        {
+        ) {
             self.assetType = assetType
             self.dataProduct = dataProduct
             self.project = project
@@ -8920,8 +8723,7 @@ extension DataZoneClientTypes {
         public init(
             domainUnitId: Swift.String? = nil,
             includeChildDomainUnits: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.domainUnitId = domainUnitId
             self.includeChildDomainUnits = includeChildDomainUnits
         }
@@ -8971,8 +8773,7 @@ public struct CreateRuleInput: Swift.Sendable {
         name: Swift.String? = nil,
         scope: DataZoneClientTypes.RuleScope? = nil,
         target: DataZoneClientTypes.RuleTarget? = nil
-    )
-    {
+    ) {
         self.action = action
         self.clientToken = clientToken
         self.description = description
@@ -9086,8 +8887,7 @@ public struct CreateRuleOutput: Swift.Sendable {
         scope: DataZoneClientTypes.RuleScope? = nil,
         target: DataZoneClientTypes.RuleTarget? = nil,
         targetType: DataZoneClientTypes.RuleTargetType? = nil
-    )
-    {
+    ) {
         self.action = action
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -9121,8 +8921,7 @@ extension DataZoneClientTypes {
         public init(
             identifier: Swift.String? = nil,
             revision: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.revision = revision
         }
@@ -9163,8 +8962,7 @@ public struct CreateSubscriptionGrantInput: Swift.Sendable {
         environmentIdentifier: Swift.String? = nil,
         grantedEntity: DataZoneClientTypes.GrantedEntityInput? = nil,
         subscriptionTargetIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetTargetNames = assetTargetNames
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
@@ -9183,8 +8981,7 @@ extension DataZoneClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -9270,8 +9067,7 @@ extension DataZoneClientTypes {
             grantedTimestamp: Foundation.Date? = nil,
             status: DataZoneClientTypes.SubscriptionGrantStatus? = nil,
             targetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.assetRevision = assetRevision
             self.assetScope = assetScope
@@ -9298,8 +9094,7 @@ extension DataZoneClientTypes {
         public init(
             id: Swift.String? = nil,
             revision: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.revision = revision
         }
@@ -9405,8 +9200,7 @@ public struct CreateSubscriptionGrantOutput: Swift.Sendable {
         subscriptionTargetId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.assets = assets
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -9431,8 +9225,7 @@ extension DataZoneClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -9447,8 +9240,7 @@ extension DataZoneClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -9489,8 +9281,7 @@ public struct CreateSubscriptionRequestInput: Swift.Sendable {
         requestReason: Swift.String? = nil,
         subscribedListings: [DataZoneClientTypes.SubscribedListingInput]? = nil,
         subscribedPrincipals: [DataZoneClientTypes.SubscribedPrincipalInput]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.metadataForms = metadataForms
@@ -9559,8 +9350,7 @@ public struct CreateSubscriptionRequestOutput: Swift.Sendable {
         subscribedPrincipals: [DataZoneClientTypes.SubscribedPrincipal]? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.decisionComment = decisionComment
@@ -9597,8 +9387,7 @@ extension DataZoneClientTypes {
         public init(
             content: Swift.String? = nil,
             formName: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.formName = formName
         }
@@ -9646,8 +9435,7 @@ public struct CreateSubscriptionTargetInput: Swift.Sendable {
         provider: Swift.String? = nil,
         subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicableAssetTypes = applicableAssetTypes
         self.authorizedPrincipals = authorizedPrincipals
         self.clientToken = clientToken
@@ -9726,8 +9514,7 @@ public struct CreateSubscriptionTargetOutput: Swift.Sendable {
         type: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicableAssetTypes = applicableAssetTypes
         self.authorizedPrincipals = authorizedPrincipals
         self.createdAt = createdAt
@@ -9800,8 +9587,7 @@ public struct CreateUserProfileInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         userIdentifier: Swift.String? = nil,
         userType: DataZoneClientTypes.UserType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.userIdentifier = userIdentifier
@@ -9818,8 +9604,7 @@ extension DataZoneClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -9840,8 +9625,7 @@ extension DataZoneClientTypes {
             firstName: Swift.String? = nil,
             lastName: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.firstName = firstName
             self.lastName = lastName
             self.username = username
@@ -9948,8 +9732,7 @@ public struct CreateUserProfileOutput: Swift.Sendable {
         id: Swift.String? = nil,
         status: DataZoneClientTypes.UserProfileStatus? = nil,
         type: DataZoneClientTypes.UserProfileType? = nil
-    )
-    {
+    ) {
         self.details = details
         self.domainId = domainId
         self.id = id
@@ -10016,8 +9799,7 @@ public struct DeleteDataProductInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -10042,8 +9824,7 @@ public struct GetDataProductInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         revision: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.revision = revision
@@ -10101,8 +9882,7 @@ public struct GetDataProductOutput: Swift.Sendable {
         owningProjectId: Swift.String? = nil,
         revision: Swift.String? = nil,
         status: DataZoneClientTypes.DataProductStatus? = .created
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -10140,8 +9920,7 @@ extension DataZoneClientTypes {
             glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil,
             listingId: Swift.String? = nil,
             listingRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.glossaryTerms = glossaryTerms
             self.listingId = listingId
             self.listingRevision = listingRevision
@@ -10176,8 +9955,7 @@ extension DataZoneClientTypes {
             glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil,
             items: [DataZoneClientTypes.ListingSummary]? = nil,
             owningProjectId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.dataProductId = dataProductId
             self.dataProductRevision = dataProductRevision
@@ -10198,8 +9976,7 @@ extension DataZoneClientTypes {
 
         public init(
             forms: Swift.String? = nil
-        )
-        {
+        ) {
             self.forms = forms
         }
     }
@@ -10220,8 +9997,7 @@ extension DataZoneClientTypes {
             glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil,
             listingId: Swift.String? = nil,
             listingRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.glossaryTerms = glossaryTerms
             self.listingId = listingId
             self.listingRevision = listingRevision
@@ -10274,8 +10050,7 @@ extension DataZoneClientTypes {
             listingUpdatedBy: Swift.String? = nil,
             name: Swift.String? = nil,
             owningProjectId: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
             self.description = description
@@ -10338,8 +10113,7 @@ extension DataZoneClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             owningProjectId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -10380,8 +10154,7 @@ extension DataZoneClientTypes {
             domainId: Swift.String? = nil,
             id: Swift.String? = nil,
             revision: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -10409,8 +10182,7 @@ public struct DeleteDataSourceInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         retainPermissionsOnRevokeFailure: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
@@ -10482,8 +10254,7 @@ extension DataZoneClientTypes {
             failureCause: Swift.String? = nil,
             schemaName: Swift.String? = nil,
             status: DataZoneClientTypes.SelfGrantStatus? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.failureCause = failureCause
             self.schemaName = schemaName
@@ -10502,8 +10273,7 @@ extension DataZoneClientTypes {
 
         public init(
             selfGrantStatusDetails: [DataZoneClientTypes.SelfGrantStatusDetail]? = nil
-        )
-        {
+        ) {
             self.selfGrantStatusDetails = selfGrantStatusDetails
         }
     }
@@ -10519,8 +10289,7 @@ extension DataZoneClientTypes {
 
         public init(
             selfGrantStatusDetails: [DataZoneClientTypes.SelfGrantStatusDetail]? = nil
-        )
-        {
+        ) {
             self.selfGrantStatusDetails = selfGrantStatusDetails
         }
     }
@@ -10611,8 +10380,7 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
         status: DataZoneClientTypes.DataSourceStatus? = nil,
         type: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.assetFormsOutput = assetFormsOutput
         self.configuration = configuration
         self.connectionId = connectionId
@@ -10654,8 +10422,7 @@ public struct GetDataSourceInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -10737,8 +10504,7 @@ public struct GetDataSourceOutput: Swift.Sendable {
         status: DataZoneClientTypes.DataSourceStatus? = nil,
         type: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.assetFormsOutput = assetFormsOutput
         self.configuration = configuration
         self.connectionId = connectionId
@@ -10802,8 +10568,7 @@ public struct ListDataSourcesInput: Swift.Sendable {
         projectIdentifier: Swift.String? = nil,
         status: DataZoneClientTypes.DataSourceStatus? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionIdentifier = connectionIdentifier
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
@@ -10880,8 +10645,7 @@ extension DataZoneClientTypes {
             status: DataZoneClientTypes.DataSourceStatus? = nil,
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.connectionId = connectionId
             self.createdAt = createdAt
             self.dataSourceId = dataSourceId
@@ -10917,8 +10681,7 @@ public struct ListDataSourcesOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.DataSourceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -10962,8 +10725,7 @@ public struct UpdateDataSourceInput: Swift.Sendable {
         recommendation: DataZoneClientTypes.RecommendationConfiguration? = nil,
         retainPermissionsOnRevokeFailure: Swift.Bool? = nil,
         schedule: DataZoneClientTypes.ScheduleConfiguration? = nil
-    )
-    {
+    ) {
         self.assetFormsInput = assetFormsInput
         self.configuration = configuration
         self.description = description
@@ -11059,8 +10821,7 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
         status: DataZoneClientTypes.DataSourceStatus? = nil,
         type: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.assetFormsOutput = assetFormsOutput
         self.configuration = configuration
         self.connectionId = connectionId
@@ -11136,8 +10897,7 @@ extension DataZoneClientTypes {
 
         public init(
             importStatus: DataZoneClientTypes.LineageImportStatus? = nil
-        )
-        {
+        ) {
             self.importStatus = importStatus
         }
     }
@@ -11183,8 +10943,7 @@ public struct GetDataSourceRunInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -11211,8 +10970,7 @@ extension DataZoneClientTypes {
             skipped: Swift.Int? = nil,
             unchanged: Swift.Int? = nil,
             updated: Swift.Int? = nil
-        )
-        {
+        ) {
             self.added = added
             self.failed = failed
             self.skipped = skipped
@@ -11275,8 +11033,7 @@ public struct GetDataSourceRunOutput: Swift.Sendable {
         stoppedAt: Foundation.Date? = nil,
         type: DataZoneClientTypes.DataSourceRunType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.dataSourceConfigurationSnapshot = dataSourceConfigurationSnapshot
         self.dataSourceId = dataSourceId
@@ -11314,8 +11071,7 @@ public struct ListDataSourceRunsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: DataZoneClientTypes.DataSourceRunStatus? = nil
-    )
-    {
+    ) {
         self.dataSourceIdentifier = dataSourceIdentifier
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
@@ -11373,8 +11129,7 @@ extension DataZoneClientTypes {
             stoppedAt: Foundation.Date? = nil,
             type: DataZoneClientTypes.DataSourceRunType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.dataSourceId = dataSourceId
             self.errorMessage = errorMessage
@@ -11401,8 +11156,7 @@ public struct ListDataSourceRunsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.DataSourceRunSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -11422,8 +11176,7 @@ public struct StartDataSourceRunInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         dataSourceIdentifier: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataSourceIdentifier = dataSourceIdentifier
         self.domainIdentifier = domainIdentifier
@@ -11480,8 +11233,7 @@ public struct StartDataSourceRunOutput: Swift.Sendable {
         stoppedAt: Foundation.Date? = nil,
         type: DataZoneClientTypes.DataSourceRunType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.dataSourceConfigurationSnapshot = dataSourceConfigurationSnapshot
         self.dataSourceId = dataSourceId
@@ -11548,8 +11300,7 @@ extension DataZoneClientTypes {
             errorMessage: Swift.String? = nil,
             eventId: Swift.String? = nil,
             eventStatus: DataZoneClientTypes.LineageEventProcessingStatus? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.eventId = eventId
             self.eventStatus = eventStatus
@@ -11603,8 +11354,7 @@ extension DataZoneClientTypes {
             technicalDescription: Swift.String? = nil,
             technicalName: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.dataAssetId = dataAssetId
             self.dataAssetStatus = dataAssetStatus
@@ -11640,8 +11390,7 @@ public struct DeleteAssetFilterInput: Swift.Sendable {
         assetIdentifier: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetIdentifier = assetIdentifier
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
@@ -11659,8 +11408,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -11672,8 +11420,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -11689,8 +11436,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -11711,8 +11457,7 @@ public struct DeleteEnvironmentActionInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.identifier = identifier
@@ -11730,8 +11475,7 @@ public struct DeleteEnvironmentProfileInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -11751,8 +11495,7 @@ public struct DeleteProjectInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         skipDeletionCheck: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.skipDeletionCheck = skipDeletionCheck
@@ -11779,8 +11522,7 @@ public struct DeleteProjectMembershipInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         member: DataZoneClientTypes.Member? = nil,
         projectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.member = member
         self.projectIdentifier = projectIdentifier
@@ -11803,8 +11545,7 @@ public struct DeleteProjectProfileInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -11826,8 +11567,7 @@ public struct DeleteSubscriptionGrantInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -11878,8 +11618,7 @@ public struct DeleteSubscriptionGrantOutput: Swift.Sendable {
         subscriptionTargetId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.assets = assets
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -11905,8 +11644,7 @@ public struct DeleteSubscriptionRequestInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -11927,8 +11665,7 @@ public struct DeleteSubscriptionTargetInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.identifier = identifier
@@ -11986,8 +11723,7 @@ public struct DeleteTimeSeriesDataPointsInput: Swift.Sendable {
         entityIdentifier: Swift.String? = nil,
         entityType: DataZoneClientTypes.TimeSeriesEntityType? = nil,
         formName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.entityIdentifier = entityIdentifier
@@ -12016,8 +11752,7 @@ public struct DisassociateEnvironmentRoleInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         environmentRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.environmentRoleArn = environmentRoleArn
@@ -12042,8 +11777,7 @@ public struct DeleteDomainInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         identifier: Swift.String? = nil,
         skipDeletionCheck: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.identifier = identifier
         self.skipDeletionCheck = skipDeletionCheck
@@ -12057,8 +11791,7 @@ public struct DeleteDomainOutput: Swift.Sendable {
 
     public init(
         status: DataZoneClientTypes.DomainStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -12070,8 +11803,7 @@ public struct GetDomainInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -12127,8 +11859,7 @@ public struct GetDomainOutput: Swift.Sendable {
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil,
         status: DataZoneClientTypes.DomainStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.description = description
@@ -12159,8 +11890,7 @@ public struct ListDomainsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: DataZoneClientTypes.DomainStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -12209,8 +11939,7 @@ extension DataZoneClientTypes {
             name: Swift.String? = nil,
             portalUrl: Swift.String? = nil,
             status: DataZoneClientTypes.DomainStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -12240,8 +11969,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.DomainSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -12272,8 +12000,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         name: Swift.String? = nil,
         serviceRole: Swift.String? = nil,
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.domainExecutionRole = domainExecutionRole
@@ -12312,8 +12039,7 @@ public struct UpdateDomainOutput: Swift.Sendable {
         rootDomainUnitId: Swift.String? = nil,
         serviceRole: Swift.String? = nil,
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainExecutionRole = domainExecutionRole
         self.id = id
@@ -12336,8 +12062,7 @@ public struct DeleteDomainUnitInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -12359,8 +12084,7 @@ public struct GetDomainUnitInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -12403,8 +12127,7 @@ public struct GetDomainUnitOutput: Swift.Sendable {
         name: Swift.String? = nil,
         owners: [DataZoneClientTypes.DomainUnitOwnerProperties]? = nil,
         parentDomainUnitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -12440,8 +12163,7 @@ public struct ListDomainUnitsForParentInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parentDomainUnitIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -12463,8 +12185,7 @@ extension DataZoneClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -12481,8 +12202,7 @@ public struct ListDomainUnitsForParentOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.DomainUnitSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -12505,8 +12225,7 @@ public struct UpdateDomainUnitInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
@@ -12556,8 +12275,7 @@ public struct UpdateDomainUnitOutput: Swift.Sendable {
         name: Swift.String? = nil,
         owners: [DataZoneClientTypes.DomainUnitOwnerProperties]? = nil,
         parentDomainUnitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -12587,8 +12305,7 @@ public struct DeleteEnvironmentBlueprintConfigurationInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         environmentBlueprintIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
     }
@@ -12610,8 +12327,7 @@ public struct GetEnvironmentBlueprintConfigurationInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         environmentBlueprintIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
     }
@@ -12629,8 +12345,7 @@ extension DataZoneClientTypes {
         public init(
             locationRegistrationExcludeS3Locations: [Swift.String]? = nil,
             locationRegistrationRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.locationRegistrationExcludeS3Locations = locationRegistrationExcludeS3Locations
             self.locationRegistrationRole = locationRegistrationRole
         }
@@ -12682,8 +12397,7 @@ public struct GetEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
         provisioningRoleArn: Swift.String? = nil,
         regionalParameters: [Swift.String: [Swift.String: Swift.String]]? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.domainId = domainId
         self.enabledRegions = enabledRegions
@@ -12710,8 +12424,7 @@ public struct ListEnvironmentBlueprintConfigurationsInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -12756,8 +12469,7 @@ extension DataZoneClientTypes {
             provisioningRoleArn: Swift.String? = nil,
             regionalParameters: [Swift.String: [Swift.String: Swift.String]]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.enabledRegions = enabledRegions
@@ -12781,8 +12493,7 @@ public struct ListEnvironmentBlueprintConfigurationsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.EnvironmentBlueprintConfigurationItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -12818,8 +12529,7 @@ public struct PutEnvironmentBlueprintConfigurationInput: Swift.Sendable {
         provisioningConfigurations: [DataZoneClientTypes.ProvisioningConfiguration]? = nil,
         provisioningRoleArn: Swift.String? = nil,
         regionalParameters: [Swift.String: [Swift.String: Swift.String]]? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.enabledRegions = enabledRegions
         self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
@@ -12866,8 +12576,7 @@ public struct PutEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
         provisioningRoleArn: Swift.String? = nil,
         regionalParameters: [Swift.String: [Swift.String: Swift.String]]? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.domainId = domainId
         self.enabledRegions = enabledRegions
@@ -12892,8 +12601,7 @@ public struct DeleteFormTypeInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         formTypeIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.formTypeIdentifier = formTypeIdentifier
     }
@@ -12918,8 +12626,7 @@ public struct GetFormTypeInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         formTypeIdentifier: Swift.String? = nil,
         revision: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.formTypeIdentifier = formTypeIdentifier
         self.revision = revision
@@ -12940,8 +12647,7 @@ extension DataZoneClientTypes {
         public init(
             name: Swift.String? = nil,
             revision: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.revision = revision
         }
@@ -12996,8 +12702,7 @@ public struct GetFormTypeOutput: Swift.Sendable {
         owningProjectId: Swift.String? = nil,
         revision: Swift.String? = nil,
         status: DataZoneClientTypes.FormTypeStatus? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -13033,8 +12738,7 @@ public struct GetAssetFilterInput: Swift.Sendable {
         assetIdentifier: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetIdentifier = assetIdentifier
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
@@ -13055,8 +12759,7 @@ public struct GetConnectionInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         withSecret: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.withSecret = withSecret
@@ -13108,8 +12811,7 @@ public struct GetConnectionOutput: Swift.Sendable {
         projectId: Swift.String? = nil,
         props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
         type: DataZoneClientTypes.ConnectionType? = nil
-    )
-    {
+    ) {
         self.connectionCredentials = connectionCredentials
         self.connectionId = connectionId
         self.description = description
@@ -13141,8 +12843,7 @@ public struct GetEnvironmentInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -13219,8 +12920,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         status: DataZoneClientTypes.EnvironmentStatus? = nil,
         updatedAt: Foundation.Date? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.awsAccountRegion = awsAccountRegion
         self.createdAt = createdAt
@@ -13265,8 +12965,7 @@ public struct GetEnvironmentActionInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.identifier = identifier
@@ -13299,8 +12998,7 @@ public struct GetEnvironmentActionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         parameters: DataZoneClientTypes.ActionParameters? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.environmentId = environmentId
@@ -13321,8 +13019,7 @@ public struct GetEnvironmentBlueprintInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -13365,8 +13062,7 @@ public struct GetEnvironmentBlueprintOutput: Swift.Sendable {
         provisioningProperties: DataZoneClientTypes.ProvisioningProperties? = nil,
         updatedAt: Foundation.Date? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.deploymentProperties = deploymentProperties
         self.description = description
@@ -13396,8 +13092,7 @@ public struct GetEnvironmentCredentialsInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
     }
@@ -13418,8 +13113,7 @@ public struct GetEnvironmentCredentialsOutput: Swift.Sendable {
         expiration: Foundation.Date? = nil,
         secretAccessKey: Swift.String? = nil,
         sessionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKeyId = accessKeyId
         self.expiration = expiration
         self.secretAccessKey = secretAccessKey
@@ -13444,8 +13138,7 @@ public struct GetEnvironmentProfileInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -13495,8 +13188,7 @@ public struct GetEnvironmentProfileOutput: Swift.Sendable {
         projectId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.awsAccountRegion = awsAccountRegion
         self.createdAt = createdAt
@@ -13528,8 +13220,7 @@ public struct GetGroupProfileInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         groupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.groupIdentifier = groupIdentifier
     }
@@ -13550,8 +13241,7 @@ public struct GetGroupProfileOutput: Swift.Sendable {
         groupName: Swift.String? = nil,
         id: Swift.String? = nil,
         status: DataZoneClientTypes.GroupProfileStatus? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.groupName = groupName
         self.id = id
@@ -13571,8 +13261,7 @@ public struct GetIamPortalLoginUrlInput: Swift.Sendable {
 
     public init(
         domainIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
     }
 }
@@ -13587,8 +13276,7 @@ public struct GetIamPortalLoginUrlOutput: Swift.Sendable {
     public init(
         authCodeUrl: Swift.String? = nil,
         userProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authCodeUrl = authCodeUrl
         self.userProfileId = userProfileId
     }
@@ -13605,8 +13293,7 @@ public struct GetJobRunInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -13633,8 +13320,7 @@ extension DataZoneClientTypes {
             queryEndTime: Foundation.Date? = nil,
             queryStartTime: Foundation.Date? = nil,
             totalQueriesProcessed: Swift.Int? = nil
-        )
-        {
+        ) {
             self.errorMessages = errorMessages
             self.numQueriesFailed = numQueriesFailed
             self.queryEndTime = queryEndTime
@@ -13653,8 +13339,7 @@ extension DataZoneClientTypes {
 
         public init(
             sqlQueryRunDetails: DataZoneClientTypes.LineageSqlQueryRunDetails? = nil
-        )
-        {
+        ) {
             self.sqlQueryRunDetails = sqlQueryRunDetails
         }
     }
@@ -13680,8 +13365,7 @@ extension DataZoneClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -13828,8 +13512,7 @@ public struct GetJobRunOutput: Swift.Sendable {
         runMode: DataZoneClientTypes.JobRunMode? = nil,
         startTime: Foundation.Date? = nil,
         status: DataZoneClientTypes.JobRunStatus? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.details = details
@@ -13856,8 +13539,7 @@ public struct GetLineageEventInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -13887,8 +13569,7 @@ public struct GetLineageEventOutput: Swift.Sendable {
         eventTime: Foundation.Date? = nil,
         id: Swift.String? = nil,
         processingStatus: DataZoneClientTypes.LineageEventProcessingStatus? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.domainId = domainId
@@ -13918,8 +13599,7 @@ public struct GetLineageNodeInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         eventTimestamp: Foundation.Date? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.eventTimestamp = eventTimestamp
         self.identifier = identifier
@@ -13938,8 +13618,7 @@ extension DataZoneClientTypes {
         public init(
             eventTimestamp: Foundation.Date? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventTimestamp = eventTimestamp
             self.id = id
         }
@@ -13997,8 +13676,7 @@ public struct GetLineageNodeOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil,
         upstreamNodes: [DataZoneClientTypes.LineageNodeReference]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -14028,8 +13706,7 @@ public struct GetProjectInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -14084,8 +13761,7 @@ public struct GetProjectOutput: Swift.Sendable {
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -14119,8 +13795,7 @@ public struct GetProjectProfileInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -14163,8 +13838,7 @@ public struct GetProjectProfileOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: DataZoneClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -14194,8 +13868,7 @@ public struct GetSubscriptionInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -14245,8 +13918,7 @@ public struct GetSubscriptionOutput: Swift.Sendable {
         subscriptionRequestId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.domainId = domainId
@@ -14272,8 +13944,7 @@ public struct GetSubscriptionGrantInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -14324,8 +13995,7 @@ public struct GetSubscriptionGrantOutput: Swift.Sendable {
         subscriptionTargetId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.assets = assets
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -14351,8 +14021,7 @@ public struct GetSubscriptionRequestDetailsInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -14412,8 +14081,7 @@ public struct GetSubscriptionRequestDetailsOutput: Swift.Sendable {
         subscribedPrincipals: [DataZoneClientTypes.SubscribedPrincipal]? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.decisionComment = decisionComment
@@ -14451,8 +14119,7 @@ public struct GetSubscriptionTargetInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.identifier = identifier
@@ -14519,8 +14186,7 @@ public struct GetSubscriptionTargetOutput: Swift.Sendable {
         type: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicableAssetTypes = applicableAssetTypes
         self.authorizedPrincipals = authorizedPrincipals
         self.createdAt = createdAt
@@ -14567,8 +14233,7 @@ public struct GetTimeSeriesDataPointInput: Swift.Sendable {
         entityType: DataZoneClientTypes.TimeSeriesEntityType? = nil,
         formName: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.entityIdentifier = entityIdentifier
         self.entityType = entityType
@@ -14604,8 +14269,7 @@ extension DataZoneClientTypes {
             timestamp: Foundation.Date? = nil,
             typeIdentifier: Swift.String? = nil,
             typeRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.formName = formName
             self.id = id
@@ -14634,8 +14298,7 @@ public struct GetTimeSeriesDataPointOutput: Swift.Sendable {
         entityType: DataZoneClientTypes.TimeSeriesEntityType? = nil,
         form: DataZoneClientTypes.TimeSeriesDataPointFormOutput? = nil,
         formName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.entityId = entityId
         self.entityType = entityType
@@ -14658,8 +14321,7 @@ public struct GetUserProfileInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         type: DataZoneClientTypes.UserProfileType? = nil,
         userIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.type = type
         self.userIdentifier = userIdentifier
@@ -14684,8 +14346,7 @@ public struct GetUserProfileOutput: Swift.Sendable {
         id: Swift.String? = nil,
         status: DataZoneClientTypes.UserProfileStatus? = nil,
         type: DataZoneClientTypes.UserProfileType? = nil
-    )
-    {
+    ) {
         self.details = details
         self.domainId = domainId
         self.id = id
@@ -14705,8 +14366,7 @@ public struct DeleteGlossaryInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -14728,8 +14388,7 @@ public struct GetGlossaryInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -14773,8 +14432,7 @@ public struct GetGlossaryOutput: Swift.Sendable {
         status: DataZoneClientTypes.GlossaryStatus? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -14816,8 +14474,7 @@ public struct UpdateGlossaryInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         name: Swift.String? = nil,
         status: DataZoneClientTypes.GlossaryStatus? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.domainIdentifier = domainIdentifier
@@ -14857,8 +14514,7 @@ public struct UpdateGlossaryOutput: Swift.Sendable {
         name: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
         status: DataZoneClientTypes.GlossaryStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.id = id
@@ -14884,8 +14540,7 @@ public struct DeleteGlossaryTermInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -14907,8 +14562,7 @@ public struct GetGlossaryTermInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -14958,8 +14612,7 @@ public struct GetGlossaryTermOutput: Swift.Sendable {
         termRelations: DataZoneClientTypes.TermRelations? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.domainId = domainId
@@ -15009,8 +14662,7 @@ public struct UpdateGlossaryTermInput: Swift.Sendable {
         shortDescription: Swift.String? = nil,
         status: DataZoneClientTypes.GlossaryTermStatus? = nil,
         termRelations: DataZoneClientTypes.TermRelations? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.glossaryIdentifier = glossaryIdentifier
         self.identifier = identifier
@@ -15059,8 +14711,7 @@ public struct UpdateGlossaryTermOutput: Swift.Sendable {
         shortDescription: Swift.String? = nil,
         status: DataZoneClientTypes.GlossaryTermStatus? = nil,
         termRelations: DataZoneClientTypes.TermRelations? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.glossaryId = glossaryId
         self.id = id
@@ -15097,8 +14748,7 @@ public struct ListAssetFiltersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: DataZoneClientTypes.FilterStatus? = nil
-    )
-    {
+    ) {
         self.assetIdentifier = assetIdentifier
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
@@ -15117,8 +14767,7 @@ public struct ListAssetFiltersOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.AssetFilterSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -15141,8 +14790,7 @@ public struct ListAssetRevisionsInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.maxResults = maxResults
@@ -15159,8 +14807,7 @@ public struct ListAssetRevisionsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.AssetRevision]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -15253,8 +14900,7 @@ public struct ListConnectionsInput: Swift.Sendable {
         sortBy: DataZoneClientTypes.SortFieldConnection? = nil,
         sortOrder: DataZoneClientTypes.SortOrder? = nil,
         type: DataZoneClientTypes.ConnectionType? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.maxResults = maxResults
@@ -15277,8 +14923,7 @@ public struct ListConnectionsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.ConnectionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -15301,8 +14946,7 @@ public struct ListDataProductRevisionsInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.maxResults = maxResults
@@ -15320,8 +14964,7 @@ public struct ListDataProductRevisionsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.DataProductRevision]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -15347,8 +14990,7 @@ public struct ListDataSourceRunActivitiesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: DataZoneClientTypes.DataAssetActivityStatus? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.maxResults = maxResults
@@ -15367,8 +15009,7 @@ public struct ListDataSourceRunActivitiesOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.DataSourceRunActivity]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -15395,8 +15036,7 @@ public struct ListEntityOwnersInput: Swift.Sendable {
         entityType: DataZoneClientTypes.DataZoneEntityType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.entityIdentifier = entityIdentifier
         self.entityType = entityType
@@ -15414,8 +15054,7 @@ extension DataZoneClientTypes {
 
         public init(
             groupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
         }
     }
@@ -15430,8 +15069,7 @@ extension DataZoneClientTypes {
 
         public init(
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userId = userId
         }
     }
@@ -15459,8 +15097,7 @@ public struct ListEntityOwnersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         owners: [DataZoneClientTypes.OwnerPropertiesOutput]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.owners = owners
     }
@@ -15483,8 +15120,7 @@ public struct ListEnvironmentActionsInput: Swift.Sendable {
         environmentIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.maxResults = maxResults
@@ -15521,8 +15157,7 @@ extension DataZoneClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             parameters: DataZoneClientTypes.ActionParameters? = nil
-        )
-        {
+        ) {
             self.description = description
             self.domainId = domainId
             self.environmentId = environmentId
@@ -15542,8 +15177,7 @@ public struct ListEnvironmentActionsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.EnvironmentActionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -15568,8 +15202,7 @@ public struct ListEnvironmentBlueprintsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.managed = managed
         self.maxResults = maxResults
@@ -15609,8 +15242,7 @@ extension DataZoneClientTypes {
             provider: Swift.String? = nil,
             provisioningProperties: DataZoneClientTypes.ProvisioningProperties? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.id = id
@@ -15637,8 +15269,7 @@ public struct ListEnvironmentBlueprintsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.EnvironmentBlueprintSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -15672,8 +15303,7 @@ public struct ListEnvironmentProfilesInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         projectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.awsAccountRegion = awsAccountRegion
         self.domainIdentifier = domainIdentifier
@@ -15734,8 +15364,7 @@ extension DataZoneClientTypes {
             name: Swift.String? = nil,
             projectId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
             self.createdAt = createdAt
@@ -15766,8 +15395,7 @@ public struct ListEnvironmentProfilesOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.EnvironmentProfileSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -15811,8 +15439,7 @@ public struct ListEnvironmentsInput: Swift.Sendable {
         projectIdentifier: Swift.String? = nil,
         provider: Swift.String? = nil,
         status: DataZoneClientTypes.EnvironmentStatus? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.awsAccountRegion = awsAccountRegion
         self.domainIdentifier = domainIdentifier
@@ -15877,8 +15504,7 @@ extension DataZoneClientTypes {
             provider: Swift.String? = nil,
             status: DataZoneClientTypes.EnvironmentStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
             self.createdAt = createdAt
@@ -15911,8 +15537,7 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.EnvironmentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -15929,8 +15554,7 @@ public struct DeleteListingInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -15955,8 +15579,7 @@ public struct GetListingInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         listingRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.listingRevision = listingRevision
@@ -16014,8 +15637,7 @@ public struct GetListingOutput: Swift.Sendable {
         status: DataZoneClientTypes.ListingStatus? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -16058,8 +15680,7 @@ public struct ListJobRunsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortOrder: DataZoneClientTypes.SortOrder? = nil,
         status: DataZoneClientTypes.JobRunStatus? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.jobIdentifier = jobIdentifier
         self.maxResults = maxResults
@@ -16108,8 +15729,7 @@ extension DataZoneClientTypes {
             runMode: DataZoneClientTypes.JobRunMode? = nil,
             startTime: Foundation.Date? = nil,
             status: DataZoneClientTypes.JobRunStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -16134,8 +15754,7 @@ public struct ListJobRunsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.JobRunSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -16166,8 +15785,7 @@ public struct ListLineageEventsInput: Swift.Sendable {
         sortOrder: DataZoneClientTypes.SortOrder? = nil,
         timestampAfter: Foundation.Date? = nil,
         timestampBefore: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16231,8 +15849,7 @@ extension DataZoneClientTypes {
         public init(
             name: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.namespace = namespace
         }
@@ -16260,8 +15877,7 @@ extension DataZoneClientTypes {
             job: DataZoneClientTypes.NameIdentifier? = nil,
             outputs: [DataZoneClientTypes.NameIdentifier]? = nil,
             runId: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventType = eventType
             self.inputs = inputs
             self.job = job
@@ -16308,8 +15924,7 @@ extension DataZoneClientTypes {
             eventTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             processingStatus: DataZoneClientTypes.LineageEventProcessingStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -16330,8 +15945,7 @@ public struct ListLineageEventsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.LineageEventSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -16395,8 +16009,7 @@ public struct ListLineageNodeHistoryInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: DataZoneClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.direction = direction
         self.domainIdentifier = domainIdentifier
         self.eventTimestampGTE = eventTimestampGTE
@@ -16453,8 +16066,7 @@ extension DataZoneClientTypes {
             typeRevision: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -16480,8 +16092,7 @@ public struct ListLineageNodeHistoryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         nodes: [DataZoneClientTypes.LineageNodeSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.nodes = nodes
     }
@@ -16574,8 +16185,7 @@ public struct ListNotificationsInput: Swift.Sendable {
         subjects: [Swift.String]? = nil,
         taskStatus: DataZoneClientTypes.TaskStatus? = nil,
         type: DataZoneClientTypes.NotificationType? = nil
-    )
-    {
+    ) {
         self.afterTimestamp = afterTimestamp
         self.beforeTimestamp = beforeTimestamp
         self.domainIdentifier = domainIdentifier
@@ -16630,8 +16240,7 @@ extension DataZoneClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             type: DataZoneClientTypes.NotificationResourceType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.type = type
@@ -16695,8 +16304,7 @@ extension DataZoneClientTypes {
             resource: DataZoneClientTypes.NotificationResource? = nil,
             role: DataZoneClientTypes.NotificationRole? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.resource = resource
             self.role = role
             self.subject = subject
@@ -16752,8 +16360,7 @@ extension DataZoneClientTypes {
             title: Swift.String? = nil,
             topic: DataZoneClientTypes.Topic? = nil,
             type: DataZoneClientTypes.NotificationType? = nil
-        )
-        {
+        ) {
             self.actionLink = actionLink
             self.creationTimestamp = creationTimestamp
             self.domainIdentifier = domainIdentifier
@@ -16783,8 +16390,7 @@ public struct ListNotificationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notifications: [DataZoneClientTypes.NotificationOutput]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notifications = notifications
     }
@@ -16815,8 +16421,7 @@ public struct ListPolicyGrantsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         policyType: DataZoneClientTypes.ManagedPolicyType? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.entityIdentifier = entityIdentifier
         self.entityType = entityType
@@ -16844,8 +16449,7 @@ extension DataZoneClientTypes {
             createdBy: Swift.String? = nil,
             detail: DataZoneClientTypes.PolicyGrantDetail? = nil,
             principal: DataZoneClientTypes.PolicyGrantPrincipal? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.detail = detail
@@ -16864,8 +16468,7 @@ public struct ListPolicyGrantsOutput: Swift.Sendable {
     public init(
         grantList: [DataZoneClientTypes.PolicyGrantMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantList = grantList
         self.nextToken = nextToken
     }
@@ -16920,8 +16523,7 @@ public struct ListProjectMembershipsInput: Swift.Sendable {
         projectIdentifier: Swift.String? = nil,
         sortBy: DataZoneClientTypes.SortFieldProject? = nil,
         sortOrder: DataZoneClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16941,8 +16543,7 @@ extension DataZoneClientTypes {
 
         public init(
             groupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
         }
     }
@@ -16958,8 +16559,7 @@ extension DataZoneClientTypes {
 
         public init(
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userId = userId
         }
     }
@@ -16991,8 +16591,7 @@ extension DataZoneClientTypes {
         public init(
             designation: DataZoneClientTypes.UserDesignation? = nil,
             memberDetails: DataZoneClientTypes.MemberDetails? = nil
-        )
-        {
+        ) {
             self.designation = designation
             self.memberDetails = memberDetails
         }
@@ -17009,8 +16608,7 @@ public struct ListProjectMembershipsOutput: Swift.Sendable {
     public init(
         members: [DataZoneClientTypes.ProjectMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.members = members
         self.nextToken = nextToken
     }
@@ -17038,8 +16636,7 @@ public struct ListProjectProfilesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: DataZoneClientTypes.SortFieldProject? = nil,
         sortOrder: DataZoneClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
         self.name = name
@@ -17091,8 +16688,7 @@ extension DataZoneClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: DataZoneClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -17120,8 +16716,7 @@ public struct ListProjectProfilesOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.ProjectProfileSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -17149,8 +16744,7 @@ public struct ListProjectsInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         userIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.groupIdentifier = groupIdentifier
         self.maxResults = maxResults
@@ -17205,8 +16799,7 @@ extension DataZoneClientTypes {
             name: Swift.String? = nil,
             projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -17235,8 +16828,7 @@ public struct ListProjectsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.ProjectSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -17305,8 +16897,7 @@ public struct ListSubscriptionGrantsInput: Swift.Sendable {
         subscribedListingId: Swift.String? = nil,
         subscriptionId: Swift.String? = nil,
         subscriptionTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentId = environmentId
         self.maxResults = maxResults
@@ -17368,8 +16959,7 @@ extension DataZoneClientTypes {
             subscriptionTargetId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.assets = assets
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -17395,8 +16985,7 @@ public struct ListSubscriptionGrantsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.SubscriptionGrantSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -17433,8 +17022,7 @@ public struct ListSubscriptionRequestsInput: Swift.Sendable {
         sortOrder: DataZoneClientTypes.SortOrder? = nil,
         status: DataZoneClientTypes.SubscriptionRequestStatus? = nil,
         subscribedListingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.approverProjectId = approverProjectId
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
@@ -17464,8 +17052,7 @@ extension DataZoneClientTypes {
             formName: Swift.String? = nil,
             typeName: Swift.String? = nil,
             typeRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.formName = formName
             self.typeName = typeName
             self.typeRevision = typeRevision
@@ -17535,8 +17122,7 @@ extension DataZoneClientTypes {
             subscribedPrincipals: [DataZoneClientTypes.SubscribedPrincipal]? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.decisionComment = decisionComment
@@ -17570,8 +17156,7 @@ public struct ListSubscriptionRequestsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.SubscriptionRequestSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -17611,8 +17196,7 @@ public struct ListSubscriptionsInput: Swift.Sendable {
         status: DataZoneClientTypes.SubscriptionStatus? = nil,
         subscribedListingId: Swift.String? = nil,
         subscriptionRequestIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.approverProjectId = approverProjectId
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
@@ -17673,8 +17257,7 @@ extension DataZoneClientTypes {
             subscriptionRequestId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -17700,8 +17283,7 @@ public struct ListSubscriptionsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.SubscriptionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -17730,8 +17312,7 @@ public struct ListSubscriptionTargetsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: DataZoneClientTypes.SortKey? = nil,
         sortOrder: DataZoneClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.maxResults = maxResults
@@ -17804,8 +17385,7 @@ extension DataZoneClientTypes {
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
             self.createdAt = createdAt
@@ -17840,8 +17420,7 @@ public struct ListSubscriptionTargetsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.SubscriptionTargetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -17854,8 +17433,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -17866,8 +17444,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -17903,8 +17480,7 @@ public struct ListTimeSeriesDataPointsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.endedAt = endedAt
         self.entityIdentifier = entityIdentifier
@@ -17925,8 +17501,7 @@ public struct ListTimeSeriesDataPointsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -17943,8 +17518,7 @@ public struct GetMetadataGenerationRunInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -18031,8 +17605,7 @@ extension DataZoneClientTypes {
             identifier: Swift.String? = nil,
             revision: Swift.String? = nil,
             type: DataZoneClientTypes.MetadataGenerationTargetType? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.revision = revision
             self.type = type
@@ -18096,8 +17669,7 @@ public struct GetMetadataGenerationRunOutput: Swift.Sendable {
         status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
         target: DataZoneClientTypes.MetadataGenerationRunTarget? = nil,
         type: DataZoneClientTypes.MetadataGenerationRunType? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.domainId = domainId
@@ -18128,8 +17700,7 @@ public struct ListMetadataGenerationRunsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
         type: DataZoneClientTypes.MetadataGenerationRunType? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -18171,8 +17742,7 @@ extension DataZoneClientTypes {
             status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
             target: DataZoneClientTypes.MetadataGenerationRunTarget? = nil,
             type: DataZoneClientTypes.MetadataGenerationRunType? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -18194,8 +17764,7 @@ public struct ListMetadataGenerationRunsOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.MetadataGenerationRunItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -18223,8 +17792,7 @@ public struct StartMetadataGenerationRunInput: Swift.Sendable {
         owningProjectIdentifier: Swift.String? = nil,
         target: DataZoneClientTypes.MetadataGenerationRunTarget? = nil,
         type: DataZoneClientTypes.MetadataGenerationRunType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.owningProjectIdentifier = owningProjectIdentifier
@@ -18259,8 +17827,7 @@ public struct StartMetadataGenerationRunOutput: Swift.Sendable {
         owningProjectId: Swift.String? = nil,
         status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
         type: DataZoneClientTypes.MetadataGenerationRunType? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.domainId = domainId
@@ -18285,8 +17852,7 @@ public struct PostLineageEventInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         event: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.event = event
@@ -18307,8 +17873,7 @@ public struct PostLineageEventOutput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.id = id
     }
@@ -18338,8 +17903,7 @@ extension DataZoneClientTypes {
             timestamp: Foundation.Date? = nil,
             typeIdentifier: Swift.String? = nil,
             typeRevision: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.formName = formName
             self.timestamp = timestamp
@@ -18371,8 +17935,7 @@ public struct PostTimeSeriesDataPointsInput: Swift.Sendable {
         entityIdentifier: Swift.String? = nil,
         entityType: DataZoneClientTypes.TimeSeriesEntityType? = nil,
         forms: [DataZoneClientTypes.TimeSeriesDataPointFormInput]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.entityIdentifier = entityIdentifier
@@ -18396,8 +17959,7 @@ public struct PostTimeSeriesDataPointsOutput: Swift.Sendable {
         entityId: Swift.String? = nil,
         entityType: DataZoneClientTypes.TimeSeriesEntityType? = nil,
         forms: [DataZoneClientTypes.TimeSeriesDataPointFormOutput]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.entityId = entityId
         self.entityType = entityType
@@ -18418,8 +17980,7 @@ extension DataZoneClientTypes {
         public init(
             predictionChoices: [Swift.Int]? = nil,
             predictionTarget: Swift.String? = nil
-        )
-        {
+        ) {
             self.predictionChoices = predictionChoices
             self.predictionTarget = predictionTarget
         }
@@ -18467,8 +18028,7 @@ extension DataZoneClientTypes {
         public init(
             rule: DataZoneClientTypes.RejectRuleBehavior? = nil,
             threshold: Swift.Float? = nil
-        )
-        {
+        ) {
             self.rule = rule
             self.threshold = threshold
         }
@@ -18498,8 +18058,7 @@ public struct RejectPredictionsInput: Swift.Sendable {
         rejectChoices: [DataZoneClientTypes.RejectChoice]? = nil,
         rejectRule: DataZoneClientTypes.RejectRule? = nil,
         revision: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
@@ -18524,8 +18083,7 @@ public struct RejectPredictionsOutput: Swift.Sendable {
         assetId: Swift.String? = nil,
         assetRevision: Swift.String? = nil,
         domainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.assetRevision = assetRevision
         self.domainId = domainId
@@ -18546,8 +18104,7 @@ public struct RejectSubscriptionRequestInput: Swift.Sendable {
         decisionComment: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.decisionComment = decisionComment
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
@@ -18613,8 +18170,7 @@ public struct RejectSubscriptionRequestOutput: Swift.Sendable {
         subscribedPrincipals: [DataZoneClientTypes.SubscribedPrincipal]? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.decisionComment = decisionComment
@@ -18659,8 +18215,7 @@ public struct RemoveEntityOwnerInput: Swift.Sendable {
         entityIdentifier: Swift.String? = nil,
         entityType: DataZoneClientTypes.DataZoneEntityType? = nil,
         owner: DataZoneClientTypes.OwnerProperties? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.entityIdentifier = entityIdentifier
@@ -18700,8 +18255,7 @@ public struct RemovePolicyGrantInput: Swift.Sendable {
         entityType: DataZoneClientTypes.TargetEntityType? = nil,
         policyType: DataZoneClientTypes.ManagedPolicyType? = nil,
         principal: DataZoneClientTypes.PolicyGrantPrincipal? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.entityIdentifier = entityIdentifier
@@ -18730,8 +18284,7 @@ public struct RevokeSubscriptionInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         retainPermissions: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.retainPermissions = retainPermissions
@@ -18782,8 +18335,7 @@ public struct RevokeSubscriptionOutput: Swift.Sendable {
         subscriptionRequestId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.domainId = domainId
@@ -18809,8 +18361,7 @@ public struct DeleteRuleInput: Swift.Sendable {
     public init(
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
@@ -18835,8 +18386,7 @@ public struct GetRuleInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         revision: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.revision = revision
@@ -18900,8 +18450,7 @@ public struct GetRuleOutput: Swift.Sendable {
         target: DataZoneClientTypes.RuleTarget? = nil,
         targetType: DataZoneClientTypes.RuleTargetType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.action = action
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -18963,8 +18512,7 @@ public struct ListRulesInput: Swift.Sendable {
         ruleType: DataZoneClientTypes.RuleType? = nil,
         targetIdentifier: Swift.String? = nil,
         targetType: DataZoneClientTypes.RuleTargetType? = nil
-    )
-    {
+    ) {
         self.action = action
         self.assetTypes = assetTypes
         self.dataProduct = dataProduct
@@ -19015,8 +18563,7 @@ extension DataZoneClientTypes {
             target: DataZoneClientTypes.RuleTarget? = nil,
             targetType: DataZoneClientTypes.RuleTargetType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.action = action
             self.identifier = identifier
             self.lastUpdatedBy = lastUpdatedBy
@@ -19046,8 +18593,7 @@ public struct ListRulesOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.RuleSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -19079,8 +18625,7 @@ public struct UpdateRuleInput: Swift.Sendable {
         includeChildDomainUnits: Swift.Bool? = nil,
         name: Swift.String? = nil,
         scope: DataZoneClientTypes.RuleScope? = nil
-    )
-    {
+    ) {
         self.description = description
         self.detail = detail
         self.domainIdentifier = domainIdentifier
@@ -19150,8 +18695,7 @@ public struct UpdateRuleOutput: Swift.Sendable {
         scope: DataZoneClientTypes.RuleScope? = nil,
         target: DataZoneClientTypes.RuleTarget? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.action = action
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -19216,8 +18760,7 @@ extension DataZoneClientTypes {
         public init(
             attribute: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.value = value
         }
@@ -19234,8 +18777,7 @@ extension DataZoneClientTypes {
 
         public init(
             attribute: Swift.String? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
         }
     }
@@ -19289,8 +18831,7 @@ extension DataZoneClientTypes {
         public init(
             attribute: Swift.String? = nil,
             order: DataZoneClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -19338,8 +18879,7 @@ extension DataZoneClientTypes {
             status: DataZoneClientTypes.GlossaryStatus? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -19406,8 +18946,7 @@ extension DataZoneClientTypes {
             termRelations: DataZoneClientTypes.TermRelations? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -19457,8 +18996,7 @@ public struct SearchOutput: Swift.Sendable {
         items: [DataZoneClientTypes.SearchInventoryResultItem]? = nil,
         nextToken: Swift.String? = nil,
         totalMatchCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
         self.totalMatchCount = totalMatchCount
@@ -19514,8 +19052,7 @@ public struct SearchGroupProfilesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchText: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.groupType = groupType
         self.maxResults = maxResults
@@ -19547,8 +19084,7 @@ extension DataZoneClientTypes {
             groupName: Swift.String? = nil,
             id: Swift.String? = nil,
             status: DataZoneClientTypes.GroupProfileStatus? = nil
-        )
-        {
+        ) {
             self.domainId = domainId
             self.groupName = groupName
             self.id = id
@@ -19571,8 +19107,7 @@ public struct SearchGroupProfilesOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.GroupProfileSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -19602,8 +19137,7 @@ public struct SearchListingsOutput: Swift.Sendable {
         items: [DataZoneClientTypes.SearchResultItem]? = nil,
         nextToken: Swift.String? = nil,
         totalMatchCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
         self.totalMatchCount = totalMatchCount
@@ -19687,8 +19221,7 @@ extension DataZoneClientTypes {
             owningProjectId: Swift.String? = nil,
             revision: Swift.String? = nil,
             status: DataZoneClientTypes.FormTypeStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -19746,8 +19279,7 @@ extension DataZoneClientTypes {
             revision: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -19787,8 +19319,7 @@ public struct SearchTypesOutput: Swift.Sendable {
         items: [DataZoneClientTypes.SearchTypesResultItem]? = nil,
         nextToken: Swift.String? = nil,
         totalMatchCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
         self.totalMatchCount = totalMatchCount
@@ -19850,8 +19381,7 @@ public struct SearchUserProfilesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchText: Swift.String? = nil,
         userType: DataZoneClientTypes.UserSearchType? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -19886,8 +19416,7 @@ extension DataZoneClientTypes {
             id: Swift.String? = nil,
             status: DataZoneClientTypes.UserProfileStatus? = nil,
             type: DataZoneClientTypes.UserProfileType? = nil
-        )
-        {
+        ) {
             self.details = details
             self.domainId = domainId
             self.id = id
@@ -19906,8 +19435,7 @@ public struct SearchUserProfilesOutput: Swift.Sendable {
     public init(
         items: [DataZoneClientTypes.UserProfileSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -19924,8 +19452,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -19955,8 +19482,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19972,8 +19498,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -20004,8 +19529,7 @@ public struct UpdateConnectionInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         props: DataZoneClientTypes.ConnectionPropertiesPatch? = nil
-    )
-    {
+    ) {
         self.awsLocation = awsLocation
         self.description = description
         self.domainIdentifier = domainIdentifier
@@ -20058,8 +19582,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         projectId: Swift.String? = nil,
         props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
         type: DataZoneClientTypes.ConnectionType? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.description = description
         self.domainId = domainId
@@ -20098,8 +19621,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         glossaryTerms: [Swift.String]? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.glossaryTerms = glossaryTerms
@@ -20179,8 +19701,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
         status: DataZoneClientTypes.EnvironmentStatus? = nil,
         updatedAt: Foundation.Date? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.awsAccountRegion = awsAccountRegion
         self.createdAt = createdAt
@@ -20234,8 +19755,7 @@ public struct UpdateEnvironmentActionInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         name: Swift.String? = nil,
         parameters: DataZoneClientTypes.ActionParameters? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
@@ -20271,8 +19791,7 @@ public struct UpdateEnvironmentActionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         parameters: DataZoneClientTypes.ActionParameters? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.environmentId = environmentId
@@ -20308,8 +19827,7 @@ public struct UpdateEnvironmentProfileInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         name: Swift.String? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentParameter]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.awsAccountRegion = awsAccountRegion
         self.description = description
@@ -20369,8 +19887,7 @@ public struct UpdateEnvironmentProfileOutput: Swift.Sendable {
         projectId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.awsAccountRegion = awsAccountRegion
         self.createdAt = createdAt
@@ -20406,8 +19923,7 @@ public struct UpdateGroupProfileInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         groupIdentifier: Swift.String? = nil,
         status: DataZoneClientTypes.GroupProfileStatus? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.groupIdentifier = groupIdentifier
         self.status = status
@@ -20429,8 +19945,7 @@ public struct UpdateGroupProfileOutput: Swift.Sendable {
         groupName: Swift.String? = nil,
         id: Swift.String? = nil,
         status: DataZoneClientTypes.GroupProfileStatus? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.groupName = groupName
         self.id = id
@@ -20466,8 +19981,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         glossaryTerms: [Swift.String]? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.environmentDeploymentDetails = environmentDeploymentDetails
@@ -20531,8 +20045,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -20581,8 +20094,7 @@ public struct UpdateProjectProfileInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         name: Swift.String? = nil,
         status: DataZoneClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.domainUnitIdentifier = domainUnitIdentifier
@@ -20635,8 +20147,7 @@ public struct UpdateProjectProfileOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: DataZoneClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -20680,8 +20191,7 @@ public struct UpdateSubscriptionGrantStatusInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         status: DataZoneClientTypes.SubscriptionGrantStatus? = nil,
         targetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetIdentifier = assetIdentifier
         self.domainIdentifier = domainIdentifier
         self.failureCause = failureCause
@@ -20736,8 +20246,7 @@ public struct UpdateSubscriptionGrantStatusOutput: Swift.Sendable {
         subscriptionTargetId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.assets = assets
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -20767,8 +20276,7 @@ public struct UpdateSubscriptionRequestInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         requestReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
         self.requestReason = requestReason
@@ -20834,8 +20342,7 @@ public struct UpdateSubscriptionRequestOutput: Swift.Sendable {
         subscribedPrincipals: [DataZoneClientTypes.SubscribedPrincipal]? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.decisionComment = decisionComment
@@ -20891,8 +20398,7 @@ public struct UpdateSubscriptionTargetInput: Swift.Sendable {
         name: Swift.String? = nil,
         provider: Swift.String? = nil,
         subscriptionTargetConfig: [DataZoneClientTypes.SubscriptionTargetForm]? = nil
-    )
-    {
+    ) {
         self.applicableAssetTypes = applicableAssetTypes
         self.authorizedPrincipals = authorizedPrincipals
         self.domainIdentifier = domainIdentifier
@@ -20970,8 +20476,7 @@ public struct UpdateSubscriptionTargetOutput: Swift.Sendable {
         type: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicableAssetTypes = applicableAssetTypes
         self.authorizedPrincipals = authorizedPrincipals
         self.createdAt = createdAt
@@ -21013,8 +20518,7 @@ public struct UpdateUserProfileInput: Swift.Sendable {
         status: DataZoneClientTypes.UserProfileStatus? = nil,
         type: DataZoneClientTypes.UserProfileType? = nil,
         userIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.status = status
         self.type = type
@@ -21040,8 +20544,7 @@ public struct UpdateUserProfileOutput: Swift.Sendable {
         id: Swift.String? = nil,
         status: DataZoneClientTypes.UserProfileStatus? = nil,
         type: DataZoneClientTypes.UserProfileType? = nil
-    )
-    {
+    ) {
         self.details = details
         self.domainId = domainId
         self.id = id
@@ -21091,8 +20594,7 @@ extension DataZoneClientTypes {
         public init(
             rowFilter: DataZoneClientTypes.RowFilter? = nil,
             sensitive: Swift.Bool? = true
-        )
-        {
+        ) {
             self.rowFilter = rowFilter
             self.sensitive = sensitive
         }
@@ -21134,8 +20636,7 @@ public struct SearchInput: Swift.Sendable {
         searchScope: DataZoneClientTypes.InventorySearchScope? = nil,
         searchText: Swift.String? = nil,
         sort: DataZoneClientTypes.SearchSort? = nil
-    )
-    {
+    ) {
         self.additionalAttributes = additionalAttributes
         self.domainIdentifier = domainIdentifier
         self.filters = filters
@@ -21177,8 +20678,7 @@ public struct SearchListingsInput: Swift.Sendable {
         searchIn: [DataZoneClientTypes.SearchInItem]? = nil,
         searchText: Swift.String? = nil,
         sort: DataZoneClientTypes.SearchSort? = nil
-    )
-    {
+    ) {
         self.additionalAttributes = additionalAttributes
         self.domainIdentifier = domainIdentifier
         self.filters = filters
@@ -21223,8 +20723,7 @@ public struct SearchTypesInput: Swift.Sendable {
         searchScope: DataZoneClientTypes.TypesSearchScope? = nil,
         searchText: Swift.String? = nil,
         sort: DataZoneClientTypes.SearchSort? = nil
-    )
-    {
+    ) {
         self.domainIdentifier = domainIdentifier
         self.filters = filters
         self.managed = managed
@@ -21274,8 +20773,7 @@ public struct CreateAssetFilterInput: Swift.Sendable {
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetIdentifier = assetIdentifier
         self.clientToken = clientToken
         self.configuration = configuration
@@ -21331,8 +20829,7 @@ public struct CreateAssetFilterOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: DataZoneClientTypes.FilterStatus? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.configuration = configuration
         self.createdAt = createdAt
@@ -21393,8 +20890,7 @@ public struct GetAssetFilterOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: DataZoneClientTypes.FilterStatus? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.configuration = configuration
         self.createdAt = createdAt
@@ -21438,8 +20934,7 @@ public struct UpdateAssetFilterInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetIdentifier = assetIdentifier
         self.configuration = configuration
         self.description = description
@@ -21495,8 +20990,7 @@ public struct UpdateAssetFilterOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: DataZoneClientTypes.FilterStatus? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.configuration = configuration
         self.createdAt = createdAt

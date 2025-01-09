@@ -43,8 +43,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -62,8 +61,7 @@ extension PaymentCryptographyClientTypes {
         public init(
             aliasName: Swift.String? = nil,
             keyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.aliasName = aliasName
             self.keyArn = keyArn
         }
@@ -88,8 +86,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -112,8 +109,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +133,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.resourceId = resourceId
     }
 }
@@ -161,8 +156,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -185,8 +179,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -209,8 +202,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -233,8 +225,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -249,8 +240,7 @@ public struct CreateAliasInput: Swift.Sendable {
     public init(
         aliasName: Swift.String? = nil,
         keyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.keyArn = keyArn
     }
@@ -263,8 +253,7 @@ public struct CreateAliasOutput: Swift.Sendable {
 
     public init(
         alias: PaymentCryptographyClientTypes.Alias? = nil
-    )
-    {
+    ) {
         self.alias = alias
     }
 }
@@ -276,8 +265,7 @@ public struct DeleteAliasInput: Swift.Sendable {
 
     public init(
         aliasName: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
     }
 }
@@ -294,8 +282,7 @@ public struct GetAliasInput: Swift.Sendable {
 
     public init(
         aliasName: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
     }
 }
@@ -307,8 +294,7 @@ public struct GetAliasOutput: Swift.Sendable {
 
     public init(
         alias: PaymentCryptographyClientTypes.Alias? = nil
-    )
-    {
+    ) {
         self.alias = alias
     }
 }
@@ -325,8 +311,7 @@ public struct ListAliasesInput: Swift.Sendable {
         keyArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyArn = keyArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -343,8 +328,7 @@ public struct ListAliasesOutput: Swift.Sendable {
     public init(
         aliases: [PaymentCryptographyClientTypes.Alias]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
         self.nextToken = nextToken
     }
@@ -360,8 +344,7 @@ public struct UpdateAliasInput: Swift.Sendable {
     public init(
         aliasName: Swift.String? = nil,
         keyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.keyArn = keyArn
     }
@@ -374,8 +357,7 @@ public struct UpdateAliasOutput: Swift.Sendable {
 
     public init(
         alias: PaymentCryptographyClientTypes.Alias? = nil
-    )
-    {
+    ) {
         self.alias = alias
     }
 }
@@ -501,8 +483,7 @@ extension PaymentCryptographyClientTypes {
             unwrap: Swift.Bool = false,
             verify: Swift.Bool = false,
             wrap: Swift.Bool = false
-        )
-        {
+        ) {
             self.decrypt = decrypt
             self.deriveKey = deriveKey
             self.encrypt = encrypt
@@ -630,8 +611,7 @@ extension PaymentCryptographyClientTypes {
             keyClass: PaymentCryptographyClientTypes.KeyClass? = nil,
             keyModesOfUse: PaymentCryptographyClientTypes.KeyModesOfUse? = nil,
             keyUsage: PaymentCryptographyClientTypes.KeyUsage? = nil
-        )
-        {
+        ) {
             self.keyAlgorithm = keyAlgorithm
             self.keyClass = keyClass
             self.keyModesOfUse = keyModesOfUse
@@ -683,8 +663,7 @@ extension PaymentCryptographyClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -711,8 +690,7 @@ public struct CreateKeyInput: Swift.Sendable {
         keyAttributes: PaymentCryptographyClientTypes.KeyAttributes? = nil,
         keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm? = nil,
         tags: [PaymentCryptographyClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.exportable = exportable
         self.keyAttributes = keyAttributes
@@ -841,8 +819,7 @@ extension PaymentCryptographyClientTypes {
             keyState: PaymentCryptographyClientTypes.KeyState? = nil,
             usageStartTimestamp: Foundation.Date? = nil,
             usageStopTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createTimestamp = createTimestamp
             self.deletePendingTimestamp = deletePendingTimestamp
             self.deleteTimestamp = deleteTimestamp
@@ -867,8 +844,7 @@ public struct CreateKeyOutput: Swift.Sendable {
 
     public init(
         key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
+    ) {
         self.key = key
     }
 }
@@ -883,8 +859,7 @@ public struct DeleteKeyInput: Swift.Sendable {
     public init(
         deleteKeyInDays: Swift.Int? = nil,
         keyIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteKeyInDays = deleteKeyInDays
         self.keyIdentifier = keyIdentifier
     }
@@ -897,8 +872,7 @@ public struct DeleteKeyOutput: Swift.Sendable {
 
     public init(
         key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
+    ) {
         self.key = key
     }
 }
@@ -913,8 +887,7 @@ extension PaymentCryptographyClientTypes {
 
         public init(
             keySerialNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.keySerialNumber = keySerialNumber
         }
     }
@@ -932,8 +905,7 @@ extension PaymentCryptographyClientTypes {
         public init(
             exportDukptInitialKey: PaymentCryptographyClientTypes.ExportDukptInitialKey? = nil,
             keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm? = nil
-        )
-        {
+        ) {
             self.exportDukptInitialKey = exportDukptInitialKey
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
         }
@@ -986,8 +958,7 @@ extension PaymentCryptographyClientTypes {
             certificateAuthorityPublicKeyIdentifier: Swift.String? = nil,
             wrappingKeyCertificate: Swift.String? = nil,
             wrappingSpec: PaymentCryptographyClientTypes.WrappingKeySpec? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.wrappingKeyCertificate = wrappingKeyCertificate
             self.wrappingSpec = wrappingSpec
@@ -1050,8 +1021,7 @@ extension PaymentCryptographyClientTypes {
             keyModesOfUse: PaymentCryptographyClientTypes.KeyModesOfUse? = nil,
             keyVersion: Swift.String? = nil,
             optionalBlocks: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.keyExportability = keyExportability
             self.keyModesOfUse = keyModesOfUse
             self.keyVersion = keyVersion
@@ -1078,8 +1048,7 @@ extension PaymentCryptographyClientTypes {
         public init(
             keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders? = nil,
             wrappingKeyIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyBlockHeaders = keyBlockHeaders
             self.wrappingKeyIdentifier = wrappingKeyIdentifier
         }
@@ -1140,8 +1109,7 @@ extension PaymentCryptographyClientTypes {
             keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders? = nil,
             randomNonce: Swift.String? = nil,
             wrappingKeyCertificate: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.exportToken = exportToken
             self.keyBlockFormat = keyBlockFormat
@@ -1185,8 +1153,7 @@ public struct ExportKeyInput: Swift.Sendable {
         exportAttributes: PaymentCryptographyClientTypes.ExportAttributes? = nil,
         exportKeyIdentifier: Swift.String? = nil,
         keyMaterial: PaymentCryptographyClientTypes.ExportKeyMaterial? = nil
-    )
-    {
+    ) {
         self.exportAttributes = exportAttributes
         self.exportKeyIdentifier = exportKeyIdentifier
         self.keyMaterial = keyMaterial
@@ -1249,8 +1216,7 @@ extension PaymentCryptographyClientTypes {
             keyMaterial: Swift.String? = nil,
             wrappedKeyMaterialFormat: PaymentCryptographyClientTypes.WrappedKeyMaterialFormat? = nil,
             wrappingKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyCheckValue = keyCheckValue
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
             self.keyMaterial = keyMaterial
@@ -1271,8 +1237,7 @@ public struct ExportKeyOutput: Swift.Sendable {
 
     public init(
         wrappedKey: PaymentCryptographyClientTypes.WrappedKey? = nil
-    )
-    {
+    ) {
         self.wrappedKey = wrappedKey
     }
 }
@@ -1284,8 +1249,7 @@ public struct GetKeyInput: Swift.Sendable {
 
     public init(
         keyIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyIdentifier = keyIdentifier
     }
 }
@@ -1297,8 +1261,7 @@ public struct GetKeyOutput: Swift.Sendable {
 
     public init(
         key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
+    ) {
         self.key = key
     }
 }
@@ -1352,8 +1315,7 @@ public struct GetParametersForExportInput: Swift.Sendable {
     public init(
         keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType? = nil,
         signingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm? = nil
-    )
-    {
+    ) {
         self.keyMaterialType = keyMaterialType
         self.signingKeyAlgorithm = signingKeyAlgorithm
     }
@@ -1382,8 +1344,7 @@ public struct GetParametersForExportOutput: Swift.Sendable {
         signingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm? = nil,
         signingKeyCertificate: Swift.String? = nil,
         signingKeyCertificateChain: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportToken = exportToken
         self.parametersValidUntilTimestamp = parametersValidUntilTimestamp
         self.signingKeyAlgorithm = signingKeyAlgorithm
@@ -1408,8 +1369,7 @@ public struct GetParametersForImportInput: Swift.Sendable {
     public init(
         keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType? = nil,
         wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm? = nil
-    )
-    {
+    ) {
         self.keyMaterialType = keyMaterialType
         self.wrappingKeyAlgorithm = wrappingKeyAlgorithm
     }
@@ -1438,8 +1398,7 @@ public struct GetParametersForImportOutput: Swift.Sendable {
         wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm? = nil,
         wrappingKeyCertificate: Swift.String? = nil,
         wrappingKeyCertificateChain: Swift.String? = nil
-    )
-    {
+    ) {
         self.importToken = importToken
         self.parametersValidUntilTimestamp = parametersValidUntilTimestamp
         self.wrappingKeyAlgorithm = wrappingKeyAlgorithm
@@ -1460,8 +1419,7 @@ public struct GetPublicKeyCertificateInput: Swift.Sendable {
 
     public init(
         keyIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyIdentifier = keyIdentifier
     }
 }
@@ -1477,8 +1435,7 @@ public struct GetPublicKeyCertificateOutput: Swift.Sendable {
     public init(
         keyCertificate: Swift.String? = nil,
         keyCertificateChain: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyCertificate = keyCertificate
         self.keyCertificateChain = keyCertificateChain
     }
@@ -1514,8 +1471,7 @@ extension PaymentCryptographyClientTypes {
             keyAttributes: PaymentCryptographyClientTypes.KeyAttributes? = nil,
             wrappedKeyCryptogram: Swift.String? = nil,
             wrappingSpec: PaymentCryptographyClientTypes.WrappingKeySpec? = nil
-        )
-        {
+        ) {
             self.exportable = exportable
             self.importToken = importToken
             self.keyAttributes = keyAttributes
@@ -1544,8 +1500,7 @@ extension PaymentCryptographyClientTypes {
         public init(
             keyAttributes: PaymentCryptographyClientTypes.KeyAttributes? = nil,
             publicKeyCertificate: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyAttributes = keyAttributes
             self.publicKeyCertificate = publicKeyCertificate
         }
@@ -1571,8 +1526,7 @@ extension PaymentCryptographyClientTypes {
         public init(
             wrappedKeyBlock: Swift.String? = nil,
             wrappingKeyIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.wrappedKeyBlock = wrappedKeyBlock
             self.wrappingKeyIdentifier = wrappingKeyIdentifier
         }
@@ -1613,8 +1567,7 @@ extension PaymentCryptographyClientTypes {
             randomNonce: Swift.String? = nil,
             signingKeyCertificate: Swift.String? = nil,
             wrappedKeyBlock: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.importToken = importToken
             self.keyBlockFormat = keyBlockFormat
@@ -1648,8 +1601,7 @@ extension PaymentCryptographyClientTypes {
             certificateAuthorityPublicKeyIdentifier: Swift.String? = nil,
             keyAttributes: PaymentCryptographyClientTypes.KeyAttributes? = nil,
             publicKeyCertificate: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.keyAttributes = keyAttributes
             self.publicKeyCertificate = publicKeyCertificate
@@ -1696,8 +1648,7 @@ public struct ImportKeyInput: Swift.Sendable {
         keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm? = nil,
         keyMaterial: PaymentCryptographyClientTypes.ImportKeyMaterial? = nil,
         tags: [PaymentCryptographyClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
         self.keyMaterial = keyMaterial
@@ -1712,8 +1663,7 @@ public struct ImportKeyOutput: Swift.Sendable {
 
     public init(
         key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
+    ) {
         self.key = key
     }
 }
@@ -1730,8 +1680,7 @@ public struct ListKeysInput: Swift.Sendable {
         keyState: PaymentCryptographyClientTypes.KeyState? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyState = keyState
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1768,8 +1717,7 @@ extension PaymentCryptographyClientTypes {
             keyAttributes: PaymentCryptographyClientTypes.KeyAttributes? = nil,
             keyCheckValue: Swift.String? = nil,
             keyState: PaymentCryptographyClientTypes.KeyState? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.exportable = exportable
             self.keyArn = keyArn
@@ -1790,8 +1738,7 @@ public struct ListKeysOutput: Swift.Sendable {
     public init(
         keys: [PaymentCryptographyClientTypes.KeySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.keys = keys
         self.nextToken = nextToken
     }
@@ -1804,8 +1751,7 @@ public struct RestoreKeyInput: Swift.Sendable {
 
     public init(
         keyIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyIdentifier = keyIdentifier
     }
 }
@@ -1817,8 +1763,7 @@ public struct RestoreKeyOutput: Swift.Sendable {
 
     public init(
         key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
+    ) {
         self.key = key
     }
 }
@@ -1830,8 +1775,7 @@ public struct StartKeyUsageInput: Swift.Sendable {
 
     public init(
         keyIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyIdentifier = keyIdentifier
     }
 }
@@ -1843,8 +1787,7 @@ public struct StartKeyUsageOutput: Swift.Sendable {
 
     public init(
         key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
+    ) {
         self.key = key
     }
 }
@@ -1856,8 +1799,7 @@ public struct StopKeyUsageInput: Swift.Sendable {
 
     public init(
         keyIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyIdentifier = keyIdentifier
     }
 }
@@ -1869,8 +1811,7 @@ public struct StopKeyUsageOutput: Swift.Sendable {
 
     public init(
         key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
+    ) {
         self.key = key
     }
 }
@@ -1888,8 +1829,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -1906,8 +1846,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [PaymentCryptographyClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -1924,8 +1863,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [PaymentCryptographyClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1947,8 +1885,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

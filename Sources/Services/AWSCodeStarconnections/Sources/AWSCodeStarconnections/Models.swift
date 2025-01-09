@@ -44,8 +44,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -123,8 +122,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -147,8 +145,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -171,8 +168,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -229,8 +225,7 @@ extension CodeStarconnectionsClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -253,8 +248,7 @@ public struct CreateConnectionInput: Swift.Sendable {
         hostArn: Swift.String? = nil,
         providerType: CodeStarconnectionsClientTypes.ProviderType? = nil,
         tags: [CodeStarconnectionsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.connectionName = connectionName
         self.hostArn = hostArn
         self.providerType = providerType
@@ -272,8 +266,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
     public init(
         connectionArn: Swift.String? = nil,
         tags: [CodeStarconnectionsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.tags = tags
     }
@@ -300,8 +293,7 @@ extension CodeStarconnectionsClientTypes {
             subnetIds: [Swift.String]? = nil,
             tlsCertificate: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.tlsCertificate = tlsCertificate
@@ -331,8 +323,7 @@ public struct CreateHostInput: Swift.Sendable {
         providerType: CodeStarconnectionsClientTypes.ProviderType? = nil,
         tags: [CodeStarconnectionsClientTypes.Tag]? = nil,
         vpcConfiguration: CodeStarconnectionsClientTypes.VpcConfiguration? = nil
-    )
-    {
+    ) {
         self.name = name
         self.providerEndpoint = providerEndpoint
         self.providerType = providerType
@@ -350,8 +341,7 @@ public struct CreateHostOutput: Swift.Sendable {
     public init(
         hostArn: Swift.String? = nil,
         tags: [CodeStarconnectionsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.hostArn = hostArn
         self.tags = tags
     }
@@ -375,8 +365,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -399,8 +388,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -423,8 +411,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -447,8 +434,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -471,8 +457,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -498,8 +483,7 @@ public struct CreateRepositoryLinkInput: Swift.Sendable {
         ownerId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         tags: [CodeStarconnectionsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.encryptionKeyArn = encryptionKeyArn
         self.ownerId = ownerId
@@ -541,8 +525,7 @@ extension CodeStarconnectionsClientTypes {
             repositoryLinkArn: Swift.String? = nil,
             repositoryLinkId: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionArn = connectionArn
             self.encryptionKeyArn = encryptionKeyArn
             self.ownerId = ownerId
@@ -561,8 +544,7 @@ public struct CreateRepositoryLinkOutput: Swift.Sendable {
 
     public init(
         repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo? = nil
-    )
-    {
+    ) {
         self.repositoryLinkInfo = repositoryLinkInfo
     }
 }
@@ -684,8 +666,7 @@ public struct CreateSyncConfigurationInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil,
         triggerResourceUpdateOn: CodeStarconnectionsClientTypes.TriggerResourceUpdateOn? = nil
-    )
-    {
+    ) {
         self.branch = branch
         self.configFile = configFile
         self.publishDeploymentStatus = publishDeploymentStatus
@@ -744,8 +725,7 @@ extension CodeStarconnectionsClientTypes {
             roleArn: Swift.String? = nil,
             syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil,
             triggerResourceUpdateOn: CodeStarconnectionsClientTypes.TriggerResourceUpdateOn? = nil
-        )
-        {
+        ) {
             self.branch = branch
             self.configFile = configFile
             self.ownerId = ownerId
@@ -768,8 +748,7 @@ public struct CreateSyncConfigurationOutput: Swift.Sendable {
 
     public init(
         syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration? = nil
-    )
-    {
+    ) {
         self.syncConfiguration = syncConfiguration
     }
 }
@@ -781,8 +760,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
 
     public init(
         connectionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
     }
 }
@@ -799,8 +777,7 @@ public struct DeleteHostInput: Swift.Sendable {
 
     public init(
         hostArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostArn = hostArn
     }
 }
@@ -828,8 +805,7 @@ public struct SyncConfigurationStillExistsException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -852,8 +828,7 @@ public struct UnsupportedProviderTypeException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -865,8 +840,7 @@ public struct DeleteRepositoryLinkInput: Swift.Sendable {
 
     public init(
         repositoryLinkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.repositoryLinkId = repositoryLinkId
     }
 }
@@ -887,8 +861,7 @@ public struct DeleteSyncConfigurationInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.syncType = syncType
     }
@@ -906,8 +879,7 @@ public struct GetConnectionInput: Swift.Sendable {
 
     public init(
         connectionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
     }
 }
@@ -968,8 +940,7 @@ extension CodeStarconnectionsClientTypes {
             hostArn: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
             providerType: CodeStarconnectionsClientTypes.ProviderType? = nil
-        )
-        {
+        ) {
             self.connectionArn = connectionArn
             self.connectionName = connectionName
             self.connectionStatus = connectionStatus
@@ -986,8 +957,7 @@ public struct GetConnectionOutput: Swift.Sendable {
 
     public init(
         connection: CodeStarconnectionsClientTypes.Connection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -999,8 +969,7 @@ public struct GetHostInput: Swift.Sendable {
 
     public init(
         hostArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostArn = hostArn
     }
 }
@@ -1023,8 +992,7 @@ public struct GetHostOutput: Swift.Sendable {
         providerType: CodeStarconnectionsClientTypes.ProviderType? = nil,
         status: Swift.String? = nil,
         vpcConfiguration: CodeStarconnectionsClientTypes.VpcConfiguration? = nil
-    )
-    {
+    ) {
         self.name = name
         self.providerEndpoint = providerEndpoint
         self.providerType = providerType
@@ -1040,8 +1008,7 @@ public struct GetRepositoryLinkInput: Swift.Sendable {
 
     public init(
         repositoryLinkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.repositoryLinkId = repositoryLinkId
     }
 }
@@ -1053,8 +1020,7 @@ public struct GetRepositoryLinkOutput: Swift.Sendable {
 
     public init(
         repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo? = nil
-    )
-    {
+    ) {
         self.repositoryLinkInfo = repositoryLinkInfo
     }
 }
@@ -1074,8 +1040,7 @@ public struct GetRepositorySyncStatusInput: Swift.Sendable {
         branch: Swift.String? = nil,
         repositoryLinkId: Swift.String? = nil,
         syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
-    )
-    {
+    ) {
         self.branch = branch
         self.repositoryLinkId = repositoryLinkId
         self.syncType = syncType
@@ -1103,8 +1068,7 @@ extension CodeStarconnectionsClientTypes {
             externalId: Swift.String? = nil,
             time: Foundation.Date? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.event = event
             self.externalId = externalId
             self.time = time
@@ -1179,8 +1143,7 @@ extension CodeStarconnectionsClientTypes {
             events: [CodeStarconnectionsClientTypes.RepositorySyncEvent]? = nil,
             startedAt: Foundation.Date? = nil,
             status: CodeStarconnectionsClientTypes.RepositorySyncStatus? = nil
-        )
-        {
+        ) {
             self.events = events
             self.startedAt = startedAt
             self.status = status
@@ -1195,8 +1158,7 @@ public struct GetRepositorySyncStatusOutput: Swift.Sendable {
 
     public init(
         latestSync: CodeStarconnectionsClientTypes.RepositorySyncAttempt? = nil
-    )
-    {
+    ) {
         self.latestSync = latestSync
     }
 }
@@ -1212,8 +1174,7 @@ public struct GetResourceSyncStatusInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.syncType = syncType
     }
@@ -1249,8 +1210,7 @@ extension CodeStarconnectionsClientTypes {
             providerType: CodeStarconnectionsClientTypes.ProviderType? = nil,
             repositoryName: Swift.String? = nil,
             sha: Swift.String? = nil
-        )
-        {
+        ) {
             self.branch = branch
             self.directory = directory
             self.ownerId = ownerId
@@ -1282,8 +1242,7 @@ extension CodeStarconnectionsClientTypes {
             externalId: Swift.String? = nil,
             time: Foundation.Date? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.event = event
             self.externalId = externalId
             self.time = time
@@ -1365,8 +1324,7 @@ extension CodeStarconnectionsClientTypes {
             status: CodeStarconnectionsClientTypes.ResourceSyncStatus? = nil,
             target: Swift.String? = nil,
             targetRevision: CodeStarconnectionsClientTypes.Revision? = nil
-        )
-        {
+        ) {
             self.events = events
             self.initialRevision = initialRevision
             self.startedAt = startedAt
@@ -1390,8 +1348,7 @@ public struct GetResourceSyncStatusOutput: Swift.Sendable {
         desiredState: CodeStarconnectionsClientTypes.Revision? = nil,
         latestSuccessfulSync: CodeStarconnectionsClientTypes.ResourceSyncAttempt? = nil,
         latestSync: CodeStarconnectionsClientTypes.ResourceSyncAttempt? = nil
-    )
-    {
+    ) {
         self.desiredState = desiredState
         self.latestSuccessfulSync = latestSuccessfulSync
         self.latestSync = latestSync
@@ -1409,8 +1366,7 @@ public struct GetSyncBlockerSummaryInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.syncType = syncType
     }
@@ -1430,8 +1386,7 @@ extension CodeStarconnectionsClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1473,8 +1428,7 @@ extension CodeStarconnectionsClientTypes {
             resolvedReason: Swift.String? = nil,
             status: CodeStarconnectionsClientTypes.BlockerStatus? = nil,
             type: CodeStarconnectionsClientTypes.BlockerType? = nil
-        )
-        {
+        ) {
             self.contexts = contexts
             self.createdAt = createdAt
             self.createdReason = createdReason
@@ -1503,8 +1457,7 @@ extension CodeStarconnectionsClientTypes {
             latestBlockers: [CodeStarconnectionsClientTypes.SyncBlocker]? = nil,
             parentResourceName: Swift.String? = nil,
             resourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestBlockers = latestBlockers
             self.parentResourceName = parentResourceName
             self.resourceName = resourceName
@@ -1519,8 +1472,7 @@ public struct GetSyncBlockerSummaryOutput: Swift.Sendable {
 
     public init(
         syncBlockerSummary: CodeStarconnectionsClientTypes.SyncBlockerSummary? = nil
-    )
-    {
+    ) {
         self.syncBlockerSummary = syncBlockerSummary
     }
 }
@@ -1536,8 +1488,7 @@ public struct GetSyncConfigurationInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.syncType = syncType
     }
@@ -1550,8 +1501,7 @@ public struct GetSyncConfigurationOutput: Swift.Sendable {
 
     public init(
         syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration? = nil
-    )
-    {
+    ) {
         self.syncConfiguration = syncConfiguration
     }
 }
@@ -1571,8 +1521,7 @@ public struct ListConnectionsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         providerTypeFilter: CodeStarconnectionsClientTypes.ProviderType? = nil
-    )
-    {
+    ) {
         self.hostArnFilter = hostArnFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1589,8 +1538,7 @@ public struct ListConnectionsOutput: Swift.Sendable {
     public init(
         connections: [CodeStarconnectionsClientTypes.Connection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connections = connections
         self.nextToken = nextToken
     }
@@ -1605,8 +1553,7 @@ public struct ListHostsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1639,8 +1586,7 @@ extension CodeStarconnectionsClientTypes {
             status: Swift.String? = nil,
             statusMessage: Swift.String? = nil,
             vpcConfiguration: CodeStarconnectionsClientTypes.VpcConfiguration? = nil
-        )
-        {
+        ) {
             self.hostArn = hostArn
             self.name = name
             self.providerEndpoint = providerEndpoint
@@ -1661,8 +1607,7 @@ public struct ListHostsOutput: Swift.Sendable {
     public init(
         hosts: [CodeStarconnectionsClientTypes.Host]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hosts = hosts
         self.nextToken = nextToken
     }
@@ -1677,8 +1622,7 @@ public struct ListRepositoryLinksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1694,8 +1638,7 @@ public struct ListRepositoryLinksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         repositoryLinks: [CodeStarconnectionsClientTypes.RepositoryLinkInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositoryLinks = repositoryLinks
     }
@@ -1712,8 +1655,7 @@ public struct ListRepositorySyncDefinitionsInput: Swift.Sendable {
     public init(
         repositoryLinkId: Swift.String? = nil,
         syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
-    )
-    {
+    ) {
         self.repositoryLinkId = repositoryLinkId
         self.syncType = syncType
     }
@@ -1741,8 +1683,7 @@ extension CodeStarconnectionsClientTypes {
             directory: Swift.String? = nil,
             parent: Swift.String? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.branch = branch
             self.directory = directory
             self.parent = parent
@@ -1761,8 +1702,7 @@ public struct ListRepositorySyncDefinitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         repositorySyncDefinitions: [CodeStarconnectionsClientTypes.RepositorySyncDefinition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositorySyncDefinitions = repositorySyncDefinitions
     }
@@ -1785,8 +1725,7 @@ public struct ListSyncConfigurationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         repositoryLinkId: Swift.String? = nil,
         syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.repositoryLinkId = repositoryLinkId
@@ -1804,8 +1743,7 @@ public struct ListSyncConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         syncConfigurations: [CodeStarconnectionsClientTypes.SyncConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.syncConfigurations = syncConfigurations
     }
@@ -1818,8 +1756,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1830,8 +1767,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [CodeStarconnectionsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1847,8 +1783,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [CodeStarconnectionsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1870,8 +1805,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1900,8 +1834,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1924,8 +1857,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1943,8 +1875,7 @@ public struct UpdateHostInput: Swift.Sendable {
         hostArn: Swift.String? = nil,
         providerEndpoint: Swift.String? = nil,
         vpcConfiguration: CodeStarconnectionsClientTypes.VpcConfiguration? = nil
-    )
-    {
+    ) {
         self.hostArn = hostArn
         self.providerEndpoint = providerEndpoint
         self.vpcConfiguration = vpcConfiguration
@@ -1974,8 +1905,7 @@ public struct ConditionalCheckFailedException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1998,8 +1928,7 @@ public struct UpdateOutOfSyncException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2017,8 +1946,7 @@ public struct UpdateRepositoryLinkInput: Swift.Sendable {
         connectionArn: Swift.String? = nil,
         encryptionKeyArn: Swift.String? = nil,
         repositoryLinkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.encryptionKeyArn = encryptionKeyArn
         self.repositoryLinkId = repositoryLinkId
@@ -2032,8 +1960,7 @@ public struct UpdateRepositoryLinkOutput: Swift.Sendable {
 
     public init(
         repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo? = nil
-    )
-    {
+    ) {
         self.repositoryLinkInfo = repositoryLinkInfo
     }
 }
@@ -2056,8 +1983,7 @@ public struct RetryLatestCommitFailedException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2080,8 +2006,7 @@ public struct SyncBlockerDoesNotExistException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2105,8 +2030,7 @@ public struct UpdateSyncBlockerInput: Swift.Sendable {
         resolvedReason: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
-    )
-    {
+    ) {
         self.id = id
         self.resolvedReason = resolvedReason
         self.resourceName = resourceName
@@ -2128,8 +2052,7 @@ public struct UpdateSyncBlockerOutput: Swift.Sendable {
         parentResourceName: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         syncBlocker: CodeStarconnectionsClientTypes.SyncBlocker? = nil
-    )
-    {
+    ) {
         self.parentResourceName = parentResourceName
         self.resourceName = resourceName
         self.syncBlocker = syncBlocker
@@ -2165,8 +2088,7 @@ public struct UpdateSyncConfigurationInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil,
         triggerResourceUpdateOn: CodeStarconnectionsClientTypes.TriggerResourceUpdateOn? = nil
-    )
-    {
+    ) {
         self.branch = branch
         self.configFile = configFile
         self.publishDeploymentStatus = publishDeploymentStatus
@@ -2185,8 +2107,7 @@ public struct UpdateSyncConfigurationOutput: Swift.Sendable {
 
     public init(
         syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration? = nil
-    )
-    {
+    ) {
         self.syncConfiguration = syncConfiguration
     }
 }

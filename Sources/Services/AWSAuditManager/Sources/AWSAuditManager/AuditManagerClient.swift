@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AuditManagerClient: ClientRuntime.Client {
     public static let clientName = "AuditManagerClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: AuditManagerClient.AuditManagerClientConfiguration
     let serviceName = "AuditManager"
@@ -329,7 +329,7 @@ extension AuditManagerClient {
 }
 
 extension AuditManagerClient {
-    /// Performs the `AssociateAssessmentReportEvidenceFolder` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `AssociateAssessmentReportEvidenceFolder` operation on the `AuditManager` service.
     ///
     /// Associates an evidence folder to an assessment report in an Audit Manager assessment.
     ///
@@ -401,7 +401,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchAssociateAssessmentReportEvidence` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `BatchAssociateAssessmentReportEvidence` operation on the `AuditManager` service.
     ///
     /// Associates a list of evidence to an assessment report in an Audit Manager assessment.
     ///
@@ -473,7 +473,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchCreateDelegationByAssessment` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `BatchCreateDelegationByAssessment` operation on the `AuditManager` service.
     ///
     /// Creates a batch of delegations for an assessment in Audit Manager.
     ///
@@ -545,7 +545,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteDelegationByAssessment` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `BatchDeleteDelegationByAssessment` operation on the `AuditManager` service.
     ///
     /// Deletes a batch of delegations for an assessment in Audit Manager.
     ///
@@ -617,7 +617,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDisassociateAssessmentReportEvidence` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `BatchDisassociateAssessmentReportEvidence` operation on the `AuditManager` service.
     ///
     /// Disassociates a list of evidence from an assessment report in Audit Manager.
     ///
@@ -689,7 +689,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchImportEvidenceToAssessmentControl` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `BatchImportEvidenceToAssessmentControl` operation on the `AuditManager` service.
     ///
     /// Adds one or more pieces of evidence to a control in an Audit Manager assessment. You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or enter plain text in response to a risk assessment question. The following restrictions apply to this action:
     ///
@@ -773,7 +773,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAssessment` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `CreateAssessment` operation on the `AuditManager` service.
     ///
     /// Creates an assessment in Audit Manager.
     ///
@@ -847,7 +847,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAssessmentFramework` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `CreateAssessmentFramework` operation on the `AuditManager` service.
     ///
     /// Creates a custom framework in Audit Manager.
     ///
@@ -920,7 +920,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAssessmentReport` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `CreateAssessmentReport` operation on the `AuditManager` service.
     ///
     /// Creates an assessment report for the specified assessment.
     ///
@@ -992,7 +992,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateControl` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `CreateControl` operation on the `AuditManager` service.
     ///
     /// Creates a new custom control in Audit Manager.
     ///
@@ -1065,7 +1065,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAssessment` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `DeleteAssessment` operation on the `AuditManager` service.
     ///
     /// Deletes an assessment in Audit Manager.
     ///
@@ -1134,7 +1134,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAssessmentFramework` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `DeleteAssessmentFramework` operation on the `AuditManager` service.
     ///
     /// Deletes a custom framework in Audit Manager.
     ///
@@ -1203,7 +1203,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAssessmentFrameworkShare` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `DeleteAssessmentFrameworkShare` operation on the `AuditManager` service.
     ///
     /// Deletes a share request for a custom framework in Audit Manager.
     ///
@@ -1273,7 +1273,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAssessmentReport` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `DeleteAssessmentReport` operation on the `AuditManager` service.
     ///
     /// Deletes an assessment report in Audit Manager. When you run the DeleteAssessmentReport operation, Audit Manager attempts to delete the following data:
     ///
@@ -1349,7 +1349,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteControl` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `DeleteControl` operation on the `AuditManager` service.
     ///
     /// Deletes a custom control in Audit Manager. When you invoke this operation, the custom control is deleted from any frameworks or assessments that it’s currently part of. As a result, Audit Manager will stop collecting evidence for that custom control in all of your assessments. This includes assessments that you previously created before you deleted the custom control.
     ///
@@ -1418,7 +1418,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterAccount` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `DeregisterAccount` operation on the `AuditManager` service.
     ///
     /// Deregisters an account in Audit Manager. Before you deregister, you can use the [UpdateSettings](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_UpdateSettings.html) API operation to set your preferred data retention policy. By default, Audit Manager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data. For more information about data retention, see [Data Protection](https://docs.aws.amazon.com/audit-manager/latest/userguide/data-protection.html) in the Audit Manager User Guide.
     ///
@@ -1487,7 +1487,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterOrganizationAdminAccount` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `DeregisterOrganizationAdminAccount` operation on the `AuditManager` service.
     ///
     /// Removes the specified Amazon Web Services account as a delegated administrator for Audit Manager. When you remove a delegated administrator from your Audit Manager settings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager stops collecting and attaching evidence to that delegated administrator account moving forward. Keep in mind the following cleanup task if you use evidence finder: Before you use your management account to remove a delegated administrator, make sure that the current delegated administrator account signs in to Audit Manager and disables evidence finder first. Disabling evidence finder automatically deletes the event data store that was created in their account when they enabled evidence finder. If this task isn’t completed, the event data store remains in their account. In this case, we recommend that the original delegated administrator goes to CloudTrail Lake and manually [deletes the event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-eds-disable-termination.html). This cleanup task is necessary to ensure that you don't end up with multiple event data stores. Audit Manager ignores an unused event data store after you remove or change a delegated administrator account. However, the unused event data store continues to incur storage costs from CloudTrail Lake if you don't delete it. When you deregister a delegated administrator account for Audit Manager, the data for that account isn’t deleted. If you want to delete resource data for a delegated administrator account, you must perform that task separately before you deregister the account. Either, you can do this in the Audit Manager console. Or, you can use one of the delete API operations that are provided by Audit Manager. To delete your Audit Manager resource data, see the following instructions:
     ///
@@ -1572,7 +1572,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAssessmentReportEvidenceFolder` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `DisassociateAssessmentReportEvidenceFolder` operation on the `AuditManager` service.
     ///
     /// Disassociates an evidence folder from the specified assessment report in Audit Manager.
     ///
@@ -1644,7 +1644,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccountStatus` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetAccountStatus` operation on the `AuditManager` service.
     ///
     /// Gets the registration status of an account in Audit Manager.
     ///
@@ -1710,7 +1710,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssessment` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetAssessment` operation on the `AuditManager` service.
     ///
     /// Gets information about a specified assessment.
     ///
@@ -1779,7 +1779,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssessmentFramework` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetAssessmentFramework` operation on the `AuditManager` service.
     ///
     /// Gets information about a specified framework.
     ///
@@ -1848,7 +1848,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssessmentReportUrl` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetAssessmentReportUrl` operation on the `AuditManager` service.
     ///
     /// Gets the URL of an assessment report in Audit Manager.
     ///
@@ -1917,7 +1917,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChangeLogs` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetChangeLogs` operation on the `AuditManager` service.
     ///
     /// Gets a list of changelogs from Audit Manager.
     ///
@@ -1987,7 +1987,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetControl` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetControl` operation on the `AuditManager` service.
     ///
     /// Gets information about a specified control.
     ///
@@ -2056,7 +2056,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDelegations` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetDelegations` operation on the `AuditManager` service.
     ///
     /// Gets a list of delegations from an audit owner to a delegate.
     ///
@@ -2125,7 +2125,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEvidence` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetEvidence` operation on the `AuditManager` service.
     ///
     /// Gets information about a specified evidence item.
     ///
@@ -2194,7 +2194,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEvidenceByEvidenceFolder` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetEvidenceByEvidenceFolder` operation on the `AuditManager` service.
     ///
     /// Gets all evidence from a specified evidence folder in Audit Manager.
     ///
@@ -2264,7 +2264,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEvidenceFileUploadUrl` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetEvidenceFileUploadUrl` operation on the `AuditManager` service.
     ///
     /// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see [Upload a file from your browser ](https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#how-to-upload-manual-evidence-files) in the Audit Manager User Guide. The following restrictions apply to this operation:
     ///
@@ -2343,7 +2343,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEvidenceFolder` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetEvidenceFolder` operation on the `AuditManager` service.
     ///
     /// Gets an evidence folder from a specified assessment in Audit Manager.
     ///
@@ -2412,7 +2412,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEvidenceFoldersByAssessment` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetEvidenceFoldersByAssessment` operation on the `AuditManager` service.
     ///
     /// Gets the evidence folders from a specified assessment in Audit Manager.
     ///
@@ -2482,7 +2482,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEvidenceFoldersByAssessmentControl` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetEvidenceFoldersByAssessmentControl` operation on the `AuditManager` service.
     ///
     /// Gets a list of evidence folders that are associated with a specified control in an Audit Manager assessment.
     ///
@@ -2552,7 +2552,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInsights` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetInsights` operation on the `AuditManager` service.
     ///
     /// Gets the latest analytics data for all your current active assessments.
     ///
@@ -2619,7 +2619,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInsightsByAssessment` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetInsightsByAssessment` operation on the `AuditManager` service.
     ///
     /// Gets the latest analytics data for a specific active assessment.
     ///
@@ -2688,7 +2688,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOrganizationAdminAccount` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetOrganizationAdminAccount` operation on the `AuditManager` service.
     ///
     /// Gets the name of the delegated Amazon Web Services administrator account for a specified organization.
     ///
@@ -2757,7 +2757,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServicesInScope` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetServicesInScope` operation on the `AuditManager` service.
     ///
     /// Gets a list of the Amazon Web Services from which Audit Manager can collect evidence. Audit Manager defines which Amazon Web Services are in scope for an assessment. Audit Manager infers this scope by examining the assessment’s controls and their data sources, and then mapping this information to one or more of the corresponding Amazon Web Services that are in this list. For information about why it's no longer possible to specify services in scope manually, see [I can't edit the services in scope for my assessment](https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-collection-issues.html#unable-to-edit-services) in the Troubleshooting section of the Audit Manager user guide.
     ///
@@ -2825,7 +2825,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSettings` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `GetSettings` operation on the `AuditManager` service.
     ///
     /// Gets the settings for a specified Amazon Web Services account.
     ///
@@ -2892,7 +2892,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssessmentControlInsightsByControlDomain` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListAssessmentControlInsightsByControlDomain` operation on the `AuditManager` service.
     ///
     /// Lists the latest analytics data for controls within a specific control domain and a specific active assessment. Control insights are listed only if the control belongs to the control domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these conditions are met, no data is listed for that control.
     ///
@@ -2962,7 +2962,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssessmentFrameworkShareRequests` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListAssessmentFrameworkShareRequests` operation on the `AuditManager` service.
     ///
     /// Returns a list of sent or received share requests for custom frameworks in Audit Manager.
     ///
@@ -3031,7 +3031,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssessmentFrameworks` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListAssessmentFrameworks` operation on the `AuditManager` service.
     ///
     /// Returns a list of the frameworks that are available in the Audit Manager framework library.
     ///
@@ -3100,7 +3100,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssessmentReports` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListAssessmentReports` operation on the `AuditManager` service.
     ///
     /// Returns a list of assessment reports created in Audit Manager.
     ///
@@ -3169,7 +3169,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssessments` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListAssessments` operation on the `AuditManager` service.
     ///
     /// Returns a list of current and past assessments from Audit Manager.
     ///
@@ -3238,7 +3238,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListControlDomainInsights` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListControlDomainInsights` operation on the `AuditManager` service.
     ///
     /// Lists the latest analytics data for control domains across all of your active assessments. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see [ListDomains](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html) in the Amazon Web Services Control Catalog API Reference. A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
     ///
@@ -3308,7 +3308,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListControlDomainInsightsByAssessment` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListControlDomainInsightsByAssessment` operation on the `AuditManager` service.
     ///
     /// Lists analytics data for control domains within a specified active assessment. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see [ListDomains](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html) in the Amazon Web Services Control Catalog API Reference. A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
     ///
@@ -3378,7 +3378,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListControlInsightsByControlDomain` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListControlInsightsByControlDomain` operation on the `AuditManager` service.
     ///
     /// Lists the latest analytics data for controls within a specific control domain across all active assessments. Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata. If neither of these conditions are met, no data is listed for that control.
     ///
@@ -3448,7 +3448,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListControls` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListControls` operation on the `AuditManager` service.
     ///
     /// Returns a list of controls from Audit Manager.
     ///
@@ -3517,7 +3517,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKeywordsForDataSource` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListKeywordsForDataSource` operation on the `AuditManager` service.
     ///
     /// Returns a list of keywords that are pre-mapped to the specified control data source.
     ///
@@ -3586,7 +3586,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNotifications` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListNotifications` operation on the `AuditManager` service.
     ///
     /// Returns a list of all Audit Manager notifications.
     ///
@@ -3655,7 +3655,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ListTagsForResource` operation on the `AuditManager` service.
     ///
     /// Returns a list of tags for the specified resource in Audit Manager.
     ///
@@ -3723,7 +3723,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterAccount` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `RegisterAccount` operation on the `AuditManager` service.
     ///
     /// Enables Audit Manager for the specified Amazon Web Services account.
     ///
@@ -3796,7 +3796,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterOrganizationAdminAccount` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `RegisterOrganizationAdminAccount` operation on the `AuditManager` service.
     ///
     /// Enables an Amazon Web Services account within the organization as the delegated administrator for Audit Manager.
     ///
@@ -3868,7 +3868,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAssessmentFrameworkShare` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `StartAssessmentFrameworkShare` operation on the `AuditManager` service.
     ///
     /// Creates a share request for a custom framework in Audit Manager. The share request specifies a recipient and notifies them that a custom framework is available. Recipients have 120 days to accept or decline the request. If no action is taken, the share request expires. When you create a share request, Audit Manager stores a snapshot of your custom framework in the US East (N. Virginia) Amazon Web Services Region. Audit Manager also stores a backup of the same snapshot in the US West (Oregon) Amazon Web Services Region. Audit Manager deletes the snapshot and the backup snapshot when one of the following events occurs:
     ///
@@ -3951,7 +3951,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `TagResource` operation on the `AuditManager` service.
     ///
     /// Tags the specified resource in Audit Manager.
     ///
@@ -4022,7 +4022,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `UntagResource` operation on the `AuditManager` service.
     ///
     /// Removes a tag from a resource in Audit Manager.
     ///
@@ -4091,7 +4091,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAssessment` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `UpdateAssessment` operation on the `AuditManager` service.
     ///
     /// Edits an Audit Manager assessment.
     ///
@@ -4164,7 +4164,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAssessmentControl` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `UpdateAssessmentControl` operation on the `AuditManager` service.
     ///
     /// Updates a control within an assessment in Audit Manager.
     ///
@@ -4236,7 +4236,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAssessmentControlSetStatus` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `UpdateAssessmentControlSetStatus` operation on the `AuditManager` service.
     ///
     /// Updates the status of a control set in an Audit Manager assessment.
     ///
@@ -4308,7 +4308,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAssessmentFramework` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `UpdateAssessmentFramework` operation on the `AuditManager` service.
     ///
     /// Updates a custom framework in Audit Manager.
     ///
@@ -4380,7 +4380,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAssessmentFrameworkShare` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `UpdateAssessmentFrameworkShare` operation on the `AuditManager` service.
     ///
     /// Updates a share request for a custom framework in Audit Manager.
     ///
@@ -4453,7 +4453,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAssessmentStatus` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `UpdateAssessmentStatus` operation on the `AuditManager` service.
     ///
     /// Updates the status of an assessment in Audit Manager.
     ///
@@ -4526,7 +4526,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateControl` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `UpdateControl` operation on the `AuditManager` service.
     ///
     /// Updates a custom control in Audit Manager.
     ///
@@ -4598,7 +4598,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSettings` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `UpdateSettings` operation on the `AuditManager` service.
     ///
     /// Updates Audit Manager settings for the current account.
     ///
@@ -4669,7 +4669,7 @@ extension AuditManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ValidateAssessmentReportIntegrity` operation on the `BedrockAssessmentManagerLambda` service.
+    /// Performs the `ValidateAssessmentReportIntegrity` operation on the `AuditManager` service.
     ///
     /// Validates the integrity of an assessment report in Audit Manager.
     ///

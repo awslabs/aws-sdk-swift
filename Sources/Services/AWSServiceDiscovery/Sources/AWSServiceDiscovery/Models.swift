@@ -53,8 +53,7 @@ public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public init(
         duplicateOperationId: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.duplicateOperationId = duplicateOperationId
         self.properties.message = message
     }
@@ -78,8 +77,7 @@ public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -108,8 +106,7 @@ public struct NamespaceAlreadyExists: ClientRuntime.ModeledError, AWSClientRunti
         creatorRequestId: Swift.String? = nil,
         message: Swift.String? = nil,
         namespaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.creatorRequestId = creatorRequestId
         self.properties.message = message
         self.properties.namespaceId = namespaceId
@@ -134,8 +131,7 @@ public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -161,8 +157,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -182,8 +177,7 @@ extension ServiceDiscoveryClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -206,8 +200,7 @@ public struct CreateHttpNamespaceInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [ServiceDiscoveryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.description = description
         self.name = name
@@ -221,8 +214,7 @@ public struct CreateHttpNamespaceOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -237,8 +229,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             ttl: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ttl = ttl
         }
     }
@@ -254,8 +245,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             soa: ServiceDiscoveryClientTypes.SOA? = nil
-        )
-        {
+        ) {
             self.soa = soa
         }
     }
@@ -271,8 +261,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             dnsProperties: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable? = nil
-        )
-        {
+        ) {
             self.dnsProperties = dnsProperties
         }
     }
@@ -301,8 +290,7 @@ public struct CreatePrivateDnsNamespaceInput: Swift.Sendable {
         properties: ServiceDiscoveryClientTypes.PrivateDnsNamespaceProperties? = nil,
         tags: [ServiceDiscoveryClientTypes.Tag]? = nil,
         vpc: Swift.String? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.description = description
         self.name = name
@@ -318,8 +306,7 @@ public struct CreatePrivateDnsNamespaceOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -334,8 +321,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             soa: ServiceDiscoveryClientTypes.SOA? = nil
-        )
-        {
+        ) {
             self.soa = soa
         }
     }
@@ -351,8 +337,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             dnsProperties: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable? = nil
-        )
-        {
+        ) {
             self.dnsProperties = dnsProperties
         }
     }
@@ -377,8 +362,7 @@ public struct CreatePublicDnsNamespaceInput: Swift.Sendable {
         name: Swift.String? = nil,
         properties: ServiceDiscoveryClientTypes.PublicDnsNamespaceProperties? = nil,
         tags: [ServiceDiscoveryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.description = description
         self.name = name
@@ -393,8 +377,7 @@ public struct CreatePublicDnsNamespaceOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -417,8 +400,7 @@ public struct NamespaceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -447,8 +429,7 @@ public struct ServiceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime
         creatorRequestId: Swift.String? = nil,
         message: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.creatorRequestId = creatorRequestId
         self.properties.message = message
         self.properties.serviceId = serviceId
@@ -548,8 +529,7 @@ extension ServiceDiscoveryClientTypes {
         public init(
             ttl: Swift.Int? = nil,
             type: ServiceDiscoveryClientTypes.RecordType? = nil
-        )
-        {
+        ) {
             self.ttl = ttl
             self.type = type
         }
@@ -602,8 +582,7 @@ extension ServiceDiscoveryClientTypes {
             dnsRecords: [ServiceDiscoveryClientTypes.DnsRecord]? = nil,
             namespaceId: Swift.String? = nil,
             routingPolicy: ServiceDiscoveryClientTypes.RoutingPolicy? = nil
-        )
-        {
+        ) {
             self.dnsRecords = dnsRecords
             self.namespaceId = namespaceId
             self.routingPolicy = routingPolicy
@@ -675,8 +654,7 @@ extension ServiceDiscoveryClientTypes {
             failureThreshold: Swift.Int? = nil,
             resourcePath: Swift.String? = nil,
             type: ServiceDiscoveryClientTypes.HealthCheckType? = nil
-        )
-        {
+        ) {
             self.failureThreshold = failureThreshold
             self.resourcePath = resourcePath
             self.type = type
@@ -715,8 +693,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             failureThreshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failureThreshold = failureThreshold
         }
     }
@@ -786,8 +763,7 @@ public struct CreateServiceInput: Swift.Sendable {
         namespaceId: Swift.String? = nil,
         tags: [ServiceDiscoveryClientTypes.Tag]? = nil,
         type: ServiceDiscoveryClientTypes.ServiceTypeOption? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.description = description
         self.dnsConfig = dnsConfig
@@ -874,8 +850,7 @@ extension ServiceDiscoveryClientTypes {
             name: Swift.String? = nil,
             namespaceId: Swift.String? = nil,
             type: ServiceDiscoveryClientTypes.ServiceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createDate = createDate
             self.creatorRequestId = creatorRequestId
@@ -898,8 +873,7 @@ public struct CreateServiceOutput: Swift.Sendable {
 
     public init(
         service: ServiceDiscoveryClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.service = service
     }
 }
@@ -922,8 +896,7 @@ public struct CustomHealthNotFound: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -975,8 +948,7 @@ public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -988,8 +960,7 @@ public struct DeleteNamespaceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1000,8 +971,7 @@ public struct DeleteNamespaceOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -1024,8 +994,7 @@ public struct ServiceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1037,8 +1006,7 @@ public struct DeleteServiceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1059,8 +1027,7 @@ public struct DeleteServiceAttributesInput: Swift.Sendable {
     public init(
         attributes: [Swift.String]? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.serviceId = serviceId
     }
@@ -1089,8 +1056,7 @@ public struct InstanceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1106,8 +1072,7 @@ public struct DeregisterInstanceInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.serviceId = serviceId
     }
@@ -1119,8 +1084,7 @@ public struct DeregisterInstanceOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -1143,8 +1107,7 @@ public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1207,8 +1170,7 @@ public struct DiscoverInstancesInput: Swift.Sendable {
         optionalParameters: [Swift.String: Swift.String]? = nil,
         queryParameters: [Swift.String: Swift.String]? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthStatus = healthStatus
         self.maxResults = maxResults
         self.namespaceName = namespaceName
@@ -1271,8 +1233,7 @@ extension ServiceDiscoveryClientTypes {
             instanceId: Swift.String? = nil,
             namespaceName: Swift.String? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.healthStatus = healthStatus
             self.instanceId = instanceId
@@ -1291,8 +1252,7 @@ public struct DiscoverInstancesOutput: Swift.Sendable {
     public init(
         instances: [ServiceDiscoveryClientTypes.HttpInstanceSummary]? = nil,
         instancesRevision: Swift.Int? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.instancesRevision = instancesRevision
     }
@@ -1309,8 +1269,7 @@ public struct DiscoverInstancesRevisionInput: Swift.Sendable {
     public init(
         namespaceName: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespaceName = namespaceName
         self.serviceName = serviceName
     }
@@ -1322,8 +1281,7 @@ public struct DiscoverInstancesRevisionOutput: Swift.Sendable {
 
     public init(
         instancesRevision: Swift.Int? = nil
-    )
-    {
+    ) {
         self.instancesRevision = instancesRevision
     }
 }
@@ -1338,8 +1296,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             dnsRecords: [ServiceDiscoveryClientTypes.DnsRecord]? = nil
-        )
-        {
+        ) {
             self.dnsRecords = dnsRecords
         }
     }
@@ -1357,8 +1314,7 @@ extension ServiceDiscoveryClientTypes {
         public init(
             hostedZoneId: Swift.String? = nil,
             soa: ServiceDiscoveryClientTypes.SOA? = nil
-        )
-        {
+        ) {
             self.hostedZoneId = hostedZoneId
             self.soa = soa
         }
@@ -1411,8 +1367,7 @@ public struct GetInstanceInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.serviceId = serviceId
     }
@@ -1462,8 +1417,7 @@ extension ServiceDiscoveryClientTypes {
             attributes: [Swift.String: Swift.String]? = nil,
             creatorRequestId: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.creatorRequestId = creatorRequestId
             self.id = id
@@ -1477,8 +1431,7 @@ public struct GetInstanceOutput: Swift.Sendable {
 
     public init(
         instance: ServiceDiscoveryClientTypes.Instance? = nil
-    )
-    {
+    ) {
         self.instance = instance
     }
 }
@@ -1499,8 +1452,7 @@ public struct GetInstancesHealthStatusInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1517,8 +1469,7 @@ public struct GetInstancesHealthStatusOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         status: [Swift.String: ServiceDiscoveryClientTypes.HealthStatus]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.status = status
     }
@@ -1531,8 +1482,7 @@ public struct GetNamespaceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1546,8 +1496,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             httpName: Swift.String? = nil
-        )
-        {
+        ) {
             self.httpName = httpName
         }
     }
@@ -1565,8 +1514,7 @@ extension ServiceDiscoveryClientTypes {
         public init(
             dnsProperties: ServiceDiscoveryClientTypes.DnsProperties? = nil,
             httpProperties: ServiceDiscoveryClientTypes.HttpProperties? = nil
-        )
-        {
+        ) {
             self.dnsProperties = dnsProperties
             self.httpProperties = httpProperties
         }
@@ -1638,8 +1586,7 @@ extension ServiceDiscoveryClientTypes {
             properties: ServiceDiscoveryClientTypes.NamespaceProperties? = nil,
             serviceCount: Swift.Int? = nil,
             type: ServiceDiscoveryClientTypes.NamespaceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createDate = createDate
             self.creatorRequestId = creatorRequestId
@@ -1659,8 +1606,7 @@ public struct GetNamespaceOutput: Swift.Sendable {
 
     public init(
         namespace: ServiceDiscoveryClientTypes.Namespace? = nil
-    )
-    {
+    ) {
         self.namespace = namespace
     }
 }
@@ -1683,8 +1629,7 @@ public struct OperationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1696,8 +1641,7 @@ public struct GetOperationInput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -1854,8 +1798,7 @@ extension ServiceDiscoveryClientTypes {
             targets: [Swift.String: Swift.String]? = nil,
             type: ServiceDiscoveryClientTypes.OperationType? = nil,
             updateDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createDate = createDate
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1874,8 +1817,7 @@ public struct GetOperationOutput: Swift.Sendable {
 
     public init(
         operation: ServiceDiscoveryClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -1887,8 +1829,7 @@ public struct GetServiceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1899,8 +1840,7 @@ public struct GetServiceOutput: Swift.Sendable {
 
     public init(
         service: ServiceDiscoveryClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.service = service
     }
 }
@@ -1912,8 +1852,7 @@ public struct GetServiceAttributesInput: Swift.Sendable {
 
     public init(
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceId = serviceId
     }
 }
@@ -1937,8 +1876,7 @@ extension ServiceDiscoveryClientTypes {
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
             serviceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.serviceArn = serviceArn
         }
@@ -1951,8 +1889,7 @@ public struct GetServiceAttributesOutput: Swift.Sendable {
 
     public init(
         serviceAttributes: ServiceDiscoveryClientTypes.ServiceAttributes? = nil
-    )
-    {
+    ) {
         self.serviceAttributes = serviceAttributes
     }
 }
@@ -1967,8 +1904,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
         }
     }
@@ -1993,8 +1929,7 @@ extension ServiceDiscoveryClientTypes {
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.id = id
         }
@@ -2014,8 +1949,7 @@ public struct ListInstancesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceId = serviceId
@@ -2031,8 +1965,7 @@ public struct ListInstancesOutput: Swift.Sendable {
     public init(
         instances: [ServiceDiscoveryClientTypes.InstanceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.nextToken = nextToken
     }
@@ -2103,8 +2036,7 @@ extension ServiceDiscoveryClientTypes {
             condition: ServiceDiscoveryClientTypes.FilterCondition? = nil,
             name: ServiceDiscoveryClientTypes.NamespaceFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.name = name
             self.values = values
@@ -2124,8 +2056,7 @@ public struct ListNamespacesInput: Swift.Sendable {
         filters: [ServiceDiscoveryClientTypes.NamespaceFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2162,8 +2093,7 @@ extension ServiceDiscoveryClientTypes {
             properties: ServiceDiscoveryClientTypes.NamespaceProperties? = nil,
             serviceCount: Swift.Int? = nil,
             type: ServiceDiscoveryClientTypes.NamespaceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createDate = createDate
             self.description = description
@@ -2185,8 +2115,7 @@ public struct ListNamespacesOutput: Swift.Sendable {
     public init(
         namespaces: [ServiceDiscoveryClientTypes.NamespaceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespaces = namespaces
         self.nextToken = nextToken
     }
@@ -2273,8 +2202,7 @@ extension ServiceDiscoveryClientTypes {
             condition: ServiceDiscoveryClientTypes.FilterCondition? = nil,
             name: ServiceDiscoveryClientTypes.OperationFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.name = name
             self.values = values
@@ -2294,8 +2222,7 @@ public struct ListOperationsInput: Swift.Sendable {
         filters: [ServiceDiscoveryClientTypes.OperationFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2322,8 +2249,7 @@ extension ServiceDiscoveryClientTypes {
         public init(
             id: Swift.String? = nil,
             status: ServiceDiscoveryClientTypes.OperationStatus? = nil
-        )
-        {
+        ) {
             self.id = id
             self.status = status
         }
@@ -2339,8 +2265,7 @@ public struct ListOperationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         operations: [ServiceDiscoveryClientTypes.OperationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.operations = operations
     }
@@ -2391,8 +2316,7 @@ extension ServiceDiscoveryClientTypes {
             condition: ServiceDiscoveryClientTypes.FilterCondition? = nil,
             name: ServiceDiscoveryClientTypes.ServiceFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.name = name
             self.values = values
@@ -2412,8 +2336,7 @@ public struct ListServicesInput: Swift.Sendable {
         filters: [ServiceDiscoveryClientTypes.ServiceFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2463,8 +2386,7 @@ extension ServiceDiscoveryClientTypes {
             instanceCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             type: ServiceDiscoveryClientTypes.ServiceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createDate = createDate
             self.description = description
@@ -2488,8 +2410,7 @@ public struct ListServicesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         services: [ServiceDiscoveryClientTypes.ServiceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.services = services
     }
@@ -2513,8 +2434,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2526,8 +2446,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -2538,8 +2457,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ServiceDiscoveryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2554,8 +2472,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             ttl: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ttl = ttl
         }
     }
@@ -2571,8 +2488,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             soa: ServiceDiscoveryClientTypes.SOAChange? = nil
-        )
-        {
+        ) {
             self.soa = soa
         }
     }
@@ -2588,8 +2504,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             dnsProperties: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange? = nil
-        )
-        {
+        ) {
             self.dnsProperties = dnsProperties
         }
     }
@@ -2607,8 +2522,7 @@ extension ServiceDiscoveryClientTypes {
         public init(
             description: Swift.String? = nil,
             properties: ServiceDiscoveryClientTypes.PrivateDnsNamespacePropertiesChange? = nil
-        )
-        {
+        ) {
             self.description = description
             self.properties = properties
         }
@@ -2625,8 +2539,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             soa: ServiceDiscoveryClientTypes.SOAChange? = nil
-        )
-        {
+        ) {
             self.soa = soa
         }
     }
@@ -2642,8 +2555,7 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             dnsProperties: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange? = nil
-        )
-        {
+        ) {
             self.dnsProperties = dnsProperties
         }
     }
@@ -2661,8 +2573,7 @@ extension ServiceDiscoveryClientTypes {
         public init(
             description: Swift.String? = nil,
             properties: ServiceDiscoveryClientTypes.PublicDnsNamespacePropertiesChange? = nil
-        )
-        {
+        ) {
             self.description = description
             self.properties = properties
         }
@@ -2720,8 +2631,7 @@ public struct RegisterInstanceInput: Swift.Sendable {
         creatorRequestId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.creatorRequestId = creatorRequestId
         self.instanceId = instanceId
@@ -2735,8 +2645,7 @@ public struct RegisterInstanceOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2752,8 +2661,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [ServiceDiscoveryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -2775,8 +2683,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -2801,8 +2708,7 @@ public struct UpdateHttpNamespaceInput: Swift.Sendable {
         id: Swift.String? = nil,
         namespace: ServiceDiscoveryClientTypes.HttpNamespaceChange? = nil,
         updaterRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.namespace = namespace
         self.updaterRequestId = updaterRequestId
@@ -2815,8 +2721,7 @@ public struct UpdateHttpNamespaceOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2836,8 +2741,7 @@ public struct UpdateInstanceCustomHealthStatusInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         serviceId: Swift.String? = nil,
         status: ServiceDiscoveryClientTypes.CustomHealthStatus? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.serviceId = serviceId
         self.status = status
@@ -2858,8 +2762,7 @@ public struct UpdatePrivateDnsNamespaceInput: Swift.Sendable {
         id: Swift.String? = nil,
         namespace: ServiceDiscoveryClientTypes.PrivateDnsNamespaceChange? = nil,
         updaterRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.namespace = namespace
         self.updaterRequestId = updaterRequestId
@@ -2872,8 +2775,7 @@ public struct UpdatePrivateDnsNamespaceOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2892,8 +2794,7 @@ public struct UpdatePublicDnsNamespaceInput: Swift.Sendable {
         id: Swift.String? = nil,
         namespace: ServiceDiscoveryClientTypes.PublicDnsNamespaceChange? = nil,
         updaterRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.namespace = namespace
         self.updaterRequestId = updaterRequestId
@@ -2906,8 +2807,7 @@ public struct UpdatePublicDnsNamespaceOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2927,8 +2827,7 @@ extension ServiceDiscoveryClientTypes {
             description: Swift.String? = nil,
             dnsConfig: ServiceDiscoveryClientTypes.DnsConfigChange? = nil,
             healthCheckConfig: ServiceDiscoveryClientTypes.HealthCheckConfig? = nil
-        )
-        {
+        ) {
             self.description = description
             self.dnsConfig = dnsConfig
             self.healthCheckConfig = healthCheckConfig
@@ -2947,8 +2846,7 @@ public struct UpdateServiceInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         service: ServiceDiscoveryClientTypes.ServiceChange? = nil
-    )
-    {
+    ) {
         self.id = id
         self.service = service
     }
@@ -2960,8 +2858,7 @@ public struct UpdateServiceOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2984,8 +2881,7 @@ public struct ServiceAttributesLimitExceededException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3001,8 +2897,7 @@ public struct UpdateServiceAttributesInput: Swift.Sendable {
     public init(
         attributes: [Swift.String: Swift.String]? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.serviceId = serviceId
     }

@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -69,8 +68,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -93,8 +91,7 @@ public struct ConfigurationException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -117,8 +114,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -141,8 +137,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -165,8 +160,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -245,8 +239,7 @@ extension CodestarnotificationsClientTypes {
         public init(
             targetAddress: Swift.String? = nil,
             targetType: Swift.String? = nil
-        )
-        {
+        ) {
             self.targetAddress = targetAddress
             self.targetType = targetType
         }
@@ -290,8 +283,7 @@ public struct CreateNotificationRuleInput: Swift.Sendable {
         status: CodestarnotificationsClientTypes.NotificationRuleStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targets: [CodestarnotificationsClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.detailType = detailType
         self.eventTypeIds = eventTypeIds
@@ -314,8 +306,7 @@ public struct CreateNotificationRuleOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -327,8 +318,7 @@ public struct DeleteNotificationRuleInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -339,8 +329,7 @@ public struct DeleteNotificationRuleOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -355,8 +344,7 @@ public struct DeleteTargetInput: Swift.Sendable {
     public init(
         forceUnsubscribeAll: Swift.Bool? = false,
         targetAddress: Swift.String? = nil
-    )
-    {
+    ) {
         self.forceUnsubscribeAll = forceUnsubscribeAll
         self.targetAddress = targetAddress
     }
@@ -390,8 +378,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -403,8 +390,7 @@ public struct DescribeNotificationRuleInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -427,8 +413,7 @@ extension CodestarnotificationsClientTypes {
             eventTypeName: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventTypeId = eventTypeId
             self.eventTypeName = eventTypeName
             self.resourceType = resourceType
@@ -494,8 +479,7 @@ extension CodestarnotificationsClientTypes {
             targetAddress: Swift.String? = nil,
             targetStatus: CodestarnotificationsClientTypes.TargetStatus? = nil,
             targetType: Swift.String? = nil
-        )
-        {
+        ) {
             self.targetAddress = targetAddress
             self.targetStatus = targetStatus
             self.targetType = targetType
@@ -545,8 +529,7 @@ public struct DescribeNotificationRuleOutput: Swift.Sendable {
         status: CodestarnotificationsClientTypes.NotificationRuleStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targets: [CodestarnotificationsClientTypes.TargetSummary]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.createdTimestamp = createdTimestamp
@@ -584,8 +567,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -633,8 +615,7 @@ extension CodestarnotificationsClientTypes {
         public init(
             name: CodestarnotificationsClientTypes.ListEventTypesFilterName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -653,8 +634,7 @@ public struct ListEventTypesInput: Swift.Sendable {
         filters: [CodestarnotificationsClientTypes.ListEventTypesFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -670,8 +650,7 @@ public struct ListEventTypesOutput: Swift.Sendable {
     public init(
         eventTypes: [CodestarnotificationsClientTypes.EventTypeSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventTypes = eventTypes
         self.nextToken = nextToken
     }
@@ -726,8 +705,7 @@ extension CodestarnotificationsClientTypes {
         public init(
             name: CodestarnotificationsClientTypes.ListNotificationRulesFilterName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -746,8 +724,7 @@ public struct ListNotificationRulesInput: Swift.Sendable {
         filters: [CodestarnotificationsClientTypes.ListNotificationRulesFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -766,8 +743,7 @@ extension CodestarnotificationsClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
         }
@@ -783,8 +759,7 @@ public struct ListNotificationRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notificationRules: [CodestarnotificationsClientTypes.NotificationRuleSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notificationRules = notificationRules
     }
@@ -797,8 +772,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -809,8 +783,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -861,8 +834,7 @@ extension CodestarnotificationsClientTypes {
         public init(
             name: CodestarnotificationsClientTypes.ListTargetsFilterName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -881,8 +853,7 @@ public struct ListTargetsInput: Swift.Sendable {
         filters: [CodestarnotificationsClientTypes.ListTargetsFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -898,8 +869,7 @@ public struct ListTargetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         targets: [CodestarnotificationsClientTypes.TargetSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.targets = targets
     }
@@ -919,8 +889,7 @@ public struct SubscribeInput: Swift.Sendable {
         arn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         target: CodestarnotificationsClientTypes.Target? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientRequestToken = clientRequestToken
         self.target = target
@@ -933,8 +902,7 @@ public struct SubscribeOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -950,8 +918,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -963,8 +930,7 @@ public struct TagResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -980,8 +946,7 @@ public struct UnsubscribeInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         targetAddress: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.targetAddress = targetAddress
     }
@@ -999,8 +964,7 @@ public struct UnsubscribeOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1016,8 +980,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -1050,8 +1013,7 @@ public struct UpdateNotificationRuleInput: Swift.Sendable {
         name: Swift.String? = nil,
         status: CodestarnotificationsClientTypes.NotificationRuleStatus? = nil,
         targets: [CodestarnotificationsClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.detailType = detailType
         self.eventTypeIds = eventTypeIds

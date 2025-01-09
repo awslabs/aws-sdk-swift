@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkSpacesThinClientClient: ClientRuntime.Client {
     public static let clientName = "WorkSpacesThinClientClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.75"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkSpacesThinClientClient.WorkSpacesThinClientClientConfiguration
     let serviceName = "WorkSpaces Thin Client"
@@ -330,7 +330,7 @@ extension WorkSpacesThinClientClient {
 }
 
 extension WorkSpacesThinClientClient {
-    /// Performs the `CreateEnvironment` operation on the `ThinClient` service.
+    /// Performs the `CreateEnvironment` operation on the `WorkSpacesThinClient` service.
     ///
     /// Creates an environment for your thin client devices.
     ///
@@ -406,7 +406,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDevice` operation on the `ThinClient` service.
+    /// Performs the `DeleteDevice` operation on the `WorkSpacesThinClient` service.
     ///
     /// Deletes a thin client device.
     ///
@@ -479,7 +479,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEnvironment` operation on the `ThinClient` service.
+    /// Performs the `DeleteEnvironment` operation on the `WorkSpacesThinClient` service.
     ///
     /// Deletes an environment.
     ///
@@ -552,7 +552,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterDevice` operation on the `ThinClient` service.
+    /// Performs the `DeregisterDevice` operation on the `WorkSpacesThinClient` service.
     ///
     /// Deregisters a thin client device.
     ///
@@ -627,7 +627,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDevice` operation on the `ThinClient` service.
+    /// Performs the `GetDevice` operation on the `WorkSpacesThinClient` service.
     ///
     /// Returns information for a thin client device.
     ///
@@ -697,7 +697,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEnvironment` operation on the `ThinClient` service.
+    /// Performs the `GetEnvironment` operation on the `WorkSpacesThinClient` service.
     ///
     /// Returns information for an environment.
     ///
@@ -767,7 +767,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSoftwareSet` operation on the `ThinClient` service.
+    /// Performs the `GetSoftwareSet` operation on the `WorkSpacesThinClient` service.
     ///
     /// Returns information for a software set.
     ///
@@ -837,7 +837,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDevices` operation on the `ThinClient` service.
+    /// Performs the `ListDevices` operation on the `WorkSpacesThinClient` service.
     ///
     /// Returns a list of thin client devices.
     ///
@@ -907,7 +907,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEnvironments` operation on the `ThinClient` service.
+    /// Performs the `ListEnvironments` operation on the `WorkSpacesThinClient` service.
     ///
     /// Returns a list of environments.
     ///
@@ -977,7 +977,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSoftwareSets` operation on the `ThinClient` service.
+    /// Performs the `ListSoftwareSets` operation on the `WorkSpacesThinClient` service.
     ///
     /// Returns a list of software sets.
     ///
@@ -1047,7 +1047,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `ThinClient` service.
+    /// Performs the `ListTagsForResource` operation on the `WorkSpacesThinClient` service.
     ///
     /// Returns a list of tags for a resource.
     ///
@@ -1117,7 +1117,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `ThinClient` service.
+    /// Performs the `TagResource` operation on the `WorkSpacesThinClient` service.
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource.
     ///
@@ -1191,7 +1191,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `ThinClient` service.
+    /// Performs the `UntagResource` operation on the `WorkSpacesThinClient` service.
     ///
     /// Removes a tag or tags from a resource.
     ///
@@ -1263,7 +1263,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDevice` operation on the `ThinClient` service.
+    /// Performs the `UpdateDevice` operation on the `WorkSpacesThinClient` service.
     ///
     /// Updates a thin client device.
     ///
@@ -1336,7 +1336,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEnvironment` operation on the `ThinClient` service.
+    /// Performs the `UpdateEnvironment` operation on the `WorkSpacesThinClient` service.
     ///
     /// Updates an environment.
     ///
@@ -1409,7 +1409,7 @@ extension WorkSpacesThinClientClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSoftwareSet` operation on the `ThinClient` service.
+    /// Performs the `UpdateSoftwareSet` operation on the `WorkSpacesThinClient` service.
     ///
     /// Updates a software set.
     ///

@@ -37,8 +37,7 @@ extension ECRPUBLICClientTypes {
         public init(
             authorizationToken: Swift.String? = nil,
             expiresAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.authorizationToken = authorizationToken
             self.expiresAt = expiresAt
         }
@@ -63,8 +62,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -87,8 +85,7 @@ public struct RegistryNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -111,8 +108,7 @@ public struct RepositoryNotFoundException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -135,8 +131,7 @@ public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -159,8 +154,7 @@ public struct UnsupportedCommandException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -179,8 +173,7 @@ public struct BatchCheckLayerAvailabilityInput: Swift.Sendable {
         layerDigests: [Swift.String]? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerDigests = layerDigests
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -231,8 +224,7 @@ extension ECRPUBLICClientTypes {
             failureCode: ECRPUBLICClientTypes.LayerFailureCode? = nil,
             failureReason: Swift.String? = nil,
             layerDigest: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureReason = failureReason
             self.layerDigest = layerDigest
@@ -287,8 +279,7 @@ extension ECRPUBLICClientTypes {
             layerDigest: Swift.String? = nil,
             layerSize: Swift.Int? = nil,
             mediaType: Swift.String? = nil
-        )
-        {
+        ) {
             self.layerAvailability = layerAvailability
             self.layerDigest = layerDigest
             self.layerSize = layerSize
@@ -306,8 +297,7 @@ public struct BatchCheckLayerAvailabilityOutput: Swift.Sendable {
     public init(
         failures: [ECRPUBLICClientTypes.LayerFailure]? = nil,
         layers: [ECRPUBLICClientTypes.Layer]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.layers = layers
     }
@@ -325,8 +315,7 @@ extension ECRPUBLICClientTypes {
         public init(
             imageDigest: Swift.String? = nil,
             imageTag: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageDigest = imageDigest
             self.imageTag = imageTag
         }
@@ -347,8 +336,7 @@ public struct BatchDeleteImageInput: Swift.Sendable {
         imageIds: [ECRPUBLICClientTypes.ImageIdentifier]? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageIds = imageIds
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -414,8 +402,7 @@ extension ECRPUBLICClientTypes {
             failureCode: ECRPUBLICClientTypes.ImageFailureCode? = nil,
             failureReason: Swift.String? = nil,
             imageId: ECRPUBLICClientTypes.ImageIdentifier? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureReason = failureReason
             self.imageId = imageId
@@ -432,8 +419,7 @@ public struct BatchDeleteImageOutput: Swift.Sendable {
     public init(
         failures: [ECRPUBLICClientTypes.ImageFailure]? = nil,
         imageIds: [ECRPUBLICClientTypes.ImageIdentifier]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.imageIds = imageIds
     }
@@ -457,8 +443,7 @@ public struct EmptyUploadException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -481,8 +466,7 @@ public struct InvalidLayerException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -505,8 +489,7 @@ public struct LayerAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -529,8 +512,7 @@ public struct LayerPartTooSmallException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -553,8 +535,7 @@ public struct UploadNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -577,8 +558,7 @@ public struct CompleteLayerUploadInput: Swift.Sendable {
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerDigests = layerDigests
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -601,8 +581,7 @@ public struct CompleteLayerUploadOutput: Swift.Sendable {
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerDigest = layerDigest
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -628,8 +607,7 @@ public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -652,8 +630,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -676,8 +653,7 @@ public struct RepositoryAlreadyExistsException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -700,8 +676,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -742,8 +717,7 @@ extension ECRPUBLICClientTypes {
             logoImageBlob: Foundation.Data? = nil,
             operatingSystems: [Swift.String]? = nil,
             usageText: Swift.String? = nil
-        )
-        {
+        ) {
             self.aboutText = aboutText
             self.architectures = architectures
             self.description = description
@@ -766,8 +740,7 @@ extension ECRPUBLICClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -787,8 +760,7 @@ public struct CreateRepositoryInput: Swift.Sendable {
         catalogData: ECRPUBLICClientTypes.RepositoryCatalogDataInput? = nil,
         repositoryName: Swift.String? = nil,
         tags: [ECRPUBLICClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.catalogData = catalogData
         self.repositoryName = repositoryName
         self.tags = tags
@@ -822,8 +794,7 @@ extension ECRPUBLICClientTypes {
             marketplaceCertified: Swift.Bool? = nil,
             operatingSystems: [Swift.String]? = nil,
             usageText: Swift.String? = nil
-        )
-        {
+        ) {
             self.aboutText = aboutText
             self.architectures = architectures
             self.description = description
@@ -856,8 +827,7 @@ extension ECRPUBLICClientTypes {
             repositoryArn: Swift.String? = nil,
             repositoryName: Swift.String? = nil,
             repositoryUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.registryId = registryId
             self.repositoryArn = repositoryArn
@@ -876,8 +846,7 @@ public struct CreateRepositoryOutput: Swift.Sendable {
     public init(
         catalogData: ECRPUBLICClientTypes.RepositoryCatalogData? = nil,
         repository: ECRPUBLICClientTypes.Repository? = nil
-    )
-    {
+    ) {
         self.catalogData = catalogData
         self.repository = repository
     }
@@ -901,8 +870,7 @@ public struct RepositoryNotEmptyException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -920,8 +888,7 @@ public struct DeleteRepositoryInput: Swift.Sendable {
         force: Swift.Bool? = false,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -934,8 +901,7 @@ public struct DeleteRepositoryOutput: Swift.Sendable {
 
     public init(
         repository: ECRPUBLICClientTypes.Repository? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }
@@ -958,8 +924,7 @@ public struct RepositoryPolicyNotFoundException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -974,8 +939,7 @@ public struct DeleteRepositoryPolicyInput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryName = repositoryName
     }
@@ -993,8 +957,7 @@ public struct DeleteRepositoryPolicyOutput: Swift.Sendable {
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -1019,8 +982,7 @@ public struct ImageNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1044,8 +1006,7 @@ public struct DescribeImagesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageIds = imageIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1084,8 +1045,7 @@ extension ECRPUBLICClientTypes {
             imageTags: [Swift.String]? = nil,
             registryId: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactMediaType = artifactMediaType
             self.imageDigest = imageDigest
             self.imageManifestMediaType = imageManifestMediaType
@@ -1107,8 +1067,7 @@ public struct DescribeImagesOutput: Swift.Sendable {
     public init(
         imageDetails: [ECRPUBLICClientTypes.ImageDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageDetails = imageDetails
         self.nextToken = nextToken
     }
@@ -1130,8 +1089,7 @@ public struct DescribeImageTagsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.registryId = registryId
@@ -1160,8 +1118,7 @@ extension ECRPUBLICClientTypes {
             imageManifestMediaType: Swift.String? = nil,
             imagePushedAt: Foundation.Date? = nil,
             imageSizeInBytes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.artifactMediaType = artifactMediaType
             self.imageDigest = imageDigest
             self.imageManifestMediaType = imageManifestMediaType
@@ -1186,8 +1143,7 @@ extension ECRPUBLICClientTypes {
             createdAt: Foundation.Date? = nil,
             imageDetail: ECRPUBLICClientTypes.ReferencedImageDetail? = nil,
             imageTag: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.imageDetail = imageDetail
             self.imageTag = imageTag
@@ -1204,8 +1160,7 @@ public struct DescribeImageTagsOutput: Swift.Sendable {
     public init(
         imageTagDetails: [ECRPUBLICClientTypes.ImageTagDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageTagDetails = imageTagDetails
         self.nextToken = nextToken
     }
@@ -1220,8 +1175,7 @@ public struct DescribeRegistriesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1281,8 +1235,7 @@ extension ECRPUBLICClientTypes {
             name: Swift.String? = nil,
             primaryRegistryAlias: Swift.Bool = false,
             status: ECRPUBLICClientTypes.RegistryAliasStatus? = nil
-        )
-        {
+        ) {
             self.defaultRegistryAlias = defaultRegistryAlias
             self.name = name
             self.primaryRegistryAlias = primaryRegistryAlias
@@ -1317,8 +1270,7 @@ extension ECRPUBLICClientTypes {
             registryId: Swift.String? = nil,
             registryUri: Swift.String? = nil,
             verified: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.aliases = aliases
             self.registryArn = registryArn
             self.registryId = registryId
@@ -1338,8 +1290,7 @@ public struct DescribeRegistriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         registries: [ECRPUBLICClientTypes.Registry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registries = registries
     }
@@ -1360,8 +1311,7 @@ public struct DescribeRepositoriesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.registryId = registryId
@@ -1378,8 +1328,7 @@ public struct DescribeRepositoriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         repositories: [ECRPUBLICClientTypes.Repository]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositories = repositories
     }
@@ -1396,8 +1345,7 @@ public struct GetAuthorizationTokenOutput: Swift.Sendable {
 
     public init(
         authorizationData: ECRPUBLICClientTypes.AuthorizationData? = nil
-    )
-    {
+    ) {
         self.authorizationData = authorizationData
     }
 }
@@ -1416,8 +1364,7 @@ extension ECRPUBLICClientTypes {
 
         public init(
             displayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
         }
     }
@@ -1430,8 +1377,7 @@ public struct GetRegistryCatalogDataOutput: Swift.Sendable {
 
     public init(
         registryCatalogData: ECRPUBLICClientTypes.RegistryCatalogData? = nil
-    )
-    {
+    ) {
         self.registryCatalogData = registryCatalogData
     }
 }
@@ -1454,8 +1400,7 @@ public struct RepositoryCatalogDataNotFoundException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1470,8 +1415,7 @@ public struct GetRepositoryCatalogDataInput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryName = repositoryName
     }
@@ -1483,8 +1427,7 @@ public struct GetRepositoryCatalogDataOutput: Swift.Sendable {
 
     public init(
         catalogData: ECRPUBLICClientTypes.RepositoryCatalogData? = nil
-    )
-    {
+    ) {
         self.catalogData = catalogData
     }
 }
@@ -1499,8 +1442,7 @@ public struct GetRepositoryPolicyInput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryName = repositoryName
     }
@@ -1518,8 +1460,7 @@ public struct GetRepositoryPolicyOutput: Swift.Sendable {
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -1547,8 +1488,7 @@ extension ECRPUBLICClientTypes {
             imageManifestMediaType: Swift.String? = nil,
             registryId: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageId = imageId
             self.imageManifest = imageManifest
             self.imageManifestMediaType = imageManifestMediaType
@@ -1576,8 +1516,7 @@ public struct ImageAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1600,8 +1539,7 @@ public struct ImageDigestDoesNotMatchException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1624,8 +1562,7 @@ public struct ImageTagAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1640,8 +1577,7 @@ public struct InitiateLayerUploadInput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryName = repositoryName
     }
@@ -1656,8 +1592,7 @@ public struct InitiateLayerUploadOutput: Swift.Sendable {
     public init(
         partSize: Swift.Int? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.partSize = partSize
         self.uploadId = uploadId
     }
@@ -1693,8 +1628,7 @@ public struct InvalidLayerPartException: ClientRuntime.ModeledError, AWSClientRu
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.lastValidByteReceived = lastValidByteReceived
         self.properties.message = message
         self.properties.registryId = registryId
@@ -1721,8 +1655,7 @@ public struct LayersNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1734,8 +1667,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1746,8 +1678,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ECRPUBLICClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1770,8 +1701,7 @@ public struct ReferencedImagesNotFoundException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1799,8 +1729,7 @@ public struct PutImageInput: Swift.Sendable {
         imageTag: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageDigest = imageDigest
         self.imageManifest = imageManifest
         self.imageManifestMediaType = imageManifestMediaType
@@ -1816,8 +1745,7 @@ public struct PutImageOutput: Swift.Sendable {
 
     public init(
         image: ECRPUBLICClientTypes.Image? = nil
-    )
-    {
+    ) {
         self.image = image
     }
 }
@@ -1828,8 +1756,7 @@ public struct PutRegistryCatalogDataInput: Swift.Sendable {
 
     public init(
         displayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
     }
 }
@@ -1841,8 +1768,7 @@ public struct PutRegistryCatalogDataOutput: Swift.Sendable {
 
     public init(
         registryCatalogData: ECRPUBLICClientTypes.RegistryCatalogData? = nil
-    )
-    {
+    ) {
         self.registryCatalogData = registryCatalogData
     }
 }
@@ -1861,8 +1787,7 @@ public struct PutRepositoryCatalogDataInput: Swift.Sendable {
         catalogData: ECRPUBLICClientTypes.RepositoryCatalogDataInput? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogData = catalogData
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -1875,8 +1800,7 @@ public struct PutRepositoryCatalogDataOutput: Swift.Sendable {
 
     public init(
         catalogData: ECRPUBLICClientTypes.RepositoryCatalogData? = nil
-    )
-    {
+    ) {
         self.catalogData = catalogData
     }
 }
@@ -1898,8 +1822,7 @@ public struct SetRepositoryPolicyInput: Swift.Sendable {
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.policyText = policyText
         self.registryId = registryId
@@ -1919,8 +1842,7 @@ public struct SetRepositoryPolicyOutput: Swift.Sendable {
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -1938,8 +1860,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [ECRPUBLICClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1961,8 +1882,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1999,8 +1919,7 @@ public struct UploadLayerPartInput: Swift.Sendable {
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerPartBlob = layerPartBlob
         self.partFirstByte = partFirstByte
         self.partLastByte = partLastByte
@@ -2025,8 +1944,7 @@ public struct UploadLayerPartOutput: Swift.Sendable {
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastByteReceived = lastByteReceived
         self.registryId = registryId
         self.repositoryName = repositoryName
