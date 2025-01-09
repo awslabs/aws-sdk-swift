@@ -6,6 +6,7 @@
 //
 
 import AWSS3
+import enum Smithy.ByteStream
 
 /// The synthetic input type for AWS S3 Transfer Manager's UploadObject operation.
 public struct UploadObjectInput {
@@ -62,9 +63,13 @@ public struct UploadObjectInput {
     }
 
     // Helper function to construct UploadPartInput from PutObjectInput.
-    func getUploadPartInput() -> UploadPartInput {
+    func getUploadPartInput(
+        body: Smithy.ByteStream,
+        partNumber: Int,
+        uploadID: String
+    ) -> UploadPartInput {
         return UploadPartInput(
-            body: putObjectInput.body,
+            body: body,
             bucket: putObjectInput.bucket,
             checksumAlgorithm: putObjectInput.checksumAlgorithm,
             checksumCRC32: putObjectInput.checksumCRC32,
@@ -75,17 +80,20 @@ public struct UploadObjectInput {
             contentMD5: putObjectInput.contentMD5,
             expectedBucketOwner: putObjectInput.expectedBucketOwner,
             key: putObjectInput.key,
-            // partNumber: filled out BY S3TM
+            partNumber: partNumber,
             requestPayer: putObjectInput.requestPayer,
             sseCustomerAlgorithm: putObjectInput.sseCustomerAlgorithm,
             sseCustomerKey: putObjectInput.sseCustomerKey,
-            sseCustomerKeyMD5: putObjectInput.sseCustomerKeyMD5
-            // uploadId: filled out by S3TM
+            sseCustomerKeyMD5: putObjectInput.sseCustomerKeyMD5,
+            uploadId: uploadID
         )
     }
 
     // Helper function to construct CompleteMultipartUploadInput from PutObjectInput.
-    func getCompleteMultipartUploadInput() -> CompleteMultipartUploadInput {
+    func getCompleteMultipartUploadInput(
+        multipartUpload: S3ClientTypes.CompletedMultipartUpload,
+        uploadID: String
+    ) -> CompleteMultipartUploadInput {
         return CompleteMultipartUploadInput(
             bucket: putObjectInput.bucket,
             checksumCRC32: putObjectInput.checksumCRC32,
@@ -96,12 +104,25 @@ public struct UploadObjectInput {
             ifMatch: putObjectInput.ifMatch,
             ifNoneMatch: putObjectInput.ifNoneMatch,
             key: putObjectInput.key,
-            // multipartUpload: filled out by S3TM
+            multipartUpload: multipartUpload,
             requestPayer: putObjectInput.requestPayer,
             sseCustomerAlgorithm: putObjectInput.sseCustomerAlgorithm,
             sseCustomerKey: putObjectInput.sseCustomerKey,
-            sseCustomerKeyMD5: putObjectInput.sseCustomerKeyMD5
-            // uploadId: filled out by S3TM
+            sseCustomerKeyMD5: putObjectInput.sseCustomerKeyMD5,
+            uploadId: uploadID
+        )
+    }
+
+    // Helper function to construct AbortMultipartUploadInput from PutObjectInput.
+    func getAbortMultipartUploadInput(
+        uploadID: String
+    ) -> AbortMultipartUploadInput {
+        return AbortMultipartUploadInput(
+            bucket: putObjectInput.bucket,
+            expectedBucketOwner: putObjectInput.expectedBucketOwner,
+            key: putObjectInput.key,
+            requestPayer: putObjectInput.requestPayer,
+            uploadId: uploadID
         )
     }
 }
