@@ -27,7 +27,7 @@ public struct UploadObjectInput {
 
     // Helper function to convert PutObjectInput to CreateMultipartUploadInput.
     // Used if the upload size is above MPU threshold and upload needs to be done using MPU.
-    private func getCreateMultipartUploadInput() -> CreateMultipartUploadInput {
+    public func getCreateMultipartUploadInput() -> CreateMultipartUploadInput {
         // The members of CreateMultipartUploadInput is a subset of PutObjectInput's members.
         return CreateMultipartUploadInput(
             acl: putObjectInput.acl,
