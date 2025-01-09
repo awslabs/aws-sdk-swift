@@ -9,6 +9,7 @@ import struct Foundation.TimeInterval
 import enum AwsCommonRuntimeKit.CommonRunTimeError
 import protocol SmithyRetriesAPI.RetryErrorInfoProvider
 import enum ClientRuntime.DefaultRetryErrorInfoProvider
+import struct Smithy.SwiftLogger
 import struct SmithyRetriesAPI.RetryErrorInfo
 import protocol ClientRuntime.ServiceError
 import protocol ClientRuntime.HTTPError
@@ -68,6 +69,8 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         // Handle certain CRT errors as transient errors
         if case CommonRunTimeError.crtError(let crtError) = error {
             if transientCRTErrorCodes.contains(crtError.code) {
+                let logger = SwiftLogger(label: "RetryLogger")
+                logger.debug("RETRYING CRT ERROR CODE: \(crtError.code)")
                 return RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout)
             }
         }
