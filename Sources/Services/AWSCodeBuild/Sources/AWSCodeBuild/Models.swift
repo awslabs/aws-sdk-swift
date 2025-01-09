@@ -409,14 +409,18 @@ extension CodeBuildClientTypes {
     public struct BatchRestrictions: Swift.Sendable {
         /// An array of strings that specify the compute types that are allowed for the batch build. See [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild User Guide for these values.
         public var computeTypesAllowed: [Swift.String]?
+        /// An array of strings that specify the fleets that are allowed for the batch build. See [Run builds on reserved capacity fleets](https://docs.aws.amazon.com/codebuild/latest/userguide/fleets.html) in the CodeBuild User Guide for more information.
+        public var fleetsAllowed: [Swift.String]?
         /// Specifies the maximum number of builds allowed.
         public var maximumBuildsAllowed: Swift.Int?
 
         public init(
             computeTypesAllowed: [Swift.String]? = nil,
+            fleetsAllowed: [Swift.String]? = nil,
             maximumBuildsAllowed: Swift.Int? = nil
         ) {
             self.computeTypesAllowed = computeTypesAllowed
+            self.fleetsAllowed = fleetsAllowed
             self.maximumBuildsAllowed = maximumBuildsAllowed
         }
     }
@@ -1599,7 +1603,7 @@ extension CodeBuildClientTypes {
         ///
         /// If you specify CODEPIPELINE for the Type property, don't specify this property. For all of the other types, you must specify Location.
         public var location: Swift.String?
-        /// Set to true to report the status of a build's start and finish to your source provider. This option is valid only when your source provider is GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket. If this is set and you use a different source provider, an invalidInputException is thrown. To be able to report the build status to the source provider, the user associated with the source provider must have write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see [Source provider access](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html) in the CodeBuild User Guide. The status of a build triggered by a webhook is always reported to your source provider. If your project's builds are triggered by a webhook, you must push a new commit to the repo for a change to this property to take effect.
+        /// Set to true to report the status of a build's start and finish to your source provider. This option is valid only when your source provider is GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, GitLab, GitLab Self Managed, or Bitbucket. If this is set and you use a different source provider, an invalidInputException is thrown. To be able to report the build status to the source provider, the user associated with the source provider must have write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see [Source provider access](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html) in the CodeBuild User Guide. The status of a build triggered by a webhook is always reported to your source provider. If your project's builds are triggered by a webhook, you must push a new commit to the repo for a change to this property to take effect.
         public var reportBuildStatus: Swift.Bool?
         /// An identifier for this project source. The identifier can only contain alphanumeric characters and underscores, and must be less than 128 characters in length.
         public var sourceIdentifier: Swift.String?
@@ -6034,7 +6038,7 @@ public struct StartBuildInput: Swift.Sendable {
     public var queuedTimeoutInMinutesOverride: Swift.Int?
     /// The credentials for access to a private registry.
     public var registryCredentialOverride: CodeBuildClientTypes.RegistryCredential?
-    /// Set to true to report to your source provider the status of a build's start and completion. If you use this option with a source provider other than GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is thrown. To be able to report the build status to the source provider, the user associated with the source provider must have write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see [Source provider access](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html) in the CodeBuild User Guide. The status of a build triggered by a webhook is always reported to your source provider.
+    /// Set to true to report to your source provider the status of a build's start and completion. If you use this option with a source provider other than GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket, an invalidInputException is thrown. To be able to report the build status to the source provider, the user associated with the source provider must have write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see [Source provider access](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html) in the CodeBuild User Guide. The status of a build triggered by a webhook is always reported to your source provider.
     public var reportBuildStatusOverride: Swift.Bool?
     /// An array of ProjectArtifacts objects.
     public var secondaryArtifactsOverride: [CodeBuildClientTypes.ProjectArtifacts]?
@@ -9149,6 +9153,7 @@ extension CodeBuildClientTypes.BatchRestrictions {
     static func write(value: CodeBuildClientTypes.BatchRestrictions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["computeTypesAllowed"].writeList(value.computeTypesAllowed, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["fleetsAllowed"].writeList(value.fleetsAllowed, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maximumBuildsAllowed"].write(value.maximumBuildsAllowed)
     }
 
@@ -9157,6 +9162,7 @@ extension CodeBuildClientTypes.BatchRestrictions {
         var value = CodeBuildClientTypes.BatchRestrictions()
         value.maximumBuildsAllowed = try reader["maximumBuildsAllowed"].readIfPresent()
         value.computeTypesAllowed = try reader["computeTypesAllowed"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fleetsAllowed = try reader["fleetsAllowed"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

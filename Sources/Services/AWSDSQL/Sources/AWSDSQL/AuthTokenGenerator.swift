@@ -40,8 +40,8 @@ public class AuthTokenGenerator {
     /// Generates authenetication token for non-admin connection using given inputs to the method and credential identity instance variable.
     ///
     /// - Parameters:
-    ///   - endpoint: The endpoint of the RDS instance. E.g., `peccy.dsql.us-east-1.on.aws`
-    ///   - region: The region that RDS instance is located in. E.g., `us-east-1`
+    ///   - endpoint: The endpoint of the DSQL instance. E.g., `peccy.dsql.us-east-1.on.aws`
+    ///   - region: The region that DSQL instance is located in. E.g., `us-east-1`
     ///   - expiration: The expiration for the token in seconds. Default is 900 seconds (15 minutes).
     public func generateDBConnectAuthToken(
         endpoint: String,
@@ -59,8 +59,8 @@ public class AuthTokenGenerator {
     /// Generates authenetication token for admin connection using given inputs to the method and credential identity instance variable.
     ///
     /// - Parameters:
-    ///   - endpoint: The endpoint of the RDS instance. E.g., `peccy.dsql.us-east-1.on.aws`
-    ///   - region: The region that RDS instance is located in. E.g., `us-east-1`
+    ///   - endpoint: The endpoint of the DSQL instance. E.g., `peccy.dsql.us-east-1.on.aws`
+    ///   - region: The region that DSQL instance is located in. E.g., `us-east-1`
     ///   - expiration: The expiration for the token in seconds. Default is 900 seconds (15 minutes).
     public func generateDBConnectAdminAuthToken(
         endpoint: String,
