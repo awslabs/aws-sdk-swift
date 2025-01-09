@@ -25,10 +25,8 @@ public struct UploadObjectInput {
         self.transferListeners = transferListeners
     }
 
-    // Helper function to convert PutObjectInput to CreateMultipartUploadInput.
-    // Used if the upload size is above MPU threshold and upload needs to be done using MPU.
-    public func getCreateMultipartUploadInput() -> CreateMultipartUploadInput {
-        // The members of CreateMultipartUploadInput is a subset of PutObjectInput's members.
+    // Helper function to construct CreateMultipartUploadInput from PutObjectInput.
+    func getCreateMultipartUploadInput() -> CreateMultipartUploadInput {
         return CreateMultipartUploadInput(
             acl: putObjectInput.acl,
             bucket: putObjectInput.bucket,
@@ -60,6 +58,50 @@ public struct UploadObjectInput {
             storageClass: putObjectInput.storageClass,
             tagging: putObjectInput.tagging,
             websiteRedirectLocation: putObjectInput.websiteRedirectLocation
+        )
+    }
+
+    // Helper function to construct UploadPartInput from PutObjectInput.
+    func getUploadPartInput() -> UploadPartInput {
+        return UploadPartInput(
+            body: putObjectInput.body,
+            bucket: putObjectInput.bucket,
+            checksumAlgorithm: putObjectInput.checksumAlgorithm,
+            checksumCRC32: putObjectInput.checksumCRC32,
+            checksumCRC32C: putObjectInput.checksumCRC32C,
+            checksumSHA1: putObjectInput.checksumSHA1,
+            checksumSHA256: putObjectInput.checksumSHA256,
+            contentLength: putObjectInput.contentLength,
+            contentMD5: putObjectInput.contentMD5,
+            expectedBucketOwner: putObjectInput.expectedBucketOwner,
+            key: putObjectInput.key,
+            // partNumber: filled out BY S3TM
+            requestPayer: putObjectInput.requestPayer,
+            sseCustomerAlgorithm: putObjectInput.sseCustomerAlgorithm,
+            sseCustomerKey: putObjectInput.sseCustomerKey,
+            sseCustomerKeyMD5: putObjectInput.sseCustomerKeyMD5
+            // uploadId: filled out by S3TM
+        )
+    }
+
+    // Helper function to construct CompleteMultipartUploadInput from PutObjectInput.
+    func getCompleteMultipartUploadInput() -> CompleteMultipartUploadInput {
+        return CompleteMultipartUploadInput(
+            bucket: putObjectInput.bucket,
+            checksumCRC32: putObjectInput.checksumCRC32,
+            checksumCRC32C: putObjectInput.checksumCRC32C,
+            checksumSHA1: putObjectInput.checksumSHA1,
+            checksumSHA256: putObjectInput.checksumSHA256,
+            expectedBucketOwner: putObjectInput.expectedBucketOwner,
+            ifMatch: putObjectInput.ifMatch,
+            ifNoneMatch: putObjectInput.ifNoneMatch,
+            key: putObjectInput.key,
+            // multipartUpload: filled out by S3TM
+            requestPayer: putObjectInput.requestPayer,
+            sseCustomerAlgorithm: putObjectInput.sseCustomerAlgorithm,
+            sseCustomerKey: putObjectInput.sseCustomerKey,
+            sseCustomerKeyMD5: putObjectInput.sseCustomerKeyMD5
+            // uploadId: filled out by S3TM
         )
     }
 }
