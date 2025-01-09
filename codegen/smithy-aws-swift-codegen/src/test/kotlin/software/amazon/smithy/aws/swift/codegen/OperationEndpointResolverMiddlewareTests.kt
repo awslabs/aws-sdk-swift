@@ -50,7 +50,7 @@ let projection2: [Swift.String]? = objects2?.compactMap { original in
     let id = original.id
     return id
 }
-let endpointParams = EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.boolFoo, endpoint: config.endpoint, flattenedArray: projection, keysFunctionArray: keys, region: region, stringArrayBar: ["five", "six", "seven"], stringBar: "some value", stringBaz: input.buzz, stringFoo: config.stringFoo, subfield: subfield2, wildcardProjectionArray: projection2)
+let endpointParams = EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.boolFoo, endpoint: try config.endpoint ?? AWSClientConfigDefaultsProvider.configuredEndpoint(self.serviceName, config.ignoreConfiguredEndpointURLs), flattenedArray: projection, keysFunctionArray: keys, region: region, stringArrayBar: ["five", "six", "seven"], stringBar: "some value", stringBaz: input.buzz, stringFoo: config.stringFoo, subfield: subfield2, wildcardProjectionArray: projection2)
 builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetThingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
 """
         contents.shouldContainOnlyOnce(expected)
