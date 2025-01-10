@@ -31,8 +31,8 @@ class ConfiguredEndpointTests: XCTestCase {
             client-config | env-var | shared-config-file
      */
 
-    func testClientConfigDisableFlag() {
-        let resolvedEndpoint = AWSEndpointConfig.configuredEndpoint(
+    func testClientConfigDisableFlag() throws {
+        let resolvedEndpoint = try AWSEndpointConfig.configuredEndpoint(
             sdkID: sdkID,
             ignoreConfiguredEndpointURLs: true,
             fileBasedConfig: fileBasedConfig
@@ -40,9 +40,9 @@ class ConfiguredEndpointTests: XCTestCase {
         XCTAssertNil(resolvedEndpoint)
     }
 
-    func testEnvVarDisableFlag() {
+    func testEnvVarDisableFlag() throws {
         setenv("AWS_IGNORE_CONFIGURED_ENDPOINT_URLS", "true", 1)
-        let resolvedEndpoint = AWSEndpointConfig.configuredEndpoint(
+        let resolvedEndpoint = try AWSEndpointConfig.configuredEndpoint(
             sdkID: sdkID,
             ignoreConfiguredEndpointURLs: nil,
             fileBasedConfig: fileBasedConfig
@@ -50,9 +50,9 @@ class ConfiguredEndpointTests: XCTestCase {
         XCTAssertNil(resolvedEndpoint)
     }
 
-    func testSharedConfigFileDisableFlag() {
+    func testSharedConfigFileDisableFlag() throws {
         setenv("AWS_PROFILE", "ignoreConfiguredEndpointProfile", 1)
-        let resolvedEndpoint = AWSEndpointConfig.configuredEndpoint(
+        let resolvedEndpoint = try AWSEndpointConfig.configuredEndpoint(
             sdkID: sdkID,
             ignoreConfiguredEndpointURLs: nil,
             fileBasedConfig: fileBasedConfig
@@ -68,10 +68,10 @@ class ConfiguredEndpointTests: XCTestCase {
         *client-config is handled implicitly by executing configured endpoint resolution only if user didn't provide it
      */
 
-    func testResolveServiceSpecificEnvVar() {
+    func testResolveServiceSpecificEnvVar() throws {
         setenv("AWS_ENDPOINT_URL", "https://env-global.com:9000", 1)
         setenv("AWS_ENDPOINT_URL_TEST_SERVICE", "https://env-specific.com:9000", 1)
-        let resolvedEndpoint = AWSEndpointConfig.configuredEndpoint(
+        let resolvedEndpoint = try AWSEndpointConfig.configuredEndpoint(
             sdkID: sdkID,
             ignoreConfiguredEndpointURLs: nil,
             fileBasedConfig: fileBasedConfig
@@ -79,9 +79,9 @@ class ConfiguredEndpointTests: XCTestCase {
         XCTAssertEqual(resolvedEndpoint, "https://env-specific.com:9000")
     }
 
-    func testResolveGlobalEnvVar() {
+    func testResolveGlobalEnvVar() throws {
         setenv("AWS_ENDPOINT_URL", "https://env-global.com:9000", 1)
-        let resolvedEndpoint = AWSEndpointConfig.configuredEndpoint(
+        let resolvedEndpoint = try AWSEndpointConfig.configuredEndpoint(
             sdkID: sdkID,
             ignoreConfiguredEndpointURLs: nil,
             fileBasedConfig: fileBasedConfig
@@ -89,9 +89,9 @@ class ConfiguredEndpointTests: XCTestCase {
         XCTAssertEqual(resolvedEndpoint, "https://env-global.com:9000")
     }
 
-    func testResolveServiceSpecificConfig() {
+    func testResolveServiceSpecificConfig() throws {
         setenv("AWS_PROFILE", "serviceSpecificConfiguredEndpointProfile", 1)
-        let resolvedEndpoint = AWSEndpointConfig.configuredEndpoint(
+        let resolvedEndpoint = try AWSEndpointConfig.configuredEndpoint(
             sdkID: sdkID,
             ignoreConfiguredEndpointURLs: nil,
             fileBasedConfig: fileBasedConfig
@@ -99,9 +99,9 @@ class ConfiguredEndpointTests: XCTestCase {
         XCTAssertEqual(resolvedEndpoint, "https://config-specific.com:1000")
     }
 
-    func testResolveServiceSpecificConfig2() {
+    func testResolveServiceSpecificConfig2() throws {
         setenv("AWS_PROFILE", "serviceSpecificConfiguredEndpointProfile", 1)
-        let resolvedEndpoint = AWSEndpointConfig.configuredEndpoint(
+        let resolvedEndpoint = try AWSEndpointConfig.configuredEndpoint(
             sdkID: "Test Service 2",
             ignoreConfiguredEndpointURLs: nil,
             fileBasedConfig: fileBasedConfig
@@ -109,9 +109,9 @@ class ConfiguredEndpointTests: XCTestCase {
         XCTAssertEqual(resolvedEndpoint, "https://config-specific.com:2000")
     }
 
-    func testResolveGlobalConfigWhenMissingServicesSection() {
+    func testResolveGlobalConfigWhenMissingServicesSection() throws {
         setenv("AWS_PROFILE", "serviceSpecificConfiguredEndpointProfile", 1)
-        let resolvedEndpoint = AWSEndpointConfig.configuredEndpoint(
+        let resolvedEndpoint = try AWSEndpointConfig.configuredEndpoint(
             sdkID: "absent-service-name",
             ignoreConfiguredEndpointURLs: nil,
             fileBasedConfig: fileBasedConfig
@@ -119,9 +119,9 @@ class ConfiguredEndpointTests: XCTestCase {
         XCTAssertEqual(resolvedEndpoint, "https://config-global.com:2000")
     }
 
-    func testResolveGlobalConfigwhenMissingMatchingServiceSubsection() {
+    func testResolveGlobalConfigwhenMissingMatchingServiceSubsection() throws {
         setenv("AWS_PROFILE", "globalConfiguredEndpointProfile", 1)
-        let resolvedEndpoint = AWSEndpointConfig.configuredEndpoint(
+        let resolvedEndpoint = try AWSEndpointConfig.configuredEndpoint(
             sdkID: sdkID,
             ignoreConfiguredEndpointURLs: nil,
             fileBasedConfig: fileBasedConfig
@@ -129,9 +129,9 @@ class ConfiguredEndpointTests: XCTestCase {
         XCTAssertEqual(resolvedEndpoint, "https://config-global.com:1000")
     }
 
-    func testResolveNilWhenNothingIsConfigured() {
+    func testResolveNilWhenNothingIsConfigured() throws {
         setenv("AWS_PROFILE", "noConfiguredEndpointProfile", 1)
-        let resolvedEndpoint = AWSEndpointConfig.configuredEndpoint(
+        let resolvedEndpoint = try AWSEndpointConfig.configuredEndpoint(
             sdkID: sdkID,
             ignoreConfiguredEndpointURLs: nil,
             fileBasedConfig: fileBasedConfig
