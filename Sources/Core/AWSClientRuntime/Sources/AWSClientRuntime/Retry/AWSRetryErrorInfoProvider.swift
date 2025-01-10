@@ -56,6 +56,8 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
     private static let timeoutStatusCodes = [408, 504]
 
     public static func errorInfo(for error: Error) -> RetryErrorInfo? {
+        let logger = SwiftLogger(label: "RetryLogger")
+        logger.debug("(RETRYING) got errorInfo for \(error)")
 
         // Determine based on properties if this error is a timeout error.
         var isTimeout = false
@@ -69,7 +71,6 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         // Handle certain CRT errors as transient errors
         if case CommonRunTimeError.crtError(let crtError) = error {
             if transientCRTErrorCodes.contains(crtError.code) {
-                let logger = SwiftLogger(label: "RetryLogger")
                 logger.debug("RETRYING CRT ERROR CODE: \(crtError.code)")
                 return RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout)
             }
