@@ -6,6 +6,7 @@
 //
 
 import class Foundation.ProcessInfo
+import enum Smithy.ClientError
 import struct Foundation.Locale
 import struct Smithy.SwiftLogger
 @_spi(FileBasedConfig) import AWSSDKCommon
@@ -15,7 +16,7 @@ public enum AWSEndpointConfig {
         sdkID: String,
         ignoreConfiguredEndpointURLs: Bool?,
         fileBasedConfig: FileBasedConfiguration
-    ) -> String? {
+    ) throws -> String? {
         // First, resolve disable flag
         let disableFlag = FieldResolver(
             configValue: ignoreConfiguredEndpointURLs,
@@ -36,12 +37,12 @@ public enum AWSEndpointConfig {
             let env = ProcessInfo.processInfo.environment
             //  a. Service-specific configured endpoint from `AWS_ENDPOINT_URL_<SERVICE>`
             let uppercasedID = removedSpaceID.uppercased(with: Locale(identifier: "en_US"))
-            if let val = env["AWS_ENDPOINT_URL_\(uppercasedID)"] {
+            if let val = env["AWS_ENDPOINT_URL_\(uppercasedID)"], val != "" {
                 logger.trace("Resolved configured endpoint from AWS_ENDPOINT_URL_\(uppercasedID): \(val)")
                 return val
             }
             //  b. Global configured endpoint from `AWS_ENDPOINT_URL`
-            if let val = env["AWS_ENDPOINT_URL"] {
+            if let val = env["AWS_ENDPOINT_URL"], val != "" {
                 logger.trace("Resolved configured endpoint from AWS_ENDPOINT_URL: \(val)")
                 return val
             }
@@ -59,13 +60,17 @@ public enum AWSEndpointConfig {
                    endpoint_url = https://abcde:9000
              */
             if let servicesSectionName = fileBasedConfig.section(for: profileName)?.string(for: "services") {
-                let servicesSection = fileBasedConfig.section(for: servicesSectionName, type: .services)
-                let serviceSubsection = servicesSection?.subproperties(
+                guard let servicesSection = fileBasedConfig.section(for: servicesSectionName, type: .services) else {
+                    throw ClientError.dataNotFound(
+                        "The [services \(servicesSectionName)] section doesn't exist!"
+                    )
+                }
+                let serviceSubsection = servicesSection.subproperties(
                     for: FileBasedConfigurationKey(
                         rawValue: removedSpaceID.lowercased(with: Locale(identifier: "en_US"))
                     )
                 )
-                if let val = serviceSubsection?.value(for: configuredEndpointKey) {
+                if let val = serviceSubsection?.value(for: configuredEndpointKey), val != "" {
                     logger.trace(
                         "Resolved configured endpoint from service-specific field in shared config file: \(val)"
                     )
@@ -78,9 +83,9 @@ public enum AWSEndpointConfig {
                   services = devServices
                   endpoint_url = http://localhost:5567
              */
-            if let configValue = fileBasedConfig.section(for: profileName)?.string(for: configuredEndpointKey) {
-                logger.trace("Resolved configured endpoint from global field in shared config file: \(configValue)")
-                return configValue
+            if let val = fileBasedConfig.section(for: profileName)?.string(for: configuredEndpointKey), val != "" {
+                logger.trace("Resolved configured endpoint from global field in shared config file: \(val)")
+                return val
             }
             // 3. Configured endpoint not found anywhere; return nil.
             logger.trace("No configured endpoint found. Defaulting to SDK logic for resolving endpoint...")

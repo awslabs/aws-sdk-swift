@@ -141,7 +141,7 @@ public class AWSClientConfigDefaultsProvider {
         _ ignoreConfiguredEndpointURLs: Bool? = nil
     ) throws -> String? {
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
-        return AWSEndpointConfig.configuredEndpoint(
+        return try AWSEndpointConfig.configuredEndpoint(
             sdkID: sdkID,
             ignoreConfiguredEndpointURLs: ignoreConfiguredEndpointURLs,
             fileBasedConfig: fileBasedConfig
