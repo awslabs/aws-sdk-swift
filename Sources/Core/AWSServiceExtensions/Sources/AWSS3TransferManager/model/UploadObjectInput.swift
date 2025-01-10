@@ -33,7 +33,7 @@ public struct UploadObjectInput {
             bucket: putObjectInput.bucket,
             bucketKeyEnabled: putObjectInput.bucketKeyEnabled,
             cacheControl: putObjectInput.cacheControl,
-            checksumAlgorithm: putObjectInput.checksumAlgorithm,
+            checksumAlgorithm: resolveChecksumAlgorithmForCreateMPUInput(putObjectInput),
             contentDisposition: putObjectInput.contentDisposition,
             contentEncoding: putObjectInput.contentEncoding,
             contentLanguage: putObjectInput.contentLanguage,
@@ -124,5 +124,31 @@ public struct UploadObjectInput {
             requestPayer: putObjectInput.requestPayer,
             uploadId: uploadID
         )
+    }
+
+    private func resolveChecksumAlgorithmForCreateMPUInput(
+        _ putObjectInput: PutObjectInput
+    ) -> S3ClientTypes.ChecksumAlgorithm {
+        // If algorithm was configurd on PutObjectInput, just return that.
+        if let algo = putObjectInput.checksumAlgorithm {
+            return algo
+        }
+        // Otherwise, check for any checksum value provided; return algorithm if configured.
+        // Follow the algorithm priority in smithy-swift/Sources/SmithyChecksums/ChecksumAlgorithm.swift.
+        if let crc32cChecksum = putObjectInput.checksumCRC32C {
+            return .crc32c
+        }
+        if let crc32Checksum = putObjectInput.checksumCRC32 {
+            return .crc32
+        }
+        if let sha1Checksum = putObjectInput.checksumSHA1 {
+            return .sha1
+        }
+        if let sha256Checksum = putObjectInput.checksumSHA256 {
+            return .sha256
+        }
+        // If no checksum nor checksum algorithm was configured, return CRC32.
+        // It's the default algorithm for Swift SDK.
+        return .crc32
     }
 }
