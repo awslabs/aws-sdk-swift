@@ -39,6 +39,7 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
             { it.format("\$N.retryMode()", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider) },
             true
         ),
-        ConfigProperty("maxAttempts", SwiftTypes.Int.toOptional())
+        ConfigProperty("maxAttempts", SwiftTypes.Int.toOptional()),
+        ConfigProperty("ignoreConfiguredEndpointURLs", SwiftTypes.Bool.toOptional())
     )
 }

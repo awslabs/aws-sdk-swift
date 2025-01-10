@@ -13,6 +13,7 @@
 public enum FileBasedConfigurationSectionType {
     case profile
     case ssoSession
+    case services
 }
 
 @_spi(FileBasedConfig)

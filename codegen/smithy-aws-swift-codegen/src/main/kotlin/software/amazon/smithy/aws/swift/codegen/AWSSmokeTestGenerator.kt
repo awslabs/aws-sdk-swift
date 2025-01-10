@@ -26,11 +26,15 @@ class AWSSmokeTestGenerator(
     )
 
     override fun getServiceName(): String {
-        return "AWS" + ctx.service.getTrait(ServiceTrait::class.java).get().sdkId.toUpperCamelCase()
+        val serviceTrait = ctx.service.getTrait(ServiceTrait::class.java).orElse(null)
+        val sdkId = serviceTrait?.sdkId?.toUpperCamelCase() ?: "DefaultService"
+        return "AWS$sdkId"
     }
 
     override fun getClientName(): String {
-        return ctx.service.getTrait(ServiceTrait::class.java).get().sdkId.toUpperCamelCase().removeSuffix("Service") + "Client"
+        val serviceTrait = ctx.service.getTrait(ServiceTrait::class.java).orElse(null)
+        val sdkId = serviceTrait?.sdkId?.toUpperCamelCase()?.removeSuffix("Service") ?: "Default"
+        return "${sdkId}Client"
     }
 
     override fun renderCustomFilePrivateVariables(writer: SwiftWriter) {

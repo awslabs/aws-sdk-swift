@@ -8,9 +8,9 @@
 import protocol ClientRuntime.BaseError
 import enum ClientRuntime.BaseErrorDecodeError
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Reader
+@_spi(SmithyReadWrite) import class SmithyCBOR.Reader
 
-public struct AWSJSONError: BaseError {
+public struct RpcV2CborError: BaseError {
     public let code: String
     public let message: String?
     public let requestID: String?
@@ -21,31 +21,41 @@ public struct AWSJSONError: BaseError {
 
     @_spi(SmithyReadWrite)
     public init(httpResponse: HTTPResponse, responseReader: Reader, noErrorWrapping: Bool, code: String? = nil) throws {
-        let errorCode: String? = try httpResponse.headers.value(for: "X-Amzn-Errortype")
-                            ?? responseReader["code"].readIfPresent()
-                            ?? responseReader["__type"].readIfPresent()
-        let resolvedCode = code ?? errorCode
-        let message: String? = try responseReader["Message"].readIfPresent()
-        let requestID: String? = try responseReader["RequestId"].readIfPresent()
-        guard let resolvedCode else { throw BaseErrorDecodeError.missingRequiredData }
-        self.code = sanitizeErrorType(resolvedCode)
-        self.message = message
-        self.requestID = requestID
+        switch responseReader.cborValue {
+        case .map(let errorDetails):
+            if case let .text(errorCode) = errorDetails["__type"] {
+                self.code = sanitizeErrorType(errorCode)
+            } else {
+                self.code = "UnknownError"
+            }
+
+            if case let .text(errorMessage) = errorDetails["Message"] {
+                self.message  = errorMessage
+            } else {
+                self.message = nil
+            }
+        default:
+            self.code = "UnknownError"
+            self.message = nil
+        }
+
         self.httpResponse = httpResponse
         self.responseReader = responseReader
+        self.requestID = nil
     }
 }
 
-extension AWSJSONError {
+// support awsQueryCompatible trait
+extension RpcV2CborError {
     @_spi(SmithyReadWrite)
     public static func makeQueryCompatibleError(
         httpResponse: HTTPResponse,
         responseReader: Reader,
         noErrorWrapping: Bool,
         errorDetails: String?
-    ) throws -> AWSJSONError {
+    ) throws -> RpcV2CborError {
         let errorCode = try AwsQueryCompatibleErrorDetails.parse(errorDetails).code
-        return try AWSJSONError(
+        return try RpcV2CborError(
             httpResponse: httpResponse,
             responseReader: responseReader,
             noErrorWrapping: noErrorWrapping,
