@@ -1396,7 +1396,36 @@ extension FMSClientTypes {
 
 extension FMSClientTypes {
 
-    /// The resource tags that Firewall Manager uses to determine if a particular resource should be included or excluded from the Firewall Manager policy. Tags enable you to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value. Firewall Manager combines the tags with "AND" so that, if you add more than one tag to a policy scope, a resource must have all the specified tags to be included or excluded. For more information, see [Working with Tag Editor](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/tag-editor.html). Every resource tag must have a string value, either a non-empty string or an empty string. If you don't provide a value for a resource tag, Firewall Manager saves the value as an empty string: "". When Firewall Manager compares tags, it only matches two tags if they have the same key and the same value. A tag with an empty string value only matches with tags that also have an empty string value.
+    public enum ResourceTagLogicalOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case and
+        case or
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceTagLogicalOperator] {
+            return [
+                .and,
+                .or
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .and: return "AND"
+            case .or: return "OR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FMSClientTypes {
+
+    /// The resource tags that Firewall Manager uses to determine if a particular resource should be included or excluded from the Firewall Manager policy. Tags enable you to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value. If you add more than one tag to a policy, you can specify whether to combine them using the logical AND operator or the logical OR operator. For more information, see [Working with Tag Editor](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/tag-editor.html). Every resource tag must have a string value, either a non-empty string or an empty string. If you don't provide a value for a resource tag, Firewall Manager saves the value as an empty string: "". When Firewall Manager compares tags, it only matches two tags if they have the same key and the same value. A tag with an empty string value only matches with tags that also have an empty string value.
     public struct ResourceTag: Swift.Sendable {
         /// The resource tag key.
         /// This member is required.
@@ -1777,6 +1806,8 @@ extension FMSClientTypes {
         public var remediationEnabled: Swift.Bool
         /// The unique identifiers of the resource sets used by the policy.
         public var resourceSetIds: [Swift.String]?
+        /// Specifies whether to combine multiple resource tags with AND, so that a resource must have all tags to be included or excluded, or OR, so that a resource must have at least one tag. Default: AND
+        public var resourceTagLogicalOperator: FMSClientTypes.ResourceTagLogicalOperator?
         /// An array of ResourceTag objects.
         public var resourceTags: [FMSClientTypes.ResourceTag]?
         /// The type of resource protected by or in scope of the policy. This is in the format shown in the [Amazon Web Services Resource Types Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html). To apply this policy to multiple resource types, specify a resource type of ResourceTypeList and then specify the resource types in a ResourceTypeList. The following are valid resource types for each Firewall Manager policy type:
@@ -1814,6 +1845,7 @@ extension FMSClientTypes {
             policyUpdateToken: Swift.String? = nil,
             remediationEnabled: Swift.Bool = false,
             resourceSetIds: [Swift.String]? = nil,
+            resourceTagLogicalOperator: FMSClientTypes.ResourceTagLogicalOperator? = nil,
             resourceTags: [FMSClientTypes.ResourceTag]? = nil,
             resourceType: Swift.String? = nil,
             resourceTypeList: [Swift.String]? = nil,
@@ -1830,6 +1862,7 @@ extension FMSClientTypes {
             self.policyUpdateToken = policyUpdateToken
             self.remediationEnabled = remediationEnabled
             self.resourceSetIds = resourceSetIds
+            self.resourceTagLogicalOperator = resourceTagLogicalOperator
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.resourceTypeList = resourceTypeList
@@ -7183,6 +7216,7 @@ extension FMSClientTypes.Policy {
         try writer["PolicyUpdateToken"].write(value.policyUpdateToken)
         try writer["RemediationEnabled"].write(value.remediationEnabled)
         try writer["ResourceSetIds"].writeList(value.resourceSetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceTagLogicalOperator"].write(value.resourceTagLogicalOperator)
         try writer["ResourceTags"].writeList(value.resourceTags, memberWritingClosure: FMSClientTypes.ResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceType"].write(value.resourceType)
         try writer["ResourceTypeList"].writeList(value.resourceTypeList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -7207,6 +7241,7 @@ extension FMSClientTypes.Policy {
         value.resourceSetIds = try reader["ResourceSetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.policyDescription = try reader["PolicyDescription"].readIfPresent()
         value.policyStatus = try reader["PolicyStatus"].readIfPresent()
+        value.resourceTagLogicalOperator = try reader["ResourceTagLogicalOperator"].readIfPresent()
         return value
     }
 }

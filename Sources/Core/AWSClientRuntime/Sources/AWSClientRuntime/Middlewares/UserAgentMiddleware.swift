@@ -41,7 +41,8 @@ extension UserAgentMiddleware: Interceptor {
             serviceID: serviceID,
             version: version,
             config: UserAgentValuesFromConfig(config: config),
-            context: context.getAttributes()
+            context: context.getAttributes(),
+            headers: context.getRequest().headers
         ).userAgent
         let builder = context.getRequest().toBuilder()
         builder.withHeader(name: USER_AGENT, value: awsUserAgentString)

@@ -8,6 +8,7 @@
 import ClientRuntime
 import class Smithy.Context
 import struct Smithy.AttributeKey
+import struct SmithyHTTPAPI.Headers
 
 struct BusinessMetrics {
     // Mapping of human readable feature ID to the corresponding metric value
@@ -15,9 +16,10 @@ struct BusinessMetrics {
 
     init(
         config: UserAgentValuesFromConfig,
-        context: Context
+        context: Context,
+        headers: Headers
     ) {
-        setFlagsIntoContext(config: config, context: context)
+        setFlagsIntoContext(config: config, context: context, headers: headers)
         self.features = context.businessMetrics
     }
 }
@@ -73,7 +75,7 @@ public let businessMetricsKey = AttributeKey<Dictionary<String, String>>(name: "
     "S3_EXPRESS_BUCKET"         : "J"           :
     "S3_ACCESS_GRANTS"          : "K"           :
     "GZIP_REQUEST_COMPRESSION"  : "L"           :
-    "PROTOCOL_RPC_V2_CBOR"      : "M"           :
+    "PROTOCOL_RPC_V2_CBOR"      : "M"           : Y
     "ENDPOINT_OVERRIDE"         : "N"           : Y
     "ACCOUNT_ID_ENDPOINT"       : "O"           :
     "ACCOUNT_ID_MODE_PREFERRED" : "P"           :
@@ -84,7 +86,8 @@ public let businessMetricsKey = AttributeKey<Dictionary<String, String>>(name: "
  */
 private func setFlagsIntoContext(
     config: UserAgentValuesFromConfig,
-    context: Context
+    context: Context,
+    headers: Headers
 ) {
     // Handle D, E, F
     switch config.awsRetryMode {
@@ -126,5 +129,10 @@ private func setFlagsIntoContext(
     // Handle T
     if context.resolvedAWSAccountID != nil {
         context.businessMetrics = ["RESOLVED_ACCOUNT_ID": "T"]
+    }
+
+    // Handle M
+    if headers.value(for: "smithy-protocol") == "rpc-v2-cbor" {
+        context.businessMetrics = ["PROTOCOL_RPC_V2_CBOR": "M"]
     }
 }

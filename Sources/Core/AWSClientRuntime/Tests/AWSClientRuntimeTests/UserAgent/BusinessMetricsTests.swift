@@ -11,6 +11,7 @@ import ClientRuntime
 import SmithyRetriesAPI
 import SmithyHTTPAPI
 import SmithyHTTPAuthAPI
+import SmithyHTTPAPI
 import SmithyIdentity
 import SmithyRetriesAPI
 import Smithy
@@ -18,10 +19,12 @@ import Smithy
 class BusinessMetricsTests: XCTestCase {
     var context: Context!
     var config: UserAgentValuesFromConfig!
+    var headers: Headers!
 
     override func setUp() async throws {
         config = UserAgentValuesFromConfig(appID: nil, endpoint: nil, awsRetryMode: .standard)
         context = Context(attributes: Attributes())
+        headers = Headers()
     }
 
     // MARK: - Truncation
@@ -121,7 +124,8 @@ class BusinessMetricsTests: XCTestCase {
             serviceID: "test",
             version: "1.0",
             config: config,
-            context: context
+            context: context,
+            headers: headers
         )
     }
 

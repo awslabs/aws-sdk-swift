@@ -38,7 +38,7 @@ public struct AWSJSONError: BaseError {
 
 extension AWSJSONError {
     @_spi(SmithyReadWrite)
-    public static func makeQueryCompatibleAWSJsonError(
+    public static func makeQueryCompatibleError(
         httpResponse: HTTPResponse,
         responseReader: Reader,
         noErrorWrapping: Bool,

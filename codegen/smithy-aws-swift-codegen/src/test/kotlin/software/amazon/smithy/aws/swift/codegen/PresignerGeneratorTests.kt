@@ -57,8 +57,8 @@ extension GetFooInput {
             EndpointParams()
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFooInput, GetFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFooOutput>())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFooInput, GetFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Example")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFoo")
@@ -131,8 +131,8 @@ extension PostFooInput {
             EndpointParams()
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PostFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PostFooInput, PostFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PostFooOutput>())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PostFooInput, PostFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Example")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PostFoo")
@@ -205,8 +205,8 @@ extension PutFooInput {
             EndpointParams()
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutFooInput, PutFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutFooOutput>())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutFooInput, PutFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Example")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutFoo")
@@ -280,8 +280,8 @@ extension PutObjectInput {
         }
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutObjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutObjectInput, PutObjectOutput>(serviceID: serviceName, version: S3Client.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutObjectOutput>())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutObjectInput, PutObjectOutput>(serviceID: serviceName, version: S3Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutObject")
