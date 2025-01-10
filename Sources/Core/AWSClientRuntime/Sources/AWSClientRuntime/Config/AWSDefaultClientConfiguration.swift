@@ -61,11 +61,11 @@ public protocol AWSDefaultClientConfiguration {
     ///     1. The `endpoint` value provided at service client initialization via the config.
     ///     2. If `endpoint` wasn't configured by the user via service client config, AWS Swift SDK determines the endpoint to use for each operation call by using the built-in endpoint resolver for the service.
     ///
-    /// If this flag isn't set, AWS Swift SDK looks at the relevant environment variable and shared config file property when `endpoint` service client config is resolved. The flag value gets determined by looking at the possible sources in the following order:
+    /// If this config value isn't set, AWS Swift SDK looks at the relevant environment variable and shared config file property when endpoint for an operation is resolved. The flag value gets determined by looking at the possible sources in the following order:
     ///     1. The value of `ignoreConfiguredEndpointURLs` in the client config.
     ///     2. The value of `AWS_IGNORE_CONFIGURED_ENDPOINT_URLS` environment variable.
     ///     3. In the shared config file, the value of `ignore_configured_endpoint_urls` property under the selected profile.
-    ///     4. If this flag was not set anywhere, the AWS Swift SDK defaults to the `false` case.
+    ///     4. If this flag was not set anywhere, the AWS Swift SDK defaults to the `false` case and attempts to resolve configured endpoint.
     /// Note: For the profile name used in resolution step 3, the value of`AWS_PROFILE` environment variable is used if set. Otherwise, `default` is used.
     ///
     /// For more information on endpoint configuration via environment variables and the shared config file, see the [official AWS documentation](https://docs.aws.amazon.com/sdkref/latest/guide/feature-ss-endpoints.html).
