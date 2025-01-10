@@ -24,6 +24,8 @@ extension CRTFileBasedConfigurationSectionType {
             self = .profile
         case .ssoSession:
             self = .ssoSession
+        case .services:
+            self = .services
         }
     }
 }
