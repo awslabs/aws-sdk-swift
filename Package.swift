@@ -20,6 +20,8 @@ let crtVersion: Version = "0.43.0"
 
 let excludeRuntimeUnitTests = false
 
+let isPreviewBuild = false
+
 let serviceTargets: [String] = [
     "AWSACM",
     "AWSACMPCA",
@@ -496,11 +498,17 @@ private func productForService(_ service: String) -> Product {
 // MARK: Dependencies
 
 private var clientRuntimeDependency: Package.Dependency {
-    let path = "./smithy-swift"
+    let previewPath = "./smithy-swift"
+    let developmentPath = "../smithy-swift"
     let gitURL = "https://github.com/smithy-lang/smithy-swift"
-    // let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
-    let useLocalDeps = true
-    return useLocalDeps ? .package(path: path) : .package(url: gitURL, exact: clientRuntimeVersion)
+    let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
+    if isPreviewBuild {
+        return .package(path: previewPath)
+    } else if useLocalDeps {
+        return .package(path: developmentPath)
+    } else {
+        return .package(url: gitURL, exact: clientRuntimeVersion)
+    }
 }
 
 private var crtDependency: Package.Dependency {
