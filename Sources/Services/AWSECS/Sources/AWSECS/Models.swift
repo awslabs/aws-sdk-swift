@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -114,8 +113,7 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -139,8 +137,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -164,8 +161,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -189,8 +185,7 @@ public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -214,8 +209,7 @@ public struct UpdateInProgressException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -299,8 +293,7 @@ extension ECSClientTypes {
             minimumScalingStepSize: Swift.Int? = nil,
             status: ECSClientTypes.ManagedScalingStatus? = nil,
             targetCapacity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceWarmupPeriod = instanceWarmupPeriod
             self.maximumScalingStepSize = maximumScalingStepSize
             self.minimumScalingStepSize = minimumScalingStepSize
@@ -358,8 +351,7 @@ extension ECSClientTypes {
             managedDraining: ECSClientTypes.ManagedDraining? = nil,
             managedScaling: ECSClientTypes.ManagedScaling? = nil,
             managedTerminationProtection: ECSClientTypes.ManagedTerminationProtection? = nil
-        )
-        {
+        ) {
             self.autoScalingGroupArn = autoScalingGroupArn
             self.managedDraining = managedDraining
             self.managedScaling = managedScaling
@@ -394,8 +386,7 @@ extension ECSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -430,8 +421,7 @@ public struct CreateCapacityProviderInput: Swift.Sendable {
         autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProvider? = nil,
         name: Swift.String? = nil,
         tags: [ECSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupProvider = autoScalingGroupProvider
         self.name = name
         self.tags = tags
@@ -549,8 +539,7 @@ extension ECSClientTypes {
             tags: [ECSClientTypes.Tag]? = nil,
             updateStatus: ECSClientTypes.CapacityProviderUpdateStatus? = nil,
             updateStatusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoScalingGroupProvider = autoScalingGroupProvider
             self.capacityProviderArn = capacityProviderArn
             self.name = name
@@ -568,8 +557,7 @@ public struct CreateCapacityProviderOutput: Swift.Sendable {
 
     public init(
         capacityProvider: ECSClientTypes.CapacityProvider? = nil
-    )
-    {
+    ) {
         self.capacityProvider = capacityProvider
     }
 }
@@ -593,8 +581,7 @@ public struct NamespaceNotFoundException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -620,8 +607,7 @@ extension ECSClientTypes {
             s3BucketName: Swift.String? = nil,
             s3EncryptionEnabled: Swift.Bool = false,
             s3KeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchEncryptionEnabled = cloudWatchEncryptionEnabled
             self.cloudWatchLogGroupName = cloudWatchLogGroupName
             self.s3BucketName = s3BucketName
@@ -684,8 +670,7 @@ extension ECSClientTypes {
             kmsKeyId: Swift.String? = nil,
             logConfiguration: ECSClientTypes.ExecuteCommandLogConfiguration? = nil,
             logging: ECSClientTypes.ExecuteCommandLogging? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.logConfiguration = logConfiguration
             self.logging = logging
@@ -705,8 +690,7 @@ extension ECSClientTypes {
         public init(
             fargateEphemeralStorageKmsKeyId: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fargateEphemeralStorageKmsKeyId = fargateEphemeralStorageKmsKeyId
             self.kmsKeyId = kmsKeyId
         }
@@ -725,8 +709,7 @@ extension ECSClientTypes {
         public init(
             executeCommandConfiguration: ECSClientTypes.ExecuteCommandConfiguration? = nil,
             managedStorageConfiguration: ECSClientTypes.ManagedStorageConfiguration? = nil
-        )
-        {
+        ) {
             self.executeCommandConfiguration = executeCommandConfiguration
             self.managedStorageConfiguration = managedStorageConfiguration
         }
@@ -749,8 +732,7 @@ extension ECSClientTypes {
             base: Swift.Int = 0,
             capacityProvider: Swift.String? = nil,
             weight: Swift.Int = 0
-        )
-        {
+        ) {
             self.base = base
             self.capacityProvider = capacityProvider
             self.weight = weight
@@ -768,8 +750,7 @@ extension ECSClientTypes {
 
         public init(
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
         }
     }
@@ -813,8 +794,7 @@ extension ECSClientTypes {
         public init(
             name: ECSClientTypes.ClusterSettingName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -859,8 +839,7 @@ public struct CreateClusterInput: Swift.Sendable {
         serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest? = nil,
         settings: [ECSClientTypes.ClusterSetting]? = nil,
         tags: [ECSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.capacityProviders = capacityProviders
         self.clusterName = clusterName
         self.configuration = configuration
@@ -883,8 +862,7 @@ extension ECSClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -909,8 +887,7 @@ extension ECSClientTypes {
             id: Swift.String? = nil,
             status: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.details = details
             self.id = id
             self.status = status
@@ -928,8 +905,7 @@ extension ECSClientTypes {
 
         public init(
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
         }
     }
@@ -1019,8 +995,7 @@ extension ECSClientTypes {
             statistics: [ECSClientTypes.KeyValuePair]? = nil,
             status: Swift.String? = nil,
             tags: [ECSClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.activeServicesCount = activeServicesCount
             self.attachments = attachments
             self.attachmentsStatus = attachmentsStatus
@@ -1047,8 +1022,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: ECSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1072,8 +1046,7 @@ public struct ClusterNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1097,8 +1070,7 @@ public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.Mode
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1122,8 +1094,7 @@ public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1147,8 +1118,7 @@ public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1200,8 +1170,7 @@ extension ECSClientTypes {
             alarmNames: [Swift.String]? = nil,
             enable: Swift.Bool = false,
             rollback: Swift.Bool = false
-        )
-        {
+        ) {
             self.alarmNames = alarmNames
             self.enable = enable
             self.rollback = rollback
@@ -1223,8 +1192,7 @@ extension ECSClientTypes {
         public init(
             enable: Swift.Bool = false,
             rollback: Swift.Bool = false
-        )
-        {
+        ) {
             self.enable = enable
             self.rollback = rollback
         }
@@ -1265,8 +1233,7 @@ extension ECSClientTypes {
             deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker? = nil,
             maximumPercent: Swift.Int? = nil,
             minimumHealthyPercent: Swift.Int? = nil
-        )
-        {
+        ) {
             self.alarms = alarms
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
             self.maximumPercent = maximumPercent
@@ -1317,8 +1284,7 @@ extension ECSClientTypes {
 
         public init(
             type: ECSClientTypes.DeploymentControllerType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -1374,8 +1340,7 @@ extension ECSClientTypes {
             containerPort: Swift.Int? = nil,
             loadBalancerName: Swift.String? = nil,
             targetGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.containerPort = containerPort
             self.loadBalancerName = loadBalancerName
@@ -1419,9 +1384,9 @@ extension ECSClientTypes {
     public struct AwsVpcConfiguration: Swift.Sendable {
         /// Whether the task's elastic network interface receives a public IP address. The default value is ENABLED.
         public var assignPublicIp: ECSClientTypes.AssignPublicIp?
-        /// The IDs of the security groups associated with the task or service. If you don't specify a security group, the default security group for the VPC is used. There's a limit of 5 security groups that can be specified per awsvpcConfiguration. All specified security groups must be from the same VPC.
+        /// The IDs of the security groups associated with the task or service. If you don't specify a security group, the default security group for the VPC is used. There's a limit of 5 security groups that can be specified. All specified security groups must be from the same VPC.
         public var securityGroups: [Swift.String]?
-        /// The IDs of the subnets associated with the task or service. There's a limit of 16 subnets that can be specified per awsvpcConfiguration. All specified subnets must be from the same VPC.
+        /// The IDs of the subnets associated with the task or service. There's a limit of 16 subnets that can be specified. All specified subnets must be from the same VPC.
         /// This member is required.
         public var subnets: [Swift.String]?
 
@@ -1429,8 +1394,7 @@ extension ECSClientTypes {
             assignPublicIp: ECSClientTypes.AssignPublicIp? = nil,
             securityGroups: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
             self.subnets = subnets
@@ -1447,8 +1411,7 @@ extension ECSClientTypes {
 
         public init(
             awsvpcConfiguration: ECSClientTypes.AwsVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.awsvpcConfiguration = awsvpcConfiguration
         }
     }
@@ -1495,8 +1458,7 @@ extension ECSClientTypes {
         public init(
             expression: Swift.String? = nil,
             type: ECSClientTypes.PlacementConstraintType? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.type = type
         }
@@ -1547,8 +1509,7 @@ extension ECSClientTypes {
         public init(
             field: Swift.String? = nil,
             type: ECSClientTypes.PlacementStrategyType? = nil
-        )
-        {
+        ) {
             self.field = field
             self.type = type
         }
@@ -1684,8 +1645,7 @@ extension ECSClientTypes {
         public init(
             name: Swift.String? = nil,
             valueFrom: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.valueFrom = valueFrom
         }
@@ -1716,8 +1676,7 @@ extension ECSClientTypes {
             logDriver: ECSClientTypes.LogDriver? = nil,
             options: [Swift.String: Swift.String]? = nil,
             secretOptions: [ECSClientTypes.Secret]? = nil
-        )
-        {
+        ) {
             self.logDriver = logDriver
             self.options = options
             self.secretOptions = secretOptions
@@ -1738,8 +1697,7 @@ extension ECSClientTypes {
         public init(
             dnsName: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dnsName = dnsName
             self.port = port
         }
@@ -1758,8 +1716,7 @@ extension ECSClientTypes {
         public init(
             idleTimeoutSeconds: Swift.Int? = nil,
             perRequestTimeoutSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.idleTimeoutSeconds = idleTimeoutSeconds
             self.perRequestTimeoutSeconds = perRequestTimeoutSeconds
         }
@@ -1775,8 +1732,7 @@ extension ECSClientTypes {
 
         public init(
             awsPcaAuthorityArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsPcaAuthorityArn = awsPcaAuthorityArn
         }
     }
@@ -1798,8 +1754,7 @@ extension ECSClientTypes {
             issuerCertificateAuthority: ECSClientTypes.ServiceConnectTlsCertificateAuthority? = nil,
             kmsKey: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.issuerCertificateAuthority = issuerCertificateAuthority
             self.kmsKey = kmsKey
             self.roleArn = roleArn
@@ -1832,8 +1787,7 @@ extension ECSClientTypes {
             portName: Swift.String? = nil,
             timeout: ECSClientTypes.TimeoutConfiguration? = nil,
             tls: ECSClientTypes.ServiceConnectTlsConfiguration? = nil
-        )
-        {
+        ) {
             self.clientAliases = clientAliases
             self.discoveryName = discoveryName
             self.ingressPortOverride = ingressPortOverride
@@ -1871,8 +1825,7 @@ extension ECSClientTypes {
             logConfiguration: ECSClientTypes.LogConfiguration? = nil,
             namespace: Swift.String? = nil,
             services: [ECSClientTypes.ServiceConnectService]? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.logConfiguration = logConfiguration
             self.namespace = namespace
@@ -1899,8 +1852,7 @@ extension ECSClientTypes {
             containerPort: Swift.Int? = nil,
             port: Swift.Int? = nil,
             registryArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.containerPort = containerPort
             self.port = port
@@ -1986,8 +1938,7 @@ extension ECSClientTypes {
             propagateTags: ECSClientTypes.PropagateTags? = nil,
             resourceType: ECSClientTypes.EBSResourceType? = nil,
             tags: [ECSClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.propagateTags = propagateTags
             self.resourceType = resourceType
             self.tags = tags
@@ -2059,8 +2010,7 @@ extension ECSClientTypes {
             tagSpecifications: [ECSClientTypes.EBSTagSpecification]? = nil,
             throughput: Swift.Int? = nil,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.encrypted = encrypted
             self.filesystemType = filesystemType
             self.iops = iops
@@ -2088,8 +2038,7 @@ extension ECSClientTypes {
         public init(
             managedEBSVolume: ECSClientTypes.ServiceManagedEBSVolumeConfiguration? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.managedEBSVolume = managedEBSVolume
             self.name = name
         }
@@ -2114,8 +2063,7 @@ extension ECSClientTypes {
             portName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             targetGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.portName = portName
             self.roleArn = roleArn
             self.targetGroupArn = targetGroupArn
@@ -2223,8 +2171,7 @@ public struct CreateServiceInput: Swift.Sendable {
         taskDefinition: Swift.String? = nil,
         volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
         vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
-    )
-    {
+    ) {
         self.availabilityZoneRebalancing = availabilityZoneRebalancing
         self.capacityProviderStrategy = capacityProviderStrategy
         self.clientToken = clientToken
@@ -2263,8 +2210,7 @@ extension ECSClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -2314,8 +2260,7 @@ extension ECSClientTypes {
         public init(
             discoveryArn: Swift.String? = nil,
             discoveryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.discoveryArn = discoveryArn
             self.discoveryName = discoveryName
         }
@@ -2391,8 +2336,7 @@ extension ECSClientTypes {
             updatedAt: Foundation.Date? = nil,
             volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
             vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
-        )
-        {
+        ) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.createdAt = createdAt
             self.desiredCount = desiredCount
@@ -2433,8 +2377,7 @@ extension ECSClientTypes {
             createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.id = id
             self.message = message
@@ -2480,8 +2423,7 @@ extension ECSClientTypes {
         public init(
             unit: ECSClientTypes.ScaleUnit? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -2623,8 +2565,7 @@ extension ECSClientTypes {
             taskDefinition: Swift.String? = nil,
             taskSetArn: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clusterArn = clusterArn
             self.computedDesiredCount = computedDesiredCount
@@ -2774,8 +2715,7 @@ extension ECSClientTypes {
             tags: [ECSClientTypes.Tag]? = nil,
             taskDefinition: Swift.String? = nil,
             taskSets: [ECSClientTypes.TaskSet]? = nil
-        )
-        {
+        ) {
             self.availabilityZoneRebalancing = availabilityZoneRebalancing
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clusterArn = clusterArn
@@ -2818,8 +2758,7 @@ public struct CreateServiceOutput: Swift.Sendable {
 
     public init(
         service: ECSClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.service = service
     }
 }
@@ -2843,8 +2782,7 @@ public struct ServiceNotActiveException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2868,8 +2806,7 @@ public struct ServiceNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2933,8 +2870,7 @@ public struct CreateTaskSetInput: Swift.Sendable {
         serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
         taskDefinition: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityProviderStrategy = capacityProviderStrategy
         self.clientToken = clientToken
         self.cluster = cluster
@@ -2957,8 +2893,7 @@ public struct CreateTaskSetOutput: Swift.Sendable {
 
     public init(
         taskSet: ECSClientTypes.TaskSet? = nil
-    )
-    {
+    ) {
         self.taskSet = taskSet
     }
 }
@@ -3023,8 +2958,7 @@ public struct DeleteAccountSettingInput: Swift.Sendable {
     public init(
         name: ECSClientTypes.SettingName? = nil,
         principalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.principalArn = principalArn
     }
@@ -3077,8 +3011,7 @@ extension ECSClientTypes {
             principalArn: Swift.String? = nil,
             type: ECSClientTypes.SettingType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.principalArn = principalArn
             self.type = type
@@ -3093,8 +3026,7 @@ public struct DeleteAccountSettingOutput: Swift.Sendable {
 
     public init(
         setting: ECSClientTypes.Setting? = nil
-    )
-    {
+    ) {
         self.setting = setting
     }
 }
@@ -3118,8 +3050,7 @@ public struct TargetNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3169,8 +3100,7 @@ extension ECSClientTypes {
             targetId: Swift.String? = nil,
             targetType: ECSClientTypes.TargetType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.targetId = targetId
             self.targetType = targetType
@@ -3189,8 +3119,7 @@ public struct DeleteAttributesInput: Swift.Sendable {
     public init(
         attributes: [ECSClientTypes.Attribute]? = nil,
         cluster: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.cluster = cluster
     }
@@ -3202,8 +3131,7 @@ public struct DeleteAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [ECSClientTypes.Attribute]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -3215,8 +3143,7 @@ public struct DeleteCapacityProviderInput: Swift.Sendable {
 
     public init(
         capacityProvider: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityProvider = capacityProvider
     }
 }
@@ -3227,8 +3154,7 @@ public struct DeleteCapacityProviderOutput: Swift.Sendable {
 
     public init(
         capacityProvider: ECSClientTypes.CapacityProvider? = nil
-    )
-    {
+    ) {
         self.capacityProvider = capacityProvider
     }
 }
@@ -3252,8 +3178,7 @@ public struct ClusterContainsContainerInstancesException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3277,8 +3202,7 @@ public struct ClusterContainsServicesException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3302,8 +3226,7 @@ public struct ClusterContainsTasksException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3315,8 +3238,7 @@ public struct DeleteClusterInput: Swift.Sendable {
 
     public init(
         cluster: Swift.String? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -3327,8 +3249,7 @@ public struct DeleteClusterOutput: Swift.Sendable {
 
     public init(
         cluster: ECSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -3346,8 +3267,7 @@ public struct DeleteServiceInput: Swift.Sendable {
         cluster: Swift.String? = nil,
         force: Swift.Bool? = nil,
         service: Swift.String? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.force = force
         self.service = service
@@ -3360,8 +3280,7 @@ public struct DeleteServiceOutput: Swift.Sendable {
 
     public init(
         service: ECSClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.service = service
     }
 }
@@ -3373,8 +3292,7 @@ public struct DeleteTaskDefinitionsInput: Swift.Sendable {
 
     public init(
         taskDefinitions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.taskDefinitions = taskDefinitions
     }
 }
@@ -3394,8 +3312,7 @@ extension ECSClientTypes {
             arn: Swift.String? = nil,
             detail: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.detail = detail
             self.reason = reason
@@ -3499,8 +3416,7 @@ extension ECSClientTypes {
         public init(
             condition: ECSClientTypes.ContainerCondition? = nil,
             containerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.containerName = containerName
         }
@@ -3560,8 +3476,7 @@ extension ECSClientTypes {
         public init(
             type: ECSClientTypes.EnvironmentFileType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -3582,8 +3497,7 @@ extension ECSClientTypes {
         public init(
             hostname: Swift.String? = nil,
             ipAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
             self.ipAddress = ipAddress
         }
@@ -3632,8 +3546,7 @@ extension ECSClientTypes {
         public init(
             options: [Swift.String: Swift.String]? = nil,
             type: ECSClientTypes.FirelensConfigurationType? = nil
-        )
-        {
+        ) {
             self.options = options
             self.type = type
         }
@@ -3714,8 +3627,7 @@ extension ECSClientTypes {
             retries: Swift.Int? = nil,
             startPeriod: Swift.Int? = nil,
             timeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.command = command
             self.interval = interval
             self.retries = retries
@@ -3737,8 +3649,7 @@ extension ECSClientTypes {
         public init(
             add: [Swift.String]? = nil,
             drop: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.add = add
             self.drop = drop
         }
@@ -3793,8 +3704,7 @@ extension ECSClientTypes {
             containerPath: Swift.String? = nil,
             hostPath: Swift.String? = nil,
             permissions: [ECSClientTypes.DeviceCgroupPermission]? = nil
-        )
-        {
+        ) {
             self.containerPath = containerPath
             self.hostPath = hostPath
             self.permissions = permissions
@@ -3819,8 +3729,7 @@ extension ECSClientTypes {
             containerPath: Swift.String? = nil,
             mountOptions: [Swift.String]? = nil,
             size: Swift.Int = 0
-        )
-        {
+        ) {
             self.containerPath = containerPath
             self.mountOptions = mountOptions
             self.size = size
@@ -3855,8 +3764,7 @@ extension ECSClientTypes {
             sharedMemorySize: Swift.Int? = nil,
             swappiness: Swift.Int? = nil,
             tmpfs: [ECSClientTypes.Tmpfs]? = nil
-        )
-        {
+        ) {
             self.capabilities = capabilities
             self.devices = devices
             self.initProcessEnabled = initProcessEnabled
@@ -3883,8 +3791,7 @@ extension ECSClientTypes {
             containerPath: Swift.String? = nil,
             readOnly: Swift.Bool? = nil,
             sourceVolume: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerPath = containerPath
             self.readOnly = readOnly
             self.sourceVolume = sourceVolume
@@ -4016,8 +3923,7 @@ extension ECSClientTypes {
             hostPort: Swift.Int? = nil,
             name: Swift.String? = nil,
             `protocol`: ECSClientTypes.TransportProtocol? = nil
-        )
-        {
+        ) {
             self.appProtocol = appProtocol
             self.containerPort = containerPort
             self.containerPortRange = containerPortRange
@@ -4038,8 +3944,7 @@ extension ECSClientTypes {
 
         public init(
             credentialsParameter: Swift.String? = nil
-        )
-        {
+        ) {
             self.credentialsParameter = credentialsParameter
         }
     }
@@ -4088,8 +3993,7 @@ extension ECSClientTypes {
         public init(
             type: ECSClientTypes.ResourceType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -4112,8 +4016,7 @@ extension ECSClientTypes {
             enabled: Swift.Bool? = nil,
             ignoredExitCodes: [Swift.Int]? = nil,
             restartAttemptPeriod: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.ignoredExitCodes = ignoredExitCodes
             self.restartAttemptPeriod = restartAttemptPeriod
@@ -4147,8 +4050,7 @@ extension ECSClientTypes {
         public init(
             namespace: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
             self.value = value
         }
@@ -4241,8 +4143,7 @@ extension ECSClientTypes {
             hardLimit: Swift.Int = 0,
             name: ECSClientTypes.UlimitName? = nil,
             softLimit: Swift.Int = 0
-        )
-        {
+        ) {
             self.hardLimit = hardLimit
             self.name = name
             self.softLimit = softLimit
@@ -4291,8 +4192,7 @@ extension ECSClientTypes {
         public init(
             readOnly: Swift.Bool? = nil,
             sourceContainer: Swift.String? = nil
-        )
-        {
+        ) {
             self.readOnly = readOnly
             self.sourceContainer = sourceContainer
         }
@@ -4483,8 +4383,7 @@ extension ECSClientTypes {
             versionConsistency: ECSClientTypes.VersionConsistency? = nil,
             volumesFrom: [ECSClientTypes.VolumeFrom]? = nil,
             workingDirectory: Swift.String? = nil
-        )
-        {
+        ) {
             self.command = command
             self.cpu = cpu
             self.credentialSpecs = credentialSpecs
@@ -4545,8 +4444,7 @@ extension ECSClientTypes {
 
         public init(
             sizeInGiB: Swift.Int = 0
-        )
-        {
+        ) {
             self.sizeInGiB = sizeInGiB
         }
     }
@@ -4566,8 +4464,7 @@ extension ECSClientTypes {
         public init(
             deviceName: Swift.String? = nil,
             deviceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.deviceType = deviceType
         }
@@ -4708,8 +4605,7 @@ extension ECSClientTypes {
         public init(
             expression: Swift.String? = nil,
             type: ECSClientTypes.TaskDefinitionPlacementConstraintType? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.type = type
         }
@@ -4772,8 +4668,7 @@ extension ECSClientTypes {
             containerName: Swift.String? = nil,
             properties: [ECSClientTypes.KeyValuePair]? = nil,
             type: ECSClientTypes.ProxyConfigurationType? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.properties = properties
             self.type = type
@@ -4869,8 +4764,7 @@ extension ECSClientTypes {
         public init(
             cpuArchitecture: ECSClientTypes.CPUArchitecture? = nil,
             operatingSystemFamily: ECSClientTypes.OSFamily? = nil
-        )
-        {
+        ) {
             self.cpuArchitecture = cpuArchitecture
             self.operatingSystemFamily = operatingSystemFamily
         }
@@ -4959,8 +4853,7 @@ extension ECSClientTypes {
             driverOpts: [Swift.String: Swift.String]? = nil,
             labels: [Swift.String: Swift.String]? = nil,
             scope: ECSClientTypes.Scope? = nil
-        )
-        {
+        ) {
             self.autoprovision = autoprovision
             self.driver = driver
             self.driverOpts = driverOpts
@@ -5011,8 +4904,7 @@ extension ECSClientTypes {
         public init(
             accessPointId: Swift.String? = nil,
             iam: ECSClientTypes.EFSAuthorizationConfigIAM? = nil
-        )
-        {
+        ) {
             self.accessPointId = accessPointId
             self.iam = iam
         }
@@ -5070,8 +4962,7 @@ extension ECSClientTypes {
             rootDirectory: Swift.String? = nil,
             transitEncryption: ECSClientTypes.EFSTransitEncryption? = nil,
             transitEncryptionPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.authorizationConfig = authorizationConfig
             self.fileSystemId = fileSystemId
             self.rootDirectory = rootDirectory
@@ -5095,8 +4986,7 @@ extension ECSClientTypes {
         public init(
             credentialsParameter: Swift.String? = nil,
             domain: Swift.String? = nil
-        )
-        {
+        ) {
             self.credentialsParameter = credentialsParameter
             self.domain = domain
         }
@@ -5121,8 +5011,7 @@ extension ECSClientTypes {
             authorizationConfig: ECSClientTypes.FSxWindowsFileServerAuthorizationConfig? = nil,
             fileSystemId: Swift.String? = nil,
             rootDirectory: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationConfig = authorizationConfig
             self.fileSystemId = fileSystemId
             self.rootDirectory = rootDirectory
@@ -5139,8 +5028,7 @@ extension ECSClientTypes {
 
         public init(
             sourcePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourcePath = sourcePath
         }
     }
@@ -5170,8 +5058,7 @@ extension ECSClientTypes {
             fsxWindowsFileServerVolumeConfiguration: ECSClientTypes.FSxWindowsFileServerVolumeConfiguration? = nil,
             host: ECSClientTypes.HostVolumeProperties? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.configuredAtLaunch = configuredAtLaunch
             self.dockerVolumeConfiguration = dockerVolumeConfiguration
             self.efsVolumeConfiguration = efsVolumeConfiguration
@@ -5298,8 +5185,7 @@ extension ECSClientTypes {
             taskDefinitionArn: Swift.String? = nil,
             taskRoleArn: Swift.String? = nil,
             volumes: [ECSClientTypes.Volume]? = nil
-        )
-        {
+        ) {
             self.compatibilities = compatibilities
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
@@ -5338,8 +5224,7 @@ public struct DeleteTaskDefinitionsOutput: Swift.Sendable {
     public init(
         failures: [ECSClientTypes.Failure]? = nil,
         taskDefinitions: [ECSClientTypes.TaskDefinition]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.taskDefinitions = taskDefinitions
     }
@@ -5364,8 +5249,7 @@ public struct TaskSetNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5388,8 +5272,7 @@ public struct DeleteTaskSetInput: Swift.Sendable {
         force: Swift.Bool? = nil,
         service: Swift.String? = nil,
         taskSet: Swift.String? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.force = force
         self.service = service
@@ -5403,8 +5286,7 @@ public struct DeleteTaskSetOutput: Swift.Sendable {
 
     public init(
         taskSet: ECSClientTypes.TaskSet? = nil
-    )
-    {
+    ) {
         self.taskSet = taskSet
     }
 }
@@ -5422,8 +5304,7 @@ public struct DeregisterContainerInstanceInput: Swift.Sendable {
         cluster: Swift.String? = nil,
         containerInstance: Swift.String? = nil,
         force: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.containerInstance = containerInstance
         self.force = force
@@ -5509,8 +5390,7 @@ extension ECSClientTypes {
             lastUpdated: Foundation.Date? = nil,
             status: ECSClientTypes.InstanceHealthCheckState? = nil,
             type: ECSClientTypes.InstanceHealthCheckType? = nil
-        )
-        {
+        ) {
             self.lastStatusChange = lastStatusChange
             self.lastUpdated = lastUpdated
             self.status = status
@@ -5531,8 +5411,7 @@ extension ECSClientTypes {
         public init(
             details: [ECSClientTypes.InstanceHealthCheckResult]? = nil,
             overallStatus: ECSClientTypes.InstanceHealthCheckState? = nil
-        )
-        {
+        ) {
             self.details = details
             self.overallStatus = overallStatus
         }
@@ -5563,8 +5442,7 @@ extension ECSClientTypes {
             name: Swift.String? = nil,
             stringSetValue: [Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.doubleValue = doubleValue
             self.integerValue = integerValue
             self.longValue = longValue
@@ -5590,8 +5468,7 @@ extension ECSClientTypes {
             agentHash: Swift.String? = nil,
             agentVersion: Swift.String? = nil,
             dockerVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentHash = agentHash
             self.agentVersion = agentVersion
             self.dockerVersion = dockerVersion
@@ -5673,8 +5550,7 @@ extension ECSClientTypes {
             tags: [ECSClientTypes.Tag]? = nil,
             version: Swift.Int = 0,
             versionInfo: ECSClientTypes.VersionInfo? = nil
-        )
-        {
+        ) {
             self.agentConnected = agentConnected
             self.agentUpdateStatus = agentUpdateStatus
             self.attachments = attachments
@@ -5703,8 +5579,7 @@ public struct DeregisterContainerInstanceOutput: Swift.Sendable {
 
     public init(
         containerInstance: ECSClientTypes.ContainerInstance? = nil
-    )
-    {
+    ) {
         self.containerInstance = containerInstance
     }
 }
@@ -5716,8 +5591,7 @@ public struct DeregisterTaskDefinitionInput: Swift.Sendable {
 
     public init(
         taskDefinition: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskDefinition = taskDefinition
     }
 }
@@ -5728,8 +5602,7 @@ public struct DeregisterTaskDefinitionOutput: Swift.Sendable {
 
     public init(
         taskDefinition: ECSClientTypes.TaskDefinition? = nil
-    )
-    {
+    ) {
         self.taskDefinition = taskDefinition
     }
 }
@@ -5775,8 +5648,7 @@ public struct DescribeCapacityProvidersInput: Swift.Sendable {
         include: [ECSClientTypes.CapacityProviderField]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityProviders = capacityProviders
         self.include = include
         self.maxResults = maxResults
@@ -5796,8 +5668,7 @@ public struct DescribeCapacityProvidersOutput: Swift.Sendable {
         capacityProviders: [ECSClientTypes.CapacityProvider]? = nil,
         failures: [ECSClientTypes.Failure]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityProviders = capacityProviders
         self.failures = failures
         self.nextToken = nextToken
@@ -5851,8 +5722,7 @@ public struct DescribeClustersInput: Swift.Sendable {
     public init(
         clusters: [Swift.String]? = nil,
         include: [ECSClientTypes.ClusterField]? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.include = include
     }
@@ -5867,8 +5737,7 @@ public struct DescribeClustersOutput: Swift.Sendable {
     public init(
         clusters: [ECSClientTypes.Cluster]? = nil,
         failures: [ECSClientTypes.Failure]? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.failures = failures
     }
@@ -5916,8 +5785,7 @@ public struct DescribeContainerInstancesInput: Swift.Sendable {
         cluster: Swift.String? = nil,
         containerInstances: [Swift.String]? = nil,
         include: [ECSClientTypes.ContainerInstanceField]? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.containerInstances = containerInstances
         self.include = include
@@ -5933,8 +5801,7 @@ public struct DescribeContainerInstancesOutput: Swift.Sendable {
     public init(
         containerInstances: [ECSClientTypes.ContainerInstance]? = nil,
         failures: [ECSClientTypes.Failure]? = nil
-    )
-    {
+    ) {
         self.containerInstances = containerInstances
         self.failures = failures
     }
@@ -5947,8 +5814,7 @@ public struct DescribeServiceDeploymentsInput: Swift.Sendable {
 
     public init(
         serviceDeploymentArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.serviceDeploymentArns = serviceDeploymentArns
     }
 }
@@ -6003,8 +5869,7 @@ extension ECSClientTypes {
             alarmNames: [Swift.String]? = nil,
             status: ECSClientTypes.ServiceDeploymentRollbackMonitorsStatus? = nil,
             triggeredAlarmNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.alarmNames = alarmNames
             self.status = status
             self.triggeredAlarmNames = triggeredAlarmNames
@@ -6027,8 +5892,7 @@ extension ECSClientTypes {
             failureCount: Swift.Int = 0,
             status: ECSClientTypes.ServiceDeploymentRollbackMonitorsStatus? = nil,
             threshold: Swift.Int = 0
-        )
-        {
+        ) {
             self.failureCount = failureCount
             self.status = status
             self.threshold = threshold
@@ -6051,8 +5915,7 @@ extension ECSClientTypes {
             reason: Swift.String? = nil,
             serviceRevisionArn: Swift.String? = nil,
             startedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.serviceRevisionArn = serviceRevisionArn
             self.startedAt = startedAt
@@ -6078,8 +5941,7 @@ extension ECSClientTypes {
             pendingTaskCount: Swift.Int = 0,
             requestedTaskCount: Swift.Int = 0,
             runningTaskCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.arn = arn
             self.pendingTaskCount = pendingTaskCount
             self.requestedTaskCount = requestedTaskCount
@@ -6193,8 +6055,7 @@ extension ECSClientTypes {
             stoppedAt: Foundation.Date? = nil,
             targetServiceRevision: ECSClientTypes.ServiceRevisionSummary? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.alarms = alarms
             self.clusterArn = clusterArn
             self.createdAt = createdAt
@@ -6224,8 +6085,7 @@ public struct DescribeServiceDeploymentsOutput: Swift.Sendable {
     public init(
         failures: [ECSClientTypes.Failure]? = nil,
         serviceDeployments: [ECSClientTypes.ServiceDeployment]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.serviceDeployments = serviceDeployments
     }
@@ -6238,8 +6098,7 @@ public struct DescribeServiceRevisionsInput: Swift.Sendable {
 
     public init(
         serviceRevisionArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.serviceRevisionArns = serviceRevisionArns
     }
 }
@@ -6259,8 +6118,7 @@ extension ECSClientTypes {
             containerName: Swift.String? = nil,
             image: Swift.String? = nil,
             imageDigest: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.image = image
             self.imageDigest = imageDigest
@@ -6328,8 +6186,7 @@ extension ECSClientTypes {
             taskDefinition: Swift.String? = nil,
             volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
             vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
-        )
-        {
+        ) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clusterArn = clusterArn
             self.containerImages = containerImages
@@ -6361,8 +6218,7 @@ public struct DescribeServiceRevisionsOutput: Swift.Sendable {
     public init(
         failures: [ECSClientTypes.Failure]? = nil,
         serviceRevisions: [ECSClientTypes.ServiceRevision]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.serviceRevisions = serviceRevisions
     }
@@ -6407,8 +6263,7 @@ public struct DescribeServicesInput: Swift.Sendable {
         cluster: Swift.String? = nil,
         include: [ECSClientTypes.ServiceField]? = nil,
         services: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.include = include
         self.services = services
@@ -6424,8 +6279,7 @@ public struct DescribeServicesOutput: Swift.Sendable {
     public init(
         failures: [ECSClientTypes.Failure]? = nil,
         services: [ECSClientTypes.Service]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.services = services
     }
@@ -6467,8 +6321,7 @@ public struct DescribeTaskDefinitionInput: Swift.Sendable {
     public init(
         include: [ECSClientTypes.TaskDefinitionField]? = nil,
         taskDefinition: Swift.String? = nil
-    )
-    {
+    ) {
         self.include = include
         self.taskDefinition = taskDefinition
     }
@@ -6497,8 +6350,7 @@ public struct DescribeTaskDefinitionOutput: Swift.Sendable {
     public init(
         tags: [ECSClientTypes.Tag]? = nil,
         taskDefinition: ECSClientTypes.TaskDefinition? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.taskDefinition = taskDefinition
     }
@@ -6543,8 +6395,7 @@ public struct DescribeTasksInput: Swift.Sendable {
         cluster: Swift.String? = nil,
         include: [ECSClientTypes.TaskField]? = nil,
         tasks: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.include = include
         self.tasks = tasks
@@ -6656,8 +6507,7 @@ extension ECSClientTypes {
             lastStatus: Swift.String? = nil,
             name: ECSClientTypes.ManagedAgentName? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastStartedAt = lastStartedAt
             self.lastStatus = lastStatus
             self.name = name
@@ -6722,8 +6572,7 @@ extension ECSClientTypes {
             hostPort: Swift.Int? = nil,
             hostPortRange: Swift.String? = nil,
             `protocol`: ECSClientTypes.TransportProtocol? = nil
-        )
-        {
+        ) {
             self.bindIP = bindIP
             self.containerPort = containerPort
             self.containerPortRange = containerPortRange
@@ -6749,8 +6598,7 @@ extension ECSClientTypes {
             attachmentId: Swift.String? = nil,
             ipv6Address: Swift.String? = nil,
             privateIpv4Address: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.ipv6Address = ipv6Address
             self.privateIpv4Address = privateIpv4Address
@@ -6815,8 +6663,7 @@ extension ECSClientTypes {
             reason: Swift.String? = nil,
             runtimeId: Swift.String? = nil,
             taskArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerArn = containerArn
             self.cpu = cpu
             self.exitCode = exitCode
@@ -6850,8 +6697,7 @@ extension ECSClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             sizeInGiB: Swift.Int = 0
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.sizeInGiB = sizeInGiB
         }
@@ -6888,8 +6734,7 @@ extension ECSClientTypes {
             memoryReservation: Swift.Int? = nil,
             name: Swift.String? = nil,
             resourceRequirements: [ECSClientTypes.ResourceRequirement]? = nil
-        )
-        {
+        ) {
             self.command = command
             self.cpu = cpu
             self.environment = environment
@@ -6914,8 +6759,7 @@ extension ECSClientTypes {
         public init(
             deviceName: Swift.String? = nil,
             deviceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.deviceType = deviceType
         }
@@ -6953,8 +6797,7 @@ extension ECSClientTypes {
             inferenceAcceleratorOverrides: [ECSClientTypes.InferenceAcceleratorOverride]? = nil,
             memory: Swift.String? = nil,
             taskRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerOverrides = containerOverrides
             self.cpu = cpu
             self.ephemeralStorage = ephemeralStorage
@@ -7166,8 +7009,7 @@ extension ECSClientTypes {
             taskArn: Swift.String? = nil,
             taskDefinitionArn: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.attachments = attachments
             self.attributes = attributes
             self.availabilityZone = availabilityZone
@@ -7218,8 +7060,7 @@ public struct DescribeTasksOutput: Swift.Sendable {
     public init(
         failures: [ECSClientTypes.Failure]? = nil,
         tasks: [ECSClientTypes.Task]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.tasks = tasks
     }
@@ -7268,8 +7109,7 @@ public struct DescribeTaskSetsInput: Swift.Sendable {
         include: [ECSClientTypes.TaskSetField]? = nil,
         service: Swift.String? = nil,
         taskSets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.include = include
         self.service = service
@@ -7286,8 +7126,7 @@ public struct DescribeTaskSetsOutput: Swift.Sendable {
     public init(
         failures: [ECSClientTypes.Failure]? = nil,
         taskSets: [ECSClientTypes.TaskSet]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.taskSets = taskSets
     }
@@ -7302,8 +7141,7 @@ public struct DiscoverPollEndpointInput: Swift.Sendable {
     public init(
         cluster: Swift.String? = nil,
         containerInstance: Swift.String? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.containerInstance = containerInstance
     }
@@ -7321,8 +7159,7 @@ public struct DiscoverPollEndpointOutput: Swift.Sendable {
         endpoint: Swift.String? = nil,
         serviceConnectEndpoint: Swift.String? = nil,
         telemetryEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
         self.serviceConnectEndpoint = serviceConnectEndpoint
         self.telemetryEndpoint = telemetryEndpoint
@@ -7357,8 +7194,7 @@ public struct TargetNotConnectedException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7384,8 +7220,7 @@ public struct ExecuteCommandInput: Swift.Sendable {
         container: Swift.String? = nil,
         interactive: Swift.Bool? = false,
         task: Swift.String? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.command = command
         self.container = container
@@ -7409,8 +7244,7 @@ extension ECSClientTypes {
             sessionId: Swift.String? = nil,
             streamUrl: Swift.String? = nil,
             tokenValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.sessionId = sessionId
             self.streamUrl = streamUrl
             self.tokenValue = tokenValue
@@ -7444,8 +7278,7 @@ public struct ExecuteCommandOutput: Swift.Sendable {
         interactive: Swift.Bool = false,
         session: ECSClientTypes.Session? = nil,
         taskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.containerArn = containerArn
         self.containerName = containerName
@@ -7474,8 +7307,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7490,8 +7322,7 @@ public struct GetTaskProtectionInput: Swift.Sendable {
     public init(
         cluster: Swift.String? = nil,
         tasks: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.tasks = tasks
     }
@@ -7512,8 +7343,7 @@ extension ECSClientTypes {
             expirationDate: Foundation.Date? = nil,
             protectionEnabled: Swift.Bool = false,
             taskArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.expirationDate = expirationDate
             self.protectionEnabled = protectionEnabled
             self.taskArn = taskArn
@@ -7536,8 +7366,7 @@ public struct GetTaskProtectionOutput: Swift.Sendable {
     public init(
         failures: [ECSClientTypes.Failure]? = nil,
         protectedTasks: [ECSClientTypes.ProtectedTask]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.protectedTasks = protectedTasks
     }
@@ -7564,8 +7393,7 @@ public struct ListAccountSettingsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         principalArn: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.effectiveSettings = effectiveSettings
         self.maxResults = maxResults
         self.name = name
@@ -7584,8 +7412,7 @@ public struct ListAccountSettingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         settings: [ECSClientTypes.Setting]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.settings = settings
     }
@@ -7613,8 +7440,7 @@ public struct ListAttributesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         targetType: ECSClientTypes.TargetType? = nil
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.attributeValue = attributeValue
         self.cluster = cluster
@@ -7633,8 +7459,7 @@ public struct ListAttributesOutput: Swift.Sendable {
     public init(
         attributes: [ECSClientTypes.Attribute]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.nextToken = nextToken
     }
@@ -7649,8 +7474,7 @@ public struct ListClustersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7665,8 +7489,7 @@ public struct ListClustersOutput: Swift.Sendable {
     public init(
         clusterArns: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArns = clusterArns
         self.nextToken = nextToken
     }
@@ -7728,8 +7551,7 @@ public struct ListContainerInstancesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: ECSClientTypes.ContainerInstanceStatus? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.filter = filter
         self.maxResults = maxResults
@@ -7747,8 +7569,7 @@ public struct ListContainerInstancesOutput: Swift.Sendable {
     public init(
         containerInstanceArns: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerInstanceArns = containerInstanceArns
         self.nextToken = nextToken
     }
@@ -7766,8 +7587,7 @@ extension ECSClientTypes {
         public init(
             after: Foundation.Date? = nil,
             before: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.after = after
             self.before = before
         }
@@ -7796,8 +7616,7 @@ public struct ListServiceDeploymentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         service: Swift.String? = nil,
         status: [ECSClientTypes.ServiceDeploymentStatus]? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.createdAt = createdAt
         self.maxResults = maxResults
@@ -7840,8 +7659,7 @@ extension ECSClientTypes {
             status: ECSClientTypes.ServiceDeploymentStatus? = nil,
             statusReason: Swift.String? = nil,
             targetServiceRevisionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.createdAt = createdAt
             self.finishedAt = finishedAt
@@ -7880,8 +7698,7 @@ public struct ListServiceDeploymentsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceDeployments: [ECSClientTypes.ServiceDeploymentBrief]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceDeployments = serviceDeployments
     }
@@ -7905,8 +7722,7 @@ public struct ListServicesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.launchType = launchType
         self.maxResults = maxResults
@@ -7924,8 +7740,7 @@ public struct ListServicesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceArns = serviceArns
     }
@@ -7944,8 +7759,7 @@ public struct ListServicesByNamespaceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.namespace = namespace
         self.nextToken = nextToken
@@ -7961,8 +7775,7 @@ public struct ListServicesByNamespaceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceArns = serviceArns
     }
@@ -7975,8 +7788,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -7987,8 +7799,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ECSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -8040,8 +7851,7 @@ public struct ListTaskDefinitionFamiliesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: ECSClientTypes.TaskDefinitionFamilyStatus? = nil
-    )
-    {
+    ) {
         self.familyPrefix = familyPrefix
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8058,8 +7868,7 @@ public struct ListTaskDefinitionFamiliesOutput: Swift.Sendable {
     public init(
         families: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.families = families
         self.nextToken = nextToken
     }
@@ -8112,8 +7921,7 @@ public struct ListTaskDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sort: ECSClientTypes.SortOrder? = nil,
         status: ECSClientTypes.TaskDefinitionStatus? = nil
-    )
-    {
+    ) {
         self.familyPrefix = familyPrefix
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8131,8 +7939,7 @@ public struct ListTaskDefinitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskDefinitionArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskDefinitionArns = taskDefinitionArns
     }
@@ -8200,8 +8007,7 @@ public struct ListTasksInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceName: Swift.String? = nil,
         startedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.containerInstance = containerInstance
         self.desiredStatus = desiredStatus
@@ -8223,8 +8029,7 @@ public struct ListTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskArns = taskArns
     }
@@ -8270,8 +8075,7 @@ public struct PutAccountSettingInput: Swift.Sendable {
         name: ECSClientTypes.SettingName? = nil,
         principalArn: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.principalArn = principalArn
         self.value = value
@@ -8284,8 +8088,7 @@ public struct PutAccountSettingOutput: Swift.Sendable {
 
     public init(
         setting: ECSClientTypes.Setting? = nil
-    )
-    {
+    ) {
         self.setting = setting
     }
 }
@@ -8327,8 +8130,7 @@ public struct PutAccountSettingDefaultInput: Swift.Sendable {
     public init(
         name: ECSClientTypes.SettingName? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.value = value
     }
@@ -8340,8 +8142,7 @@ public struct PutAccountSettingDefaultOutput: Swift.Sendable {
 
     public init(
         setting: ECSClientTypes.Setting? = nil
-    )
-    {
+    ) {
         self.setting = setting
     }
 }
@@ -8365,8 +8166,7 @@ public struct AttributeLimitExceededException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8381,8 +8181,7 @@ public struct PutAttributesInput: Swift.Sendable {
     public init(
         attributes: [ECSClientTypes.Attribute]? = nil,
         cluster: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.cluster = cluster
     }
@@ -8394,8 +8193,7 @@ public struct PutAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [ECSClientTypes.Attribute]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -8419,8 +8217,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8440,8 +8237,7 @@ public struct PutClusterCapacityProvidersInput: Swift.Sendable {
         capacityProviders: [Swift.String]? = nil,
         cluster: Swift.String? = nil,
         defaultCapacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil
-    )
-    {
+    ) {
         self.capacityProviders = capacityProviders
         self.cluster = cluster
         self.defaultCapacityProviderStrategy = defaultCapacityProviderStrategy
@@ -8454,8 +8250,7 @@ public struct PutClusterCapacityProvidersOutput: Swift.Sendable {
 
     public init(
         cluster: ECSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -8500,8 +8295,7 @@ extension ECSClientTypes {
         public init(
             id: Swift.String? = nil,
             type: ECSClientTypes.PlatformDeviceType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -8552,8 +8346,7 @@ public struct RegisterContainerInstanceInput: Swift.Sendable {
         tags: [ECSClientTypes.Tag]? = nil,
         totalResources: [ECSClientTypes.Resource]? = nil,
         versionInfo: ECSClientTypes.VersionInfo? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.cluster = cluster
         self.containerInstanceArn = containerInstanceArn
@@ -8572,8 +8365,7 @@ public struct RegisterContainerInstanceOutput: Swift.Sendable {
 
     public init(
         containerInstance: ECSClientTypes.ContainerInstance? = nil
-    )
-    {
+    ) {
         self.containerInstance = containerInstance
     }
 }
@@ -8690,8 +8482,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
         tags: [ECSClientTypes.Tag]? = nil,
         taskRoleArn: Swift.String? = nil,
         volumes: [ECSClientTypes.Volume]? = nil
-    )
-    {
+    ) {
         self.containerDefinitions = containerDefinitions
         self.cpu = cpu
         self.enableFaultInjection = enableFaultInjection
@@ -8722,8 +8513,7 @@ public struct RegisterTaskDefinitionOutput: Swift.Sendable {
     public init(
         tags: [ECSClientTypes.Tag]? = nil,
         taskDefinition: ECSClientTypes.TaskDefinition? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.taskDefinition = taskDefinition
     }
@@ -8748,8 +8538,7 @@ public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8780,8 +8569,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         resourceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceIds = resourceIds
     }
@@ -8797,8 +8585,7 @@ extension ECSClientTypes {
 
         public init(
             deleteOnTermination: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.deleteOnTermination = deleteOnTermination
         }
     }
@@ -8871,8 +8658,7 @@ extension ECSClientTypes {
             terminationPolicy: ECSClientTypes.TaskManagedEBSVolumeTerminationPolicy? = nil,
             throughput: Swift.Int? = nil,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.encrypted = encrypted
             self.filesystemType = filesystemType
             self.iops = iops
@@ -8901,8 +8687,7 @@ extension ECSClientTypes {
         public init(
             managedEBSVolume: ECSClientTypes.TaskManagedEBSVolumeConfiguration? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.managedEBSVolume = managedEBSVolume
             self.name = name
         }
@@ -8984,8 +8769,7 @@ public struct RunTaskInput: Swift.Sendable {
         tags: [ECSClientTypes.Tag]? = nil,
         taskDefinition: Swift.String? = nil,
         volumeConfigurations: [ECSClientTypes.TaskVolumeConfiguration]? = nil
-    )
-    {
+    ) {
         self.capacityProviderStrategy = capacityProviderStrategy
         self.clientToken = clientToken
         self.cluster = cluster
@@ -9017,8 +8801,7 @@ public struct RunTaskOutput: Swift.Sendable {
     public init(
         failures: [ECSClientTypes.Failure]? = nil,
         tasks: [ECSClientTypes.Task]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.tasks = tasks
     }
@@ -9082,8 +8865,7 @@ public struct StartTaskInput: Swift.Sendable {
         tags: [ECSClientTypes.Tag]? = nil,
         taskDefinition: Swift.String? = nil,
         volumeConfigurations: [ECSClientTypes.TaskVolumeConfiguration]? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.containerInstances = containerInstances
         self.enableECSManagedTags = enableECSManagedTags
@@ -9109,8 +8891,7 @@ public struct StartTaskOutput: Swift.Sendable {
     public init(
         failures: [ECSClientTypes.Failure]? = nil,
         tasks: [ECSClientTypes.Task]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.tasks = tasks
     }
@@ -9129,8 +8910,7 @@ public struct StopTaskInput: Swift.Sendable {
         cluster: Swift.String? = nil,
         reason: Swift.String? = nil,
         task: Swift.String? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.reason = reason
         self.task = task
@@ -9143,8 +8923,7 @@ public struct StopTaskOutput: Swift.Sendable {
 
     public init(
         task: ECSClientTypes.Task? = nil
-    )
-    {
+    ) {
         self.task = task
     }
 }
@@ -9163,8 +8942,7 @@ extension ECSClientTypes {
         public init(
             attachmentArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentArn = attachmentArn
             self.status = status
         }
@@ -9181,8 +8959,7 @@ public struct SubmitAttachmentStateChangesInput: Swift.Sendable {
     public init(
         attachments: [ECSClientTypes.AttachmentStateChange]? = nil,
         cluster: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachments = attachments
         self.cluster = cluster
     }
@@ -9194,8 +8971,7 @@ public struct SubmitAttachmentStateChangesOutput: Swift.Sendable {
 
     public init(
         acknowledgment: Swift.String? = nil
-    )
-    {
+    ) {
         self.acknowledgment = acknowledgment
     }
 }
@@ -9227,8 +9003,7 @@ public struct SubmitContainerStateChangeInput: Swift.Sendable {
         runtimeId: Swift.String? = nil,
         status: Swift.String? = nil,
         task: Swift.String? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.containerName = containerName
         self.exitCode = exitCode
@@ -9246,8 +9021,7 @@ public struct SubmitContainerStateChangeOutput: Swift.Sendable {
 
     public init(
         acknowledgment: Swift.String? = nil
-    )
-    {
+    ) {
         self.acknowledgment = acknowledgment
     }
 }
@@ -9279,8 +9053,7 @@ extension ECSClientTypes {
             reason: Swift.String? = nil,
             runtimeId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.exitCode = exitCode
             self.imageDigest = imageDigest
@@ -9313,8 +9086,7 @@ extension ECSClientTypes {
             managedAgentName: ECSClientTypes.ManagedAgentName? = nil,
             reason: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.managedAgentName = managedAgentName
             self.reason = reason
@@ -9356,8 +9128,7 @@ public struct SubmitTaskStateChangeInput: Swift.Sendable {
         reason: Swift.String? = nil,
         status: Swift.String? = nil,
         task: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachments = attachments
         self.cluster = cluster
         self.containers = containers
@@ -9377,8 +9148,7 @@ public struct SubmitTaskStateChangeOutput: Swift.Sendable {
 
     public init(
         acknowledgment: Swift.String? = nil
-    )
-    {
+    ) {
         self.acknowledgment = acknowledgment
     }
 }
@@ -9408,8 +9178,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [ECSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -9431,8 +9200,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -9458,8 +9226,7 @@ extension ECSClientTypes {
             managedDraining: ECSClientTypes.ManagedDraining? = nil,
             managedScaling: ECSClientTypes.ManagedScaling? = nil,
             managedTerminationProtection: ECSClientTypes.ManagedTerminationProtection? = nil
-        )
-        {
+        ) {
             self.managedDraining = managedDraining
             self.managedScaling = managedScaling
             self.managedTerminationProtection = managedTerminationProtection
@@ -9478,8 +9245,7 @@ public struct UpdateCapacityProviderInput: Swift.Sendable {
     public init(
         autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProviderUpdate? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupProvider = autoScalingGroupProvider
         self.name = name
     }
@@ -9491,8 +9257,7 @@ public struct UpdateCapacityProviderOutput: Swift.Sendable {
 
     public init(
         capacityProvider: ECSClientTypes.CapacityProvider? = nil
-    )
-    {
+    ) {
         self.capacityProvider = capacityProvider
     }
 }
@@ -9513,8 +9278,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         configuration: ECSClientTypes.ClusterConfiguration? = nil,
         serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest? = nil,
         settings: [ECSClientTypes.ClusterSetting]? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.configuration = configuration
         self.serviceConnectDefaults = serviceConnectDefaults
@@ -9528,8 +9292,7 @@ public struct UpdateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: ECSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -9545,8 +9308,7 @@ public struct UpdateClusterSettingsInput: Swift.Sendable {
     public init(
         cluster: Swift.String? = nil,
         settings: [ECSClientTypes.ClusterSetting]? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.settings = settings
     }
@@ -9558,8 +9320,7 @@ public struct UpdateClusterSettingsOutput: Swift.Sendable {
 
     public init(
         cluster: ECSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -9583,8 +9344,7 @@ public struct MissingVersionException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9608,8 +9368,7 @@ public struct NoUpdateAvailableException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9624,8 +9383,7 @@ public struct UpdateContainerAgentInput: Swift.Sendable {
     public init(
         cluster: Swift.String? = nil,
         containerInstance: Swift.String? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.containerInstance = containerInstance
     }
@@ -9637,8 +9395,7 @@ public struct UpdateContainerAgentOutput: Swift.Sendable {
 
     public init(
         containerInstance: ECSClientTypes.ContainerInstance? = nil
-    )
-    {
+    ) {
         self.containerInstance = containerInstance
     }
 }
@@ -9657,8 +9414,7 @@ public struct UpdateContainerInstancesStateInput: Swift.Sendable {
         cluster: Swift.String? = nil,
         containerInstances: [Swift.String]? = nil,
         status: ECSClientTypes.ContainerInstanceStatus? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.containerInstances = containerInstances
         self.status = status
@@ -9674,8 +9430,7 @@ public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
     public init(
         containerInstances: [ECSClientTypes.ContainerInstance]? = nil,
         failures: [ECSClientTypes.Failure]? = nil
-    )
-    {
+    ) {
         self.containerInstances = containerInstances
         self.failures = failures
     }
@@ -9748,8 +9503,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         taskDefinition: Swift.String? = nil,
         volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
         vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
-    )
-    {
+    ) {
         self.availabilityZoneRebalancing = availabilityZoneRebalancing
         self.capacityProviderStrategy = capacityProviderStrategy
         self.cluster = cluster
@@ -9780,8 +9534,7 @@ public struct UpdateServiceOutput: Swift.Sendable {
 
     public init(
         service: ECSClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.service = service
     }
 }
@@ -9801,8 +9554,7 @@ public struct UpdateServicePrimaryTaskSetInput: Swift.Sendable {
         cluster: Swift.String? = nil,
         primaryTaskSet: Swift.String? = nil,
         service: Swift.String? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.primaryTaskSet = primaryTaskSet
         self.service = service
@@ -9815,8 +9567,7 @@ public struct UpdateServicePrimaryTaskSetOutput: Swift.Sendable {
 
     public init(
         taskSet: ECSClientTypes.TaskSet? = nil
-    )
-    {
+    ) {
         self.taskSet = taskSet
     }
 }
@@ -9839,8 +9590,7 @@ public struct UpdateTaskProtectionInput: Swift.Sendable {
         expiresInMinutes: Swift.Int? = nil,
         protectionEnabled: Swift.Bool? = false,
         tasks: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.expiresInMinutes = expiresInMinutes
         self.protectionEnabled = protectionEnabled
@@ -9863,8 +9613,7 @@ public struct UpdateTaskProtectionOutput: Swift.Sendable {
     public init(
         failures: [ECSClientTypes.Failure]? = nil,
         protectedTasks: [ECSClientTypes.ProtectedTask]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.protectedTasks = protectedTasks
     }
@@ -9889,8 +9638,7 @@ public struct UpdateTaskSetInput: Swift.Sendable {
         scale: ECSClientTypes.Scale? = nil,
         service: Swift.String? = nil,
         taskSet: Swift.String? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
         self.scale = scale
         self.service = service
@@ -9904,8 +9652,7 @@ public struct UpdateTaskSetOutput: Swift.Sendable {
 
     public init(
         taskSet: ECSClientTypes.TaskSet? = nil
-    )
-    {
+    ) {
         self.taskSet = taskSet
     }
 }

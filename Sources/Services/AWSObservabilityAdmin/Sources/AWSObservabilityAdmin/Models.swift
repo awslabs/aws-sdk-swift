@@ -97,8 +97,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         amznErrorType: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.amznErrorType = amznErrorType
         self.properties.message = message
     }
@@ -125,8 +124,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         amznErrorType: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.amznErrorType = amznErrorType
         self.properties.message = message
     }
@@ -185,8 +183,7 @@ public struct GetTelemetryEvaluationStatusOutput: Swift.Sendable {
     public init(
         failureReason: Swift.String? = nil,
         status: ObservabilityAdminClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.failureReason = failureReason
         self.status = status
     }
@@ -210,8 +207,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -225,8 +221,7 @@ public struct GetTelemetryEvaluationStatusForOrganizationOutput: Swift.Sendable 
     public init(
         failureReason: Swift.String? = nil,
         status: ObservabilityAdminClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.failureReason = failureReason
         self.status = status
     }
@@ -349,8 +344,7 @@ public struct ListResourceTelemetryInput: Swift.Sendable {
         resourceTags: [Swift.String: Swift.String]? = nil,
         resourceTypes: [ObservabilityAdminClientTypes.ResourceType]? = nil,
         telemetryConfigurationState: [Swift.String: ObservabilityAdminClientTypes.TelemetryState]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceIdentifierPrefix = resourceIdentifierPrefix
@@ -384,8 +378,7 @@ extension ObservabilityAdminClientTypes {
             resourceTags: [Swift.String: Swift.String]? = nil,
             resourceType: ObservabilityAdminClientTypes.ResourceType? = nil,
             telemetryConfigurationState: [Swift.String: ObservabilityAdminClientTypes.TelemetryState]? = nil
-        )
-        {
+        ) {
             self.accountIdentifier = accountIdentifier
             self.lastUpdateTimeStamp = lastUpdateTimeStamp
             self.resourceIdentifier = resourceIdentifier
@@ -405,8 +398,7 @@ public struct ListResourceTelemetryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         telemetryConfigurations: [ObservabilityAdminClientTypes.TelemetryConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.telemetryConfigurations = telemetryConfigurations
     }
@@ -436,8 +428,7 @@ public struct ListResourceTelemetryForOrganizationInput: Swift.Sendable {
         resourceTags: [Swift.String: Swift.String]? = nil,
         resourceTypes: [ObservabilityAdminClientTypes.ResourceType]? = nil,
         telemetryConfigurationState: [Swift.String: ObservabilityAdminClientTypes.TelemetryState]? = nil
-    )
-    {
+    ) {
         self.accountIdentifiers = accountIdentifiers
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -457,8 +448,7 @@ public struct ListResourceTelemetryForOrganizationOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         telemetryConfigurations: [ObservabilityAdminClientTypes.TelemetryConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.telemetryConfigurations = telemetryConfigurations
     }

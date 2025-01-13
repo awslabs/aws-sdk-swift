@@ -95,8 +95,7 @@ extension ACMPCAClientTypes {
         public init(
             objectIdentifier: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.objectIdentifier = objectIdentifier
             self.value = value
         }
@@ -154,8 +153,7 @@ extension ACMPCAClientTypes {
             state: Swift.String? = nil,
             surname: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.commonName = commonName
             self.country = country
             self.customAttributes = customAttributes
@@ -188,8 +186,7 @@ extension ACMPCAClientTypes {
         public init(
             nameAssigner: Swift.String? = nil,
             partyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.nameAssigner = nameAssigner
             self.partyName = partyName
         }
@@ -210,8 +207,7 @@ extension ACMPCAClientTypes {
         public init(
             typeId: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.typeId = typeId
             self.value = value
         }
@@ -248,8 +244,7 @@ extension ACMPCAClientTypes {
             registeredId: Swift.String? = nil,
             rfc822Name: Swift.String? = nil,
             uniformResourceIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.directoryName = directoryName
             self.dnsName = dnsName
             self.ediPartyName = ediPartyName
@@ -306,8 +301,7 @@ extension ACMPCAClientTypes {
         public init(
             accessMethodType: ACMPCAClientTypes.AccessMethodType? = nil,
             customObjectIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessMethodType = accessMethodType
             self.customObjectIdentifier = customObjectIdentifier
         }
@@ -328,8 +322,7 @@ extension ACMPCAClientTypes {
         public init(
             accessLocation: ACMPCAClientTypes.GeneralName? = nil,
             accessMethod: ACMPCAClientTypes.AccessMethod? = nil
-        )
-        {
+        ) {
             self.accessLocation = accessLocation
             self.accessMethod = accessMethod
         }
@@ -354,8 +347,7 @@ public struct InvalidArgsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -378,8 +370,7 @@ public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -402,8 +393,7 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -426,8 +416,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -465,8 +454,7 @@ extension ACMPCAClientTypes {
             keyCertSign: Swift.Bool = false,
             keyEncipherment: Swift.Bool = false,
             nonRepudiation: Swift.Bool = false
-        )
-        {
+        ) {
             self.crlSign = crlSign
             self.dataEncipherment = dataEncipherment
             self.decipherOnly = decipherOnly
@@ -492,8 +480,7 @@ extension ACMPCAClientTypes {
         public init(
             keyUsage: ACMPCAClientTypes.KeyUsage? = nil,
             subjectInformationAccess: [ACMPCAClientTypes.AccessDescription]? = nil
-        )
-        {
+        ) {
             self.keyUsage = keyUsage
             self.subjectInformationAccess = subjectInformationAccess
         }
@@ -603,8 +590,7 @@ extension ACMPCAClientTypes {
             keyAlgorithm: ACMPCAClientTypes.KeyAlgorithm? = nil,
             signingAlgorithm: ACMPCAClientTypes.SigningAlgorithm? = nil,
             subject: ACMPCAClientTypes.ASN1Subject? = nil
-        )
-        {
+        ) {
             self.csrExtensions = csrExtensions
             self.keyAlgorithm = keyAlgorithm
             self.signingAlgorithm = signingAlgorithm
@@ -684,8 +670,7 @@ extension ACMPCAClientTypes {
 
         public init(
             omitExtension: Swift.Bool? = false
-        )
-        {
+        ) {
             self.omitExtension = omitExtension
         }
     }
@@ -787,8 +772,7 @@ extension ACMPCAClientTypes {
             expirationInDays: Swift.Int? = nil,
             s3BucketName: Swift.String? = nil,
             s3ObjectAcl: ACMPCAClientTypes.S3ObjectAcl? = nil
-        )
-        {
+        ) {
             self.crlDistributionPointExtensionConfiguration = crlDistributionPointExtensionConfiguration
             self.customCname = customCname
             self.enabled = enabled
@@ -812,8 +796,7 @@ extension ACMPCAClientTypes {
         public init(
             enabled: Swift.Bool? = false,
             ocspCustomCname: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.ocspCustomCname = ocspCustomCname
         }
@@ -832,8 +815,7 @@ extension ACMPCAClientTypes {
         public init(
             crlConfiguration: ACMPCAClientTypes.CrlConfiguration? = nil,
             ocspConfiguration: ACMPCAClientTypes.OcspConfiguration? = nil
-        )
-        {
+        ) {
             self.crlConfiguration = crlConfiguration
             self.ocspConfiguration = ocspConfiguration
         }
@@ -853,8 +835,7 @@ extension ACMPCAClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -927,8 +908,7 @@ public struct CreateCertificateAuthorityInput: Swift.Sendable {
         revocationConfiguration: ACMPCAClientTypes.RevocationConfiguration? = nil,
         tags: [ACMPCAClientTypes.Tag]? = nil,
         usageMode: ACMPCAClientTypes.CertificateAuthorityUsageMode? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
         self.certificateAuthorityType = certificateAuthorityType
         self.idempotencyToken = idempotencyToken
@@ -945,8 +925,7 @@ public struct CreateCertificateAuthorityOutput: Swift.Sendable {
 
     public init(
         certificateAuthorityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
     }
 }
@@ -969,8 +948,7 @@ public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -993,8 +971,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1017,8 +994,7 @@ public struct RequestFailedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1041,8 +1017,7 @@ public struct RequestInProgressException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1065,8 +1040,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1115,8 +1089,7 @@ public struct CreateCertificateAuthorityAuditReportInput: Swift.Sendable {
         auditReportResponseFormat: ACMPCAClientTypes.AuditReportResponseFormat? = nil,
         certificateAuthorityArn: Swift.String? = nil,
         s3BucketName: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditReportResponseFormat = auditReportResponseFormat
         self.certificateAuthorityArn = certificateAuthorityArn
         self.s3BucketName = s3BucketName
@@ -1132,8 +1105,7 @@ public struct CreateCertificateAuthorityAuditReportOutput: Swift.Sendable {
     public init(
         auditReportId: Swift.String? = nil,
         s3Key: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditReportId = auditReportId
         self.s3Key = s3Key
     }
@@ -1157,8 +1129,7 @@ public struct PermissionAlreadyExistsException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1213,8 +1184,7 @@ public struct CreatePermissionInput: Swift.Sendable {
         certificateAuthorityArn: Swift.String? = nil,
         principal: Swift.String? = nil,
         sourceAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.certificateAuthorityArn = certificateAuthorityArn
         self.principal = principal
@@ -1240,8 +1210,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1256,8 +1225,7 @@ public struct DeleteCertificateAuthorityInput: Swift.Sendable {
     public init(
         certificateAuthorityArn: Swift.String? = nil,
         permanentDeletionTimeInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.permanentDeletionTimeInDays = permanentDeletionTimeInDays
     }
@@ -1277,8 +1245,7 @@ public struct DeletePermissionInput: Swift.Sendable {
         certificateAuthorityArn: Swift.String? = nil,
         principal: Swift.String? = nil,
         sourceAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.principal = principal
         self.sourceAccount = sourceAccount
@@ -1303,8 +1270,7 @@ public struct LockoutPreventedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1316,8 +1282,7 @@ public struct DeletePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1329,8 +1294,7 @@ public struct DescribeCertificateAuthorityInput: Swift.Sendable {
 
     public init(
         certificateAuthorityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
     }
 }
@@ -1462,8 +1426,7 @@ extension ACMPCAClientTypes {
             status: ACMPCAClientTypes.CertificateAuthorityStatus? = nil,
             type: ACMPCAClientTypes.CertificateAuthorityType? = nil,
             usageMode: ACMPCAClientTypes.CertificateAuthorityUsageMode? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
             self.createdAt = createdAt
@@ -1489,8 +1452,7 @@ public struct DescribeCertificateAuthorityOutput: Swift.Sendable {
 
     public init(
         certificateAuthority: ACMPCAClientTypes.CertificateAuthority? = nil
-    )
-    {
+    ) {
         self.certificateAuthority = certificateAuthority
     }
 }
@@ -1506,8 +1468,7 @@ public struct DescribeCertificateAuthorityAuditReportInput: Swift.Sendable {
     public init(
         auditReportId: Swift.String? = nil,
         certificateAuthorityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditReportId = auditReportId
         self.certificateAuthorityArn = certificateAuthorityArn
     }
@@ -1560,8 +1521,7 @@ public struct DescribeCertificateAuthorityAuditReportOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         s3BucketName: Swift.String? = nil,
         s3Key: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditReportStatus = auditReportStatus
         self.createdAt = createdAt
         self.s3BucketName = s3BucketName
@@ -1580,8 +1540,7 @@ public struct GetCertificateInput: Swift.Sendable {
     public init(
         certificateArn: Swift.String? = nil,
         certificateAuthorityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.certificateAuthorityArn = certificateAuthorityArn
     }
@@ -1596,8 +1555,7 @@ public struct GetCertificateOutput: Swift.Sendable {
     public init(
         certificate: Swift.String? = nil,
         certificateChain: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.certificateChain = certificateChain
     }
@@ -1610,8 +1568,7 @@ public struct GetCertificateAuthorityCertificateInput: Swift.Sendable {
 
     public init(
         certificateAuthorityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
     }
 }
@@ -1625,8 +1582,7 @@ public struct GetCertificateAuthorityCertificateOutput: Swift.Sendable {
     public init(
         certificate: Swift.String? = nil,
         certificateChain: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.certificateChain = certificateChain
     }
@@ -1639,8 +1595,7 @@ public struct GetCertificateAuthorityCsrInput: Swift.Sendable {
 
     public init(
         certificateAuthorityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
     }
 }
@@ -1651,8 +1606,7 @@ public struct GetCertificateAuthorityCsrOutput: Swift.Sendable {
 
     public init(
         csr: Swift.String? = nil
-    )
-    {
+    ) {
         self.csr = csr
     }
 }
@@ -1664,8 +1618,7 @@ public struct GetPolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1676,8 +1629,7 @@ public struct GetPolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1700,8 +1652,7 @@ public struct CertificateMismatchException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1724,8 +1675,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1748,8 +1698,7 @@ public struct MalformedCertificateException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1768,8 +1717,7 @@ public struct ImportCertificateAuthorityCertificateInput: Swift.Sendable {
         certificate: Foundation.Data? = nil,
         certificateAuthorityArn: Swift.String? = nil,
         certificateChain: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.certificateAuthorityArn = certificateAuthorityArn
         self.certificateChain = certificateChain
@@ -1794,8 +1742,7 @@ public struct MalformedCSRException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1836,8 +1783,7 @@ extension ACMPCAClientTypes {
 
         public init(
             cpsUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.cpsUri = cpsUri
         }
     }
@@ -1857,8 +1803,7 @@ extension ACMPCAClientTypes {
         public init(
             policyQualifierId: ACMPCAClientTypes.PolicyQualifierId? = nil,
             qualifier: ACMPCAClientTypes.Qualifier? = nil
-        )
-        {
+        ) {
             self.policyQualifierId = policyQualifierId
             self.qualifier = qualifier
         }
@@ -1878,8 +1823,7 @@ extension ACMPCAClientTypes {
         public init(
             certPolicyId: Swift.String? = nil,
             policyQualifiers: [ACMPCAClientTypes.PolicyQualifierInfo]? = nil
-        )
-        {
+        ) {
             self.certPolicyId = certPolicyId
             self.policyQualifiers = policyQualifiers
         }
@@ -1903,8 +1847,7 @@ extension ACMPCAClientTypes {
             critical: Swift.Bool? = false,
             objectIdentifier: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.critical = critical
             self.objectIdentifier = objectIdentifier
             self.value = value
@@ -1974,8 +1917,7 @@ extension ACMPCAClientTypes {
         public init(
             extendedKeyUsageObjectIdentifier: Swift.String? = nil,
             extendedKeyUsageType: ACMPCAClientTypes.ExtendedKeyUsageType? = nil
-        )
-        {
+        ) {
             self.extendedKeyUsageObjectIdentifier = extendedKeyUsageObjectIdentifier
             self.extendedKeyUsageType = extendedKeyUsageType
         }
@@ -2003,8 +1945,7 @@ extension ACMPCAClientTypes {
             extendedKeyUsage: [ACMPCAClientTypes.ExtendedKeyUsage]? = nil,
             keyUsage: ACMPCAClientTypes.KeyUsage? = nil,
             subjectAlternativeNames: [ACMPCAClientTypes.GeneralName]? = nil
-        )
-        {
+        ) {
             self.certificatePolicies = certificatePolicies
             self.customExtensions = customExtensions
             self.extendedKeyUsage = extendedKeyUsage
@@ -2026,8 +1967,7 @@ extension ACMPCAClientTypes {
         public init(
             extensions: ACMPCAClientTypes.Extensions? = nil,
             subject: ACMPCAClientTypes.ASN1Subject? = nil
-        )
-        {
+        ) {
             self.extensions = extensions
             self.subject = subject
         }
@@ -2107,8 +2047,7 @@ extension ACMPCAClientTypes {
         public init(
             type: ACMPCAClientTypes.ValidityPeriodType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -2146,8 +2085,7 @@ public struct IssueCertificateInput: Swift.Sendable {
         templateArn: Swift.String? = nil,
         validity: ACMPCAClientTypes.Validity? = nil,
         validityNotBefore: ACMPCAClientTypes.Validity? = nil
-    )
-    {
+    ) {
         self.apiPassthrough = apiPassthrough
         self.certificateAuthorityArn = certificateAuthorityArn
         self.csr = csr
@@ -2165,8 +2103,7 @@ public struct IssueCertificateOutput: Swift.Sendable {
 
     public init(
         certificateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
     }
 }
@@ -2189,8 +2126,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2236,8 +2172,7 @@ public struct ListCertificateAuthoritiesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceOwner: ACMPCAClientTypes.ResourceOwner? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceOwner = resourceOwner
@@ -2253,8 +2188,7 @@ public struct ListCertificateAuthoritiesOutput: Swift.Sendable {
     public init(
         certificateAuthorities: [ACMPCAClientTypes.CertificateAuthority]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorities = certificateAuthorities
         self.nextToken = nextToken
     }
@@ -2273,8 +2207,7 @@ public struct ListPermissionsInput: Swift.Sendable {
         certificateAuthorityArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2305,8 +2238,7 @@ extension ACMPCAClientTypes {
             policy: Swift.String? = nil,
             principal: Swift.String? = nil,
             sourceAccount: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.certificateAuthorityArn = certificateAuthorityArn
             self.createdAt = createdAt
@@ -2326,8 +2258,7 @@ public struct ListPermissionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissions: [ACMPCAClientTypes.Permission]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissions = permissions
     }
@@ -2346,8 +2277,7 @@ public struct ListTagsInput: Swift.Sendable {
         certificateAuthorityArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2363,8 +2293,7 @@ public struct ListTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [ACMPCAClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -2381,8 +2310,7 @@ public struct PutPolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -2395,8 +2323,7 @@ public struct RestoreCertificateAuthorityInput: Swift.Sendable {
 
     public init(
         certificateAuthorityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
     }
 }
@@ -2419,8 +2346,7 @@ public struct RequestAlreadyProcessedException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2487,8 +2413,7 @@ public struct RevokeCertificateInput: Swift.Sendable {
         certificateAuthorityArn: Swift.String? = nil,
         certificateSerial: Swift.String? = nil,
         revocationReason: ACMPCAClientTypes.RevocationReason? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.certificateSerial = certificateSerial
         self.revocationReason = revocationReason
@@ -2513,8 +2438,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2530,8 +2454,7 @@ public struct TagCertificateAuthorityInput: Swift.Sendable {
     public init(
         certificateAuthorityArn: Swift.String? = nil,
         tags: [ACMPCAClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.tags = tags
     }
@@ -2548,8 +2471,7 @@ public struct UntagCertificateAuthorityInput: Swift.Sendable {
     public init(
         certificateAuthorityArn: Swift.String? = nil,
         tags: [ACMPCAClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.tags = tags
     }
@@ -2579,8 +2501,7 @@ public struct UpdateCertificateAuthorityInput: Swift.Sendable {
         certificateAuthorityArn: Swift.String? = nil,
         revocationConfiguration: ACMPCAClientTypes.RevocationConfiguration? = nil,
         status: ACMPCAClientTypes.CertificateAuthorityStatus? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.revocationConfiguration = revocationConfiguration
         self.status = status

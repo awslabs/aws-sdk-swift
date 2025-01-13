@@ -42,8 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -62,8 +61,7 @@ extension EKSAuthClientTypes {
         public init(
             arn: Swift.String? = nil,
             assumeRoleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assumeRoleId = assumeRoleId
         }
@@ -88,8 +86,7 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -112,8 +109,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -136,8 +132,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -160,8 +155,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -184,8 +178,7 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -208,8 +201,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -232,8 +224,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -256,8 +247,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -273,8 +263,7 @@ public struct AssumeRoleForPodIdentityInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.token = token
     }
@@ -307,8 +296,7 @@ extension EKSAuthClientTypes {
             expiration: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretAccessKey = secretAccessKey
@@ -337,8 +325,7 @@ extension EKSAuthClientTypes {
         public init(
             associationArn: Swift.String? = nil,
             associationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationArn = associationArn
             self.associationId = associationId
         }
@@ -359,8 +346,7 @@ extension EKSAuthClientTypes {
         public init(
             namespace: Swift.String? = nil,
             serviceAccount: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
             self.serviceAccount = serviceAccount
         }
@@ -390,8 +376,7 @@ public struct AssumeRoleForPodIdentityOutput: Swift.Sendable {
         credentials: EKSAuthClientTypes.Credentials? = nil,
         podIdentityAssociation: EKSAuthClientTypes.PodIdentityAssociation? = nil,
         subject: EKSAuthClientTypes.Subject? = nil
-    )
-    {
+    ) {
         self.assumedRoleUser = assumedRoleUser
         self.audience = audience
         self.credentials = credentials

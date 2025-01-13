@@ -42,8 +42,7 @@ extension DLMClientTypes {
         public init(
             cmkArn: Swift.String? = nil,
             encrypted: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.cmkArn = cmkArn
             self.encrypted = encrypted
         }
@@ -97,8 +96,7 @@ extension DLMClientTypes {
         public init(
             interval: Swift.Int? = nil,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
-        )
-        {
+        ) {
             self.interval = interval
             self.intervalUnit = intervalUnit
         }
@@ -122,8 +120,7 @@ extension DLMClientTypes {
             encryptionConfiguration: DLMClientTypes.EncryptionConfiguration? = nil,
             retainRule: DLMClientTypes.CrossRegionCopyRetainRule? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionConfiguration = encryptionConfiguration
             self.retainRule = retainRule
             self.target = target
@@ -145,8 +142,7 @@ extension DLMClientTypes {
         public init(
             crossRegionCopy: [DLMClientTypes.CrossRegionCopyAction]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.crossRegionCopy = crossRegionCopy
             self.name = name
         }
@@ -168,8 +164,7 @@ extension DLMClientTypes {
             count: Swift.Int? = nil,
             interval: Swift.Int? = nil,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
-        )
-        {
+        ) {
             self.count = count
             self.interval = interval
             self.intervalUnit = intervalUnit
@@ -187,8 +182,7 @@ extension DLMClientTypes {
 
         public init(
             retentionArchiveTier: DLMClientTypes.RetentionArchiveTier? = nil
-        )
-        {
+        ) {
             self.retentionArchiveTier = retentionArchiveTier
         }
     }
@@ -204,8 +198,7 @@ extension DLMClientTypes {
 
         public init(
             retainRule: DLMClientTypes.ArchiveRetainRule? = nil
-        )
-        {
+        ) {
             self.retainRule = retainRule
         }
     }
@@ -231,8 +224,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -264,8 +256,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
         message: Swift.String? = nil,
         mutuallyExclusiveParameters: [Swift.String]? = nil,
         requiredParameters: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.mutuallyExclusiveParameters = mutuallyExclusiveParameters
@@ -296,8 +287,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.resourceType = resourceType
@@ -313,8 +303,7 @@ extension DLMClientTypes {
 
         public init(
             targetRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.targetRegion = targetRegion
         }
     }
@@ -363,8 +352,7 @@ extension DLMClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -386,8 +374,7 @@ extension DLMClientTypes {
             excludeBootVolumes: Swift.Bool? = nil,
             excludeTags: [DLMClientTypes.Tag]? = nil,
             excludeVolumeTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.excludeBootVolumes = excludeBootVolumes
             self.excludeTags = excludeTags
             self.excludeVolumeTypes = excludeVolumeTypes
@@ -439,8 +426,7 @@ extension DLMClientTypes {
             descriptionRegex: Swift.String? = nil,
             eventType: DLMClientTypes.EventTypeValues? = nil,
             snapshotOwner: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.descriptionRegex = descriptionRegex
             self.eventType = eventType
             self.snapshotOwner = snapshotOwner
@@ -487,8 +473,7 @@ extension DLMClientTypes {
         public init(
             parameters: DLMClientTypes.EventParameters? = nil,
             type: DLMClientTypes.EventSourceValues? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.type = type
         }
@@ -510,8 +495,7 @@ extension DLMClientTypes {
             excludeBootVolume: Swift.Bool? = nil,
             excludeDataVolumeTags: [DLMClientTypes.Tag]? = nil,
             noReboot: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.excludeBootVolume = excludeBootVolume
             self.excludeDataVolumeTags = excludeDataVolumeTags
             self.noReboot = noReboot
@@ -815,8 +799,7 @@ extension DLMClientTypes {
             executionTimeout: Swift.Int? = nil,
             maximumRetryCount: Swift.Int? = nil,
             stages: [DLMClientTypes.StageValues]? = nil
-        )
-        {
+        ) {
             self.executeOperationOnScriptFailure = executeOperationOnScriptFailure
             self.executionHandler = executionHandler
             self.executionHandlerService = executionHandlerService
@@ -873,8 +856,7 @@ extension DLMClientTypes {
             location: DLMClientTypes.LocationValues? = nil,
             scripts: [DLMClientTypes.Script]? = nil,
             times: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.cronExpression = cronExpression
             self.interval = interval
             self.intervalUnit = intervalUnit
@@ -897,8 +879,7 @@ extension DLMClientTypes {
         public init(
             interval: Swift.Int? = nil,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
-        )
-        {
+        ) {
             self.interval = interval
             self.intervalUnit = intervalUnit
         }
@@ -933,8 +914,7 @@ extension DLMClientTypes {
             retainRule: DLMClientTypes.CrossRegionCopyRetainRule? = nil,
             target: Swift.String? = nil,
             targetRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.cmkArn = cmkArn
             self.copyTags = copyTags
             self.deprecateRule = deprecateRule
@@ -961,8 +941,7 @@ extension DLMClientTypes {
             count: Swift.Int? = nil,
             interval: Swift.Int? = nil,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
-        )
-        {
+        ) {
             self.count = count
             self.interval = interval
             self.intervalUnit = intervalUnit
@@ -989,8 +968,7 @@ extension DLMClientTypes {
             count: Swift.Int? = nil,
             interval: Swift.Int? = nil,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.count = count
             self.interval = interval
@@ -1018,8 +996,7 @@ extension DLMClientTypes {
             count: Swift.Int? = nil,
             interval: Swift.Int? = nil,
             intervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
-        )
-        {
+        ) {
             self.count = count
             self.interval = interval
             self.intervalUnit = intervalUnit
@@ -1043,8 +1020,7 @@ extension DLMClientTypes {
             targetAccounts: [Swift.String]? = nil,
             unshareInterval: Swift.Int? = nil,
             unshareIntervalUnit: DLMClientTypes.RetentionIntervalUnitValues? = nil
-        )
-        {
+        ) {
             self.targetAccounts = targetAccounts
             self.unshareInterval = unshareInterval
             self.unshareIntervalUnit = unshareIntervalUnit
@@ -1091,8 +1067,7 @@ extension DLMClientTypes {
             shareRules: [DLMClientTypes.ShareRule]? = nil,
             tagsToAdd: [DLMClientTypes.Tag]? = nil,
             variableTags: [DLMClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.archiveRule = archiveRule
             self.copyTags = copyTags
             self.createRule = createRule
@@ -1183,8 +1158,7 @@ extension DLMClientTypes {
             retainInterval: Swift.Int? = nil,
             schedules: [DLMClientTypes.Schedule]? = nil,
             targetTags: [DLMClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.copyTags = copyTags
             self.createInterval = createInterval
@@ -1287,8 +1261,7 @@ public struct CreateLifecyclePolicyInput: Swift.Sendable {
         retainInterval: Swift.Int? = nil,
         state: DLMClientTypes.SettablePolicyStateValues? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.copyTags = copyTags
         self.createInterval = createInterval
         self.crossRegionCopyTargets = crossRegionCopyTargets
@@ -1310,8 +1283,7 @@ public struct CreateLifecyclePolicyOutput: Swift.Sendable {
 
     public init(
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
     }
 }
@@ -1374,8 +1346,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceIds: [Swift.String]? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.resourceIds = resourceIds
@@ -1390,8 +1361,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Sendable {
 
     public init(
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
     }
 }
@@ -1460,8 +1430,7 @@ public struct GetLifecyclePoliciesInput: Swift.Sendable {
         state: DLMClientTypes.GettablePolicyStateValues? = nil,
         tagsToAdd: [Swift.String]? = nil,
         targetTags: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.defaultPolicyType = defaultPolicyType
         self.policyIds = policyIds
         self.resourceTypes = resourceTypes
@@ -1499,8 +1468,7 @@ extension DLMClientTypes {
             policyType: DLMClientTypes.PolicyTypeValues? = nil,
             state: DLMClientTypes.GettablePolicyStateValues? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.defaultPolicy = defaultPolicy
             self.description = description
             self.policyId = policyId
@@ -1517,8 +1485,7 @@ public struct GetLifecyclePoliciesOutput: Swift.Sendable {
 
     public init(
         policies: [DLMClientTypes.LifecyclePolicySummary]? = nil
-    )
-    {
+    ) {
         self.policies = policies
     }
 }
@@ -1530,8 +1497,7 @@ public struct GetLifecyclePolicyInput: Swift.Sendable {
 
     public init(
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyId = policyId
     }
 }
@@ -1579,8 +1545,7 @@ extension DLMClientTypes {
             state: DLMClientTypes.GettablePolicyStateValues? = nil,
             statusMessage: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
             self.defaultPolicy = defaultPolicy
@@ -1602,8 +1567,7 @@ public struct GetLifecyclePolicyOutput: Swift.Sendable {
 
     public init(
         policy: DLMClientTypes.LifecyclePolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1615,8 +1579,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1627,8 +1590,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1644,8 +1606,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1667,8 +1628,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1723,8 +1683,7 @@ public struct UpdateLifecyclePolicyInput: Swift.Sendable {
         policyId: Swift.String? = nil,
         retainInterval: Swift.Int? = nil,
         state: DLMClientTypes.SettablePolicyStateValues? = nil
-    )
-    {
+    ) {
         self.copyTags = copyTags
         self.createInterval = createInterval
         self.crossRegionCopyTargets = crossRegionCopyTargets

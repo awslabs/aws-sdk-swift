@@ -51,8 +51,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -76,8 +75,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -101,8 +99,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -126,8 +123,7 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -151,8 +147,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -176,8 +171,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -201,8 +195,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -226,8 +219,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -251,8 +243,7 @@ public struct UnsupportedDocumentEncodingException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -268,8 +259,7 @@ public struct DeleteThingShadowInput: Swift.Sendable {
     public init(
         shadowName: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.shadowName = shadowName
         self.thingName = thingName
     }
@@ -283,8 +273,7 @@ public struct DeleteThingShadowOutput: Swift.Sendable {
 
     public init(
         payload: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.payload = payload
     }
 }
@@ -297,8 +286,7 @@ public struct GetRetainedMessageInput: Swift.Sendable {
 
     public init(
         topic: Swift.String? = nil
-    )
-    {
+    ) {
         self.topic = topic
     }
 }
@@ -322,8 +310,7 @@ public struct GetRetainedMessageOutput: Swift.Sendable {
         qos: Swift.Int = 0,
         topic: Swift.String? = nil,
         userProperties: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.lastModifiedTime = lastModifiedTime
         self.payload = payload
         self.qos = qos
@@ -343,8 +330,7 @@ public struct GetThingShadowInput: Swift.Sendable {
     public init(
         shadowName: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.shadowName = shadowName
         self.thingName = thingName
     }
@@ -357,8 +343,7 @@ public struct GetThingShadowOutput: Swift.Sendable {
 
     public init(
         payload: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.payload = payload
     }
 }
@@ -376,8 +361,7 @@ public struct ListNamedShadowsForThingInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
         self.thingName = thingName
@@ -396,8 +380,7 @@ public struct ListNamedShadowsForThingOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         results: [Swift.String]? = nil,
         timestamp: Swift.Int = 0
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
         self.timestamp = timestamp
@@ -413,8 +396,7 @@ public struct ListRetainedMessagesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -438,8 +420,7 @@ extension IoTDataPlaneClientTypes {
             payloadSize: Swift.Int = 0,
             qos: Swift.Int = 0,
             topic: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModifiedTime = lastModifiedTime
             self.payloadSize = payloadSize
             self.qos = qos
@@ -457,8 +438,7 @@ public struct ListRetainedMessagesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         retainedTopics: [IoTDataPlaneClientTypes.RetainedMessageSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.retainedTopics = retainedTopics
     }
@@ -528,8 +508,7 @@ public struct PublishInput: Swift.Sendable {
         retain: Swift.Bool? = false,
         topic: Swift.String? = nil,
         userProperties: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.correlationData = correlationData
         self.messageExpiry = messageExpiry
@@ -562,8 +541,7 @@ public struct RequestEntityTooLargeException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -583,8 +561,7 @@ public struct UpdateThingShadowInput: Swift.Sendable {
         payload: Foundation.Data? = nil,
         shadowName: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.shadowName = shadowName
         self.thingName = thingName
@@ -598,8 +575,7 @@ public struct UpdateThingShadowOutput: Swift.Sendable {
 
     public init(
         payload: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.payload = payload
     }
 }

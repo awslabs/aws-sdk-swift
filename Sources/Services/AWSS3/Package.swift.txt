@@ -37,31 +37,11 @@ let package = Package(
                     package: "aws-sdk-swift.AWSSDKHTTPAuth"
                 ),
                 .product(
-                    name: "SmithyHTTPAuthAPI",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "Smithy",
-                    package: "smithy-swift"
-                ),
-                .product(
                     name: "ClientRuntime",
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyHTTPAPI",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "SmithyTimestamps",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "SmithyXML",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "SmithyReadWrite",
+                    name: "Smithy",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -73,7 +53,11 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyRetries",
+                    name: "SmithyHTTPAPI",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyHTTPAuthAPI",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -81,7 +65,23 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
+                    name: "SmithyReadWrite",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyRetries",
+                    package: "smithy-swift"
+                ),
+                .product(
                     name: "SmithyRetriesAPI",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyTestUtil",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyTimestamps",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -89,7 +89,7 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyTestUtil",
+                    name: "SmithyXML",
                     package: "smithy-swift"
                 ),
             ]

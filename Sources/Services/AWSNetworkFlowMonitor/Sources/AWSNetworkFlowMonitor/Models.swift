@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -71,8 +70,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -95,8 +93,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -119,8 +116,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -143,8 +139,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -167,8 +162,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -219,8 +213,7 @@ extension NetworkFlowMonitorClientTypes {
         public init(
             identifier: Swift.String? = nil,
             type: NetworkFlowMonitorClientTypes.MonitorLocalResourceType? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.type = type
         }
@@ -276,8 +269,7 @@ extension NetworkFlowMonitorClientTypes {
         public init(
             identifier: Swift.String? = nil,
             type: NetworkFlowMonitorClientTypes.MonitorRemoteResourceType? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.type = type
         }
@@ -308,8 +300,7 @@ public struct CreateMonitorInput: Swift.Sendable {
         remoteResources: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]? = nil,
         scopeArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.localResources = localResources
         self.monitorName = monitorName
@@ -401,8 +392,7 @@ public struct CreateMonitorOutput: Swift.Sendable {
         monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus? = nil,
         remoteResources: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.localResources = localResources
         self.modifiedAt = modifiedAt
@@ -464,8 +454,7 @@ extension NetworkFlowMonitorClientTypes {
         public init(
             targetId: NetworkFlowMonitorClientTypes.TargetId? = nil,
             targetType: NetworkFlowMonitorClientTypes.TargetType? = nil
-        )
-        {
+        ) {
             self.targetId = targetId
             self.targetType = targetType
         }
@@ -486,8 +475,7 @@ extension NetworkFlowMonitorClientTypes {
         public init(
             region: Swift.String? = nil,
             targetIdentifier: NetworkFlowMonitorClientTypes.TargetIdentifier? = nil
-        )
-        {
+        ) {
             self.region = region
             self.targetIdentifier = targetIdentifier
         }
@@ -507,8 +495,7 @@ public struct CreateScopeInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targets: [NetworkFlowMonitorClientTypes.TargetResource]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.tags = tags
         self.targets = targets
@@ -565,8 +552,7 @@ public struct CreateScopeOutput: Swift.Sendable {
         scopeId: Swift.String? = nil,
         status: NetworkFlowMonitorClientTypes.ScopeStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.scopeArn = scopeArn
         self.scopeId = scopeId
         self.status = status
@@ -592,8 +578,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -605,8 +590,7 @@ public struct DeleteMonitorInput: Swift.Sendable {
 
     public init(
         monitorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
     }
 }
@@ -623,8 +607,7 @@ public struct DeleteScopeInput: Swift.Sendable {
 
     public init(
         scopeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.scopeId = scopeId
     }
 }
@@ -682,8 +665,7 @@ public struct GetMonitorInput: Swift.Sendable {
 
     public init(
         monitorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
     }
 }
@@ -732,8 +714,7 @@ public struct GetMonitorOutput: Swift.Sendable {
         monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus? = nil,
         remoteResources: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.localResources = localResources
         self.modifiedAt = modifiedAt
@@ -762,8 +743,7 @@ public struct GetQueryResultsMonitorTopContributorsInput: Swift.Sendable {
         monitorName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.monitorName = monitorName
         self.nextToken = nextToken
@@ -795,8 +775,7 @@ extension NetworkFlowMonitorClientTypes {
             remotePodName: Swift.String? = nil,
             remotePodNamespace: Swift.String? = nil,
             remoteServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPodName = localPodName
             self.localPodNamespace = localPodNamespace
             self.localServiceName = localServiceName
@@ -825,8 +804,7 @@ extension NetworkFlowMonitorClientTypes {
             componentId: Swift.String? = nil,
             componentType: Swift.String? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentArn = componentArn
             self.componentId = componentId
             self.componentType = componentType
@@ -926,8 +904,7 @@ extension NetworkFlowMonitorClientTypes {
             targetPort: Swift.Int? = nil,
             traversedConstructs: [NetworkFlowMonitorClientTypes.TraversedComponent]? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.destinationCategory = destinationCategory
             self.dnatIp = dnatIp
             self.kubernetesMetadata = kubernetesMetadata
@@ -1073,8 +1050,7 @@ public struct GetQueryResultsMonitorTopContributorsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         topContributors: [NetworkFlowMonitorClientTypes.MonitorTopContributorsRow]? = nil,
         unit: NetworkFlowMonitorClientTypes.MetricUnit? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.topContributors = topContributors
         self.unit = unit
@@ -1098,8 +1074,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsInput: Swift.Sendabl
         nextToken: Swift.String? = nil,
         queryId: Swift.String? = nil,
         scopeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queryId = queryId
@@ -1140,8 +1115,7 @@ extension NetworkFlowMonitorClientTypes {
             localVpcId: Swift.String? = nil,
             remoteIdentifier: Swift.String? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.localAz = localAz
             self.localRegion = localRegion
@@ -1164,8 +1138,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsOutput: Swift.Sendab
     public init(
         nextToken: Swift.String? = nil,
         topContributors: [NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsRow]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.topContributors = topContributors
     }
@@ -1188,8 +1161,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsDataInput: Swift.Sen
         nextToken: Swift.String? = nil,
         queryId: Swift.String? = nil,
         scopeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queryId = queryId
@@ -1215,8 +1187,7 @@ extension NetworkFlowMonitorClientTypes {
             label: Swift.String? = nil,
             timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.label = label
             self.timestamps = timestamps
             self.values = values
@@ -1238,8 +1209,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsDataOutput: Swift.Se
         datapoints: [NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsDataPoint]? = nil,
         nextToken: Swift.String? = nil,
         unit: NetworkFlowMonitorClientTypes.MetricUnit? = nil
-    )
-    {
+    ) {
         self.datapoints = datapoints
         self.nextToken = nextToken
         self.unit = unit
@@ -1257,8 +1227,7 @@ public struct GetQueryStatusMonitorTopContributorsInput: Swift.Sendable {
     public init(
         monitorName: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
         self.queryId = queryId
     }
@@ -1319,8 +1288,7 @@ public struct GetQueryStatusMonitorTopContributorsOutput: Swift.Sendable {
 
     public init(
         status: NetworkFlowMonitorClientTypes.QueryStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -1336,8 +1304,7 @@ public struct GetQueryStatusWorkloadInsightsTopContributorsInput: Swift.Sendable
     public init(
         queryId: Swift.String? = nil,
         scopeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
         self.scopeId = scopeId
     }
@@ -1360,8 +1327,7 @@ public struct GetQueryStatusWorkloadInsightsTopContributorsOutput: Swift.Sendabl
 
     public init(
         status: NetworkFlowMonitorClientTypes.QueryStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -1377,8 +1343,7 @@ public struct GetQueryStatusWorkloadInsightsTopContributorsDataInput: Swift.Send
     public init(
         queryId: Swift.String? = nil,
         scopeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
         self.scopeId = scopeId
     }
@@ -1401,8 +1366,7 @@ public struct GetQueryStatusWorkloadInsightsTopContributorsDataOutput: Swift.Sen
 
     public init(
         status: NetworkFlowMonitorClientTypes.QueryStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -1414,8 +1378,7 @@ public struct GetScopeInput: Swift.Sendable {
 
     public init(
         scopeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.scopeId = scopeId
     }
 }
@@ -1442,8 +1405,7 @@ public struct GetScopeOutput: Swift.Sendable {
         status: NetworkFlowMonitorClientTypes.ScopeStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targets: [NetworkFlowMonitorClientTypes.TargetResource]? = nil
-    )
-    {
+    ) {
         self.scopeArn = scopeArn
         self.scopeId = scopeId
         self.status = status
@@ -1474,8 +1436,7 @@ public struct ListMonitorsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.monitorStatus = monitorStatus
         self.nextToken = nextToken
@@ -1510,8 +1471,7 @@ extension NetworkFlowMonitorClientTypes {
             monitorArn: Swift.String? = nil,
             monitorName: Swift.String? = nil,
             monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus? = nil
-        )
-        {
+        ) {
             self.monitorArn = monitorArn
             self.monitorName = monitorName
             self.monitorStatus = monitorStatus
@@ -1529,8 +1489,7 @@ public struct ListMonitorsOutput: Swift.Sendable {
     public init(
         monitors: [NetworkFlowMonitorClientTypes.MonitorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitors = monitors
         self.nextToken = nextToken
     }
@@ -1545,8 +1504,7 @@ public struct ListScopesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1570,8 +1528,7 @@ extension NetworkFlowMonitorClientTypes {
             scopeArn: Swift.String? = nil,
             scopeId: Swift.String? = nil,
             status: NetworkFlowMonitorClientTypes.ScopeStatus? = nil
-        )
-        {
+        ) {
             self.scopeArn = scopeArn
             self.scopeId = scopeId
             self.status = status
@@ -1589,8 +1546,7 @@ public struct ListScopesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scopes: [NetworkFlowMonitorClientTypes.ScopeSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scopes = scopes
     }
@@ -1603,8 +1559,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1615,8 +1570,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1692,8 +1646,7 @@ public struct StartQueryMonitorTopContributorsInput: Swift.Sendable {
         metricName: NetworkFlowMonitorClientTypes.MonitorMetric? = nil,
         monitorName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.destinationCategory = destinationCategory
         self.endTime = endTime
         self.limit = limit
@@ -1710,8 +1663,7 @@ public struct StartQueryMonitorTopContributorsOutput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -1727,8 +1679,7 @@ public struct StopQueryMonitorTopContributorsInput: Swift.Sendable {
     public init(
         monitorName: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
         self.queryId = queryId
     }
@@ -1761,8 +1712,7 @@ public struct UpdateMonitorInput: Swift.Sendable {
         monitorName: Swift.String? = nil,
         remoteResourcesToAdd: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]? = nil,
         remoteResourcesToRemove: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.localResourcesToAdd = localResourcesToAdd
         self.localResourcesToRemove = localResourcesToRemove
@@ -1816,8 +1766,7 @@ public struct UpdateMonitorOutput: Swift.Sendable {
         monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus? = nil,
         remoteResources: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.localResources = localResources
         self.modifiedAt = modifiedAt
@@ -1897,8 +1846,7 @@ public struct StartQueryWorkloadInsightsTopContributorsInput: Swift.Sendable {
         metricName: NetworkFlowMonitorClientTypes.WorkloadInsightsMetric? = nil,
         scopeId: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.destinationCategory = destinationCategory
         self.endTime = endTime
         self.limit = limit
@@ -1915,8 +1863,7 @@ public struct StartQueryWorkloadInsightsTopContributorsOutput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -1954,8 +1901,7 @@ public struct StartQueryWorkloadInsightsTopContributorsDataInput: Swift.Sendable
         metricName: NetworkFlowMonitorClientTypes.WorkloadInsightsMetric? = nil,
         scopeId: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.destinationCategory = destinationCategory
         self.endTime = endTime
         self.metricName = metricName
@@ -1971,8 +1917,7 @@ public struct StartQueryWorkloadInsightsTopContributorsDataOutput: Swift.Sendabl
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -1988,8 +1933,7 @@ public struct StopQueryWorkloadInsightsTopContributorsInput: Swift.Sendable {
     public init(
         queryId: Swift.String? = nil,
         scopeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
         self.scopeId = scopeId
     }
@@ -2011,8 +1955,7 @@ public struct StopQueryWorkloadInsightsTopContributorsDataInput: Swift.Sendable 
     public init(
         queryId: Swift.String? = nil,
         scopeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
         self.scopeId = scopeId
     }
@@ -2036,8 +1979,7 @@ public struct UpdateScopeInput: Swift.Sendable {
         resourcesToAdd: [NetworkFlowMonitorClientTypes.TargetResource]? = nil,
         resourcesToDelete: [NetworkFlowMonitorClientTypes.TargetResource]? = nil,
         scopeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourcesToAdd = resourcesToAdd
         self.resourcesToDelete = resourcesToDelete
         self.scopeId = scopeId
@@ -2062,8 +2004,7 @@ public struct UpdateScopeOutput: Swift.Sendable {
         scopeId: Swift.String? = nil,
         status: NetworkFlowMonitorClientTypes.ScopeStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.scopeArn = scopeArn
         self.scopeId = scopeId
         self.status = status
@@ -2082,8 +2023,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2105,8 +2045,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

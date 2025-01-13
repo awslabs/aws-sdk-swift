@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -70,8 +69,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -94,8 +92,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -122,8 +119,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
@@ -147,8 +143,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -163,8 +158,7 @@ public struct AcceptAccountLinkInvitationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         linkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.linkId = linkId
     }
@@ -226,8 +220,7 @@ extension WorkSpacesClientTypes {
             accountLinkStatus: WorkSpacesClientTypes.AccountLinkStatusEnum? = nil,
             sourceAccountId: Swift.String? = nil,
             targetAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountLinkId = accountLinkId
             self.accountLinkStatus = accountLinkStatus
             self.sourceAccountId = sourceAccountId
@@ -242,8 +235,7 @@ public struct AcceptAccountLinkInvitationOutput: Swift.Sendable {
 
     public init(
         accountLink: WorkSpacesClientTypes.AccountLink? = nil
-    )
-    {
+    ) {
         self.accountLink = accountLink
     }
 }
@@ -362,8 +354,7 @@ extension WorkSpacesClientTypes {
             errorMessage: Swift.String? = nil,
             modificationState: WorkSpacesClientTypes.DedicatedTenancyModificationStateEnum? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
             self.dedicatedTenancySupport = dedicatedTenancySupport
             self.errorCode = errorCode
@@ -388,8 +379,7 @@ extension WorkSpacesClientTypes {
         public init(
             domainName: Swift.String? = nil,
             serviceAccountSecretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.serviceAccountSecretArn = serviceAccountSecretArn
         }
@@ -692,8 +682,7 @@ extension WorkSpacesClientTypes {
         public init(
             errorCode: WorkSpacesClientTypes.AssociationErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -727,8 +716,7 @@ extension WorkSpacesClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             state: WorkSpacesClientTypes.AssociationState? = nil,
             stateReason: WorkSpacesClientTypes.AssociationStateReason? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.associatedResourceId = associatedResourceId
             self.associatedResourceType = associatedResourceType
@@ -782,8 +770,7 @@ extension WorkSpacesClientTypes {
         public init(
             settingsGroup: Swift.String? = nil,
             status: WorkSpacesClientTypes.ApplicationSettingsStatusEnum? = nil
-        )
-        {
+        ) {
             self.settingsGroup = settingsGroup
             self.status = status
         }
@@ -806,8 +793,7 @@ extension WorkSpacesClientTypes {
             s3BucketName: Swift.String? = nil,
             settingsGroup: Swift.String? = nil,
             status: WorkSpacesClientTypes.ApplicationSettingsStatusEnum? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.settingsGroup = settingsGroup
             self.status = status
@@ -834,8 +820,7 @@ public struct InvalidParameterValuesException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -858,8 +843,7 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -886,8 +870,7 @@ public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSCli
     public init(
         message: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -911,8 +894,7 @@ public struct ResourceAssociatedException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -928,8 +910,7 @@ public struct AssociateConnectionAliasInput: Swift.Sendable {
     public init(
         aliasId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.resourceId = resourceId
     }
@@ -941,8 +922,7 @@ public struct AssociateConnectionAliasOutput: Swift.Sendable {
 
     public init(
         connectionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionIdentifier = connectionIdentifier
     }
 }
@@ -966,8 +946,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -983,8 +962,7 @@ public struct AssociateIpGroupsInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         groupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.groupIds = groupIds
     }
@@ -1052,8 +1030,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1079,8 +1056,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
@@ -1097,8 +1073,7 @@ public struct AssociateWorkspaceApplicationInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.workspaceId = workspaceId
     }
@@ -1157,8 +1132,7 @@ extension WorkSpacesClientTypes {
             state: WorkSpacesClientTypes.AssociationState? = nil,
             stateReason: WorkSpacesClientTypes.AssociationStateReason? = nil,
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedResourceId = associatedResourceId
             self.associatedResourceType = associatedResourceType
             self.created = created
@@ -1176,8 +1150,7 @@ public struct AssociateWorkspaceApplicationOutput: Swift.Sendable {
 
     public init(
         association: WorkSpacesClientTypes.WorkspaceResourceAssociation? = nil
-    )
-    {
+    ) {
         self.association = association
     }
 }
@@ -1258,8 +1231,7 @@ extension WorkSpacesClientTypes {
         public init(
             ipRule: Swift.String? = nil,
             ruleDesc: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipRule = ipRule
             self.ruleDesc = ruleDesc
         }
@@ -1277,8 +1249,7 @@ public struct AuthorizeIpRulesInput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         userRules: [WorkSpacesClientTypes.IpRuleItem]? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.userRules = userRules
     }
@@ -1403,8 +1374,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             name: WorkSpacesClientTypes.Compute? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1420,8 +1390,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             capacity: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
         }
     }
@@ -1469,8 +1438,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             capacity: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
         }
     }
@@ -1518,8 +1486,7 @@ extension WorkSpacesClientTypes {
             rootStorage: WorkSpacesClientTypes.RootStorage? = nil,
             state: WorkSpacesClientTypes.WorkspaceBundleState? = nil,
             userStorage: WorkSpacesClientTypes.UserStorage? = nil
-        )
-        {
+        ) {
             self.bundleId = bundleId
             self.bundleType = bundleType
             self.computeType = computeType
@@ -1563,8 +1530,7 @@ extension WorkSpacesClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             state: WorkSpacesClientTypes.AssociationState? = nil,
             stateReason: WorkSpacesClientTypes.AssociationStateReason? = nil
-        )
-        {
+        ) {
             self.associatedResourceId = associatedResourceId
             self.associatedResourceType = associatedResourceType
             self.bundleId = bundleId
@@ -1586,8 +1552,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             desiredUserSessions: Swift.Int? = nil
-        )
-        {
+        ) {
             self.desiredUserSessions = desiredUserSessions
         }
     }
@@ -1615,8 +1580,7 @@ extension WorkSpacesClientTypes {
             actualUserSessions: Swift.Int? = nil,
             availableUserSessions: Swift.Int? = nil,
             desiredUserSessions: Swift.Int? = nil
-        )
-        {
+        ) {
             self.activeUserSessions = activeUserSessions
             self.actualUserSessions = actualUserSessions
             self.availableUserSessions = availableUserSessions
@@ -1666,8 +1630,7 @@ extension WorkSpacesClientTypes {
         public init(
             certificateAuthorityArn: Swift.String? = nil,
             status: WorkSpacesClientTypes.CertificateBasedAuthStatusEnum? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.status = status
         }
@@ -1785,8 +1748,7 @@ extension WorkSpacesClientTypes {
         public init(
             logUploadEnabled: WorkSpacesClientTypes.LogUploadEnum? = nil,
             reconnectEnabled: WorkSpacesClientTypes.ReconnectEnum? = nil
-        )
-        {
+        ) {
             self.logUploadEnabled = logUploadEnabled
             self.reconnectEnabled = reconnectEnabled
         }
@@ -1805,8 +1767,7 @@ extension WorkSpacesClientTypes {
         public init(
             clientProperties: WorkSpacesClientTypes.ClientProperties? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientProperties = clientProperties
             self.resourceId = resourceId
         }
@@ -1831,8 +1792,7 @@ extension WorkSpacesClientTypes {
             name: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.addInId = addInId
             self.name = name
             self.resourceId = resourceId
@@ -1859,8 +1819,7 @@ extension WorkSpacesClientTypes {
             associationStatus: WorkSpacesClientTypes.AssociationStatus? = nil,
             connectionIdentifier: Swift.String? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedAccountId = associatedAccountId
             self.associationStatus = associationStatus
             self.connectionIdentifier = connectionIdentifier
@@ -1922,8 +1881,7 @@ extension WorkSpacesClientTypes {
             connectionString: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
             state: WorkSpacesClientTypes.ConnectionAliasState? = nil
-        )
-        {
+        ) {
             self.aliasId = aliasId
             self.associations = associations
             self.connectionString = connectionString
@@ -1947,8 +1905,7 @@ extension WorkSpacesClientTypes {
         public init(
             allowAssociation: Swift.Bool? = nil,
             sharedAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowAssociation = allowAssociation
             self.sharedAccountId = sharedAccountId
         }
@@ -2009,8 +1966,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
@@ -2029,8 +1985,7 @@ extension WorkSpacesClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2058,8 +2013,7 @@ public struct CopyWorkspaceImageInput: Swift.Sendable {
         sourceImageId: Swift.String? = nil,
         sourceRegion: Swift.String? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.sourceImageId = sourceImageId
@@ -2074,8 +2028,7 @@ public struct CopyWorkspaceImageOutput: Swift.Sendable {
 
     public init(
         imageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
     }
 }
@@ -2090,8 +2043,7 @@ public struct CreateAccountLinkInvitationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         targetAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.targetAccountId = targetAccountId
     }
@@ -2103,8 +2055,7 @@ public struct CreateAccountLinkInvitationOutput: Swift.Sendable {
 
     public init(
         accountLink: WorkSpacesClientTypes.AccountLink? = nil
-    )
-    {
+    ) {
         self.accountLink = accountLink
     }
 }
@@ -2127,8 +2078,7 @@ public struct ResourceCreationFailedException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2148,8 +2098,7 @@ public struct CreateConnectClientAddInInput: Swift.Sendable {
         name: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.resourceId = resourceId
         self.url = url
@@ -2162,8 +2111,7 @@ public struct CreateConnectClientAddInOutput: Swift.Sendable {
 
     public init(
         addInId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addInId = addInId
     }
 }
@@ -2178,8 +2126,7 @@ public struct CreateConnectionAliasInput: Swift.Sendable {
     public init(
         connectionString: Swift.String? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.connectionString = connectionString
         self.tags = tags
     }
@@ -2191,8 +2138,7 @@ public struct CreateConnectionAliasOutput: Swift.Sendable {
 
     public init(
         aliasId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
     }
 }
@@ -2213,8 +2159,7 @@ public struct CreateIpGroupInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil,
         userRules: [WorkSpacesClientTypes.IpRuleItem]? = nil
-    )
-    {
+    ) {
         self.groupDesc = groupDesc
         self.groupName = groupName
         self.tags = tags
@@ -2228,8 +2173,7 @@ public struct CreateIpGroupOutput: Swift.Sendable {
 
     public init(
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
     }
 }
@@ -2286,8 +2230,7 @@ extension WorkSpacesClientTypes {
             primaryWorkspaceId: Swift.String? = nil,
             tags: [WorkSpacesClientTypes.Tag]? = nil,
             volumeEncryptionKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataReplication = dataReplication
             self.directoryId = directoryId
             self.primaryWorkspaceId = primaryWorkspaceId
@@ -2308,8 +2251,7 @@ public struct CreateStandbyWorkspacesInput: Swift.Sendable {
     public init(
         primaryRegion: Swift.String? = nil,
         standbyWorkspaces: [WorkSpacesClientTypes.StandbyWorkspace]? = nil
-    )
-    {
+    ) {
         self.primaryRegion = primaryRegion
         self.standbyWorkspaces = standbyWorkspaces
     }
@@ -2330,8 +2272,7 @@ extension WorkSpacesClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             standbyWorkspaceRequest: WorkSpacesClientTypes.StandbyWorkspace? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.standbyWorkspaceRequest = standbyWorkspaceRequest
@@ -2431,8 +2372,7 @@ extension WorkSpacesClientTypes {
             state: WorkSpacesClientTypes.WorkspaceState? = nil,
             userName: Swift.String? = nil,
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.directoryId = directoryId
             self.state = state
             self.userName = userName
@@ -2450,8 +2390,7 @@ public struct CreateStandbyWorkspacesOutput: Swift.Sendable {
     public init(
         failedStandbyRequests: [WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest]? = nil,
         pendingStandbyRequests: [WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest]? = nil
-    )
-    {
+    ) {
         self.failedStandbyRequests = failedStandbyRequests
         self.pendingStandbyRequests = pendingStandbyRequests
     }
@@ -2468,8 +2407,7 @@ public struct CreateTagsInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tags = tags
     }
@@ -2498,8 +2436,7 @@ public struct CreateUpdatedWorkspaceImageInput: Swift.Sendable {
         name: Swift.String? = nil,
         sourceImageId: Swift.String? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.sourceImageId = sourceImageId
@@ -2513,8 +2450,7 @@ public struct CreateUpdatedWorkspaceImageOutput: Swift.Sendable {
 
     public init(
         imageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
     }
 }
@@ -2548,8 +2484,7 @@ public struct CreateWorkspaceBundleInput: Swift.Sendable {
         rootStorage: WorkSpacesClientTypes.RootStorage? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil,
         userStorage: WorkSpacesClientTypes.UserStorage? = nil
-    )
-    {
+    ) {
         self.bundleDescription = bundleDescription
         self.bundleName = bundleName
         self.computeType = computeType
@@ -2566,8 +2501,7 @@ public struct CreateWorkspaceBundleOutput: Swift.Sendable {
 
     public init(
         workspaceBundle: WorkSpacesClientTypes.WorkspaceBundle? = nil
-    )
-    {
+    ) {
         self.workspaceBundle = workspaceBundle
     }
 }
@@ -2590,8 +2524,7 @@ public struct CreateWorkspaceImageInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.tags = tags
@@ -2637,8 +2570,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             type: WorkSpacesClientTypes.OperatingSystemType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -2732,8 +2664,7 @@ public struct CreateWorkspaceImageOutput: Swift.Sendable {
         ownerAccountId: Swift.String? = nil,
         requiredTenancy: WorkSpacesClientTypes.WorkspaceImageRequiredTenancy? = nil,
         state: WorkSpacesClientTypes.WorkspaceImageState? = nil
-    )
-    {
+    ) {
         self.created = created
         self.description = description
         self.imageId = imageId
@@ -2758,8 +2689,7 @@ extension WorkSpacesClientTypes {
         public init(
             mode: WorkSpacesClientTypes.AGAModeForWorkSpaceEnum? = nil,
             preferredProtocol: WorkSpacesClientTypes.AGAPreferredProtocolForWorkSpace? = nil
-        )
-        {
+        ) {
             self.mode = mode
             self.preferredProtocol = preferredProtocol
         }
@@ -2925,8 +2855,7 @@ extension WorkSpacesClientTypes {
             runningMode: WorkSpacesClientTypes.RunningMode? = nil,
             runningModeAutoStopTimeoutInMinutes: Swift.Int? = nil,
             userVolumeSizeGib: Swift.Int? = nil
-        )
-        {
+        ) {
             self.computeTypeName = computeTypeName
             self.globalAccelerator = globalAccelerator
             self.operatingSystemName = operatingSystemName
@@ -2975,8 +2904,7 @@ extension WorkSpacesClientTypes {
             volumeEncryptionKey: Swift.String? = nil,
             workspaceName: Swift.String? = nil,
             workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties? = nil
-        )
-        {
+        ) {
             self.bundleId = bundleId
             self.directoryId = directoryId
             self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
@@ -2997,8 +2925,7 @@ public struct CreateWorkspacesInput: Swift.Sendable {
 
     public init(
         workspaces: [WorkSpacesClientTypes.WorkspaceRequest]? = nil
-    )
-    {
+    ) {
         self.workspaces = workspaces
     }
 }
@@ -3018,8 +2945,7 @@ extension WorkSpacesClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             workspaceRequest: WorkSpacesClientTypes.WorkspaceRequest? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.workspaceRequest = workspaceRequest
@@ -3039,8 +2965,7 @@ extension WorkSpacesClientTypes {
         public init(
             dataReplication: WorkSpacesClientTypes.DataReplication? = nil,
             recoverySnapshotTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataReplication = dataReplication
             self.recoverySnapshotTime = recoverySnapshotTime
         }
@@ -3120,8 +3045,7 @@ extension WorkSpacesClientTypes {
         public init(
             resource: WorkSpacesClientTypes.ModificationResourceEnum? = nil,
             state: WorkSpacesClientTypes.ModificationStateEnum? = nil
-        )
-        {
+        ) {
             self.resource = resource
             self.state = state
         }
@@ -3175,8 +3099,7 @@ extension WorkSpacesClientTypes {
             state: WorkSpacesClientTypes.WorkspaceState? = nil,
             type: WorkSpacesClientTypes.StandbyWorkspaceRelationshipType? = nil,
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.region = region
             self.state = state
             self.type = type
@@ -3200,8 +3123,7 @@ extension WorkSpacesClientTypes {
             dataReplication: WorkSpacesClientTypes.DataReplication? = nil,
             recoverySnapshotTime: Foundation.Date? = nil,
             standbyWorkspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataReplication = dataReplication
             self.recoverySnapshotTime = recoverySnapshotTime
             self.standbyWorkspaceId = standbyWorkspaceId
@@ -3309,8 +3231,7 @@ extension WorkSpacesClientTypes {
             workspaceId: Swift.String? = nil,
             workspaceName: Swift.String? = nil,
             workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties? = nil
-        )
-        {
+        ) {
             self.bundleId = bundleId
             self.computerName = computerName
             self.dataReplicationSettings = dataReplicationSettings
@@ -3343,8 +3264,7 @@ public struct CreateWorkspacesOutput: Swift.Sendable {
     public init(
         failedRequests: [WorkSpacesClientTypes.FailedCreateWorkspaceRequest]? = nil,
         pendingRequests: [WorkSpacesClientTypes.Workspace]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
         self.pendingRequests = pendingRequests
     }
@@ -3365,8 +3285,7 @@ extension WorkSpacesClientTypes {
             disconnectTimeoutInSeconds: Swift.Int? = nil,
             idleDisconnectTimeoutInSeconds: Swift.Int? = nil,
             maxUserDurationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
             self.idleDisconnectTimeoutInSeconds = idleDisconnectTimeoutInSeconds
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
@@ -3406,8 +3325,7 @@ public struct CreateWorkspacesPoolInput: Swift.Sendable {
         poolName: Swift.String? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil,
         timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
-    )
-    {
+    ) {
         self.applicationSettings = applicationSettings
         self.bundleId = bundleId
         self.capacity = capacity
@@ -3574,8 +3492,7 @@ extension WorkSpacesClientTypes {
         public init(
             errorCode: WorkSpacesClientTypes.WorkspacesPoolErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -3676,8 +3593,7 @@ extension WorkSpacesClientTypes {
             poolName: Swift.String? = nil,
             state: WorkSpacesClientTypes.WorkspacesPoolState? = nil,
             timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
-        )
-        {
+        ) {
             self.applicationSettings = applicationSettings
             self.bundleId = bundleId
             self.capacityStatus = capacityStatus
@@ -3700,8 +3616,7 @@ public struct CreateWorkspacesPoolOutput: Swift.Sendable {
 
     public init(
         workspacesPool: WorkSpacesClientTypes.WorkspacesPool? = nil
-    )
-    {
+    ) {
         self.workspacesPool = workspacesPool
     }
 }
@@ -3790,8 +3705,7 @@ extension WorkSpacesClientTypes {
             logoUrl: Swift.String? = nil,
             supportEmail: Swift.String? = nil,
             supportLink: Swift.String? = nil
-        )
-        {
+        ) {
             self.forgotPasswordLink = forgotPasswordLink
             self.loginMessage = loginMessage
             self.logoUrl = logoUrl
@@ -3830,8 +3744,7 @@ extension WorkSpacesClientTypes {
             logo: Foundation.Data? = nil,
             supportEmail: Swift.String? = nil,
             supportLink: Swift.String? = nil
-        )
-        {
+        ) {
             self.forgotPasswordLink = forgotPasswordLink
             self.loginMessage = loginMessage
             self.logo = logo
@@ -3868,8 +3781,7 @@ extension WorkSpacesClientTypes {
             enableWorkDocs: Swift.Bool? = nil,
             instanceIamRoleArn: Swift.String? = nil,
             userEnabledAsLocalAdministrator: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
@@ -3946,8 +3858,7 @@ public struct DeleteAccountLinkInvitationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         linkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.linkId = linkId
     }
@@ -3959,8 +3870,7 @@ public struct DeleteAccountLinkInvitationOutput: Swift.Sendable {
 
     public init(
         accountLink: WorkSpacesClientTypes.AccountLink? = nil
-    )
-    {
+    ) {
         self.accountLink = accountLink
     }
 }
@@ -3976,8 +3886,7 @@ public struct DeleteClientBrandingInput: Swift.Sendable {
     public init(
         platforms: [WorkSpacesClientTypes.ClientDeviceType]? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.platforms = platforms
         self.resourceId = resourceId
     }
@@ -3999,8 +3908,7 @@ public struct DeleteConnectClientAddInInput: Swift.Sendable {
     public init(
         addInId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addInId = addInId
         self.resourceId = resourceId
     }
@@ -4018,8 +3926,7 @@ public struct DeleteConnectionAliasInput: Swift.Sendable {
 
     public init(
         aliasId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
     }
 }
@@ -4036,8 +3943,7 @@ public struct DeleteIpGroupInput: Swift.Sendable {
 
     public init(
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
     }
 }
@@ -4058,8 +3964,7 @@ public struct DeleteTagsInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagKeys = tagKeys
     }
@@ -4076,8 +3981,7 @@ public struct DeleteWorkspaceBundleInput: Swift.Sendable {
 
     public init(
         bundleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bundleId = bundleId
     }
 }
@@ -4094,8 +3998,7 @@ public struct DeleteWorkspaceImageInput: Swift.Sendable {
 
     public init(
         imageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
     }
 }
@@ -4115,8 +4018,7 @@ public struct DeployWorkspaceApplicationsInput: Swift.Sendable {
     public init(
         force: Swift.Bool? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.workspaceId = workspaceId
     }
@@ -4131,8 +4033,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             associations: [WorkSpacesClientTypes.WorkspaceResourceAssociation]? = nil
-        )
-        {
+        ) {
             self.associations = associations
         }
     }
@@ -4144,8 +4045,7 @@ public struct DeployWorkspaceApplicationsOutput: Swift.Sendable {
 
     public init(
         deployment: WorkSpacesClientTypes.WorkSpaceApplicationDeployment? = nil
-    )
-    {
+    ) {
         self.deployment = deployment
     }
 }
@@ -4157,8 +4057,7 @@ public struct DeregisterWorkspaceDirectoryInput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -4185,8 +4084,7 @@ public struct DescribeAccountOutput: Swift.Sendable {
         dedicatedTenancyAccountType: WorkSpacesClientTypes.DedicatedTenancyAccountType? = nil,
         dedicatedTenancyManagementCidrRange: Swift.String? = nil,
         dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum? = nil
-    )
-    {
+    ) {
         self.dedicatedTenancyAccountType = dedicatedTenancyAccountType
         self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
         self.dedicatedTenancySupport = dedicatedTenancySupport
@@ -4199,8 +4097,7 @@ public struct DescribeAccountModificationsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -4214,8 +4111,7 @@ public struct DescribeAccountModificationsOutput: Swift.Sendable {
     public init(
         accountModifications: [WorkSpacesClientTypes.AccountModification]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountModifications = accountModifications
         self.nextToken = nextToken
     }
@@ -4238,8 +4134,7 @@ public struct DescribeApplicationAssociationsInput: Swift.Sendable {
         associatedResourceTypes: [WorkSpacesClientTypes.ApplicationAssociatedResourceType]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.associatedResourceTypes = associatedResourceTypes
         self.maxResults = maxResults
@@ -4256,8 +4151,7 @@ public struct DescribeApplicationAssociationsOutput: Swift.Sendable {
     public init(
         associations: [WorkSpacesClientTypes.ApplicationResourceAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associations = associations
         self.nextToken = nextToken
     }
@@ -4316,8 +4210,7 @@ public struct DescribeApplicationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         operatingSystemNames: [WorkSpacesClientTypes.OperatingSystemName]? = nil,
         owner: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIds = applicationIds
         self.computeTypeNames = computeTypeNames
         self.licenseType = licenseType
@@ -4396,8 +4289,7 @@ extension WorkSpacesClientTypes {
             state: WorkSpacesClientTypes.WorkSpaceApplicationState? = nil,
             supportedComputeTypeNames: [WorkSpacesClientTypes.Compute]? = nil,
             supportedOperatingSystemNames: [WorkSpacesClientTypes.OperatingSystemName]? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.created = created
             self.description = description
@@ -4420,8 +4312,7 @@ public struct DescribeApplicationsOutput: Swift.Sendable {
     public init(
         applications: [WorkSpacesClientTypes.WorkSpaceApplication]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.nextToken = nextToken
     }
@@ -4438,8 +4329,7 @@ public struct DescribeBundleAssociationsInput: Swift.Sendable {
     public init(
         associatedResourceTypes: [WorkSpacesClientTypes.BundleAssociatedResourceType]? = nil,
         bundleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedResourceTypes = associatedResourceTypes
         self.bundleId = bundleId
     }
@@ -4451,8 +4341,7 @@ public struct DescribeBundleAssociationsOutput: Swift.Sendable {
 
     public init(
         associations: [WorkSpacesClientTypes.BundleResourceAssociation]? = nil
-    )
-    {
+    ) {
         self.associations = associations
     }
 }
@@ -4464,8 +4353,7 @@ public struct DescribeClientBrandingInput: Swift.Sendable {
 
     public init(
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
     }
 }
@@ -4505,8 +4393,7 @@ extension WorkSpacesClientTypes {
             logoUrl: Swift.String? = nil,
             supportEmail: Swift.String? = nil,
             supportLink: Swift.String? = nil
-        )
-        {
+        ) {
             self.forgotPasswordLink = forgotPasswordLink
             self.loginMessage = loginMessage
             self.logo2xUrl = logo2xUrl
@@ -4539,8 +4426,7 @@ public struct DescribeClientBrandingOutput: Swift.Sendable {
         deviceTypeOsx: WorkSpacesClientTypes.DefaultClientBrandingAttributes? = nil,
         deviceTypeWeb: WorkSpacesClientTypes.DefaultClientBrandingAttributes? = nil,
         deviceTypeWindows: WorkSpacesClientTypes.DefaultClientBrandingAttributes? = nil
-    )
-    {
+    ) {
         self.deviceTypeAndroid = deviceTypeAndroid
         self.deviceTypeIos = deviceTypeIos
         self.deviceTypeLinux = deviceTypeLinux
@@ -4557,8 +4443,7 @@ public struct DescribeClientPropertiesInput: Swift.Sendable {
 
     public init(
         resourceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceIds = resourceIds
     }
 }
@@ -4569,8 +4454,7 @@ public struct DescribeClientPropertiesOutput: Swift.Sendable {
 
     public init(
         clientPropertiesList: [WorkSpacesClientTypes.ClientPropertiesResult]? = nil
-    )
-    {
+    ) {
         self.clientPropertiesList = clientPropertiesList
     }
 }
@@ -4588,8 +4472,7 @@ public struct DescribeConnectClientAddInsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceId = resourceId
@@ -4605,8 +4488,7 @@ public struct DescribeConnectClientAddInsOutput: Swift.Sendable {
     public init(
         addIns: [WorkSpacesClientTypes.ConnectClientAddIn]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.addIns = addIns
         self.nextToken = nextToken
     }
@@ -4627,8 +4509,7 @@ public struct DescribeConnectionAliasesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasIds = aliasIds
         self.limit = limit
         self.nextToken = nextToken
@@ -4645,8 +4526,7 @@ public struct DescribeConnectionAliasesOutput: Swift.Sendable {
     public init(
         connectionAliases: [WorkSpacesClientTypes.ConnectionAlias]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionAliases = connectionAliases
         self.nextToken = nextToken
     }
@@ -4665,8 +4545,7 @@ public struct DescribeConnectionAliasPermissionsInput: Swift.Sendable {
         aliasId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4685,8 +4564,7 @@ public struct DescribeConnectionAliasPermissionsOutput: Swift.Sendable {
         aliasId: Swift.String? = nil,
         connectionAliasPermissions: [WorkSpacesClientTypes.ConnectionAliasPermission]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.connectionAliasPermissions = connectionAliasPermissions
         self.nextToken = nextToken
@@ -4730,8 +4608,7 @@ public struct DescribeImageAssociationsInput: Swift.Sendable {
     public init(
         associatedResourceTypes: [WorkSpacesClientTypes.ImageAssociatedResourceType]? = nil,
         imageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedResourceTypes = associatedResourceTypes
         self.imageId = imageId
     }
@@ -4764,8 +4641,7 @@ extension WorkSpacesClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             state: WorkSpacesClientTypes.AssociationState? = nil,
             stateReason: WorkSpacesClientTypes.AssociationStateReason? = nil
-        )
-        {
+        ) {
             self.associatedResourceId = associatedResourceId
             self.associatedResourceType = associatedResourceType
             self.created = created
@@ -4783,8 +4659,7 @@ public struct DescribeImageAssociationsOutput: Swift.Sendable {
 
     public init(
         associations: [WorkSpacesClientTypes.ImageResourceAssociation]? = nil
-    )
-    {
+    ) {
         self.associations = associations
     }
 }
@@ -4801,8 +4676,7 @@ public struct DescribeIpGroupsInput: Swift.Sendable {
         groupIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupIds = groupIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4827,8 +4701,7 @@ extension WorkSpacesClientTypes {
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil,
             userRules: [WorkSpacesClientTypes.IpRuleItem]? = nil
-        )
-        {
+        ) {
             self.groupDesc = groupDesc
             self.groupId = groupId
             self.groupName = groupName
@@ -4846,8 +4719,7 @@ public struct DescribeIpGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         result: [WorkSpacesClientTypes.WorkspacesIpGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.result = result
     }
@@ -4860,8 +4732,7 @@ public struct DescribeTagsInput: Swift.Sendable {
 
     public init(
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
     }
 }
@@ -4872,8 +4743,7 @@ public struct DescribeTagsOutput: Swift.Sendable {
 
     public init(
         tagList: [WorkSpacesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -4889,8 +4759,7 @@ public struct DescribeWorkspaceAssociationsInput: Swift.Sendable {
     public init(
         associatedResourceTypes: [WorkSpacesClientTypes.WorkSpaceAssociatedResourceType]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedResourceTypes = associatedResourceTypes
         self.workspaceId = workspaceId
     }
@@ -4902,8 +4771,7 @@ public struct DescribeWorkspaceAssociationsOutput: Swift.Sendable {
 
     public init(
         associations: [WorkSpacesClientTypes.WorkspaceResourceAssociation]? = nil
-    )
-    {
+    ) {
         self.associations = associations
     }
 }
@@ -4920,8 +4788,7 @@ public struct DescribeWorkspaceBundlesInput: Swift.Sendable {
         bundleIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         owner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bundleIds = bundleIds
         self.nextToken = nextToken
         self.owner = owner
@@ -4937,8 +4804,7 @@ public struct DescribeWorkspaceBundlesOutput: Swift.Sendable {
     public init(
         bundles: [WorkSpacesClientTypes.WorkspaceBundle]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.bundles = bundles
         self.nextToken = nextToken
     }
@@ -4987,8 +4853,7 @@ extension WorkSpacesClientTypes {
         public init(
             name: WorkSpacesClientTypes.DescribeWorkspaceDirectoriesFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -5013,8 +4878,7 @@ public struct DescribeWorkspaceDirectoriesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workspaceDirectoryNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.directoryIds = directoryIds
         self.filters = filters
         self.limit = limit
@@ -5070,8 +4934,7 @@ extension WorkSpacesClientTypes {
         public init(
             applicationArn: Swift.String? = nil,
             instanceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.instanceArn = instanceArn
         }
@@ -5090,8 +4953,7 @@ extension WorkSpacesClientTypes {
         public init(
             applicationConfigSecretArn: Swift.String? = nil,
             tenantId: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationConfigSecretArn = applicationConfigSecretArn
             self.tenantId = tenantId
         }
@@ -5151,8 +5013,7 @@ extension WorkSpacesClientTypes {
             relayStateParameterName: Swift.String? = nil,
             status: WorkSpacesClientTypes.SamlStatusEnum? = nil,
             userAccessUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.relayStateParameterName = relayStateParameterName
             self.status = status
             self.userAccessUrl = userAccessUrl
@@ -5181,8 +5042,7 @@ extension WorkSpacesClientTypes {
             rebuildWorkspace: WorkSpacesClientTypes.ReconnectEnum? = nil,
             restartWorkspace: WorkSpacesClientTypes.ReconnectEnum? = nil,
             switchRunningMode: WorkSpacesClientTypes.ReconnectEnum? = nil
-        )
-        {
+        ) {
             self.changeComputeType = changeComputeType
             self.increaseVolumeSize = increaseVolumeSize
             self.rebuildWorkspace = rebuildWorkspace
@@ -5243,8 +5103,7 @@ extension WorkSpacesClientTypes {
         public init(
             mode: WorkSpacesClientTypes.AGAModeForDirectoryEnum? = nil,
             preferredProtocol: WorkSpacesClientTypes.AGAPreferredProtocolForDirectory? = nil
-        )
-        {
+        ) {
             self.mode = mode
             self.preferredProtocol = preferredProtocol
         }
@@ -5320,8 +5179,7 @@ extension WorkSpacesClientTypes {
         public init(
             connectorType: WorkSpacesClientTypes.StorageConnectorTypeEnum? = nil,
             status: WorkSpacesClientTypes.StorageConnectorStatusEnum? = nil
-        )
-        {
+        ) {
             self.connectorType = connectorType
             self.status = status
         }
@@ -5438,8 +5296,7 @@ extension WorkSpacesClientTypes {
             action: WorkSpacesClientTypes.UserSettingActionEnum? = nil,
             maximumLength: Swift.Int? = nil,
             permission: WorkSpacesClientTypes.UserSettingPermissionEnum? = nil
-        )
-        {
+        ) {
             self.action = action
             self.maximumLength = maximumLength
             self.permission = permission
@@ -5465,8 +5322,7 @@ extension WorkSpacesClientTypes {
             storageConnectors: [WorkSpacesClientTypes.StorageConnector]? = nil,
             streamingExperiencePreferredProtocol: WorkSpacesClientTypes.StreamingExperiencePreferredProtocolEnum? = nil,
             userSettings: [WorkSpacesClientTypes.UserSetting]? = nil
-        )
-        {
+        ) {
             self.globalAccelerator = globalAccelerator
             self.storageConnectors = storageConnectors
             self.streamingExperiencePreferredProtocol = streamingExperiencePreferredProtocol
@@ -5566,8 +5422,7 @@ extension WorkSpacesClientTypes {
             deviceTypeWeb: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeWindows: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeZeroClient: WorkSpacesClientTypes.AccessPropertyValue? = nil
-        )
-        {
+        ) {
             self.deviceTypeAndroid = deviceTypeAndroid
             self.deviceTypeChromeOs = deviceTypeChromeOs
             self.deviceTypeIos = deviceTypeIos
@@ -5696,8 +5551,7 @@ extension WorkSpacesClientTypes {
             workspaceDirectoryName: Swift.String? = nil,
             workspaceSecurityGroupId: Swift.String? = nil,
             workspaceType: WorkSpacesClientTypes.WorkspaceType? = nil
-        )
-        {
+        ) {
             self.activeDirectoryConfig = activeDirectoryConfig
             self.alias = alias
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
@@ -5738,8 +5592,7 @@ public struct DescribeWorkspaceDirectoriesOutput: Swift.Sendable {
     public init(
         directories: [WorkSpacesClientTypes.WorkspaceDirectory]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directories = directories
         self.nextToken = nextToken
     }
@@ -5758,8 +5611,7 @@ public struct DescribeWorkspaceImagePermissionsInput: Swift.Sendable {
         imageId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5775,8 +5627,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             sharedAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.sharedAccountId = sharedAccountId
         }
     }
@@ -5794,8 +5645,7 @@ public struct DescribeWorkspaceImagePermissionsOutput: Swift.Sendable {
         imageId: Swift.String? = nil,
         imagePermissions: [WorkSpacesClientTypes.ImagePermission]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
         self.imagePermissions = imagePermissions
         self.nextToken = nextToken
@@ -5846,8 +5696,7 @@ public struct DescribeWorkspaceImagesInput: Swift.Sendable {
         imageType: WorkSpacesClientTypes.ImageType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageIds = imageIds
         self.imageType = imageType
         self.maxResults = maxResults
@@ -6025,8 +5874,7 @@ extension WorkSpacesClientTypes {
         public init(
             errorCode: WorkSpacesClientTypes.WorkspaceImageErrorDetailCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -6045,8 +5893,7 @@ extension WorkSpacesClientTypes {
         public init(
             description: Swift.String? = nil,
             updateAvailable: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.description = description
             self.updateAvailable = updateAvailable
         }
@@ -6095,8 +5942,7 @@ extension WorkSpacesClientTypes {
             requiredTenancy: WorkSpacesClientTypes.WorkspaceImageRequiredTenancy? = nil,
             state: WorkSpacesClientTypes.WorkspaceImageState? = nil,
             updates: WorkSpacesClientTypes.UpdateResult? = nil
-        )
-        {
+        ) {
             self.created = created
             self.description = description
             self.errorCode = errorCode
@@ -6122,8 +5968,7 @@ public struct DescribeWorkspaceImagesOutput: Swift.Sendable {
     public init(
         images: [WorkSpacesClientTypes.WorkspaceImage]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.images = images
         self.nextToken = nextToken
     }
@@ -6153,8 +5998,7 @@ public struct DescribeWorkspacesInput: Swift.Sendable {
         userName: Swift.String? = nil,
         workspaceIds: [Swift.String]? = nil,
         workspaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bundleId = bundleId
         self.directoryId = directoryId
         self.limit = limit
@@ -6174,8 +6018,7 @@ public struct DescribeWorkspacesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workspaces: [WorkSpacesClientTypes.Workspace]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workspaces = workspaces
     }
@@ -6190,8 +6033,7 @@ public struct DescribeWorkspacesConnectionStatusInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workspaceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workspaceIds = workspaceIds
     }
@@ -6215,8 +6057,7 @@ extension WorkSpacesClientTypes {
             connectionStateCheckTimestamp: Foundation.Date? = nil,
             lastKnownUserConnectionTimestamp: Foundation.Date? = nil,
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionState = connectionState
             self.connectionStateCheckTimestamp = connectionStateCheckTimestamp
             self.lastKnownUserConnectionTimestamp = lastKnownUserConnectionTimestamp
@@ -6234,8 +6075,7 @@ public struct DescribeWorkspacesConnectionStatusOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workspacesConnectionStatus: [WorkSpacesClientTypes.WorkspaceConnectionStatus]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workspacesConnectionStatus = workspacesConnectionStatus
     }
@@ -6248,8 +6088,7 @@ public struct DescribeWorkspaceSnapshotsInput: Swift.Sendable {
 
     public init(
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
     }
 }
@@ -6263,8 +6102,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             snapshotTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.snapshotTime = snapshotTime
         }
     }
@@ -6279,8 +6117,7 @@ public struct DescribeWorkspaceSnapshotsOutput: Swift.Sendable {
     public init(
         rebuildSnapshots: [WorkSpacesClientTypes.Snapshot]? = nil,
         restoreSnapshots: [WorkSpacesClientTypes.Snapshot]? = nil
-    )
-    {
+    ) {
         self.rebuildSnapshots = rebuildSnapshots
         self.restoreSnapshots = restoreSnapshots
     }
@@ -6365,8 +6202,7 @@ extension WorkSpacesClientTypes {
             name: WorkSpacesClientTypes.DescribeWorkspacesPoolsFilterName? = nil,
             `operator`: WorkSpacesClientTypes.DescribeWorkspacesPoolsFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -6389,8 +6225,7 @@ public struct DescribeWorkspacesPoolsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         poolIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.limit = limit
         self.nextToken = nextToken
@@ -6407,8 +6242,7 @@ public struct DescribeWorkspacesPoolsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workspacesPools: [WorkSpacesClientTypes.WorkspacesPool]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workspacesPools = workspacesPools
     }
@@ -6430,8 +6264,7 @@ public struct DescribeWorkspacesPoolSessionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         poolId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.poolId = poolId
@@ -6480,8 +6313,7 @@ extension WorkSpacesClientTypes {
         public init(
             eniId: Swift.String? = nil,
             eniPrivateIpAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.eniId = eniId
             self.eniPrivateIpAddress = eniPrivateIpAddress
         }
@@ -6524,8 +6356,7 @@ extension WorkSpacesClientTypes {
             sessionId: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.connectionState = connectionState
             self.expirationTime = expirationTime
@@ -6548,8 +6379,7 @@ public struct DescribeWorkspacesPoolSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sessions: [WorkSpacesClientTypes.WorkspacesPoolSession]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessions = sessions
     }
@@ -6562,8 +6392,7 @@ public struct DisassociateConnectionAliasInput: Swift.Sendable {
 
     public init(
         aliasId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
     }
 }
@@ -6584,8 +6413,7 @@ public struct DisassociateIpGroupsInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         groupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.groupIds = groupIds
     }
@@ -6607,8 +6435,7 @@ public struct DisassociateWorkspaceApplicationInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.workspaceId = workspaceId
     }
@@ -6620,8 +6447,7 @@ public struct DisassociateWorkspaceApplicationOutput: Swift.Sendable {
 
     public init(
         association: WorkSpacesClientTypes.WorkspaceResourceAssociation? = nil
-    )
-    {
+    ) {
         self.association = association
     }
 }
@@ -6641,8 +6467,7 @@ extension WorkSpacesClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.workspaceId = workspaceId
@@ -6659,8 +6484,7 @@ public struct GetAccountLinkInput: Swift.Sendable {
     public init(
         linkId: Swift.String? = nil,
         linkedAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.linkId = linkId
         self.linkedAccountId = linkedAccountId
     }
@@ -6672,8 +6496,7 @@ public struct GetAccountLinkOutput: Swift.Sendable {
 
     public init(
         accountLink: WorkSpacesClientTypes.AccountLink? = nil
-    )
-    {
+    ) {
         self.accountLink = accountLink
     }
 }
@@ -6713,8 +6536,7 @@ extension WorkSpacesClientTypes {
             logo3x: Foundation.Data? = nil,
             supportEmail: Swift.String? = nil,
             supportLink: Swift.String? = nil
-        )
-        {
+        ) {
             self.forgotPasswordLink = forgotPasswordLink
             self.loginMessage = loginMessage
             self.logo = logo
@@ -6751,8 +6573,7 @@ public struct ImportClientBrandingInput: Swift.Sendable {
         deviceTypeWeb: WorkSpacesClientTypes.DefaultImportClientBrandingAttributes? = nil,
         deviceTypeWindows: WorkSpacesClientTypes.DefaultImportClientBrandingAttributes? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceTypeAndroid = deviceTypeAndroid
         self.deviceTypeIos = deviceTypeIos
         self.deviceTypeLinux = deviceTypeLinux
@@ -6784,8 +6605,7 @@ public struct ImportClientBrandingOutput: Swift.Sendable {
         deviceTypeOsx: WorkSpacesClientTypes.DefaultClientBrandingAttributes? = nil,
         deviceTypeWeb: WorkSpacesClientTypes.DefaultClientBrandingAttributes? = nil,
         deviceTypeWindows: WorkSpacesClientTypes.DefaultClientBrandingAttributes? = nil
-    )
-    {
+    ) {
         self.deviceTypeAndroid = deviceTypeAndroid
         self.deviceTypeIos = deviceTypeIos
         self.deviceTypeLinux = deviceTypeLinux
@@ -6871,8 +6691,7 @@ public struct ImportWorkspaceImageInput: Swift.Sendable {
         imageName: Swift.String? = nil,
         ingestionProcess: WorkSpacesClientTypes.WorkspaceImageIngestionProcess? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.ec2ImageId = ec2ImageId
         self.imageDescription = imageDescription
@@ -6888,8 +6707,7 @@ public struct ImportWorkspaceImageOutput: Swift.Sendable {
 
     public init(
         imageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
     }
 }
@@ -6906,8 +6724,7 @@ public struct ListAccountLinksInput: Swift.Sendable {
         linkStatusFilter: [WorkSpacesClientTypes.AccountLinkStatusEnum]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.linkStatusFilter = linkStatusFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6923,8 +6740,7 @@ public struct ListAccountLinksOutput: Swift.Sendable {
     public init(
         accountLinks: [WorkSpacesClientTypes.AccountLink]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountLinks = accountLinks
         self.nextToken = nextToken
     }
@@ -6943,8 +6759,7 @@ public struct ListAvailableManagementCidrRangesInput: Swift.Sendable {
         managementCidrRangeConstraint: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.managementCidrRangeConstraint = managementCidrRangeConstraint
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6960,8 +6775,7 @@ public struct ListAvailableManagementCidrRangesOutput: Swift.Sendable {
     public init(
         managementCidrRanges: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.managementCidrRanges = managementCidrRanges
         self.nextToken = nextToken
     }
@@ -6985,8 +6799,7 @@ public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7002,8 +6815,7 @@ public struct MigrateWorkspaceInput: Swift.Sendable {
     public init(
         bundleId: Swift.String? = nil,
         sourceWorkspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bundleId = bundleId
         self.sourceWorkspaceId = sourceWorkspaceId
     }
@@ -7018,8 +6830,7 @@ public struct MigrateWorkspaceOutput: Swift.Sendable {
     public init(
         sourceWorkspaceId: Swift.String? = nil,
         targetWorkspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceWorkspaceId = sourceWorkspaceId
         self.targetWorkspaceId = targetWorkspaceId
     }
@@ -7034,8 +6845,7 @@ public struct ModifyAccountInput: Swift.Sendable {
     public init(
         dedicatedTenancyManagementCidrRange: Swift.String? = nil,
         dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportEnum? = nil
-    )
-    {
+    ) {
         self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
         self.dedicatedTenancySupport = dedicatedTenancySupport
     }
@@ -7059,8 +6869,7 @@ public struct ModifyCertificateBasedAuthPropertiesInput: Swift.Sendable {
         certificateBasedAuthProperties: WorkSpacesClientTypes.CertificateBasedAuthProperties? = nil,
         propertiesToDelete: [WorkSpacesClientTypes.DeletableCertificateBasedAuthProperty]? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateBasedAuthProperties = certificateBasedAuthProperties
         self.propertiesToDelete = propertiesToDelete
         self.resourceId = resourceId
@@ -7083,8 +6892,7 @@ public struct ModifyClientPropertiesInput: Swift.Sendable {
     public init(
         clientProperties: WorkSpacesClientTypes.ClientProperties? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientProperties = clientProperties
         self.resourceId = resourceId
     }
@@ -7112,8 +6920,7 @@ public struct ModifySamlPropertiesInput: Swift.Sendable {
         propertiesToDelete: [WorkSpacesClientTypes.DeletableSamlProperty]? = nil,
         resourceId: Swift.String? = nil,
         samlProperties: WorkSpacesClientTypes.SamlProperties? = nil
-    )
-    {
+    ) {
         self.propertiesToDelete = propertiesToDelete
         self.resourceId = resourceId
         self.samlProperties = samlProperties
@@ -7136,8 +6943,7 @@ public struct ModifySelfservicePermissionsInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         selfservicePermissions: WorkSpacesClientTypes.SelfservicePermissions? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.selfservicePermissions = selfservicePermissions
     }
@@ -7158,8 +6964,7 @@ public struct ModifyStreamingPropertiesInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         streamingProperties: WorkSpacesClientTypes.StreamingProperties? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.streamingProperties = streamingProperties
     }
@@ -7181,8 +6986,7 @@ public struct ModifyWorkspaceAccessPropertiesInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         workspaceAccessProperties: WorkSpacesClientTypes.WorkspaceAccessProperties? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.workspaceAccessProperties = workspaceAccessProperties
     }
@@ -7224,8 +7028,7 @@ extension WorkSpacesClientTypes {
             enableWorkDocs: Swift.Bool? = nil,
             instanceIamRoleArn: Swift.String? = nil,
             userEnabledAsLocalAdministrator: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
@@ -7248,8 +7051,7 @@ public struct ModifyWorkspaceCreationPropertiesInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         workspaceCreationProperties: WorkSpacesClientTypes.WorkspaceCreationProperties? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.workspaceCreationProperties = workspaceCreationProperties
     }
@@ -7278,8 +7080,7 @@ public struct UnsupportedWorkspaceConfigurationException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7297,8 +7098,7 @@ public struct ModifyWorkspacePropertiesInput: Swift.Sendable {
         dataReplication: WorkSpacesClientTypes.DataReplication? = nil,
         workspaceId: Swift.String? = nil,
         workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties? = nil
-    )
-    {
+    ) {
         self.dataReplication = dataReplication
         self.workspaceId = workspaceId
         self.workspaceProperties = workspaceProperties
@@ -7350,8 +7150,7 @@ public struct ModifyWorkspaceStateInput: Swift.Sendable {
     public init(
         workspaceId: Swift.String? = nil,
         workspaceState: WorkSpacesClientTypes.TargetWorkspaceState? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
         self.workspaceState = workspaceState
     }
@@ -7372,8 +7171,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.workspaceId = workspaceId
         }
     }
@@ -7386,8 +7184,7 @@ public struct RebootWorkspacesInput: Swift.Sendable {
 
     public init(
         rebootWorkspaceRequests: [WorkSpacesClientTypes.RebootRequest]? = nil
-    )
-    {
+    ) {
         self.rebootWorkspaceRequests = rebootWorkspaceRequests
     }
 }
@@ -7398,8 +7195,7 @@ public struct RebootWorkspacesOutput: Swift.Sendable {
 
     public init(
         failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
     }
 }
@@ -7414,8 +7210,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.workspaceId = workspaceId
         }
     }
@@ -7428,8 +7223,7 @@ public struct RebuildWorkspacesInput: Swift.Sendable {
 
     public init(
         rebuildWorkspaceRequests: [WorkSpacesClientTypes.RebuildRequest]? = nil
-    )
-    {
+    ) {
         self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
     }
 }
@@ -7440,8 +7234,7 @@ public struct RebuildWorkspacesOutput: Swift.Sendable {
 
     public init(
         failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
     }
 }
@@ -7464,8 +7257,7 @@ public struct UnsupportedNetworkConfigurationException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7488,8 +7280,7 @@ public struct WorkspacesDefaultRoleNotFoundException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7536,8 +7327,7 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
         workspaceDirectoryDescription: Swift.String? = nil,
         workspaceDirectoryName: Swift.String? = nil,
         workspaceType: WorkSpacesClientTypes.WorkspaceType? = nil
-    )
-    {
+    ) {
         self.activeDirectoryConfig = activeDirectoryConfig
         self.directoryId = directoryId
         self.enableSelfService = enableSelfService
@@ -7563,8 +7353,7 @@ public struct RegisterWorkspaceDirectoryOutput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         state: WorkSpacesClientTypes.WorkspaceDirectoryState? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.state = state
     }
@@ -7580,8 +7369,7 @@ public struct RejectAccountLinkInvitationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         linkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.linkId = linkId
     }
@@ -7593,8 +7381,7 @@ public struct RejectAccountLinkInvitationOutput: Swift.Sendable {
 
     public init(
         accountLink: WorkSpacesClientTypes.AccountLink? = nil
-    )
-    {
+    ) {
         self.accountLink = accountLink
     }
 }
@@ -7606,8 +7393,7 @@ public struct RestoreWorkspaceInput: Swift.Sendable {
 
     public init(
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
     }
 }
@@ -7628,8 +7414,7 @@ public struct RevokeIpRulesInput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         userRules: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.userRules = userRules
     }
@@ -7649,8 +7434,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.workspaceId = workspaceId
         }
     }
@@ -7663,8 +7447,7 @@ public struct StartWorkspacesInput: Swift.Sendable {
 
     public init(
         startWorkspaceRequests: [WorkSpacesClientTypes.StartRequest]? = nil
-    )
-    {
+    ) {
         self.startWorkspaceRequests = startWorkspaceRequests
     }
 }
@@ -7675,8 +7458,7 @@ public struct StartWorkspacesOutput: Swift.Sendable {
 
     public init(
         failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
     }
 }
@@ -7688,8 +7470,7 @@ public struct StartWorkspacesPoolInput: Swift.Sendable {
 
     public init(
         poolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.poolId = poolId
     }
 }
@@ -7708,8 +7489,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.workspaceId = workspaceId
         }
     }
@@ -7722,8 +7502,7 @@ public struct StopWorkspacesInput: Swift.Sendable {
 
     public init(
         stopWorkspaceRequests: [WorkSpacesClientTypes.StopRequest]? = nil
-    )
-    {
+    ) {
         self.stopWorkspaceRequests = stopWorkspaceRequests
     }
 }
@@ -7734,8 +7513,7 @@ public struct StopWorkspacesOutput: Swift.Sendable {
 
     public init(
         failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
     }
 }
@@ -7747,8 +7525,7 @@ public struct StopWorkspacesPoolInput: Swift.Sendable {
 
     public init(
         poolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.poolId = poolId
     }
 }
@@ -7768,8 +7545,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.workspaceId = workspaceId
         }
     }
@@ -7782,8 +7558,7 @@ public struct TerminateWorkspacesInput: Swift.Sendable {
 
     public init(
         terminateWorkspaceRequests: [WorkSpacesClientTypes.TerminateRequest]? = nil
-    )
-    {
+    ) {
         self.terminateWorkspaceRequests = terminateWorkspaceRequests
     }
 }
@@ -7794,8 +7569,7 @@ public struct TerminateWorkspacesOutput: Swift.Sendable {
 
     public init(
         failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
     }
 }
@@ -7807,8 +7581,7 @@ public struct TerminateWorkspacesPoolInput: Swift.Sendable {
 
     public init(
         poolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.poolId = poolId
     }
 }
@@ -7825,8 +7598,7 @@ public struct TerminateWorkspacesPoolSessionInput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -7853,8 +7625,7 @@ public struct UpdateConnectClientAddInInput: Swift.Sendable {
         name: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.addInId = addInId
         self.name = name
         self.resourceId = resourceId
@@ -7878,8 +7649,7 @@ public struct UpdateConnectionAliasPermissionInput: Swift.Sendable {
     public init(
         aliasId: Swift.String? = nil,
         connectionAliasPermission: WorkSpacesClientTypes.ConnectionAliasPermission? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.connectionAliasPermission = connectionAliasPermission
     }
@@ -7901,8 +7671,7 @@ public struct UpdateRulesOfIpGroupInput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         userRules: [WorkSpacesClientTypes.IpRuleItem]? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.userRules = userRules
     }
@@ -7922,8 +7691,7 @@ public struct UpdateWorkspaceBundleInput: Swift.Sendable {
     public init(
         bundleId: Swift.String? = nil,
         imageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bundleId = bundleId
         self.imageId = imageId
     }
@@ -7949,8 +7717,7 @@ public struct UpdateWorkspaceImagePermissionInput: Swift.Sendable {
         allowCopyImage: Swift.Bool? = nil,
         imageId: Swift.String? = nil,
         sharedAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowCopyImage = allowCopyImage
         self.imageId = imageId
         self.sharedAccountId = sharedAccountId
@@ -7987,8 +7754,7 @@ public struct UpdateWorkspacesPoolInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         poolId: Swift.String? = nil,
         timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
-    )
-    {
+    ) {
         self.applicationSettings = applicationSettings
         self.bundleId = bundleId
         self.capacity = capacity
@@ -8005,8 +7771,7 @@ public struct UpdateWorkspacesPoolOutput: Swift.Sendable {
 
     public init(
         workspacesPool: WorkSpacesClientTypes.WorkspacesPool? = nil
-    )
-    {
+    ) {
         self.workspacesPool = workspacesPool
     }
 }

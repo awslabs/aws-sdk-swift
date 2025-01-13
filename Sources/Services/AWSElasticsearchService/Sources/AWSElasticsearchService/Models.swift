@@ -69,8 +69,7 @@ public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -94,8 +93,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -119,8 +117,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -133,8 +130,7 @@ public struct AcceptInboundCrossClusterSearchConnectionInput: Swift.Sendable {
 
     public init(
         crossClusterSearchConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
     }
 }
@@ -204,8 +200,7 @@ extension ElasticsearchClientTypes {
         public init(
             message: Swift.String? = nil,
             statusCode: ElasticsearchClientTypes.InboundCrossClusterSearchConnectionStatusCode? = nil
-        )
-        {
+        ) {
             self.message = message
             self.statusCode = statusCode
         }
@@ -225,8 +220,7 @@ extension ElasticsearchClientTypes {
             domainName: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.ownerId = ownerId
             self.region = region
@@ -252,8 +246,7 @@ extension ElasticsearchClientTypes {
             crossClusterSearchConnectionId: Swift.String? = nil,
             destinationDomainInfo: ElasticsearchClientTypes.DomainInformation? = nil,
             sourceDomainInfo: ElasticsearchClientTypes.DomainInformation? = nil
-        )
-        {
+        ) {
             self.connectionStatus = connectionStatus
             self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
             self.destinationDomainInfo = destinationDomainInfo
@@ -269,8 +262,7 @@ public struct AcceptInboundCrossClusterSearchConnectionOutput: Swift.Sendable {
 
     public init(
         crossClusterSearchConnection: ElasticsearchClientTypes.InboundCrossClusterSearchConnection? = nil
-    )
-    {
+    ) {
         self.crossClusterSearchConnection = crossClusterSearchConnection
     }
 }
@@ -294,8 +286,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -361,8 +352,7 @@ extension ElasticsearchClientTypes {
             state: ElasticsearchClientTypes.OptionState? = nil,
             updateDate: Foundation.Date? = nil,
             updateVersion: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.pendingDeletion = pendingDeletion
             self.state = state
@@ -386,8 +376,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: Swift.String? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -423,8 +412,7 @@ extension ElasticsearchClientTypes {
         public init(
             limitName: Swift.String? = nil,
             limitValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.limitName = limitName
             self.limitValues = limitValues
         }
@@ -450,8 +438,7 @@ public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -475,8 +462,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -500,8 +486,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -520,8 +505,7 @@ extension ElasticsearchClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -540,8 +524,7 @@ public struct AddTagsInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagList: [ElasticsearchClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagList = tagList
     }
@@ -568,8 +551,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: [Swift.String: Swift.String]? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -590,8 +572,7 @@ extension ElasticsearchClientTypes {
         public init(
             entityId: Swift.String? = nil,
             metadataContent: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.metadataContent = metadataContent
         }
@@ -619,8 +600,7 @@ extension ElasticsearchClientTypes {
             rolesKey: Swift.String? = nil,
             sessionTimeoutMinutes: Swift.Int? = nil,
             subjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.idp = idp
             self.rolesKey = rolesKey
@@ -651,8 +631,7 @@ extension ElasticsearchClientTypes {
             enabled: Swift.Bool? = nil,
             internalUserDatabaseEnabled: Swift.Bool? = nil,
             samlOptions: ElasticsearchClientTypes.SAMLOptionsOutput? = nil
-        )
-        {
+        ) {
             self.anonymousAuthDisableDate = anonymousAuthDisableDate
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
@@ -677,8 +656,7 @@ extension ElasticsearchClientTypes {
             masterUserARN: Swift.String? = nil,
             masterUserName: Swift.String? = nil,
             masterUserPassword: Swift.String? = nil
-        )
-        {
+        ) {
             self.masterUserARN = masterUserARN
             self.masterUserName = masterUserName
             self.masterUserPassword = masterUserPassword
@@ -718,8 +696,7 @@ extension ElasticsearchClientTypes {
             rolesKey: Swift.String? = nil,
             sessionTimeoutMinutes: Swift.Int? = nil,
             subjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.idp = idp
             self.masterBackendRole = masterBackendRole
@@ -757,8 +734,7 @@ extension ElasticsearchClientTypes {
             internalUserDatabaseEnabled: Swift.Bool? = nil,
             masterUserOptions: ElasticsearchClientTypes.MasterUserOptions? = nil,
             samlOptions: ElasticsearchClientTypes.SAMLOptionsInput? = nil
-        )
-        {
+        ) {
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
@@ -782,8 +758,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: ElasticsearchClientTypes.AdvancedSecurityOptions? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -809,8 +784,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -827,8 +801,7 @@ public struct AssociatePackageInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         packageID: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.packageID = packageID
     }
@@ -881,8 +854,7 @@ extension ElasticsearchClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             errorType: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.errorType = errorType
         }
@@ -947,8 +919,7 @@ extension ElasticsearchClientTypes {
             packageType: ElasticsearchClientTypes.PackageType? = nil,
             packageVersion: Swift.String? = nil,
             referencePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.domainPackageStatus = domainPackageStatus
             self.errorDetails = errorDetails
@@ -969,8 +940,7 @@ public struct AssociatePackageOutput: Swift.Sendable {
 
     public init(
         domainPackageDetails: ElasticsearchClientTypes.DomainPackageDetails? = nil
-    )
-    {
+    ) {
         self.domainPackageDetails = domainPackageDetails
     }
 }
@@ -987,8 +957,7 @@ public struct AuthorizeVpcEndpointAccessInput: Swift.Sendable {
     public init(
         account: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.account = account
         self.domainName = domainName
     }
@@ -1040,8 +1009,7 @@ extension ElasticsearchClientTypes {
         public init(
             principal: Swift.String? = nil,
             principalType: ElasticsearchClientTypes.PrincipalType? = nil
-        )
-        {
+        ) {
             self.principal = principal
             self.principalType = principalType
         }
@@ -1056,8 +1024,7 @@ public struct AuthorizeVpcEndpointAccessOutput: Swift.Sendable {
 
     public init(
         authorizedPrincipal: ElasticsearchClientTypes.AuthorizedPrincipal? = nil
-    )
-    {
+    ) {
         self.authorizedPrincipal = authorizedPrincipal
     }
 }
@@ -1073,8 +1040,7 @@ public struct CancelDomainConfigChangeInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         dryRun: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.dryRun = dryRun
     }
@@ -1095,8 +1061,7 @@ extension ElasticsearchClientTypes {
             activeValue: Swift.String? = nil,
             cancelledValue: Swift.String? = nil,
             propertyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeValue = activeValue
             self.cancelledValue = cancelledValue
             self.propertyName = propertyName
@@ -1117,8 +1082,7 @@ public struct CancelDomainConfigChangeOutput: Swift.Sendable {
         cancelledChangeIds: [Swift.String]? = nil,
         cancelledChangeProperties: [ElasticsearchClientTypes.CancelledChangeProperty]? = nil,
         dryRun: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.cancelledChangeIds = cancelledChangeIds
         self.cancelledChangeProperties = cancelledChangeProperties
         self.dryRun = dryRun
@@ -1133,8 +1097,7 @@ public struct CancelElasticsearchServiceSoftwareUpdateInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -1207,8 +1170,7 @@ extension ElasticsearchClientTypes {
             optionalDeployment: Swift.Bool? = nil,
             updateAvailable: Swift.Bool? = nil,
             updateStatus: ElasticsearchClientTypes.DeploymentStatus? = nil
-        )
-        {
+        ) {
             self.automatedUpdateDate = automatedUpdateDate
             self.cancellable = cancellable
             self.currentVersion = currentVersion
@@ -1228,8 +1190,7 @@ public struct CancelElasticsearchServiceSoftwareUpdateOutput: Swift.Sendable {
 
     public init(
         serviceSoftwareOptions: ElasticsearchClientTypes.ServiceSoftwareOptions? = nil
-    )
-    {
+    ) {
         self.serviceSoftwareOptions = serviceSoftwareOptions
     }
 }
@@ -1253,8 +1214,7 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1278,8 +1238,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1353,8 +1312,7 @@ extension ElasticsearchClientTypes {
         public init(
             unit: ElasticsearchClientTypes.TimeUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -1376,8 +1334,7 @@ extension ElasticsearchClientTypes {
             cronExpressionForRecurrence: Swift.String? = nil,
             duration: ElasticsearchClientTypes.Duration? = nil,
             startAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.cronExpressionForRecurrence = cronExpressionForRecurrence
             self.duration = duration
             self.startAt = startAt
@@ -1397,8 +1354,7 @@ extension ElasticsearchClientTypes {
         public init(
             desiredState: ElasticsearchClientTypes.AutoTuneDesiredState? = nil,
             maintenanceSchedules: [ElasticsearchClientTypes.AutoTuneMaintenanceSchedule]? = nil
-        )
-        {
+        ) {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
         }
@@ -1423,8 +1379,7 @@ extension ElasticsearchClientTypes {
             identityPoolId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.identityPoolId = identityPoolId
             self.roleArn = roleArn
@@ -1498,8 +1453,7 @@ extension ElasticsearchClientTypes {
             customEndpointEnabled: Swift.Bool? = nil,
             enforceHTTPS: Swift.Bool? = nil,
             tlsSecurityPolicy: ElasticsearchClientTypes.TLSSecurityPolicy? = nil
-        )
-        {
+        ) {
             self.customEndpoint = customEndpoint
             self.customEndpointCertificateArn = customEndpointCertificateArn
             self.customEndpointEnabled = customEndpointEnabled
@@ -1566,8 +1520,7 @@ extension ElasticsearchClientTypes {
             throughput: Swift.Int? = nil,
             volumeSize: Swift.Int? = nil,
             volumeType: ElasticsearchClientTypes.VolumeType? = nil
-        )
-        {
+        ) {
             self.ebsEnabled = ebsEnabled
             self.iops = iops
             self.throughput = throughput
@@ -1587,8 +1540,7 @@ extension ElasticsearchClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -1829,8 +1781,7 @@ extension ElasticsearchClientTypes {
 
         public init(
             availabilityZoneCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.availabilityZoneCount = availabilityZoneCount
         }
     }
@@ -1875,8 +1826,7 @@ extension ElasticsearchClientTypes {
             warmType: ElasticsearchClientTypes.ESWarmPartitionInstanceType? = nil,
             zoneAwarenessConfig: ElasticsearchClientTypes.ZoneAwarenessConfig? = nil,
             zoneAwarenessEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.coldStorageOptions = coldStorageOptions
             self.dedicatedMasterCount = dedicatedMasterCount
             self.dedicatedMasterEnabled = dedicatedMasterEnabled
@@ -1904,8 +1854,7 @@ extension ElasticsearchClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.kmsKeyId = kmsKeyId
         }
@@ -1978,8 +1927,7 @@ extension ElasticsearchClientTypes {
         public init(
             cloudWatchLogsLogGroupArn: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.enabled = enabled
         }
@@ -1995,8 +1943,7 @@ extension ElasticsearchClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -2011,8 +1958,7 @@ extension ElasticsearchClientTypes {
 
         public init(
             automatedSnapshotStartHour: Swift.Int? = nil
-        )
-        {
+        ) {
             self.automatedSnapshotStartHour = automatedSnapshotStartHour
         }
     }
@@ -2030,8 +1976,7 @@ extension ElasticsearchClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -2090,8 +2035,7 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
         snapshotOptions: ElasticsearchClientTypes.SnapshotOptions? = nil,
         tagList: [ElasticsearchClientTypes.Tag]? = nil,
         vpcOptions: ElasticsearchClientTypes.VPCOptions? = nil
-    )
-    {
+    ) {
         self.accessPolicies = accessPolicies
         self.advancedOptions = advancedOptions
         self.advancedSecurityOptions = advancedSecurityOptions
@@ -2174,8 +2118,7 @@ extension ElasticsearchClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             state: ElasticsearchClientTypes.AutoTuneState? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.state = state
         }
@@ -2282,8 +2225,7 @@ extension ElasticsearchClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.changeId = changeId
             self.configChangeStatus = configChangeStatus
             self.initiatedBy = initiatedBy
@@ -2389,8 +2331,7 @@ extension ElasticsearchClientTypes {
             name: Swift.String? = nil,
             pendingValue: Swift.String? = nil,
             valueType: ElasticsearchClientTypes.PropertyValueType? = nil
-        )
-        {
+        ) {
             self.activeValue = activeValue
             self.name = name
             self.pendingValue = pendingValue
@@ -2417,8 +2358,7 @@ extension ElasticsearchClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -2517,8 +2457,7 @@ extension ElasticsearchClientTypes {
             snapshotOptions: ElasticsearchClientTypes.SnapshotOptions? = nil,
             upgradeProcessing: Swift.Bool? = nil,
             vpcOptions: ElasticsearchClientTypes.VPCDerivedInfo? = nil
-        )
-        {
+        ) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -2557,8 +2496,7 @@ public struct CreateElasticsearchDomainOutput: Swift.Sendable {
 
     public init(
         domainStatus: ElasticsearchClientTypes.ElasticsearchDomainStatus? = nil
-    )
-    {
+    ) {
         self.domainStatus = domainStatus
     }
 }
@@ -2579,8 +2517,7 @@ public struct CreateOutboundCrossClusterSearchConnectionInput: Swift.Sendable {
         connectionAlias: Swift.String? = nil,
         destinationDomainInfo: ElasticsearchClientTypes.DomainInformation? = nil,
         sourceDomainInfo: ElasticsearchClientTypes.DomainInformation? = nil
-    )
-    {
+    ) {
         self.connectionAlias = connectionAlias
         self.destinationDomainInfo = destinationDomainInfo
         self.sourceDomainInfo = sourceDomainInfo
@@ -2662,8 +2599,7 @@ extension ElasticsearchClientTypes {
         public init(
             message: Swift.String? = nil,
             statusCode: ElasticsearchClientTypes.OutboundCrossClusterSearchConnectionStatusCode? = nil
-        )
-        {
+        ) {
             self.message = message
             self.statusCode = statusCode
         }
@@ -2689,8 +2625,7 @@ public struct CreateOutboundCrossClusterSearchConnectionOutput: Swift.Sendable {
         crossClusterSearchConnectionId: Swift.String? = nil,
         destinationDomainInfo: ElasticsearchClientTypes.DomainInformation? = nil,
         sourceDomainInfo: ElasticsearchClientTypes.DomainInformation? = nil
-    )
-    {
+    ) {
         self.connectionAlias = connectionAlias
         self.connectionStatus = connectionStatus
         self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
@@ -2711,8 +2646,7 @@ extension ElasticsearchClientTypes {
         public init(
             s3BucketName: Swift.String? = nil,
             s3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.s3Key = s3Key
         }
@@ -2738,8 +2672,7 @@ public struct CreatePackageInput: Swift.Sendable {
         packageName: Swift.String? = nil,
         packageSource: ElasticsearchClientTypes.PackageSource? = nil,
         packageType: ElasticsearchClientTypes.PackageType? = nil
-    )
-    {
+    ) {
         self.packageDescription = packageDescription
         self.packageName = packageName
         self.packageSource = packageSource
@@ -2825,8 +2758,7 @@ extension ElasticsearchClientTypes {
             packageName: Swift.String? = nil,
             packageStatus: ElasticsearchClientTypes.PackageStatus? = nil,
             packageType: ElasticsearchClientTypes.PackageType? = nil
-        )
-        {
+        ) {
             self.availablePackageVersion = availablePackageVersion
             self.createdAt = createdAt
             self.errorDetails = errorDetails
@@ -2847,8 +2779,7 @@ public struct CreatePackageOutput: Swift.Sendable {
 
     public init(
         packageDetails: ElasticsearchClientTypes.PackageDetails? = nil
-    )
-    {
+    ) {
         self.packageDetails = packageDetails
     }
 }
@@ -2868,8 +2799,7 @@ public struct CreateVpcEndpointInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         domainArn: Swift.String? = nil,
         vpcOptions: ElasticsearchClientTypes.VPCOptions? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainArn = domainArn
         self.vpcOptions = vpcOptions
@@ -2959,8 +2889,7 @@ extension ElasticsearchClientTypes {
             vpcEndpointId: Swift.String? = nil,
             vpcEndpointOwner: Swift.String? = nil,
             vpcOptions: ElasticsearchClientTypes.VPCDerivedInfo? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
             self.endpoint = endpoint
             self.status = status
@@ -2979,8 +2908,7 @@ public struct CreateVpcEndpointOutput: Swift.Sendable {
 
     public init(
         vpcEndpoint: ElasticsearchClientTypes.VpcEndpoint? = nil
-    )
-    {
+    ) {
         self.vpcEndpoint = vpcEndpoint
     }
 }
@@ -2993,8 +2921,7 @@ public struct DeleteElasticsearchDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -3006,8 +2933,7 @@ public struct DeleteElasticsearchDomainOutput: Swift.Sendable {
 
     public init(
         domainStatus: ElasticsearchClientTypes.ElasticsearchDomainStatus? = nil
-    )
-    {
+    ) {
         self.domainStatus = domainStatus
     }
 }
@@ -3020,8 +2946,7 @@ public struct DeleteInboundCrossClusterSearchConnectionInput: Swift.Sendable {
 
     public init(
         crossClusterSearchConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
     }
 }
@@ -3033,8 +2958,7 @@ public struct DeleteInboundCrossClusterSearchConnectionOutput: Swift.Sendable {
 
     public init(
         crossClusterSearchConnection: ElasticsearchClientTypes.InboundCrossClusterSearchConnection? = nil
-    )
-    {
+    ) {
         self.crossClusterSearchConnection = crossClusterSearchConnection
     }
 }
@@ -3047,8 +2971,7 @@ public struct DeleteOutboundCrossClusterSearchConnectionInput: Swift.Sendable {
 
     public init(
         crossClusterSearchConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
     }
 }
@@ -3074,8 +2997,7 @@ extension ElasticsearchClientTypes {
             crossClusterSearchConnectionId: Swift.String? = nil,
             destinationDomainInfo: ElasticsearchClientTypes.DomainInformation? = nil,
             sourceDomainInfo: ElasticsearchClientTypes.DomainInformation? = nil
-        )
-        {
+        ) {
             self.connectionAlias = connectionAlias
             self.connectionStatus = connectionStatus
             self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
@@ -3092,8 +3014,7 @@ public struct DeleteOutboundCrossClusterSearchConnectionOutput: Swift.Sendable {
 
     public init(
         crossClusterSearchConnection: ElasticsearchClientTypes.OutboundCrossClusterSearchConnection? = nil
-    )
-    {
+    ) {
         self.crossClusterSearchConnection = crossClusterSearchConnection
     }
 }
@@ -3106,8 +3027,7 @@ public struct DeletePackageInput: Swift.Sendable {
 
     public init(
         packageID: Swift.String? = nil
-    )
-    {
+    ) {
         self.packageID = packageID
     }
 }
@@ -3119,8 +3039,7 @@ public struct DeletePackageOutput: Swift.Sendable {
 
     public init(
         packageDetails: ElasticsearchClientTypes.PackageDetails? = nil
-    )
-    {
+    ) {
         self.packageDetails = packageDetails
     }
 }
@@ -3133,8 +3052,7 @@ public struct DeleteVpcEndpointInput: Swift.Sendable {
 
     public init(
         vpcEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.vpcEndpointId = vpcEndpointId
     }
 }
@@ -3157,8 +3075,7 @@ extension ElasticsearchClientTypes {
             status: ElasticsearchClientTypes.VpcEndpointStatus? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcEndpointOwner: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
             self.status = status
             self.vpcEndpointId = vpcEndpointId
@@ -3175,8 +3092,7 @@ public struct DeleteVpcEndpointOutput: Swift.Sendable {
 
     public init(
         vpcEndpointSummary: ElasticsearchClientTypes.VpcEndpointSummary? = nil
-    )
-    {
+    ) {
         self.vpcEndpointSummary = vpcEndpointSummary
     }
 }
@@ -3195,8 +3111,7 @@ public struct DescribeDomainAutoTunesInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3284,8 +3199,7 @@ extension ElasticsearchClientTypes {
             actionType: ElasticsearchClientTypes.ScheduledAutoTuneActionType? = nil,
             date: Foundation.Date? = nil,
             severity: ElasticsearchClientTypes.ScheduledAutoTuneSeverityType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.actionType = actionType
             self.date = date
@@ -3303,8 +3217,7 @@ extension ElasticsearchClientTypes {
 
         public init(
             scheduledAutoTuneDetails: ElasticsearchClientTypes.ScheduledAutoTuneDetails? = nil
-        )
-        {
+        ) {
             self.scheduledAutoTuneDetails = scheduledAutoTuneDetails
         }
     }
@@ -3349,8 +3262,7 @@ extension ElasticsearchClientTypes {
         public init(
             autoTuneDetails: ElasticsearchClientTypes.AutoTuneDetails? = nil,
             autoTuneType: ElasticsearchClientTypes.AutoTuneType? = nil
-        )
-        {
+        ) {
             self.autoTuneDetails = autoTuneDetails
             self.autoTuneType = autoTuneType
         }
@@ -3367,8 +3279,7 @@ public struct DescribeDomainAutoTunesOutput: Swift.Sendable {
     public init(
         autoTunes: [ElasticsearchClientTypes.AutoTune]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoTunes = autoTunes
         self.nextToken = nextToken
     }
@@ -3385,8 +3296,7 @@ public struct DescribeDomainChangeProgressInput: Swift.Sendable {
     public init(
         changeId: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeId = changeId
         self.domainName = domainName
     }
@@ -3410,8 +3320,7 @@ extension ElasticsearchClientTypes {
             lastUpdated: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastUpdated = lastUpdated
             self.name = name
@@ -3492,8 +3401,7 @@ extension ElasticsearchClientTypes {
             startTime: Foundation.Date? = nil,
             status: ElasticsearchClientTypes.OverallChangeStatus? = nil,
             totalNumberOfStages: Swift.Int = 0
-        )
-        {
+        ) {
             self.changeId = changeId
             self.changeProgressStages = changeProgressStages
             self.completedProperties = completedProperties
@@ -3515,8 +3423,7 @@ public struct DescribeDomainChangeProgressOutput: Swift.Sendable {
 
     public init(
         changeProgressStatus: ElasticsearchClientTypes.ChangeProgressStatusDetails? = nil
-    )
-    {
+    ) {
         self.changeProgressStatus = changeProgressStatus
     }
 }
@@ -3529,8 +3436,7 @@ public struct DescribeElasticsearchDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -3543,8 +3449,7 @@ public struct DescribeElasticsearchDomainOutput: Swift.Sendable {
 
     public init(
         domainStatus: ElasticsearchClientTypes.ElasticsearchDomainStatus? = nil
-    )
-    {
+    ) {
         self.domainStatus = domainStatus
     }
 }
@@ -3557,8 +3462,7 @@ public struct DescribeElasticsearchDomainConfigInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -3608,8 +3512,7 @@ extension ElasticsearchClientTypes {
             desiredState: ElasticsearchClientTypes.AutoTuneDesiredState? = nil,
             maintenanceSchedules: [ElasticsearchClientTypes.AutoTuneMaintenanceSchedule]? = nil,
             rollbackOnDisable: ElasticsearchClientTypes.RollbackOnDisable? = nil
-        )
-        {
+        ) {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
             self.rollbackOnDisable = rollbackOnDisable
@@ -3644,8 +3547,7 @@ extension ElasticsearchClientTypes {
             state: ElasticsearchClientTypes.AutoTuneState? = nil,
             updateDate: Foundation.Date? = nil,
             updateVersion: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.errorMessage = errorMessage
             self.pendingDeletion = pendingDeletion
@@ -3668,8 +3570,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: ElasticsearchClientTypes.AutoTuneOptions? = nil,
             status: ElasticsearchClientTypes.AutoTuneStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -3690,8 +3591,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: ElasticsearchClientTypes.CognitoOptions? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -3712,8 +3612,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: ElasticsearchClientTypes.DomainEndpointOptions? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -3734,8 +3633,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: ElasticsearchClientTypes.EBSOptions? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -3756,8 +3654,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: ElasticsearchClientTypes.ElasticsearchClusterConfig? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -3778,8 +3675,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: Swift.String? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -3800,8 +3696,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: ElasticsearchClientTypes.EncryptionAtRestOptions? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -3820,8 +3715,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: [Swift.String: ElasticsearchClientTypes.LogPublishingOption]? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -3842,8 +3736,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: ElasticsearchClientTypes.NodeToNodeEncryptionOptions? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -3864,8 +3757,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: ElasticsearchClientTypes.SnapshotOptions? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -3886,8 +3778,7 @@ extension ElasticsearchClientTypes {
         public init(
             options: ElasticsearchClientTypes.VPCDerivedInfo? = nil,
             status: ElasticsearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -3948,8 +3839,7 @@ extension ElasticsearchClientTypes {
             nodeToNodeEncryptionOptions: ElasticsearchClientTypes.NodeToNodeEncryptionOptionsStatus? = nil,
             snapshotOptions: ElasticsearchClientTypes.SnapshotOptionsStatus? = nil,
             vpcOptions: ElasticsearchClientTypes.VPCDerivedInfoStatus? = nil
-        )
-        {
+        ) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -3978,8 +3868,7 @@ public struct DescribeElasticsearchDomainConfigOutput: Swift.Sendable {
 
     public init(
         domainConfig: ElasticsearchClientTypes.ElasticsearchDomainConfig? = nil
-    )
-    {
+    ) {
         self.domainConfig = domainConfig
     }
 }
@@ -3992,8 +3881,7 @@ public struct DescribeElasticsearchDomainsInput: Swift.Sendable {
 
     public init(
         domainNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainNames = domainNames
     }
 }
@@ -4006,8 +3894,7 @@ public struct DescribeElasticsearchDomainsOutput: Swift.Sendable {
 
     public init(
         domainStatusList: [ElasticsearchClientTypes.ElasticsearchDomainStatus]? = nil
-    )
-    {
+    ) {
         self.domainStatusList = domainStatusList
     }
 }
@@ -4027,8 +3914,7 @@ public struct DescribeElasticsearchInstanceTypeLimitsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         elasticsearchVersion: Swift.String? = nil,
         instanceType: ElasticsearchClientTypes.ESPartitionInstanceType? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.elasticsearchVersion = elasticsearchVersion
         self.instanceType = instanceType
@@ -4047,8 +3933,7 @@ extension ElasticsearchClientTypes {
         public init(
             maximumInstanceCount: Swift.Int = 0,
             minimumInstanceCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumInstanceCount = maximumInstanceCount
             self.minimumInstanceCount = minimumInstanceCount
         }
@@ -4064,8 +3949,7 @@ extension ElasticsearchClientTypes {
 
         public init(
             instanceCountLimits: ElasticsearchClientTypes.InstanceCountLimits? = nil
-        )
-        {
+        ) {
             self.instanceCountLimits = instanceCountLimits
         }
     }
@@ -4096,8 +3980,7 @@ extension ElasticsearchClientTypes {
         public init(
             limitName: Swift.String? = nil,
             limitValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.limitName = limitName
             self.limitValues = limitValues
         }
@@ -4135,8 +4018,7 @@ extension ElasticsearchClientTypes {
             storageSubTypeName: Swift.String? = nil,
             storageTypeLimits: [ElasticsearchClientTypes.StorageTypeLimit]? = nil,
             storageTypeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.storageSubTypeName = storageSubTypeName
             self.storageTypeLimits = storageTypeLimits
             self.storageTypeName = storageTypeName
@@ -4165,8 +4047,7 @@ extension ElasticsearchClientTypes {
             additionalLimits: [ElasticsearchClientTypes.AdditionalLimit]? = nil,
             instanceLimits: ElasticsearchClientTypes.InstanceLimits? = nil,
             storageTypes: [ElasticsearchClientTypes.StorageType]? = nil
-        )
-        {
+        ) {
             self.additionalLimits = additionalLimits
             self.instanceLimits = instanceLimits
             self.storageTypes = storageTypes
@@ -4187,8 +4068,7 @@ public struct DescribeElasticsearchInstanceTypeLimitsOutput: Swift.Sendable {
 
     public init(
         limitsByRole: [Swift.String: ElasticsearchClientTypes.Limits]? = nil
-    )
-    {
+    ) {
         self.limitsByRole = limitsByRole
     }
 }
@@ -4212,8 +4092,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4230,8 +4109,7 @@ extension ElasticsearchClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -4261,8 +4139,7 @@ public struct DescribeInboundCrossClusterSearchConnectionsInput: Swift.Sendable 
         filters: [ElasticsearchClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4279,8 +4156,7 @@ public struct DescribeInboundCrossClusterSearchConnectionsOutput: Swift.Sendable
     public init(
         crossClusterSearchConnections: [ElasticsearchClientTypes.InboundCrossClusterSearchConnection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossClusterSearchConnections = crossClusterSearchConnections
         self.nextToken = nextToken
     }
@@ -4309,8 +4185,7 @@ public struct DescribeOutboundCrossClusterSearchConnectionsInput: Swift.Sendable
         filters: [ElasticsearchClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4327,8 +4202,7 @@ public struct DescribeOutboundCrossClusterSearchConnectionsOutput: Swift.Sendabl
     public init(
         crossClusterSearchConnections: [ElasticsearchClientTypes.OutboundCrossClusterSearchConnection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossClusterSearchConnections = crossClusterSearchConnections
         self.nextToken = nextToken
     }
@@ -4378,8 +4252,7 @@ extension ElasticsearchClientTypes {
         public init(
             name: ElasticsearchClientTypes.DescribePackagesFilterName? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -4399,8 +4272,7 @@ public struct DescribePackagesInput: Swift.Sendable {
         filters: [ElasticsearchClientTypes.DescribePackagesFilter]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4416,8 +4288,7 @@ public struct DescribePackagesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packageDetailsList: [ElasticsearchClientTypes.PackageDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packageDetailsList = packageDetailsList
     }
@@ -4436,8 +4307,7 @@ public struct DescribeReservedElasticsearchInstanceOfferingsInput: Swift.Sendabl
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         reservedElasticsearchInstanceOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingId
@@ -4488,8 +4358,7 @@ extension ElasticsearchClientTypes {
         public init(
             recurringChargeAmount: Swift.Double? = nil,
             recurringChargeFrequency: Swift.String? = nil
-        )
-        {
+        ) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
         }
@@ -4526,8 +4395,7 @@ extension ElasticsearchClientTypes {
             recurringCharges: [ElasticsearchClientTypes.RecurringCharge]? = nil,
             reservedElasticsearchInstanceOfferingId: Swift.String? = nil,
             usagePrice: Swift.Double? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.elasticsearchInstanceType = elasticsearchInstanceType
@@ -4550,8 +4418,7 @@ public struct DescribeReservedElasticsearchInstanceOfferingsOutput: Swift.Sendab
     public init(
         nextToken: Swift.String? = nil,
         reservedElasticsearchInstanceOfferings: [ElasticsearchClientTypes.ReservedElasticsearchInstanceOffering]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reservedElasticsearchInstanceOfferings = reservedElasticsearchInstanceOfferings
     }
@@ -4570,8 +4437,7 @@ public struct DescribeReservedElasticsearchInstancesInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         reservedElasticsearchInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.reservedElasticsearchInstanceId = reservedElasticsearchInstanceId
@@ -4623,8 +4489,7 @@ extension ElasticsearchClientTypes {
             startTime: Foundation.Date? = nil,
             state: Swift.String? = nil,
             usagePrice: Swift.Double? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.elasticsearchInstanceCount = elasticsearchInstanceCount
@@ -4652,8 +4517,7 @@ public struct DescribeReservedElasticsearchInstancesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reservedElasticsearchInstances: [ElasticsearchClientTypes.ReservedElasticsearchInstance]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reservedElasticsearchInstances = reservedElasticsearchInstances
     }
@@ -4667,8 +4531,7 @@ public struct DescribeVpcEndpointsInput: Swift.Sendable {
 
     public init(
         vpcEndpointIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.vpcEndpointIds = vpcEndpointIds
     }
 }
@@ -4722,8 +4585,7 @@ extension ElasticsearchClientTypes {
             errorCode: ElasticsearchClientTypes.VpcEndpointErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             vpcEndpointId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.vpcEndpointId = vpcEndpointId
@@ -4743,8 +4605,7 @@ public struct DescribeVpcEndpointsOutput: Swift.Sendable {
     public init(
         vpcEndpointErrors: [ElasticsearchClientTypes.VpcEndpointError]? = nil,
         vpcEndpoints: [ElasticsearchClientTypes.VpcEndpoint]? = nil
-    )
-    {
+    ) {
         self.vpcEndpointErrors = vpcEndpointErrors
         self.vpcEndpoints = vpcEndpoints
     }
@@ -4762,8 +4623,7 @@ public struct DissociatePackageInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         packageID: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.packageID = packageID
     }
@@ -4776,8 +4636,7 @@ public struct DissociatePackageOutput: Swift.Sendable {
 
     public init(
         domainPackageDetails: ElasticsearchClientTypes.DomainPackageDetails? = nil
-    )
-    {
+    ) {
         self.domainPackageDetails = domainPackageDetails
     }
 }
@@ -4789,8 +4648,7 @@ public struct GetCompatibleElasticsearchVersionsInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -4807,8 +4665,7 @@ extension ElasticsearchClientTypes {
         public init(
             sourceVersion: Swift.String? = nil,
             targetVersions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.sourceVersion = sourceVersion
             self.targetVersions = targetVersions
         }
@@ -4822,8 +4679,7 @@ public struct GetCompatibleElasticsearchVersionsOutput: Swift.Sendable {
 
     public init(
         compatibleElasticsearchVersions: [ElasticsearchClientTypes.CompatibleVersionsMap]? = nil
-    )
-    {
+    ) {
         self.compatibleElasticsearchVersions = compatibleElasticsearchVersions
     }
 }
@@ -4842,8 +4698,7 @@ public struct GetPackageVersionHistoryInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.packageID = packageID
@@ -4865,8 +4720,7 @@ extension ElasticsearchClientTypes {
             commitMessage: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             packageVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitMessage = commitMessage
             self.createdAt = createdAt
             self.packageVersion = packageVersion
@@ -4885,8 +4739,7 @@ public struct GetPackageVersionHistoryOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil,
         packageVersionHistoryList: [ElasticsearchClientTypes.PackageVersionHistory]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packageID = packageID
         self.packageVersionHistoryList = packageVersionHistoryList
@@ -4907,8 +4760,7 @@ public struct GetUpgradeHistoryInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5014,8 +4866,7 @@ extension ElasticsearchClientTypes {
             progressPercent: Swift.Double? = nil,
             upgradeStep: ElasticsearchClientTypes.UpgradeStep? = nil,
             upgradeStepStatus: ElasticsearchClientTypes.UpgradeStatus? = nil
-        )
-        {
+        ) {
             self.issues = issues
             self.progressPercent = progressPercent
             self.upgradeStep = upgradeStep
@@ -5050,8 +4901,7 @@ extension ElasticsearchClientTypes {
             stepsList: [ElasticsearchClientTypes.UpgradeStepItem]? = nil,
             upgradeName: Swift.String? = nil,
             upgradeStatus: ElasticsearchClientTypes.UpgradeStatus? = nil
-        )
-        {
+        ) {
             self.startTimestamp = startTimestamp
             self.stepsList = stepsList
             self.upgradeName = upgradeName
@@ -5070,8 +4920,7 @@ public struct GetUpgradeHistoryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         upgradeHistories: [ElasticsearchClientTypes.UpgradeHistory]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.upgradeHistories = upgradeHistories
     }
@@ -5085,8 +4934,7 @@ public struct GetUpgradeStatusInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -5118,8 +4966,7 @@ public struct GetUpgradeStatusOutput: Swift.Sendable {
         stepStatus: ElasticsearchClientTypes.UpgradeStatus? = nil,
         upgradeName: Swift.String? = nil,
         upgradeStep: ElasticsearchClientTypes.UpgradeStep? = nil
-    )
-    {
+    ) {
         self.stepStatus = stepStatus
         self.upgradeName = upgradeName
         self.upgradeStep = upgradeStep
@@ -5162,8 +5009,7 @@ public struct ListDomainNamesInput: Swift.Sendable {
 
     public init(
         engineType: ElasticsearchClientTypes.EngineType? = nil
-    )
-    {
+    ) {
         self.engineType = engineType
     }
 }
@@ -5179,8 +5025,7 @@ extension ElasticsearchClientTypes {
         public init(
             domainName: Swift.String? = nil,
             engineType: ElasticsearchClientTypes.EngineType? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.engineType = engineType
         }
@@ -5194,8 +5039,7 @@ public struct ListDomainNamesOutput: Swift.Sendable {
 
     public init(
         domainNames: [ElasticsearchClientTypes.DomainInfo]? = nil
-    )
-    {
+    ) {
         self.domainNames = domainNames
     }
 }
@@ -5214,8 +5058,7 @@ public struct ListDomainsForPackageInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.packageID = packageID
@@ -5231,8 +5074,7 @@ public struct ListDomainsForPackageOutput: Swift.Sendable {
     public init(
         domainPackageDetailsList: [ElasticsearchClientTypes.DomainPackageDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainPackageDetailsList = domainPackageDetailsList
         self.nextToken = nextToken
     }
@@ -5255,8 +5097,7 @@ public struct ListElasticsearchInstanceTypesInput: Swift.Sendable {
         elasticsearchVersion: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.elasticsearchVersion = elasticsearchVersion
         self.maxResults = maxResults
@@ -5274,8 +5115,7 @@ public struct ListElasticsearchInstanceTypesOutput: Swift.Sendable {
     public init(
         elasticsearchInstanceTypes: [ElasticsearchClientTypes.ESPartitionInstanceType]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.elasticsearchInstanceTypes = elasticsearchInstanceTypes
         self.nextToken = nextToken
     }
@@ -5291,8 +5131,7 @@ public struct ListElasticsearchVersionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5308,8 +5147,7 @@ public struct ListElasticsearchVersionsOutput: Swift.Sendable {
     public init(
         elasticsearchVersions: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.elasticsearchVersions = elasticsearchVersions
         self.nextToken = nextToken
     }
@@ -5329,8 +5167,7 @@ public struct ListPackagesForDomainInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5347,8 +5184,7 @@ public struct ListPackagesForDomainOutput: Swift.Sendable {
     public init(
         domainPackageDetailsList: [ElasticsearchClientTypes.DomainPackageDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainPackageDetailsList = domainPackageDetailsList
         self.nextToken = nextToken
     }
@@ -5362,8 +5198,7 @@ public struct ListTagsInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -5375,8 +5210,7 @@ public struct ListTagsOutput: Swift.Sendable {
 
     public init(
         tagList: [ElasticsearchClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -5392,8 +5226,7 @@ public struct ListVpcEndpointAccessInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.nextToken = nextToken
     }
@@ -5411,8 +5244,7 @@ public struct ListVpcEndpointAccessOutput: Swift.Sendable {
     public init(
         authorizedPrincipalList: [ElasticsearchClientTypes.AuthorizedPrincipal]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizedPrincipalList = authorizedPrincipalList
         self.nextToken = nextToken
     }
@@ -5425,8 +5257,7 @@ public struct ListVpcEndpointsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -5443,8 +5274,7 @@ public struct ListVpcEndpointsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vpcEndpointSummaryList: [ElasticsearchClientTypes.VpcEndpointSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vpcEndpointSummaryList = vpcEndpointSummaryList
     }
@@ -5461,8 +5291,7 @@ public struct ListVpcEndpointsForDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.nextToken = nextToken
     }
@@ -5480,8 +5309,7 @@ public struct ListVpcEndpointsForDomainOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vpcEndpointSummaryList: [ElasticsearchClientTypes.VpcEndpointSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vpcEndpointSummaryList = vpcEndpointSummaryList
     }
@@ -5502,8 +5330,7 @@ public struct PurchaseReservedElasticsearchInstanceOfferingInput: Swift.Sendable
         instanceCount: Swift.Int? = nil,
         reservationName: Swift.String? = nil,
         reservedElasticsearchInstanceOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceCount = instanceCount
         self.reservationName = reservationName
         self.reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingId
@@ -5520,8 +5347,7 @@ public struct PurchaseReservedElasticsearchInstanceOfferingOutput: Swift.Sendabl
     public init(
         reservationName: Swift.String? = nil,
         reservedElasticsearchInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reservationName = reservationName
         self.reservedElasticsearchInstanceId = reservedElasticsearchInstanceId
     }
@@ -5535,8 +5361,7 @@ public struct RejectInboundCrossClusterSearchConnectionInput: Swift.Sendable {
 
     public init(
         crossClusterSearchConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
     }
 }
@@ -5548,8 +5373,7 @@ public struct RejectInboundCrossClusterSearchConnectionOutput: Swift.Sendable {
 
     public init(
         crossClusterSearchConnection: ElasticsearchClientTypes.InboundCrossClusterSearchConnection? = nil
-    )
-    {
+    ) {
         self.crossClusterSearchConnection = crossClusterSearchConnection
     }
 }
@@ -5566,8 +5390,7 @@ public struct RemoveTagsInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -5585,8 +5408,7 @@ public struct RevokeVpcEndpointAccessInput: Swift.Sendable {
     public init(
         account: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.account = account
         self.domainName = domainName
     }
@@ -5606,8 +5428,7 @@ public struct StartElasticsearchServiceSoftwareUpdateInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -5619,8 +5440,7 @@ public struct StartElasticsearchServiceSoftwareUpdateOutput: Swift.Sendable {
 
     public init(
         serviceSoftwareOptions: ElasticsearchClientTypes.ServiceSoftwareOptions? = nil
-    )
-    {
+    ) {
         self.serviceSoftwareOptions = serviceSoftwareOptions
     }
 }
@@ -5675,8 +5495,7 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
         nodeToNodeEncryptionOptions: ElasticsearchClientTypes.NodeToNodeEncryptionOptions? = nil,
         snapshotOptions: ElasticsearchClientTypes.SnapshotOptions? = nil,
         vpcOptions: ElasticsearchClientTypes.VPCOptions? = nil
-    )
-    {
+    ) {
         self.accessPolicies = accessPolicies
         self.advancedOptions = advancedOptions
         self.advancedSecurityOptions = advancedSecurityOptions
@@ -5706,8 +5525,7 @@ extension ElasticsearchClientTypes {
         public init(
             deploymentType: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentType = deploymentType
             self.message = message
         }
@@ -5725,8 +5543,7 @@ public struct UpdateElasticsearchDomainConfigOutput: Swift.Sendable {
     public init(
         domainConfig: ElasticsearchClientTypes.ElasticsearchDomainConfig? = nil,
         dryRunResults: ElasticsearchClientTypes.DryRunResults? = nil
-    )
-    {
+    ) {
         self.domainConfig = domainConfig
         self.dryRunResults = dryRunResults
     }
@@ -5750,8 +5567,7 @@ public struct UpdatePackageInput: Swift.Sendable {
         packageDescription: Swift.String? = nil,
         packageID: Swift.String? = nil,
         packageSource: ElasticsearchClientTypes.PackageSource? = nil
-    )
-    {
+    ) {
         self.commitMessage = commitMessage
         self.packageDescription = packageDescription
         self.packageID = packageID
@@ -5766,8 +5582,7 @@ public struct UpdatePackageOutput: Swift.Sendable {
 
     public init(
         packageDetails: ElasticsearchClientTypes.PackageDetails? = nil
-    )
-    {
+    ) {
         self.packageDetails = packageDetails
     }
 }
@@ -5784,8 +5599,7 @@ public struct UpdateVpcEndpointInput: Swift.Sendable {
     public init(
         vpcEndpointId: Swift.String? = nil,
         vpcOptions: ElasticsearchClientTypes.VPCOptions? = nil
-    )
-    {
+    ) {
         self.vpcEndpointId = vpcEndpointId
         self.vpcOptions = vpcOptions
     }
@@ -5799,8 +5613,7 @@ public struct UpdateVpcEndpointOutput: Swift.Sendable {
 
     public init(
         vpcEndpoint: ElasticsearchClientTypes.VpcEndpoint? = nil
-    )
-    {
+    ) {
         self.vpcEndpoint = vpcEndpoint
     }
 }
@@ -5820,8 +5633,7 @@ public struct UpgradeElasticsearchDomainInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         performCheckOnly: Swift.Bool? = nil,
         targetVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.performCheckOnly = performCheckOnly
         self.targetVersion = targetVersion
@@ -5844,8 +5656,7 @@ public struct UpgradeElasticsearchDomainOutput: Swift.Sendable {
         domainName: Swift.String? = nil,
         performCheckOnly: Swift.Bool? = nil,
         targetVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeProgressDetails = changeProgressDetails
         self.domainName = domainName
         self.performCheckOnly = performCheckOnly

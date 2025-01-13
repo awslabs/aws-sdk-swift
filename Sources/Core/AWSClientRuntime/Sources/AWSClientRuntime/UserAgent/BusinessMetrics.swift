@@ -8,6 +8,7 @@
 import ClientRuntime
 import class Smithy.Context
 import struct Smithy.AttributeKey
+import struct SmithyHTTPAPI.Headers
 
 struct BusinessMetrics {
     // Mapping of human readable feature ID to the corresponding metric value
@@ -15,9 +16,10 @@ struct BusinessMetrics {
 
     init(
         config: UserAgentValuesFromConfig,
-        context: Context
+        context: Context,
+        headers: Headers
     ) {
-        setFlagsIntoContext(config: config, context: context)
+        setFlagsIntoContext(config: config, context: context, headers: headers)
         self.features = context.businessMetrics
     }
 }
@@ -61,7 +63,8 @@ public let businessMetricsKey = AttributeKey<Dictionary<String, String>>(name: "
 
 private func setFlagsIntoContext(
     config: UserAgentValuesFromConfig,
-    context: Context
+    context: Context,
+    headers: Headers
 ) {
     switch config.awsRetryMode {
     case .legacy:
@@ -100,5 +103,9 @@ private func setFlagsIntoContext(
         context.businessMetrics = ["FLEXIBLE_CHECKSUMS_RES_WHEN_SUPPORTED": "b"]
     } else {
         context.businessMetrics = ["FLEXIBLE_CHECKSUMS_RES_WHEN_REQUIRED": "c"]
+    }
+    // Handle M
+    if headers.value(for: "smithy-protocol") == "rpc-v2-cbor" {
+        context.businessMetrics = ["PROTOCOL_RPC_V2_CBOR": "M"]
     }
 }

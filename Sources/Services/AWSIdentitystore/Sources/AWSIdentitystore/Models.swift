@@ -44,8 +44,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -81,8 +80,7 @@ extension IdentitystoreClientTypes {
             region: Swift.String? = nil,
             streetAddress: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.country = country
             self.formatted = formatted
             self.locality = locality
@@ -114,8 +112,7 @@ extension IdentitystoreClientTypes {
         public init(
             id: Swift.String? = nil,
             issuer: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.issuer = issuer
         }
@@ -141,8 +138,7 @@ extension IdentitystoreClientTypes {
         public init(
             attributePath: Swift.String? = nil,
             attributeValue: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.attributePath = attributePath
             self.attributeValue = attributeValue
         }
@@ -174,8 +170,7 @@ extension IdentitystoreClientTypes {
         public init(
             attributePath: Swift.String? = nil,
             attributeValue: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.attributePath = attributePath
             self.attributeValue = attributeValue
         }
@@ -244,8 +239,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         requestId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: IdentitystoreClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
         self.properties.resourceId = resourceId
@@ -274,8 +268,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -292,8 +285,7 @@ public struct GetGroupIdInput: Swift.Sendable {
     public init(
         alternateIdentifier: IdentitystoreClientTypes.AlternateIdentifier? = nil,
         identityStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alternateIdentifier = alternateIdentifier
         self.identityStoreId = identityStoreId
     }
@@ -310,8 +302,7 @@ public struct GetGroupIdOutput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         identityStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.identityStoreId = identityStoreId
     }
@@ -342,8 +333,7 @@ public struct GetGroupMembershipIdInput: Swift.Sendable {
         groupId: Swift.String? = nil,
         identityStoreId: Swift.String? = nil,
         memberId: IdentitystoreClientTypes.MemberId? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.identityStoreId = identityStoreId
         self.memberId = memberId
@@ -361,8 +351,7 @@ public struct GetGroupMembershipIdOutput: Swift.Sendable {
     public init(
         identityStoreId: Swift.String? = nil,
         membershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityStoreId = identityStoreId
         self.membershipId = membershipId
     }
@@ -379,8 +368,7 @@ public struct GetUserIdInput: Swift.Sendable {
     public init(
         alternateIdentifier: IdentitystoreClientTypes.AlternateIdentifier? = nil,
         identityStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alternateIdentifier = alternateIdentifier
         self.identityStoreId = identityStoreId
     }
@@ -397,8 +385,7 @@ public struct GetUserIdOutput: Swift.Sendable {
     public init(
         identityStoreId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityStoreId = identityStoreId
         self.userId = userId
     }
@@ -465,8 +452,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         reason: IdentitystoreClientTypes.ConflictExceptionReason? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
         self.properties.requestId = requestId
@@ -494,8 +480,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -516,8 +501,7 @@ public struct CreateGroupMembershipInput: Swift.Sendable {
         groupId: Swift.String? = nil,
         identityStoreId: Swift.String? = nil,
         memberId: IdentitystoreClientTypes.MemberId? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.identityStoreId = identityStoreId
         self.memberId = memberId
@@ -535,8 +519,7 @@ public struct CreateGroupMembershipOutput: Swift.Sendable {
     public init(
         identityStoreId: Swift.String? = nil,
         membershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityStoreId = identityStoreId
         self.membershipId = membershipId
     }
@@ -553,8 +536,7 @@ public struct DeleteGroupMembershipInput: Swift.Sendable {
     public init(
         identityStoreId: Swift.String? = nil,
         membershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityStoreId = identityStoreId
         self.membershipId = membershipId
     }
@@ -576,8 +558,7 @@ public struct DescribeGroupMembershipInput: Swift.Sendable {
     public init(
         identityStoreId: Swift.String? = nil,
         membershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityStoreId = identityStoreId
         self.membershipId = membershipId
     }
@@ -602,8 +583,7 @@ public struct DescribeGroupMembershipOutput: Swift.Sendable {
         identityStoreId: Swift.String? = nil,
         memberId: IdentitystoreClientTypes.MemberId? = nil,
         membershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.identityStoreId = identityStoreId
         self.memberId = memberId
@@ -628,8 +608,7 @@ public struct ListGroupMembershipsInput: Swift.Sendable {
         identityStoreId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.identityStoreId = identityStoreId
         self.maxResults = maxResults
@@ -656,8 +635,7 @@ extension IdentitystoreClientTypes {
             identityStoreId: Swift.String? = nil,
             memberId: IdentitystoreClientTypes.MemberId? = nil,
             membershipId: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
             self.memberId = memberId
@@ -676,8 +654,7 @@ public struct ListGroupMembershipsOutput: Swift.Sendable {
     public init(
         groupMemberships: [IdentitystoreClientTypes.GroupMembership]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupMemberships = groupMemberships
         self.nextToken = nextToken
     }
@@ -696,8 +673,7 @@ public struct CreateGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         identityStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.identityStoreId = identityStoreId
@@ -720,8 +696,7 @@ public struct CreateGroupOutput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         identityStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.identityStoreId = identityStoreId
     }
@@ -738,8 +713,7 @@ public struct DeleteGroupInput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         identityStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.identityStoreId = identityStoreId
     }
@@ -761,8 +735,7 @@ public struct DescribeGroupInput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         identityStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.identityStoreId = identityStoreId
     }
@@ -788,8 +761,7 @@ public struct DescribeGroupOutput: Swift.Sendable {
         externalIds: [IdentitystoreClientTypes.ExternalId]? = nil,
         groupId: Swift.String? = nil,
         identityStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.externalIds = externalIds
@@ -817,8 +789,7 @@ extension IdentitystoreClientTypes {
         public init(
             attributePath: Swift.String? = nil,
             attributeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributePath = attributePath
             self.attributeValue = attributeValue
         }
@@ -847,8 +818,7 @@ public struct ListGroupsInput: Swift.Sendable {
         identityStoreId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.identityStoreId = identityStoreId
         self.maxResults = maxResults
@@ -879,8 +849,7 @@ extension IdentitystoreClientTypes {
             externalIds: [IdentitystoreClientTypes.ExternalId]? = nil,
             groupId: Swift.String? = nil,
             identityStoreId: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.displayName = displayName
             self.externalIds = externalIds
@@ -905,8 +874,7 @@ public struct ListGroupsOutput: Swift.Sendable {
     public init(
         groups: [IdentitystoreClientTypes.Group]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.nextToken = nextToken
     }
@@ -927,8 +895,7 @@ public struct UpdateGroupInput: Swift.Sendable {
         groupId: Swift.String? = nil,
         identityStoreId: Swift.String? = nil,
         operations: [IdentitystoreClientTypes.AttributeOperation]? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.identityStoreId = identityStoreId
         self.operations = operations
@@ -964,8 +931,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
         message: Swift.String? = nil,
         requestId: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -987,8 +953,7 @@ public struct IsMemberInGroupsInput: Swift.Sendable {
         groupIds: [Swift.String]? = nil,
         identityStoreId: Swift.String? = nil,
         memberId: IdentitystoreClientTypes.MemberId? = nil
-    )
-    {
+    ) {
         self.groupIds = groupIds
         self.identityStoreId = identityStoreId
         self.memberId = memberId
@@ -1010,8 +975,7 @@ extension IdentitystoreClientTypes {
             groupId: Swift.String? = nil,
             memberId: IdentitystoreClientTypes.MemberId? = nil,
             membershipExists: Swift.Bool = false
-        )
-        {
+        ) {
             self.groupId = groupId
             self.memberId = memberId
             self.membershipExists = membershipExists
@@ -1031,8 +995,7 @@ public struct IsMemberInGroupsOutput: Swift.Sendable {
 
     public init(
         results: [IdentitystoreClientTypes.GroupMembershipExistenceResult]? = nil
-    )
-    {
+    ) {
         self.results = results
     }
 }
@@ -1054,8 +1017,7 @@ public struct ListGroupMembershipsForMemberInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         memberId: IdentitystoreClientTypes.MemberId? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityStoreId = identityStoreId
         self.maxResults = maxResults
         self.memberId = memberId
@@ -1073,8 +1035,7 @@ public struct ListGroupMembershipsForMemberOutput: Swift.Sendable {
     public init(
         groupMemberships: [IdentitystoreClientTypes.GroupMembership]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupMemberships = groupMemberships
         self.nextToken = nextToken
     }
@@ -1104,8 +1065,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         requestId: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -1127,8 +1087,7 @@ extension IdentitystoreClientTypes {
             primary: Swift.Bool = false,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.primary = primary
             self.type = type
             self.value = value
@@ -1165,8 +1124,7 @@ extension IdentitystoreClientTypes {
             honorificPrefix: Swift.String? = nil,
             honorificSuffix: Swift.String? = nil,
             middleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.familyName = familyName
             self.formatted = formatted
             self.givenName = givenName
@@ -1197,8 +1155,7 @@ extension IdentitystoreClientTypes {
             primary: Swift.Bool = false,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.primary = primary
             self.type = type
             self.value = value
@@ -1257,8 +1214,7 @@ public struct CreateUserInput: Swift.Sendable {
         title: Swift.String? = nil,
         userName: Swift.String? = nil,
         userType: Swift.String? = nil
-    )
-    {
+    ) {
         self.addresses = addresses
         self.displayName = displayName
         self.emails = emails
@@ -1292,8 +1248,7 @@ public struct CreateUserOutput: Swift.Sendable {
     public init(
         identityStoreId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityStoreId = identityStoreId
         self.userId = userId
     }
@@ -1310,8 +1265,7 @@ public struct DeleteUserInput: Swift.Sendable {
     public init(
         identityStoreId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityStoreId = identityStoreId
         self.userId = userId
     }
@@ -1333,8 +1287,7 @@ public struct DescribeUserInput: Swift.Sendable {
     public init(
         identityStoreId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityStoreId = identityStoreId
         self.userId = userId
     }
@@ -1393,8 +1346,7 @@ public struct DescribeUserOutput: Swift.Sendable {
         userId: Swift.String? = nil,
         userName: Swift.String? = nil,
         userType: Swift.String? = nil
-    )
-    {
+    ) {
         self.addresses = addresses
         self.displayName = displayName
         self.emails = emails
@@ -1436,8 +1388,7 @@ public struct ListUsersInput: Swift.Sendable {
         identityStoreId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.identityStoreId = identityStoreId
         self.maxResults = maxResults
@@ -1501,8 +1452,7 @@ extension IdentitystoreClientTypes {
             userId: Swift.String? = nil,
             userName: Swift.String? = nil,
             userType: Swift.String? = nil
-        )
-        {
+        ) {
             self.addresses = addresses
             self.displayName = displayName
             self.emails = emails
@@ -1538,8 +1488,7 @@ public struct ListUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         users: [IdentitystoreClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.users = users
     }
@@ -1560,8 +1509,7 @@ public struct UpdateUserInput: Swift.Sendable {
         identityStoreId: Swift.String? = nil,
         operations: [IdentitystoreClientTypes.AttributeOperation]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityStoreId = identityStoreId
         self.operations = operations
         self.userId = userId

@@ -15,8 +15,8 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.106.0"
-let crtVersion: Version = "0.40.0"
+let clientRuntimeVersion: Version = "0.109.0"
+let crtVersion: Version = "0.43.0"
 
 let excludeRuntimeUnitTests = false
 
@@ -202,8 +202,6 @@ let serviceTargets: [String] = [
     "AWSInternetMonitor",
     "AWSInvoicing",
     "AWSIoT",
-    "AWSIoT1ClickDevicesService",
-    "AWSIoT1ClickProjects",
     "AWSIoTAnalytics",
     "AWSIoTDataPlane",
     "AWSIoTEvents",

@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -78,8 +77,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -105,8 +103,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -139,8 +136,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -169,8 +165,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -190,8 +185,7 @@ extension DocDBElasticClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -260,8 +254,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [DocDBElasticClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: DocDBElasticClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -331,8 +324,7 @@ public struct ApplyPendingMaintenanceActionInput: Swift.Sendable {
         applyOn: Swift.String? = nil,
         optInType: DocDBElasticClientTypes.OptInType? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyAction = applyAction
         self.applyOn = applyOn
         self.optInType = optInType
@@ -365,8 +357,7 @@ extension DocDBElasticClientTypes {
             description: Swift.String? = nil,
             forcedApplyDate: Swift.String? = nil,
             optInStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
             self.currentApplyDate = currentApplyDate
@@ -389,8 +380,7 @@ extension DocDBElasticClientTypes {
         public init(
             pendingMaintenanceActionDetails: [DocDBElasticClientTypes.PendingMaintenanceActionDetails]? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
             self.resourceArn = resourceArn
         }
@@ -404,8 +394,7 @@ public struct ApplyPendingMaintenanceActionOutput: Swift.Sendable {
 
     public init(
         resourcePendingMaintenanceAction: DocDBElasticClientTypes.ResourcePendingMaintenanceAction? = nil
-    )
-    {
+    ) {
         self.resourcePendingMaintenanceAction = resourcePendingMaintenanceAction
     }
 }
@@ -458,8 +447,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -493,8 +481,7 @@ public struct CopyClusterSnapshotInput: Swift.Sendable {
         snapshotArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.copyTags = copyTags
         self.kmsKeyId = kmsKeyId
         self.snapshotArn = snapshotArn
@@ -671,8 +658,7 @@ extension DocDBElasticClientTypes {
             status: DocDBElasticClientTypes.Status? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.adminUserName = adminUserName
             self.clusterArn = clusterArn
             self.clusterCreationTime = clusterCreationTime
@@ -695,8 +681,7 @@ public struct CopyClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: DocDBElasticClientTypes.ClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -774,8 +759,7 @@ public struct CreateClusterInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.adminUserName = adminUserName
         self.adminUserPassword = adminUserPassword
         self.authType = authType
@@ -817,8 +801,7 @@ extension DocDBElasticClientTypes {
             createTime: Swift.String? = nil,
             shardId: Swift.String? = nil,
             status: DocDBElasticClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.shardId = shardId
             self.status = status
@@ -896,8 +879,7 @@ extension DocDBElasticClientTypes {
             status: DocDBElasticClientTypes.Status? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.adminUserName = adminUserName
             self.authType = authType
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -926,8 +908,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: DocDBElasticClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -946,8 +927,7 @@ public struct CreateClusterSnapshotInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         snapshotName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.snapshotName = snapshotName
         self.tags = tags
@@ -961,8 +941,7 @@ public struct CreateClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: DocDBElasticClientTypes.ClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -974,8 +953,7 @@ public struct DeleteClusterInput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -987,8 +965,7 @@ public struct DeleteClusterOutput: Swift.Sendable {
 
     public init(
         cluster: DocDBElasticClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1000,8 +977,7 @@ public struct DeleteClusterSnapshotInput: Swift.Sendable {
 
     public init(
         snapshotArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotArn = snapshotArn
     }
 }
@@ -1013,8 +989,7 @@ public struct DeleteClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: DocDBElasticClientTypes.ClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -1026,8 +1001,7 @@ public struct GetClusterInput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -1039,8 +1013,7 @@ public struct GetClusterOutput: Swift.Sendable {
 
     public init(
         cluster: DocDBElasticClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1052,8 +1025,7 @@ public struct GetClusterSnapshotInput: Swift.Sendable {
 
     public init(
         snapshotArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotArn = snapshotArn
     }
 }
@@ -1065,8 +1037,7 @@ public struct GetClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: DocDBElasticClientTypes.ClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -1078,8 +1049,7 @@ public struct GetPendingMaintenanceActionInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1091,8 +1061,7 @@ public struct GetPendingMaintenanceActionOutput: Swift.Sendable {
 
     public init(
         resourcePendingMaintenanceAction: DocDBElasticClientTypes.ResourcePendingMaintenanceAction? = nil
-    )
-    {
+    ) {
         self.resourcePendingMaintenanceAction = resourcePendingMaintenanceAction
     }
 }
@@ -1106,8 +1075,7 @@ public struct ListClustersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1131,8 +1099,7 @@ extension DocDBElasticClientTypes {
             clusterArn: Swift.String? = nil,
             clusterName: Swift.String? = nil,
             status: DocDBElasticClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
             self.status = status
@@ -1149,8 +1116,7 @@ public struct ListClustersOutput: Swift.Sendable {
     public init(
         clusters: [DocDBElasticClientTypes.ClusterInList]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.nextToken = nextToken
     }
@@ -1175,8 +1141,7 @@ public struct ListClusterSnapshotsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         snapshotType: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1210,8 +1175,7 @@ extension DocDBElasticClientTypes {
             snapshotCreationTime: Swift.String? = nil,
             snapshotName: Swift.String? = nil,
             status: DocDBElasticClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.snapshotArn = snapshotArn
             self.snapshotCreationTime = snapshotCreationTime
@@ -1230,8 +1194,7 @@ public struct ListClusterSnapshotsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         snapshots: [DocDBElasticClientTypes.ClusterSnapshotInList]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.snapshots = snapshots
     }
@@ -1246,8 +1209,7 @@ public struct ListPendingMaintenanceActionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1263,8 +1225,7 @@ public struct ListPendingMaintenanceActionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourcePendingMaintenanceActions: [DocDBElasticClientTypes.ResourcePendingMaintenanceAction]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
     }
@@ -1277,8 +1238,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1289,8 +1249,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1324,8 +1283,7 @@ public struct RestoreClusterFromSnapshotInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.kmsKeyId = kmsKeyId
         self.shardCapacity = shardCapacity
@@ -1344,8 +1302,7 @@ public struct RestoreClusterFromSnapshotOutput: Swift.Sendable {
 
     public init(
         cluster: DocDBElasticClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1357,8 +1314,7 @@ public struct StartClusterInput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -1370,8 +1326,7 @@ public struct StartClusterOutput: Swift.Sendable {
 
     public init(
         cluster: DocDBElasticClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1383,8 +1338,7 @@ public struct StopClusterInput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -1396,8 +1350,7 @@ public struct StopClusterOutput: Swift.Sendable {
 
     public init(
         cluster: DocDBElasticClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1413,8 +1366,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1436,8 +1388,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1488,8 +1439,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         shardInstanceCount: Swift.Int? = nil,
         subnetIds: [Swift.String]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.adminUserPassword = adminUserPassword
         self.authType = authType
         self.backupRetentionPeriod = backupRetentionPeriod
@@ -1517,8 +1467,7 @@ public struct UpdateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: DocDBElasticClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }

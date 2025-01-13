@@ -49,8 +49,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -95,8 +94,7 @@ extension LocationClientTypes {
 
         public init(
             keyStatus: LocationClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.keyStatus = keyStatus
         }
     }
@@ -121,8 +119,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -146,8 +143,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -172,8 +168,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -197,8 +192,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -217,8 +211,7 @@ extension LocationClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -295,8 +288,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [LocationClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: LocationClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -371,8 +363,7 @@ extension LocationClientTypes {
             allowActions: [Swift.String]? = nil,
             allowReferers: [Swift.String]? = nil,
             allowResources: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowActions = allowActions
             self.allowReferers = allowReferers
             self.allowResources = allowResources
@@ -421,8 +412,7 @@ public struct CreateKeyInput: Swift.Sendable {
         noExpiry: Swift.Bool? = nil,
         restrictions: LocationClientTypes.ApiKeyRestrictions? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.expireTime = expireTime
         self.keyName = keyName
@@ -453,8 +443,7 @@ public struct CreateKeyOutput: Swift.Sendable {
         key: Swift.String? = nil,
         keyArn: Swift.String? = nil,
         keyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.key = key
         self.keyArn = keyArn
@@ -486,8 +475,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -502,8 +490,7 @@ public struct DeleteKeyInput: Swift.Sendable {
     public init(
         forceDelete: Swift.Bool? = nil,
         keyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.forceDelete = forceDelete
         self.keyName = keyName
     }
@@ -521,8 +508,7 @@ public struct DescribeKeyInput: Swift.Sendable {
 
     public init(
         keyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyName = keyName
     }
 }
@@ -566,8 +552,7 @@ public struct DescribeKeyOutput: Swift.Sendable {
         restrictions: LocationClientTypes.ApiKeyRestrictions? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.description = description
         self.expireTime = expireTime
@@ -597,8 +582,7 @@ public struct ListKeysInput: Swift.Sendable {
         filter: LocationClientTypes.ApiKeyFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -634,8 +618,7 @@ extension LocationClientTypes {
             keyName: Swift.String? = nil,
             restrictions: LocationClientTypes.ApiKeyRestrictions? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.description = description
             self.expireTime = expireTime
@@ -656,8 +639,7 @@ public struct ListKeysOutput: Swift.Sendable {
     public init(
         entries: [LocationClientTypes.ListKeysResponseEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.nextToken = nextToken
     }
@@ -685,8 +667,7 @@ public struct UpdateKeyInput: Swift.Sendable {
         keyName: Swift.String? = nil,
         noExpiry: Swift.Bool? = nil,
         restrictions: LocationClientTypes.ApiKeyRestrictions? = nil
-    )
-    {
+    ) {
         self.description = description
         self.expireTime = expireTime
         self.forceUpdate = forceUpdate
@@ -713,8 +694,7 @@ public struct UpdateKeyOutput: Swift.Sendable {
         keyArn: Swift.String? = nil,
         keyName: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.keyArn = keyArn
         self.keyName = keyName
         self.updateTime = updateTime
@@ -734,8 +714,7 @@ public struct AssociateTrackerConsumerInput: Swift.Sendable {
     public init(
         consumerArn: Swift.String? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumerArn = consumerArn
         self.trackerName = trackerName
     }
@@ -759,8 +738,7 @@ public struct BatchDeleteDevicePositionHistoryInput: Swift.Sendable {
     public init(
         deviceIds: [Swift.String]? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceIds = deviceIds
         self.trackerName = trackerName
     }
@@ -825,8 +803,7 @@ extension LocationClientTypes {
         public init(
             code: LocationClientTypes.BatchItemErrorCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -847,8 +824,7 @@ extension LocationClientTypes {
         public init(
             deviceId: Swift.String? = nil,
             error: LocationClientTypes.BatchItemError? = nil
-        )
-        {
+        ) {
             self.deviceId = deviceId
             self.error = error
         }
@@ -862,8 +838,7 @@ public struct BatchDeleteDevicePositionHistoryOutput: Swift.Sendable {
 
     public init(
         errors: [LocationClientTypes.BatchDeleteDevicePositionHistoryError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -879,8 +854,7 @@ public struct BatchDeleteGeofenceInput: Swift.Sendable {
     public init(
         collectionName: Swift.String? = nil,
         geofenceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.collectionName = collectionName
         self.geofenceIds = geofenceIds
     }
@@ -900,8 +874,7 @@ extension LocationClientTypes {
         public init(
             error: LocationClientTypes.BatchItemError? = nil,
             geofenceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.error = error
             self.geofenceId = geofenceId
         }
@@ -915,8 +888,7 @@ public struct BatchDeleteGeofenceOutput: Swift.Sendable {
 
     public init(
         errors: [LocationClientTypes.BatchDeleteGeofenceError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -931,8 +903,7 @@ extension LocationClientTypes {
 
         public init(
             horizontal: Swift.Double? = nil
-        )
-        {
+        ) {
             self.horizontal = horizontal
         }
     }
@@ -962,8 +933,7 @@ extension LocationClientTypes {
             position: [Swift.Double]? = nil,
             positionProperties: [Swift.String: Swift.String]? = nil,
             sampleTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accuracy = accuracy
             self.deviceId = deviceId
             self.position = position
@@ -989,8 +959,7 @@ public struct BatchEvaluateGeofencesInput: Swift.Sendable {
     public init(
         collectionName: Swift.String? = nil,
         devicePositionUpdates: [LocationClientTypes.DevicePositionUpdate]? = nil
-    )
-    {
+    ) {
         self.collectionName = collectionName
         self.devicePositionUpdates = devicePositionUpdates
     }
@@ -1014,8 +983,7 @@ extension LocationClientTypes {
             deviceId: Swift.String? = nil,
             error: LocationClientTypes.BatchItemError? = nil,
             sampleTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.deviceId = deviceId
             self.error = error
             self.sampleTime = sampleTime
@@ -1030,8 +998,7 @@ public struct BatchEvaluateGeofencesOutput: Swift.Sendable {
 
     public init(
         errors: [LocationClientTypes.BatchEvaluateGeofencesError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1049,8 +1016,7 @@ public struct BatchGetDevicePositionInput: Swift.Sendable {
     public init(
         deviceIds: [Swift.String]? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceIds = deviceIds
         self.trackerName = trackerName
     }
@@ -1083,8 +1049,7 @@ extension LocationClientTypes {
             positionProperties: [Swift.String: Swift.String]? = nil,
             receivedTime: Foundation.Date? = nil,
             sampleTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accuracy = accuracy
             self.deviceId = deviceId
             self.position = position
@@ -1114,8 +1079,7 @@ extension LocationClientTypes {
         public init(
             deviceId: Swift.String? = nil,
             error: LocationClientTypes.BatchItemError? = nil
-        )
-        {
+        ) {
             self.deviceId = deviceId
             self.error = error
         }
@@ -1133,8 +1097,7 @@ public struct BatchGetDevicePositionOutput: Swift.Sendable {
     public init(
         devicePositions: [LocationClientTypes.DevicePosition]? = nil,
         errors: [LocationClientTypes.BatchGetDevicePositionError]? = nil
-    )
-    {
+    ) {
         self.devicePositions = devicePositions
         self.errors = errors
     }
@@ -1154,8 +1117,7 @@ extension LocationClientTypes {
         public init(
             center: [Swift.Double]? = nil,
             radius: Swift.Double? = nil
-        )
-        {
+        ) {
             self.center = center
             self.radius = radius
         }
@@ -1183,8 +1145,7 @@ extension LocationClientTypes {
             circle: LocationClientTypes.Circle? = nil,
             geobuf: Foundation.Data? = nil,
             polygon: [[[Swift.Double]]]? = nil
-        )
-        {
+        ) {
             self.circle = circle
             self.geobuf = geobuf
             self.polygon = polygon
@@ -1214,8 +1175,7 @@ extension LocationClientTypes {
             geofenceId: Swift.String? = nil,
             geofenceProperties: [Swift.String: Swift.String]? = nil,
             geometry: LocationClientTypes.GeofenceGeometry? = nil
-        )
-        {
+        ) {
             self.geofenceId = geofenceId
             self.geofenceProperties = geofenceProperties
             self.geometry = geometry
@@ -1239,8 +1199,7 @@ public struct BatchPutGeofenceInput: Swift.Sendable {
     public init(
         collectionName: Swift.String? = nil,
         entries: [LocationClientTypes.BatchPutGeofenceRequestEntry]? = nil
-    )
-    {
+    ) {
         self.collectionName = collectionName
         self.entries = entries
     }
@@ -1260,8 +1219,7 @@ extension LocationClientTypes {
         public init(
             error: LocationClientTypes.BatchItemError? = nil,
             geofenceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.error = error
             self.geofenceId = geofenceId
         }
@@ -1286,8 +1244,7 @@ extension LocationClientTypes {
             createTime: Foundation.Date? = nil,
             geofenceId: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.geofenceId = geofenceId
             self.updateTime = updateTime
@@ -1306,8 +1263,7 @@ public struct BatchPutGeofenceOutput: Swift.Sendable {
     public init(
         errors: [LocationClientTypes.BatchPutGeofenceError]? = nil,
         successes: [LocationClientTypes.BatchPutGeofenceSuccess]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.successes = successes
     }
@@ -1324,8 +1280,7 @@ public struct BatchUpdateDevicePositionInput: Swift.Sendable {
     public init(
         trackerName: Swift.String? = nil,
         updates: [LocationClientTypes.DevicePositionUpdate]? = nil
-    )
-    {
+    ) {
         self.trackerName = trackerName
         self.updates = updates
     }
@@ -1349,8 +1304,7 @@ extension LocationClientTypes {
             deviceId: Swift.String? = nil,
             error: LocationClientTypes.BatchItemError? = nil,
             sampleTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.deviceId = deviceId
             self.error = error
             self.sampleTime = sampleTime
@@ -1365,8 +1319,7 @@ public struct BatchUpdateDevicePositionOutput: Swift.Sendable {
 
     public init(
         errors: [LocationClientTypes.BatchUpdateDevicePositionError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1383,8 +1336,7 @@ extension LocationClientTypes {
         public init(
             avoidFerries: Swift.Bool? = nil,
             avoidTolls: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.avoidFerries = avoidFerries
             self.avoidTolls = avoidTolls
         }
@@ -1549,8 +1501,7 @@ extension LocationClientTypes {
             length: Swift.Double? = nil,
             unit: LocationClientTypes.DimensionUnit? = nil,
             width: Swift.Double? = nil
-        )
-        {
+        ) {
             self.height = height
             self.length = length
             self.unit = unit
@@ -1602,8 +1553,7 @@ extension LocationClientTypes {
         public init(
             total: Swift.Double? = nil,
             unit: LocationClientTypes.VehicleWeightUnit? = nil
-        )
-        {
+        ) {
             self.total = total
             self.unit = unit
         }
@@ -1628,8 +1578,7 @@ extension LocationClientTypes {
             avoidTolls: Swift.Bool? = nil,
             dimensions: LocationClientTypes.TruckDimensions? = nil,
             weight: LocationClientTypes.TruckWeight? = nil
-        )
-        {
+        ) {
             self.avoidFerries = avoidFerries
             self.avoidTolls = avoidTolls
             self.dimensions = dimensions
@@ -1710,8 +1659,7 @@ public struct CalculateRouteInput: Swift.Sendable {
         travelMode: LocationClientTypes.TravelMode? = nil,
         truckModeOptions: LocationClientTypes.CalculateRouteTruckModeOptions? = nil,
         waypointPositions: [[Swift.Double]]? = nil
-    )
-    {
+    ) {
         self.arrivalTime = arrivalTime
         self.calculatorName = calculatorName
         self.carModeOptions = carModeOptions
@@ -1745,8 +1693,7 @@ extension LocationClientTypes {
 
         public init(
             lineString: [[Swift.Double]]? = nil
-        )
-        {
+        ) {
             self.lineString = lineString
         }
     }
@@ -1782,8 +1729,7 @@ extension LocationClientTypes {
             endPosition: [Swift.Double]? = nil,
             geometryOffset: Swift.Int? = nil,
             startPosition: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.distance = distance
             self.durationSeconds = durationSeconds
             self.endPosition = endPosition
@@ -1840,8 +1786,7 @@ extension LocationClientTypes {
             geometry: LocationClientTypes.LegGeometry? = nil,
             startPosition: [Swift.Double]? = nil,
             steps: [LocationClientTypes.Step]? = nil
-        )
-        {
+        ) {
             self.distance = distance
             self.durationSeconds = durationSeconds
             self.endPosition = endPosition
@@ -1903,8 +1848,7 @@ extension LocationClientTypes {
             distanceUnit: LocationClientTypes.DistanceUnit? = nil,
             durationSeconds: Swift.Double? = nil,
             routeBBox: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.distance = distance
             self.distanceUnit = distanceUnit
@@ -1942,8 +1886,7 @@ public struct CalculateRouteOutput: Swift.Sendable {
     public init(
         legs: [LocationClientTypes.Leg]? = nil,
         summary: LocationClientTypes.CalculateRouteSummary? = nil
-    )
-    {
+    ) {
         self.legs = legs
         self.summary = summary
     }
@@ -1994,8 +1937,7 @@ public struct CalculateRouteMatrixInput: Swift.Sendable {
         key: Swift.String? = nil,
         travelMode: LocationClientTypes.TravelMode? = nil,
         truckModeOptions: LocationClientTypes.CalculateRouteTruckModeOptions? = nil
-    )
-    {
+    ) {
         self.calculatorName = calculatorName
         self.carModeOptions = carModeOptions
         self.departNow = departNow
@@ -2095,8 +2037,7 @@ extension LocationClientTypes {
         public init(
             code: LocationClientTypes.RouteMatrixErrorCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -2118,8 +2059,7 @@ extension LocationClientTypes {
             distance: Swift.Double? = nil,
             durationSeconds: Swift.Double? = nil,
             error: LocationClientTypes.RouteMatrixEntryError? = nil
-        )
-        {
+        ) {
             self.distance = distance
             self.durationSeconds = durationSeconds
             self.error = error
@@ -2158,8 +2098,7 @@ extension LocationClientTypes {
             distanceUnit: LocationClientTypes.DistanceUnit? = nil,
             errorCount: Swift.Int? = nil,
             routeCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.distanceUnit = distanceUnit
             self.errorCount = errorCount
@@ -2186,8 +2125,7 @@ public struct CalculateRouteMatrixOutput: Swift.Sendable {
         snappedDeparturePositions: [[Swift.Double]]? = nil,
         snappedDestinationPositions: [[Swift.Double]]? = nil,
         summary: LocationClientTypes.CalculateRouteMatrixSummary? = nil
-    )
-    {
+    ) {
         self.routeMatrix = routeMatrix
         self.snappedDeparturePositions = snappedDeparturePositions
         self.snappedDestinationPositions = snappedDestinationPositions
@@ -2214,8 +2152,7 @@ extension LocationClientTypes {
         public init(
             earfcn: Swift.Int = 0,
             pci: Swift.Int = 0
-        )
-        {
+        ) {
             self.earfcn = earfcn
             self.pci = pci
         }
@@ -2246,8 +2183,7 @@ extension LocationClientTypes {
             pci: Swift.Int = 0,
             rsrp: Swift.Int? = nil,
             rsrq: Swift.Float? = nil
-        )
-        {
+        ) {
             self.cellId = cellId
             self.earfcn = earfcn
             self.pci = pci
@@ -2296,8 +2232,7 @@ extension LocationClientTypes {
             rsrq: Swift.Float? = nil,
             tac: Swift.Int? = nil,
             timingAdvance: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cellId = cellId
             self.localId = localId
             self.mcc = mcc
@@ -2322,8 +2257,7 @@ extension LocationClientTypes {
 
         public init(
             lteCellDetails: [LocationClientTypes.LteCellDetails]? = nil
-        )
-        {
+        ) {
             self.lteCellDetails = lteCellDetails
         }
     }
@@ -2363,8 +2297,7 @@ public struct CreateGeofenceCollectionInput: Swift.Sendable {
         description: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.collectionName = collectionName
         self.description = description
         self.kmsKeyId = kmsKeyId
@@ -2389,8 +2322,7 @@ public struct CreateGeofenceCollectionOutput: Swift.Sendable {
         collectionArn: Swift.String? = nil,
         collectionName: Swift.String? = nil,
         createTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.collectionArn = collectionArn
         self.collectionName = collectionName
         self.createTime = createTime
@@ -2456,8 +2388,7 @@ extension LocationClientTypes {
             customLayers: [Swift.String]? = nil,
             politicalView: Swift.String? = nil,
             style: Swift.String? = nil
-        )
-        {
+        ) {
             self.customLayers = customLayers
             self.politicalView = politicalView
             self.style = style
@@ -2500,8 +2431,7 @@ public struct CreateMapInput: Swift.Sendable {
         description: Swift.String? = nil,
         mapName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.description = description
         self.mapName = mapName
@@ -2526,8 +2456,7 @@ public struct CreateMapOutput: Swift.Sendable {
         createTime: Foundation.Date? = nil,
         mapArn: Swift.String? = nil,
         mapName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.mapArn = mapArn
         self.mapName = mapName
@@ -2588,8 +2517,7 @@ extension LocationClientTypes {
 
         public init(
             intendedUse: LocationClientTypes.IntendedUse? = nil
-        )
-        {
+        ) {
             self.intendedUse = intendedUse
         }
     }
@@ -2642,8 +2570,7 @@ public struct CreatePlaceIndexInput: Swift.Sendable {
         description: Swift.String? = nil,
         indexName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.dataSource = dataSource
         self.dataSourceConfiguration = dataSourceConfiguration
         self.description = description
@@ -2669,8 +2596,7 @@ public struct CreatePlaceIndexOutput: Swift.Sendable {
         createTime: Foundation.Date? = nil,
         indexArn: Swift.String? = nil,
         indexName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.indexArn = indexArn
         self.indexName = indexName
@@ -2726,8 +2652,7 @@ public struct CreateRouteCalculatorInput: Swift.Sendable {
         dataSource: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.calculatorName = calculatorName
         self.dataSource = dataSource
         self.description = description
@@ -2756,8 +2681,7 @@ public struct CreateRouteCalculatorOutput: Swift.Sendable {
         calculatorArn: Swift.String? = nil,
         calculatorName: Swift.String? = nil,
         createTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.calculatorArn = calculatorArn
         self.calculatorName = calculatorName
         self.createTime = createTime
@@ -2851,8 +2775,7 @@ public struct CreateTrackerInput: Swift.Sendable {
         positionFiltering: LocationClientTypes.PositionFiltering? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventBridgeEnabled = eventBridgeEnabled
         self.kmsKeyEnableGeospatialQueries = kmsKeyEnableGeospatialQueries
@@ -2880,8 +2803,7 @@ public struct CreateTrackerOutput: Swift.Sendable {
         createTime: Foundation.Date? = nil,
         trackerArn: Swift.String? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.trackerArn = trackerArn
         self.trackerName = trackerName
@@ -2895,8 +2817,7 @@ public struct DeleteGeofenceCollectionInput: Swift.Sendable {
 
     public init(
         collectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionName = collectionName
     }
 }
@@ -2913,8 +2834,7 @@ public struct DeleteMapInput: Swift.Sendable {
 
     public init(
         mapName: Swift.String? = nil
-    )
-    {
+    ) {
         self.mapName = mapName
     }
 }
@@ -2931,8 +2851,7 @@ public struct DeletePlaceIndexInput: Swift.Sendable {
 
     public init(
         indexName: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexName = indexName
     }
 }
@@ -2949,8 +2868,7 @@ public struct DeleteRouteCalculatorInput: Swift.Sendable {
 
     public init(
         calculatorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatorName = calculatorName
     }
 }
@@ -2967,8 +2885,7 @@ public struct DeleteTrackerInput: Swift.Sendable {
 
     public init(
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackerName = trackerName
     }
 }
@@ -2985,8 +2902,7 @@ public struct DescribeGeofenceCollectionInput: Swift.Sendable {
 
     public init(
         collectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionName = collectionName
     }
 }
@@ -3025,8 +2941,7 @@ public struct DescribeGeofenceCollectionOutput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.collectionArn = collectionArn
         self.collectionName = collectionName
         self.createTime = createTime
@@ -3045,8 +2960,7 @@ public struct DescribeMapInput: Swift.Sendable {
 
     public init(
         mapName: Swift.String? = nil
-    )
-    {
+    ) {
         self.mapName = mapName
     }
 }
@@ -3087,8 +3001,7 @@ public struct DescribeMapOutput: Swift.Sendable {
         mapName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.createTime = createTime
         self.dataSource = dataSource
@@ -3107,8 +3020,7 @@ public struct DescribePlaceIndexInput: Swift.Sendable {
 
     public init(
         indexName: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexName = indexName
     }
 }
@@ -3158,8 +3070,7 @@ public struct DescribePlaceIndexOutput: Swift.Sendable {
         indexName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.dataSource = dataSource
         self.dataSourceConfiguration = dataSourceConfiguration
@@ -3178,8 +3089,7 @@ public struct DescribeRouteCalculatorInput: Swift.Sendable {
 
     public init(
         calculatorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatorName = calculatorName
     }
 }
@@ -3229,8 +3139,7 @@ public struct DescribeRouteCalculatorOutput: Swift.Sendable {
         description: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.calculatorArn = calculatorArn
         self.calculatorName = calculatorName
         self.createTime = createTime
@@ -3248,8 +3157,7 @@ public struct DescribeTrackerInput: Swift.Sendable {
 
     public init(
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackerName = trackerName
     }
 }
@@ -3294,8 +3202,7 @@ public struct DescribeTrackerOutput: Swift.Sendable {
         trackerArn: Swift.String? = nil,
         trackerName: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.description = description
         self.eventBridgeEnabled = eventBridgeEnabled
@@ -3323,8 +3230,7 @@ extension LocationClientTypes {
         public init(
             macAddress: Swift.String? = nil,
             rss: Swift.Int? = nil
-        )
-        {
+        ) {
             self.macAddress = macAddress
             self.rss = rss
         }
@@ -3361,8 +3267,7 @@ extension LocationClientTypes {
             position: [Swift.Double]? = nil,
             sampleTime: Foundation.Date? = nil,
             wiFiAccessPoints: [LocationClientTypes.WiFiAccessPoint]? = nil
-        )
-        {
+        ) {
             self.accuracy = accuracy
             self.cellSignals = cellSignals
             self.deviceId = deviceId
@@ -3392,8 +3297,7 @@ public struct DisassociateTrackerConsumerInput: Swift.Sendable {
     public init(
         consumerArn: Swift.String? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumerArn = consumerArn
         self.trackerName = trackerName
     }
@@ -3471,8 +3375,7 @@ extension LocationClientTypes {
             geofenceProperties: [Swift.String: Swift.String]? = nil,
             isDeviceInGeofence: Swift.Bool? = nil,
             nearestDistance: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.eventId = eventId
             self.eventType = eventType
             self.forecastedBreachTime = forecastedBreachTime
@@ -3502,8 +3405,7 @@ extension LocationClientTypes {
         public init(
             position: [Swift.Double]? = nil,
             speed: Swift.Double? = nil
-        )
-        {
+        ) {
             self.position = position
             self.speed = speed
         }
@@ -3570,8 +3472,7 @@ public struct ForecastGeofenceEventsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         speedUnit: LocationClientTypes.SpeedUnit? = nil,
         timeHorizonMinutes: Swift.Double? = nil
-    )
-    {
+    ) {
         self.collectionName = collectionName
         self.deviceState = deviceState
         self.distanceUnit = distanceUnit
@@ -3600,8 +3501,7 @@ public struct ForecastGeofenceEventsOutput: Swift.Sendable {
         forecastedEvents: [LocationClientTypes.ForecastedEvent]? = nil,
         nextToken: Swift.String? = nil,
         speedUnit: LocationClientTypes.SpeedUnit? = nil
-    )
-    {
+    ) {
         self.distanceUnit = distanceUnit
         self.forecastedEvents = forecastedEvents
         self.nextToken = nextToken
@@ -3618,8 +3518,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3632,8 +3531,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3663,8 +3561,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3688,8 +3585,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3711,8 +3607,7 @@ public struct GetGeofenceInput: Swift.Sendable {
     public init(
         collectionName: Swift.String? = nil,
         geofenceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionName = collectionName
         self.geofenceId = geofenceId
     }
@@ -3754,8 +3649,7 @@ public struct GetGeofenceOutput: Swift.Sendable {
         geometry: LocationClientTypes.GeofenceGeometry? = nil,
         status: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.geofenceId = geofenceId
         self.geofenceProperties = geofenceProperties
@@ -3779,8 +3673,7 @@ public struct ListGeofenceCollectionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3808,8 +3701,7 @@ extension LocationClientTypes {
             createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.collectionName = collectionName
             self.createTime = createTime
             self.description = description
@@ -3828,8 +3720,7 @@ public struct ListGeofenceCollectionsOutput: Swift.Sendable {
     public init(
         entries: [LocationClientTypes.ListGeofenceCollectionsResponseEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.nextToken = nextToken
     }
@@ -3848,8 +3739,7 @@ public struct ListGeofencesInput: Swift.Sendable {
         collectionName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionName = collectionName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3895,8 +3785,7 @@ extension LocationClientTypes {
             geometry: LocationClientTypes.GeofenceGeometry? = nil,
             status: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.geofenceId = geofenceId
             self.geofenceProperties = geofenceProperties
@@ -3922,8 +3811,7 @@ public struct ListGeofencesOutput: Swift.Sendable {
     public init(
         entries: [LocationClientTypes.ListGeofenceResponseEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.nextToken = nextToken
     }
@@ -3947,8 +3835,7 @@ public struct PutGeofenceInput: Swift.Sendable {
         geofenceId: Swift.String? = nil,
         geofenceProperties: [Swift.String: Swift.String]? = nil,
         geometry: LocationClientTypes.GeofenceGeometry? = nil
-    )
-    {
+    ) {
         self.collectionName = collectionName
         self.geofenceId = geofenceId
         self.geofenceProperties = geofenceProperties
@@ -3976,8 +3863,7 @@ public struct PutGeofenceOutput: Swift.Sendable {
         createTime: Foundation.Date? = nil,
         geofenceId: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.geofenceId = geofenceId
         self.updateTime = updateTime
@@ -3994,8 +3880,7 @@ public struct UpdateGeofenceCollectionInput: Swift.Sendable {
     public init(
         collectionName: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionName = collectionName
         self.description = description
     }
@@ -4018,8 +3903,7 @@ public struct UpdateGeofenceCollectionOutput: Swift.Sendable {
         collectionArn: Swift.String? = nil,
         collectionName: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.collectionArn = collectionArn
         self.collectionName = collectionName
         self.updateTime = updateTime
@@ -4037,8 +3921,7 @@ public struct GetDevicePositionInput: Swift.Sendable {
     public init(
         deviceId: Swift.String? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.trackerName = trackerName
     }
@@ -4068,8 +3951,7 @@ public struct GetDevicePositionOutput: Swift.Sendable {
         positionProperties: [Swift.String: Swift.String]? = nil,
         receivedTime: Foundation.Date? = nil,
         sampleTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.accuracy = accuracy
         self.deviceId = deviceId
         self.position = position
@@ -4111,8 +3993,7 @@ public struct GetDevicePositionHistoryInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         startTimeInclusive: Foundation.Date? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.endTimeExclusive = endTimeExclusive
         self.maxResults = maxResults
@@ -4132,8 +4013,7 @@ public struct GetDevicePositionHistoryOutput: Swift.Sendable {
     public init(
         devicePositions: [LocationClientTypes.DevicePosition]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devicePositions = devicePositions
         self.nextToken = nextToken
     }
@@ -4187,8 +4067,7 @@ public struct GetMapGlyphsInput: Swift.Sendable {
         fontUnicodeRange: Swift.String? = nil,
         key: Swift.String? = nil,
         mapName: Swift.String? = nil
-    )
-    {
+    ) {
         self.fontStack = fontStack
         self.fontUnicodeRange = fontUnicodeRange
         self.key = key
@@ -4213,8 +4092,7 @@ public struct GetMapGlyphsOutput: Swift.Sendable {
         blob: Foundation.Data? = nil,
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
-    )
-    {
+    ) {
         self.blob = blob
         self.cacheControl = cacheControl
         self.contentType = contentType
@@ -4246,8 +4124,7 @@ public struct GetMapSpritesInput: Swift.Sendable {
         fileName: Swift.String? = nil,
         key: Swift.String? = nil,
         mapName: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileName = fileName
         self.key = key
         self.mapName = mapName
@@ -4271,8 +4148,7 @@ public struct GetMapSpritesOutput: Swift.Sendable {
         blob: Foundation.Data? = nil,
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
-    )
-    {
+    ) {
         self.blob = blob
         self.cacheControl = cacheControl
         self.contentType = contentType
@@ -4289,8 +4165,7 @@ public struct GetMapStyleDescriptorInput: Swift.Sendable {
     public init(
         key: Swift.String? = nil,
         mapName: Swift.String? = nil
-    )
-    {
+    ) {
         self.key = key
         self.mapName = mapName
     }
@@ -4313,8 +4188,7 @@ public struct GetMapStyleDescriptorOutput: Swift.Sendable {
         blob: Foundation.Data? = nil,
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
-    )
-    {
+    ) {
         self.blob = blob
         self.cacheControl = cacheControl
         self.contentType = contentType
@@ -4343,8 +4217,7 @@ public struct GetMapTileInput: Swift.Sendable {
         x: Swift.String? = nil,
         y: Swift.String? = nil,
         z: Swift.String? = nil
-    )
-    {
+    ) {
         self.key = key
         self.mapName = mapName
         self.x = x
@@ -4370,8 +4243,7 @@ public struct GetMapTileOutput: Swift.Sendable {
         blob: Foundation.Data? = nil,
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
-    )
-    {
+    ) {
         self.blob = blob
         self.cacheControl = cacheControl
         self.contentType = contentType
@@ -4395,8 +4267,7 @@ public struct GetPlaceInput: Swift.Sendable {
         key: Swift.String? = nil,
         language: Swift.String? = nil,
         placeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexName = indexName
         self.key = key
         self.language = language
@@ -4422,8 +4293,7 @@ extension LocationClientTypes {
 
         public init(
             point: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.point = point
         }
     }
@@ -4447,8 +4317,7 @@ extension LocationClientTypes {
         public init(
             name: Swift.String? = nil,
             offset: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.offset = offset
         }
@@ -4513,8 +4382,7 @@ extension LocationClientTypes {
             timeZone: LocationClientTypes.TimeZone? = nil,
             unitNumber: Swift.String? = nil,
             unitType: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressNumber = addressNumber
             self.categories = categories
             self.country = country
@@ -4543,8 +4411,7 @@ public struct GetPlaceOutput: Swift.Sendable {
 
     public init(
         place: LocationClientTypes.Place? = nil
-    )
-    {
+    ) {
         self.place = place
     }
 }
@@ -4568,8 +4435,7 @@ extension LocationClientTypes {
             deviationDistance: Swift.Double? = nil,
             position: [Swift.Double]? = nil,
             proxyDetected: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.accuracy = accuracy
             self.deviationDistance = deviationDistance
             self.position = position
@@ -4592,8 +4458,7 @@ extension LocationClientTypes {
 
         public init(
             polygon: [[[Swift.Double]]]? = nil
-        )
-        {
+        ) {
             self.polygon = polygon
         }
     }
@@ -4620,8 +4485,7 @@ public struct ListDevicePositionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterGeometry = filterGeometry
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4653,8 +4517,7 @@ extension LocationClientTypes {
             position: [Swift.Double]? = nil,
             positionProperties: [Swift.String: Swift.String]? = nil,
             sampleTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accuracy = accuracy
             self.deviceId = deviceId
             self.position = position
@@ -4679,8 +4542,7 @@ public struct ListDevicePositionsOutput: Swift.Sendable {
     public init(
         entries: [LocationClientTypes.ListDevicePositionsResponseEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.nextToken = nextToken
     }
@@ -4695,8 +4557,7 @@ public struct ListMapsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4728,8 +4589,7 @@ extension LocationClientTypes {
             description: Swift.String? = nil,
             mapName: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.dataSource = dataSource
             self.description = description
@@ -4749,8 +4609,7 @@ public struct ListMapsOutput: Swift.Sendable {
     public init(
         entries: [LocationClientTypes.ListMapsResponseEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.nextToken = nextToken
     }
@@ -4765,8 +4624,7 @@ public struct ListPlaceIndexesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4807,8 +4665,7 @@ extension LocationClientTypes {
             description: Swift.String? = nil,
             indexName: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.dataSource = dataSource
             self.description = description
@@ -4828,8 +4685,7 @@ public struct ListPlaceIndexesOutput: Swift.Sendable {
     public init(
         entries: [LocationClientTypes.ListPlaceIndexesResponseEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.nextToken = nextToken
     }
@@ -4844,8 +4700,7 @@ public struct ListRouteCalculatorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4890,8 +4745,7 @@ extension LocationClientTypes {
             dataSource: Swift.String? = nil,
             description: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.calculatorName = calculatorName
             self.createTime = createTime
             self.dataSource = dataSource
@@ -4911,8 +4765,7 @@ public struct ListRouteCalculatorsOutput: Swift.Sendable {
     public init(
         entries: [LocationClientTypes.ListRouteCalculatorsResponseEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.nextToken = nextToken
     }
@@ -4931,8 +4784,7 @@ public struct ListTrackerConsumersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.trackerName = trackerName
@@ -4949,8 +4801,7 @@ public struct ListTrackerConsumersOutput: Swift.Sendable {
     public init(
         consumerArns: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumerArns = consumerArns
         self.nextToken = nextToken
     }
@@ -4965,8 +4816,7 @@ public struct ListTrackersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4994,8 +4844,7 @@ extension LocationClientTypes {
             description: Swift.String? = nil,
             trackerName: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.description = description
             self.trackerName = trackerName
@@ -5014,8 +4863,7 @@ public struct ListTrackersOutput: Swift.Sendable {
     public init(
         entries: [LocationClientTypes.ListTrackersResponseEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.nextToken = nextToken
     }
@@ -5033,8 +4881,7 @@ extension LocationClientTypes {
         public init(
             customLayers: [Swift.String]? = nil,
             politicalView: Swift.String? = nil
-        )
-        {
+        ) {
             self.customLayers = customLayers
             self.politicalView = politicalView
         }
@@ -5054,8 +4901,7 @@ public struct UpdateMapInput: Swift.Sendable {
         configurationUpdate: LocationClientTypes.MapConfigurationUpdate? = nil,
         description: Swift.String? = nil,
         mapName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationUpdate = configurationUpdate
         self.description = description
         self.mapName = mapName
@@ -5079,8 +4925,7 @@ public struct UpdateMapOutput: Swift.Sendable {
         mapArn: Swift.String? = nil,
         mapName: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.mapArn = mapArn
         self.mapName = mapName
         self.updateTime = updateTime
@@ -5107,8 +4952,7 @@ public struct SearchPlaceIndexForPositionInput: Swift.Sendable {
         language: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         position: [Swift.Double]? = nil
-    )
-    {
+    ) {
         self.indexName = indexName
         self.key = key
         self.language = language
@@ -5139,8 +4983,7 @@ extension LocationClientTypes {
             distance: Swift.Double? = nil,
             place: LocationClientTypes.Place? = nil,
             placeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.distance = distance
             self.place = place
             self.placeId = placeId
@@ -5177,8 +5020,7 @@ extension LocationClientTypes {
             language: Swift.String? = nil,
             maxResults: Swift.Int? = nil,
             position: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.language = language
             self.maxResults = maxResults
@@ -5203,8 +5045,7 @@ public struct SearchPlaceIndexForPositionOutput: Swift.Sendable {
     public init(
         results: [LocationClientTypes.SearchForPositionResult]? = nil,
         summary: LocationClientTypes.SearchPlaceIndexForPositionSummary? = nil
-    )
-    {
+    ) {
         self.results = results
         self.summary = summary
     }
@@ -5244,8 +5085,7 @@ public struct SearchPlaceIndexForSuggestionsInput: Swift.Sendable {
         language: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.biasPosition = biasPosition
         self.filterBBox = filterBBox
         self.filterCategories = filterCategories
@@ -5282,8 +5122,7 @@ extension LocationClientTypes {
             placeId: Swift.String? = nil,
             supplementalCategories: [Swift.String]? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.categories = categories
             self.placeId = placeId
             self.supplementalCategories = supplementalCategories
@@ -5333,8 +5172,7 @@ extension LocationClientTypes {
             language: Swift.String? = nil,
             maxResults: Swift.Int? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.biasPosition = biasPosition
             self.dataSource = dataSource
             self.filterBBox = filterBBox
@@ -5363,8 +5201,7 @@ public struct SearchPlaceIndexForSuggestionsOutput: Swift.Sendable {
     public init(
         results: [LocationClientTypes.SearchForSuggestionsResult]? = nil,
         summary: LocationClientTypes.SearchPlaceIndexForSuggestionsSummary? = nil
-    )
-    {
+    ) {
         self.results = results
         self.summary = summary
     }
@@ -5404,8 +5241,7 @@ public struct SearchPlaceIndexForTextInput: Swift.Sendable {
         language: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.biasPosition = biasPosition
         self.filterBBox = filterBBox
         self.filterCategories = filterCategories
@@ -5442,8 +5278,7 @@ extension LocationClientTypes {
             place: LocationClientTypes.Place? = nil,
             placeId: Swift.String? = nil,
             relevance: Swift.Double? = nil
-        )
-        {
+        ) {
             self.distance = distance
             self.place = place
             self.placeId = placeId
@@ -5496,8 +5331,7 @@ extension LocationClientTypes {
             maxResults: Swift.Int? = nil,
             resultBBox: [Swift.Double]? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.biasPosition = biasPosition
             self.dataSource = dataSource
             self.filterBBox = filterBBox
@@ -5527,8 +5361,7 @@ public struct SearchPlaceIndexForTextOutput: Swift.Sendable {
     public init(
         results: [LocationClientTypes.SearchForTextResult]? = nil,
         summary: LocationClientTypes.SearchPlaceIndexForTextSummary? = nil
-    )
-    {
+    ) {
         self.results = results
         self.summary = summary
     }
@@ -5547,8 +5380,7 @@ public struct UpdatePlaceIndexInput: Swift.Sendable {
         dataSourceConfiguration: LocationClientTypes.DataSourceConfiguration? = nil,
         description: Swift.String? = nil,
         indexName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceConfiguration = dataSourceConfiguration
         self.description = description
         self.indexName = indexName
@@ -5572,8 +5404,7 @@ public struct UpdatePlaceIndexOutput: Swift.Sendable {
         indexArn: Swift.String? = nil,
         indexName: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.indexArn = indexArn
         self.indexName = indexName
         self.updateTime = updateTime
@@ -5590,8 +5421,7 @@ public struct UpdateRouteCalculatorInput: Swift.Sendable {
     public init(
         calculatorName: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatorName = calculatorName
         self.description = description
     }
@@ -5614,8 +5444,7 @@ public struct UpdateRouteCalculatorOutput: Swift.Sendable {
         calculatorArn: Swift.String? = nil,
         calculatorName: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.calculatorArn = calculatorArn
         self.calculatorName = calculatorName
         self.updateTime = updateTime
@@ -5647,8 +5476,7 @@ public struct UpdateTrackerInput: Swift.Sendable {
         kmsKeyEnableGeospatialQueries: Swift.Bool? = nil,
         positionFiltering: LocationClientTypes.PositionFiltering? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventBridgeEnabled = eventBridgeEnabled
         self.kmsKeyEnableGeospatialQueries = kmsKeyEnableGeospatialQueries
@@ -5674,8 +5502,7 @@ public struct UpdateTrackerOutput: Swift.Sendable {
         trackerArn: Swift.String? = nil,
         trackerName: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.trackerArn = trackerArn
         self.trackerName = trackerName
         self.updateTime = updateTime
@@ -5696,8 +5523,7 @@ public struct VerifyDevicePositionInput: Swift.Sendable {
         deviceState: LocationClientTypes.DeviceState? = nil,
         distanceUnit: LocationClientTypes.DistanceUnit? = nil,
         trackerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceState = deviceState
         self.distanceUnit = distanceUnit
         self.trackerName = trackerName
@@ -5727,8 +5553,7 @@ public struct VerifyDevicePositionOutput: Swift.Sendable {
         inferredState: LocationClientTypes.InferredState? = nil,
         receivedTime: Foundation.Date? = nil,
         sampleTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.distanceUnit = distanceUnit
         self.inferredState = inferredState

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BCMPricingCalculatorClient: ClientRuntime.Client {
     public static let clientName = "BCMPricingCalculatorClient"
-    public static let version = "1.0.67"
+    public static let version = "1.0.76"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMPricingCalculatorClient.BCMPricingCalculatorClientConfiguration
     let serviceName = "BCM Pricing Calculator"
@@ -95,6 +95,7 @@ extension BCMPricingCalculatorClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -119,6 +120,7 @@ extension BCMPricingCalculatorClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
             _ endpointResolver: EndpointResolver,
@@ -141,6 +143,7 @@ extension BCMPricingCalculatorClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -166,6 +169,7 @@ extension BCMPricingCalculatorClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -189,6 +193,7 @@ extension BCMPricingCalculatorClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -214,6 +219,7 @@ extension BCMPricingCalculatorClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -237,6 +243,7 @@ extension BCMPricingCalculatorClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -263,6 +270,7 @@ extension BCMPricingCalculatorClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -288,6 +296,7 @@ extension BCMPricingCalculatorClient {
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
                 nil,
                 region,
                 region,
@@ -331,7 +340,7 @@ extension BCMPricingCalculatorClient {
 }
 
 extension BCMPricingCalculatorClient {
-    /// Performs the `BatchCreateBillScenarioCommitmentModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchCreateBillScenarioCommitmentModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Reserved Instances commitments that you want to model in a Bill Scenario.
     ///
@@ -384,15 +393,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateBillScenarioCommitmentModificationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchCreateBillScenarioCommitmentModificationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchCreateBillScenarioCommitmentModification"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateBillScenarioCommitmentModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateBillScenarioCommitmentModificationInput, BatchCreateBillScenarioCommitmentModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchCreateBillScenarioCommitmentModification")
@@ -408,7 +418,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchCreateBillScenarioUsageModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchCreateBillScenarioUsageModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Create Amazon Web Services service usage that you want to model in a Bill Scenario.
     ///
@@ -462,15 +472,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateBillScenarioUsageModificationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchCreateBillScenarioUsageModificationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchCreateBillScenarioUsageModification"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateBillScenarioUsageModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateBillScenarioUsageModificationInput, BatchCreateBillScenarioUsageModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchCreateBillScenarioUsageModification")
@@ -486,7 +497,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchCreateWorkloadEstimateUsage` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchCreateWorkloadEstimateUsage` operation on the `BCMPricingCalculator` service.
     ///
     /// Create Amazon Web Services service usage that you want to model in a Workload Estimate.
     ///
@@ -540,15 +551,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateWorkloadEstimateUsageOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchCreateWorkloadEstimateUsageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchCreateWorkloadEstimateUsage"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateWorkloadEstimateUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateWorkloadEstimateUsageInput, BatchCreateWorkloadEstimateUsageOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchCreateWorkloadEstimateUsage")
@@ -564,7 +576,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteBillScenarioCommitmentModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchDeleteBillScenarioCommitmentModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing commitment, see the negate [ BillScenarioCommitmentModificationAction](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BillScenarioCommitmentModificationAction.html) of [ BatchCreateBillScenarioCommitmentModification](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchCreateBillScenarioUsageModification.html) operation.
     ///
@@ -615,15 +627,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteBillScenarioCommitmentModificationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchDeleteBillScenarioCommitmentModificationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchDeleteBillScenarioCommitmentModification"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteBillScenarioCommitmentModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteBillScenarioCommitmentModificationInput, BatchDeleteBillScenarioCommitmentModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteBillScenarioCommitmentModification")
@@ -639,7 +652,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteBillScenarioUsageModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchDeleteBillScenarioUsageModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see [ BatchUpdateBillScenarioUsageModification](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchUpdateBillScenarioUsageModification.html).
     ///
@@ -691,15 +704,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteBillScenarioUsageModificationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchDeleteBillScenarioUsageModificationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchDeleteBillScenarioUsageModification"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteBillScenarioUsageModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteBillScenarioUsageModificationInput, BatchDeleteBillScenarioUsageModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteBillScenarioUsageModification")
@@ -715,7 +729,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteWorkloadEstimateUsage` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchDeleteWorkloadEstimateUsage` operation on the `BCMPricingCalculator` service.
     ///
     /// Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see [ BatchUpdateWorkloadEstimateUsage](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchUpdateWorkloadEstimateUsage.html).
     ///
@@ -767,15 +781,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteWorkloadEstimateUsageOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchDeleteWorkloadEstimateUsageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchDeleteWorkloadEstimateUsage"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteWorkloadEstimateUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteWorkloadEstimateUsageInput, BatchDeleteWorkloadEstimateUsageOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteWorkloadEstimateUsage")
@@ -791,7 +806,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateBillScenarioCommitmentModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchUpdateBillScenarioCommitmentModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID.
     ///
@@ -842,15 +857,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateBillScenarioCommitmentModificationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchUpdateBillScenarioCommitmentModificationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchUpdateBillScenarioCommitmentModification"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateBillScenarioCommitmentModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateBillScenarioCommitmentModificationInput, BatchUpdateBillScenarioCommitmentModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchUpdateBillScenarioCommitmentModification")
@@ -866,7 +882,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateBillScenarioUsageModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchUpdateBillScenarioUsageModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Update a newly added or existing usage lines. You can update the usage amounts, usage hour, and usage group based on a usage ID and a Bill scenario ID.
     ///
@@ -918,15 +934,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateBillScenarioUsageModificationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchUpdateBillScenarioUsageModificationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchUpdateBillScenarioUsageModification"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateBillScenarioUsageModificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateBillScenarioUsageModificationInput, BatchUpdateBillScenarioUsageModificationOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchUpdateBillScenarioUsageModification")
@@ -942,7 +959,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateWorkloadEstimateUsage` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchUpdateWorkloadEstimateUsage` operation on the `BCMPricingCalculator` service.
     ///
     /// Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID.
     ///
@@ -994,15 +1011,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateWorkloadEstimateUsageOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchUpdateWorkloadEstimateUsageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(xAmzTarget: "AWSBCMPricingCalculator.BatchUpdateWorkloadEstimateUsage"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateWorkloadEstimateUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateWorkloadEstimateUsageInput, BatchUpdateWorkloadEstimateUsageOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchUpdateWorkloadEstimateUsage")
@@ -1018,7 +1036,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBillEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `CreateBillEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill estimate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing usage and commitments from your most recent completed anniversary bill, with any applicable discounts applied.
     ///
@@ -1071,15 +1089,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBillEstimateOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateBillEstimateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.CreateBillEstimate"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBillEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBillEstimateInput, CreateBillEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateBillEstimate")
@@ -1095,7 +1114,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBillScenario` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `CreateBillScenario` operation on the `BCMPricingCalculator` service.
     ///
     /// Creates a new bill scenario to model potential changes to Amazon Web Services usage and costs.
     ///
@@ -1148,15 +1167,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBillScenarioOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateBillScenarioOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(xAmzTarget: "AWSBCMPricingCalculator.CreateBillScenario"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBillScenarioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBillScenarioInput, CreateBillScenarioOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateBillScenario")
@@ -1172,7 +1192,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkloadEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `CreateWorkloadEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Creates a new workload estimate to model costs for a specific workload.
     ///
@@ -1225,15 +1245,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkloadEstimateOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateWorkloadEstimateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.CreateWorkloadEstimate"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkloadEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateWorkloadEstimateInput, CreateWorkloadEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateWorkloadEstimate")
@@ -1249,7 +1270,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBillEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `DeleteBillEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Deletes an existing bill estimate.
     ///
@@ -1300,15 +1321,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBillEstimateOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteBillEstimateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.DeleteBillEstimate"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBillEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBillEstimateInput, DeleteBillEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteBillEstimate")
@@ -1324,7 +1346,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBillScenario` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `DeleteBillScenario` operation on the `BCMPricingCalculator` service.
     ///
     /// Deletes an existing bill scenario.
     ///
@@ -1374,15 +1396,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBillScenarioOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteBillScenarioOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(xAmzTarget: "AWSBCMPricingCalculator.DeleteBillScenario"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBillScenarioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBillScenarioInput, DeleteBillScenarioOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteBillScenario")
@@ -1398,7 +1421,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkloadEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `DeleteWorkloadEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Deletes an existing workload estimate.
     ///
@@ -1448,15 +1471,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkloadEstimateOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteWorkloadEstimateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.DeleteWorkloadEstimate"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWorkloadEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteWorkloadEstimateInput, DeleteWorkloadEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteWorkloadEstimate")
@@ -1472,7 +1496,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBillEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `GetBillEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Retrieves details of a specific bill estimate.
     ///
@@ -1523,15 +1547,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBillEstimateOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetBillEstimateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.GetBillEstimate"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBillEstimateInput, GetBillEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBillEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBillEstimateInput, GetBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBillEstimateInput, GetBillEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetBillEstimate")
@@ -1547,7 +1572,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBillScenario` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `GetBillScenario` operation on the `BCMPricingCalculator` service.
     ///
     /// Retrieves details of a specific bill scenario.
     ///
@@ -1598,15 +1623,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBillScenarioOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetBillScenarioOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(xAmzTarget: "AWSBCMPricingCalculator.GetBillScenario"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBillScenarioInput, GetBillScenarioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBillScenarioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBillScenarioInput, GetBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBillScenarioInput, GetBillScenarioOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetBillScenario")
@@ -1622,7 +1648,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPreferences` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `GetPreferences` operation on the `BCMPricingCalculator` service.
     ///
     /// Retrieves the current preferences for the Amazon Web Services Cost Explorer service.
     ///
@@ -1672,15 +1698,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPreferencesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetPreferencesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPreferencesInput, GetPreferencesOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPreferencesInput, GetPreferencesOutput>(xAmzTarget: "AWSBCMPricingCalculator.GetPreferences"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetPreferencesInput, GetPreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPreferencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPreferencesInput, GetPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPreferencesInput, GetPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPreferencesInput, GetPreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPreferencesInput, GetPreferencesOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPreferences")
@@ -1696,7 +1723,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkloadEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `GetWorkloadEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Retrieves details of a specific workload estimate.
     ///
@@ -1747,15 +1774,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkloadEstimateOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetWorkloadEstimateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.GetWorkloadEstimate"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWorkloadEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWorkloadEstimateInput, GetWorkloadEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetWorkloadEstimate")
@@ -1771,7 +1799,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillEstimateCommitments` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillEstimateCommitments` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the commitments associated with a bill estimate.
     ///
@@ -1822,15 +1850,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillEstimateCommitmentsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListBillEstimateCommitmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillEstimateCommitments"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillEstimateCommitmentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateCommitmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillEstimateCommitmentsInput, ListBillEstimateCommitmentsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBillEstimateCommitments")
@@ -1846,7 +1875,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillEstimateInputCommitmentModifications` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillEstimateInputCommitmentModifications` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the input commitment modifications associated with a bill estimate.
     ///
@@ -1897,15 +1926,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillEstimateInputCommitmentModificationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListBillEstimateInputCommitmentModificationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillEstimateInputCommitmentModifications"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillEstimateInputCommitmentModificationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateInputCommitmentModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillEstimateInputCommitmentModificationsInput, ListBillEstimateInputCommitmentModificationsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBillEstimateInputCommitmentModifications")
@@ -1921,7 +1951,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillEstimateInputUsageModifications` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillEstimateInputUsageModifications` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the input usage modifications associated with a bill estimate.
     ///
@@ -1972,15 +2002,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillEstimateInputUsageModificationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListBillEstimateInputUsageModificationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillEstimateInputUsageModifications"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillEstimateInputUsageModificationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateInputUsageModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillEstimateInputUsageModificationsInput, ListBillEstimateInputUsageModificationsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBillEstimateInputUsageModifications")
@@ -1996,7 +2027,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillEstimateLineItems` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillEstimateLineItems` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the line items associated with a bill estimate.
     ///
@@ -2047,15 +2078,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillEstimateLineItemsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListBillEstimateLineItemsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillEstimateLineItems"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillEstimateLineItemsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimateLineItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillEstimateLineItemsInput, ListBillEstimateLineItemsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBillEstimateLineItems")
@@ -2071,7 +2103,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillEstimates` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillEstimates` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists all bill estimates for the account.
     ///
@@ -2121,15 +2153,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillEstimatesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListBillEstimatesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillEstimates"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillEstimatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillEstimatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillEstimatesInput, ListBillEstimatesOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBillEstimates")
@@ -2145,7 +2178,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillScenarioCommitmentModifications` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillScenarioCommitmentModifications` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the commitment modifications associated with a bill scenario.
     ///
@@ -2196,15 +2229,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillScenarioCommitmentModificationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListBillScenarioCommitmentModificationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillScenarioCommitmentModifications"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillScenarioCommitmentModificationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillScenarioCommitmentModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillScenarioCommitmentModificationsInput, ListBillScenarioCommitmentModificationsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBillScenarioCommitmentModifications")
@@ -2220,7 +2254,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillScenarioUsageModifications` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillScenarioUsageModifications` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the usage modifications associated with a bill scenario.
     ///
@@ -2271,15 +2305,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillScenarioUsageModificationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListBillScenarioUsageModificationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillScenarioUsageModifications"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillScenarioUsageModificationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillScenarioUsageModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillScenarioUsageModificationsInput, ListBillScenarioUsageModificationsOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBillScenarioUsageModifications")
@@ -2295,7 +2330,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillScenarios` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillScenarios` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists all bill scenarios for the account.
     ///
@@ -2345,15 +2380,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillScenariosOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListBillScenariosOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListBillScenarios"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBillScenariosInput, ListBillScenariosOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBillScenariosInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillScenariosOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillScenariosInput, ListBillScenariosOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillScenariosInput, ListBillScenariosOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBillScenarios")
@@ -2369,7 +2405,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListTagsForResource` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists all tags associated with a specified resource.
     ///
@@ -2419,15 +2455,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListTagsForResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
@@ -2443,7 +2480,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkloadEstimateUsage` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListWorkloadEstimateUsage` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the usage associated with a workload estimate.
     ///
@@ -2494,15 +2531,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkloadEstimateUsageOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListWorkloadEstimateUsageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListWorkloadEstimateUsage"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkloadEstimateUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWorkloadEstimateUsageInput, ListWorkloadEstimateUsageOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListWorkloadEstimateUsage")
@@ -2518,7 +2556,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkloadEstimates` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListWorkloadEstimates` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists all workload estimates for the account.
     ///
@@ -2568,15 +2606,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkloadEstimatesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListWorkloadEstimatesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(xAmzTarget: "AWSBCMPricingCalculator.ListWorkloadEstimates"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkloadEstimatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkloadEstimatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWorkloadEstimatesInput, ListWorkloadEstimatesOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListWorkloadEstimates")
@@ -2592,7 +2631,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `TagResource` operation on the `BCMPricingCalculator` service.
     ///
     /// Adds one or more tags to a specified resource.
     ///
@@ -2643,15 +2682,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSBCMPricingCalculator.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -2667,7 +2707,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `UntagResource` operation on the `BCMPricingCalculator` service.
     ///
     /// Removes one or more tags from a specified resource.
     ///
@@ -2717,15 +2757,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSBCMPricingCalculator.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
@@ -2741,7 +2782,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBillEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `UpdateBillEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Updates an existing bill estimate.
     ///
@@ -2793,15 +2834,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBillEstimateOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateBillEstimateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.UpdateBillEstimate"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBillEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateBillEstimateInput, UpdateBillEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateBillEstimate")
@@ -2817,7 +2859,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBillScenario` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `UpdateBillScenario` operation on the `BCMPricingCalculator` service.
     ///
     /// Updates an existing bill scenario.
     ///
@@ -2869,15 +2911,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBillScenarioOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateBillScenarioOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(xAmzTarget: "AWSBCMPricingCalculator.UpdateBillScenario"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBillScenarioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateBillScenarioInput, UpdateBillScenarioOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateBillScenario")
@@ -2893,7 +2936,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePreferences` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `UpdatePreferences` operation on the `BCMPricingCalculator` service.
     ///
     /// Updates the preferences for the Amazon Web Services Cost Explorer service.
     ///
@@ -2944,15 +2987,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePreferencesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdatePreferencesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(xAmzTarget: "AWSBCMPricingCalculator.UpdatePreferences"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePreferencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePreferences")
@@ -2968,7 +3012,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkloadEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `UpdateWorkloadEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Updates an existing workload estimate.
     ///
@@ -3020,15 +3064,16 @@ extension BCMPricingCalculatorClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkloadEstimateOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateWorkloadEstimateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(xAmzTarget: "AWSBCMPricingCalculator.UpdateWorkloadEstimate"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkloadEstimateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateWorkloadEstimateInput, UpdateWorkloadEstimateOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateWorkloadEstimate")

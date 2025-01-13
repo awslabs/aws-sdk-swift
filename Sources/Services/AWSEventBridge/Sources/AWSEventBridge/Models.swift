@@ -89,8 +89,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -113,8 +112,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +135,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -161,8 +158,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -185,8 +181,7 @@ public struct OperationDisabledException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -209,8 +204,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -222,8 +216,7 @@ public struct ActivateEventSourceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -334,8 +327,7 @@ extension EventBridgeClientTypes {
             invocationRateLimitPerSecond: Swift.Int? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiDestinationArn = apiDestinationArn
             self.apiDestinationState = apiDestinationState
             self.connectionArn = connectionArn
@@ -358,8 +350,7 @@ extension EventBridgeClientTypes {
 
         public init(
             graphQLOperation: Swift.String? = nil
-        )
-        {
+        ) {
             self.graphQLOperation = graphQLOperation
         }
     }
@@ -441,8 +432,7 @@ extension EventBridgeClientTypes {
             sizeBytes: Swift.Int = 0,
             state: EventBridgeClientTypes.ArchiveState? = nil,
             stateReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.archiveName = archiveName
             self.creationTime = creationTime
             self.eventCount = eventCount
@@ -502,8 +492,7 @@ public struct IllegalStatusException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -515,8 +504,7 @@ public struct CancelReplayInput: Swift.Sendable {
 
     public init(
         replayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.replayName = replayName
     }
 }
@@ -574,8 +562,7 @@ public struct CancelReplayOutput: Swift.Sendable {
         replayArn: Swift.String? = nil,
         state: EventBridgeClientTypes.ReplayState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.replayArn = replayArn
         self.state = state
         self.stateReason = stateReason
@@ -600,8 +587,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -624,8 +610,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -655,8 +640,7 @@ public struct CreateApiDestinationInput: Swift.Sendable {
         invocationEndpoint: Swift.String? = nil,
         invocationRateLimitPerSecond: Swift.Int? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.description = description
         self.httpMethod = httpMethod
@@ -681,8 +665,7 @@ public struct CreateApiDestinationOutput: Swift.Sendable {
         apiDestinationState: EventBridgeClientTypes.ApiDestinationState? = nil,
         creationTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.apiDestinationArn = apiDestinationArn
         self.apiDestinationState = apiDestinationState
         self.creationTime = creationTime
@@ -708,8 +691,7 @@ public struct InvalidEventPatternException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -734,8 +716,7 @@ public struct CreateArchiveInput: Swift.Sendable {
         eventPattern: Swift.String? = nil,
         eventSourceArn: Swift.String? = nil,
         retentionDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.archiveName = archiveName
         self.description = description
         self.eventPattern = eventPattern
@@ -759,8 +740,7 @@ public struct CreateArchiveOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ArchiveState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveArn = archiveArn
         self.creationTime = creationTime
         self.state = state
@@ -786,8 +766,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -838,8 +817,7 @@ extension EventBridgeClientTypes {
         public init(
             apiKeyName: Swift.String? = nil,
             apiKeyValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKeyName = apiKeyName
             self.apiKeyValue = apiKeyValue
         }
@@ -865,8 +843,7 @@ extension EventBridgeClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -888,8 +865,7 @@ extension EventBridgeClientTypes {
 
         public init(
             resourceConfigurationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceConfigurationArn = resourceConfigurationArn
         }
     }
@@ -905,8 +881,7 @@ extension EventBridgeClientTypes {
 
         public init(
             resourceParameters: EventBridgeClientTypes.ConnectivityResourceConfigurationArn? = nil
-        )
-        {
+        ) {
             self.resourceParameters = resourceParameters
         }
     }
@@ -927,8 +902,7 @@ extension EventBridgeClientTypes {
             isValueSecret: Swift.Bool = false,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.isValueSecret = isValueSecret
             self.key = key
             self.value = value
@@ -956,8 +930,7 @@ extension EventBridgeClientTypes {
             isValueSecret: Swift.Bool = false,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.isValueSecret = isValueSecret
             self.key = key
             self.value = value
@@ -985,8 +958,7 @@ extension EventBridgeClientTypes {
             isValueSecret: Swift.Bool = false,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.isValueSecret = isValueSecret
             self.key = key
             self.value = value
@@ -1014,8 +986,7 @@ extension EventBridgeClientTypes {
             bodyParameters: [EventBridgeClientTypes.ConnectionBodyParameter]? = nil,
             headerParameters: [EventBridgeClientTypes.ConnectionHeaderParameter]? = nil,
             queryStringParameters: [EventBridgeClientTypes.ConnectionQueryStringParameter]? = nil
-        )
-        {
+        ) {
             self.bodyParameters = bodyParameters
             self.headerParameters = headerParameters
             self.queryStringParameters = queryStringParameters
@@ -1037,8 +1008,7 @@ extension EventBridgeClientTypes {
         public init(
             clientID: Swift.String? = nil,
             clientSecret: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientID = clientID
             self.clientSecret = clientSecret
         }
@@ -1103,8 +1073,7 @@ extension EventBridgeClientTypes {
             clientParameters: EventBridgeClientTypes.CreateConnectionOAuthClientRequestParameters? = nil,
             httpMethod: EventBridgeClientTypes.ConnectionOAuthHttpMethod? = nil,
             oAuthHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil
-        )
-        {
+        ) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientParameters = clientParameters
             self.httpMethod = httpMethod
@@ -1134,8 +1103,7 @@ extension EventBridgeClientTypes {
             connectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
             invocationHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil,
             oAuthParameters: EventBridgeClientTypes.CreateConnectionOAuthRequestParameters? = nil
-        )
-        {
+        ) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
             self.connectivityParameters = connectivityParameters
@@ -1166,8 +1134,7 @@ public struct CreateConnectionInput: Swift.Sendable {
         description: Swift.String? = nil,
         invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.authParameters = authParameters
         self.authorizationType = authorizationType
         self.description = description
@@ -1241,8 +1208,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         connectionState: EventBridgeClientTypes.ConnectionState? = nil,
         creationTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.connectionState = connectionState
         self.creationTime = creationTime
@@ -1260,8 +1226,7 @@ extension EventBridgeClientTypes {
 
         public init(
             eventBusArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventBusArn = eventBusArn
         }
     }
@@ -1305,8 +1270,7 @@ extension EventBridgeClientTypes {
 
         public init(
             state: EventBridgeClientTypes.ReplicationState? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -1322,8 +1286,7 @@ extension EventBridgeClientTypes {
 
         public init(
             healthCheck: Swift.String? = nil
-        )
-        {
+        ) {
             self.healthCheck = healthCheck
         }
     }
@@ -1339,8 +1302,7 @@ extension EventBridgeClientTypes {
 
         public init(
             route: Swift.String? = nil
-        )
-        {
+        ) {
             self.route = route
         }
     }
@@ -1360,8 +1322,7 @@ extension EventBridgeClientTypes {
         public init(
             primary: EventBridgeClientTypes.Primary? = nil,
             secondary: EventBridgeClientTypes.Secondary? = nil
-        )
-        {
+        ) {
             self.primary = primary
             self.secondary = secondary
         }
@@ -1378,8 +1339,7 @@ extension EventBridgeClientTypes {
 
         public init(
             failoverConfig: EventBridgeClientTypes.FailoverConfig? = nil
-        )
-        {
+        ) {
             self.failoverConfig = failoverConfig
         }
     }
@@ -1409,8 +1369,7 @@ public struct CreateEndpointInput: Swift.Sendable {
         replicationConfig: EventBridgeClientTypes.ReplicationConfig? = nil,
         roleArn: Swift.String? = nil,
         routingConfig: EventBridgeClientTypes.RoutingConfig? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventBuses = eventBuses
         self.name = name
@@ -1488,8 +1447,7 @@ public struct CreateEndpointOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         routingConfig: EventBridgeClientTypes.RoutingConfig? = nil,
         state: EventBridgeClientTypes.EndpointState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.eventBuses = eventBuses
         self.name = name
@@ -1509,8 +1467,7 @@ extension EventBridgeClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -1530,8 +1487,7 @@ extension EventBridgeClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1569,8 +1525,7 @@ public struct CreateEventBusInput: Swift.Sendable {
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [EventBridgeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.eventSourceName = eventSourceName
@@ -1595,8 +1550,7 @@ public struct CreateEventBusOutput: Swift.Sendable {
         description: Swift.String? = nil,
         eventBusArn: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.eventBusArn = eventBusArn
@@ -1615,8 +1569,7 @@ public struct CreatePartnerEventSourceInput: Swift.Sendable {
     public init(
         account: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.account = account
         self.name = name
     }
@@ -1628,8 +1581,7 @@ public struct CreatePartnerEventSourceOutput: Swift.Sendable {
 
     public init(
         eventSourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSourceArn = eventSourceArn
     }
 }
@@ -1641,8 +1593,7 @@ public struct DeactivateEventSourceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1654,8 +1605,7 @@ public struct DeauthorizeConnectionInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1678,8 +1628,7 @@ public struct DeauthorizeConnectionOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         lastAuthorizedTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.connectionState = connectionState
         self.creationTime = creationTime
@@ -1695,8 +1644,7 @@ public struct DeleteApiDestinationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1713,8 +1661,7 @@ public struct DeleteArchiveInput: Swift.Sendable {
 
     public init(
         archiveName: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveName = archiveName
     }
 }
@@ -1731,8 +1678,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1755,8 +1701,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         lastAuthorizedTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.connectionState = connectionState
         self.creationTime = creationTime
@@ -1772,8 +1717,7 @@ public struct DeleteEndpointInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1790,8 +1734,7 @@ public struct DeleteEventBusInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1807,8 +1750,7 @@ public struct DeletePartnerEventSourceInput: Swift.Sendable {
     public init(
         account: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.account = account
         self.name = name
     }
@@ -1832,8 +1774,7 @@ public struct ManagedRuleException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1851,8 +1792,7 @@ public struct DeleteRuleInput: Swift.Sendable {
         eventBusName: Swift.String? = nil,
         force: Swift.Bool? = false,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.force = force
         self.name = name
@@ -1866,8 +1806,7 @@ public struct DescribeApiDestinationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1905,8 +1844,7 @@ public struct DescribeApiDestinationOutput: Swift.Sendable {
         invocationRateLimitPerSecond: Swift.Int? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiDestinationArn = apiDestinationArn
         self.apiDestinationState = apiDestinationState
         self.connectionArn = connectionArn
@@ -1927,8 +1865,7 @@ public struct DescribeArchiveInput: Swift.Sendable {
 
     public init(
         archiveName: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveName = archiveName
     }
 }
@@ -1969,8 +1906,7 @@ public struct DescribeArchiveOutput: Swift.Sendable {
         sizeBytes: Swift.Int = 0,
         state: EventBridgeClientTypes.ArchiveState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveArn = archiveArn
         self.archiveName = archiveName
         self.creationTime = creationTime
@@ -1992,8 +1928,7 @@ public struct DescribeConnectionInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2007,8 +1942,7 @@ extension EventBridgeClientTypes {
 
         public init(
             apiKeyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKeyName = apiKeyName
         }
     }
@@ -2023,8 +1957,7 @@ extension EventBridgeClientTypes {
 
         public init(
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.username = username
         }
     }
@@ -2044,8 +1977,7 @@ extension EventBridgeClientTypes {
         public init(
             resourceAssociationArn: Swift.String? = nil,
             resourceConfigurationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceAssociationArn = resourceAssociationArn
             self.resourceConfigurationArn = resourceConfigurationArn
         }
@@ -2062,8 +1994,7 @@ extension EventBridgeClientTypes {
 
         public init(
             resourceParameters: EventBridgeClientTypes.DescribeConnectionResourceParameters? = nil
-        )
-        {
+        ) {
             self.resourceParameters = resourceParameters
         }
     }
@@ -2078,8 +2009,7 @@ extension EventBridgeClientTypes {
 
         public init(
             clientID: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientID = clientID
         }
     }
@@ -2103,8 +2033,7 @@ extension EventBridgeClientTypes {
             clientParameters: EventBridgeClientTypes.ConnectionOAuthClientResponseParameters? = nil,
             httpMethod: EventBridgeClientTypes.ConnectionOAuthHttpMethod? = nil,
             oAuthHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil
-        )
-        {
+        ) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientParameters = clientParameters
             self.httpMethod = httpMethod
@@ -2134,8 +2063,7 @@ extension EventBridgeClientTypes {
             connectivityParameters: EventBridgeClientTypes.DescribeConnectionConnectivityParameters? = nil,
             invocationHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil,
             oAuthParameters: EventBridgeClientTypes.ConnectionOAuthResponseParameters? = nil
-        )
-        {
+        ) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
             self.connectivityParameters = connectivityParameters
@@ -2184,8 +2112,7 @@ public struct DescribeConnectionOutput: Swift.Sendable {
         name: Swift.String? = nil,
         secretArn: Swift.String? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.authParameters = authParameters
         self.authorizationType = authorizationType
         self.connectionArn = connectionArn
@@ -2211,8 +2138,7 @@ public struct DescribeEndpointInput: Swift.Sendable {
     public init(
         homeRegion: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.homeRegion = homeRegion
         self.name = name
     }
@@ -2260,8 +2186,7 @@ public struct DescribeEndpointOutput: Swift.Sendable {
         routingConfig: EventBridgeClientTypes.RoutingConfig? = nil,
         state: EventBridgeClientTypes.EndpointState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -2284,8 +2209,7 @@ public struct DescribeEventBusInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2317,8 +2241,7 @@ public struct DescribeEventBusOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.deadLetterConfig = deadLetterConfig
@@ -2337,8 +2260,7 @@ public struct DescribeEventSourceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2396,8 +2318,7 @@ public struct DescribeEventSourceOutput: Swift.Sendable {
         expirationTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         state: EventBridgeClientTypes.EventSourceState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.creationTime = creationTime
@@ -2414,8 +2335,7 @@ public struct DescribePartnerEventSourceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2429,8 +2349,7 @@ public struct DescribePartnerEventSourceOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -2443,8 +2362,7 @@ public struct DescribeReplayInput: Swift.Sendable {
 
     public init(
         replayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.replayName = replayName
     }
 }
@@ -2462,8 +2380,7 @@ extension EventBridgeClientTypes {
         public init(
             arn: Swift.String? = nil,
             filterArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.filterArns = filterArns
         }
@@ -2509,8 +2426,7 @@ public struct DescribeReplayOutput: Swift.Sendable {
         replayStartTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ReplayState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.destination = destination
         self.eventEndTime = eventEndTime
@@ -2536,8 +2452,7 @@ public struct DescribeRuleInput: Swift.Sendable {
     public init(
         eventBusName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.name = name
     }
@@ -2608,8 +2523,7 @@ public struct DescribeRuleOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         scheduleExpression: Swift.String? = nil,
         state: EventBridgeClientTypes.RuleState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.description = description
@@ -2633,8 +2547,7 @@ public struct DisableRuleInput: Swift.Sendable {
     public init(
         eventBusName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.name = name
     }
@@ -2650,8 +2563,7 @@ public struct EnableRuleInput: Swift.Sendable {
     public init(
         eventBusName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.name = name
     }
@@ -2672,8 +2584,7 @@ public struct ListApiDestinationsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.limit = limit
         self.namePrefix = namePrefix
@@ -2690,8 +2601,7 @@ public struct ListApiDestinationsOutput: Swift.Sendable {
     public init(
         apiDestinations: [EventBridgeClientTypes.ApiDestination]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiDestinations = apiDestinations
         self.nextToken = nextToken
     }
@@ -2715,8 +2625,7 @@ public struct ListArchivesInput: Swift.Sendable {
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         state: EventBridgeClientTypes.ArchiveState? = nil
-    )
-    {
+    ) {
         self.eventSourceArn = eventSourceArn
         self.limit = limit
         self.namePrefix = namePrefix
@@ -2734,8 +2643,7 @@ public struct ListArchivesOutput: Swift.Sendable {
     public init(
         archives: [EventBridgeClientTypes.Archive]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.archives = archives
         self.nextToken = nextToken
     }
@@ -2756,8 +2664,7 @@ public struct ListConnectionsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionState = connectionState
         self.limit = limit
         self.namePrefix = namePrefix
@@ -2795,8 +2702,7 @@ extension EventBridgeClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             stateReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationType = authorizationType
             self.connectionArn = connectionArn
             self.connectionState = connectionState
@@ -2818,8 +2724,7 @@ public struct ListConnectionsOutput: Swift.Sendable {
     public init(
         connections: [EventBridgeClientTypes.Connection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connections = connections
         self.nextToken = nextToken
     }
@@ -2840,8 +2745,7 @@ public struct ListEndpointsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.homeRegion = homeRegion
         self.maxResults = maxResults
         self.namePrefix = namePrefix
@@ -2894,8 +2798,7 @@ extension EventBridgeClientTypes {
             routingConfig: EventBridgeClientTypes.RoutingConfig? = nil,
             state: EventBridgeClientTypes.EndpointState? = nil,
             stateReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -2922,8 +2825,7 @@ public struct ListEndpointsOutput: Swift.Sendable {
     public init(
         endpoints: [EventBridgeClientTypes.Endpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }
@@ -2941,8 +2843,7 @@ public struct ListEventBusesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.namePrefix = namePrefix
         self.nextToken = nextToken
@@ -2973,8 +2874,7 @@ extension EventBridgeClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             policy: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -2994,8 +2894,7 @@ public struct ListEventBusesOutput: Swift.Sendable {
     public init(
         eventBuses: [EventBridgeClientTypes.EventBus]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBuses = eventBuses
         self.nextToken = nextToken
     }
@@ -3013,8 +2912,7 @@ public struct ListEventSourcesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.namePrefix = namePrefix
         self.nextToken = nextToken
@@ -3045,8 +2943,7 @@ extension EventBridgeClientTypes {
             expirationTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             state: EventBridgeClientTypes.EventSourceState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -3066,8 +2963,7 @@ public struct ListEventSourcesOutput: Swift.Sendable {
     public init(
         eventSources: [EventBridgeClientTypes.EventSource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSources = eventSources
         self.nextToken = nextToken
     }
@@ -3086,8 +2982,7 @@ public struct ListPartnerEventSourceAccountsInput: Swift.Sendable {
         eventSourceName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSourceName = eventSourceName
         self.limit = limit
         self.nextToken = nextToken
@@ -3112,8 +3007,7 @@ extension EventBridgeClientTypes {
             creationTime: Foundation.Date? = nil,
             expirationTime: Foundation.Date? = nil,
             state: EventBridgeClientTypes.EventSourceState? = nil
-        )
-        {
+        ) {
             self.account = account
             self.creationTime = creationTime
             self.expirationTime = expirationTime
@@ -3131,8 +3025,7 @@ public struct ListPartnerEventSourceAccountsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         partnerEventSourceAccounts: [EventBridgeClientTypes.PartnerEventSourceAccount]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.partnerEventSourceAccounts = partnerEventSourceAccounts
     }
@@ -3151,8 +3044,7 @@ public struct ListPartnerEventSourcesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.namePrefix = namePrefix
         self.nextToken = nextToken
@@ -3171,8 +3063,7 @@ extension EventBridgeClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -3188,8 +3079,7 @@ public struct ListPartnerEventSourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         partnerEventSources: [EventBridgeClientTypes.PartnerEventSource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.partnerEventSources = partnerEventSources
     }
@@ -3213,8 +3103,7 @@ public struct ListReplaysInput: Swift.Sendable {
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         state: EventBridgeClientTypes.ReplayState? = nil
-    )
-    {
+    ) {
         self.eventSourceArn = eventSourceArn
         self.limit = limit
         self.namePrefix = namePrefix
@@ -3256,8 +3145,7 @@ extension EventBridgeClientTypes {
             replayStartTime: Foundation.Date? = nil,
             state: EventBridgeClientTypes.ReplayState? = nil,
             stateReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventEndTime = eventEndTime
             self.eventLastReplayedTime = eventLastReplayedTime
             self.eventSourceArn = eventSourceArn
@@ -3280,8 +3168,7 @@ public struct ListReplaysOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         replays: [EventBridgeClientTypes.Replay]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.replays = replays
     }
@@ -3303,8 +3190,7 @@ public struct ListRuleNamesByTargetInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.limit = limit
         self.nextToken = nextToken
@@ -3321,8 +3207,7 @@ public struct ListRuleNamesByTargetOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleNames = ruleNames
     }
@@ -3343,8 +3228,7 @@ public struct ListRulesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.limit = limit
         self.namePrefix = namePrefix
@@ -3391,8 +3275,7 @@ extension EventBridgeClientTypes {
             roleArn: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil,
             state: EventBridgeClientTypes.RuleState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.eventBusName = eventBusName
@@ -3415,8 +3298,7 @@ public struct ListRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rules: [EventBridgeClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rules = rules
     }
@@ -3429,8 +3311,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -3441,8 +3322,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [EventBridgeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3463,8 +3343,7 @@ public struct ListTargetsByRuleInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         rule: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.limit = limit
         self.nextToken = nextToken
@@ -3481,8 +3360,7 @@ extension EventBridgeClientTypes {
 
         public init(
             size: Swift.Int = 0
-        )
-        {
+        ) {
             self.size = size
         }
     }
@@ -3497,8 +3375,7 @@ extension EventBridgeClientTypes {
 
         public init(
             attempts: Swift.Int = 0
-        )
-        {
+        ) {
             self.attempts = attempts
         }
     }
@@ -3524,8 +3401,7 @@ extension EventBridgeClientTypes {
             jobDefinition: Swift.String? = nil,
             jobName: Swift.String? = nil,
             retryStrategy: EventBridgeClientTypes.BatchRetryStrategy? = nil
-        )
-        {
+        ) {
             self.arrayProperties = arrayProperties
             self.jobDefinition = jobDefinition
             self.jobName = jobName
@@ -3550,8 +3426,7 @@ extension EventBridgeClientTypes {
             base: Swift.Int = 0,
             capacityProvider: Swift.String? = nil,
             weight: Swift.Int = 0
-        )
-        {
+        ) {
             self.base = base
             self.capacityProvider = capacityProvider
             self.weight = weight
@@ -3607,8 +3482,7 @@ extension EventBridgeClientTypes {
             assignPublicIp: EventBridgeClientTypes.AssignPublicIp? = nil,
             securityGroups: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
             self.subnets = subnets
@@ -3625,8 +3499,7 @@ extension EventBridgeClientTypes {
 
         public init(
             awsvpcConfiguration: EventBridgeClientTypes.AwsVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.awsvpcConfiguration = awsvpcConfiguration
         }
     }
@@ -3673,8 +3546,7 @@ extension EventBridgeClientTypes {
         public init(
             expression: Swift.String? = nil,
             type: EventBridgeClientTypes.PlacementConstraintType? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.type = type
         }
@@ -3725,8 +3597,7 @@ extension EventBridgeClientTypes {
         public init(
             field: Swift.String? = nil,
             type: EventBridgeClientTypes.PlacementStrategyType? = nil
-        )
-        {
+        ) {
             self.field = field
             self.type = type
         }
@@ -3808,8 +3679,7 @@ extension EventBridgeClientTypes {
             tags: [EventBridgeClientTypes.Tag]? = nil,
             taskCount: Swift.Int? = nil,
             taskDefinitionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.enableECSManagedTags = enableECSManagedTags
             self.enableExecuteCommand = enableExecuteCommand
@@ -3843,8 +3713,7 @@ extension EventBridgeClientTypes {
             headerParameters: [Swift.String: Swift.String]? = nil,
             pathParameterValues: [Swift.String]? = nil,
             queryStringParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.headerParameters = headerParameters
             self.pathParameterValues = pathParameterValues
             self.queryStringParameters = queryStringParameters
@@ -3898,8 +3767,7 @@ extension EventBridgeClientTypes {
         public init(
             inputPathsMap: [Swift.String: Swift.String]? = nil,
             inputTemplate: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputPathsMap = inputPathsMap
             self.inputTemplate = inputTemplate
         }
@@ -3916,8 +3784,7 @@ extension EventBridgeClientTypes {
 
         public init(
             partitionKeyPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.partitionKeyPath = partitionKeyPath
         }
     }
@@ -3951,8 +3818,7 @@ extension EventBridgeClientTypes {
             sqls: [Swift.String]? = nil,
             statementName: Swift.String? = nil,
             withEvent: Swift.Bool = false
-        )
-        {
+        ) {
             self.database = database
             self.dbUser = dbUser
             self.secretManagerArn = secretManagerArn
@@ -3981,8 +3847,7 @@ extension EventBridgeClientTypes {
         public init(
             maximumEventAgeInSeconds: Swift.Int? = nil,
             maximumRetryAttempts: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
         }
@@ -4003,8 +3868,7 @@ extension EventBridgeClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -4021,8 +3885,7 @@ extension EventBridgeClientTypes {
 
         public init(
             runCommandTargets: [EventBridgeClientTypes.RunCommandTarget]? = nil
-        )
-        {
+        ) {
             self.runCommandTargets = runCommandTargets
         }
     }
@@ -4042,8 +3905,7 @@ extension EventBridgeClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -4059,8 +3921,7 @@ extension EventBridgeClientTypes {
 
         public init(
             pipelineParameterList: [EventBridgeClientTypes.SageMakerPipelineParameter]? = nil
-        )
-        {
+        ) {
             self.pipelineParameterList = pipelineParameterList
         }
     }
@@ -4075,8 +3936,7 @@ extension EventBridgeClientTypes {
 
         public init(
             messageGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.messageGroupId = messageGroupId
         }
     }
@@ -4141,8 +4001,7 @@ extension EventBridgeClientTypes {
             runCommandParameters: EventBridgeClientTypes.RunCommandParameters? = nil,
             sageMakerPipelineParameters: EventBridgeClientTypes.SageMakerPipelineParameters? = nil,
             sqsParameters: EventBridgeClientTypes.SqsParameters? = nil
-        )
-        {
+        ) {
             self.appSyncParameters = appSyncParameters
             self.arn = arn
             self.batchParameters = batchParameters
@@ -4173,8 +4032,7 @@ public struct ListTargetsByRuleOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         targets: [EventBridgeClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.targets = targets
     }
@@ -4207,8 +4065,7 @@ extension EventBridgeClientTypes {
             source: Swift.String? = nil,
             time: Foundation.Date? = nil,
             traceHeader: Swift.String? = nil
-        )
-        {
+        ) {
             self.detail = detail
             self.detailType = detailType
             self.eventBusName = eventBusName
@@ -4230,8 +4087,7 @@ public struct PutEventsInput: Swift.Sendable {
     public init(
         endpointId: Swift.String? = nil,
         entries: [EventBridgeClientTypes.PutEventsRequestEntry]? = nil
-    )
-    {
+    ) {
         self.endpointId = endpointId
         self.entries = entries
     }
@@ -4273,8 +4129,7 @@ extension EventBridgeClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             eventId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.eventId = eventId
@@ -4291,8 +4146,7 @@ public struct PutEventsOutput: Swift.Sendable {
     public init(
         entries: [EventBridgeClientTypes.PutEventsResultEntry]? = nil,
         failedEntryCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.entries = entries
         self.failedEntryCount = failedEntryCount
     }
@@ -4319,8 +4173,7 @@ extension EventBridgeClientTypes {
             resources: [Swift.String]? = nil,
             source: Swift.String? = nil,
             time: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.detail = detail
             self.detailType = detailType
             self.resources = resources
@@ -4337,8 +4190,7 @@ public struct PutPartnerEventsInput: Swift.Sendable {
 
     public init(
         entries: [EventBridgeClientTypes.PutPartnerEventsRequestEntry]? = nil
-    )
-    {
+    ) {
         self.entries = entries
     }
 }
@@ -4358,8 +4210,7 @@ extension EventBridgeClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             eventId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.eventId = eventId
@@ -4376,8 +4227,7 @@ public struct PutPartnerEventsOutput: Swift.Sendable {
     public init(
         entries: [EventBridgeClientTypes.PutPartnerEventsResultEntry]? = nil,
         failedEntryCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.entries = entries
         self.failedEntryCount = failedEntryCount
     }
@@ -4401,8 +4251,7 @@ public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4425,8 +4274,7 @@ extension EventBridgeClientTypes {
             key: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.type = type
             self.value = value
@@ -4455,8 +4303,7 @@ public struct PutPermissionInput: Swift.Sendable {
         policy: Swift.String? = nil,
         principal: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.condition = condition
         self.eventBusName = eventBusName
@@ -4500,8 +4347,7 @@ public struct PutRuleInput: Swift.Sendable {
         scheduleExpression: Swift.String? = nil,
         state: EventBridgeClientTypes.RuleState? = nil,
         tags: [EventBridgeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventBusName = eventBusName
         self.eventPattern = eventPattern
@@ -4519,8 +4365,7 @@ public struct PutRuleOutput: Swift.Sendable {
 
     public init(
         ruleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleArn = ruleArn
     }
 }
@@ -4539,8 +4384,7 @@ public struct PutTargetsInput: Swift.Sendable {
         eventBusName: Swift.String? = nil,
         rule: Swift.String? = nil,
         targets: [EventBridgeClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.rule = rule
         self.targets = targets
@@ -4562,8 +4406,7 @@ extension EventBridgeClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             targetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.targetId = targetId
@@ -4580,8 +4423,7 @@ public struct PutTargetsOutput: Swift.Sendable {
     public init(
         failedEntries: [EventBridgeClientTypes.PutTargetsResultEntry]? = nil,
         failedEntryCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.failedEntries = failedEntries
         self.failedEntryCount = failedEntryCount
     }
@@ -4599,8 +4441,7 @@ public struct RemovePermissionInput: Swift.Sendable {
         eventBusName: Swift.String? = nil,
         removeAllPermissions: Swift.Bool? = false,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.removeAllPermissions = removeAllPermissions
         self.statementId = statementId
@@ -4624,8 +4465,7 @@ public struct RemoveTargetsInput: Swift.Sendable {
         force: Swift.Bool? = false,
         ids: [Swift.String]? = nil,
         rule: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.force = force
         self.ids = ids
@@ -4648,8 +4488,7 @@ extension EventBridgeClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             targetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.targetId = targetId
@@ -4666,8 +4505,7 @@ public struct RemoveTargetsOutput: Swift.Sendable {
     public init(
         failedEntries: [EventBridgeClientTypes.RemoveTargetsResultEntry]? = nil,
         failedEntryCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.failedEntries = failedEntries
         self.failedEntryCount = failedEntryCount
     }
@@ -4699,8 +4537,7 @@ public struct StartReplayInput: Swift.Sendable {
         eventSourceArn: Swift.String? = nil,
         eventStartTime: Foundation.Date? = nil,
         replayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.destination = destination
         self.eventEndTime = eventEndTime
@@ -4725,8 +4562,7 @@ public struct StartReplayOutput: Swift.Sendable {
         replayStartTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ReplayState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.replayArn = replayArn
         self.replayStartTime = replayStartTime
         self.state = state
@@ -4745,8 +4581,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [EventBridgeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -4782,8 +4617,7 @@ public struct TestEventPatternInput: Swift.Sendable {
     public init(
         event: Swift.String? = nil,
         eventPattern: Swift.String? = nil
-    )
-    {
+    ) {
         self.event = event
         self.eventPattern = eventPattern
     }
@@ -4795,8 +4629,7 @@ public struct TestEventPatternOutput: Swift.Sendable {
 
     public init(
         result: Swift.Bool = false
-    )
-    {
+    ) {
         self.result = result
     }
 }
@@ -4812,8 +4645,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -4846,8 +4678,7 @@ public struct UpdateApiDestinationInput: Swift.Sendable {
         invocationEndpoint: Swift.String? = nil,
         invocationRateLimitPerSecond: Swift.Int? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.description = description
         self.httpMethod = httpMethod
@@ -4872,8 +4703,7 @@ public struct UpdateApiDestinationOutput: Swift.Sendable {
         apiDestinationState: EventBridgeClientTypes.ApiDestinationState? = nil,
         creationTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.apiDestinationArn = apiDestinationArn
         self.apiDestinationState = apiDestinationState
         self.creationTime = creationTime
@@ -4897,8 +4727,7 @@ public struct UpdateArchiveInput: Swift.Sendable {
         description: Swift.String? = nil,
         eventPattern: Swift.String? = nil,
         retentionDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.archiveName = archiveName
         self.description = description
         self.eventPattern = eventPattern
@@ -4921,8 +4750,7 @@ public struct UpdateArchiveOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ArchiveState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveArn = archiveArn
         self.creationTime = creationTime
         self.state = state
@@ -4942,8 +4770,7 @@ extension EventBridgeClientTypes {
         public init(
             apiKeyName: Swift.String? = nil,
             apiKeyValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKeyName = apiKeyName
             self.apiKeyValue = apiKeyValue
         }
@@ -4967,8 +4794,7 @@ extension EventBridgeClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -4992,8 +4818,7 @@ extension EventBridgeClientTypes {
         public init(
             clientID: Swift.String? = nil,
             clientSecret: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientID = clientID
             self.clientSecret = clientSecret
         }
@@ -5023,8 +4848,7 @@ extension EventBridgeClientTypes {
             clientParameters: EventBridgeClientTypes.UpdateConnectionOAuthClientRequestParameters? = nil,
             httpMethod: EventBridgeClientTypes.ConnectionOAuthHttpMethod? = nil,
             oAuthHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil
-        )
-        {
+        ) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientParameters = clientParameters
             self.httpMethod = httpMethod
@@ -5054,8 +4878,7 @@ extension EventBridgeClientTypes {
             connectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
             invocationHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil,
             oAuthParameters: EventBridgeClientTypes.UpdateConnectionOAuthRequestParameters? = nil
-        )
-        {
+        ) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
             self.connectivityParameters = connectivityParameters
@@ -5084,8 +4907,7 @@ public struct UpdateConnectionInput: Swift.Sendable {
         description: Swift.String? = nil,
         invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.authParameters = authParameters
         self.authorizationType = authorizationType
         self.description = description
@@ -5112,8 +4934,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         lastAuthorizedTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.connectionState = connectionState
         self.creationTime = creationTime
@@ -5144,8 +4965,7 @@ public struct UpdateEndpointInput: Swift.Sendable {
         replicationConfig: EventBridgeClientTypes.ReplicationConfig? = nil,
         roleArn: Swift.String? = nil,
         routingConfig: EventBridgeClientTypes.RoutingConfig? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventBuses = eventBuses
         self.name = name
@@ -5185,8 +5005,7 @@ public struct UpdateEndpointOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         routingConfig: EventBridgeClientTypes.RoutingConfig? = nil,
         state: EventBridgeClientTypes.EndpointState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.endpointId = endpointId
         self.endpointUrl = endpointUrl
@@ -5223,8 +5042,7 @@ public struct UpdateEventBusInput: Swift.Sendable {
         description: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.kmsKeyIdentifier = kmsKeyIdentifier
@@ -5250,8 +5068,7 @@ public struct UpdateEventBusOutput: Swift.Sendable {
         description: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.deadLetterConfig = deadLetterConfig
         self.description = description

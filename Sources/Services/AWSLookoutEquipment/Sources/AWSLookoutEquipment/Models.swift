@@ -100,8 +100,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -163,8 +162,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -188,8 +186,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -213,8 +210,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -238,8 +234,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -263,8 +258,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -278,8 +272,7 @@ extension LookoutEquipmentClientTypes {
 
         public init(
             inlineDataSchema: Swift.String? = nil
-        )
-        {
+        ) {
             self.inlineDataSchema = inlineDataSchema
         }
     }
@@ -299,8 +292,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -327,8 +319,7 @@ public struct CreateDatasetInput: Swift.Sendable {
         datasetSchema: LookoutEquipmentClientTypes.DatasetSchema? = nil,
         serverSideKmsKeyId: Swift.String? = nil,
         tags: [LookoutEquipmentClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datasetName = datasetName
         self.datasetSchema = datasetSchema
@@ -384,8 +375,7 @@ public struct CreateDatasetOutput: Swift.Sendable {
         datasetArn: Swift.String? = nil,
         datasetName: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.DatasetStatus? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.datasetName = datasetName
         self.status = status
@@ -411,8 +401,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -429,8 +418,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             componentTimestampDelimiter: Swift.String? = nil,
             timestampFormat: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentTimestampDelimiter = componentTimestampDelimiter
             self.timestampFormat = timestampFormat
         }
@@ -450,8 +438,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -473,8 +460,7 @@ extension LookoutEquipmentClientTypes {
             inferenceInputNameConfiguration: LookoutEquipmentClientTypes.InferenceInputNameConfiguration? = nil,
             inputTimeZoneOffset: Swift.String? = nil,
             s3InputConfiguration: LookoutEquipmentClientTypes.InferenceS3InputConfiguration? = nil
-        )
-        {
+        ) {
             self.inferenceInputNameConfiguration = inferenceInputNameConfiguration
             self.inputTimeZoneOffset = inputTimeZoneOffset
             self.s3InputConfiguration = s3InputConfiguration
@@ -495,8 +481,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -516,8 +501,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3OutputConfiguration: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputConfiguration = s3OutputConfiguration
         }
@@ -602,8 +586,7 @@ public struct CreateInferenceSchedulerInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         serverSideKmsKeyId: Swift.String? = nil,
         tags: [LookoutEquipmentClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataDelayOffsetInMinutes = dataDelayOffsetInMinutes
         self.dataInputConfiguration = dataInputConfiguration
@@ -699,8 +682,7 @@ public struct CreateInferenceSchedulerOutput: Swift.Sendable {
         inferenceSchedulerName: Swift.String? = nil,
         modelQuality: LookoutEquipmentClientTypes.ModelQuality? = nil,
         status: LookoutEquipmentClientTypes.InferenceSchedulerStatus? = nil
-    )
-    {
+    ) {
         self.inferenceSchedulerArn = inferenceSchedulerArn
         self.inferenceSchedulerName = inferenceSchedulerName
         self.modelQuality = modelQuality
@@ -772,8 +754,7 @@ public struct CreateLabelInput: Swift.Sendable {
         notes: Swift.String? = nil,
         rating: LookoutEquipmentClientTypes.LabelRating? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.endTime = endTime
         self.equipment = equipment
@@ -791,8 +772,7 @@ public struct CreateLabelOutput: Swift.Sendable {
 
     public init(
         labelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelId = labelId
     }
 }
@@ -814,8 +794,7 @@ public struct CreateLabelGroupInput: Swift.Sendable {
         faultCodes: [Swift.String]? = nil,
         labelGroupName: Swift.String? = nil,
         tags: [LookoutEquipmentClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.faultCodes = faultCodes
         self.labelGroupName = labelGroupName
@@ -832,8 +811,7 @@ public struct CreateLabelGroupOutput: Swift.Sendable {
     public init(
         labelGroupArn: Swift.String? = nil,
         labelGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelGroupArn = labelGroupArn
         self.labelGroupName = labelGroupName
     }
@@ -904,8 +882,7 @@ extension LookoutEquipmentClientTypes {
 
         public init(
             targetSamplingRate: LookoutEquipmentClientTypes.TargetSamplingRate? = nil
-        )
-        {
+        ) {
             self.targetSamplingRate = targetSamplingRate
         }
     }
@@ -924,8 +901,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -944,8 +920,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             labelGroupName: Swift.String? = nil,
             s3InputConfiguration: LookoutEquipmentClientTypes.LabelsS3InputConfiguration? = nil
-        )
-        {
+        ) {
             self.labelGroupName = labelGroupName
             self.s3InputConfiguration = s3InputConfiguration
         }
@@ -965,8 +940,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -986,8 +960,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3OutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputConfiguration = s3OutputConfiguration
         }
@@ -1045,8 +1018,7 @@ public struct CreateModelInput: Swift.Sendable {
         tags: [LookoutEquipmentClientTypes.Tag]? = nil,
         trainingDataEndTime: Foundation.Date? = nil,
         trainingDataStartTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataPreProcessingConfiguration = dataPreProcessingConfiguration
         self.datasetName = datasetName
@@ -1109,8 +1081,7 @@ public struct CreateModelOutput: Swift.Sendable {
     public init(
         modelArn: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.ModelStatus? = nil
-    )
-    {
+    ) {
         self.modelArn = modelArn
         self.status = status
     }
@@ -1176,8 +1147,7 @@ public struct CreateRetrainingSchedulerInput: Swift.Sendable {
         promoteMode: LookoutEquipmentClientTypes.ModelPromoteMode? = nil,
         retrainingFrequency: Swift.String? = nil,
         retrainingStartDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.lookbackWindow = lookbackWindow
         self.modelName = modelName
@@ -1234,8 +1204,7 @@ public struct CreateRetrainingSchedulerOutput: Swift.Sendable {
         modelArn: Swift.String? = nil,
         modelName: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil
-    )
-    {
+    ) {
         self.modelArn = modelArn
         self.modelName = modelName
         self.status = status
@@ -1249,8 +1218,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
 
     public init(
         datasetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
     }
 }
@@ -1262,8 +1230,7 @@ public struct DeleteInferenceSchedulerInput: Swift.Sendable {
 
     public init(
         inferenceSchedulerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceSchedulerName = inferenceSchedulerName
     }
 }
@@ -1279,8 +1246,7 @@ public struct DeleteLabelInput: Swift.Sendable {
     public init(
         labelGroupName: Swift.String? = nil,
         labelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelGroupName = labelGroupName
         self.labelId = labelId
     }
@@ -1293,8 +1259,7 @@ public struct DeleteLabelGroupInput: Swift.Sendable {
 
     public init(
         labelGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelGroupName = labelGroupName
     }
 }
@@ -1306,8 +1271,7 @@ public struct DeleteModelInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -1319,8 +1283,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1332,8 +1295,7 @@ public struct DeleteRetrainingSchedulerInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -1345,8 +1307,7 @@ public struct DescribeDataIngestionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -1361,8 +1322,7 @@ extension LookoutEquipmentClientTypes {
 
         public init(
             totalNumberOfDuplicateTimestamps: Swift.Int? = nil
-        )
-        {
+        ) {
             self.totalNumberOfDuplicateTimestamps = totalNumberOfDuplicateTimestamps
         }
     }
@@ -1378,8 +1338,7 @@ extension LookoutEquipmentClientTypes {
 
         public init(
             affectedSensorCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.affectedSensorCount = affectedSensorCount
         }
     }
@@ -1395,8 +1354,7 @@ extension LookoutEquipmentClientTypes {
 
         public init(
             affectedSensorCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.affectedSensorCount = affectedSensorCount
         }
     }
@@ -1416,8 +1374,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             missingCompleteSensorData: LookoutEquipmentClientTypes.MissingCompleteSensorData? = nil,
             sensorsWithShortDateRange: LookoutEquipmentClientTypes.SensorsWithShortDateRange? = nil
-        )
-        {
+        ) {
             self.missingCompleteSensorData = missingCompleteSensorData
             self.sensorsWithShortDateRange = sensorsWithShortDateRange
         }
@@ -1438,8 +1395,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             affectedSensorCount: Swift.Int? = nil,
             totalNumberOfInvalidValues: Swift.Int? = nil
-        )
-        {
+        ) {
             self.affectedSensorCount = affectedSensorCount
             self.totalNumberOfInvalidValues = totalNumberOfInvalidValues
         }
@@ -1460,8 +1416,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             affectedSensorCount: Swift.Int? = nil,
             totalNumberOfMissingValues: Swift.Int? = nil
-        )
-        {
+        ) {
             self.affectedSensorCount = affectedSensorCount
             self.totalNumberOfMissingValues = totalNumberOfMissingValues
         }
@@ -1478,8 +1433,7 @@ extension LookoutEquipmentClientTypes {
 
         public init(
             totalNumberOfUnsupportedTimestamps: Swift.Int? = nil
-        )
-        {
+        ) {
             self.totalNumberOfUnsupportedTimestamps = totalNumberOfUnsupportedTimestamps
         }
     }
@@ -1511,8 +1465,7 @@ extension LookoutEquipmentClientTypes {
             invalidSensorData: LookoutEquipmentClientTypes.InvalidSensorData? = nil,
             missingSensorData: LookoutEquipmentClientTypes.MissingSensorData? = nil,
             unsupportedTimestamps: LookoutEquipmentClientTypes.UnsupportedTimestamps? = nil
-        )
-        {
+        ) {
             self.duplicateTimestamps = duplicateTimestamps
             self.insufficientSensorData = insufficientSensorData
             self.invalidSensorData = invalidSensorData
@@ -1536,8 +1489,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -1561,8 +1513,7 @@ extension LookoutEquipmentClientTypes {
             discardedFiles: [LookoutEquipmentClientTypes.S3Object]? = nil,
             ingestedNumberOfFiles: Swift.Int? = nil,
             totalNumberOfFiles: Swift.Int? = nil
-        )
-        {
+        ) {
             self.discardedFiles = discardedFiles
             self.ingestedNumberOfFiles = ingestedNumberOfFiles
             self.totalNumberOfFiles = totalNumberOfFiles
@@ -1586,8 +1537,7 @@ extension LookoutEquipmentClientTypes {
             bucket: Swift.String? = nil,
             keyPattern: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPattern = keyPattern
             self.`prefix` = `prefix`
@@ -1605,8 +1555,7 @@ extension LookoutEquipmentClientTypes {
 
         public init(
             s3InputConfiguration: LookoutEquipmentClientTypes.IngestionS3InputConfiguration? = nil
-        )
-        {
+        ) {
             self.s3InputConfiguration = s3InputConfiguration
         }
     }
@@ -1692,8 +1641,7 @@ public struct DescribeDataIngestionJobOutput: Swift.Sendable {
         sourceDatasetArn: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.IngestionJobStatus? = nil,
         statusDetail: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.dataEndTime = dataEndTime
         self.dataQualitySummary = dataQualitySummary
@@ -1718,8 +1666,7 @@ public struct DescribeDatasetInput: Swift.Sendable {
 
     public init(
         datasetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
     }
 }
@@ -1769,8 +1716,7 @@ public struct DescribeDatasetOutput: Swift.Sendable {
         serverSideKmsKeyId: Swift.String? = nil,
         sourceDatasetArn: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.DatasetStatus? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.dataEndTime = dataEndTime
         self.dataQualitySummary = dataQualitySummary
@@ -1795,8 +1741,7 @@ public struct DescribeInferenceSchedulerInput: Swift.Sendable {
 
     public init(
         inferenceSchedulerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceSchedulerName = inferenceSchedulerName
     }
 }
@@ -1875,8 +1820,7 @@ public struct DescribeInferenceSchedulerOutput: Swift.Sendable {
         serverSideKmsKeyId: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.InferenceSchedulerStatus? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.dataDelayOffsetInMinutes = dataDelayOffsetInMinutes
         self.dataInputConfiguration = dataInputConfiguration
@@ -1905,8 +1849,7 @@ public struct DescribeLabelInput: Swift.Sendable {
     public init(
         labelGroupName: Swift.String? = nil,
         labelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelGroupName = labelGroupName
         self.labelId = labelId
     }
@@ -1945,8 +1888,7 @@ public struct DescribeLabelOutput: Swift.Sendable {
         notes: Swift.String? = nil,
         rating: LookoutEquipmentClientTypes.LabelRating? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.endTime = endTime
         self.equipment = equipment
@@ -1967,8 +1909,7 @@ public struct DescribeLabelGroupInput: Swift.Sendable {
 
     public init(
         labelGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelGroupName = labelGroupName
     }
 }
@@ -1991,8 +1932,7 @@ public struct DescribeLabelGroupOutput: Swift.Sendable {
         labelGroupArn: Swift.String? = nil,
         labelGroupName: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.faultCodes = faultCodes
         self.labelGroupArn = labelGroupArn
@@ -2008,8 +1948,7 @@ public struct DescribeModelInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -2181,8 +2120,7 @@ public struct DescribeModelOutput: Swift.Sendable {
         trainingDataStartTime: Foundation.Date? = nil,
         trainingExecutionEndTime: Foundation.Date? = nil,
         trainingExecutionStartTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.accumulatedInferenceDataEndTime = accumulatedInferenceDataEndTime
         self.accumulatedInferenceDataStartTime = accumulatedInferenceDataStartTime
         self.activeModelVersion = activeModelVersion
@@ -2239,8 +2177,7 @@ public struct DescribeModelVersionInput: Swift.Sendable {
     public init(
         modelName: Swift.String? = nil,
         modelVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
         self.modelVersion = modelVersion
     }
@@ -2386,8 +2323,7 @@ public struct DescribeModelVersionOutput: Swift.Sendable {
         trainingDataStartTime: Foundation.Date? = nil,
         trainingExecutionEndTime: Foundation.Date? = nil,
         trainingExecutionStartTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.autoPromotionResult = autoPromotionResult
         self.autoPromotionResultReason = autoPromotionResultReason
         self.createdAt = createdAt
@@ -2433,8 +2369,7 @@ public struct DescribeResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2454,8 +2389,7 @@ public struct DescribeResourcePolicyOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         policyRevisionId: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.lastModifiedTime = lastModifiedTime
         self.policyRevisionId = policyRevisionId
@@ -2470,8 +2404,7 @@ public struct DescribeRetrainingSchedulerInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -2506,8 +2439,7 @@ public struct DescribeRetrainingSchedulerOutput: Swift.Sendable {
         retrainingStartDate: Foundation.Date? = nil,
         status: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.lookbackWindow = lookbackWindow
         self.modelArn = modelArn
@@ -2540,8 +2472,7 @@ public struct ImportDatasetInput: Swift.Sendable {
         serverSideKmsKeyId: Swift.String? = nil,
         sourceDatasetArn: Swift.String? = nil,
         tags: [LookoutEquipmentClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datasetName = datasetName
         self.serverSideKmsKeyId = serverSideKmsKeyId
@@ -2565,8 +2496,7 @@ public struct ImportDatasetOutput: Swift.Sendable {
         datasetName: Swift.String? = nil,
         jobId: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.DatasetStatus? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.datasetName = datasetName
         self.jobId = jobId
@@ -2645,8 +2575,7 @@ public struct ImportModelVersionInput: Swift.Sendable {
         serverSideKmsKeyId: Swift.String? = nil,
         sourceModelVersionArn: Swift.String? = nil,
         tags: [LookoutEquipmentClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datasetName = datasetName
         self.inferenceDataImportStrategy = inferenceDataImportStrategy
@@ -2677,8 +2606,7 @@ public struct ImportModelVersionOutput: Swift.Sendable {
         modelVersion: Swift.Int? = nil,
         modelVersionArn: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.ModelVersionStatus? = nil
-    )
-    {
+    ) {
         self.modelArn = modelArn
         self.modelName = modelName
         self.modelVersion = modelVersion
@@ -2702,8 +2630,7 @@ public struct ListDataIngestionJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.IngestionJobStatus? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2732,8 +2659,7 @@ extension LookoutEquipmentClientTypes {
             ingestionInputConfiguration: LookoutEquipmentClientTypes.IngestionInputConfiguration? = nil,
             jobId: Swift.String? = nil,
             status: LookoutEquipmentClientTypes.IngestionJobStatus? = nil
-        )
-        {
+        ) {
             self.datasetArn = datasetArn
             self.datasetName = datasetName
             self.ingestionInputConfiguration = ingestionInputConfiguration
@@ -2752,8 +2678,7 @@ public struct ListDataIngestionJobsOutput: Swift.Sendable {
     public init(
         dataIngestionJobSummaries: [LookoutEquipmentClientTypes.DataIngestionJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataIngestionJobSummaries = dataIngestionJobSummaries
         self.nextToken = nextToken
     }
@@ -2771,8 +2696,7 @@ public struct ListDatasetsInput: Swift.Sendable {
         datasetNameBeginsWith: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetNameBeginsWith = datasetNameBeginsWith
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2797,8 +2721,7 @@ extension LookoutEquipmentClientTypes {
             datasetArn: Swift.String? = nil,
             datasetName: Swift.String? = nil,
             status: LookoutEquipmentClientTypes.DatasetStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.datasetArn = datasetArn
             self.datasetName = datasetName
@@ -2816,8 +2739,7 @@ public struct ListDatasetsOutput: Swift.Sendable {
     public init(
         datasetSummaries: [LookoutEquipmentClientTypes.DatasetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetSummaries = datasetSummaries
         self.nextToken = nextToken
     }
@@ -2844,8 +2766,7 @@ public struct ListInferenceEventsInput: Swift.Sendable {
         intervalStartTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceSchedulerName = inferenceSchedulerName
         self.intervalEndTime = intervalEndTime
         self.intervalStartTime = intervalStartTime
@@ -2878,8 +2799,7 @@ extension LookoutEquipmentClientTypes {
             eventStartTime: Foundation.Date? = nil,
             inferenceSchedulerArn: Swift.String? = nil,
             inferenceSchedulerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.diagnostics = diagnostics
             self.eventDurationInSeconds = eventDurationInSeconds
             self.eventEndTime = eventEndTime
@@ -2899,8 +2819,7 @@ public struct ListInferenceEventsOutput: Swift.Sendable {
     public init(
         inferenceEventSummaries: [LookoutEquipmentClientTypes.InferenceEventSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceEventSummaries = inferenceEventSummaries
         self.nextToken = nextToken
     }
@@ -2960,8 +2879,7 @@ public struct ListInferenceExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.InferenceExecutionStatus? = nil
-    )
-    {
+    ) {
         self.dataEndTimeBefore = dataEndTimeBefore
         self.dataStartTimeAfter = dataStartTimeAfter
         self.inferenceSchedulerName = inferenceSchedulerName
@@ -3019,8 +2937,7 @@ extension LookoutEquipmentClientTypes {
             modelVersionArn: Swift.String? = nil,
             scheduledStartTime: Foundation.Date? = nil,
             status: LookoutEquipmentClientTypes.InferenceExecutionStatus? = nil
-        )
-        {
+        ) {
             self.customerResultObject = customerResultObject
             self.dataEndTime = dataEndTime
             self.dataInputConfiguration = dataInputConfiguration
@@ -3048,8 +2965,7 @@ public struct ListInferenceExecutionsOutput: Swift.Sendable {
     public init(
         inferenceExecutionSummaries: [LookoutEquipmentClientTypes.InferenceExecutionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExecutionSummaries = inferenceExecutionSummaries
         self.nextToken = nextToken
     }
@@ -3073,8 +2989,7 @@ public struct ListInferenceSchedulersInput: Swift.Sendable {
         modelName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.InferenceSchedulerStatus? = nil
-    )
-    {
+    ) {
         self.inferenceSchedulerNameBeginsWith = inferenceSchedulerNameBeginsWith
         self.maxResults = maxResults
         self.modelName = modelName
@@ -3113,8 +3028,7 @@ extension LookoutEquipmentClientTypes {
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil,
             status: LookoutEquipmentClientTypes.InferenceSchedulerStatus? = nil
-        )
-        {
+        ) {
             self.dataDelayOffsetInMinutes = dataDelayOffsetInMinutes
             self.dataUploadFrequency = dataUploadFrequency
             self.inferenceSchedulerArn = inferenceSchedulerArn
@@ -3136,8 +3050,7 @@ public struct ListInferenceSchedulersOutput: Swift.Sendable {
     public init(
         inferenceSchedulerSummaries: [LookoutEquipmentClientTypes.InferenceSchedulerSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceSchedulerSummaries = inferenceSchedulerSummaries
         self.nextToken = nextToken
     }
@@ -3155,8 +3068,7 @@ public struct ListLabelGroupsInput: Swift.Sendable {
         labelGroupNameBeginsWith: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelGroupNameBeginsWith = labelGroupNameBeginsWith
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3181,8 +3093,7 @@ extension LookoutEquipmentClientTypes {
             labelGroupArn: Swift.String? = nil,
             labelGroupName: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.labelGroupArn = labelGroupArn
             self.labelGroupName = labelGroupName
@@ -3200,8 +3111,7 @@ public struct ListLabelGroupsOutput: Swift.Sendable {
     public init(
         labelGroupSummaries: [LookoutEquipmentClientTypes.LabelGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelGroupSummaries = labelGroupSummaries
         self.nextToken = nextToken
     }
@@ -3232,8 +3142,7 @@ public struct ListLabelsInput: Swift.Sendable {
         labelGroupName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.equipment = equipment
         self.faultCode = faultCode
         self.intervalEndTime = intervalEndTime
@@ -3277,8 +3186,7 @@ extension LookoutEquipmentClientTypes {
             labelId: Swift.String? = nil,
             rating: LookoutEquipmentClientTypes.LabelRating? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.endTime = endTime
             self.equipment = equipment
@@ -3301,8 +3209,7 @@ public struct ListLabelsOutput: Swift.Sendable {
     public init(
         labelSummaries: [LookoutEquipmentClientTypes.LabelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelSummaries = labelSummaries
         self.nextToken = nextToken
     }
@@ -3326,8 +3233,7 @@ public struct ListModelsInput: Swift.Sendable {
         modelNameBeginsWith: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.ModelStatus? = nil
-    )
-    {
+    ) {
         self.datasetNameBeginsWith = datasetNameBeginsWith
         self.maxResults = maxResults
         self.modelNameBeginsWith = modelNameBeginsWith
@@ -3387,8 +3293,7 @@ extension LookoutEquipmentClientTypes {
             nextScheduledRetrainingStartDate: Foundation.Date? = nil,
             retrainingSchedulerStatus: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil,
             status: LookoutEquipmentClientTypes.ModelStatus? = nil
-        )
-        {
+        ) {
             self.activeModelVersion = activeModelVersion
             self.activeModelVersionArn = activeModelVersionArn
             self.createdAt = createdAt
@@ -3417,8 +3322,7 @@ public struct ListModelsOutput: Swift.Sendable {
     public init(
         modelSummaries: [LookoutEquipmentClientTypes.ModelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelSummaries = modelSummaries
         self.nextToken = nextToken
     }
@@ -3455,8 +3359,7 @@ public struct ListModelVersionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType? = nil,
         status: LookoutEquipmentClientTypes.ModelVersionStatus? = nil
-    )
-    {
+    ) {
         self.createdAtEndTime = createdAtEndTime
         self.createdAtStartTime = createdAtStartTime
         self.maxModelVersion = maxModelVersion
@@ -3499,8 +3402,7 @@ extension LookoutEquipmentClientTypes {
             modelVersionArn: Swift.String? = nil,
             sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType? = nil,
             status: LookoutEquipmentClientTypes.ModelVersionStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.modelArn = modelArn
             self.modelName = modelName
@@ -3522,8 +3424,7 @@ public struct ListModelVersionsOutput: Swift.Sendable {
     public init(
         modelVersionSummaries: [LookoutEquipmentClientTypes.ModelVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelVersionSummaries = modelVersionSummaries
         self.nextToken = nextToken
     }
@@ -3544,8 +3445,7 @@ public struct ListRetrainingSchedulersInput: Swift.Sendable {
         modelNameBeginsWith: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.modelNameBeginsWith = modelNameBeginsWith
         self.nextToken = nextToken
@@ -3577,8 +3477,7 @@ extension LookoutEquipmentClientTypes {
             retrainingFrequency: Swift.String? = nil,
             retrainingStartDate: Foundation.Date? = nil,
             status: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil
-        )
-        {
+        ) {
             self.lookbackWindow = lookbackWindow
             self.modelArn = modelArn
             self.modelName = modelName
@@ -3598,8 +3497,7 @@ public struct ListRetrainingSchedulersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         retrainingSchedulerSummaries: [LookoutEquipmentClientTypes.RetrainingSchedulerSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.retrainingSchedulerSummaries = retrainingSchedulerSummaries
     }
@@ -3621,8 +3519,7 @@ public struct ListSensorStatisticsInput: Swift.Sendable {
         ingestionJobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.ingestionJobId = ingestionJobId
         self.maxResults = maxResults
@@ -3672,8 +3569,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             numberOfCategory: Swift.Int? = nil,
             status: LookoutEquipmentClientTypes.StatisticalIssueStatus? = nil
-        )
-        {
+        ) {
             self.numberOfCategory = numberOfCategory
             self.status = status
         }
@@ -3694,8 +3590,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             count: Swift.Int? = nil,
             percentage: Swift.Float = 0.0
-        )
-        {
+        ) {
             self.count = count
             self.percentage = percentage
         }
@@ -3718,8 +3613,7 @@ extension LookoutEquipmentClientTypes {
             maxTimestampGapInDays: Swift.Int? = nil,
             numberOfLargeTimestampGaps: Swift.Int? = nil,
             status: LookoutEquipmentClientTypes.StatisticalIssueStatus? = nil
-        )
-        {
+        ) {
             self.maxTimestampGapInDays = maxTimestampGapInDays
             self.numberOfLargeTimestampGaps = numberOfLargeTimestampGaps
             self.status = status
@@ -3772,8 +3666,7 @@ extension LookoutEquipmentClientTypes {
         public init(
             monotonicity: LookoutEquipmentClientTypes.Monotonicity? = nil,
             status: LookoutEquipmentClientTypes.StatisticalIssueStatus? = nil
-        )
-        {
+        ) {
             self.monotonicity = monotonicity
             self.status = status
         }
@@ -3790,8 +3683,7 @@ extension LookoutEquipmentClientTypes {
 
         public init(
             status: LookoutEquipmentClientTypes.StatisticalIssueStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -3842,8 +3734,7 @@ extension LookoutEquipmentClientTypes {
             monotonicValues: LookoutEquipmentClientTypes.MonotonicValues? = nil,
             multipleOperatingModes: LookoutEquipmentClientTypes.MultipleOperatingModes? = nil,
             sensorName: Swift.String? = nil
-        )
-        {
+        ) {
             self.categoricalValues = categoricalValues
             self.componentName = componentName
             self.dataEndTime = dataEndTime
@@ -3870,8 +3761,7 @@ public struct ListSensorStatisticsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sensorStatisticsSummaries: [LookoutEquipmentClientTypes.SensorStatisticsSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sensorStatisticsSummaries = sensorStatisticsSummaries
     }
@@ -3884,8 +3774,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3896,8 +3785,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [LookoutEquipmentClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3920,8 +3808,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
         policyRevisionId: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.policyRevisionId = policyRevisionId
         self.resourceArn = resourceArn
@@ -3938,8 +3825,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     public init(
         policyRevisionId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyRevisionId = policyRevisionId
         self.resourceArn = resourceArn
     }
@@ -3964,8 +3850,7 @@ public struct StartDataIngestionJobInput: Swift.Sendable {
         datasetName: Swift.String? = nil,
         ingestionInputConfiguration: LookoutEquipmentClientTypes.IngestionInputConfiguration? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datasetName = datasetName
         self.ingestionInputConfiguration = ingestionInputConfiguration
@@ -3982,8 +3867,7 @@ public struct StartDataIngestionJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.IngestionJobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.status = status
     }
@@ -3996,8 +3880,7 @@ public struct StartInferenceSchedulerInput: Swift.Sendable {
 
     public init(
         inferenceSchedulerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceSchedulerName = inferenceSchedulerName
     }
 }
@@ -4020,8 +3903,7 @@ public struct StartInferenceSchedulerOutput: Swift.Sendable {
         modelArn: Swift.String? = nil,
         modelName: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.InferenceSchedulerStatus? = nil
-    )
-    {
+    ) {
         self.inferenceSchedulerArn = inferenceSchedulerArn
         self.inferenceSchedulerName = inferenceSchedulerName
         self.modelArn = modelArn
@@ -4037,8 +3919,7 @@ public struct StartRetrainingSchedulerInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -4055,8 +3936,7 @@ public struct StartRetrainingSchedulerOutput: Swift.Sendable {
         modelArn: Swift.String? = nil,
         modelName: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil
-    )
-    {
+    ) {
         self.modelArn = modelArn
         self.modelName = modelName
         self.status = status
@@ -4070,8 +3950,7 @@ public struct StopInferenceSchedulerInput: Swift.Sendable {
 
     public init(
         inferenceSchedulerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceSchedulerName = inferenceSchedulerName
     }
 }
@@ -4094,8 +3973,7 @@ public struct StopInferenceSchedulerOutput: Swift.Sendable {
         modelArn: Swift.String? = nil,
         modelName: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.InferenceSchedulerStatus? = nil
-    )
-    {
+    ) {
         self.inferenceSchedulerArn = inferenceSchedulerArn
         self.inferenceSchedulerName = inferenceSchedulerName
         self.modelArn = modelArn
@@ -4111,8 +3989,7 @@ public struct StopRetrainingSchedulerInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -4129,8 +4006,7 @@ public struct StopRetrainingSchedulerOutput: Swift.Sendable {
         modelArn: Swift.String? = nil,
         modelName: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil
-    )
-    {
+    ) {
         self.modelArn = modelArn
         self.modelName = modelName
         self.status = status
@@ -4148,8 +4024,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [LookoutEquipmentClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4171,8 +4046,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4194,8 +4068,7 @@ public struct UpdateActiveModelVersionInput: Swift.Sendable {
     public init(
         modelName: Swift.String? = nil,
         modelVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
         self.modelVersion = modelVersion
     }
@@ -4222,8 +4095,7 @@ public struct UpdateActiveModelVersionOutput: Swift.Sendable {
         modelName: Swift.String? = nil,
         previousActiveVersion: Swift.Int? = nil,
         previousActiveVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentActiveVersion = currentActiveVersion
         self.currentActiveVersionArn = currentActiveVersionArn
         self.modelArn = modelArn
@@ -4255,8 +4127,7 @@ public struct UpdateInferenceSchedulerInput: Swift.Sendable {
         dataUploadFrequency: LookoutEquipmentClientTypes.DataUploadFrequency? = nil,
         inferenceSchedulerName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataDelayOffsetInMinutes = dataDelayOffsetInMinutes
         self.dataInputConfiguration = dataInputConfiguration
         self.dataOutputConfiguration = dataOutputConfiguration
@@ -4276,8 +4147,7 @@ public struct UpdateLabelGroupInput: Swift.Sendable {
     public init(
         faultCodes: [Swift.String]? = nil,
         labelGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.faultCodes = faultCodes
         self.labelGroupName = labelGroupName
     }
@@ -4299,8 +4169,7 @@ public struct UpdateModelInput: Swift.Sendable {
         modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration? = nil,
         modelName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelsInputConfiguration = labelsInputConfiguration
         self.modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfiguration
         self.modelName = modelName
@@ -4333,8 +4202,7 @@ public struct UpdateRetrainingSchedulerInput: Swift.Sendable {
         promoteMode: LookoutEquipmentClientTypes.ModelPromoteMode? = nil,
         retrainingFrequency: Swift.String? = nil,
         retrainingStartDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.lookbackWindow = lookbackWindow
         self.modelName = modelName
         self.promoteMode = promoteMode

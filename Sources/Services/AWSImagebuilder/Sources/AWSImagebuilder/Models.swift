@@ -45,8 +45,7 @@ extension ImagebuilderClientTypes {
             critical: Swift.Int? = nil,
             high: Swift.Int? = nil,
             medium: Swift.Int? = nil
-        )
-        {
+        ) {
             self.all = all
             self.critical = critical
             self.high = high
@@ -67,8 +66,7 @@ extension ImagebuilderClientTypes {
         public init(
             accountId: Swift.String? = nil,
             severityCounts: ImagebuilderClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.severityCounts = severityCounts
         }
@@ -84,8 +82,7 @@ extension ImagebuilderClientTypes {
 
         public init(
             uninstallAfterBuild: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.uninstallAfterBuild = uninstallAfterBuild
         }
     }
@@ -103,8 +100,7 @@ extension ImagebuilderClientTypes {
         public init(
             systemsManagerAgent: ImagebuilderClientTypes.SystemsManagerAgent? = nil,
             userDataOverride: Swift.String? = nil
-        )
-        {
+        ) {
             self.systemsManagerAgent = systemsManagerAgent
             self.userDataOverride = userDataOverride
         }
@@ -182,8 +178,7 @@ extension ImagebuilderClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: ImagebuilderClientTypes.ImageStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -214,8 +209,7 @@ extension ImagebuilderClientTypes {
             name: Swift.String? = nil,
             region: Swift.String? = nil,
             state: ImagebuilderClientTypes.ImageState? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.description = description
             self.image = image
@@ -244,8 +238,7 @@ extension ImagebuilderClientTypes {
             organizationalUnitArns: [Swift.String]? = nil,
             userGroups: [Swift.String]? = nil,
             userIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.organizationArns = organizationArns
             self.organizationalUnitArns = organizationalUnitArns
             self.userGroups = userGroups
@@ -278,8 +271,7 @@ extension ImagebuilderClientTypes {
             launchPermission: ImagebuilderClientTypes.LaunchPermissionConfiguration? = nil,
             name: Swift.String? = nil,
             targetAccountIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.amiTags = amiTags
             self.description = description
             self.kmsKeyId = kmsKeyId
@@ -294,6 +286,7 @@ extension ImagebuilderClientTypes {
 
     public enum BuildType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `import`
+        case importIso
         case scheduled
         case userInitiated
         case sdkUnknown(Swift.String)
@@ -301,6 +294,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [BuildType] {
             return [
                 .import,
+                .importIso,
                 .scheduled,
                 .userInitiated
             ]
@@ -314,6 +308,7 @@ extension ImagebuilderClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .import: return "IMPORT"
+            case .importIso: return "IMPORT_ISO"
             case .scheduled: return "SCHEDULED"
             case .userInitiated: return "USER_INITIATED"
             case let .sdkUnknown(s): return s
@@ -340,8 +335,7 @@ public struct CallRateLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -364,8 +358,7 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -388,8 +381,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -412,8 +404,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -436,8 +427,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -460,8 +450,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -484,8 +473,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -508,8 +496,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -525,8 +512,7 @@ public struct CancelImageCreationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         imageBuildVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.imageBuildVersionArn = imageBuildVersionArn
     }
@@ -544,8 +530,7 @@ public struct CancelImageCreationOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         imageBuildVersionArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.imageBuildVersionArn = imageBuildVersionArn
         self.requestId = requestId
@@ -563,8 +548,7 @@ public struct CancelLifecycleExecutionInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         lifecycleExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.lifecycleExecutionId = lifecycleExecutionId
     }
@@ -576,8 +560,7 @@ public struct CancelLifecycleExecutionOutput: Swift.Sendable {
 
     public init(
         lifecycleExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecycleExecutionId = lifecycleExecutionId
     }
 }
@@ -602,8 +585,7 @@ extension ImagebuilderClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.name = name
@@ -684,8 +666,7 @@ extension ImagebuilderClientTypes {
         public init(
             productCodeId: Swift.String? = nil,
             productCodeType: ImagebuilderClientTypes.ProductCodeType? = nil
-        )
-        {
+        ) {
             self.productCodeId = productCodeId
             self.productCodeType = productCodeType
         }
@@ -736,8 +717,7 @@ extension ImagebuilderClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: ImagebuilderClientTypes.ComponentStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -836,8 +816,7 @@ extension ImagebuilderClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             type: ImagebuilderClientTypes.ComponentType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.data = data
@@ -875,8 +854,7 @@ extension ImagebuilderClientTypes {
         public init(
             name: Swift.String? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -896,8 +874,7 @@ extension ImagebuilderClientTypes {
         public init(
             componentArn: Swift.String? = nil,
             parameters: [ImagebuilderClientTypes.ComponentParameter]? = nil
-        )
-        {
+        ) {
             self.componentArn = componentArn
             self.parameters = parameters
         }
@@ -978,8 +955,7 @@ extension ImagebuilderClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             type: ImagebuilderClientTypes.ComponentType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.dateCreated = dateCreated
@@ -1043,8 +1019,7 @@ extension ImagebuilderClientTypes {
             supportedOsVersions: [Swift.String]? = nil,
             type: ImagebuilderClientTypes.ComponentType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.description = description
@@ -1072,8 +1047,7 @@ extension ImagebuilderClientTypes {
         public init(
             imageUris: [Swift.String]? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageUris = imageUris
             self.region = region
         }
@@ -1120,8 +1094,7 @@ extension ImagebuilderClientTypes {
         public init(
             repositoryName: Swift.String? = nil,
             service: ImagebuilderClientTypes.ContainerRepositoryService? = nil
-        )
-        {
+        ) {
             self.repositoryName = repositoryName
             self.service = service
         }
@@ -1144,8 +1117,7 @@ extension ImagebuilderClientTypes {
             containerTags: [Swift.String]? = nil,
             description: Swift.String? = nil,
             targetRepository: ImagebuilderClientTypes.TargetContainerRepository? = nil
-        )
-        {
+        ) {
             self.containerTags = containerTags
             self.description = description
             self.targetRepository = targetRepository
@@ -1253,8 +1225,7 @@ extension ImagebuilderClientTypes {
             throughput: Swift.Int? = nil,
             volumeSize: Swift.Int? = nil,
             volumeType: ImagebuilderClientTypes.EbsVolumeType? = nil
-        )
-        {
+        ) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
             self.iops = iops
@@ -1285,8 +1256,7 @@ extension ImagebuilderClientTypes {
             ebs: ImagebuilderClientTypes.EbsInstanceBlockDeviceSpecification? = nil,
             noDevice: Swift.String? = nil,
             virtualName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.ebs = ebs
             self.noDevice = noDevice
@@ -1307,8 +1277,7 @@ extension ImagebuilderClientTypes {
         public init(
             blockDeviceMappings: [ImagebuilderClientTypes.InstanceBlockDeviceMapping]? = nil,
             image: Swift.String? = nil
-        )
-        {
+        ) {
             self.blockDeviceMappings = blockDeviceMappings
             self.image = image
         }
@@ -1378,8 +1347,7 @@ extension ImagebuilderClientTypes {
             targetRepository: ImagebuilderClientTypes.TargetContainerRepository? = nil,
             version: Swift.String? = nil,
             workingDirectory: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.components = components
             self.containerType = containerType
@@ -1431,8 +1399,7 @@ extension ImagebuilderClientTypes {
             parentImage: Swift.String? = nil,
             platform: ImagebuilderClientTypes.Platform? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.containerType = containerType
             self.dateCreated = dateCreated
@@ -1463,8 +1430,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1487,8 +1453,7 @@ public struct InvalidVersionNumberException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1511,8 +1476,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1557,8 +1521,7 @@ public struct CreateComponentInput: Swift.Sendable {
         supportedOsVersions: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeDescription = changeDescription
         self.clientToken = clientToken
         self.data = data
@@ -1585,8 +1548,7 @@ public struct CreateComponentOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         componentBuildVersionArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.componentBuildVersionArn = componentBuildVersionArn
         self.requestId = requestId
@@ -1611,8 +1573,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1675,8 +1636,7 @@ public struct CreateContainerRecipeInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         targetRepository: ImagebuilderClientTypes.TargetContainerRepository? = nil,
         workingDirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.components = components
         self.containerType = containerType
@@ -1708,8 +1668,7 @@ public struct CreateContainerRecipeOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         containerRecipeArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.containerRecipeArn = containerRecipeArn
         self.requestId = requestId
@@ -1731,8 +1690,7 @@ extension ImagebuilderClientTypes {
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             launchTemplateVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.launchTemplateVersion = launchTemplateVersion
@@ -1749,8 +1707,7 @@ extension ImagebuilderClientTypes {
 
         public init(
             targetResourceCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.targetResourceCount = targetResourceCount
         }
     }
@@ -1778,8 +1735,7 @@ extension ImagebuilderClientTypes {
             launchTemplate: ImagebuilderClientTypes.FastLaunchLaunchTemplateSpecification? = nil,
             maxParallelLaunches: Swift.Int? = nil,
             snapshotConfiguration: ImagebuilderClientTypes.FastLaunchSnapshotConfiguration? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.enabled = enabled
             self.launchTemplate = launchTemplate
@@ -1805,8 +1761,7 @@ extension ImagebuilderClientTypes {
             accountId: Swift.String? = nil,
             launchTemplateId: Swift.String? = nil,
             setDefaultVersion: Swift.Bool = false
-        )
-        {
+        ) {
             self.accountId = accountId
             self.launchTemplateId = launchTemplateId
             self.setDefaultVersion = setDefaultVersion
@@ -1873,8 +1828,7 @@ extension ImagebuilderClientTypes {
             roleName: Swift.String? = nil,
             s3Bucket: Swift.String? = nil,
             s3Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.diskImageFormat = diskImageFormat
             self.roleName = roleName
             self.s3Bucket = s3Bucket
@@ -1911,8 +1865,7 @@ extension ImagebuilderClientTypes {
             licenseConfigurationArns: [Swift.String]? = nil,
             region: Swift.String? = nil,
             s3ExportConfiguration: ImagebuilderClientTypes.S3ExportConfiguration? = nil
-        )
-        {
+        ) {
             self.amiDistributionConfiguration = amiDistributionConfiguration
             self.containerDistributionConfiguration = containerDistributionConfiguration
             self.fastLaunchConfigurations = fastLaunchConfigurations
@@ -1945,8 +1898,7 @@ public struct CreateDistributionConfigurationInput: Swift.Sendable {
         distributions: [ImagebuilderClientTypes.Distribution]? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.distributions = distributions
@@ -1967,8 +1919,7 @@ public struct CreateDistributionConfigurationOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         distributionConfigurationArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.distributionConfigurationArn = distributionConfigurationArn
         self.requestId = requestId
@@ -1987,8 +1938,7 @@ extension ImagebuilderClientTypes {
         public init(
             containerTags: [Swift.String]? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerTags = containerTags
             self.repositoryName = repositoryName
         }
@@ -2007,8 +1957,7 @@ extension ImagebuilderClientTypes {
         public init(
             ecrConfiguration: ImagebuilderClientTypes.EcrConfiguration? = nil,
             imageScanningEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.ecrConfiguration = ecrConfiguration
             self.imageScanningEnabled = imageScanningEnabled
         }
@@ -2021,14 +1970,13 @@ extension ImagebuilderClientTypes {
     public struct ImageTestsConfiguration: Swift.Sendable {
         /// Determines if tests should run after building the image. Image Builder defaults to enable tests to run following the image build, before image distribution.
         public var imageTestsEnabled: Swift.Bool?
-        /// The maximum time in minutes that tests are permitted to run. The timeout attribute is not currently active. This value is ignored.
+        /// The maximum time in minutes that tests are permitted to run. The timeout property is not currently active. This value is ignored.
         public var timeoutMinutes: Swift.Int?
 
         public init(
             imageTestsEnabled: Swift.Bool? = nil,
             timeoutMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.imageTestsEnabled = imageTestsEnabled
             self.timeoutMinutes = timeoutMinutes
         }
@@ -2078,8 +2026,7 @@ extension ImagebuilderClientTypes {
         public init(
             name: Swift.String? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2105,8 +2052,7 @@ extension ImagebuilderClientTypes {
             parallelGroup: Swift.String? = nil,
             parameters: [ImagebuilderClientTypes.WorkflowParameter]? = nil,
             workflowArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.onFailure = onFailure
             self.parallelGroup = parallelGroup
             self.parameters = parameters
@@ -2153,8 +2099,7 @@ public struct CreateImageInput: Swift.Sendable {
         infrastructureConfigurationArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.containerRecipeArn = containerRecipeArn
         self.distributionConfigurationArn = distributionConfigurationArn
@@ -2181,8 +2126,7 @@ public struct CreateImageOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         imageBuildVersionArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.imageBuildVersionArn = imageBuildVersionArn
         self.requestId = requestId
@@ -2222,7 +2166,11 @@ extension ImagebuilderClientTypes {
 
     /// A schedule configures when and how often a pipeline will automatically create a new image.
     public struct Schedule: Swift.Sendable {
-        /// The condition configures when the pipeline should trigger a new image build. When the pipelineExecutionStartCondition is set to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE, and you use semantic version filters on the base image or components in your image recipe, EC2 Image Builder will build a new image only when there are new versions of the image or components in your recipe that match the semantic version filter. When it is set to EXPRESSION_MATCH_ONLY, it will build a new image every time the CRON expression matches the current time. For semantic version syntax, see [CreateComponent](https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateComponent.html) in the EC2 Image Builder API Reference.
+        /// The start condition configures when the pipeline should trigger a new image build, as follows. If no value is set Image Builder defaults to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE.
+        ///
+        /// * EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE (default) – When you use semantic version filters on the base image or components in your image recipe, EC2 Image Builder builds a new image only when there are new versions of the base image or components in your recipe that match the filter. For semantic version syntax, see [CreateComponent](https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateComponent.html).
+        ///
+        /// * EXPRESSION_MATCH_ONLY – This condition builds a new image every time the CRON expression matches the current time.
         public var pipelineExecutionStartCondition: ImagebuilderClientTypes.PipelineExecutionStartCondition?
         /// The cron expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition. For information on how to format a cron expression in Image Builder, see [Use cron expressions in EC2 Image Builder](https://docs.aws.amazon.com/imagebuilder/latest/userguide/image-builder-cron.html).
         public var scheduleExpression: Swift.String?
@@ -2233,8 +2181,7 @@ extension ImagebuilderClientTypes {
             pipelineExecutionStartCondition: ImagebuilderClientTypes.PipelineExecutionStartCondition? = nil,
             scheduleExpression: Swift.String? = nil,
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.pipelineExecutionStartCondition = pipelineExecutionStartCondition
             self.scheduleExpression = scheduleExpression
             self.timezone = timezone
@@ -2322,8 +2269,7 @@ public struct CreateImagePipelineInput: Swift.Sendable {
         status: ImagebuilderClientTypes.PipelineStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.containerRecipeArn = containerRecipeArn
         self.description = description
@@ -2354,8 +2300,7 @@ public struct CreateImagePipelineOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         imagePipelineArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.imagePipelineArn = imagePipelineArn
         self.requestId = requestId
@@ -2400,8 +2345,7 @@ public struct CreateImageRecipeInput: Swift.Sendable {
         semanticVersion: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workingDirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalInstanceConfiguration = additionalInstanceConfiguration
         self.blockDeviceMappings = blockDeviceMappings
         self.clientToken = clientToken
@@ -2427,8 +2371,7 @@ public struct CreateImageRecipeOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         imageRecipeArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.imageRecipeArn = imageRecipeArn
         self.requestId = requestId
@@ -2454,8 +2397,7 @@ extension ImagebuilderClientTypes {
         public init(
             httpPutResponseHopLimit: Swift.Int? = nil,
             httpTokens: Swift.String? = nil
-        )
-        {
+        ) {
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
             self.httpTokens = httpTokens
         }
@@ -2474,8 +2416,7 @@ extension ImagebuilderClientTypes {
         public init(
             s3BucketName: Swift.String? = nil,
             s3KeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.s3KeyPrefix = s3KeyPrefix
         }
@@ -2491,8 +2432,7 @@ extension ImagebuilderClientTypes {
 
         public init(
             s3Logs: ImagebuilderClientTypes.S3Logs? = nil
-        )
-        {
+        ) {
             self.s3Logs = s3Logs
         }
     }
@@ -2548,8 +2488,7 @@ extension ImagebuilderClientTypes {
             hostId: Swift.String? = nil,
             hostResourceGroupArn: Swift.String? = nil,
             tenancy: ImagebuilderClientTypes.TenancyType? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.hostId = hostId
             self.hostResourceGroupArn = hostResourceGroupArn
@@ -2609,8 +2548,7 @@ public struct CreateInfrastructureConfigurationInput: Swift.Sendable {
         subnetId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         terminateInstanceOnFailure: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.instanceMetadataOptions = instanceMetadataOptions
@@ -2641,8 +2579,7 @@ public struct CreateInfrastructureConfigurationOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.requestId = requestId
@@ -2664,8 +2601,7 @@ extension ImagebuilderClientTypes {
             amis: Swift.Bool = false,
             containers: Swift.Bool = false,
             snapshots: Swift.Bool = false
-        )
-        {
+        ) {
             self.amis = amis
             self.containers = containers
             self.snapshots = snapshots
@@ -2718,8 +2654,7 @@ extension ImagebuilderClientTypes {
         public init(
             includeResources: ImagebuilderClientTypes.LifecyclePolicyDetailActionIncludeResources? = nil,
             type: ImagebuilderClientTypes.LifecyclePolicyDetailActionType? = nil
-        )
-        {
+        ) {
             self.includeResources = includeResources
             self.type = type
         }
@@ -2775,8 +2710,7 @@ extension ImagebuilderClientTypes {
         public init(
             unit: ImagebuilderClientTypes.LifecyclePolicyTimeUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -2804,8 +2738,7 @@ extension ImagebuilderClientTypes {
             regions: [Swift.String]? = nil,
             sharedAccounts: [Swift.String]? = nil,
             tagMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.isPublic = isPublic
             self.lastLaunched = lastLaunched
             self.regions = regions
@@ -2827,8 +2760,7 @@ extension ImagebuilderClientTypes {
         public init(
             amis: ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmis? = nil,
             tagMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.amis = amis
             self.tagMap = tagMap
         }
@@ -2884,8 +2816,7 @@ extension ImagebuilderClientTypes {
             type: ImagebuilderClientTypes.LifecyclePolicyDetailFilterType? = nil,
             unit: ImagebuilderClientTypes.LifecyclePolicyTimeUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.retainAtLeast = retainAtLeast
             self.type = type
             self.unit = unit
@@ -2911,8 +2842,7 @@ extension ImagebuilderClientTypes {
             action: ImagebuilderClientTypes.LifecyclePolicyDetailAction? = nil,
             exclusionRules: ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRules? = nil,
             filter: ImagebuilderClientTypes.LifecyclePolicyDetailFilter? = nil
-        )
-        {
+        ) {
             self.action = action
             self.exclusionRules = exclusionRules
             self.filter = filter
@@ -2934,8 +2864,7 @@ extension ImagebuilderClientTypes {
         public init(
             name: Swift.String? = nil,
             semanticVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.semanticVersion = semanticVersion
         }
@@ -2954,8 +2883,7 @@ extension ImagebuilderClientTypes {
         public init(
             recipes: [ImagebuilderClientTypes.LifecyclePolicyResourceSelectionRecipe]? = nil,
             tagMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.recipes = recipes
             self.tagMap = tagMap
         }
@@ -3056,8 +2984,7 @@ public struct CreateLifecyclePolicyInput: Swift.Sendable {
         resourceType: ImagebuilderClientTypes.LifecyclePolicyResourceType? = nil,
         status: ImagebuilderClientTypes.LifecyclePolicyStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.executionRole = executionRole
@@ -3079,8 +3006,7 @@ public struct CreateLifecyclePolicyOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         lifecyclePolicyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.lifecyclePolicyArn = lifecyclePolicyArn
     }
@@ -3155,8 +3081,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: ImagebuilderClientTypes.WorkflowType? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeDescription = changeDescription
         self.clientToken = clientToken
         self.data = data
@@ -3179,8 +3104,7 @@ public struct CreateWorkflowOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         workflowBuildVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.workflowBuildVersionArn = workflowBuildVersionArn
     }
@@ -3204,8 +3128,7 @@ extension ImagebuilderClientTypes {
             scoringVector: Swift.String? = nil,
             source: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseScore = baseScore
             self.scoringVector = scoringVector
             self.source = source
@@ -3226,8 +3149,7 @@ extension ImagebuilderClientTypes {
         public init(
             metric: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.reason = reason
         }
@@ -3258,8 +3180,7 @@ extension ImagebuilderClientTypes {
             scoreSource: Swift.String? = nil,
             scoringVector: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.adjustments = adjustments
             self.cvssSource = cvssSource
             self.score = score
@@ -3288,8 +3209,7 @@ public struct ResourceDependencyException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3301,8 +3221,7 @@ public struct DeleteComponentInput: Swift.Sendable {
 
     public init(
         componentBuildVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentBuildVersionArn = componentBuildVersionArn
     }
 }
@@ -3316,8 +3235,7 @@ public struct DeleteComponentOutput: Swift.Sendable {
     public init(
         componentBuildVersionArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentBuildVersionArn = componentBuildVersionArn
         self.requestId = requestId
     }
@@ -3330,8 +3248,7 @@ public struct DeleteContainerRecipeInput: Swift.Sendable {
 
     public init(
         containerRecipeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerRecipeArn = containerRecipeArn
     }
 }
@@ -3345,8 +3262,7 @@ public struct DeleteContainerRecipeOutput: Swift.Sendable {
     public init(
         containerRecipeArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerRecipeArn = containerRecipeArn
         self.requestId = requestId
     }
@@ -3359,8 +3275,7 @@ public struct DeleteDistributionConfigurationInput: Swift.Sendable {
 
     public init(
         distributionConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionConfigurationArn = distributionConfigurationArn
     }
 }
@@ -3374,8 +3289,7 @@ public struct DeleteDistributionConfigurationOutput: Swift.Sendable {
     public init(
         distributionConfigurationArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionConfigurationArn = distributionConfigurationArn
         self.requestId = requestId
     }
@@ -3388,8 +3302,7 @@ public struct DeleteImageInput: Swift.Sendable {
 
     public init(
         imageBuildVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageBuildVersionArn = imageBuildVersionArn
     }
 }
@@ -3403,8 +3316,7 @@ public struct DeleteImageOutput: Swift.Sendable {
     public init(
         imageBuildVersionArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageBuildVersionArn = imageBuildVersionArn
         self.requestId = requestId
     }
@@ -3417,8 +3329,7 @@ public struct DeleteImagePipelineInput: Swift.Sendable {
 
     public init(
         imagePipelineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imagePipelineArn = imagePipelineArn
     }
 }
@@ -3432,8 +3343,7 @@ public struct DeleteImagePipelineOutput: Swift.Sendable {
     public init(
         imagePipelineArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imagePipelineArn = imagePipelineArn
         self.requestId = requestId
     }
@@ -3446,8 +3356,7 @@ public struct DeleteImageRecipeInput: Swift.Sendable {
 
     public init(
         imageRecipeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageRecipeArn = imageRecipeArn
     }
 }
@@ -3461,8 +3370,7 @@ public struct DeleteImageRecipeOutput: Swift.Sendable {
     public init(
         imageRecipeArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageRecipeArn = imageRecipeArn
         self.requestId = requestId
     }
@@ -3475,8 +3383,7 @@ public struct DeleteInfrastructureConfigurationInput: Swift.Sendable {
 
     public init(
         infrastructureConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
     }
 }
@@ -3490,8 +3397,7 @@ public struct DeleteInfrastructureConfigurationOutput: Swift.Sendable {
     public init(
         infrastructureConfigurationArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.requestId = requestId
     }
@@ -3504,8 +3410,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Sendable {
 
     public init(
         lifecyclePolicyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyArn = lifecyclePolicyArn
     }
 }
@@ -3516,8 +3421,7 @@ public struct DeleteLifecyclePolicyOutput: Swift.Sendable {
 
     public init(
         lifecyclePolicyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyArn = lifecyclePolicyArn
     }
 }
@@ -3529,8 +3433,7 @@ public struct DeleteWorkflowInput: Swift.Sendable {
 
     public init(
         workflowBuildVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowBuildVersionArn = workflowBuildVersionArn
     }
 }
@@ -3541,8 +3444,7 @@ public struct DeleteWorkflowOutput: Swift.Sendable {
 
     public init(
         workflowBuildVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowBuildVersionArn = workflowBuildVersionArn
     }
 }
@@ -3578,8 +3480,7 @@ extension ImagebuilderClientTypes {
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             timeoutMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -3619,8 +3520,7 @@ extension ImagebuilderClientTypes {
             name: Swift.String? = nil,
             regions: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -3644,8 +3544,7 @@ extension ImagebuilderClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3659,8 +3558,7 @@ public struct GetComponentInput: Swift.Sendable {
 
     public init(
         componentBuildVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentBuildVersionArn = componentBuildVersionArn
     }
 }
@@ -3674,8 +3572,7 @@ public struct GetComponentOutput: Swift.Sendable {
     public init(
         component: ImagebuilderClientTypes.Component? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.component = component
         self.requestId = requestId
     }
@@ -3699,8 +3596,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3712,8 +3608,7 @@ public struct GetComponentPolicyInput: Swift.Sendable {
 
     public init(
         componentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentArn = componentArn
     }
 }
@@ -3727,8 +3622,7 @@ public struct GetComponentPolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.requestId = requestId
     }
@@ -3741,8 +3635,7 @@ public struct GetContainerRecipeInput: Swift.Sendable {
 
     public init(
         containerRecipeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerRecipeArn = containerRecipeArn
     }
 }
@@ -3756,8 +3649,7 @@ public struct GetContainerRecipeOutput: Swift.Sendable {
     public init(
         containerRecipe: ImagebuilderClientTypes.ContainerRecipe? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerRecipe = containerRecipe
         self.requestId = requestId
     }
@@ -3770,8 +3662,7 @@ public struct GetContainerRecipePolicyInput: Swift.Sendable {
 
     public init(
         containerRecipeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerRecipeArn = containerRecipeArn
     }
 }
@@ -3785,8 +3676,7 @@ public struct GetContainerRecipePolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.requestId = requestId
     }
@@ -3799,8 +3689,7 @@ public struct GetDistributionConfigurationInput: Swift.Sendable {
 
     public init(
         distributionConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionConfigurationArn = distributionConfigurationArn
     }
 }
@@ -3814,8 +3703,7 @@ public struct GetDistributionConfigurationOutput: Swift.Sendable {
     public init(
         distributionConfiguration: ImagebuilderClientTypes.DistributionConfiguration? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionConfiguration = distributionConfiguration
         self.requestId = requestId
     }
@@ -3828,8 +3716,7 @@ public struct GetImageInput: Swift.Sendable {
 
     public init(
         imageBuildVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageBuildVersionArn = imageBuildVersionArn
     }
 }
@@ -3911,8 +3798,7 @@ extension ImagebuilderClientTypes {
             type: ImagebuilderClientTypes.ImageType? = nil,
             version: Swift.String? = nil,
             workingDirectory: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalInstanceConfiguration = additionalInstanceConfiguration
             self.arn = arn
             self.blockDeviceMappings = blockDeviceMappings
@@ -4023,8 +3909,7 @@ extension ImagebuilderClientTypes {
             subnetId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             terminateInstanceOnFailure: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -4058,8 +3943,7 @@ extension ImagebuilderClientTypes {
         public init(
             amis: [ImagebuilderClientTypes.Ami]? = nil,
             containers: [ImagebuilderClientTypes.Container]? = nil
-        )
-        {
+        ) {
             self.amis = amis
             self.containers = containers
         }
@@ -4122,8 +4006,7 @@ extension ImagebuilderClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: ImagebuilderClientTypes.ImageScanStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -4149,6 +4032,8 @@ extension ImagebuilderClientTypes {
         /// * SCHEDULED – A pipeline build initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
         ///
         /// * IMPORT – A VM import created the image to use as the base image for the recipe.
+        ///
+        /// * IMPORT_ISO – An ISO disk import created the image.
         public var buildType: ImagebuilderClientTypes.BuildType?
         /// For container images, this is the container recipe that Image Builder used to create the image. For images that distribute an AMI, this is empty.
         public var containerRecipe: ImagebuilderClientTypes.ContainerRecipe?
@@ -4226,8 +4111,7 @@ extension ImagebuilderClientTypes {
             type: ImagebuilderClientTypes.ImageType? = nil,
             version: Swift.String? = nil,
             workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.buildType = buildType
             self.containerRecipe = containerRecipe
@@ -4267,8 +4151,7 @@ public struct GetImageOutput: Swift.Sendable {
     public init(
         image: ImagebuilderClientTypes.Image? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.image = image
         self.requestId = requestId
     }
@@ -4281,8 +4164,7 @@ public struct GetImagePipelineInput: Swift.Sendable {
 
     public init(
         imagePipelineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imagePipelineArn = imagePipelineArn
     }
 }
@@ -4353,8 +4235,7 @@ extension ImagebuilderClientTypes {
             status: ImagebuilderClientTypes.PipelineStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.containerRecipeArn = containerRecipeArn
             self.dateCreated = dateCreated
@@ -4388,8 +4269,7 @@ public struct GetImagePipelineOutput: Swift.Sendable {
     public init(
         imagePipeline: ImagebuilderClientTypes.ImagePipeline? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imagePipeline = imagePipeline
         self.requestId = requestId
     }
@@ -4402,8 +4282,7 @@ public struct GetImagePolicyInput: Swift.Sendable {
 
     public init(
         imageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageArn = imageArn
     }
 }
@@ -4417,8 +4296,7 @@ public struct GetImagePolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.requestId = requestId
     }
@@ -4431,8 +4309,7 @@ public struct GetImageRecipeInput: Swift.Sendable {
 
     public init(
         imageRecipeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageRecipeArn = imageRecipeArn
     }
 }
@@ -4446,8 +4323,7 @@ public struct GetImageRecipeOutput: Swift.Sendable {
     public init(
         imageRecipe: ImagebuilderClientTypes.ImageRecipe? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageRecipe = imageRecipe
         self.requestId = requestId
     }
@@ -4460,8 +4336,7 @@ public struct GetImageRecipePolicyInput: Swift.Sendable {
 
     public init(
         imageRecipeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageRecipeArn = imageRecipeArn
     }
 }
@@ -4475,8 +4350,7 @@ public struct GetImageRecipePolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.requestId = requestId
     }
@@ -4490,8 +4364,7 @@ public struct GetInfrastructureConfigurationInput: Swift.Sendable {
 
     public init(
         infrastructureConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
     }
 }
@@ -4506,8 +4379,7 @@ public struct GetInfrastructureConfigurationOutput: Swift.Sendable {
     public init(
         infrastructureConfiguration: ImagebuilderClientTypes.InfrastructureConfiguration? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.infrastructureConfiguration = infrastructureConfiguration
         self.requestId = requestId
     }
@@ -4520,8 +4392,7 @@ public struct GetLifecycleExecutionInput: Swift.Sendable {
 
     public init(
         lifecycleExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecycleExecutionId = lifecycleExecutionId
     }
 }
@@ -4535,8 +4406,7 @@ extension ImagebuilderClientTypes {
 
         public init(
             hasImpactedResources: Swift.Bool = false
-        )
-        {
+        ) {
             self.hasImpactedResources = hasImpactedResources
         }
     }
@@ -4595,8 +4465,7 @@ extension ImagebuilderClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: ImagebuilderClientTypes.LifecycleExecutionStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -4627,8 +4496,7 @@ extension ImagebuilderClientTypes {
             resourcesImpactedSummary: ImagebuilderClientTypes.LifecycleExecutionResourcesImpactedSummary? = nil,
             startTime: Foundation.Date? = nil,
             state: ImagebuilderClientTypes.LifecycleExecutionState? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.lifecycleExecutionId = lifecycleExecutionId
             self.lifecyclePolicyArn = lifecyclePolicyArn
@@ -4645,8 +4513,7 @@ public struct GetLifecycleExecutionOutput: Swift.Sendable {
 
     public init(
         lifecycleExecution: ImagebuilderClientTypes.LifecycleExecution? = nil
-    )
-    {
+    ) {
         self.lifecycleExecution = lifecycleExecution
     }
 }
@@ -4658,8 +4525,7 @@ public struct GetLifecyclePolicyInput: Swift.Sendable {
 
     public init(
         lifecyclePolicyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyArn = lifecyclePolicyArn
     }
 }
@@ -4706,8 +4572,7 @@ extension ImagebuilderClientTypes {
             resourceType: ImagebuilderClientTypes.LifecyclePolicyResourceType? = nil,
             status: ImagebuilderClientTypes.LifecyclePolicyStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateLastRun = dateLastRun
@@ -4730,8 +4595,7 @@ public struct GetLifecyclePolicyOutput: Swift.Sendable {
 
     public init(
         lifecyclePolicy: ImagebuilderClientTypes.LifecyclePolicy? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicy = lifecyclePolicy
     }
 }
@@ -4779,8 +4643,7 @@ public struct GetMarketplaceResourceInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         resourceLocation: Swift.String? = nil,
         resourceType: ImagebuilderClientTypes.MarketplaceResourceType? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceLocation = resourceLocation
         self.resourceType = resourceType
@@ -4799,8 +4662,7 @@ public struct GetMarketplaceResourceOutput: Swift.Sendable {
         data: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.data = data
         self.resourceArn = resourceArn
         self.url = url
@@ -4814,8 +4676,7 @@ public struct GetWorkflowInput: Swift.Sendable {
 
     public init(
         workflowBuildVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowBuildVersionArn = workflowBuildVersionArn
     }
 }
@@ -4840,8 +4701,7 @@ extension ImagebuilderClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.name = name
@@ -4888,8 +4748,7 @@ extension ImagebuilderClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: ImagebuilderClientTypes.WorkflowStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -4941,8 +4800,7 @@ extension ImagebuilderClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             type: ImagebuilderClientTypes.WorkflowType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.data = data
@@ -4966,8 +4824,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
 
     public init(
         workflow: ImagebuilderClientTypes.Workflow? = nil
-    )
-    {
+    ) {
         self.workflow = workflow
     }
 }
@@ -4979,8 +4836,7 @@ public struct GetWorkflowExecutionInput: Swift.Sendable {
 
     public init(
         workflowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowExecutionId = workflowExecutionId
     }
 }
@@ -5077,8 +4933,7 @@ public struct GetWorkflowExecutionOutput: Swift.Sendable {
         type: ImagebuilderClientTypes.WorkflowType? = nil,
         workflowBuildVersionArn: Swift.String? = nil,
         workflowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.imageBuildVersionArn = imageBuildVersionArn
         self.message = message
@@ -5103,8 +4958,7 @@ public struct GetWorkflowStepExecutionInput: Swift.Sendable {
 
     public init(
         stepExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stepExecutionId = stepExecutionId
     }
 }
@@ -5239,8 +5093,7 @@ public struct GetWorkflowStepExecutionOutput: Swift.Sendable {
         timeoutSeconds: Swift.Int? = nil,
         workflowBuildVersionArn: Swift.String? = nil,
         workflowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.description = description
         self.endTime = endTime
@@ -5273,8 +5126,7 @@ extension ImagebuilderClientTypes {
         public init(
             imageBuildVersionArn: Swift.String? = nil,
             severityCounts: ImagebuilderClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.imageBuildVersionArn = imageBuildVersionArn
             self.severityCounts = severityCounts
         }
@@ -5326,8 +5178,7 @@ public struct ImportComponentInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: ImagebuilderClientTypes.ComponentType? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeDescription = changeDescription
         self.clientToken = clientToken
         self.data = data
@@ -5355,11 +5206,79 @@ public struct ImportComponentOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         componentBuildVersionArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.componentBuildVersionArn = componentBuildVersionArn
         self.requestId = requestId
+    }
+}
+
+public struct ImportDiskImageInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The description for your disk image import.
+    public var description: Swift.String?
+    /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to perform workflow actions to import an image from a Microsoft ISO file.
+    public var executionRole: Swift.String?
+    /// The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for launching the EC2 instance on which the ISO image is built.
+    /// This member is required.
+    public var infrastructureConfigurationArn: Swift.String?
+    /// The name of the image resource that's created from the import.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The operating system version for the imported image. Allowed values include the following: Microsoft Windows 11.
+    /// This member is required.
+    public var osVersion: Swift.String?
+    /// The operating system platform for the imported image. Allowed values include the following: Windows.
+    /// This member is required.
+    public var platform: Swift.String?
+    /// The semantic version to attach to the image that's created during the import process. This version follows the semantic version syntax.
+    /// This member is required.
+    public var semanticVersion: Swift.String?
+    /// Tags that are attached to image resources created from the import.
+    public var tags: [Swift.String: Swift.String]?
+    /// The uri of the ISO disk file that's stored in Amazon S3.
+    /// This member is required.
+    public var uri: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        executionRole: Swift.String? = nil,
+        infrastructureConfigurationArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        osVersion: Swift.String? = nil,
+        platform: Swift.String? = nil,
+        semanticVersion: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        uri: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.executionRole = executionRole
+        self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        self.name = name
+        self.osVersion = osVersion
+        self.platform = platform
+        self.semanticVersion = semanticVersion
+        self.tags = tags
+        self.uri = uri
+    }
+}
+
+public struct ImportDiskImageOutput: Swift.Sendable {
+    /// The client token that uniquely identifies the request.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the output AMI that was created from the ISO disk file.
+    public var imageBuildVersionArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.imageBuildVersionArn = imageBuildVersionArn
     }
 }
 
@@ -5395,8 +5314,7 @@ public struct ImportVmImageInput: Swift.Sendable {
         semanticVersion: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vmImportTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -5420,8 +5338,7 @@ public struct ImportVmImageOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         imageArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.imageArn = imageArn
         self.requestId = requestId
@@ -5446,8 +5363,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5465,8 +5381,7 @@ public struct ListComponentBuildVersionsInput: Swift.Sendable {
         componentVersionArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentVersionArn = componentVersionArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5485,8 +5400,7 @@ public struct ListComponentBuildVersionsOutput: Swift.Sendable {
         componentSummaryList: [ImagebuilderClientTypes.ComponentSummary]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentSummaryList = componentSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -5561,8 +5475,7 @@ public struct ListComponentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         owner: ImagebuilderClientTypes.Ownership? = nil
-    )
-    {
+    ) {
         self.byName = byName
         self.filters = filters
         self.maxResults = maxResults
@@ -5583,8 +5496,7 @@ public struct ListComponentsOutput: Swift.Sendable {
         componentVersionList: [ImagebuilderClientTypes.ComponentVersion]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentVersionList = componentVersionList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -5614,8 +5526,7 @@ public struct ListContainerRecipesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         owner: ImagebuilderClientTypes.Ownership? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5635,8 +5546,7 @@ public struct ListContainerRecipesOutput: Swift.Sendable {
         containerRecipeSummaryList: [ImagebuilderClientTypes.ContainerRecipeSummary]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerRecipeSummaryList = containerRecipeSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -5655,8 +5565,7 @@ public struct ListDistributionConfigurationsInput: Swift.Sendable {
         filters: [ImagebuilderClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5675,8 +5584,7 @@ public struct ListDistributionConfigurationsOutput: Swift.Sendable {
         distributionConfigurationSummaryList: [ImagebuilderClientTypes.DistributionConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionConfigurationSummaryList = distributionConfigurationSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -5709,8 +5617,7 @@ public struct ListImageBuildVersionsInput: Swift.Sendable {
         imageVersionArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.imageVersionArn = imageVersionArn
         self.maxResults = maxResults
@@ -5731,6 +5638,8 @@ extension ImagebuilderClientTypes {
         /// * SCHEDULED – A pipeline build initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
         ///
         /// * IMPORT – A VM import created the image to use as the base image for the recipe.
+        ///
+        /// * IMPORT_ISO – An ISO disk import created the image.
         public var buildType: ImagebuilderClientTypes.BuildType?
         /// The date on which Image Builder created this image.
         public var dateCreated: Swift.String?
@@ -5775,8 +5684,7 @@ extension ImagebuilderClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             type: ImagebuilderClientTypes.ImageType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.buildType = buildType
             self.dateCreated = dateCreated
@@ -5808,8 +5716,7 @@ public struct ListImageBuildVersionsOutput: Swift.Sendable {
         imageSummaryList: [ImagebuilderClientTypes.ImageSummary]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageSummaryList = imageSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -5829,8 +5736,7 @@ public struct ListImagePackagesInput: Swift.Sendable {
         imageBuildVersionArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageBuildVersionArn = imageBuildVersionArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5849,8 +5755,7 @@ extension ImagebuilderClientTypes {
         public init(
             packageName: Swift.String? = nil,
             packageVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.packageName = packageName
             self.packageVersion = packageVersion
         }
@@ -5869,8 +5774,7 @@ public struct ListImagePackagesOutput: Swift.Sendable {
         imagePackageList: [ImagebuilderClientTypes.ImagePackage]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imagePackageList = imagePackageList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -5897,8 +5801,7 @@ public struct ListImagePipelineImagesInput: Swift.Sendable {
         imagePipelineArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.imagePipelineArn = imagePipelineArn
         self.maxResults = maxResults
@@ -5918,8 +5821,7 @@ public struct ListImagePipelineImagesOutput: Swift.Sendable {
         imageSummaryList: [ImagebuilderClientTypes.ImageSummary]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageSummaryList = imageSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -5950,8 +5852,7 @@ public struct ListImagePipelinesInput: Swift.Sendable {
         filters: [ImagebuilderClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5970,8 +5871,7 @@ public struct ListImagePipelinesOutput: Swift.Sendable {
         imagePipelineList: [ImagebuilderClientTypes.ImagePipeline]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imagePipelineList = imagePipelineList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -5999,8 +5899,7 @@ public struct ListImageRecipesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         owner: ImagebuilderClientTypes.Ownership? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6035,8 +5934,7 @@ extension ImagebuilderClientTypes {
             parentImage: Swift.String? = nil,
             platform: ImagebuilderClientTypes.Platform? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.name = name
@@ -6060,8 +5958,7 @@ public struct ListImageRecipesOutput: Swift.Sendable {
         imageRecipeSummaryList: [ImagebuilderClientTypes.ImageRecipeSummary]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageRecipeSummaryList = imageRecipeSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -6099,8 +5996,7 @@ public struct ListImagesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         owner: ImagebuilderClientTypes.Ownership? = nil
-    )
-    {
+    ) {
         self.byName = byName
         self.filters = filters
         self.includeDeprecated = includeDeprecated
@@ -6129,6 +6025,8 @@ extension ImagebuilderClientTypes {
         /// * SCHEDULED – A pipeline build initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
         ///
         /// * IMPORT – A VM import created the image to use as the base image for the recipe.
+        ///
+        /// * IMPORT_ISO – An ISO disk import created the image.
         public var buildType: ImagebuilderClientTypes.BuildType?
         /// The date on which this specific version of the Image Builder image was created.
         public var dateCreated: Swift.String?
@@ -6158,8 +6056,7 @@ extension ImagebuilderClientTypes {
             platform: ImagebuilderClientTypes.Platform? = nil,
             type: ImagebuilderClientTypes.ImageType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.buildType = buildType
             self.dateCreated = dateCreated
@@ -6186,8 +6083,7 @@ public struct ListImagesOutput: Swift.Sendable {
         imageVersionList: [ImagebuilderClientTypes.ImageVersion]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageVersionList = imageVersionList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -6203,8 +6099,7 @@ public struct ListImageScanFindingAggregationsInput: Swift.Sendable {
     public init(
         filter: ImagebuilderClientTypes.Filter? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.nextToken = nextToken
     }
@@ -6222,8 +6117,7 @@ extension ImagebuilderClientTypes {
         public init(
             imagePipelineArn: Swift.String? = nil,
             severityCounts: ImagebuilderClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.imagePipelineArn = imagePipelineArn
             self.severityCounts = severityCounts
         }
@@ -6242,8 +6136,7 @@ extension ImagebuilderClientTypes {
         public init(
             severityCounts: ImagebuilderClientTypes.SeverityCounts? = nil,
             vulnerabilityId: Swift.String? = nil
-        )
-        {
+        ) {
             self.severityCounts = severityCounts
             self.vulnerabilityId = vulnerabilityId
         }
@@ -6268,8 +6161,7 @@ extension ImagebuilderClientTypes {
             imageAggregation: ImagebuilderClientTypes.ImageAggregation? = nil,
             imagePipelineAggregation: ImagebuilderClientTypes.ImagePipelineAggregation? = nil,
             vulnerabilityIdAggregation: ImagebuilderClientTypes.VulnerabilityIdAggregation? = nil
-        )
-        {
+        ) {
             self.accountAggregation = accountAggregation
             self.imageAggregation = imageAggregation
             self.imagePipelineAggregation = imagePipelineAggregation
@@ -6304,8 +6196,7 @@ public struct ListImageScanFindingAggregationsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         responses: [ImagebuilderClientTypes.ImageScanFindingAggregation]? = nil
-    )
-    {
+    ) {
         self.aggregationType = aggregationType
         self.nextToken = nextToken
         self.requestId = requestId
@@ -6325,8 +6216,7 @@ extension ImagebuilderClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -6356,8 +6246,7 @@ public struct ListImageScanFindingsInput: Swift.Sendable {
         filters: [ImagebuilderClientTypes.ImageScanFindingsFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6373,8 +6262,7 @@ extension ImagebuilderClientTypes {
 
         public init(
             adjustedCvss: ImagebuilderClientTypes.CvssScoreDetails? = nil
-        )
-        {
+        ) {
             self.adjustedCvss = adjustedCvss
         }
     }
@@ -6416,8 +6304,7 @@ extension ImagebuilderClientTypes {
             remediation: Swift.String? = nil,
             sourceLayerHash: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arch = arch
             self.epoch = epoch
             self.filePath = filePath
@@ -6469,8 +6356,7 @@ extension ImagebuilderClientTypes {
             vendorUpdatedAt: Foundation.Date? = nil,
             vulnerabilityId: Swift.String? = nil,
             vulnerablePackages: [ImagebuilderClientTypes.VulnerablePackage]? = nil
-        )
-        {
+        ) {
             self.cvss = cvss
             self.referenceUrls = referenceUrls
             self.relatedVulnerabilities = relatedVulnerabilities
@@ -6497,8 +6383,7 @@ extension ImagebuilderClientTypes {
         public init(
             text: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.url = url
         }
@@ -6514,8 +6399,7 @@ extension ImagebuilderClientTypes {
 
         public init(
             recommendation: ImagebuilderClientTypes.RemediationRecommendation? = nil
-        )
-        {
+        ) {
             self.recommendation = recommendation
         }
     }
@@ -6569,8 +6453,7 @@ extension ImagebuilderClientTypes {
             title: Swift.String? = nil,
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.description = description
             self.firstObservedAt = firstObservedAt
@@ -6601,8 +6484,7 @@ public struct ListImageScanFindingsOutput: Swift.Sendable {
         findings: [ImagebuilderClientTypes.ImageScanFinding]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.findings = findings
         self.nextToken = nextToken
         self.requestId = requestId
@@ -6621,8 +6503,7 @@ public struct ListInfrastructureConfigurationsInput: Swift.Sendable {
         filters: [ImagebuilderClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6665,8 +6546,7 @@ extension ImagebuilderClientTypes {
             placement: ImagebuilderClientTypes.Placement? = nil,
             resourceTags: [Swift.String: Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -6693,8 +6573,7 @@ public struct ListInfrastructureConfigurationsOutput: Swift.Sendable {
         infrastructureConfigurationSummaryList: [ImagebuilderClientTypes.InfrastructureConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.infrastructureConfigurationSummaryList = infrastructureConfigurationSummaryList
         self.nextToken = nextToken
         self.requestId = requestId
@@ -6717,8 +6596,7 @@ public struct ListLifecycleExecutionResourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parentResourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecycleExecutionId = lifecycleExecutionId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6773,8 +6651,7 @@ extension ImagebuilderClientTypes {
         public init(
             name: ImagebuilderClientTypes.LifecycleExecutionResourceActionName? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.reason = reason
         }
@@ -6828,8 +6705,7 @@ extension ImagebuilderClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: ImagebuilderClientTypes.LifecycleExecutionResourceStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -6848,8 +6724,7 @@ extension ImagebuilderClientTypes {
         public init(
             snapshotId: Swift.String? = nil,
             state: ImagebuilderClientTypes.LifecycleExecutionResourceState? = nil
-        )
-        {
+        ) {
             self.snapshotId = snapshotId
             self.state = state
         }
@@ -6895,8 +6770,7 @@ extension ImagebuilderClientTypes {
             snapshots: [ImagebuilderClientTypes.LifecycleExecutionSnapshotResource]? = nil,
             startTime: Foundation.Date? = nil,
             state: ImagebuilderClientTypes.LifecycleExecutionResourceState? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.action = action
             self.endTime = endTime
@@ -6925,8 +6799,7 @@ public struct ListLifecycleExecutionResourcesOutput: Swift.Sendable {
         lifecycleExecutionState: ImagebuilderClientTypes.LifecycleExecutionState? = nil,
         nextToken: Swift.String? = nil,
         resources: [ImagebuilderClientTypes.LifecycleExecutionResource]? = nil
-    )
-    {
+    ) {
         self.lifecycleExecutionId = lifecycleExecutionId
         self.lifecycleExecutionState = lifecycleExecutionState
         self.nextToken = nextToken
@@ -6947,8 +6820,7 @@ public struct ListLifecycleExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -6964,8 +6836,7 @@ public struct ListLifecycleExecutionsOutput: Swift.Sendable {
     public init(
         lifecycleExecutions: [ImagebuilderClientTypes.LifecycleExecution]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecycleExecutions = lifecycleExecutions
         self.nextToken = nextToken
     }
@@ -6983,8 +6854,7 @@ public struct ListLifecyclePoliciesInput: Swift.Sendable {
         filters: [ImagebuilderClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7027,8 +6897,7 @@ extension ImagebuilderClientTypes {
             resourceType: ImagebuilderClientTypes.LifecyclePolicyResourceType? = nil,
             status: ImagebuilderClientTypes.LifecyclePolicyStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateLastRun = dateLastRun
@@ -7052,8 +6921,7 @@ public struct ListLifecyclePoliciesOutput: Swift.Sendable {
     public init(
         lifecyclePolicySummaryList: [ImagebuilderClientTypes.LifecyclePolicySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicySummaryList = lifecyclePolicySummaryList
         self.nextToken = nextToken
     }
@@ -7077,8 +6945,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7090,8 +6957,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -7102,8 +6968,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -7117,8 +6982,7 @@ public struct ListWaitingWorkflowStepsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7151,8 +7015,7 @@ extension ImagebuilderClientTypes {
             stepExecutionId: Swift.String? = nil,
             workflowBuildVersionArn: Swift.String? = nil,
             workflowExecutionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.imageBuildVersionArn = imageBuildVersionArn
             self.name = name
@@ -7173,8 +7036,7 @@ public struct ListWaitingWorkflowStepsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         steps: [ImagebuilderClientTypes.WorkflowStepExecution]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.steps = steps
     }
@@ -7193,8 +7055,7 @@ public struct ListWorkflowBuildVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workflowVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workflowVersionArn = workflowVersionArn
@@ -7237,8 +7098,7 @@ extension ImagebuilderClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             type: ImagebuilderClientTypes.WorkflowType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.dateCreated = dateCreated
@@ -7262,8 +7122,7 @@ public struct ListWorkflowBuildVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workflowSummaryList: [ImagebuilderClientTypes.WorkflowSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workflowSummaryList = workflowSummaryList
     }
@@ -7282,8 +7141,7 @@ public struct ListWorkflowExecutionsInput: Swift.Sendable {
         imageBuildVersionArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageBuildVersionArn = imageBuildVersionArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7332,8 +7190,7 @@ extension ImagebuilderClientTypes {
             type: ImagebuilderClientTypes.WorkflowType? = nil,
             workflowBuildVersionArn: Swift.String? = nil,
             workflowExecutionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.message = message
             self.parallelGroup = parallelGroup
@@ -7368,8 +7225,7 @@ public struct ListWorkflowExecutionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
         workflowExecutions: [ImagebuilderClientTypes.WorkflowExecutionMetadata]? = nil
-    )
-    {
+    ) {
         self.imageBuildVersionArn = imageBuildVersionArn
         self.message = message
         self.nextToken = nextToken
@@ -7396,8 +7252,7 @@ public struct ListWorkflowsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         owner: ImagebuilderClientTypes.Ownership? = nil
-    )
-    {
+    ) {
         self.byName = byName
         self.filters = filters
         self.maxResults = maxResults
@@ -7433,8 +7288,7 @@ extension ImagebuilderClientTypes {
             owner: Swift.String? = nil,
             type: ImagebuilderClientTypes.WorkflowType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.description = description
@@ -7455,8 +7309,7 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workflowVersionList: [ImagebuilderClientTypes.WorkflowVersion]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workflowVersionList = workflowVersionList
     }
@@ -7475,8 +7328,7 @@ public struct ListWorkflowStepExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workflowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workflowExecutionId = workflowExecutionId
@@ -7522,8 +7374,7 @@ extension ImagebuilderClientTypes {
             startTime: Swift.String? = nil,
             status: ImagebuilderClientTypes.WorkflowStepExecutionStatus? = nil,
             stepExecutionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.description = description
             self.endTime = endTime
@@ -7563,8 +7414,7 @@ public struct ListWorkflowStepExecutionsOutput: Swift.Sendable {
         steps: [ImagebuilderClientTypes.WorkflowStepMetadata]? = nil,
         workflowBuildVersionArn: Swift.String? = nil,
         workflowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageBuildVersionArn = imageBuildVersionArn
         self.message = message
         self.nextToken = nextToken
@@ -7593,8 +7443,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7610,8 +7459,7 @@ public struct PutComponentPolicyInput: Swift.Sendable {
     public init(
         componentArn: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentArn = componentArn
         self.policy = policy
     }
@@ -7626,8 +7474,7 @@ public struct PutComponentPolicyOutput: Swift.Sendable {
     public init(
         componentArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentArn = componentArn
         self.requestId = requestId
     }
@@ -7644,8 +7491,7 @@ public struct PutContainerRecipePolicyInput: Swift.Sendable {
     public init(
         containerRecipeArn: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerRecipeArn = containerRecipeArn
         self.policy = policy
     }
@@ -7660,8 +7506,7 @@ public struct PutContainerRecipePolicyOutput: Swift.Sendable {
     public init(
         containerRecipeArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerRecipeArn = containerRecipeArn
         self.requestId = requestId
     }
@@ -7678,8 +7523,7 @@ public struct PutImagePolicyInput: Swift.Sendable {
     public init(
         imageArn: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageArn = imageArn
         self.policy = policy
     }
@@ -7694,8 +7538,7 @@ public struct PutImagePolicyOutput: Swift.Sendable {
     public init(
         imageArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageArn = imageArn
         self.requestId = requestId
     }
@@ -7712,8 +7555,7 @@ public struct PutImageRecipePolicyInput: Swift.Sendable {
     public init(
         imageRecipeArn: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageRecipeArn = imageRecipeArn
         self.policy = policy
     }
@@ -7728,8 +7570,7 @@ public struct PutImageRecipePolicyOutput: Swift.Sendable {
     public init(
         imageRecipeArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageRecipeArn = imageRecipeArn
         self.requestId = requestId
     }
@@ -7786,8 +7627,7 @@ public struct SendWorkflowStepActionInput: Swift.Sendable {
         imageBuildVersionArn: Swift.String? = nil,
         reason: Swift.String? = nil,
         stepExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.clientToken = clientToken
         self.imageBuildVersionArn = imageBuildVersionArn
@@ -7808,8 +7648,7 @@ public struct SendWorkflowStepActionOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         imageBuildVersionArn: Swift.String? = nil,
         stepExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.imageBuildVersionArn = imageBuildVersionArn
         self.stepExecutionId = stepExecutionId
@@ -7827,8 +7666,7 @@ public struct StartImagePipelineExecutionInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         imagePipelineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.imagePipelineArn = imagePipelineArn
     }
@@ -7846,8 +7684,7 @@ public struct StartImagePipelineExecutionOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         imageBuildVersionArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.imageBuildVersionArn = imageBuildVersionArn
         self.requestId = requestId
@@ -7863,8 +7700,7 @@ extension ImagebuilderClientTypes {
 
         public init(
             amis: ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmis? = nil
-        )
-        {
+        ) {
             self.amis = amis
         }
     }
@@ -7885,8 +7721,7 @@ extension ImagebuilderClientTypes {
             amis: Swift.Bool = false,
             containers: Swift.Bool = false,
             snapshots: Swift.Bool = false
-        )
-        {
+        ) {
             self.amis = amis
             self.containers = containers
             self.snapshots = snapshots
@@ -7938,8 +7773,7 @@ extension ImagebuilderClientTypes {
 
         public init(
             status: ImagebuilderClientTypes.ResourceStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -7972,8 +7806,7 @@ public struct StartResourceStateUpdateInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         state: ImagebuilderClientTypes.ResourceState? = nil,
         updateAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.exclusionRules = exclusionRules
         self.executionRole = executionRole
@@ -7993,8 +7826,7 @@ public struct StartResourceStateUpdateOutput: Swift.Sendable {
     public init(
         lifecycleExecutionId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecycleExecutionId = lifecycleExecutionId
         self.resourceArn = resourceArn
     }
@@ -8011,8 +7843,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -8034,8 +7865,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -8064,8 +7894,7 @@ public struct UpdateDistributionConfigurationInput: Swift.Sendable {
         description: Swift.String? = nil,
         distributionConfigurationArn: Swift.String? = nil,
         distributions: [ImagebuilderClientTypes.Distribution]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.distributionConfigurationArn = distributionConfigurationArn
@@ -8085,8 +7914,7 @@ public struct UpdateDistributionConfigurationOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         distributionConfigurationArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.distributionConfigurationArn = distributionConfigurationArn
         self.requestId = requestId
@@ -8141,8 +7969,7 @@ public struct UpdateImagePipelineInput: Swift.Sendable {
         schedule: ImagebuilderClientTypes.Schedule? = nil,
         status: ImagebuilderClientTypes.PipelineStatus? = nil,
         workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.containerRecipeArn = containerRecipeArn
         self.description = description
@@ -8172,8 +7999,7 @@ public struct UpdateImagePipelineOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         imagePipelineArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.imagePipelineArn = imagePipelineArn
         self.requestId = requestId
@@ -8232,8 +8058,7 @@ public struct UpdateInfrastructureConfigurationInput: Swift.Sendable {
         snsTopicArn: Swift.String? = nil,
         subnetId: Swift.String? = nil,
         terminateInstanceOnFailure: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
@@ -8263,8 +8088,7 @@ public struct UpdateInfrastructureConfigurationOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.requestId = requestId
@@ -8304,8 +8128,7 @@ public struct UpdateLifecyclePolicyInput: Swift.Sendable {
         resourceSelection: ImagebuilderClientTypes.LifecyclePolicyResourceSelection? = nil,
         resourceType: ImagebuilderClientTypes.LifecyclePolicyResourceType? = nil,
         status: ImagebuilderClientTypes.LifecyclePolicyStatus? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.executionRole = executionRole
@@ -8323,8 +8146,7 @@ public struct UpdateLifecyclePolicyOutput: Swift.Sendable {
 
     public init(
         lifecyclePolicyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyArn = lifecyclePolicyArn
     }
 }
@@ -8945,6 +8767,13 @@ extension ImportComponentInput {
     }
 }
 
+extension ImportDiskImageInput {
+
+    static func urlPathProvider(_ value: ImportDiskImageInput) -> Swift.String? {
+        return "/ImportDiskImage"
+    }
+}
+
 extension ImportVmImageInput {
 
     static func urlPathProvider(_ value: ImportVmImageInput) -> Swift.String? {
@@ -9430,6 +9259,23 @@ extension ImportComponentInput {
         try writer["semanticVersion"].write(value.semanticVersion)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["type"].write(value.type)
+        try writer["uri"].write(value.uri)
+    }
+}
+
+extension ImportDiskImageInput {
+
+    static func write(value: ImportDiskImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["executionRole"].write(value.executionRole)
+        try writer["infrastructureConfigurationArn"].write(value.infrastructureConfigurationArn)
+        try writer["name"].write(value.name)
+        try writer["osVersion"].write(value.osVersion)
+        try writer["platform"].write(value.platform)
+        try writer["semanticVersion"].write(value.semanticVersion)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["uri"].write(value.uri)
     }
 }
@@ -10337,6 +10183,19 @@ extension ImportComponentOutput {
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.componentBuildVersionArn = try reader["componentBuildVersionArn"].readIfPresent()
         value.requestId = try reader["requestId"].readIfPresent()
+        return value
+    }
+}
+
+extension ImportDiskImageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ImportDiskImageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ImportDiskImageOutput()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.imageBuildVersionArn = try reader["imageBuildVersionArn"].readIfPresent()
         return value
     }
 }
@@ -11597,6 +11456,22 @@ enum ImportComponentOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "InvalidVersionNumberException": return try InvalidVersionNumberException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ImportDiskImageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

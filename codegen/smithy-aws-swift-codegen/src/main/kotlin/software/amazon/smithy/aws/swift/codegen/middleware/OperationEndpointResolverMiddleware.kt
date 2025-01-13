@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.middleware
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.jmespath.JmespathExpression
 import software.amazon.smithy.model.node.Node
@@ -195,6 +196,14 @@ class OperationEndpointResolverMiddleware(
                     }
                     param.default.isPresent -> {
                         "config.${getBuiltInName(param)} ?? ${param.defaultValueLiteral}"
+                    }
+                    getBuiltInName(param).equals("endpoint") -> {
+                        writer.write(
+                            "let configuredEndpoint = try config.${getBuiltInName(param)} ?? \$N.configuredEndpoint(\$S, config.ignoreConfiguredEndpointURLs)",
+                            AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                            ctx.settings.sdkId
+                        )
+                        "configuredEndpoint"
                     }
                     else -> {
                         "config.${getBuiltInName(param)}"

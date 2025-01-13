@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -74,8 +73,7 @@ public struct AuthorizationPendingException: ClientRuntime.ModeledError, AWSClie
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -103,8 +101,7 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -132,8 +129,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -161,8 +157,7 @@ public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -190,8 +185,7 @@ public struct InvalidGrantException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -219,8 +213,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -248,8 +241,7 @@ public struct InvalidScopeException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -277,8 +269,7 @@ public struct SlowDownException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -306,8 +297,7 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -335,8 +325,7 @@ public struct UnsupportedGrantTypeException: ClientRuntime.ModeledError, AWSClie
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -375,8 +364,7 @@ public struct CreateTokenInput: Swift.Sendable {
         redirectUri: Swift.String? = nil,
         refreshToken: Swift.String? = nil,
         scope: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.clientSecret = clientSecret
         self.code = code
@@ -412,8 +400,7 @@ public struct CreateTokenOutput: Swift.Sendable {
         idToken: Swift.String? = nil,
         refreshToken: Swift.String? = nil,
         tokenType: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.expiresIn = expiresIn
         self.idToken = idToken
@@ -455,8 +442,7 @@ public struct InvalidRequestRegionException: ClientRuntime.ModeledError, AWSClie
         error: Swift.String? = nil,
         error_description: Swift.String? = nil,
         region: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.endpoint = endpoint
         self.properties.error = error
         self.properties.error_description = error_description
@@ -502,8 +488,7 @@ public struct CreateTokenWithIAMInput: Swift.Sendable {
         scope: [Swift.String]? = nil,
         subjectToken: Swift.String? = nil,
         subjectTokenType: Swift.String? = nil
-    )
-    {
+    ) {
         self.assertion = assertion
         self.clientId = clientId
         self.code = code
@@ -547,8 +532,7 @@ public struct CreateTokenWithIAMOutput: Swift.Sendable {
         refreshToken: Swift.String? = nil,
         scope: [Swift.String]? = nil,
         tokenType: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.expiresIn = expiresIn
         self.idToken = idToken
@@ -586,8 +570,7 @@ public struct InvalidClientMetadataException: ClientRuntime.ModeledError, AWSCli
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -615,8 +598,7 @@ public struct InvalidRedirectUriException: ClientRuntime.ModeledError, AWSClient
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -648,8 +630,7 @@ public struct RegisterClientInput: Swift.Sendable {
         issuerUrl: Swift.String? = nil,
         redirectUris: [Swift.String]? = nil,
         scopes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientName = clientName
         self.clientType = clientType
         self.entitledApplicationArn = entitledApplicationArn
@@ -681,8 +662,7 @@ public struct RegisterClientOutput: Swift.Sendable {
         clientSecret: Swift.String? = nil,
         clientSecretExpiresAt: Swift.Int = 0,
         tokenEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizationEndpoint = authorizationEndpoint
         self.clientId = clientId
         self.clientIdIssuedAt = clientIdIssuedAt
@@ -712,8 +692,7 @@ public struct StartDeviceAuthorizationInput: Swift.Sendable {
         clientId: Swift.String? = nil,
         clientSecret: Swift.String? = nil,
         startUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.clientSecret = clientSecret
         self.startUrl = startUrl
@@ -746,8 +725,7 @@ public struct StartDeviceAuthorizationOutput: Swift.Sendable {
         userCode: Swift.String? = nil,
         verificationUri: Swift.String? = nil,
         verificationUriComplete: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceCode = deviceCode
         self.expiresIn = expiresIn
         self.interval = interval

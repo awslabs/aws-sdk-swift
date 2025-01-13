@@ -53,5 +53,6 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
             { it.format("\$N.responseChecksumValidation(responseChecksumValidation)", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider) },
             true
         ),
+        ConfigProperty("ignoreConfiguredEndpointURLs", SwiftTypes.Bool.toOptional())
     )
 }

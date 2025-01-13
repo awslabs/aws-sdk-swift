@@ -106,8 +106,7 @@ public struct AccountSendingPausedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -126,8 +125,7 @@ extension SESClientTypes {
         public init(
             headerName: Swift.String? = nil,
             headerValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.headerName = headerName
             self.headerValue = headerValue
         }
@@ -155,8 +153,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.name = name
     }
@@ -204,8 +201,7 @@ extension SESClientTypes {
         public init(
             charset: Swift.String? = nil,
             data: Swift.String? = nil
-        )
-        {
+        ) {
             self.charset = charset
             self.data = data
         }
@@ -224,8 +220,7 @@ extension SESClientTypes {
         public init(
             html: SESClientTypes.Content? = nil,
             text: SESClientTypes.Content? = nil
-        )
-        {
+        ) {
             self.html = html
             self.text = text
         }
@@ -256,8 +251,7 @@ extension SESClientTypes {
             smtpReplyCode: Swift.String? = nil,
             statusCode: Swift.String? = nil,
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.sender = sender
             self.smtpReplyCode = smtpReplyCode
@@ -360,8 +354,7 @@ extension SESClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -397,8 +390,7 @@ extension SESClientTypes {
             lastAttemptDate: Foundation.Date? = nil,
             remoteMta: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.diagnosticCode = diagnosticCode
             self.extensionFields = extensionFields
@@ -429,8 +421,7 @@ extension SESClientTypes {
             recipient: Swift.String? = nil,
             recipientArn: Swift.String? = nil,
             recipientDsnFields: SESClientTypes.RecipientDsnFields? = nil
-        )
-        {
+        ) {
             self.bounceType = bounceType
             self.recipient = recipient
             self.recipientArn = recipientArn
@@ -454,8 +445,7 @@ extension SESClientTypes {
             bccAddresses: [Swift.String]? = nil,
             ccAddresses: [Swift.String]? = nil,
             toAddresses: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.bccAddresses = bccAddresses
             self.ccAddresses = ccAddresses
             self.toAddresses = toAddresses
@@ -485,8 +475,7 @@ extension SESClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -509,8 +498,7 @@ extension SESClientTypes {
             destination: SESClientTypes.Destination? = nil,
             replacementTags: [SESClientTypes.MessageTag]? = nil,
             replacementTemplateData: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.replacementTags = replacementTags
             self.replacementTemplateData = replacementTemplateData
@@ -626,8 +614,7 @@ extension SESClientTypes {
             error: Swift.String? = nil,
             messageId: Swift.String? = nil,
             status: SESClientTypes.BulkEmailStatus? = nil
-        )
-        {
+        ) {
             self.error = error
             self.messageId = messageId
             self.status = status
@@ -656,8 +643,7 @@ public struct CannotDeleteException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.name = name
     }
@@ -681,8 +667,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -708,8 +693,7 @@ public struct RuleSetDoesNotExistException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.name = name
     }
@@ -733,8 +717,7 @@ public struct CloneReceiptRuleSetInput: Swift.Sendable {
     public init(
         originalRuleSetName: Swift.String? = nil,
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.originalRuleSetName = originalRuleSetName
         self.ruleSetName = ruleSetName
     }
@@ -804,8 +787,7 @@ extension SESClientTypes {
             defaultDimensionValue: Swift.String? = nil,
             dimensionName: Swift.String? = nil,
             dimensionValueSource: SESClientTypes.DimensionValueSource? = nil
-        )
-        {
+        ) {
             self.defaultDimensionValue = defaultDimensionValue
             self.dimensionName = dimensionName
             self.dimensionValueSource = dimensionValueSource
@@ -823,8 +805,7 @@ extension SESClientTypes {
 
         public init(
             dimensionConfigurations: [SESClientTypes.CloudWatchDimensionConfiguration]? = nil
-        )
-        {
+        ) {
             self.dimensionConfigurations = dimensionConfigurations
         }
     }
@@ -844,8 +825,7 @@ extension SESClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -872,8 +852,7 @@ public struct ConfigurationSetAlreadyExistsException: ClientRuntime.ModeledError
     public init(
         configurationSetName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.configurationSetName = configurationSetName
         self.properties.message = message
     }
@@ -935,8 +914,7 @@ public struct ConfigurationSetDoesNotExistException: ClientRuntime.ModeledError,
     public init(
         configurationSetName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.configurationSetName = configurationSetName
         self.properties.message = message
     }
@@ -963,8 +941,7 @@ public struct ConfigurationSetSendingPausedException: ClientRuntime.ModeledError
     public init(
         configurationSetName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.configurationSetName = configurationSetName
         self.properties.message = message
     }
@@ -984,8 +961,7 @@ extension SESClientTypes {
         public init(
             iamRoleARN: Swift.String? = nil,
             instanceARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.iamRoleARN = iamRoleARN
             self.instanceARN = instanceARN
         }
@@ -1010,8 +986,7 @@ public struct InvalidConfigurationSetException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1024,8 +999,7 @@ public struct CreateConfigurationSetInput: Swift.Sendable {
 
     public init(
         configurationSet: SESClientTypes.ConfigurationSet? = nil
-    )
-    {
+    ) {
         self.configurationSet = configurationSet
     }
 }
@@ -1060,8 +1034,7 @@ public struct EventDestinationAlreadyExistsException: ClientRuntime.ModeledError
         configurationSetName: Swift.String? = nil,
         eventDestinationName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.configurationSetName = configurationSetName
         self.properties.eventDestinationName = eventDestinationName
         self.properties.message = message
@@ -1092,8 +1065,7 @@ public struct InvalidCloudWatchDestinationException: ClientRuntime.ModeledError,
         configurationSetName: Swift.String? = nil,
         eventDestinationName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.configurationSetName = configurationSetName
         self.properties.eventDestinationName = eventDestinationName
         self.properties.message = message
@@ -1124,8 +1096,7 @@ public struct InvalidFirehoseDestinationException: ClientRuntime.ModeledError, A
         configurationSetName: Swift.String? = nil,
         eventDestinationName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.configurationSetName = configurationSetName
         self.properties.eventDestinationName = eventDestinationName
         self.properties.message = message
@@ -1156,8 +1127,7 @@ public struct InvalidSNSDestinationException: ClientRuntime.ModeledError, AWSCli
         configurationSetName: Swift.String? = nil,
         eventDestinationName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.configurationSetName = configurationSetName
         self.properties.eventDestinationName = eventDestinationName
         self.properties.message = message
@@ -1178,8 +1148,7 @@ extension SESClientTypes {
         public init(
             deliveryStreamARN: Swift.String? = nil,
             iamRoleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryStreamARN = deliveryStreamARN
             self.iamRoleARN = iamRoleARN
         }
@@ -1243,8 +1212,7 @@ extension SESClientTypes {
 
         public init(
             topicARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicARN = topicARN
         }
     }
@@ -1296,8 +1264,7 @@ extension SESClientTypes {
             matchingEventTypes: [SESClientTypes.EventType]? = nil,
             name: Swift.String? = nil,
             snsDestination: SESClientTypes.SNSDestination? = nil
-        )
-        {
+        ) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
@@ -1320,8 +1287,7 @@ public struct CreateConfigurationSetEventDestinationInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         eventDestination: SESClientTypes.EventDestination? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.eventDestination = eventDestination
     }
@@ -1355,8 +1321,7 @@ public struct InvalidTrackingOptionsException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1382,8 +1347,7 @@ public struct TrackingOptionsAlreadyExistsException: ClientRuntime.ModeledError,
     public init(
         configurationSetName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.configurationSetName = configurationSetName
         self.properties.message = message
     }
@@ -1398,8 +1362,7 @@ extension SESClientTypes {
 
         public init(
             customRedirectDomain: Swift.String? = nil
-        )
-        {
+        ) {
             self.customRedirectDomain = customRedirectDomain
         }
     }
@@ -1417,8 +1380,7 @@ public struct CreateConfigurationSetTrackingOptionsInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         trackingOptions: SESClientTypes.TrackingOptions? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.trackingOptions = trackingOptions
     }
@@ -1448,8 +1410,7 @@ public struct CustomVerificationEmailInvalidContentException: ClientRuntime.Mode
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1475,8 +1436,7 @@ public struct CustomVerificationEmailTemplateAlreadyExistsException: ClientRunti
     public init(
         customVerificationEmailTemplateName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.customVerificationEmailTemplateName = customVerificationEmailTemplateName
         self.properties.message = message
     }
@@ -1503,8 +1463,7 @@ public struct FromEmailAddressNotVerifiedException: ClientRuntime.ModeledError, 
     public init(
         fromEmailAddress: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fromEmailAddress = fromEmailAddress
         self.properties.message = message
     }
@@ -1538,8 +1497,7 @@ public struct CreateCustomVerificationEmailTemplateInput: Swift.Sendable {
         templateContent: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateSubject: Swift.String? = nil
-    )
-    {
+    ) {
         self.failureRedirectionURL = failureRedirectionURL
         self.fromEmailAddress = fromEmailAddress
         self.successRedirectionURL = successRedirectionURL
@@ -1592,8 +1550,7 @@ extension SESClientTypes {
         public init(
             cidr: Swift.String? = nil,
             policy: SESClientTypes.ReceiptFilterPolicy? = nil
-        )
-        {
+        ) {
             self.cidr = cidr
             self.policy = policy
         }
@@ -1620,8 +1577,7 @@ extension SESClientTypes {
         public init(
             ipFilter: SESClientTypes.ReceiptIpFilter? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipFilter = ipFilter
             self.name = name
         }
@@ -1636,8 +1592,7 @@ public struct CreateReceiptFilterInput: Swift.Sendable {
 
     public init(
         filter: SESClientTypes.ReceiptFilter? = nil
-    )
-    {
+    ) {
         self.filter = filter
     }
 }
@@ -1669,8 +1624,7 @@ public struct InvalidLambdaFunctionException: ClientRuntime.ModeledError, AWSCli
     public init(
         functionArn: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.functionArn = functionArn
         self.properties.message = message
     }
@@ -1697,8 +1651,7 @@ public struct InvalidS3ConfigurationException: ClientRuntime.ModeledError, AWSCl
     public init(
         bucket: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.bucket = bucket
         self.properties.message = message
     }
@@ -1725,8 +1678,7 @@ public struct InvalidSnsTopicException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         topic: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.topic = topic
     }
@@ -1753,8 +1705,7 @@ public struct RuleDoesNotExistException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.name = name
     }
@@ -1805,8 +1756,7 @@ extension SESClientTypes {
             functionArn: Swift.String? = nil,
             invocationType: SESClientTypes.InvocationType? = nil,
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.functionArn = functionArn
             self.invocationType = invocationType
             self.topicArn = topicArn
@@ -1852,8 +1802,7 @@ extension SESClientTypes {
             kmsKeyArn: Swift.String? = nil,
             objectKeyPrefix: Swift.String? = nil,
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.iamRoleArn = iamRoleArn
             self.kmsKeyArn = kmsKeyArn
@@ -1905,8 +1854,7 @@ extension SESClientTypes {
         public init(
             encoding: SESClientTypes.SNSActionEncoding? = nil,
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.encoding = encoding
             self.topicArn = topicArn
         }
@@ -1952,8 +1900,7 @@ extension SESClientTypes {
         public init(
             scope: SESClientTypes.StopScope? = nil,
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.scope = scope
             self.topicArn = topicArn
         }
@@ -1973,8 +1920,7 @@ extension SESClientTypes {
         public init(
             organizationArn: Swift.String? = nil,
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.organizationArn = organizationArn
             self.topicArn = topicArn
         }
@@ -2011,8 +1957,7 @@ extension SESClientTypes {
             snsAction: SESClientTypes.SNSAction? = nil,
             stopAction: SESClientTypes.StopAction? = nil,
             workmailAction: SESClientTypes.WorkmailAction? = nil
-        )
-        {
+        ) {
             self.addHeaderAction = addHeaderAction
             self.bounceAction = bounceAction
             self.connectAction = connectAction
@@ -2085,8 +2030,7 @@ extension SESClientTypes {
             recipients: [Swift.String]? = nil,
             scanEnabled: Swift.Bool = false,
             tlsPolicy: SESClientTypes.TlsPolicy? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.enabled = enabled
             self.name = name
@@ -2112,8 +2056,7 @@ public struct CreateReceiptRuleInput: Swift.Sendable {
         after: Swift.String? = nil,
         rule: SESClientTypes.ReceiptRule? = nil,
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.after = after
         self.rule = rule
         self.ruleSetName = ruleSetName
@@ -2140,8 +2083,7 @@ public struct CreateReceiptRuleSetInput: Swift.Sendable {
 
     public init(
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetName = ruleSetName
     }
 }
@@ -2172,8 +2114,7 @@ public struct InvalidTemplateException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.templateName = templateName
     }
@@ -2198,8 +2139,7 @@ extension SESClientTypes {
             subjectPart: Swift.String? = nil,
             templateName: Swift.String? = nil,
             textPart: Swift.String? = nil
-        )
-        {
+        ) {
             self.htmlPart = htmlPart
             self.subjectPart = subjectPart
             self.templateName = templateName
@@ -2216,8 +2156,7 @@ public struct CreateTemplateInput: Swift.Sendable {
 
     public init(
         template: SESClientTypes.Template? = nil
-    )
-    {
+    ) {
         self.template = template
     }
 }
@@ -2283,8 +2222,7 @@ extension SESClientTypes {
             successRedirectionURL: Swift.String? = nil,
             templateName: Swift.String? = nil,
             templateSubject: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureRedirectionURL = failureRedirectionURL
             self.fromEmailAddress = fromEmailAddress
             self.successRedirectionURL = successRedirectionURL
@@ -2315,8 +2253,7 @@ public struct CustomVerificationEmailTemplateDoesNotExistException: ClientRuntim
     public init(
         customVerificationEmailTemplateName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.customVerificationEmailTemplateName = customVerificationEmailTemplateName
         self.properties.message = message
     }
@@ -2330,8 +2267,7 @@ public struct DeleteConfigurationSetInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
     }
 }
@@ -2366,8 +2302,7 @@ public struct EventDestinationDoesNotExistException: ClientRuntime.ModeledError,
         configurationSetName: Swift.String? = nil,
         eventDestinationName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.configurationSetName = configurationSetName
         self.properties.eventDestinationName = eventDestinationName
         self.properties.message = message
@@ -2386,8 +2321,7 @@ public struct DeleteConfigurationSetEventDestinationInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         eventDestinationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.eventDestinationName = eventDestinationName
     }
@@ -2420,8 +2354,7 @@ public struct TrackingOptionsDoesNotExistException: ClientRuntime.ModeledError, 
     public init(
         configurationSetName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.configurationSetName = configurationSetName
         self.properties.message = message
     }
@@ -2435,8 +2368,7 @@ public struct DeleteConfigurationSetTrackingOptionsInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
     }
 }
@@ -2455,8 +2387,7 @@ public struct DeleteCustomVerificationEmailTemplateInput: Swift.Sendable {
 
     public init(
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
     }
 }
@@ -2469,8 +2400,7 @@ public struct DeleteIdentityInput: Swift.Sendable {
 
     public init(
         identity: Swift.String? = nil
-    )
-    {
+    ) {
         self.identity = identity
     }
 }
@@ -2493,8 +2423,7 @@ public struct DeleteIdentityPolicyInput: Swift.Sendable {
     public init(
         identity: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.identity = identity
         self.policyName = policyName
     }
@@ -2514,8 +2443,7 @@ public struct DeleteReceiptFilterInput: Swift.Sendable {
 
     public init(
         filterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterName = filterName
     }
 }
@@ -2538,8 +2466,7 @@ public struct DeleteReceiptRuleInput: Swift.Sendable {
     public init(
         ruleName: Swift.String? = nil,
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleName = ruleName
         self.ruleSetName = ruleSetName
     }
@@ -2559,8 +2486,7 @@ public struct DeleteReceiptRuleSetInput: Swift.Sendable {
 
     public init(
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetName = ruleSetName
     }
 }
@@ -2579,8 +2505,7 @@ public struct DeleteTemplateInput: Swift.Sendable {
 
     public init(
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
     }
 }
@@ -2598,8 +2523,7 @@ public struct DeleteVerifiedEmailAddressInput: Swift.Sendable {
 
     public init(
         emailAddress: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailAddress = emailAddress
     }
 }
@@ -2613,8 +2537,7 @@ extension SESClientTypes {
 
         public init(
             tlsPolicy: SESClientTypes.TlsPolicy? = nil
-        )
-        {
+        ) {
             self.tlsPolicy = tlsPolicy
         }
     }
@@ -2644,8 +2567,7 @@ extension SESClientTypes {
         public init(
             createdTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.name = name
         }
@@ -2662,8 +2584,7 @@ public struct DescribeActiveReceiptRuleSetOutput: Swift.Sendable {
     public init(
         metadata: SESClientTypes.ReceiptRuleSetMetadata? = nil,
         rules: [SESClientTypes.ReceiptRule]? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
         self.rules = rules
     }
@@ -2680,8 +2601,7 @@ public struct DescribeConfigurationSetInput: Swift.Sendable {
     public init(
         configurationSetAttributeNames: [SESClientTypes.ConfigurationSetAttribute]? = nil,
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetAttributeNames = configurationSetAttributeNames
         self.configurationSetName = configurationSetName
     }
@@ -2702,8 +2622,7 @@ extension SESClientTypes {
             lastFreshStart: Foundation.Date? = nil,
             reputationMetricsEnabled: Swift.Bool = false,
             sendingEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.lastFreshStart = lastFreshStart
             self.reputationMetricsEnabled = reputationMetricsEnabled
             self.sendingEnabled = sendingEnabled
@@ -2730,8 +2649,7 @@ public struct DescribeConfigurationSetOutput: Swift.Sendable {
         eventDestinations: [SESClientTypes.EventDestination]? = nil,
         reputationOptions: SESClientTypes.ReputationOptions? = nil,
         trackingOptions: SESClientTypes.TrackingOptions? = nil
-    )
-    {
+    ) {
         self.configurationSet = configurationSet
         self.deliveryOptions = deliveryOptions
         self.eventDestinations = eventDestinations
@@ -2752,8 +2670,7 @@ public struct DescribeReceiptRuleInput: Swift.Sendable {
     public init(
         ruleName: Swift.String? = nil,
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleName = ruleName
         self.ruleSetName = ruleSetName
     }
@@ -2766,8 +2683,7 @@ public struct DescribeReceiptRuleOutput: Swift.Sendable {
 
     public init(
         rule: SESClientTypes.ReceiptRule? = nil
-    )
-    {
+    ) {
         self.rule = rule
     }
 }
@@ -2780,8 +2696,7 @@ public struct DescribeReceiptRuleSetInput: Swift.Sendable {
 
     public init(
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetName = ruleSetName
     }
 }
@@ -2796,8 +2711,7 @@ public struct DescribeReceiptRuleSetOutput: Swift.Sendable {
     public init(
         metadata: SESClientTypes.ReceiptRuleSetMetadata? = nil,
         rules: [SESClientTypes.ReceiptRule]? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
         self.rules = rules
     }
@@ -2858,8 +2772,7 @@ extension SESClientTypes {
             dkimEnabled: Swift.Bool = false,
             dkimTokens: [Swift.String]? = nil,
             dkimVerificationStatus: SESClientTypes.VerificationStatus? = nil
-        )
-        {
+        ) {
             self.dkimEnabled = dkimEnabled
             self.dkimTokens = dkimTokens
             self.dkimVerificationStatus = dkimVerificationStatus
@@ -2874,8 +2787,7 @@ public struct GetAccountSendingEnabledOutput: Swift.Sendable {
 
     public init(
         enabled: Swift.Bool = false
-    )
-    {
+    ) {
         self.enabled = enabled
     }
 }
@@ -2888,8 +2800,7 @@ public struct GetCustomVerificationEmailTemplateInput: Swift.Sendable {
 
     public init(
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
     }
 }
@@ -2916,8 +2827,7 @@ public struct GetCustomVerificationEmailTemplateOutput: Swift.Sendable {
         templateContent: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateSubject: Swift.String? = nil
-    )
-    {
+    ) {
         self.failureRedirectionURL = failureRedirectionURL
         self.fromEmailAddress = fromEmailAddress
         self.successRedirectionURL = successRedirectionURL
@@ -2935,8 +2845,7 @@ public struct GetIdentityDkimAttributesInput: Swift.Sendable {
 
     public init(
         identities: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.identities = identities
     }
 }
@@ -2949,8 +2858,7 @@ public struct GetIdentityDkimAttributesOutput: Swift.Sendable {
 
     public init(
         dkimAttributes: [Swift.String: SESClientTypes.IdentityDkimAttributes]? = nil
-    )
-    {
+    ) {
         self.dkimAttributes = dkimAttributes
     }
 }
@@ -2963,8 +2871,7 @@ public struct GetIdentityMailFromDomainAttributesInput: Swift.Sendable {
 
     public init(
         identities: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.identities = identities
     }
 }
@@ -2987,8 +2894,7 @@ extension SESClientTypes {
             behaviorOnMXFailure: SESClientTypes.BehaviorOnMXFailure? = nil,
             mailFromDomain: Swift.String? = nil,
             mailFromDomainStatus: SESClientTypes.CustomMailFromStatus? = nil
-        )
-        {
+        ) {
             self.behaviorOnMXFailure = behaviorOnMXFailure
             self.mailFromDomain = mailFromDomain
             self.mailFromDomainStatus = mailFromDomainStatus
@@ -3004,8 +2910,7 @@ public struct GetIdentityMailFromDomainAttributesOutput: Swift.Sendable {
 
     public init(
         mailFromDomainAttributes: [Swift.String: SESClientTypes.IdentityMailFromDomainAttributes]? = nil
-    )
-    {
+    ) {
         self.mailFromDomainAttributes = mailFromDomainAttributes
     }
 }
@@ -3018,8 +2923,7 @@ public struct GetIdentityNotificationAttributesInput: Swift.Sendable {
 
     public init(
         identities: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.identities = identities
     }
 }
@@ -3055,8 +2959,7 @@ extension SESClientTypes {
             headersInBounceNotificationsEnabled: Swift.Bool = false,
             headersInComplaintNotificationsEnabled: Swift.Bool = false,
             headersInDeliveryNotificationsEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.bounceTopic = bounceTopic
             self.complaintTopic = complaintTopic
             self.deliveryTopic = deliveryTopic
@@ -3076,8 +2979,7 @@ public struct GetIdentityNotificationAttributesOutput: Swift.Sendable {
 
     public init(
         notificationAttributes: [Swift.String: SESClientTypes.IdentityNotificationAttributes]? = nil
-    )
-    {
+    ) {
         self.notificationAttributes = notificationAttributes
     }
 }
@@ -3094,8 +2996,7 @@ public struct GetIdentityPoliciesInput: Swift.Sendable {
     public init(
         identity: Swift.String? = nil,
         policyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.identity = identity
         self.policyNames = policyNames
     }
@@ -3109,8 +3010,7 @@ public struct GetIdentityPoliciesOutput: Swift.Sendable {
 
     public init(
         policies: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.policies = policies
     }
 }
@@ -3123,8 +3023,7 @@ public struct GetIdentityVerificationAttributesInput: Swift.Sendable {
 
     public init(
         identities: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.identities = identities
     }
 }
@@ -3142,8 +3041,7 @@ extension SESClientTypes {
         public init(
             verificationStatus: SESClientTypes.VerificationStatus? = nil,
             verificationToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.verificationStatus = verificationStatus
             self.verificationToken = verificationToken
         }
@@ -3158,8 +3056,7 @@ public struct GetIdentityVerificationAttributesOutput: Swift.Sendable {
 
     public init(
         verificationAttributes: [Swift.String: SESClientTypes.IdentityVerificationAttributes]? = nil
-    )
-    {
+    ) {
         self.verificationAttributes = verificationAttributes
     }
 }
@@ -3177,8 +3074,7 @@ public struct GetSendQuotaOutput: Swift.Sendable {
         max24HourSend: Swift.Double = 0.0,
         maxSendRate: Swift.Double = 0.0,
         sentLast24Hours: Swift.Double = 0.0
-    )
-    {
+    ) {
         self.max24HourSend = max24HourSend
         self.maxSendRate = maxSendRate
         self.sentLast24Hours = sentLast24Hours
@@ -3206,8 +3102,7 @@ extension SESClientTypes {
             deliveryAttempts: Swift.Int = 0,
             rejects: Swift.Int = 0,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.bounces = bounces
             self.complaints = complaints
             self.deliveryAttempts = deliveryAttempts
@@ -3224,8 +3119,7 @@ public struct GetSendStatisticsOutput: Swift.Sendable {
 
     public init(
         sendDataPoints: [SESClientTypes.SendDataPoint]? = nil
-    )
-    {
+    ) {
         self.sendDataPoints = sendDataPoints
     }
 }
@@ -3250,8 +3144,7 @@ public struct TemplateDoesNotExistException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.templateName = templateName
     }
@@ -3264,8 +3157,7 @@ public struct GetTemplateInput: Swift.Sendable {
 
     public init(
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
     }
 }
@@ -3276,8 +3168,7 @@ public struct GetTemplateOutput: Swift.Sendable {
 
     public init(
         template: SESClientTypes.Template? = nil
-    )
-    {
+    ) {
         self.template = template
     }
 }
@@ -3329,8 +3220,7 @@ public struct InvalidDeliveryOptionsException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3353,8 +3243,7 @@ public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3379,8 +3268,7 @@ public struct InvalidRenderingParameterException: ClientRuntime.ModeledError, AW
     public init(
         message: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.templateName = templateName
     }
@@ -3396,8 +3284,7 @@ public struct ListConfigurationSetsInput: Swift.Sendable {
     public init(
         maxItems: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.nextToken = nextToken
     }
@@ -3413,8 +3300,7 @@ public struct ListConfigurationSetsOutput: Swift.Sendable {
     public init(
         configurationSets: [SESClientTypes.ConfigurationSet]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSets = configurationSets
         self.nextToken = nextToken
     }
@@ -3430,8 +3316,7 @@ public struct ListCustomVerificationEmailTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3447,8 +3332,7 @@ public struct ListCustomVerificationEmailTemplatesOutput: Swift.Sendable {
     public init(
         customVerificationEmailTemplates: [SESClientTypes.CustomVerificationEmailTemplate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customVerificationEmailTemplates = customVerificationEmailTemplates
         self.nextToken = nextToken
     }
@@ -3467,8 +3351,7 @@ public struct ListIdentitiesInput: Swift.Sendable {
         identityType: SESClientTypes.IdentityType? = nil,
         maxItems: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityType = identityType
         self.maxItems = maxItems
         self.nextToken = nextToken
@@ -3486,8 +3369,7 @@ public struct ListIdentitiesOutput: Swift.Sendable {
     public init(
         identities: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identities = identities
         self.nextToken = nextToken
     }
@@ -3501,8 +3383,7 @@ public struct ListIdentityPoliciesInput: Swift.Sendable {
 
     public init(
         identity: Swift.String? = nil
-    )
-    {
+    ) {
         self.identity = identity
     }
 }
@@ -3515,8 +3396,7 @@ public struct ListIdentityPoliciesOutput: Swift.Sendable {
 
     public init(
         policyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.policyNames = policyNames
     }
 }
@@ -3534,8 +3414,7 @@ public struct ListReceiptFiltersOutput: Swift.Sendable {
 
     public init(
         filters: [SESClientTypes.ReceiptFilter]? = nil
-    )
-    {
+    ) {
         self.filters = filters
     }
 }
@@ -3547,8 +3426,7 @@ public struct ListReceiptRuleSetsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -3563,8 +3441,7 @@ public struct ListReceiptRuleSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleSets: [SESClientTypes.ReceiptRuleSetMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleSets = ruleSets
     }
@@ -3579,8 +3456,7 @@ public struct ListTemplatesInput: Swift.Sendable {
     public init(
         maxItems: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.nextToken = nextToken
     }
@@ -3598,8 +3474,7 @@ extension SESClientTypes {
         public init(
             createdTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.name = name
         }
@@ -3615,8 +3490,7 @@ public struct ListTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templatesMetadata: [SESClientTypes.TemplateMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templatesMetadata = templatesMetadata
     }
@@ -3629,8 +3503,7 @@ public struct ListVerifiedEmailAddressesOutput: Swift.Sendable {
 
     public init(
         verifiedEmailAddresses: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.verifiedEmailAddresses = verifiedEmailAddresses
     }
 }
@@ -3653,8 +3526,7 @@ public struct MailFromDomainNotVerifiedException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3673,8 +3545,7 @@ extension SESClientTypes {
         public init(
             body: SESClientTypes.Body? = nil,
             subject: SESClientTypes.Content? = nil
-        )
-        {
+        ) {
             self.body = body
             self.subject = subject
         }
@@ -3697,8 +3568,7 @@ extension SESClientTypes {
             arrivalDate: Foundation.Date? = nil,
             extensionFields: [SESClientTypes.ExtensionField]? = nil,
             reportingMta: Swift.String? = nil
-        )
-        {
+        ) {
             self.arrivalDate = arrivalDate
             self.extensionFields = extensionFields
             self.reportingMta = reportingMta
@@ -3724,8 +3594,7 @@ public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3750,8 +3619,7 @@ public struct MissingRenderingAttributeException: ClientRuntime.ModeledError, AW
     public init(
         message: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.templateName = templateName
     }
@@ -3807,8 +3675,7 @@ public struct ProductionAccessNotGrantedException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3824,8 +3691,7 @@ public struct PutConfigurationSetDeliveryOptionsInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         deliveryOptions: SESClientTypes.DeliveryOptions? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.deliveryOptions = deliveryOptions
     }
@@ -3853,8 +3719,7 @@ public struct PutIdentityPolicyInput: Swift.Sendable {
         identity: Swift.String? = nil,
         policy: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.identity = identity
         self.policy = policy
         self.policyName = policyName
@@ -3877,8 +3742,7 @@ extension SESClientTypes {
 
         public init(
             data: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.data = data
         }
     }
@@ -3896,8 +3760,7 @@ public struct ReorderReceiptRuleSetInput: Swift.Sendable {
     public init(
         ruleNames: [Swift.String]? = nil,
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleNames = ruleNames
         self.ruleSetName = ruleSetName
     }
@@ -3934,8 +3797,7 @@ public struct SendBounceInput: Swift.Sendable {
         explanation: Swift.String? = nil,
         messageDsn: SESClientTypes.MessageDsn? = nil,
         originalMessageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bounceSender = bounceSender
         self.bounceSenderArn = bounceSenderArn
         self.bouncedRecipientInfoList = bouncedRecipientInfoList
@@ -3952,8 +3814,7 @@ public struct SendBounceOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -3999,8 +3860,7 @@ public struct SendBulkTemplatedEmailInput: Swift.Sendable {
         sourceArn: Swift.String? = nil,
         template: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.defaultTags = defaultTags
         self.defaultTemplateData = defaultTemplateData
@@ -4022,8 +3882,7 @@ public struct SendBulkTemplatedEmailOutput: Swift.Sendable {
 
     public init(
         status: [SESClientTypes.BulkEmailDestinationStatus]? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -4043,8 +3902,7 @@ public struct SendCustomVerificationEmailInput: Swift.Sendable {
         configurationSetName: Swift.String? = nil,
         emailAddress: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.emailAddress = emailAddress
         self.templateName = templateName
@@ -4058,8 +3916,7 @@ public struct SendCustomVerificationEmailOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -4098,8 +3955,7 @@ public struct SendEmailInput: Swift.Sendable {
         source: Swift.String? = nil,
         sourceArn: Swift.String? = nil,
         tags: [SESClientTypes.MessageTag]? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.destination = destination
         self.message = message
@@ -4120,8 +3976,7 @@ public struct SendEmailOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -4169,8 +4024,7 @@ public struct SendRawEmailInput: Swift.Sendable {
         source: Swift.String? = nil,
         sourceArn: Swift.String? = nil,
         tags: [SESClientTypes.MessageTag]? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.destinations = destinations
         self.fromArn = fromArn
@@ -4190,8 +4044,7 @@ public struct SendRawEmailOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -4237,8 +4090,7 @@ public struct SendTemplatedEmailInput: Swift.Sendable {
         template: Swift.String? = nil,
         templateArn: Swift.String? = nil,
         templateData: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.destination = destination
         self.replyToAddresses = replyToAddresses
@@ -4260,8 +4112,7 @@ public struct SendTemplatedEmailOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -4273,8 +4124,7 @@ public struct SetActiveReceiptRuleSetInput: Swift.Sendable {
 
     public init(
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetName = ruleSetName
     }
 }
@@ -4297,8 +4147,7 @@ public struct SetIdentityDkimEnabledInput: Swift.Sendable {
     public init(
         dkimEnabled: Swift.Bool? = false,
         identity: Swift.String? = nil
-    )
-    {
+    ) {
         self.dkimEnabled = dkimEnabled
         self.identity = identity
     }
@@ -4322,8 +4171,7 @@ public struct SetIdentityFeedbackForwardingEnabledInput: Swift.Sendable {
     public init(
         forwardingEnabled: Swift.Bool? = false,
         identity: Swift.String? = nil
-    )
-    {
+    ) {
         self.forwardingEnabled = forwardingEnabled
         self.identity = identity
     }
@@ -4351,8 +4199,7 @@ public struct SetIdentityHeadersInNotificationsEnabledInput: Swift.Sendable {
         enabled: Swift.Bool? = false,
         identity: Swift.String? = nil,
         notificationType: SESClientTypes.NotificationType? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.identity = identity
         self.notificationType = notificationType
@@ -4379,8 +4226,7 @@ public struct SetIdentityMailFromDomainInput: Swift.Sendable {
         behaviorOnMXFailure: SESClientTypes.BehaviorOnMXFailure? = nil,
         identity: Swift.String? = nil,
         mailFromDomain: Swift.String? = nil
-    )
-    {
+    ) {
         self.behaviorOnMXFailure = behaviorOnMXFailure
         self.identity = identity
         self.mailFromDomain = mailFromDomain
@@ -4408,8 +4254,7 @@ public struct SetIdentityNotificationTopicInput: Swift.Sendable {
         identity: Swift.String? = nil,
         notificationType: SESClientTypes.NotificationType? = nil,
         snsTopic: Swift.String? = nil
-    )
-    {
+    ) {
         self.identity = identity
         self.notificationType = notificationType
         self.snsTopic = snsTopic
@@ -4437,8 +4282,7 @@ public struct SetReceiptRulePositionInput: Swift.Sendable {
         after: Swift.String? = nil,
         ruleName: Swift.String? = nil,
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.after = after
         self.ruleName = ruleName
         self.ruleSetName = ruleSetName
@@ -4462,8 +4306,7 @@ public struct TestRenderTemplateInput: Swift.Sendable {
     public init(
         templateData: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateData = templateData
         self.templateName = templateName
     }
@@ -4475,8 +4318,7 @@ public struct TestRenderTemplateOutput: Swift.Sendable {
 
     public init(
         renderedTemplate: Swift.String? = nil
-    )
-    {
+    ) {
         self.renderedTemplate = renderedTemplate
     }
 }
@@ -4488,8 +4330,7 @@ public struct UpdateAccountSendingEnabledInput: Swift.Sendable {
 
     public init(
         enabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.enabled = enabled
     }
 }
@@ -4506,8 +4347,7 @@ public struct UpdateConfigurationSetEventDestinationInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         eventDestination: SESClientTypes.EventDestination? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.eventDestination = eventDestination
     }
@@ -4531,8 +4371,7 @@ public struct UpdateConfigurationSetReputationMetricsEnabledInput: Swift.Sendabl
     public init(
         configurationSetName: Swift.String? = nil,
         enabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.enabled = enabled
     }
@@ -4550,8 +4389,7 @@ public struct UpdateConfigurationSetSendingEnabledInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         enabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.enabled = enabled
     }
@@ -4569,8 +4407,7 @@ public struct UpdateConfigurationSetTrackingOptionsInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         trackingOptions: SESClientTypes.TrackingOptions? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.trackingOptions = trackingOptions
     }
@@ -4605,8 +4442,7 @@ public struct UpdateCustomVerificationEmailTemplateInput: Swift.Sendable {
         templateContent: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateSubject: Swift.String? = nil
-    )
-    {
+    ) {
         self.failureRedirectionURL = failureRedirectionURL
         self.fromEmailAddress = fromEmailAddress
         self.successRedirectionURL = successRedirectionURL
@@ -4628,8 +4464,7 @@ public struct UpdateReceiptRuleInput: Swift.Sendable {
     public init(
         rule: SESClientTypes.ReceiptRule? = nil,
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.rule = rule
         self.ruleSetName = ruleSetName
     }
@@ -4648,8 +4483,7 @@ public struct UpdateTemplateInput: Swift.Sendable {
 
     public init(
         template: SESClientTypes.Template? = nil
-    )
-    {
+    ) {
         self.template = template
     }
 }
@@ -4667,8 +4501,7 @@ public struct VerifyDomainDkimInput: Swift.Sendable {
 
     public init(
         domain: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
     }
 }
@@ -4681,8 +4514,7 @@ public struct VerifyDomainDkimOutput: Swift.Sendable {
 
     public init(
         dkimTokens: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dkimTokens = dkimTokens
     }
 }
@@ -4695,8 +4527,7 @@ public struct VerifyDomainIdentityInput: Swift.Sendable {
 
     public init(
         domain: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
     }
 }
@@ -4709,8 +4540,7 @@ public struct VerifyDomainIdentityOutput: Swift.Sendable {
 
     public init(
         verificationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.verificationToken = verificationToken
     }
 }
@@ -4723,8 +4553,7 @@ public struct VerifyEmailAddressInput: Swift.Sendable {
 
     public init(
         emailAddress: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailAddress = emailAddress
     }
 }
@@ -4737,8 +4566,7 @@ public struct VerifyEmailIdentityInput: Swift.Sendable {
 
     public init(
         emailAddress: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailAddress = emailAddress
     }
 }

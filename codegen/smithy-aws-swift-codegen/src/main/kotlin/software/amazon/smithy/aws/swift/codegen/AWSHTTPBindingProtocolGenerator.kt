@@ -80,6 +80,9 @@ abstract class AWSHTTPBindingProtocolGenerator(
             operation,
             OperationEndpointResolverMiddleware(ctx, customizations.endpointMiddlewareSymbol)
         )
+    }
+
+    override fun addUserAgentMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))
     }
 }

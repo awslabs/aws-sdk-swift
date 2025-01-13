@@ -49,8 +49,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -82,8 +81,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -112,8 +110,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -149,8 +146,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.context = context
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -180,8 +176,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -201,8 +196,7 @@ extension NetworkManagerClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -269,8 +263,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [NetworkManagerClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: NetworkManagerClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -284,8 +277,7 @@ public struct AcceptAttachmentInput: Swift.Sendable {
 
     public init(
         attachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
     }
 }
@@ -402,8 +394,7 @@ extension NetworkManagerClientTypes {
             message: Swift.String? = nil,
             requestId: Swift.String? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.requestId = requestId
@@ -424,8 +415,7 @@ extension NetworkManagerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -447,8 +437,7 @@ extension NetworkManagerClientTypes {
             attachmentPolicyRuleNumber: Swift.Int? = nil,
             networkFunctionGroupName: Swift.String? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
             self.networkFunctionGroupName = networkFunctionGroupName
             self.tags = tags
@@ -471,8 +460,7 @@ extension NetworkManagerClientTypes {
             attachmentPolicyRuleNumber: Swift.Int? = nil,
             segmentName: Swift.String? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
             self.segmentName = segmentName
             self.tags = tags
@@ -590,8 +578,7 @@ extension NetworkManagerClientTypes {
             state: NetworkManagerClientTypes.AttachmentState? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
             self.attachmentType = attachmentType
@@ -620,8 +607,7 @@ public struct AcceptAttachmentOutput: Swift.Sendable {
 
     public init(
         attachment: NetworkManagerClientTypes.Attachment? = nil
-    )
-    {
+    ) {
         self.attachment = attachment
     }
 }
@@ -638,8 +624,7 @@ extension NetworkManagerClientTypes {
         public init(
             accountId: Swift.String? = nil,
             slrDeploymentStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.slrDeploymentStatus = slrDeploymentStatus
         }
@@ -680,8 +665,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.limitCode = limitCode
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -708,8 +692,7 @@ public struct AssociateConnectPeerInput: Swift.Sendable {
         deviceId: Swift.String? = nil,
         globalNetworkId: Swift.String? = nil,
         linkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectPeerId = connectPeerId
         self.deviceId = deviceId
         self.globalNetworkId = globalNetworkId
@@ -773,8 +756,7 @@ extension NetworkManagerClientTypes {
             globalNetworkId: Swift.String? = nil,
             linkId: Swift.String? = nil,
             state: NetworkManagerClientTypes.ConnectPeerAssociationState? = nil
-        )
-        {
+        ) {
             self.connectPeerId = connectPeerId
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
@@ -790,8 +772,7 @@ public struct AssociateConnectPeerOutput: Swift.Sendable {
 
     public init(
         connectPeerAssociation: NetworkManagerClientTypes.ConnectPeerAssociation? = nil
-    )
-    {
+    ) {
         self.connectPeerAssociation = connectPeerAssociation
     }
 }
@@ -814,8 +795,7 @@ public struct AssociateCustomerGatewayInput: Swift.Sendable {
         deviceId: Swift.String? = nil,
         globalNetworkId: Swift.String? = nil,
         linkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerGatewayArn = customerGatewayArn
         self.deviceId = deviceId
         self.globalNetworkId = globalNetworkId
@@ -879,8 +859,7 @@ extension NetworkManagerClientTypes {
             globalNetworkId: Swift.String? = nil,
             linkId: Swift.String? = nil,
             state: NetworkManagerClientTypes.CustomerGatewayAssociationState? = nil
-        )
-        {
+        ) {
             self.customerGatewayArn = customerGatewayArn
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
@@ -896,8 +875,7 @@ public struct AssociateCustomerGatewayOutput: Swift.Sendable {
 
     public init(
         customerGatewayAssociation: NetworkManagerClientTypes.CustomerGatewayAssociation? = nil
-    )
-    {
+    ) {
         self.customerGatewayAssociation = customerGatewayAssociation
     }
 }
@@ -917,8 +895,7 @@ public struct AssociateLinkInput: Swift.Sendable {
         deviceId: Swift.String? = nil,
         globalNetworkId: Swift.String? = nil,
         linkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.globalNetworkId = globalNetworkId
         self.linkId = linkId
@@ -978,8 +955,7 @@ extension NetworkManagerClientTypes {
             globalNetworkId: Swift.String? = nil,
             linkAssociationState: NetworkManagerClientTypes.LinkAssociationState? = nil,
             linkId: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
             self.linkAssociationState = linkAssociationState
@@ -994,8 +970,7 @@ public struct AssociateLinkOutput: Swift.Sendable {
 
     public init(
         linkAssociation: NetworkManagerClientTypes.LinkAssociation? = nil
-    )
-    {
+    ) {
         self.linkAssociation = linkAssociation
     }
 }
@@ -1018,8 +993,7 @@ public struct AssociateTransitGatewayConnectPeerInput: Swift.Sendable {
         globalNetworkId: Swift.String? = nil,
         linkId: Swift.String? = nil,
         transitGatewayConnectPeerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.globalNetworkId = globalNetworkId
         self.linkId = linkId
@@ -1083,8 +1057,7 @@ extension NetworkManagerClientTypes {
             linkId: Swift.String? = nil,
             state: NetworkManagerClientTypes.TransitGatewayConnectPeerAssociationState? = nil,
             transitGatewayConnectPeerArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
@@ -1100,8 +1073,7 @@ public struct AssociateTransitGatewayConnectPeerOutput: Swift.Sendable {
 
     public init(
         transitGatewayConnectPeerAssociation: NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation? = nil
-    )
-    {
+    ) {
         self.transitGatewayConnectPeerAssociation = transitGatewayConnectPeerAssociation
     }
 }
@@ -1118,8 +1090,7 @@ extension NetworkManagerClientTypes {
         public init(
             subnetArn: Swift.String? = nil,
             zone: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetArn = subnetArn
             self.zone = zone
         }
@@ -1138,8 +1109,7 @@ extension NetworkManagerClientTypes {
         public init(
             downloadSpeed: Swift.Int? = nil,
             uploadSpeed: Swift.Int? = nil
-        )
-        {
+        ) {
             self.downloadSpeed = downloadSpeed
             self.uploadSpeed = uploadSpeed
         }
@@ -1155,8 +1125,7 @@ extension NetworkManagerClientTypes {
 
         public init(
             peerAsn: Swift.Int? = nil
-        )
-        {
+        ) {
             self.peerAsn = peerAsn
         }
     }
@@ -1361,8 +1330,7 @@ extension NetworkManagerClientTypes {
 
         public init(
             `protocol`: NetworkManagerClientTypes.TunnelProtocol? = nil
-        )
-        {
+        ) {
             self.`protocol` = `protocol`
         }
     }
@@ -1383,8 +1351,7 @@ extension NetworkManagerClientTypes {
             attachment: NetworkManagerClientTypes.Attachment? = nil,
             options: NetworkManagerClientTypes.ConnectAttachmentOptions? = nil,
             transportAttachmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachment = attachment
             self.options = options
             self.transportAttachmentId = transportAttachmentId
@@ -1466,8 +1433,7 @@ extension NetworkManagerClientTypes {
             linkId: Swift.String? = nil,
             state: NetworkManagerClientTypes.ConnectionState? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.connectedDeviceId = connectedDeviceId
             self.connectedLinkId = connectedLinkId
             self.connectionArn = connectionArn
@@ -1556,8 +1522,7 @@ extension NetworkManagerClientTypes {
             status: NetworkManagerClientTypes.ConnectionStatus? = nil,
             timestamp: Foundation.Date? = nil,
             type: NetworkManagerClientTypes.ConnectionType? = nil
-        )
-        {
+        ) {
             self.status = status
             self.timestamp = timestamp
             self.type = type
@@ -1583,8 +1548,7 @@ extension NetworkManagerClientTypes {
             coreNetworkAsn: Swift.Int? = nil,
             peerAddress: Swift.String? = nil,
             peerAsn: Swift.Int? = nil
-        )
-        {
+        ) {
             self.coreNetworkAddress = coreNetworkAddress
             self.coreNetworkAsn = coreNetworkAsn
             self.peerAddress = peerAddress
@@ -1614,8 +1578,7 @@ extension NetworkManagerClientTypes {
             insideCidrBlocks: [Swift.String]? = nil,
             peerAddress: Swift.String? = nil,
             `protocol`: NetworkManagerClientTypes.TunnelProtocol? = nil
-        )
-        {
+        ) {
             self.bgpConfigurations = bgpConfigurations
             self.coreNetworkAddress = coreNetworkAddress
             self.insideCidrBlocks = insideCidrBlocks
@@ -1684,8 +1647,7 @@ extension NetworkManagerClientTypes {
             message: Swift.String? = nil,
             requestId: Swift.String? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.requestId = requestId
@@ -1765,8 +1727,7 @@ extension NetworkManagerClientTypes {
             state: NetworkManagerClientTypes.ConnectPeerState? = nil,
             subnetArn: Swift.String? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.connectAttachmentId = connectAttachmentId
             self.connectPeerId = connectPeerId
@@ -1811,8 +1772,7 @@ extension NetworkManagerClientTypes {
             edgeLocation: Swift.String? = nil,
             subnetArn: Swift.String? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.connectAttachmentId = connectAttachmentId
             self.connectPeerId = connectPeerId
             self.connectPeerState = connectPeerState
@@ -1840,8 +1800,7 @@ extension NetworkManagerClientTypes {
             asn: Swift.Int? = nil,
             edgeLocation: Swift.String? = nil,
             insideCidrBlocks: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.asn = asn
             self.edgeLocation = edgeLocation
             self.insideCidrBlocks = insideCidrBlocks
@@ -1861,8 +1820,7 @@ extension NetworkManagerClientTypes {
         public init(
             sendTo: [Swift.String]? = nil,
             sendVia: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.sendTo = sendTo
             self.sendVia = sendVia
         }
@@ -1884,8 +1842,7 @@ extension NetworkManagerClientTypes {
             edgeLocations: [Swift.String]? = nil,
             name: Swift.String? = nil,
             segments: NetworkManagerClientTypes.ServiceInsertionSegments? = nil
-        )
-        {
+        ) {
             self.edgeLocations = edgeLocations
             self.name = name
             self.segments = segments
@@ -1908,8 +1865,7 @@ extension NetworkManagerClientTypes {
             edgeLocations: [Swift.String]? = nil,
             name: Swift.String? = nil,
             sharedSegments: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.edgeLocations = edgeLocations
             self.name = name
             self.sharedSegments = sharedSegments
@@ -1988,8 +1944,7 @@ extension NetworkManagerClientTypes {
             segments: [NetworkManagerClientTypes.CoreNetworkSegment]? = nil,
             state: NetworkManagerClientTypes.CoreNetworkState? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.coreNetworkArn = coreNetworkArn
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
@@ -2071,8 +2026,7 @@ extension NetworkManagerClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -2090,8 +2044,7 @@ extension NetworkManagerClientTypes {
         public init(
             edgeSets: [[Swift.String]]? = nil,
             useEdge: Swift.String? = nil
-        )
-        {
+        ) {
             self.edgeSets = edgeSets
             self.useEdge = useEdge
         }
@@ -2110,8 +2063,7 @@ extension NetworkManagerClientTypes {
         public init(
             networkFunctionGroups: [NetworkManagerClientTypes.NetworkFunctionGroup]? = nil,
             withEdgeOverrides: [NetworkManagerClientTypes.EdgeOverride]? = nil
-        )
-        {
+        ) {
             self.networkFunctionGroups = networkFunctionGroups
             self.withEdgeOverrides = withEdgeOverrides
         }
@@ -2127,8 +2079,7 @@ extension NetworkManagerClientTypes {
 
         public init(
             whenSentToSegmentsList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.whenSentToSegmentsList = whenSentToSegmentsList
         }
     }
@@ -2152,8 +2103,7 @@ extension NetworkManagerClientTypes {
             mode: NetworkManagerClientTypes.SendViaMode? = nil,
             via: NetworkManagerClientTypes.Via? = nil,
             whenSentTo: NetworkManagerClientTypes.WhenSentTo? = nil
-        )
-        {
+        ) {
             self.action = action
             self.mode = mode
             self.via = via
@@ -2195,8 +2145,7 @@ extension NetworkManagerClientTypes {
             segmentName: Swift.String? = nil,
             serviceInsertionActions: [NetworkManagerClientTypes.ServiceInsertionAction]? = nil,
             sharedSegments: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.asn = asn
             self.cidr = cidr
             self.destinationIdentifier = destinationIdentifier
@@ -2234,8 +2183,7 @@ extension NetworkManagerClientTypes {
             newValues: NetworkManagerClientTypes.CoreNetworkChangeValues? = nil,
             previousValues: NetworkManagerClientTypes.CoreNetworkChangeValues? = nil,
             type: NetworkManagerClientTypes.ChangeType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.identifier = identifier
             self.identifierPath = identifierPath
@@ -2267,8 +2215,7 @@ extension NetworkManagerClientTypes {
             edgeLocation: Swift.String? = nil,
             networkFunctionGroupName: Swift.String? = nil,
             segmentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.cidr = cidr
             self.edgeLocation = edgeLocation
@@ -2302,8 +2249,7 @@ extension NetworkManagerClientTypes {
             status: NetworkManagerClientTypes.ChangeStatus? = nil,
             type: NetworkManagerClientTypes.ChangeType? = nil,
             values: NetworkManagerClientTypes.CoreNetworkChangeEventValues? = nil
-        )
-        {
+        ) {
             self.action = action
             self.eventTime = eventTime
             self.identifierPath = identifierPath
@@ -2329,8 +2275,7 @@ extension NetworkManagerClientTypes {
             coreNetworkId: Swift.String? = nil,
             edgeLocation: Swift.String? = nil,
             networkFunctionGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.coreNetworkId = coreNetworkId
             self.edgeLocation = edgeLocation
             self.networkFunctionGroupName = networkFunctionGroupName
@@ -2384,8 +2329,7 @@ extension NetworkManagerClientTypes {
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
             self.path = path
@@ -2423,8 +2367,7 @@ extension NetworkManagerClientTypes {
             policyDocument: Swift.String? = nil,
             policyErrors: [NetworkManagerClientTypes.CoreNetworkPolicyError]? = nil,
             policyVersionId: Swift.Int? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.changeSetState = changeSetState
             self.coreNetworkId = coreNetworkId
@@ -2459,8 +2402,7 @@ public struct CoreNetworkPolicyException: ClientRuntime.ModeledError, AWSClientR
     public init(
         errors: [NetworkManagerClientTypes.CoreNetworkPolicyError]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errors = errors
         self.properties.message = message
     }
@@ -2490,8 +2432,7 @@ extension NetworkManagerClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             policyVersionId: Swift.Int? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.changeSetState = changeSetState
             self.coreNetworkId = coreNetworkId
@@ -2517,8 +2458,7 @@ extension NetworkManagerClientTypes {
             coreNetworkId: Swift.String? = nil,
             edgeLocation: Swift.String? = nil,
             segmentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.coreNetworkId = coreNetworkId
             self.edgeLocation = edgeLocation
             self.segmentName = segmentName
@@ -2553,8 +2493,7 @@ extension NetworkManagerClientTypes {
             ownerAccountId: Swift.String? = nil,
             state: NetworkManagerClientTypes.CoreNetworkState? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.coreNetworkArn = coreNetworkArn
             self.coreNetworkId = coreNetworkId
             self.description = description
@@ -2591,8 +2530,7 @@ public struct CreateConnectAttachmentInput: Swift.Sendable {
         options: NetworkManagerClientTypes.ConnectAttachmentOptions? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         transportAttachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
         self.edgeLocation = edgeLocation
@@ -2608,8 +2546,7 @@ public struct CreateConnectAttachmentOutput: Swift.Sendable {
 
     public init(
         connectAttachment: NetworkManagerClientTypes.ConnectAttachment? = nil
-    )
-    {
+    ) {
         self.connectAttachment = connectAttachment
     }
 }
@@ -2641,8 +2578,7 @@ public struct CreateConnectionInput: Swift.Sendable {
         globalNetworkId: Swift.String? = nil,
         linkId: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.connectedDeviceId = connectedDeviceId
         self.connectedLinkId = connectedLinkId
         self.description = description
@@ -2659,8 +2595,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
 
     public init(
         connection: NetworkManagerClientTypes.Connection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -2694,8 +2629,7 @@ public struct CreateConnectPeerInput: Swift.Sendable {
         peerAddress: Swift.String? = nil,
         subnetArn: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.bgpOptions = bgpOptions
         self.clientToken = clientToken
         self.connectAttachmentId = connectAttachmentId
@@ -2713,8 +2647,7 @@ public struct CreateConnectPeerOutput: Swift.Sendable {
 
     public init(
         connectPeer: NetworkManagerClientTypes.ConnectPeer? = nil
-    )
-    {
+    ) {
         self.connectPeer = connectPeer
     }
 }
@@ -2738,8 +2671,7 @@ public struct CreateCoreNetworkInput: Swift.Sendable {
         globalNetworkId: Swift.String? = nil,
         policyDocument: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.globalNetworkId = globalNetworkId
@@ -2754,8 +2686,7 @@ public struct CreateCoreNetworkOutput: Swift.Sendable {
 
     public init(
         coreNetwork: NetworkManagerClientTypes.CoreNetwork? = nil
-    )
-    {
+    ) {
         self.coreNetwork = coreNetwork
     }
 }
@@ -2775,8 +2706,7 @@ extension NetworkManagerClientTypes {
             address: Swift.String? = nil,
             latitude: Swift.String? = nil,
             longitude: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
             self.latitude = latitude
             self.longitude = longitude
@@ -2824,8 +2754,7 @@ public struct CreateDeviceInput: Swift.Sendable {
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         type: Swift.String? = nil,
         vendor: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsLocation = awsLocation
         self.description = description
         self.globalNetworkId = globalNetworkId
@@ -2927,8 +2856,7 @@ extension NetworkManagerClientTypes {
             tags: [NetworkManagerClientTypes.Tag]? = nil,
             type: Swift.String? = nil,
             vendor: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsLocation = awsLocation
             self.createdAt = createdAt
             self.description = description
@@ -2958,8 +2886,7 @@ public struct CreateDeviceOutput: Swift.Sendable {
 
     public init(
         device: NetworkManagerClientTypes.Device? = nil
-    )
-    {
+    ) {
         self.device = device
     }
 }
@@ -2985,8 +2912,7 @@ public struct CreateDirectConnectGatewayAttachmentInput: Swift.Sendable {
         directConnectGatewayArn: Swift.String? = nil,
         edgeLocations: [Swift.String]? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
         self.directConnectGatewayArn = directConnectGatewayArn
@@ -3007,8 +2933,7 @@ extension NetworkManagerClientTypes {
         public init(
             attachment: NetworkManagerClientTypes.Attachment? = nil,
             directConnectGatewayArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachment = attachment
             self.directConnectGatewayArn = directConnectGatewayArn
         }
@@ -3021,8 +2946,7 @@ public struct CreateDirectConnectGatewayAttachmentOutput: Swift.Sendable {
 
     public init(
         directConnectGatewayAttachment: NetworkManagerClientTypes.DirectConnectGatewayAttachment? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAttachment = directConnectGatewayAttachment
     }
 }
@@ -3036,8 +2960,7 @@ public struct CreateGlobalNetworkInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.tags = tags
     }
@@ -3102,8 +3025,7 @@ extension NetworkManagerClientTypes {
             globalNetworkId: Swift.String? = nil,
             state: NetworkManagerClientTypes.GlobalNetworkState? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.globalNetworkArn = globalNetworkArn
@@ -3120,8 +3042,7 @@ public struct CreateGlobalNetworkOutput: Swift.Sendable {
 
     public init(
         globalNetwork: NetworkManagerClientTypes.GlobalNetwork? = nil
-    )
-    {
+    ) {
         self.globalNetwork = globalNetwork
     }
 }
@@ -3153,8 +3074,7 @@ public struct CreateLinkInput: Swift.Sendable {
         siteId: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.bandwidth = bandwidth
         self.description = description
         self.globalNetworkId = globalNetworkId
@@ -3239,8 +3159,7 @@ extension NetworkManagerClientTypes {
             state: NetworkManagerClientTypes.LinkState? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.bandwidth = bandwidth
             self.createdAt = createdAt
             self.description = description
@@ -3262,8 +3181,7 @@ public struct CreateLinkOutput: Swift.Sendable {
 
     public init(
         link: NetworkManagerClientTypes.Link? = nil
-    )
-    {
+    ) {
         self.link = link
     }
 }
@@ -3290,8 +3208,7 @@ public struct CreateSiteInput: Swift.Sendable {
         globalNetworkId: Swift.String? = nil,
         location: NetworkManagerClientTypes.Location? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.globalNetworkId = globalNetworkId
         self.location = location
@@ -3369,8 +3286,7 @@ extension NetworkManagerClientTypes {
             siteId: Swift.String? = nil,
             state: NetworkManagerClientTypes.SiteState? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.globalNetworkId = globalNetworkId
@@ -3394,8 +3310,7 @@ public struct CreateSiteOutput: Swift.Sendable {
 
     public init(
         site: NetworkManagerClientTypes.Site? = nil
-    )
-    {
+    ) {
         self.site = site
     }
 }
@@ -3417,8 +3332,7 @@ public struct CreateSiteToSiteVpnAttachmentInput: Swift.Sendable {
         coreNetworkId: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         vpnConnectionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
         self.tags = tags
@@ -3438,8 +3352,7 @@ extension NetworkManagerClientTypes {
         public init(
             attachment: NetworkManagerClientTypes.Attachment? = nil,
             vpnConnectionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachment = attachment
             self.vpnConnectionArn = vpnConnectionArn
         }
@@ -3452,8 +3365,7 @@ public struct CreateSiteToSiteVpnAttachmentOutput: Swift.Sendable {
 
     public init(
         siteToSiteVpnAttachment: NetworkManagerClientTypes.SiteToSiteVpnAttachment? = nil
-    )
-    {
+    ) {
         self.siteToSiteVpnAttachment = siteToSiteVpnAttachment
     }
 }
@@ -3475,8 +3387,7 @@ public struct CreateTransitGatewayPeeringInput: Swift.Sendable {
         coreNetworkId: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         transitGatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
         self.tags = tags
@@ -3534,8 +3445,7 @@ extension NetworkManagerClientTypes {
 
         public init(
             missingPermission: Swift.String? = nil
-        )
-        {
+        ) {
             self.missingPermission = missingPermission
         }
     }
@@ -3562,8 +3472,7 @@ extension NetworkManagerClientTypes {
             missingPermissionsContext: NetworkManagerClientTypes.PermissionsErrorContext? = nil,
             requestId: Swift.String? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.missingPermissionsContext = missingPermissionsContext
@@ -3673,8 +3582,7 @@ extension NetworkManagerClientTypes {
             resourceArn: Swift.String? = nil,
             state: NetworkManagerClientTypes.PeeringState? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.coreNetworkArn = coreNetworkArn
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
@@ -3705,8 +3613,7 @@ extension NetworkManagerClientTypes {
             peering: NetworkManagerClientTypes.Peering? = nil,
             transitGatewayArn: Swift.String? = nil,
             transitGatewayPeeringAttachmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.peering = peering
             self.transitGatewayArn = transitGatewayArn
             self.transitGatewayPeeringAttachmentId = transitGatewayPeeringAttachmentId
@@ -3720,8 +3627,7 @@ public struct CreateTransitGatewayPeeringOutput: Swift.Sendable {
 
     public init(
         transitGatewayPeering: NetworkManagerClientTypes.TransitGatewayPeering? = nil
-    )
-    {
+    ) {
         self.transitGatewayPeering = transitGatewayPeering
     }
 }
@@ -3743,8 +3649,7 @@ public struct CreateTransitGatewayRouteTableAttachmentInput: Swift.Sendable {
         peeringId: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         transitGatewayRouteTableArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.peeringId = peeringId
         self.tags = tags
@@ -3767,8 +3672,7 @@ extension NetworkManagerClientTypes {
             attachment: NetworkManagerClientTypes.Attachment? = nil,
             peeringId: Swift.String? = nil,
             transitGatewayRouteTableArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachment = attachment
             self.peeringId = peeringId
             self.transitGatewayRouteTableArn = transitGatewayRouteTableArn
@@ -3782,8 +3686,7 @@ public struct CreateTransitGatewayRouteTableAttachmentOutput: Swift.Sendable {
 
     public init(
         transitGatewayRouteTableAttachment: NetworkManagerClientTypes.TransitGatewayRouteTableAttachment? = nil
-    )
-    {
+    ) {
         self.transitGatewayRouteTableAttachment = transitGatewayRouteTableAttachment
     }
 }
@@ -3800,8 +3703,7 @@ extension NetworkManagerClientTypes {
         public init(
             applianceModeSupport: Swift.Bool = false,
             ipv6Support: Swift.Bool = false
-        )
-        {
+        ) {
             self.applianceModeSupport = applianceModeSupport
             self.ipv6Support = ipv6Support
         }
@@ -3832,8 +3734,7 @@ public struct CreateVpcAttachmentInput: Swift.Sendable {
         subnetArns: [Swift.String]? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         vpcArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
         self.options = options
@@ -3858,8 +3759,7 @@ extension NetworkManagerClientTypes {
             attachment: NetworkManagerClientTypes.Attachment? = nil,
             options: NetworkManagerClientTypes.VpcOptions? = nil,
             subnetArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attachment = attachment
             self.options = options
             self.subnetArns = subnetArns
@@ -3873,8 +3773,7 @@ public struct CreateVpcAttachmentOutput: Swift.Sendable {
 
     public init(
         vpcAttachment: NetworkManagerClientTypes.VpcAttachment? = nil
-    )
-    {
+    ) {
         self.vpcAttachment = vpcAttachment
     }
 }
@@ -3886,8 +3785,7 @@ public struct DeleteAttachmentInput: Swift.Sendable {
 
     public init(
         attachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
     }
 }
@@ -3898,8 +3796,7 @@ public struct DeleteAttachmentOutput: Swift.Sendable {
 
     public init(
         attachment: NetworkManagerClientTypes.Attachment? = nil
-    )
-    {
+    ) {
         self.attachment = attachment
     }
 }
@@ -3915,8 +3812,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         globalNetworkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.globalNetworkId = globalNetworkId
     }
@@ -3928,8 +3824,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
 
     public init(
         connection: NetworkManagerClientTypes.Connection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -3941,8 +3836,7 @@ public struct DeleteConnectPeerInput: Swift.Sendable {
 
     public init(
         connectPeerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectPeerId = connectPeerId
     }
 }
@@ -3953,8 +3847,7 @@ public struct DeleteConnectPeerOutput: Swift.Sendable {
 
     public init(
         connectPeer: NetworkManagerClientTypes.ConnectPeer? = nil
-    )
-    {
+    ) {
         self.connectPeer = connectPeer
     }
 }
@@ -3966,8 +3859,7 @@ public struct DeleteCoreNetworkInput: Swift.Sendable {
 
     public init(
         coreNetworkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreNetworkId = coreNetworkId
     }
 }
@@ -3978,8 +3870,7 @@ public struct DeleteCoreNetworkOutput: Swift.Sendable {
 
     public init(
         coreNetwork: NetworkManagerClientTypes.CoreNetwork? = nil
-    )
-    {
+    ) {
         self.coreNetwork = coreNetwork
     }
 }
@@ -3995,8 +3886,7 @@ public struct DeleteCoreNetworkPolicyVersionInput: Swift.Sendable {
     public init(
         coreNetworkId: Swift.String? = nil,
         policyVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.coreNetworkId = coreNetworkId
         self.policyVersionId = policyVersionId
     }
@@ -4008,8 +3898,7 @@ public struct DeleteCoreNetworkPolicyVersionOutput: Swift.Sendable {
 
     public init(
         coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy? = nil
-    )
-    {
+    ) {
         self.coreNetworkPolicy = coreNetworkPolicy
     }
 }
@@ -4025,8 +3914,7 @@ public struct DeleteDeviceInput: Swift.Sendable {
     public init(
         deviceId: Swift.String? = nil,
         globalNetworkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.globalNetworkId = globalNetworkId
     }
@@ -4038,8 +3926,7 @@ public struct DeleteDeviceOutput: Swift.Sendable {
 
     public init(
         device: NetworkManagerClientTypes.Device? = nil
-    )
-    {
+    ) {
         self.device = device
     }
 }
@@ -4051,8 +3938,7 @@ public struct DeleteGlobalNetworkInput: Swift.Sendable {
 
     public init(
         globalNetworkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
     }
 }
@@ -4063,8 +3949,7 @@ public struct DeleteGlobalNetworkOutput: Swift.Sendable {
 
     public init(
         globalNetwork: NetworkManagerClientTypes.GlobalNetwork? = nil
-    )
-    {
+    ) {
         self.globalNetwork = globalNetwork
     }
 }
@@ -4080,8 +3965,7 @@ public struct DeleteLinkInput: Swift.Sendable {
     public init(
         globalNetworkId: Swift.String? = nil,
         linkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.linkId = linkId
     }
@@ -4093,8 +3977,7 @@ public struct DeleteLinkOutput: Swift.Sendable {
 
     public init(
         link: NetworkManagerClientTypes.Link? = nil
-    )
-    {
+    ) {
         self.link = link
     }
 }
@@ -4106,8 +3989,7 @@ public struct DeletePeeringInput: Swift.Sendable {
 
     public init(
         peeringId: Swift.String? = nil
-    )
-    {
+    ) {
         self.peeringId = peeringId
     }
 }
@@ -4118,8 +4000,7 @@ public struct DeletePeeringOutput: Swift.Sendable {
 
     public init(
         peering: NetworkManagerClientTypes.Peering? = nil
-    )
-    {
+    ) {
         self.peering = peering
     }
 }
@@ -4131,8 +4012,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4153,8 +4033,7 @@ public struct DeleteSiteInput: Swift.Sendable {
     public init(
         globalNetworkId: Swift.String? = nil,
         siteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.siteId = siteId
     }
@@ -4166,8 +4045,7 @@ public struct DeleteSiteOutput: Swift.Sendable {
 
     public init(
         site: NetworkManagerClientTypes.Site? = nil
-    )
-    {
+    ) {
         self.site = site
     }
 }
@@ -4183,8 +4061,7 @@ public struct DeregisterTransitGatewayInput: Swift.Sendable {
     public init(
         globalNetworkId: Swift.String? = nil,
         transitGatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.transitGatewayArn = transitGatewayArn
     }
@@ -4240,8 +4117,7 @@ extension NetworkManagerClientTypes {
         public init(
             code: NetworkManagerClientTypes.TransitGatewayRegistrationState? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -4263,8 +4139,7 @@ extension NetworkManagerClientTypes {
             globalNetworkId: Swift.String? = nil,
             state: NetworkManagerClientTypes.TransitGatewayRegistrationStateReason? = nil,
             transitGatewayArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.globalNetworkId = globalNetworkId
             self.state = state
             self.transitGatewayArn = transitGatewayArn
@@ -4278,8 +4153,7 @@ public struct DeregisterTransitGatewayOutput: Swift.Sendable {
 
     public init(
         transitGatewayRegistration: NetworkManagerClientTypes.TransitGatewayRegistration? = nil
-    )
-    {
+    ) {
         self.transitGatewayRegistration = transitGatewayRegistration
     }
 }
@@ -4296,8 +4170,7 @@ public struct DescribeGlobalNetworksInput: Swift.Sendable {
         globalNetworkIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworkIds = globalNetworkIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4313,8 +4186,7 @@ public struct DescribeGlobalNetworksOutput: Swift.Sendable {
     public init(
         globalNetworks: [NetworkManagerClientTypes.GlobalNetwork]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworks = globalNetworks
         self.nextToken = nextToken
     }
@@ -4331,8 +4203,7 @@ public struct DisassociateConnectPeerInput: Swift.Sendable {
     public init(
         connectPeerId: Swift.String? = nil,
         globalNetworkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectPeerId = connectPeerId
         self.globalNetworkId = globalNetworkId
     }
@@ -4344,8 +4215,7 @@ public struct DisassociateConnectPeerOutput: Swift.Sendable {
 
     public init(
         connectPeerAssociation: NetworkManagerClientTypes.ConnectPeerAssociation? = nil
-    )
-    {
+    ) {
         self.connectPeerAssociation = connectPeerAssociation
     }
 }
@@ -4361,8 +4231,7 @@ public struct DisassociateCustomerGatewayInput: Swift.Sendable {
     public init(
         customerGatewayArn: Swift.String? = nil,
         globalNetworkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerGatewayArn = customerGatewayArn
         self.globalNetworkId = globalNetworkId
     }
@@ -4374,8 +4243,7 @@ public struct DisassociateCustomerGatewayOutput: Swift.Sendable {
 
     public init(
         customerGatewayAssociation: NetworkManagerClientTypes.CustomerGatewayAssociation? = nil
-    )
-    {
+    ) {
         self.customerGatewayAssociation = customerGatewayAssociation
     }
 }
@@ -4395,8 +4263,7 @@ public struct DisassociateLinkInput: Swift.Sendable {
         deviceId: Swift.String? = nil,
         globalNetworkId: Swift.String? = nil,
         linkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.globalNetworkId = globalNetworkId
         self.linkId = linkId
@@ -4409,8 +4276,7 @@ public struct DisassociateLinkOutput: Swift.Sendable {
 
     public init(
         linkAssociation: NetworkManagerClientTypes.LinkAssociation? = nil
-    )
-    {
+    ) {
         self.linkAssociation = linkAssociation
     }
 }
@@ -4426,8 +4292,7 @@ public struct DisassociateTransitGatewayConnectPeerInput: Swift.Sendable {
     public init(
         globalNetworkId: Swift.String? = nil,
         transitGatewayConnectPeerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.transitGatewayConnectPeerArn = transitGatewayConnectPeerArn
     }
@@ -4439,8 +4304,7 @@ public struct DisassociateTransitGatewayConnectPeerOutput: Swift.Sendable {
 
     public init(
         transitGatewayConnectPeerAssociation: NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation? = nil
-    )
-    {
+    ) {
         self.transitGatewayConnectPeerAssociation = transitGatewayConnectPeerAssociation
     }
 }
@@ -4456,8 +4320,7 @@ public struct ExecuteCoreNetworkChangeSetInput: Swift.Sendable {
     public init(
         coreNetworkId: Swift.String? = nil,
         policyVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.coreNetworkId = coreNetworkId
         self.policyVersionId = policyVersionId
     }
@@ -4475,8 +4338,7 @@ public struct GetConnectAttachmentInput: Swift.Sendable {
 
     public init(
         attachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
     }
 }
@@ -4487,8 +4349,7 @@ public struct GetConnectAttachmentOutput: Swift.Sendable {
 
     public init(
         connectAttachment: NetworkManagerClientTypes.ConnectAttachment? = nil
-    )
-    {
+    ) {
         self.connectAttachment = connectAttachment
     }
 }
@@ -4512,8 +4373,7 @@ public struct GetConnectionsInput: Swift.Sendable {
         globalNetworkId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionIds = connectionIds
         self.deviceId = deviceId
         self.globalNetworkId = globalNetworkId
@@ -4531,8 +4391,7 @@ public struct GetConnectionsOutput: Swift.Sendable {
     public init(
         connections: [NetworkManagerClientTypes.Connection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connections = connections
         self.nextToken = nextToken
     }
@@ -4545,8 +4404,7 @@ public struct GetConnectPeerInput: Swift.Sendable {
 
     public init(
         connectPeerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectPeerId = connectPeerId
     }
 }
@@ -4557,8 +4415,7 @@ public struct GetConnectPeerOutput: Swift.Sendable {
 
     public init(
         connectPeer: NetworkManagerClientTypes.ConnectPeer? = nil
-    )
-    {
+    ) {
         self.connectPeer = connectPeer
     }
 }
@@ -4579,8 +4436,7 @@ public struct GetConnectPeerAssociationsInput: Swift.Sendable {
         globalNetworkId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectPeerIds = connectPeerIds
         self.globalNetworkId = globalNetworkId
         self.maxResults = maxResults
@@ -4597,8 +4453,7 @@ public struct GetConnectPeerAssociationsOutput: Swift.Sendable {
     public init(
         connectPeerAssociations: [NetworkManagerClientTypes.ConnectPeerAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectPeerAssociations = connectPeerAssociations
         self.nextToken = nextToken
     }
@@ -4611,8 +4466,7 @@ public struct GetCoreNetworkInput: Swift.Sendable {
 
     public init(
         coreNetworkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreNetworkId = coreNetworkId
     }
 }
@@ -4623,8 +4477,7 @@ public struct GetCoreNetworkOutput: Swift.Sendable {
 
     public init(
         coreNetwork: NetworkManagerClientTypes.CoreNetwork? = nil
-    )
-    {
+    ) {
         self.coreNetwork = coreNetwork
     }
 }
@@ -4646,8 +4499,7 @@ public struct GetCoreNetworkChangeEventsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         policyVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.coreNetworkId = coreNetworkId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4664,8 +4516,7 @@ public struct GetCoreNetworkChangeEventsOutput: Swift.Sendable {
     public init(
         coreNetworkChangeEvents: [NetworkManagerClientTypes.CoreNetworkChangeEvent]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreNetworkChangeEvents = coreNetworkChangeEvents
         self.nextToken = nextToken
     }
@@ -4688,8 +4539,7 @@ public struct GetCoreNetworkChangeSetInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         policyVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.coreNetworkId = coreNetworkId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4706,8 +4556,7 @@ public struct GetCoreNetworkChangeSetOutput: Swift.Sendable {
     public init(
         coreNetworkChanges: [NetworkManagerClientTypes.CoreNetworkChange]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreNetworkChanges = coreNetworkChanges
         self.nextToken = nextToken
     }
@@ -4726,8 +4575,7 @@ public struct GetCoreNetworkPolicyInput: Swift.Sendable {
         alias: NetworkManagerClientTypes.CoreNetworkPolicyAlias? = nil,
         coreNetworkId: Swift.String? = nil,
         policyVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.coreNetworkId = coreNetworkId
         self.policyVersionId = policyVersionId
@@ -4740,8 +4588,7 @@ public struct GetCoreNetworkPolicyOutput: Swift.Sendable {
 
     public init(
         coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy? = nil
-    )
-    {
+    ) {
         self.coreNetworkPolicy = coreNetworkPolicy
     }
 }
@@ -4762,8 +4609,7 @@ public struct GetCustomerGatewayAssociationsInput: Swift.Sendable {
         globalNetworkId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerGatewayArns = customerGatewayArns
         self.globalNetworkId = globalNetworkId
         self.maxResults = maxResults
@@ -4780,8 +4626,7 @@ public struct GetCustomerGatewayAssociationsOutput: Swift.Sendable {
     public init(
         customerGatewayAssociations: [NetworkManagerClientTypes.CustomerGatewayAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerGatewayAssociations = customerGatewayAssociations
         self.nextToken = nextToken
     }
@@ -4806,8 +4651,7 @@ public struct GetDevicesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         siteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceIds = deviceIds
         self.globalNetworkId = globalNetworkId
         self.maxResults = maxResults
@@ -4825,8 +4669,7 @@ public struct GetDevicesOutput: Swift.Sendable {
     public init(
         devices: [NetworkManagerClientTypes.Device]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devices = devices
         self.nextToken = nextToken
     }
@@ -4839,8 +4682,7 @@ public struct GetDirectConnectGatewayAttachmentInput: Swift.Sendable {
 
     public init(
         attachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
     }
 }
@@ -4851,8 +4693,7 @@ public struct GetDirectConnectGatewayAttachmentOutput: Swift.Sendable {
 
     public init(
         directConnectGatewayAttachment: NetworkManagerClientTypes.DirectConnectGatewayAttachment? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAttachment = directConnectGatewayAttachment
     }
 }
@@ -4876,8 +4717,7 @@ public struct GetLinkAssociationsInput: Swift.Sendable {
         linkId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.globalNetworkId = globalNetworkId
         self.linkId = linkId
@@ -4895,8 +4735,7 @@ public struct GetLinkAssociationsOutput: Swift.Sendable {
     public init(
         linkAssociations: [NetworkManagerClientTypes.LinkAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.linkAssociations = linkAssociations
         self.nextToken = nextToken
     }
@@ -4927,8 +4766,7 @@ public struct GetLinksInput: Swift.Sendable {
         provider: Swift.String? = nil,
         siteId: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.linkIds = linkIds
         self.maxResults = maxResults
@@ -4948,8 +4786,7 @@ public struct GetLinksOutput: Swift.Sendable {
     public init(
         links: [NetworkManagerClientTypes.Link]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.links = links
         self.nextToken = nextToken
     }
@@ -5011,8 +4848,7 @@ public struct GetNetworkResourceCountsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5032,8 +4868,7 @@ extension NetworkManagerClientTypes {
         public init(
             count: Swift.Int? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.resourceType = resourceType
         }
@@ -5049,8 +4884,7 @@ public struct GetNetworkResourceCountsOutput: Swift.Sendable {
     public init(
         networkResourceCounts: [NetworkManagerClientTypes.NetworkResourceCount]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkResourceCounts = networkResourceCounts
         self.nextToken = nextToken
     }
@@ -5127,8 +4961,7 @@ public struct GetNetworkResourceRelationshipsInput: Swift.Sendable {
         registeredGatewayArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.awsRegion = awsRegion
         self.coreNetworkId = coreNetworkId
@@ -5153,8 +4986,7 @@ extension NetworkManagerClientTypes {
         public init(
             from: Swift.String? = nil,
             to: Swift.String? = nil
-        )
-        {
+        ) {
             self.from = from
             self.to = to
         }
@@ -5170,8 +5002,7 @@ public struct GetNetworkResourceRelationshipsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         relationships: [NetworkManagerClientTypes.Relationship]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.relationships = relationships
     }
@@ -5248,8 +5079,7 @@ public struct GetNetworkResourcesInput: Swift.Sendable {
         registeredGatewayArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.awsRegion = awsRegion
         self.coreNetworkId = coreNetworkId
@@ -5341,8 +5171,7 @@ extension NetworkManagerClientTypes {
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.awsRegion = awsRegion
             self.coreNetworkId = coreNetworkId
@@ -5367,8 +5196,7 @@ public struct GetNetworkResourcesOutput: Swift.Sendable {
     public init(
         networkResources: [NetworkManagerClientTypes.NetworkResource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkResources = networkResources
         self.nextToken = nextToken
     }
@@ -5389,8 +5217,7 @@ extension NetworkManagerClientTypes {
             coreNetworkNetworkFunctionGroup: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier? = nil,
             coreNetworkSegmentEdge: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier? = nil,
             transitGatewayRouteTableArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.coreNetworkNetworkFunctionGroup = coreNetworkNetworkFunctionGroup
             self.coreNetworkSegmentEdge = coreNetworkSegmentEdge
             self.transitGatewayRouteTableArn = transitGatewayRouteTableArn
@@ -5491,8 +5318,7 @@ public struct GetNetworkRoutesInput: Swift.Sendable {
         subnetOfMatches: [Swift.String]? = nil,
         supernetOfMatches: [Swift.String]? = nil,
         types: [NetworkManagerClientTypes.RouteType]? = nil
-    )
-    {
+    ) {
         self.destinationFilters = destinationFilters
         self.exactCidrMatches = exactCidrMatches
         self.globalNetworkId = globalNetworkId
@@ -5533,8 +5359,7 @@ extension NetworkManagerClientTypes {
             resourceType: Swift.String? = nil,
             segmentName: Swift.String? = nil,
             transitGatewayAttachmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.coreNetworkAttachmentId = coreNetworkAttachmentId
             self.edgeLocation = edgeLocation
             self.networkFunctionGroupName = networkFunctionGroupName
@@ -5567,8 +5392,7 @@ extension NetworkManagerClientTypes {
             prefixListId: Swift.String? = nil,
             state: NetworkManagerClientTypes.RouteState? = nil,
             type: NetworkManagerClientTypes.RouteType? = nil
-        )
-        {
+        ) {
             self.destinationCidrBlock = destinationCidrBlock
             self.destinations = destinations
             self.prefixListId = prefixListId
@@ -5628,8 +5452,7 @@ public struct GetNetworkRoutesOutput: Swift.Sendable {
         routeTableArn: Swift.String? = nil,
         routeTableTimestamp: Foundation.Date? = nil,
         routeTableType: NetworkManagerClientTypes.RouteTableType? = nil
-    )
-    {
+    ) {
         self.coreNetworkSegmentEdge = coreNetworkSegmentEdge
         self.networkRoutes = networkRoutes
         self.routeTableArn = routeTableArn
@@ -5675,8 +5498,7 @@ public struct GetNetworkTelemetryInput: Swift.Sendable {
         registeredGatewayArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.awsRegion = awsRegion
         self.coreNetworkId = coreNetworkId
@@ -5722,8 +5544,7 @@ extension NetworkManagerClientTypes {
             resourceArn: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.address = address
             self.awsRegion = awsRegion
@@ -5746,8 +5567,7 @@ public struct GetNetworkTelemetryOutput: Swift.Sendable {
     public init(
         networkTelemetry: [NetworkManagerClientTypes.NetworkTelemetry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkTelemetry = networkTelemetry
         self.nextToken = nextToken
     }
@@ -5760,8 +5580,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5772,8 +5591,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policyDocument: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
     }
 }
@@ -5789,8 +5607,7 @@ public struct GetRouteAnalysisInput: Swift.Sendable {
     public init(
         globalNetworkId: Swift.String? = nil,
         routeAnalysisId: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.routeAnalysisId = routeAnalysisId
     }
@@ -5811,8 +5628,7 @@ extension NetworkManagerClientTypes {
             ipAddress: Swift.String? = nil,
             transitGatewayArn: Swift.String? = nil,
             transitGatewayAttachmentArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.transitGatewayArn = transitGatewayArn
             self.transitGatewayAttachmentArn = transitGatewayAttachmentArn
@@ -5938,8 +5754,7 @@ extension NetworkManagerClientTypes {
             reasonCode: NetworkManagerClientTypes.RouteAnalysisCompletionReasonCode? = nil,
             reasonContext: [Swift.String: Swift.String]? = nil,
             resultCode: NetworkManagerClientTypes.RouteAnalysisCompletionResultCode? = nil
-        )
-        {
+        ) {
             self.reasonCode = reasonCode
             self.reasonContext = reasonContext
             self.resultCode = resultCode
@@ -5971,8 +5786,7 @@ extension NetworkManagerClientTypes {
             registeredGatewayArn: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.isMiddlebox = isMiddlebox
             self.nameTag = nameTag
@@ -5998,8 +5812,7 @@ extension NetworkManagerClientTypes {
             destinationCidrBlock: Swift.String? = nil,
             resource: NetworkManagerClientTypes.NetworkResourceSummary? = nil,
             sequence: Swift.Int? = nil
-        )
-        {
+        ) {
             self.destinationCidrBlock = destinationCidrBlock
             self.resource = resource
             self.sequence = sequence
@@ -6019,8 +5832,7 @@ extension NetworkManagerClientTypes {
         public init(
             completionStatus: NetworkManagerClientTypes.RouteAnalysisCompletion? = nil,
             path: [NetworkManagerClientTypes.PathComponent]? = nil
-        )
-        {
+        ) {
             self.completionStatus = completionStatus
             self.path = path
         }
@@ -6098,8 +5910,7 @@ extension NetworkManagerClientTypes {
             startTimestamp: Foundation.Date? = nil,
             status: NetworkManagerClientTypes.RouteAnalysisStatus? = nil,
             useMiddleboxes: Swift.Bool = false
-        )
-        {
+        ) {
             self.destination = destination
             self.forwardPath = forwardPath
             self.globalNetworkId = globalNetworkId
@@ -6121,8 +5932,7 @@ public struct GetRouteAnalysisOutput: Swift.Sendable {
 
     public init(
         routeAnalysis: NetworkManagerClientTypes.RouteAnalysis? = nil
-    )
-    {
+    ) {
         self.routeAnalysis = routeAnalysis
     }
 }
@@ -6143,8 +5953,7 @@ public struct GetSitesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         siteIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6161,8 +5970,7 @@ public struct GetSitesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sites: [NetworkManagerClientTypes.Site]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sites = sites
     }
@@ -6175,8 +5983,7 @@ public struct GetSiteToSiteVpnAttachmentInput: Swift.Sendable {
 
     public init(
         attachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
     }
 }
@@ -6187,8 +5994,7 @@ public struct GetSiteToSiteVpnAttachmentOutput: Swift.Sendable {
 
     public init(
         siteToSiteVpnAttachment: NetworkManagerClientTypes.SiteToSiteVpnAttachment? = nil
-    )
-    {
+    ) {
         self.siteToSiteVpnAttachment = siteToSiteVpnAttachment
     }
 }
@@ -6209,8 +6015,7 @@ public struct GetTransitGatewayConnectPeerAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         transitGatewayConnectPeerArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6227,8 +6032,7 @@ public struct GetTransitGatewayConnectPeerAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         transitGatewayConnectPeerAssociations: [NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.transitGatewayConnectPeerAssociations = transitGatewayConnectPeerAssociations
     }
@@ -6241,8 +6045,7 @@ public struct GetTransitGatewayPeeringInput: Swift.Sendable {
 
     public init(
         peeringId: Swift.String? = nil
-    )
-    {
+    ) {
         self.peeringId = peeringId
     }
 }
@@ -6253,8 +6056,7 @@ public struct GetTransitGatewayPeeringOutput: Swift.Sendable {
 
     public init(
         transitGatewayPeering: NetworkManagerClientTypes.TransitGatewayPeering? = nil
-    )
-    {
+    ) {
         self.transitGatewayPeering = transitGatewayPeering
     }
 }
@@ -6275,8 +6077,7 @@ public struct GetTransitGatewayRegistrationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         transitGatewayArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6293,8 +6094,7 @@ public struct GetTransitGatewayRegistrationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         transitGatewayRegistrations: [NetworkManagerClientTypes.TransitGatewayRegistration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.transitGatewayRegistrations = transitGatewayRegistrations
     }
@@ -6307,8 +6107,7 @@ public struct GetTransitGatewayRouteTableAttachmentInput: Swift.Sendable {
 
     public init(
         attachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
     }
 }
@@ -6319,8 +6118,7 @@ public struct GetTransitGatewayRouteTableAttachmentOutput: Swift.Sendable {
 
     public init(
         transitGatewayRouteTableAttachment: NetworkManagerClientTypes.TransitGatewayRouteTableAttachment? = nil
-    )
-    {
+    ) {
         self.transitGatewayRouteTableAttachment = transitGatewayRouteTableAttachment
     }
 }
@@ -6332,8 +6130,7 @@ public struct GetVpcAttachmentInput: Swift.Sendable {
 
     public init(
         attachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
     }
 }
@@ -6344,8 +6141,7 @@ public struct GetVpcAttachmentOutput: Swift.Sendable {
 
     public init(
         vpcAttachment: NetworkManagerClientTypes.VpcAttachment? = nil
-    )
-    {
+    ) {
         self.vpcAttachment = vpcAttachment
     }
 }
@@ -6371,8 +6167,7 @@ public struct ListAttachmentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         state: NetworkManagerClientTypes.AttachmentState? = nil
-    )
-    {
+    ) {
         self.attachmentType = attachmentType
         self.coreNetworkId = coreNetworkId
         self.edgeLocation = edgeLocation
@@ -6391,8 +6186,7 @@ public struct ListAttachmentsOutput: Swift.Sendable {
     public init(
         attachments: [NetworkManagerClientTypes.Attachment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachments = attachments
         self.nextToken = nextToken
     }
@@ -6413,8 +6207,7 @@ public struct ListConnectPeersInput: Swift.Sendable {
         coreNetworkId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectAttachmentId = connectAttachmentId
         self.coreNetworkId = coreNetworkId
         self.maxResults = maxResults
@@ -6431,8 +6224,7 @@ public struct ListConnectPeersOutput: Swift.Sendable {
     public init(
         connectPeers: [NetworkManagerClientTypes.ConnectPeerSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectPeers = connectPeers
         self.nextToken = nextToken
     }
@@ -6451,8 +6243,7 @@ public struct ListCoreNetworkPolicyVersionsInput: Swift.Sendable {
         coreNetworkId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreNetworkId = coreNetworkId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6468,8 +6259,7 @@ public struct ListCoreNetworkPolicyVersionsOutput: Swift.Sendable {
     public init(
         coreNetworkPolicyVersions: [NetworkManagerClientTypes.CoreNetworkPolicyVersion]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreNetworkPolicyVersions = coreNetworkPolicyVersions
         self.nextToken = nextToken
     }
@@ -6484,8 +6274,7 @@ public struct ListCoreNetworksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6500,8 +6289,7 @@ public struct ListCoreNetworksOutput: Swift.Sendable {
     public init(
         coreNetworks: [NetworkManagerClientTypes.CoreNetworkSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreNetworks = coreNetworks
         self.nextToken = nextToken
     }
@@ -6516,8 +6304,7 @@ public struct ListOrganizationServiceAccessStatusInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6541,8 +6328,7 @@ extension NetworkManagerClientTypes {
             organizationAwsServiceAccessStatus: Swift.String? = nil,
             organizationId: Swift.String? = nil,
             slrDeploymentStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountStatusList = accountStatusList
             self.organizationAwsServiceAccessStatus = organizationAwsServiceAccessStatus
             self.organizationId = organizationId
@@ -6560,8 +6346,7 @@ public struct ListOrganizationServiceAccessStatusOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         organizationStatus: NetworkManagerClientTypes.OrganizationStatus? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.organizationStatus = organizationStatus
     }
@@ -6588,8 +6373,7 @@ public struct ListPeeringsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         peeringType: NetworkManagerClientTypes.PeeringType? = nil,
         state: NetworkManagerClientTypes.PeeringState? = nil
-    )
-    {
+    ) {
         self.coreNetworkId = coreNetworkId
         self.edgeLocation = edgeLocation
         self.maxResults = maxResults
@@ -6608,8 +6392,7 @@ public struct ListPeeringsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         peerings: [NetworkManagerClientTypes.Peering]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.peerings = peerings
     }
@@ -6622,8 +6405,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -6634,8 +6416,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [NetworkManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -6660,8 +6441,7 @@ public struct PutCoreNetworkPolicyInput: Swift.Sendable {
         description: Swift.String? = nil,
         latestVersionId: Swift.Int? = nil,
         policyDocument: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
         self.description = description
@@ -6676,8 +6456,7 @@ public struct PutCoreNetworkPolicyOutput: Swift.Sendable {
 
     public init(
         coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy? = nil
-    )
-    {
+    ) {
         self.coreNetworkPolicy = coreNetworkPolicy
     }
 }
@@ -6693,8 +6472,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policyDocument: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.resourceArn = resourceArn
     }
@@ -6716,8 +6494,7 @@ public struct RegisterTransitGatewayInput: Swift.Sendable {
     public init(
         globalNetworkId: Swift.String? = nil,
         transitGatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.transitGatewayArn = transitGatewayArn
     }
@@ -6729,8 +6506,7 @@ public struct RegisterTransitGatewayOutput: Swift.Sendable {
 
     public init(
         transitGatewayRegistration: NetworkManagerClientTypes.TransitGatewayRegistration? = nil
-    )
-    {
+    ) {
         self.transitGatewayRegistration = transitGatewayRegistration
     }
 }
@@ -6742,8 +6518,7 @@ public struct RejectAttachmentInput: Swift.Sendable {
 
     public init(
         attachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
     }
 }
@@ -6754,8 +6529,7 @@ public struct RejectAttachmentOutput: Swift.Sendable {
 
     public init(
         attachment: NetworkManagerClientTypes.Attachment? = nil
-    )
-    {
+    ) {
         self.attachment = attachment
     }
 }
@@ -6771,8 +6545,7 @@ public struct RestoreCoreNetworkPolicyVersionInput: Swift.Sendable {
     public init(
         coreNetworkId: Swift.String? = nil,
         policyVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.coreNetworkId = coreNetworkId
         self.policyVersionId = policyVersionId
     }
@@ -6784,8 +6557,7 @@ public struct RestoreCoreNetworkPolicyVersionOutput: Swift.Sendable {
 
     public init(
         coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy? = nil
-    )
-    {
+    ) {
         self.coreNetworkPolicy = coreNetworkPolicy
     }
 }
@@ -6797,8 +6569,7 @@ public struct StartOrganizationServiceAccessUpdateInput: Swift.Sendable {
 
     public init(
         action: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
     }
 }
@@ -6809,8 +6580,7 @@ public struct StartOrganizationServiceAccessUpdateOutput: Swift.Sendable {
 
     public init(
         organizationStatus: NetworkManagerClientTypes.OrganizationStatus? = nil
-    )
-    {
+    ) {
         self.organizationStatus = organizationStatus
     }
 }
@@ -6827,8 +6597,7 @@ extension NetworkManagerClientTypes {
         public init(
             ipAddress: Swift.String? = nil,
             transitGatewayAttachmentArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.transitGatewayAttachmentArn = transitGatewayAttachmentArn
         }
@@ -6856,8 +6625,7 @@ public struct StartRouteAnalysisInput: Swift.Sendable {
         includeReturnPath: Swift.Bool? = false,
         source: NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification? = nil,
         useMiddleboxes: Swift.Bool? = false
-    )
-    {
+    ) {
         self.destination = destination
         self.globalNetworkId = globalNetworkId
         self.includeReturnPath = includeReturnPath
@@ -6872,8 +6640,7 @@ public struct StartRouteAnalysisOutput: Swift.Sendable {
 
     public init(
         routeAnalysis: NetworkManagerClientTypes.RouteAnalysis? = nil
-    )
-    {
+    ) {
         self.routeAnalysis = routeAnalysis
     }
 }
@@ -6889,8 +6656,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6912,8 +6678,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -6944,8 +6709,7 @@ public struct UpdateConnectionInput: Swift.Sendable {
         description: Swift.String? = nil,
         globalNetworkId: Swift.String? = nil,
         linkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectedLinkId = connectedLinkId
         self.connectionId = connectionId
         self.description = description
@@ -6960,8 +6724,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
 
     public init(
         connection: NetworkManagerClientTypes.Connection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -6976,8 +6739,7 @@ public struct UpdateCoreNetworkInput: Swift.Sendable {
     public init(
         coreNetworkId: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreNetworkId = coreNetworkId
         self.description = description
     }
@@ -6989,8 +6751,7 @@ public struct UpdateCoreNetworkOutput: Swift.Sendable {
 
     public init(
         coreNetwork: NetworkManagerClientTypes.CoreNetwork? = nil
-    )
-    {
+    ) {
         self.coreNetwork = coreNetwork
     }
 }
@@ -7030,8 +6791,7 @@ public struct UpdateDeviceInput: Swift.Sendable {
         siteId: Swift.String? = nil,
         type: Swift.String? = nil,
         vendor: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsLocation = awsLocation
         self.description = description
         self.deviceId = deviceId
@@ -7056,8 +6816,7 @@ public struct UpdateDeviceOutput: Swift.Sendable {
 
     public init(
         device: NetworkManagerClientTypes.Device? = nil
-    )
-    {
+    ) {
         self.device = device
     }
 }
@@ -7072,8 +6831,7 @@ public struct UpdateDirectConnectGatewayAttachmentInput: Swift.Sendable {
     public init(
         attachmentId: Swift.String? = nil,
         edgeLocations: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
         self.edgeLocations = edgeLocations
     }
@@ -7085,8 +6843,7 @@ public struct UpdateDirectConnectGatewayAttachmentOutput: Swift.Sendable {
 
     public init(
         directConnectGatewayAttachment: NetworkManagerClientTypes.DirectConnectGatewayAttachment? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAttachment = directConnectGatewayAttachment
     }
 }
@@ -7101,8 +6858,7 @@ public struct UpdateGlobalNetworkInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         globalNetworkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.globalNetworkId = globalNetworkId
     }
@@ -7114,8 +6870,7 @@ public struct UpdateGlobalNetworkOutput: Swift.Sendable {
 
     public init(
         globalNetwork: NetworkManagerClientTypes.GlobalNetwork? = nil
-    )
-    {
+    ) {
         self.globalNetwork = globalNetwork
     }
 }
@@ -7143,8 +6898,7 @@ public struct UpdateLinkInput: Swift.Sendable {
         linkId: Swift.String? = nil,
         provider: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.bandwidth = bandwidth
         self.description = description
         self.globalNetworkId = globalNetworkId
@@ -7160,8 +6914,7 @@ public struct UpdateLinkOutput: Swift.Sendable {
 
     public init(
         link: NetworkManagerClientTypes.Link? = nil
-    )
-    {
+    ) {
         self.link = link
     }
 }
@@ -7181,8 +6934,7 @@ public struct UpdateNetworkResourceMetadataInput: Swift.Sendable {
         globalNetworkId: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalNetworkId = globalNetworkId
         self.metadata = metadata
         self.resourceArn = resourceArn
@@ -7198,8 +6950,7 @@ public struct UpdateNetworkResourceMetadataOutput: Swift.Sendable {
     public init(
         metadata: [Swift.String: Swift.String]? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
         self.resourceArn = resourceArn
     }
@@ -7228,8 +6979,7 @@ public struct UpdateSiteInput: Swift.Sendable {
         globalNetworkId: Swift.String? = nil,
         location: NetworkManagerClientTypes.Location? = nil,
         siteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.globalNetworkId = globalNetworkId
         self.location = location
@@ -7248,8 +6998,7 @@ public struct UpdateSiteOutput: Swift.Sendable {
 
     public init(
         site: NetworkManagerClientTypes.Site? = nil
-    )
-    {
+    ) {
         self.site = site
     }
 }
@@ -7270,8 +7019,7 @@ public struct UpdateVpcAttachmentInput: Swift.Sendable {
         attachmentId: Swift.String? = nil,
         options: NetworkManagerClientTypes.VpcOptions? = nil,
         removeSubnetArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.addSubnetArns = addSubnetArns
         self.attachmentId = attachmentId
         self.options = options
@@ -7285,8 +7033,7 @@ public struct UpdateVpcAttachmentOutput: Swift.Sendable {
 
     public init(
         vpcAttachment: NetworkManagerClientTypes.VpcAttachment? = nil
-    )
-    {
+    ) {
         self.vpcAttachment = vpcAttachment
     }
 }

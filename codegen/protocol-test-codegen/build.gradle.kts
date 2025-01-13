@@ -23,6 +23,7 @@ dependencies {
     implementation("software.amazon.smithy:smithy-aws-protocol-tests:$smithyVersion")
     implementation("software.amazon.smithy:smithy-aws-traits:$smithyVersion")
     implementation(project(":smithy-aws-swift-codegen"))
+    implementation("software.amazon.smithy:smithy-protocol-tests:$smithyVersion")
 }
 
 val enabledProtocols = listOf(
@@ -39,7 +40,8 @@ val enabledProtocols = listOf(
     ProtocolTest("apigateway", "com.amazonaws.apigateway#BackplaneControlService", "APIGatewayTestSDK"),
     ProtocolTest("glacier", "com.amazonaws.glacier#Glacier", "GlacierTestSDK"),
     ProtocolTest("s3", "com.amazonaws.s3#AmazonS3", "S3TestSDK"),
-    ProtocolTest("machinelearning", "com.amazonaws.machinelearning#AmazonML_20141212", "MachineLearningTestSDK")
+    ProtocolTest("machinelearning", "com.amazonaws.machinelearning#AmazonML_20141212", "MachineLearningTestSDK"),
+    ProtocolTest("smithy-rpcv2-cbor", "smithy.protocoltests.rpcv2Cbor#RpcV2Protocol", "RPCV2CBORTestSDK"),
 )
 
 // This project doesn't produce a JAR.

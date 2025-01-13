@@ -38,8 +38,7 @@ extension MemoryDBClientTypes {
         public init(
             userNamesToAdd: [Swift.String]? = nil,
             userNamesToRemove: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.userNamesToAdd = userNamesToAdd
             self.userNamesToRemove = userNamesToRemove
         }
@@ -73,8 +72,7 @@ extension MemoryDBClientTypes {
             pendingChanges: MemoryDBClientTypes.ACLPendingChanges? = nil,
             status: Swift.String? = nil,
             userNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clusters = clusters
             self.minimumEngineVersion = minimumEngineVersion
@@ -104,8 +102,7 @@ public struct ACLAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -128,8 +125,7 @@ public struct ACLNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -152,8 +148,7 @@ public struct ACLQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -167,8 +162,7 @@ extension MemoryDBClientTypes {
 
         public init(
             aclToApply: Swift.String? = nil
-        )
-        {
+        ) {
             self.aclToApply = aclToApply
         }
     }
@@ -192,8 +186,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -216,8 +209,7 @@ public struct ServiceUpdateNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -231,8 +223,7 @@ extension MemoryDBClientTypes {
 
         public init(
             serviceUpdateNameToApply: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceUpdateNameToApply = serviceUpdateNameToApply
         }
     }
@@ -248,8 +239,7 @@ public struct BatchUpdateClusterInput: Swift.Sendable {
     public init(
         clusterNames: [Swift.String]? = nil,
         serviceUpdate: MemoryDBClientTypes.ServiceUpdateRequest? = nil
-    )
-    {
+    ) {
         self.clusterNames = clusterNames
         self.serviceUpdate = serviceUpdate
     }
@@ -296,8 +286,7 @@ extension MemoryDBClientTypes {
         public init(
             address: Swift.String? = nil,
             port: Swift.Int = 0
-        )
-        {
+        ) {
             self.address = address
             self.port = port
         }
@@ -342,8 +331,7 @@ extension MemoryDBClientTypes {
 
         public init(
             progressPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.progressPercentage = progressPercentage
         }
     }
@@ -358,8 +346,7 @@ extension MemoryDBClientTypes {
 
         public init(
             slotMigration: MemoryDBClientTypes.SlotMigration? = nil
-        )
-        {
+        ) {
             self.slotMigration = slotMigration
         }
     }
@@ -412,8 +399,7 @@ extension MemoryDBClientTypes {
         public init(
             serviceUpdateName: Swift.String? = nil,
             status: MemoryDBClientTypes.ServiceUpdateStatus? = nil
-        )
-        {
+        ) {
             self.serviceUpdateName = serviceUpdateName
             self.status = status
         }
@@ -435,8 +421,7 @@ extension MemoryDBClientTypes {
             acLs: MemoryDBClientTypes.ACLsUpdateStatus? = nil,
             resharding: MemoryDBClientTypes.ReshardingStatus? = nil,
             serviceUpdates: [MemoryDBClientTypes.PendingModifiedServiceUpdate]? = nil
-        )
-        {
+        ) {
             self.acLs = acLs
             self.resharding = resharding
             self.serviceUpdates = serviceUpdates
@@ -456,8 +441,7 @@ extension MemoryDBClientTypes {
         public init(
             securityGroupId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupId = securityGroupId
             self.status = status
         }
@@ -485,8 +469,7 @@ extension MemoryDBClientTypes {
             endpoint: MemoryDBClientTypes.Endpoint? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.createTime = createTime
             self.endpoint = endpoint
@@ -517,8 +500,7 @@ extension MemoryDBClientTypes {
             numberOfNodes: Swift.Int? = nil,
             slots: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.nodes = nodes
             self.numberOfNodes = numberOfNodes
@@ -618,8 +600,7 @@ extension MemoryDBClientTypes {
             status: Swift.String? = nil,
             subnetGroupName: Swift.String? = nil,
             tlsEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.aclName = aclName
             self.arn = arn
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -667,8 +648,7 @@ extension MemoryDBClientTypes {
             clusterName: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             errorType: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterName = clusterName
             self.errorMessage = errorMessage
             self.errorType = errorType
@@ -685,8 +665,7 @@ public struct BatchUpdateClusterOutput: Swift.Sendable {
     public init(
         processedClusters: [MemoryDBClientTypes.Cluster]? = nil,
         unprocessedClusters: [MemoryDBClientTypes.UnprocessedCluster]? = nil
-    )
-    {
+    ) {
         self.processedClusters = processedClusters
         self.unprocessedClusters = unprocessedClusters
     }
@@ -710,8 +689,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -734,8 +712,7 @@ public struct InvalidSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -758,8 +735,7 @@ public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -782,8 +758,7 @@ public struct SnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -806,8 +781,7 @@ public struct SnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -830,8 +804,7 @@ public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -854,8 +827,7 @@ public struct TagQuotaPerResourceExceeded: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -872,8 +844,7 @@ extension MemoryDBClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -900,8 +871,7 @@ public struct CopySnapshotInput: Swift.Sendable {
         tags: [MemoryDBClientTypes.Tag]? = nil,
         targetBucket: Swift.String? = nil,
         targetSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.sourceSnapshotName = sourceSnapshotName
         self.tags = tags
@@ -922,8 +892,7 @@ extension MemoryDBClientTypes {
         public init(
             replicaCount: Swift.Int? = nil,
             slots: Swift.String? = nil
-        )
-        {
+        ) {
             self.replicaCount = replicaCount
             self.slots = slots
         }
@@ -948,8 +917,7 @@ extension MemoryDBClientTypes {
             name: Swift.String? = nil,
             size: Swift.String? = nil,
             snapshotCreationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.name = name
             self.size = size
@@ -1015,8 +983,7 @@ extension MemoryDBClientTypes {
             subnetGroupName: Swift.String? = nil,
             topicArn: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.engine = engine
             self.engineVersion = engineVersion
@@ -1065,8 +1032,7 @@ extension MemoryDBClientTypes {
             name: Swift.String? = nil,
             source: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clusterConfiguration = clusterConfiguration
             self.dataTiering = dataTiering
@@ -1084,8 +1050,7 @@ public struct CopySnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: MemoryDBClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -1108,8 +1073,7 @@ public struct DefaultUserRequired: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1132,8 +1096,7 @@ public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1156,8 +1119,7 @@ public struct UserNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1175,8 +1137,7 @@ public struct CreateACLInput: Swift.Sendable {
         aclName: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil,
         userNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
         self.tags = tags
         self.userNames = userNames
@@ -1189,8 +1150,7 @@ public struct CreateACLOutput: Swift.Sendable {
 
     public init(
         acl: MemoryDBClientTypes.ACL? = nil
-    )
-    {
+    ) {
         self.acl = acl
     }
 }
@@ -1213,8 +1173,7 @@ public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1237,8 +1196,7 @@ public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1261,8 +1219,7 @@ public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1285,8 +1242,7 @@ public struct InvalidACLStateFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1309,8 +1265,7 @@ public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1333,8 +1288,7 @@ public struct InvalidMultiRegionClusterStateFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1357,8 +1311,7 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1381,8 +1334,7 @@ public struct MultiRegionClusterNotFoundFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1405,8 +1357,7 @@ public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1429,8 +1380,7 @@ public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1453,8 +1403,7 @@ public struct ParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1477,8 +1426,7 @@ public struct ShardsPerClusterQuotaExceededFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1501,8 +1449,7 @@ public struct SubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1602,8 +1549,7 @@ public struct CreateClusterInput: Swift.Sendable {
         subnetGroupName: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil,
         tlsEnabled: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.clusterName = clusterName
@@ -1637,8 +1583,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: MemoryDBClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1661,8 +1606,7 @@ public struct MultiRegionClusterAlreadyExistsFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1685,8 +1629,7 @@ public struct MultiRegionParameterGroupNotFoundFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1723,8 +1666,7 @@ public struct CreateMultiRegionClusterInput: Swift.Sendable {
         numShards: Swift.Int? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil,
         tlsEnabled: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.description = description
         self.engine = engine
         self.engineVersion = engineVersion
@@ -1755,8 +1697,7 @@ extension MemoryDBClientTypes {
             clusterName: Swift.String? = nil,
             region: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clusterName = clusterName
             self.region = region
@@ -1804,8 +1745,7 @@ extension MemoryDBClientTypes {
             numberOfShards: Swift.Int? = nil,
             status: Swift.String? = nil,
             tlsEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clusters = clusters
             self.description = description
@@ -1827,8 +1767,7 @@ public struct CreateMultiRegionClusterOutput: Swift.Sendable {
 
     public init(
         multiRegionCluster: MemoryDBClientTypes.MultiRegionCluster? = nil
-    )
-    {
+    ) {
         self.multiRegionCluster = multiRegionCluster
     }
 }
@@ -1851,8 +1790,7 @@ public struct InvalidParameterGroupStateFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1875,8 +1813,7 @@ public struct ParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1899,8 +1836,7 @@ public struct ParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1922,8 +1858,7 @@ public struct CreateParameterGroupInput: Swift.Sendable {
         family: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.family = family
         self.parameterGroupName = parameterGroupName
@@ -1949,8 +1884,7 @@ extension MemoryDBClientTypes {
             description: Swift.String? = nil,
             family: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.family = family
@@ -1965,8 +1899,7 @@ public struct CreateParameterGroupOutput: Swift.Sendable {
 
     public init(
         parameterGroup: MemoryDBClientTypes.ParameterGroup? = nil
-    )
-    {
+    ) {
         self.parameterGroup = parameterGroup
     }
 }
@@ -1989,8 +1922,7 @@ public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2013,8 +1945,7 @@ public struct InvalidClusterStateFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2036,8 +1967,7 @@ public struct CreateSnapshotInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         snapshotName: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.kmsKeyId = kmsKeyId
         self.snapshotName = snapshotName
@@ -2051,8 +1981,7 @@ public struct CreateSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: MemoryDBClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -2075,8 +2004,7 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2099,8 +2027,7 @@ public struct SubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2123,8 +2050,7 @@ public struct SubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2147,8 +2073,7 @@ public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2171,8 +2096,7 @@ public struct SubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2194,8 +2118,7 @@ public struct CreateSubnetGroupInput: Swift.Sendable {
         subnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.subnetGroupName = subnetGroupName
         self.subnetIds = subnetIds
@@ -2212,8 +2135,7 @@ extension MemoryDBClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -2231,8 +2153,7 @@ extension MemoryDBClientTypes {
         public init(
             availabilityZone: MemoryDBClientTypes.AvailabilityZone? = nil,
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.identifier = identifier
         }
@@ -2267,8 +2188,7 @@ extension MemoryDBClientTypes {
             name: Swift.String? = nil,
             subnets: [MemoryDBClientTypes.Subnet]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.name = name
@@ -2284,8 +2204,7 @@ public struct CreateSubnetGroupOutput: Swift.Sendable {
 
     public init(
         subnetGroup: MemoryDBClientTypes.SubnetGroup? = nil
-    )
-    {
+    ) {
         self.subnetGroup = subnetGroup
     }
 }
@@ -2308,8 +2227,7 @@ public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2332,8 +2250,7 @@ public struct UserQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2379,8 +2296,7 @@ extension MemoryDBClientTypes {
         public init(
             passwords: [Swift.String]? = nil,
             type: MemoryDBClientTypes.InputAuthenticationType? = nil
-        )
-        {
+        ) {
             self.passwords = passwords
             self.type = type
         }
@@ -2405,8 +2321,7 @@ public struct CreateUserInput: Swift.Sendable {
         authenticationMode: MemoryDBClientTypes.AuthenticationMode? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessString = accessString
         self.authenticationMode = authenticationMode
         self.tags = tags
@@ -2458,8 +2373,7 @@ extension MemoryDBClientTypes {
         public init(
             passwordCount: Swift.Int? = nil,
             type: MemoryDBClientTypes.AuthenticationType? = nil
-        )
-        {
+        ) {
             self.passwordCount = passwordCount
             self.type = type
         }
@@ -2493,8 +2407,7 @@ extension MemoryDBClientTypes {
             minimumEngineVersion: Swift.String? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessString = accessString
             self.aclNames = aclNames
             self.arn = arn
@@ -2512,8 +2425,7 @@ public struct CreateUserOutput: Swift.Sendable {
 
     public init(
         user: MemoryDBClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -2525,8 +2437,7 @@ public struct DeleteACLInput: Swift.Sendable {
 
     public init(
         aclName: Swift.String? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
     }
 }
@@ -2537,8 +2448,7 @@ public struct DeleteACLOutput: Swift.Sendable {
 
     public init(
         acl: MemoryDBClientTypes.ACL? = nil
-    )
-    {
+    ) {
         self.acl = acl
     }
 }
@@ -2556,8 +2466,7 @@ public struct DeleteClusterInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         finalSnapshotName: Swift.String? = nil,
         multiRegionClusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.finalSnapshotName = finalSnapshotName
         self.multiRegionClusterName = multiRegionClusterName
@@ -2570,8 +2479,7 @@ public struct DeleteClusterOutput: Swift.Sendable {
 
     public init(
         cluster: MemoryDBClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -2583,8 +2491,7 @@ public struct DeleteMultiRegionClusterInput: Swift.Sendable {
 
     public init(
         multiRegionClusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.multiRegionClusterName = multiRegionClusterName
     }
 }
@@ -2595,8 +2502,7 @@ public struct DeleteMultiRegionClusterOutput: Swift.Sendable {
 
     public init(
         multiRegionCluster: MemoryDBClientTypes.MultiRegionCluster? = nil
-    )
-    {
+    ) {
         self.multiRegionCluster = multiRegionCluster
     }
 }
@@ -2608,8 +2514,7 @@ public struct DeleteParameterGroupInput: Swift.Sendable {
 
     public init(
         parameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.parameterGroupName = parameterGroupName
     }
 }
@@ -2620,8 +2525,7 @@ public struct DeleteParameterGroupOutput: Swift.Sendable {
 
     public init(
         parameterGroup: MemoryDBClientTypes.ParameterGroup? = nil
-    )
-    {
+    ) {
         self.parameterGroup = parameterGroup
     }
 }
@@ -2633,8 +2537,7 @@ public struct DeleteSnapshotInput: Swift.Sendable {
 
     public init(
         snapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotName = snapshotName
     }
 }
@@ -2645,8 +2548,7 @@ public struct DeleteSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: MemoryDBClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -2669,8 +2571,7 @@ public struct SubnetGroupInUseFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2682,8 +2583,7 @@ public struct DeleteSubnetGroupInput: Swift.Sendable {
 
     public init(
         subnetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.subnetGroupName = subnetGroupName
     }
 }
@@ -2694,8 +2594,7 @@ public struct DeleteSubnetGroupOutput: Swift.Sendable {
 
     public init(
         subnetGroup: MemoryDBClientTypes.SubnetGroup? = nil
-    )
-    {
+    ) {
         self.subnetGroup = subnetGroup
     }
 }
@@ -2718,8 +2617,7 @@ public struct InvalidUserStateFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2731,8 +2629,7 @@ public struct DeleteUserInput: Swift.Sendable {
 
     public init(
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.userName = userName
     }
 }
@@ -2743,8 +2640,7 @@ public struct DeleteUserOutput: Swift.Sendable {
 
     public init(
         user: MemoryDBClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -2761,8 +2657,7 @@ public struct DescribeACLsInput: Swift.Sendable {
         aclName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2778,8 +2673,7 @@ public struct DescribeACLsOutput: Swift.Sendable {
     public init(
         acLs: [MemoryDBClientTypes.ACL]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acLs = acLs
         self.nextToken = nextToken
     }
@@ -2800,8 +2694,7 @@ public struct DescribeClustersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         showShardDetails: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2818,8 +2711,7 @@ public struct DescribeClustersOutput: Swift.Sendable {
     public init(
         clusters: [MemoryDBClientTypes.Cluster]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.nextToken = nextToken
     }
@@ -2846,8 +2738,7 @@ public struct DescribeEngineVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parameterGroupFamily: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultOnly = defaultOnly
         self.engine = engine
         self.engineVersion = engineVersion
@@ -2875,8 +2766,7 @@ extension MemoryDBClientTypes {
             enginePatchVersion: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             parameterGroupFamily: Swift.String? = nil
-        )
-        {
+        ) {
             self.engine = engine
             self.enginePatchVersion = enginePatchVersion
             self.engineVersion = engineVersion
@@ -2894,8 +2784,7 @@ public struct DescribeEngineVersionsOutput: Swift.Sendable {
     public init(
         engineVersions: [MemoryDBClientTypes.EngineVersionInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineVersions = engineVersions
         self.nextToken = nextToken
     }
@@ -2966,8 +2855,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         sourceName: Swift.String? = nil,
         sourceType: MemoryDBClientTypes.SourceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.endTime = endTime
         self.maxResults = maxResults
@@ -2996,8 +2884,7 @@ extension MemoryDBClientTypes {
             message: Swift.String? = nil,
             sourceName: Swift.String? = nil,
             sourceType: MemoryDBClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.date = date
             self.message = message
             self.sourceName = sourceName
@@ -3015,8 +2902,7 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         events: [MemoryDBClientTypes.Event]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -3037,8 +2923,7 @@ public struct DescribeMultiRegionClustersInput: Swift.Sendable {
         multiRegionClusterName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         showClusterDetails: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.multiRegionClusterName = multiRegionClusterName
         self.nextToken = nextToken
@@ -3055,8 +2940,7 @@ public struct DescribeMultiRegionClustersOutput: Swift.Sendable {
     public init(
         multiRegionClusters: [MemoryDBClientTypes.MultiRegionCluster]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.multiRegionClusters = multiRegionClusters
         self.nextToken = nextToken
     }
@@ -3074,8 +2958,7 @@ public struct DescribeParameterGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.parameterGroupName = parameterGroupName
@@ -3091,8 +2974,7 @@ public struct DescribeParameterGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parameterGroups: [MemoryDBClientTypes.ParameterGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parameterGroups = parameterGroups
     }
@@ -3111,8 +2993,7 @@ public struct DescribeParametersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.parameterGroupName = parameterGroupName
@@ -3143,8 +3024,7 @@ extension MemoryDBClientTypes {
             minimumEngineVersion: Swift.String? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.dataType = dataType
             self.description = description
@@ -3164,8 +3044,7 @@ public struct DescribeParametersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parameters: [MemoryDBClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parameters = parameters
     }
@@ -3189,8 +3068,7 @@ public struct ReservedNodeNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3219,8 +3097,7 @@ public struct DescribeReservedNodesInput: Swift.Sendable {
         offeringType: Swift.String? = nil,
         reservationId: Swift.String? = nil,
         reservedNodesOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3243,8 +3120,7 @@ extension MemoryDBClientTypes {
         public init(
             recurringChargeAmount: Swift.Double = 0.0,
             recurringChargeFrequency: Swift.String? = nil
-        )
-        {
+        ) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
         }
@@ -3290,8 +3166,7 @@ extension MemoryDBClientTypes {
             reservedNodesOfferingId: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.duration = duration
             self.fixedPrice = fixedPrice
@@ -3316,8 +3191,7 @@ public struct DescribeReservedNodesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reservedNodes: [MemoryDBClientTypes.ReservedNode]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reservedNodes = reservedNodes
     }
@@ -3341,8 +3215,7 @@ public struct ReservedNodesOfferingNotFoundFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3368,8 +3241,7 @@ public struct DescribeReservedNodesOfferingsInput: Swift.Sendable {
         nodeType: Swift.String? = nil,
         offeringType: Swift.String? = nil,
         reservedNodesOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3403,8 +3275,7 @@ extension MemoryDBClientTypes {
             offeringType: Swift.String? = nil,
             recurringCharges: [MemoryDBClientTypes.RecurringCharge]? = nil,
             reservedNodesOfferingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.fixedPrice = fixedPrice
             self.nodeType = nodeType
@@ -3424,8 +3295,7 @@ public struct DescribeReservedNodesOfferingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reservedNodesOfferings: [MemoryDBClientTypes.ReservedNodesOffering]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reservedNodesOfferings = reservedNodesOfferings
     }
@@ -3449,8 +3319,7 @@ public struct DescribeServiceUpdatesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceUpdateName: Swift.String? = nil,
         status: [MemoryDBClientTypes.ServiceUpdateStatus]? = nil
-    )
-    {
+    ) {
         self.clusterNames = clusterNames
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3518,8 +3387,7 @@ extension MemoryDBClientTypes {
             serviceUpdateName: Swift.String? = nil,
             status: MemoryDBClientTypes.ServiceUpdateStatus? = nil,
             type: MemoryDBClientTypes.ServiceUpdateType? = nil
-        )
-        {
+        ) {
             self.autoUpdateStartDate = autoUpdateStartDate
             self.clusterName = clusterName
             self.description = description
@@ -3542,8 +3410,7 @@ public struct DescribeServiceUpdatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceUpdates: [MemoryDBClientTypes.ServiceUpdate]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceUpdates = serviceUpdates
     }
@@ -3570,8 +3437,7 @@ public struct DescribeSnapshotsInput: Swift.Sendable {
         showDetail: Swift.Bool? = nil,
         snapshotName: Swift.String? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3590,8 +3456,7 @@ public struct DescribeSnapshotsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         snapshots: [MemoryDBClientTypes.Snapshot]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.snapshots = snapshots
     }
@@ -3609,8 +3474,7 @@ public struct DescribeSubnetGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         subnetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.subnetGroupName = subnetGroupName
@@ -3626,8 +3490,7 @@ public struct DescribeSubnetGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subnetGroups: [MemoryDBClientTypes.SubnetGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subnetGroups = subnetGroups
     }
@@ -3647,8 +3510,7 @@ extension MemoryDBClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3670,8 +3532,7 @@ public struct DescribeUsersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3688,8 +3549,7 @@ public struct DescribeUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         users: [MemoryDBClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.users = users
     }
@@ -3713,8 +3573,7 @@ public struct APICallRateForCustomerExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3737,8 +3596,7 @@ public struct InvalidKMSKeyFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3761,8 +3619,7 @@ public struct ShardNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3785,8 +3642,7 @@ public struct TestFailoverNotAvailableFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3802,8 +3658,7 @@ public struct FailoverShardInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         shardName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.shardName = shardName
     }
@@ -3815,8 +3670,7 @@ public struct FailoverShardOutput: Swift.Sendable {
 
     public init(
         cluster: MemoryDBClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -3828,8 +3682,7 @@ public struct ListAllowedMultiRegionClusterUpdatesInput: Swift.Sendable {
 
     public init(
         multiRegionClusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.multiRegionClusterName = multiRegionClusterName
     }
 }
@@ -3843,8 +3696,7 @@ public struct ListAllowedMultiRegionClusterUpdatesOutput: Swift.Sendable {
     public init(
         scaleDownNodeTypes: [Swift.String]? = nil,
         scaleUpNodeTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.scaleDownNodeTypes = scaleDownNodeTypes
         self.scaleUpNodeTypes = scaleUpNodeTypes
     }
@@ -3857,8 +3709,7 @@ public struct ListAllowedNodeTypeUpdatesInput: Swift.Sendable {
 
     public init(
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
     }
 }
@@ -3872,8 +3723,7 @@ public struct ListAllowedNodeTypeUpdatesOutput: Swift.Sendable {
     public init(
         scaleDownNodeTypes: [Swift.String]? = nil,
         scaleUpNodeTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.scaleDownNodeTypes = scaleDownNodeTypes
         self.scaleUpNodeTypes = scaleUpNodeTypes
     }
@@ -3897,8 +3747,7 @@ public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3910,8 +3759,7 @@ public struct ListTagsInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3922,8 +3770,7 @@ public struct ListTagsOutput: Swift.Sendable {
 
     public init(
         tagList: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -3946,8 +3793,7 @@ public struct ReservedNodeAlreadyExistsFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3970,8 +3816,7 @@ public struct ReservedNodeQuotaExceededFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3992,8 +3837,7 @@ public struct PurchaseReservedNodesOfferingInput: Swift.Sendable {
         reservationId: Swift.String? = nil,
         reservedNodesOfferingId: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nodeCount = nodeCount
         self.reservationId = reservationId
         self.reservedNodesOfferingId = reservedNodesOfferingId
@@ -4007,8 +3851,7 @@ public struct PurchaseReservedNodesOfferingOutput: Swift.Sendable {
 
     public init(
         reservedNode: MemoryDBClientTypes.ReservedNode? = nil
-    )
-    {
+    ) {
         self.reservedNode = reservedNode
     }
 }
@@ -4026,8 +3869,7 @@ public struct ResetParameterGroupInput: Swift.Sendable {
         allParameters: Swift.Bool? = false,
         parameterGroupName: Swift.String? = nil,
         parameterNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allParameters = allParameters
         self.parameterGroupName = parameterGroupName
         self.parameterNames = parameterNames
@@ -4040,8 +3882,7 @@ public struct ResetParameterGroupOutput: Swift.Sendable {
 
     public init(
         parameterGroup: MemoryDBClientTypes.ParameterGroup? = nil
-    )
-    {
+    ) {
         self.parameterGroup = parameterGroup
     }
 }
@@ -4057,8 +3898,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4070,8 +3910,7 @@ public struct TagResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -4094,8 +3933,7 @@ public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4111,8 +3949,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4124,8 +3961,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -4143,8 +3979,7 @@ public struct UpdateACLInput: Swift.Sendable {
         aclName: Swift.String? = nil,
         userNamesToAdd: [Swift.String]? = nil,
         userNamesToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
         self.userNamesToAdd = userNamesToAdd
         self.userNamesToRemove = userNamesToRemove
@@ -4157,8 +3992,7 @@ public struct UpdateACLOutput: Swift.Sendable {
 
     public init(
         acl: MemoryDBClientTypes.ACL? = nil
-    )
-    {
+    ) {
         self.acl = acl
     }
 }
@@ -4181,8 +4015,7 @@ public struct InvalidNodeStateFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4205,8 +4038,7 @@ public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4220,8 +4052,7 @@ extension MemoryDBClientTypes {
 
         public init(
             replicaCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.replicaCount = replicaCount
         }
     }
@@ -4236,8 +4067,7 @@ extension MemoryDBClientTypes {
 
         public init(
             shardCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.shardCount = shardCount
         }
     }
@@ -4309,8 +4139,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         snapshotWindow: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil,
         snsTopicStatus: Swift.String? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
         self.clusterName = clusterName
         self.description = description
@@ -4335,8 +4164,7 @@ public struct UpdateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: MemoryDBClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -4395,8 +4223,7 @@ public struct UpdateMultiRegionClusterInput: Swift.Sendable {
         nodeType: Swift.String? = nil,
         shardConfiguration: MemoryDBClientTypes.ShardConfigurationRequest? = nil,
         updateStrategy: MemoryDBClientTypes.UpdateStrategy? = nil
-    )
-    {
+    ) {
         self.description = description
         self.engineVersion = engineVersion
         self.multiRegionClusterName = multiRegionClusterName
@@ -4413,8 +4240,7 @@ public struct UpdateMultiRegionClusterOutput: Swift.Sendable {
 
     public init(
         multiRegionCluster: MemoryDBClientTypes.MultiRegionCluster? = nil
-    )
-    {
+    ) {
         self.multiRegionCluster = multiRegionCluster
     }
 }
@@ -4431,8 +4257,7 @@ extension MemoryDBClientTypes {
         public init(
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
         }
@@ -4450,8 +4275,7 @@ public struct UpdateParameterGroupInput: Swift.Sendable {
     public init(
         parameterGroupName: Swift.String? = nil,
         parameterNameValues: [MemoryDBClientTypes.ParameterNameValue]? = nil
-    )
-    {
+    ) {
         self.parameterGroupName = parameterGroupName
         self.parameterNameValues = parameterNameValues
     }
@@ -4463,8 +4287,7 @@ public struct UpdateParameterGroupOutput: Swift.Sendable {
 
     public init(
         parameterGroup: MemoryDBClientTypes.ParameterGroup? = nil
-    )
-    {
+    ) {
         self.parameterGroup = parameterGroup
     }
 }
@@ -4487,8 +4310,7 @@ public struct SubnetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4506,8 +4328,7 @@ public struct UpdateSubnetGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         subnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.subnetGroupName = subnetGroupName
         self.subnetIds = subnetIds
@@ -4520,8 +4341,7 @@ public struct UpdateSubnetGroupOutput: Swift.Sendable {
 
     public init(
         subnetGroup: MemoryDBClientTypes.SubnetGroup? = nil
-    )
-    {
+    ) {
         self.subnetGroup = subnetGroup
     }
 }
@@ -4539,8 +4359,7 @@ public struct UpdateUserInput: Swift.Sendable {
         accessString: Swift.String? = nil,
         authenticationMode: MemoryDBClientTypes.AuthenticationMode? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessString = accessString
         self.authenticationMode = authenticationMode
         self.userName = userName
@@ -4553,8 +4372,7 @@ public struct UpdateUserOutput: Swift.Sendable {
 
     public init(
         user: MemoryDBClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }

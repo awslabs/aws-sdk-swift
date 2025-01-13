@@ -39,8 +39,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
             complianceStatus: Swift.Bool? = nil,
             keysWithNoncompliantValues: [Swift.String]? = nil,
             noncompliantKeys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.complianceStatus = complianceStatus
             self.keysWithNoncompliantValues = keysWithNoncompliantValues
             self.noncompliantKeys = noncompliantKeys
@@ -66,8 +65,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -96,8 +94,7 @@ public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -120,8 +117,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -154,8 +150,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -178,8 +173,7 @@ public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -212,8 +206,7 @@ public struct DescribeReportCreationOutput: Swift.Sendable {
         s3Location: Swift.String? = nil,
         startDate: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.errorMessage = errorMessage
         self.s3Location = s3Location
         self.startDate = startDate
@@ -272,8 +265,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
             errorCode: ResourceGroupsTaggingAPIClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             statusCode: Swift.Int = 0
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.statusCode = statusCode
@@ -346,8 +338,7 @@ public struct GetComplianceSummaryInput: Swift.Sendable {
         resourceTypeFilters: [Swift.String]? = nil,
         tagKeyFilters: [Swift.String]? = nil,
         targetIdFilters: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.groupBy = groupBy
         self.maxResults = maxResults
         self.paginationToken = paginationToken
@@ -414,8 +405,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
             resourceType: Swift.String? = nil,
             targetId: Swift.String? = nil,
             targetIdType: ResourceGroupsTaggingAPIClientTypes.TargetIdType? = nil
-        )
-        {
+        ) {
             self.lastUpdated = lastUpdated
             self.nonCompliantResources = nonCompliantResources
             self.region = region
@@ -435,8 +425,7 @@ public struct GetComplianceSummaryOutput: Swift.Sendable {
     public init(
         paginationToken: Swift.String? = nil,
         summaryList: [ResourceGroupsTaggingAPIClientTypes.Summary]? = nil
-    )
-    {
+    ) {
         self.paginationToken = paginationToken
         self.summaryList = summaryList
     }
@@ -460,8 +449,7 @@ public struct PaginationTokenExpiredException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -478,8 +466,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -529,8 +516,7 @@ public struct GetResourcesInput: Swift.Sendable {
         resourcesPerPage: Swift.Int? = nil,
         tagFilters: [ResourceGroupsTaggingAPIClientTypes.TagFilter]? = nil,
         tagsPerPage: Swift.Int? = nil
-    )
-    {
+    ) {
         self.excludeCompliantResources = excludeCompliantResources
         self.includeComplianceDetails = includeComplianceDetails
         self.paginationToken = paginationToken
@@ -556,8 +542,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -579,8 +564,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
             complianceDetails: ResourceGroupsTaggingAPIClientTypes.ComplianceDetails? = nil,
             resourceARN: Swift.String? = nil,
             tags: [ResourceGroupsTaggingAPIClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.complianceDetails = complianceDetails
             self.resourceARN = resourceARN
             self.tags = tags
@@ -597,8 +581,7 @@ public struct GetResourcesOutput: Swift.Sendable {
     public init(
         paginationToken: Swift.String? = nil,
         resourceTagMappingList: [ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping]? = nil
-    )
-    {
+    ) {
         self.paginationToken = paginationToken
         self.resourceTagMappingList = resourceTagMappingList
     }
@@ -610,8 +593,7 @@ public struct GetTagKeysInput: Swift.Sendable {
 
     public init(
         paginationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.paginationToken = paginationToken
     }
 }
@@ -625,8 +607,7 @@ public struct GetTagKeysOutput: Swift.Sendable {
     public init(
         paginationToken: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.paginationToken = paginationToken
         self.tagKeys = tagKeys
     }
@@ -642,8 +623,7 @@ public struct GetTagValuesInput: Swift.Sendable {
     public init(
         key: Swift.String? = nil,
         paginationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.key = key
         self.paginationToken = paginationToken
     }
@@ -658,8 +638,7 @@ public struct GetTagValuesOutput: Swift.Sendable {
     public init(
         paginationToken: Swift.String? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.paginationToken = paginationToken
         self.tagValues = tagValues
     }
@@ -672,8 +651,7 @@ public struct StartReportCreationInput: Swift.Sendable {
 
     public init(
         s3Bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3Bucket = s3Bucket
     }
 }
@@ -694,8 +672,7 @@ public struct TagResourcesInput: Swift.Sendable {
     public init(
         resourceARNList: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARNList = resourceARNList
         self.tags = tags
     }
@@ -707,8 +684,7 @@ public struct TagResourcesOutput: Swift.Sendable {
 
     public init(
         failedResourcesMap: [Swift.String: ResourceGroupsTaggingAPIClientTypes.FailureInfo]? = nil
-    )
-    {
+    ) {
         self.failedResourcesMap = failedResourcesMap
     }
 }
@@ -724,8 +700,7 @@ public struct UntagResourcesInput: Swift.Sendable {
     public init(
         resourceARNList: [Swift.String]? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARNList = resourceARNList
         self.tagKeys = tagKeys
     }
@@ -737,8 +712,7 @@ public struct UntagResourcesOutput: Swift.Sendable {
 
     public init(
         failedResourcesMap: [Swift.String: ResourceGroupsTaggingAPIClientTypes.FailureInfo]? = nil
-    )
-    {
+    ) {
         self.failedResourcesMap = failedResourcesMap
     }
 }

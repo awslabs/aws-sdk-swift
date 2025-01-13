@@ -39,8 +39,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -59,8 +58,7 @@ extension PaymentCryptographyDataClientTypes {
         public init(
             currentEncryptedPinBlock: Swift.String? = nil,
             currentPinPekIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentEncryptedPinBlock = currentEncryptedPinBlock
             self.currentPinPekIdentifier = currentPinPekIdentifier
         }
@@ -130,8 +128,7 @@ extension PaymentCryptographyDataClientTypes {
             majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode? = nil,
             panSequenceNumber: Swift.String? = nil,
             primaryAccountNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationTransactionCounter = applicationTransactionCounter
             self.authorizationRequestKeyIdentifier = authorizationRequestKeyIdentifier
             self.currentPinAttributes = currentPinAttributes
@@ -157,8 +154,7 @@ extension PaymentCryptographyDataClientTypes {
 
         public init(
             cardExpiryDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.cardExpiryDate = cardExpiryDate
         }
     }
@@ -183,8 +179,7 @@ extension PaymentCryptographyDataClientTypes {
         public init(
             cardExpiryDate: Swift.String? = nil,
             serviceCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.cardExpiryDate = cardExpiryDate
             self.serviceCode = serviceCode
         }
@@ -240,8 +235,7 @@ extension PaymentCryptographyDataClientTypes {
 
         public init(
             paddingType: PaymentCryptographyDataClientTypes.PaddingType? = nil
-        )
-        {
+        ) {
             self.paddingType = paddingType
         }
     }
@@ -265,8 +259,7 @@ extension PaymentCryptographyDataClientTypes {
             applicationTransactionCounter: Swift.String? = nil,
             panSequenceNumber: Swift.String? = nil,
             unpredictableNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationTransactionCounter = applicationTransactionCounter
             self.panSequenceNumber = panSequenceNumber
             self.unpredictableNumber = unpredictableNumber
@@ -288,8 +281,7 @@ extension PaymentCryptographyDataClientTypes {
         public init(
             cardExpiryDate: Swift.String? = nil,
             serviceCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.cardExpiryDate = cardExpiryDate
             self.serviceCode = serviceCode
         }
@@ -311,8 +303,7 @@ extension PaymentCryptographyDataClientTypes {
 
         public init(
             cardExpiryDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.cardExpiryDate = cardExpiryDate
         }
     }
@@ -345,8 +336,7 @@ extension PaymentCryptographyDataClientTypes {
             panSequenceNumber: Swift.String? = nil,
             trackData: Swift.String? = nil,
             unpredictableNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationTransactionCounter = applicationTransactionCounter
             self.panSequenceNumber = panSequenceNumber
             self.trackData = trackData
@@ -382,8 +372,7 @@ extension PaymentCryptographyDataClientTypes {
             cardExpiryDate: Swift.String? = nil,
             panSequenceNumber: Swift.String? = nil,
             serviceCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationTransactionCounter = applicationTransactionCounter
             self.cardExpiryDate = cardExpiryDate
             self.panSequenceNumber = panSequenceNumber
@@ -437,8 +426,7 @@ extension PaymentCryptographyDataClientTypes {
             applicationTransactionCounter: Swift.String? = nil,
             cardExpiryDate: Swift.String? = nil,
             unpredictableNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationTransactionCounter = applicationTransactionCounter
             self.cardExpiryDate = cardExpiryDate
             self.unpredictableNumber = unpredictableNumber
@@ -485,8 +473,7 @@ extension PaymentCryptographyDataClientTypes {
 
         public init(
             authResponseCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.authResponseCode = authResponseCode
         }
     }
@@ -505,8 +492,7 @@ extension PaymentCryptographyDataClientTypes {
         public init(
             cardStatusUpdate: Swift.String? = nil,
             proprietaryAuthenticationData: Swift.String? = nil
-        )
-        {
+        ) {
             self.cardStatusUpdate = cardStatusUpdate
             self.proprietaryAuthenticationData = proprietaryAuthenticationData
         }
@@ -548,8 +534,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -573,8 +558,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.resourceId = resourceId
     }
 }
@@ -597,8 +581,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -617,8 +600,7 @@ extension PaymentCryptographyDataClientTypes {
         public init(
             message: Swift.String? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.path = path
         }
@@ -647,8 +629,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         fieldList: [PaymentCryptographyDataClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
     }
@@ -775,8 +756,7 @@ extension PaymentCryptographyDataClientTypes {
             initializationVector: Swift.String? = nil,
             keySerialNumber: Swift.String? = nil,
             mode: PaymentCryptographyDataClientTypes.DukptEncryptionMode? = nil
-        )
-        {
+        ) {
             self.dukptKeyDerivationType = dukptKeyDerivationType
             self.dukptKeyVariant = dukptKeyVariant
             self.initializationVector = initializationVector
@@ -877,8 +857,7 @@ extension PaymentCryptographyDataClientTypes {
             panSequenceNumber: Swift.String? = nil,
             primaryAccountNumber: Swift.String? = nil,
             sessionDerivationData: Swift.String? = nil
-        )
-        {
+        ) {
             self.initializationVector = initializationVector
             self.majorKeyDerivationMode = majorKeyDerivationMode
             self.mode = mode
@@ -957,8 +936,7 @@ extension PaymentCryptographyDataClientTypes {
             initializationVector: Swift.String? = nil,
             mode: PaymentCryptographyDataClientTypes.EncryptionMode? = nil,
             paddingType: PaymentCryptographyDataClientTypes.PaddingType? = nil
-        )
-        {
+        ) {
             self.initializationVector = initializationVector
             self.mode = mode
             self.paddingType = paddingType
@@ -1145,8 +1123,7 @@ extension PaymentCryptographyDataClientTypes {
             keyDerivationHashAlgorithm: PaymentCryptographyDataClientTypes.KeyDerivationHashAlgorithm? = nil,
             publicKeyCertificate: Swift.String? = nil,
             sharedInformation: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.keyAlgorithm = keyAlgorithm
             self.keyDerivationFunction = keyDerivationFunction
@@ -1187,8 +1164,7 @@ extension PaymentCryptographyDataClientTypes {
         public init(
             keyCheckValueAlgorithm: PaymentCryptographyDataClientTypes.KeyCheckValueAlgorithm? = nil,
             wrappedKeyMaterial: PaymentCryptographyDataClientTypes.WrappedKeyMaterial? = nil
-        )
-        {
+        ) {
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
             self.wrappedKeyMaterial = wrappedKeyMaterial
         }
@@ -1213,8 +1189,7 @@ public struct DecryptDataInput: Swift.Sendable {
         decryptionAttributes: PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes? = nil,
         keyIdentifier: Swift.String? = nil,
         wrappedKey: PaymentCryptographyDataClientTypes.WrappedKey? = nil
-    )
-    {
+    ) {
         self.cipherText = cipherText
         self.decryptionAttributes = decryptionAttributes
         self.keyIdentifier = keyIdentifier
@@ -1242,8 +1217,7 @@ public struct DecryptDataOutput: Swift.Sendable {
         keyArn: Swift.String? = nil,
         keyCheckValue: Swift.String? = nil,
         plainText: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyArn = keyArn
         self.keyCheckValue = keyCheckValue
         self.plainText = plainText
@@ -1277,8 +1251,7 @@ extension PaymentCryptographyDataClientTypes {
             majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode? = nil,
             panSequenceNumber: Swift.String? = nil,
             primaryAccountNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationTransactionCounter = applicationTransactionCounter
             self.majorKeyDerivationMode = majorKeyDerivationMode
             self.panSequenceNumber = panSequenceNumber
@@ -1384,8 +1357,7 @@ extension PaymentCryptographyDataClientTypes {
             pinBlockLengthPosition: PaymentCryptographyDataClientTypes.PinBlockLengthPosition? = nil,
             pinBlockPaddingType: PaymentCryptographyDataClientTypes.PinBlockPaddingType? = nil,
             primaryAccountNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationCryptogram = applicationCryptogram
             self.majorKeyDerivationMode = majorKeyDerivationMode
             self.mode = mode
@@ -1424,8 +1396,7 @@ extension PaymentCryptographyDataClientTypes {
             majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode? = nil,
             panSequenceNumber: Swift.String? = nil,
             primaryAccountNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationCryptogram = applicationCryptogram
             self.majorKeyDerivationMode = majorKeyDerivationMode
             self.panSequenceNumber = panSequenceNumber
@@ -1468,8 +1439,7 @@ extension PaymentCryptographyDataClientTypes {
             majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode? = nil,
             panSequenceNumber: Swift.String? = nil,
             primaryAccountNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationTransactionCounter = applicationTransactionCounter
             self.authorizationRequestKeyIdentifier = authorizationRequestKeyIdentifier
             self.currentPinAttributes = currentPinAttributes
@@ -1517,8 +1487,7 @@ extension PaymentCryptographyDataClientTypes {
         public init(
             dukptDerivationType: PaymentCryptographyDataClientTypes.DukptDerivationType? = nil,
             keySerialNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.dukptDerivationType = dukptDerivationType
             self.keySerialNumber = keySerialNumber
         }
@@ -1541,8 +1510,7 @@ extension PaymentCryptographyDataClientTypes {
             dukptKeyDerivationType: PaymentCryptographyDataClientTypes.DukptDerivationType? = nil,
             dukptKeyVariant: PaymentCryptographyDataClientTypes.DukptKeyVariant? = nil,
             keySerialNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.dukptKeyDerivationType = dukptKeyDerivationType
             self.dukptKeyVariant = dukptKeyVariant
             self.keySerialNumber = keySerialNumber
@@ -1568,8 +1536,7 @@ public struct EncryptDataInput: Swift.Sendable {
         keyIdentifier: Swift.String? = nil,
         plainText: Swift.String? = nil,
         wrappedKey: PaymentCryptographyDataClientTypes.WrappedKey? = nil
-    )
-    {
+    ) {
         self.encryptionAttributes = encryptionAttributes
         self.keyIdentifier = keyIdentifier
         self.plainText = plainText
@@ -1596,8 +1563,7 @@ public struct EncryptDataOutput: Swift.Sendable {
         cipherText: Swift.String? = nil,
         keyArn: Swift.String? = nil,
         keyCheckValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.cipherText = cipherText
         self.keyArn = keyArn
         self.keyCheckValue = keyCheckValue
@@ -1627,8 +1593,7 @@ public struct GenerateCardValidationDataInput: Swift.Sendable {
         keyIdentifier: Swift.String? = nil,
         primaryAccountNumber: Swift.String? = nil,
         validationDataLength: Swift.Int? = nil
-    )
-    {
+    ) {
         self.generationAttributes = generationAttributes
         self.keyIdentifier = keyIdentifier
         self.primaryAccountNumber = primaryAccountNumber
@@ -1656,8 +1621,7 @@ public struct GenerateCardValidationDataOutput: Swift.Sendable {
         keyArn: Swift.String? = nil,
         keyCheckValue: Swift.String? = nil,
         validationData: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyArn = keyArn
         self.keyCheckValue = keyCheckValue
         self.validationData = validationData
@@ -1730,8 +1694,7 @@ extension PaymentCryptographyDataClientTypes {
             dukptDerivationType: PaymentCryptographyDataClientTypes.DukptDerivationType? = nil,
             dukptKeyVariant: PaymentCryptographyDataClientTypes.DukptKeyVariant? = nil,
             keySerialNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.dukptDerivationType = dukptDerivationType
             self.dukptKeyVariant = dukptKeyVariant
             self.keySerialNumber = keySerialNumber
@@ -1815,8 +1778,7 @@ extension PaymentCryptographyDataClientTypes {
             primaryAccountNumber: Swift.String? = nil,
             sessionKeyDerivationMode: PaymentCryptographyDataClientTypes.SessionKeyDerivationMode? = nil,
             sessionKeyDerivationValue: PaymentCryptographyDataClientTypes.SessionKeyDerivationValue? = nil
-        )
-        {
+        ) {
             self.majorKeyDerivationMode = majorKeyDerivationMode
             self.panSequenceNumber = panSequenceNumber
             self.primaryAccountNumber = primaryAccountNumber
@@ -1867,8 +1829,7 @@ public struct GenerateMacInput: Swift.Sendable {
         keyIdentifier: Swift.String? = nil,
         macLength: Swift.Int? = nil,
         messageData: Swift.String? = nil
-    )
-    {
+    ) {
         self.generationAttributes = generationAttributes
         self.keyIdentifier = keyIdentifier
         self.macLength = macLength
@@ -1896,8 +1857,7 @@ public struct GenerateMacOutput: Swift.Sendable {
         keyArn: Swift.String? = nil,
         keyCheckValue: Swift.String? = nil,
         mac: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyArn = keyArn
         self.keyCheckValue = keyCheckValue
         self.mac = mac
@@ -1972,8 +1932,7 @@ public struct GenerateMacEmvPinChangeInput: Swift.Sendable {
         pinBlockFormat: PaymentCryptographyDataClientTypes.PinBlockFormatForEmvPinChange? = nil,
         secureMessagingConfidentialityKeyIdentifier: Swift.String? = nil,
         secureMessagingIntegrityKeyIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.derivationMethodAttributes = derivationMethodAttributes
         self.messageData = messageData
         self.newEncryptedPinBlock = newEncryptedPinBlock
@@ -2009,8 +1968,7 @@ extension PaymentCryptographyDataClientTypes {
             authorizationRequestKeyCheckValue: Swift.String? = nil,
             currentPinPekArn: Swift.String? = nil,
             currentPinPekKeyCheckValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationRequestKeyArn = authorizationRequestKeyArn
             self.authorizationRequestKeyCheckValue = authorizationRequestKeyCheckValue
             self.currentPinPekArn = currentPinPekArn
@@ -2057,8 +2015,7 @@ public struct GenerateMacEmvPinChangeOutput: Swift.Sendable {
         secureMessagingIntegrityKeyArn: Swift.String? = nil,
         secureMessagingIntegrityKeyCheckValue: Swift.String? = nil,
         visaAmexDerivationOutputs: PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs? = nil
-    )
-    {
+    ) {
         self.encryptedPinBlock = encryptedPinBlock
         self.mac = mac
         self.newPinPekArn = newPinPekArn
@@ -2094,8 +2051,7 @@ extension PaymentCryptographyDataClientTypes {
             decimalizationTable: Swift.String? = nil,
             pinValidationData: Swift.String? = nil,
             pinValidationDataPadCharacter: Swift.String? = nil
-        )
-        {
+        ) {
             self.decimalizationTable = decimalizationTable
             self.pinValidationData = pinValidationData
             self.pinValidationDataPadCharacter = pinValidationDataPadCharacter
@@ -2130,8 +2086,7 @@ extension PaymentCryptographyDataClientTypes {
             pinOffset: Swift.String? = nil,
             pinValidationData: Swift.String? = nil,
             pinValidationDataPadCharacter: Swift.String? = nil
-        )
-        {
+        ) {
             self.decimalizationTable = decimalizationTable
             self.pinOffset = pinOffset
             self.pinValidationData = pinValidationData
@@ -2167,8 +2122,7 @@ extension PaymentCryptographyDataClientTypes {
             encryptedPinBlock: Swift.String? = nil,
             pinValidationData: Swift.String? = nil,
             pinValidationDataPadCharacter: Swift.String? = nil
-        )
-        {
+        ) {
             self.decimalizationTable = decimalizationTable
             self.encryptedPinBlock = encryptedPinBlock
             self.pinValidationData = pinValidationData
@@ -2200,8 +2154,7 @@ extension PaymentCryptographyDataClientTypes {
             decimalizationTable: Swift.String? = nil,
             pinValidationData: Swift.String? = nil,
             pinValidationDataPadCharacter: Swift.String? = nil
-        )
-        {
+        ) {
             self.decimalizationTable = decimalizationTable
             self.pinValidationData = pinValidationData
             self.pinValidationDataPadCharacter = pinValidationDataPadCharacter
@@ -2224,8 +2177,7 @@ extension PaymentCryptographyDataClientTypes {
 
         public init(
             pinVerificationKeyIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.pinVerificationKeyIndex = pinVerificationKeyIndex
         }
     }
@@ -2245,8 +2197,7 @@ extension PaymentCryptographyDataClientTypes {
         public init(
             encryptedPinBlock: Swift.String? = nil,
             pinVerificationKeyIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.encryptedPinBlock = encryptedPinBlock
             self.pinVerificationKeyIndex = pinVerificationKeyIndex
         }
@@ -2339,8 +2290,7 @@ public struct GeneratePinDataInput: Swift.Sendable {
         pinBlockFormat: PaymentCryptographyDataClientTypes.PinBlockFormatForPinData? = nil,
         pinDataLength: Swift.Int? = nil,
         primaryAccountNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionKeyIdentifier = encryptionKeyIdentifier
         self.encryptionWrappedKey = encryptionWrappedKey
         self.generationAttributes = generationAttributes
@@ -2395,8 +2345,7 @@ public struct GeneratePinDataOutput: Swift.Sendable {
         generationKeyArn: Swift.String? = nil,
         generationKeyCheckValue: Swift.String? = nil,
         pinData: PaymentCryptographyDataClientTypes.PinData? = nil
-    )
-    {
+    ) {
         self.encryptedPinBlock = encryptedPinBlock
         self.encryptionKeyArn = encryptionKeyArn
         self.encryptionKeyCheckValue = encryptionKeyCheckValue
@@ -2433,8 +2382,7 @@ extension PaymentCryptographyDataClientTypes {
             pinOffset: Swift.String? = nil,
             pinValidationData: Swift.String? = nil,
             pinValidationDataPadCharacter: Swift.String? = nil
-        )
-        {
+        ) {
             self.decimalizationTable = decimalizationTable
             self.pinOffset = pinOffset
             self.pinValidationData = pinValidationData
@@ -2489,8 +2437,7 @@ public struct ReEncryptDataInput: Swift.Sendable {
         outgoingEncryptionAttributes: PaymentCryptographyDataClientTypes.ReEncryptionAttributes? = nil,
         outgoingKeyIdentifier: Swift.String? = nil,
         outgoingWrappedKey: PaymentCryptographyDataClientTypes.WrappedKey? = nil
-    )
-    {
+    ) {
         self.cipherText = cipherText
         self.incomingEncryptionAttributes = incomingEncryptionAttributes
         self.incomingKeyIdentifier = incomingKeyIdentifier
@@ -2521,8 +2468,7 @@ public struct ReEncryptDataOutput: Swift.Sendable {
         cipherText: Swift.String? = nil,
         keyArn: Swift.String? = nil,
         keyCheckValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.cipherText = cipherText
         self.keyArn = keyArn
         self.keyCheckValue = keyCheckValue
@@ -2544,8 +2490,7 @@ extension PaymentCryptographyDataClientTypes {
 
         public init(
             primaryAccountNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.primaryAccountNumber = primaryAccountNumber
         }
     }
@@ -2616,8 +2561,7 @@ public struct TranslatePinDataInput: Swift.Sendable {
         outgoingKeyIdentifier: Swift.String? = nil,
         outgoingTranslationAttributes: PaymentCryptographyDataClientTypes.TranslationIsoFormats? = nil,
         outgoingWrappedKey: PaymentCryptographyDataClientTypes.WrappedKey? = nil
-    )
-    {
+    ) {
         self.encryptedPinBlock = encryptedPinBlock
         self.incomingDukptAttributes = incomingDukptAttributes
         self.incomingKeyIdentifier = incomingKeyIdentifier
@@ -2650,8 +2594,7 @@ public struct TranslatePinDataOutput: Swift.Sendable {
         keyArn: Swift.String? = nil,
         keyCheckValue: Swift.String? = nil,
         pinBlock: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyArn = keyArn
         self.keyCheckValue = keyCheckValue
         self.pinBlock = pinBlock
@@ -2721,8 +2664,7 @@ public struct VerificationFailedException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         reason: PaymentCryptographyDataClientTypes.VerificationFailedReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -2742,8 +2684,7 @@ extension PaymentCryptographyDataClientTypes {
         public init(
             panSequenceNumber: Swift.String? = nil,
             primaryAccountNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.panSequenceNumber = panSequenceNumber
             self.primaryAccountNumber = primaryAccountNumber
         }
@@ -2773,8 +2714,7 @@ extension PaymentCryptographyDataClientTypes {
             applicationTransactionCounter: Swift.String? = nil,
             panSequenceNumber: Swift.String? = nil,
             primaryAccountNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationTransactionCounter = applicationTransactionCounter
             self.panSequenceNumber = panSequenceNumber
             self.primaryAccountNumber = primaryAccountNumber
@@ -2805,8 +2745,7 @@ extension PaymentCryptographyDataClientTypes {
             applicationTransactionCounter: Swift.String? = nil,
             panSequenceNumber: Swift.String? = nil,
             primaryAccountNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationTransactionCounter = applicationTransactionCounter
             self.panSequenceNumber = panSequenceNumber
             self.primaryAccountNumber = primaryAccountNumber
@@ -2841,8 +2780,7 @@ extension PaymentCryptographyDataClientTypes {
             panSequenceNumber: Swift.String? = nil,
             primaryAccountNumber: Swift.String? = nil,
             unpredictableNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationTransactionCounter = applicationTransactionCounter
             self.panSequenceNumber = panSequenceNumber
             self.primaryAccountNumber = primaryAccountNumber
@@ -2870,8 +2808,7 @@ extension PaymentCryptographyDataClientTypes {
         public init(
             panSequenceNumber: Swift.String? = nil,
             primaryAccountNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.panSequenceNumber = panSequenceNumber
             self.primaryAccountNumber = primaryAccountNumber
         }
@@ -2927,8 +2864,7 @@ public struct VerifyAuthRequestCryptogramInput: Swift.Sendable {
         majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode? = nil,
         sessionKeyDerivationAttributes: PaymentCryptographyDataClientTypes.SessionKeyDerivation? = nil,
         transactionData: Swift.String? = nil
-    )
-    {
+    ) {
         self.authRequestCryptogram = authRequestCryptogram
         self.authResponseAttributes = authResponseAttributes
         self.keyIdentifier = keyIdentifier
@@ -2957,8 +2893,7 @@ public struct VerifyAuthRequestCryptogramOutput: Swift.Sendable {
         authResponseValue: Swift.String? = nil,
         keyArn: Swift.String? = nil,
         keyCheckValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.authResponseValue = authResponseValue
         self.keyArn = keyArn
         self.keyCheckValue = keyCheckValue
@@ -2989,8 +2924,7 @@ public struct VerifyCardValidationDataInput: Swift.Sendable {
         primaryAccountNumber: Swift.String? = nil,
         validationData: Swift.String? = nil,
         verificationAttributes: PaymentCryptographyDataClientTypes.CardVerificationAttributes? = nil
-    )
-    {
+    ) {
         self.keyIdentifier = keyIdentifier
         self.primaryAccountNumber = primaryAccountNumber
         self.validationData = validationData
@@ -3014,8 +2948,7 @@ public struct VerifyCardValidationDataOutput: Swift.Sendable {
     public init(
         keyArn: Swift.String? = nil,
         keyCheckValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyArn = keyArn
         self.keyCheckValue = keyCheckValue
     }
@@ -3043,8 +2976,7 @@ public struct VerifyMacInput: Swift.Sendable {
         macLength: Swift.Int? = nil,
         messageData: Swift.String? = nil,
         verificationAttributes: PaymentCryptographyDataClientTypes.MacAttributes? = nil
-    )
-    {
+    ) {
         self.keyIdentifier = keyIdentifier
         self.mac = mac
         self.macLength = macLength
@@ -3069,8 +3001,7 @@ public struct VerifyMacOutput: Swift.Sendable {
     public init(
         keyArn: Swift.String? = nil,
         keyCheckValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyArn = keyArn
         self.keyCheckValue = keyCheckValue
     }
@@ -3090,8 +3021,7 @@ extension PaymentCryptographyDataClientTypes {
         public init(
             pinVerificationKeyIndex: Swift.Int? = nil,
             verificationValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.pinVerificationKeyIndex = pinVerificationKeyIndex
             self.verificationValue = verificationValue
         }
@@ -3151,8 +3081,7 @@ public struct VerifyPinDataInput: Swift.Sendable {
         primaryAccountNumber: Swift.String? = nil,
         verificationAttributes: PaymentCryptographyDataClientTypes.PinVerificationAttributes? = nil,
         verificationKeyIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dukptAttributes = dukptAttributes
         self.encryptedPinBlock = encryptedPinBlock
         self.encryptionKeyIdentifier = encryptionKeyIdentifier
@@ -3189,8 +3118,7 @@ public struct VerifyPinDataOutput: Swift.Sendable {
         encryptionKeyCheckValue: Swift.String? = nil,
         verificationKeyArn: Swift.String? = nil,
         verificationKeyCheckValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionKeyArn = encryptionKeyArn
         self.encryptionKeyCheckValue = encryptionKeyCheckValue
         self.verificationKeyArn = verificationKeyArn

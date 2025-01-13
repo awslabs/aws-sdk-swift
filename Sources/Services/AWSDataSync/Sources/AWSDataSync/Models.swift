@@ -46,8 +46,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -75,8 +74,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
         datasyncErrorCode: Swift.String? = nil,
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.datasyncErrorCode = datasyncErrorCode
         self.properties.errorCode = errorCode
         self.properties.message = message
@@ -97,8 +95,7 @@ extension DataSyncClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -123,8 +120,7 @@ extension DataSyncClientTypes {
         public init(
             serverHostname: Swift.String? = nil,
             serverPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.serverHostname = serverHostname
             self.serverPort = serverPort
         }
@@ -170,8 +166,7 @@ extension DataSyncClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -210,8 +205,7 @@ public struct AddStorageSystemInput: Swift.Sendable {
         serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
         systemType: DataSyncClientTypes.DiscoverySystemType? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.agentArns = agentArns
         self.clientToken = clientToken
         self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
@@ -230,8 +224,7 @@ public struct AddStorageSystemOutput: Swift.Sendable {
 
     public init(
         storageSystemArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.storageSystemArn = storageSystemArn
     }
 }
@@ -245,8 +238,7 @@ extension DataSyncClientTypes {
 
         public init(
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.version = version
         }
     }
@@ -303,8 +295,7 @@ extension DataSyncClientTypes {
             name: Swift.String? = nil,
             platform: DataSyncClientTypes.Platform? = nil,
             status: DataSyncClientTypes.AgentStatus? = nil
-        )
-        {
+        ) {
             self.agentArn = agentArn
             self.name = name
             self.platform = platform
@@ -410,8 +401,7 @@ extension DataSyncClientTypes {
 
         public init(
             token: Swift.String? = nil
-        )
-        {
+        ) {
             self.token = token
         }
     }
@@ -456,8 +446,7 @@ public struct CancelTaskExecutionInput: Swift.Sendable {
 
     public init(
         taskExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskExecutionArn = taskExecutionArn
     }
 }
@@ -485,8 +474,7 @@ extension DataSyncClientTypes {
             logicalUsed: Swift.Int? = nil,
             provisioned: Swift.Int? = nil,
             used: Swift.Int? = nil
-        )
-        {
+        ) {
             self.clusterCloudStorageUsed = clusterCloudStorageUsed
             self.logicalUsed = logicalUsed
             self.provisioned = provisioned
@@ -518,8 +506,7 @@ public struct CreateAgentInput: Swift.Sendable {
         subnetArns: [Swift.String]? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil,
         vpcEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.activationKey = activationKey
         self.agentName = agentName
         self.securityGroupArns = securityGroupArns
@@ -536,8 +523,7 @@ public struct CreateAgentOutput: Swift.Sendable {
 
     public init(
         agentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentArn = agentArn
     }
 }
@@ -572,8 +558,7 @@ public struct CreateLocationAzureBlobInput: Swift.Sendable {
         sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration? = nil,
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.accessTier = accessTier
         self.agentArns = agentArns
         self.authenticationType = authenticationType
@@ -591,8 +576,7 @@ public struct CreateLocationAzureBlobOutput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -618,8 +602,7 @@ extension DataSyncClientTypes {
         public init(
             securityGroupArns: [Swift.String]? = nil,
             subnetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupArns = securityGroupArns
             self.subnetArn = subnetArn
         }
@@ -682,8 +665,7 @@ public struct CreateLocationEfsInput: Swift.Sendable {
         inTransitEncryption: DataSyncClientTypes.EfsInTransitEncryption? = nil,
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.accessPointArn = accessPointArn
         self.ec2Config = ec2Config
         self.efsFilesystemArn = efsFilesystemArn
@@ -701,8 +683,7 @@ public struct CreateLocationEfsOutput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -724,8 +705,7 @@ public struct CreateLocationFsxLustreInput: Swift.Sendable {
         securityGroupArns: [Swift.String]? = nil,
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.fsxFilesystemArn = fsxFilesystemArn
         self.securityGroupArns = securityGroupArns
         self.subdirectory = subdirectory
@@ -739,8 +719,7 @@ public struct CreateLocationFsxLustreOutput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -800,8 +779,7 @@ extension DataSyncClientTypes {
 
         public init(
             version: DataSyncClientTypes.NfsVersion? = nil
-        )
-        {
+        ) {
             self.version = version
         }
     }
@@ -816,8 +794,7 @@ extension DataSyncClientTypes {
 
         public init(
             mountOptions: DataSyncClientTypes.NfsMountOptions? = nil
-        )
-        {
+        ) {
             self.mountOptions = mountOptions
         }
     }
@@ -880,8 +857,7 @@ extension DataSyncClientTypes {
 
         public init(
             version: DataSyncClientTypes.SmbVersion? = nil
-        )
-        {
+        ) {
             self.version = version
         }
     }
@@ -907,8 +883,7 @@ extension DataSyncClientTypes {
             mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
             password: Swift.String? = nil,
             user: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.mountOptions = mountOptions
             self.password = password
@@ -934,8 +909,7 @@ extension DataSyncClientTypes {
         public init(
             nfs: DataSyncClientTypes.FsxProtocolNfs? = nil,
             smb: DataSyncClientTypes.FsxProtocolSmb? = nil
-        )
-        {
+        ) {
             self.nfs = nfs
             self.smb = smb
         }
@@ -970,8 +944,7 @@ public struct CreateLocationFsxOntapInput: Swift.Sendable {
         storageVirtualMachineArn: Swift.String? = nil,
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.`protocol` = `protocol`
         self.securityGroupArns = securityGroupArns
         self.storageVirtualMachineArn = storageVirtualMachineArn
@@ -986,8 +959,7 @@ public struct CreateLocationFsxOntapOutput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -1013,8 +985,7 @@ public struct CreateLocationFsxOpenZfsInput: Swift.Sendable {
         securityGroupArns: [Swift.String]? = nil,
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.fsxFilesystemArn = fsxFilesystemArn
         self.`protocol` = `protocol`
         self.securityGroupArns = securityGroupArns
@@ -1029,8 +1000,7 @@ public struct CreateLocationFsxOpenZfsOutput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -1067,8 +1037,7 @@ public struct CreateLocationFsxWindowsInput: Swift.Sendable {
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil,
         user: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.fsxFilesystemArn = fsxFilesystemArn
         self.password = password
@@ -1090,8 +1059,7 @@ public struct CreateLocationFsxWindowsOutput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -1139,8 +1107,7 @@ extension DataSyncClientTypes {
         public init(
             hostname: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
             self.port = port
         }
@@ -1229,8 +1196,7 @@ extension DataSyncClientTypes {
         public init(
             dataTransferProtection: DataSyncClientTypes.HdfsDataTransferProtection? = nil,
             rpcProtection: DataSyncClientTypes.HdfsRpcProtection? = nil
-        )
-        {
+        ) {
             self.dataTransferProtection = dataTransferProtection
             self.rpcProtection = rpcProtection
         }
@@ -1282,8 +1248,7 @@ public struct CreateLocationHdfsInput: Swift.Sendable {
         simpleUser: Swift.String? = nil,
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.agentArns = agentArns
         self.authenticationType = authenticationType
         self.blockSize = blockSize
@@ -1306,8 +1271,7 @@ public struct CreateLocationHdfsOutput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -1322,8 +1286,7 @@ extension DataSyncClientTypes {
 
         public init(
             agentArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.agentArns = agentArns
         }
     }
@@ -1351,8 +1314,7 @@ public struct CreateLocationNfsInput: Swift.Sendable {
         serverHostname: Swift.String? = nil,
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.mountOptions = mountOptions
         self.onPremConfig = onPremConfig
         self.serverHostname = serverHostname
@@ -1368,8 +1330,7 @@ public struct CreateLocationNfsOutput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -1449,8 +1410,7 @@ public struct CreateLocationObjectStorageInput: Swift.Sendable {
         serverProtocol: DataSyncClientTypes.ObjectStorageServerProtocol? = nil,
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.accessKey = accessKey
         self.agentArns = agentArns
         self.bucketName = bucketName
@@ -1476,8 +1436,7 @@ public struct CreateLocationObjectStorageOutput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -1492,8 +1451,7 @@ extension DataSyncClientTypes {
 
         public init(
             bucketAccessRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketAccessRoleArn = bucketAccessRoleArn
         }
     }
@@ -1578,8 +1536,7 @@ public struct CreateLocationS3Input: Swift.Sendable {
         s3StorageClass: DataSyncClientTypes.S3StorageClass? = nil,
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.agentArns = agentArns
         self.s3BucketArn = s3BucketArn
         self.s3Config = s3Config
@@ -1596,8 +1553,7 @@ public struct CreateLocationS3Output: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -1635,8 +1591,7 @@ public struct CreateLocationSmbInput: Swift.Sendable {
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil,
         user: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentArns = agentArns
         self.domain = domain
         self.mountOptions = mountOptions
@@ -1660,8 +1615,7 @@ public struct CreateLocationSmbOutput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -1704,8 +1658,7 @@ extension DataSyncClientTypes {
         public init(
             filterType: DataSyncClientTypes.FilterType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.filterType = filterType
             self.value = value
         }
@@ -1785,8 +1738,7 @@ extension DataSyncClientTypes {
             manifestObjectPath: Swift.String? = nil,
             manifestObjectVersionId: Swift.String? = nil,
             s3BucketArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketAccessRoleArn = bucketAccessRoleArn
             self.manifestObjectPath = manifestObjectPath
             self.manifestObjectVersionId = manifestObjectVersionId
@@ -1805,8 +1757,7 @@ extension DataSyncClientTypes {
 
         public init(
             s3: DataSyncClientTypes.S3ManifestConfig? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -1827,8 +1778,7 @@ extension DataSyncClientTypes {
             action: DataSyncClientTypes.ManifestAction? = nil,
             format: DataSyncClientTypes.ManifestFormat? = nil,
             source: DataSyncClientTypes.SourceManifestConfig? = nil
-        )
-        {
+        ) {
             self.action = action
             self.format = format
             self.source = source
@@ -2373,8 +2323,7 @@ extension DataSyncClientTypes {
             transferMode: DataSyncClientTypes.TransferMode? = nil,
             uid: DataSyncClientTypes.Uid? = nil,
             verifyMode: DataSyncClientTypes.VerifyMode? = nil
-        )
-        {
+        ) {
             self.atime = atime
             self.bytesPerSecond = bytesPerSecond
             self.gid = gid
@@ -2436,8 +2385,7 @@ extension DataSyncClientTypes {
         public init(
             scheduleExpression: Swift.String? = nil,
             status: DataSyncClientTypes.ScheduleStatus? = nil
-        )
-        {
+        ) {
             self.scheduleExpression = scheduleExpression
             self.status = status
         }
@@ -2490,8 +2438,7 @@ extension DataSyncClientTypes {
             bucketAccessRoleArn: Swift.String? = nil,
             s3BucketArn: Swift.String? = nil,
             subdirectory: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketAccessRoleArn = bucketAccessRoleArn
             self.s3BucketArn = s3BucketArn
             self.subdirectory = subdirectory
@@ -2508,8 +2455,7 @@ extension DataSyncClientTypes {
 
         public init(
             s3: DataSyncClientTypes.ReportDestinationS3? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -2611,8 +2557,7 @@ extension DataSyncClientTypes {
 
         public init(
             reportLevel: DataSyncClientTypes.ReportLevel? = nil
-        )
-        {
+        ) {
             self.reportLevel = reportLevel
         }
     }
@@ -2636,8 +2581,7 @@ extension DataSyncClientTypes {
             skipped: DataSyncClientTypes.ReportOverride? = nil,
             transferred: DataSyncClientTypes.ReportOverride? = nil,
             verified: DataSyncClientTypes.ReportOverride? = nil
-        )
-        {
+        ) {
             self.deleted = deleted
             self.skipped = skipped
             self.transferred = transferred
@@ -2675,8 +2619,7 @@ extension DataSyncClientTypes {
             outputType: DataSyncClientTypes.ReportOutputType? = nil,
             overrides: DataSyncClientTypes.ReportOverrides? = nil,
             reportLevel: DataSyncClientTypes.ReportLevel? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.objectVersionIds = objectVersionIds
             self.outputType = outputType
@@ -2735,8 +2678,7 @@ public struct CreateTaskInput: Swift.Sendable {
         tags: [DataSyncClientTypes.TagListEntry]? = nil,
         taskMode: DataSyncClientTypes.TaskMode? = nil,
         taskReportConfig: DataSyncClientTypes.TaskReportConfig? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
         self.destinationLocationArn = destinationLocationArn
         self.excludes = excludes
@@ -2759,8 +2701,7 @@ public struct CreateTaskOutput: Swift.Sendable {
 
     public init(
         taskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskArn = taskArn
     }
 }
@@ -2773,8 +2714,7 @@ public struct DeleteAgentInput: Swift.Sendable {
 
     public init(
         agentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentArn = agentArn
     }
 }
@@ -2792,8 +2732,7 @@ public struct DeleteLocationInput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -2811,8 +2750,7 @@ public struct DeleteTaskInput: Swift.Sendable {
 
     public init(
         taskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskArn = taskArn
     }
 }
@@ -2830,8 +2768,7 @@ public struct DescribeAgentInput: Swift.Sendable {
 
     public init(
         agentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentArn = agentArn
     }
 }
@@ -2886,8 +2823,7 @@ extension DataSyncClientTypes {
             securityGroupArns: [Swift.String]? = nil,
             subnetArns: [Swift.String]? = nil,
             vpcEndpointId: Swift.String? = nil
-        )
-        {
+        ) {
             self.privateLinkEndpoint = privateLinkEndpoint
             self.securityGroupArns = securityGroupArns
             self.subnetArns = subnetArns
@@ -2928,8 +2864,7 @@ public struct DescribeAgentOutput: Swift.Sendable {
         platform: DataSyncClientTypes.Platform? = nil,
         privateLinkConfig: DataSyncClientTypes.PrivateLinkConfig? = nil,
         status: DataSyncClientTypes.AgentStatus? = nil
-    )
-    {
+    ) {
         self.agentArn = agentArn
         self.creationTime = creationTime
         self.endpointType = endpointType
@@ -2948,8 +2883,7 @@ public struct DescribeDiscoveryJobInput: Swift.Sendable {
 
     public init(
         discoveryJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.discoveryJobArn = discoveryJobArn
     }
 }
@@ -3019,8 +2953,7 @@ public struct DescribeDiscoveryJobOutput: Swift.Sendable {
         jobStartTime: Foundation.Date? = nil,
         status: DataSyncClientTypes.DiscoveryJobStatus? = nil,
         storageSystemArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionDurationMinutes = collectionDurationMinutes
         self.discoveryJobArn = discoveryJobArn
         self.jobEndTime = jobEndTime
@@ -3037,8 +2970,7 @@ public struct DescribeLocationAzureBlobInput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -3067,8 +2999,7 @@ public struct DescribeLocationAzureBlobOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessTier = accessTier
         self.agentArns = agentArns
         self.authenticationType = authenticationType
@@ -3087,8 +3018,7 @@ public struct DescribeLocationEfsInput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -3118,8 +3048,7 @@ public struct DescribeLocationEfsOutput: Swift.Sendable {
         inTransitEncryption: DataSyncClientTypes.EfsInTransitEncryption? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPointArn = accessPointArn
         self.creationTime = creationTime
         self.ec2Config = ec2Config
@@ -3137,8 +3066,7 @@ public struct DescribeLocationFsxLustreInput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -3158,8 +3086,7 @@ public struct DescribeLocationFsxLustreOutput: Swift.Sendable {
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
         securityGroupArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.locationArn = locationArn
         self.locationUri = locationUri
@@ -3174,8 +3101,7 @@ public struct DescribeLocationFsxOntapInput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -3204,8 +3130,7 @@ public struct DescribeLocationFsxOntapOutput: Swift.Sendable {
         `protocol`: DataSyncClientTypes.FsxProtocol? = nil,
         securityGroupArns: [Swift.String]? = nil,
         storageVirtualMachineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.fsxFilesystemArn = fsxFilesystemArn
         self.locationArn = locationArn
@@ -3223,8 +3148,7 @@ public struct DescribeLocationFsxOpenZfsInput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -3247,8 +3171,7 @@ public struct DescribeLocationFsxOpenZfsOutput: Swift.Sendable {
         locationUri: Swift.String? = nil,
         `protocol`: DataSyncClientTypes.FsxProtocol? = nil,
         securityGroupArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.locationArn = locationArn
         self.locationUri = locationUri
@@ -3264,8 +3187,7 @@ public struct DescribeLocationFsxWindowsInput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -3291,8 +3213,7 @@ public struct DescribeLocationFsxWindowsOutput: Swift.Sendable {
         locationUri: Swift.String? = nil,
         securityGroupArns: [Swift.String]? = nil,
         user: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.domain = domain
         self.locationArn = locationArn
@@ -3309,8 +3230,7 @@ public struct DescribeLocationHdfsInput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -3354,8 +3274,7 @@ public struct DescribeLocationHdfsOutput: Swift.Sendable {
         qopConfiguration: DataSyncClientTypes.QopConfiguration? = nil,
         replicationFactor: Swift.Int? = nil,
         simpleUser: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentArns = agentArns
         self.authenticationType = authenticationType
         self.blockSize = blockSize
@@ -3379,8 +3298,7 @@ public struct DescribeLocationNfsInput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -3404,8 +3322,7 @@ public struct DescribeLocationNfsOutput: Swift.Sendable {
         locationUri: Swift.String? = nil,
         mountOptions: DataSyncClientTypes.NfsMountOptions? = nil,
         onPremConfig: DataSyncClientTypes.OnPremConfig? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.locationArn = locationArn
         self.locationUri = locationUri
@@ -3422,8 +3339,7 @@ public struct DescribeLocationObjectStorageInput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -3456,8 +3372,7 @@ public struct DescribeLocationObjectStorageOutput: Swift.Sendable {
         serverCertificate: Foundation.Data? = nil,
         serverPort: Swift.Int? = nil,
         serverProtocol: DataSyncClientTypes.ObjectStorageServerProtocol? = nil
-    )
-    {
+    ) {
         self.accessKey = accessKey
         self.agentArns = agentArns
         self.creationTime = creationTime
@@ -3477,8 +3392,7 @@ public struct DescribeLocationS3Input: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -3505,8 +3419,7 @@ public struct DescribeLocationS3Output: Swift.Sendable {
         locationUri: Swift.String? = nil,
         s3Config: DataSyncClientTypes.S3Config? = nil,
         s3StorageClass: DataSyncClientTypes.S3StorageClass? = nil
-    )
-    {
+    ) {
         self.agentArns = agentArns
         self.creationTime = creationTime
         self.locationArn = locationArn
@@ -3524,8 +3437,7 @@ public struct DescribeLocationSmbInput: Swift.Sendable {
 
     public init(
         locationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
     }
 }
@@ -3555,8 +3467,7 @@ public struct DescribeLocationSmbOutput: Swift.Sendable {
         locationUri: Swift.String? = nil,
         mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
         user: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentArns = agentArns
         self.creationTime = creationTime
         self.domain = domain
@@ -3574,8 +3485,7 @@ public struct DescribeStorageSystemInput: Swift.Sendable {
 
     public init(
         storageSystemArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.storageSystemArn = storageSystemArn
     }
 }
@@ -3645,8 +3555,7 @@ public struct DescribeStorageSystemOutput: Swift.Sendable {
         serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
         storageSystemArn: Swift.String? = nil,
         systemType: DataSyncClientTypes.DiscoverySystemType? = nil
-    )
-    {
+    ) {
         self.agentArns = agentArns
         self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
         self.connectivityStatus = connectivityStatus
@@ -3719,8 +3628,7 @@ public struct DescribeStorageSystemResourceMetricsInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.discoveryJobArn = discoveryJobArn
         self.endTime = endTime
         self.maxResults = maxResults
@@ -3749,8 +3657,7 @@ extension DataSyncClientTypes {
             read: Swift.Double? = nil,
             total: Swift.Double? = nil,
             write: Swift.Double? = nil
-        )
-        {
+        ) {
             self.other = other
             self.read = read
             self.total = total
@@ -3774,8 +3681,7 @@ extension DataSyncClientTypes {
             other: Swift.Double? = nil,
             read: Swift.Double? = nil,
             write: Swift.Double? = nil
-        )
-        {
+        ) {
             self.other = other
             self.read = read
             self.write = write
@@ -3801,8 +3707,7 @@ extension DataSyncClientTypes {
             read: Swift.Double? = nil,
             total: Swift.Double? = nil,
             write: Swift.Double? = nil
-        )
-        {
+        ) {
             self.other = other
             self.read = read
             self.total = total
@@ -3826,8 +3731,7 @@ extension DataSyncClientTypes {
             iops: DataSyncClientTypes.IOPS? = nil,
             latency: DataSyncClientTypes.Latency? = nil,
             throughput: DataSyncClientTypes.Throughput? = nil
-        )
-        {
+        ) {
             self.iops = iops
             self.latency = latency
             self.throughput = throughput
@@ -3856,8 +3760,7 @@ extension DataSyncClientTypes {
             resourceId: Swift.String? = nil,
             resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
             self.p95Metrics = p95Metrics
             self.resourceId = resourceId
@@ -3876,8 +3779,7 @@ public struct DescribeStorageSystemResourceMetricsOutput: Swift.Sendable {
     public init(
         metrics: [DataSyncClientTypes.ResourceMetrics]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metrics = metrics
         self.nextToken = nextToken
     }
@@ -3932,8 +3834,7 @@ public struct DescribeStorageSystemResourcesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceIds: [Swift.String]? = nil,
         resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil
-    )
-    {
+    ) {
         self.discoveryJobArn = discoveryJobArn
         self.filter = filter
         self.maxResults = maxResults
@@ -3982,8 +3883,7 @@ extension DataSyncClientTypes {
             throughputRead: Swift.Double? = nil,
             throughputTotal: Swift.Double? = nil,
             throughputWrite: Swift.Double? = nil
-        )
-        {
+        ) {
             self.iopsOther = iopsOther
             self.iopsRead = iopsRead
             self.iopsTotal = iopsTotal
@@ -4014,8 +3914,7 @@ extension DataSyncClientTypes {
             estimatedMonthlyStorageCost: Swift.String? = nil,
             storageConfiguration: [Swift.String: Swift.String]? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.estimatedMonthlyStorageCost = estimatedMonthlyStorageCost
             self.storageConfiguration = storageConfiguration
             self.storageType = storageType
@@ -4100,8 +3999,7 @@ extension DataSyncClientTypes {
             recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
             recommendations: [DataSyncClientTypes.Recommendation]? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cifsShareCount = cifsShareCount
             self.clusterBlockStorageLogicalUsed = clusterBlockStorageLogicalUsed
             self.clusterBlockStorageSize = clusterBlockStorageSize
@@ -4166,8 +4064,7 @@ extension DataSyncClientTypes {
             totalCapacityUsed: Swift.Int? = nil,
             totalLogicalCapacityUsed: Swift.Int? = nil,
             totalSnapshotCapacityUsed: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cifsShareCount = cifsShareCount
             self.clusterUuid = clusterUuid
             self.enabledProtocols = enabledProtocols
@@ -4237,8 +4134,7 @@ extension DataSyncClientTypes {
             svmName: Swift.String? = nil,
             svmUuid: Swift.String? = nil,
             volumeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityProvisioned = capacityProvisioned
             self.capacityUsed = capacityUsed
             self.cifsShareCount = cifsShareCount
@@ -4273,8 +4169,7 @@ extension DataSyncClientTypes {
             netAppONTAPClusters: [DataSyncClientTypes.NetAppONTAPCluster]? = nil,
             netAppONTAPSVMs: [DataSyncClientTypes.NetAppONTAPSVM]? = nil,
             netAppONTAPVolumes: [DataSyncClientTypes.NetAppONTAPVolume]? = nil
-        )
-        {
+        ) {
             self.netAppONTAPClusters = netAppONTAPClusters
             self.netAppONTAPSVMs = netAppONTAPSVMs
             self.netAppONTAPVolumes = netAppONTAPVolumes
@@ -4291,8 +4186,7 @@ public struct DescribeStorageSystemResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceDetails: DataSyncClientTypes.ResourceDetails? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceDetails = resourceDetails
     }
@@ -4306,8 +4200,7 @@ public struct DescribeTaskInput: Swift.Sendable {
 
     public init(
         taskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskArn = taskArn
     }
 }
@@ -4360,8 +4253,7 @@ extension DataSyncClientTypes {
             disabledBy: DataSyncClientTypes.ScheduleDisabledBy? = nil,
             disabledReason: Swift.String? = nil,
             statusUpdateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.disabledBy = disabledBy
             self.disabledReason = disabledReason
             self.statusUpdateTime = statusUpdateTime
@@ -4471,8 +4363,7 @@ public struct DescribeTaskOutput: Swift.Sendable {
         taskArn: Swift.String? = nil,
         taskMode: DataSyncClientTypes.TaskMode? = nil,
         taskReportConfig: DataSyncClientTypes.TaskReportConfig? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
         self.creationTime = creationTime
         self.currentTaskExecutionArn = currentTaskExecutionArn
@@ -4504,8 +4395,7 @@ public struct DescribeTaskExecutionInput: Swift.Sendable {
 
     public init(
         taskExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskExecutionArn = taskExecutionArn
     }
 }
@@ -4528,8 +4418,7 @@ extension DataSyncClientTypes {
             prepare: Swift.Int = 0,
             transfer: Swift.Int = 0,
             verify: Swift.Int = 0
-        )
-        {
+        ) {
             self.delete = delete
             self.prepare = prepare
             self.transfer = transfer
@@ -4556,8 +4445,7 @@ extension DataSyncClientTypes {
         public init(
             atDestinationForDelete: Swift.Int = 0,
             atSource: Swift.Int = 0
-        )
-        {
+        ) {
             self.atDestinationForDelete = atDestinationForDelete
             self.atSource = atSource
         }
@@ -4611,8 +4499,7 @@ extension DataSyncClientTypes {
             errorCode: Swift.String? = nil,
             errorDetail: Swift.String? = nil,
             status: DataSyncClientTypes.PhaseStatus? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorDetail = errorDetail
             self.status = status
@@ -4653,8 +4540,7 @@ extension DataSyncClientTypes {
             transferStatus: DataSyncClientTypes.PhaseStatus? = nil,
             verifyDuration: Swift.Int? = nil,
             verifyStatus: DataSyncClientTypes.PhaseStatus? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorDetail = errorDetail
             self.prepareDuration = prepareDuration
@@ -4804,8 +4690,7 @@ public struct DescribeTaskExecutionOutput: Swift.Sendable {
         taskExecutionArn: Swift.String? = nil,
         taskMode: DataSyncClientTypes.TaskMode? = nil,
         taskReportConfig: DataSyncClientTypes.TaskReportConfig? = nil
-    )
-    {
+    ) {
         self.bytesCompressed = bytesCompressed
         self.bytesTransferred = bytesTransferred
         self.bytesWritten = bytesWritten
@@ -4845,8 +4730,7 @@ extension DataSyncClientTypes {
         public init(
             discoveryJobArn: Swift.String? = nil,
             status: DataSyncClientTypes.DiscoveryJobStatus? = nil
-        )
-        {
+        ) {
             self.discoveryJobArn = discoveryJobArn
             self.status = status
         }
@@ -4868,8 +4752,7 @@ public struct GenerateRecommendationsInput: Swift.Sendable {
         discoveryJobArn: Swift.String? = nil,
         resourceIds: [Swift.String]? = nil,
         resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil
-    )
-    {
+    ) {
         self.discoveryJobArn = discoveryJobArn
         self.resourceIds = resourceIds
         self.resourceType = resourceType
@@ -4891,8 +4774,7 @@ public struct ListAgentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4908,8 +4790,7 @@ public struct ListAgentsOutput: Swift.Sendable {
     public init(
         agents: [DataSyncClientTypes.AgentListEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agents = agents
         self.nextToken = nextToken
     }
@@ -4927,8 +4808,7 @@ public struct ListDiscoveryJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         storageSystemArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.storageSystemArn = storageSystemArn
@@ -4944,8 +4824,7 @@ public struct ListDiscoveryJobsOutput: Swift.Sendable {
     public init(
         discoveryJobs: [DataSyncClientTypes.DiscoveryJobListEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.discoveryJobs = discoveryJobs
         self.nextToken = nextToken
     }
@@ -5054,8 +4933,7 @@ extension DataSyncClientTypes {
             name: DataSyncClientTypes.LocationFilterName? = nil,
             `operator`: DataSyncClientTypes.Operator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -5076,8 +4954,7 @@ public struct ListLocationsInput: Swift.Sendable {
         filters: [DataSyncClientTypes.LocationFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5096,8 +4973,7 @@ extension DataSyncClientTypes {
         public init(
             locationArn: Swift.String? = nil,
             locationUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.locationArn = locationArn
             self.locationUri = locationUri
         }
@@ -5114,8 +4990,7 @@ public struct ListLocationsOutput: Swift.Sendable {
     public init(
         locations: [DataSyncClientTypes.LocationListEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.locations = locations
         self.nextToken = nextToken
     }
@@ -5130,8 +5005,7 @@ public struct ListStorageSystemsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5149,8 +5023,7 @@ extension DataSyncClientTypes {
         public init(
             name: Swift.String? = nil,
             storageSystemArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.storageSystemArn = storageSystemArn
         }
@@ -5166,8 +5039,7 @@ public struct ListStorageSystemsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         storageSystems: [DataSyncClientTypes.StorageSystemListEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.storageSystems = storageSystems
     }
@@ -5187,8 +5059,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -5205,8 +5076,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -5225,8 +5095,7 @@ public struct ListTaskExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         taskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.taskArn = taskArn
@@ -5248,8 +5117,7 @@ extension DataSyncClientTypes {
             status: DataSyncClientTypes.TaskExecutionStatus? = nil,
             taskExecutionArn: Swift.String? = nil,
             taskMode: DataSyncClientTypes.TaskMode? = nil
-        )
-        {
+        ) {
             self.status = status
             self.taskExecutionArn = taskExecutionArn
             self.taskMode = taskMode
@@ -5267,8 +5135,7 @@ public struct ListTaskExecutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskExecutions: [DataSyncClientTypes.TaskExecutionListEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskExecutions = taskExecutions
     }
@@ -5321,8 +5188,7 @@ extension DataSyncClientTypes {
             name: DataSyncClientTypes.TaskFilterName? = nil,
             `operator`: DataSyncClientTypes.Operator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -5343,8 +5209,7 @@ public struct ListTasksInput: Swift.Sendable {
         filters: [DataSyncClientTypes.TaskFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5369,8 +5234,7 @@ extension DataSyncClientTypes {
             status: DataSyncClientTypes.TaskStatus? = nil,
             taskArn: Swift.String? = nil,
             taskMode: DataSyncClientTypes.TaskMode? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
             self.taskArn = taskArn
@@ -5389,8 +5253,7 @@ public struct ListTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tasks: [DataSyncClientTypes.TaskListEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tasks = tasks
     }
@@ -5403,8 +5266,7 @@ public struct RemoveStorageSystemInput: Swift.Sendable {
 
     public init(
         storageSystemArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.storageSystemArn = storageSystemArn
     }
 }
@@ -5432,8 +5294,7 @@ public struct StartDiscoveryJobInput: Swift.Sendable {
         collectionDurationMinutes: Swift.Int? = nil,
         storageSystemArn: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.collectionDurationMinutes = collectionDurationMinutes
         self.storageSystemArn = storageSystemArn
@@ -5447,8 +5308,7 @@ public struct StartDiscoveryJobOutput: Swift.Sendable {
 
     public init(
         discoveryJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.discoveryJobArn = discoveryJobArn
     }
 }
@@ -5479,8 +5339,7 @@ public struct StartTaskExecutionInput: Swift.Sendable {
         tags: [DataSyncClientTypes.TagListEntry]? = nil,
         taskArn: Swift.String? = nil,
         taskReportConfig: DataSyncClientTypes.TaskReportConfig? = nil
-    )
-    {
+    ) {
         self.excludes = excludes
         self.includes = includes
         self.manifestConfig = manifestConfig
@@ -5498,8 +5357,7 @@ public struct StartTaskExecutionOutput: Swift.Sendable {
 
     public init(
         taskExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskExecutionArn = taskExecutionArn
     }
 }
@@ -5511,8 +5369,7 @@ public struct StopDiscoveryJobInput: Swift.Sendable {
 
     public init(
         discoveryJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.discoveryJobArn = discoveryJobArn
     }
 }
@@ -5534,8 +5391,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5558,8 +5414,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         keys: [Swift.String]? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.keys = keys
         self.resourceArn = resourceArn
     }
@@ -5581,8 +5436,7 @@ public struct UpdateAgentInput: Swift.Sendable {
     public init(
         agentArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentArn = agentArn
         self.name = name
     }
@@ -5604,8 +5458,7 @@ public struct UpdateDiscoveryJobInput: Swift.Sendable {
     public init(
         collectionDurationMinutes: Swift.Int? = nil,
         discoveryJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionDurationMinutes = collectionDurationMinutes
         self.discoveryJobArn = discoveryJobArn
     }
@@ -5641,8 +5494,7 @@ public struct UpdateLocationAzureBlobInput: Swift.Sendable {
         locationArn: Swift.String? = nil,
         sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration? = nil,
         subdirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessTier = accessTier
         self.agentArns = agentArns
         self.authenticationType = authenticationType
@@ -5677,8 +5529,7 @@ public struct UpdateLocationEfsInput: Swift.Sendable {
         inTransitEncryption: DataSyncClientTypes.EfsInTransitEncryption? = nil,
         locationArn: Swift.String? = nil,
         subdirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPointArn = accessPointArn
         self.fileSystemAccessRoleArn = fileSystemAccessRoleArn
         self.inTransitEncryption = inTransitEncryption
@@ -5702,8 +5553,7 @@ public struct UpdateLocationFsxLustreInput: Swift.Sendable {
     public init(
         locationArn: Swift.String? = nil,
         subdirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
         self.subdirectory = subdirectory
     }
@@ -5732,8 +5582,7 @@ extension DataSyncClientTypes {
             mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
             password: Swift.String? = nil,
             user: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.mountOptions = mountOptions
             self.password = password
@@ -5759,8 +5608,7 @@ extension DataSyncClientTypes {
         public init(
             nfs: DataSyncClientTypes.FsxProtocolNfs? = nil,
             smb: DataSyncClientTypes.FsxUpdateProtocolSmb? = nil
-        )
-        {
+        ) {
             self.nfs = nfs
             self.smb = smb
         }
@@ -5780,8 +5628,7 @@ public struct UpdateLocationFsxOntapInput: Swift.Sendable {
         locationArn: Swift.String? = nil,
         `protocol`: DataSyncClientTypes.FsxUpdateProtocol? = nil,
         subdirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
         self.`protocol` = `protocol`
         self.subdirectory = subdirectory
@@ -5806,8 +5653,7 @@ public struct UpdateLocationFsxOpenZfsInput: Swift.Sendable {
         locationArn: Swift.String? = nil,
         `protocol`: DataSyncClientTypes.FsxProtocol? = nil,
         subdirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
         self.`protocol` = `protocol`
         self.subdirectory = subdirectory
@@ -5838,8 +5684,7 @@ public struct UpdateLocationFsxWindowsInput: Swift.Sendable {
         password: Swift.String? = nil,
         subdirectory: Swift.String? = nil,
         user: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.locationArn = locationArn
         self.password = password
@@ -5901,8 +5746,7 @@ public struct UpdateLocationHdfsInput: Swift.Sendable {
         replicationFactor: Swift.Int? = nil,
         simpleUser: Swift.String? = nil,
         subdirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentArns = agentArns
         self.authenticationType = authenticationType
         self.blockSize = blockSize
@@ -5940,8 +5784,7 @@ public struct UpdateLocationNfsInput: Swift.Sendable {
         mountOptions: DataSyncClientTypes.NfsMountOptions? = nil,
         onPremConfig: DataSyncClientTypes.OnPremConfig? = nil,
         subdirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
         self.mountOptions = mountOptions
         self.onPremConfig = onPremConfig
@@ -5991,8 +5834,7 @@ public struct UpdateLocationObjectStorageInput: Swift.Sendable {
         serverPort: Swift.Int? = nil,
         serverProtocol: DataSyncClientTypes.ObjectStorageServerProtocol? = nil,
         subdirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKey = accessKey
         self.agentArns = agentArns
         self.locationArn = locationArn
@@ -6038,8 +5880,7 @@ public struct UpdateLocationS3Input: Swift.Sendable {
         s3Config: DataSyncClientTypes.S3Config? = nil,
         s3StorageClass: DataSyncClientTypes.S3StorageClass? = nil,
         subdirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationArn = locationArn
         self.s3Config = s3Config
         self.s3StorageClass = s3StorageClass
@@ -6077,8 +5918,7 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
         password: Swift.String? = nil,
         subdirectory: Swift.String? = nil,
         user: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentArns = agentArns
         self.domain = domain
         self.locationArn = locationArn
@@ -6121,8 +5961,7 @@ public struct UpdateStorageSystemInput: Swift.Sendable {
         name: Swift.String? = nil,
         serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
         storageSystemArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentArns = agentArns
         self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
         self.credentials = credentials
@@ -6169,8 +6008,7 @@ public struct UpdateTaskInput: Swift.Sendable {
         schedule: DataSyncClientTypes.TaskSchedule? = nil,
         taskArn: Swift.String? = nil,
         taskReportConfig: DataSyncClientTypes.TaskReportConfig? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
         self.excludes = excludes
         self.includes = includes
@@ -6199,8 +6037,7 @@ public struct UpdateTaskExecutionInput: Swift.Sendable {
     public init(
         options: DataSyncClientTypes.Options? = nil,
         taskExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.options = options
         self.taskExecutionArn = taskExecutionArn
     }

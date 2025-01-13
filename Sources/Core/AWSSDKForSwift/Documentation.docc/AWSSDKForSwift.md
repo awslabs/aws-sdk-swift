@@ -13,6 +13,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [Smithy](../../../../../swift/api/smithy/latest)
 
+[SmithyCBOR](../../../../../swift/api/smithycbor/latest)
+
 [SmithyChecksums](../../../../../swift/api/smithychecksums/latest)
 
 [SmithyChecksumsAPI](../../../../../swift/api/smithychecksumsapi/latest)
@@ -434,10 +436,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSInvoicing](../../../../../swift/api/awsinvoicing/latest)
 
 [AWSIoT](../../../../../swift/api/awsiot/latest)
-
-[AWSIoT1ClickDevicesService](../../../../../swift/api/awsiot1clickdevicesservice/latest)
-
-[AWSIoT1ClickProjects](../../../../../swift/api/awsiot1clickprojects/latest)
 
 [AWSIoTAnalytics](../../../../../swift/api/awsiotanalytics/latest)
 

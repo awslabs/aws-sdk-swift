@@ -46,8 +46,7 @@ public struct ContainerNotFoundException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -70,8 +69,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -94,8 +92,7 @@ public struct ObjectNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -107,8 +104,7 @@ public struct DeleteObjectInput: Swift.Sendable {
 
     public init(
         path: Swift.String? = nil
-    )
-    {
+    ) {
         self.path = path
     }
 }
@@ -125,8 +121,7 @@ public struct DescribeObjectInput: Swift.Sendable {
 
     public init(
         path: Swift.String? = nil
-    )
-    {
+    ) {
         self.path = path
     }
 }
@@ -149,8 +144,7 @@ public struct DescribeObjectOutput: Swift.Sendable {
         contentType: Swift.String? = nil,
         eTag: Swift.String? = nil,
         lastModified: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.cacheControl = cacheControl
         self.contentLength = contentLength
         self.contentType = contentType
@@ -177,8 +171,7 @@ public struct RequestedRangeNotSatisfiableException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -193,8 +186,7 @@ public struct GetObjectInput: Swift.Sendable {
     public init(
         path: Swift.String? = nil,
         range: Swift.String? = nil
-    )
-    {
+    ) {
         self.path = path
         self.range = range
     }
@@ -228,8 +220,7 @@ public struct GetObjectOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         statusCode: Swift.Int = 0
-    )
-    {
+    ) {
         self.body = body
         self.cacheControl = cacheControl
         self.contentLength = contentLength
@@ -294,8 +285,7 @@ extension MediaStoreDataClientTypes {
             lastModified: Foundation.Date? = nil,
             name: Swift.String? = nil,
             type: MediaStoreDataClientTypes.ItemType? = nil
-        )
-        {
+        ) {
             self.contentLength = contentLength
             self.contentType = contentType
             self.eTag = eTag
@@ -318,8 +308,7 @@ public struct ListItemsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         path: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.path = path
@@ -335,8 +324,7 @@ public struct ListItemsOutput: Swift.Sendable {
     public init(
         items: [MediaStoreDataClientTypes.Item]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -420,8 +408,7 @@ public struct PutObjectInput: Swift.Sendable {
         path: Swift.String? = nil,
         storageClass: MediaStoreDataClientTypes.StorageClass? = nil,
         uploadAvailability: MediaStoreDataClientTypes.UploadAvailability? = nil
-    )
-    {
+    ) {
         self.body = body
         self.cacheControl = cacheControl
         self.contentType = contentType
@@ -443,8 +430,7 @@ public struct PutObjectOutput: Swift.Sendable {
         contentSHA256: Swift.String? = nil,
         eTag: Swift.String? = nil,
         storageClass: MediaStoreDataClientTypes.StorageClass? = nil
-    )
-    {
+    ) {
         self.contentSHA256 = contentSHA256
         self.eTag = eTag
         self.storageClass = storageClass
