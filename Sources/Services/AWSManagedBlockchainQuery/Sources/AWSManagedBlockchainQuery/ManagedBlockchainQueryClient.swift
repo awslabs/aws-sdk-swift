@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ManagedBlockchainQueryClient: ClientRuntime.Client {
     public static let clientName = "ManagedBlockchainQueryClient"
-    public static let version = "1.0.76"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: ManagedBlockchainQueryClient.ManagedBlockchainQueryClientConfiguration
     let serviceName = "ManagedBlockchain Query"
