@@ -29,6 +29,211 @@ import struct Smithy.URIQueryItem
 
 extension KafkaConnectClientTypes {
 
+    public enum ConnectorOperationStepState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case completed
+        case failed
+        case inProgress
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorOperationStepState] {
+            return [
+                .cancelled,
+                .completed,
+                .failed,
+                .inProgress,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaConnectClientTypes {
+
+    public enum ConnectorOperationStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case finalizeUpdate
+        case initializeUpdate
+        case updateConnectorConfiguration
+        case updateWorkerSetting
+        case validateUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorOperationStepType] {
+            return [
+                .finalizeUpdate,
+                .initializeUpdate,
+                .updateConnectorConfiguration,
+                .updateWorkerSetting,
+                .validateUpdate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .finalizeUpdate: return "FINALIZE_UPDATE"
+            case .initializeUpdate: return "INITIALIZE_UPDATE"
+            case .updateConnectorConfiguration: return "UPDATE_CONNECTOR_CONFIGURATION"
+            case .updateWorkerSetting: return "UPDATE_WORKER_SETTING"
+            case .validateUpdate: return "VALIDATE_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaConnectClientTypes {
+
+    /// Details of a step that is involved in a connector's operation.
+    public struct ConnectorOperationStep: Swift.Sendable {
+        /// The step state of the operation.
+        public var stepState: KafkaConnectClientTypes.ConnectorOperationStepState?
+        /// The step type of the operation.
+        public var stepType: KafkaConnectClientTypes.ConnectorOperationStepType?
+
+        public init(
+            stepState: KafkaConnectClientTypes.ConnectorOperationStepState? = nil,
+            stepType: KafkaConnectClientTypes.ConnectorOperationStepType? = nil
+        ) {
+            self.stepState = stepState
+            self.stepType = stepType
+        }
+    }
+}
+
+extension KafkaConnectClientTypes {
+
+    public enum ConnectorOperationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pending
+        case rollbackComplete
+        case rollbackFailed
+        case rollbackInProgress
+        case updateComplete
+        case updateFailed
+        case updateInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorOperationState] {
+            return [
+                .pending,
+                .rollbackComplete,
+                .rollbackFailed,
+                .rollbackInProgress,
+                .updateComplete,
+                .updateFailed,
+                .updateInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pending: return "PENDING"
+            case .rollbackComplete: return "ROLLBACK_COMPLETE"
+            case .rollbackFailed: return "ROLLBACK_FAILED"
+            case .rollbackInProgress: return "ROLLBACK_IN_PROGRESS"
+            case .updateComplete: return "UPDATE_COMPLETE"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaConnectClientTypes {
+
+    public enum ConnectorOperationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case isolateConnector
+        case restoreConnector
+        case updateConnectorConfiguration
+        case updateWorkerSetting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorOperationType] {
+            return [
+                .isolateConnector,
+                .restoreConnector,
+                .updateConnectorConfiguration,
+                .updateWorkerSetting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .isolateConnector: return "ISOLATE_CONNECTOR"
+            case .restoreConnector: return "RESTORE_CONNECTOR"
+            case .updateConnectorConfiguration: return "UPDATE_CONNECTOR_CONFIGURATION"
+            case .updateWorkerSetting: return "UPDATE_WORKER_SETTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaConnectClientTypes {
+
+    /// Summary of a connector operation.
+    public struct ConnectorOperationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the connector operation.
+        public var connectorOperationArn: Swift.String?
+        /// The state of the connector operation.
+        public var connectorOperationState: KafkaConnectClientTypes.ConnectorOperationState?
+        /// The type of connector operation performed.
+        public var connectorOperationType: KafkaConnectClientTypes.ConnectorOperationType?
+        /// The time when operation was created.
+        public var creationTime: Foundation.Date?
+        /// The time when operation ended.
+        public var endTime: Foundation.Date?
+
+        public init(
+            connectorOperationArn: Swift.String? = nil,
+            connectorOperationState: KafkaConnectClientTypes.ConnectorOperationState? = nil,
+            connectorOperationType: KafkaConnectClientTypes.ConnectorOperationType? = nil,
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil
+        ) {
+            self.connectorOperationArn = connectorOperationArn
+            self.connectorOperationState = connectorOperationState
+            self.connectorOperationType = connectorOperationType
+            self.creationTime = creationTime
+            self.endTime = endTime
+        }
+    }
+}
+
+extension KafkaConnectClientTypes {
+
     /// The description of the scale-in policy for the connector.
     public struct ScaleInPolicyDescription: Swift.Sendable {
         /// Specifies the CPU utilization percentage threshold at which you want connector scale in to be triggered.
@@ -1899,6 +2104,93 @@ extension DescribeConnectorOutput: Swift.CustomDebugStringConvertible {
         "DescribeConnectorOutput(capacity: \(Swift.String(describing: capacity)), connectorArn: \(Swift.String(describing: connectorArn)), connectorDescription: \(Swift.String(describing: connectorDescription)), connectorName: \(Swift.String(describing: connectorName)), connectorState: \(Swift.String(describing: connectorState)), creationTime: \(Swift.String(describing: creationTime)), currentVersion: \(Swift.String(describing: currentVersion)), kafkaCluster: \(Swift.String(describing: kafkaCluster)), kafkaClusterClientAuthentication: \(Swift.String(describing: kafkaClusterClientAuthentication)), kafkaClusterEncryptionInTransit: \(Swift.String(describing: kafkaClusterEncryptionInTransit)), kafkaConnectVersion: \(Swift.String(describing: kafkaConnectVersion)), logDelivery: \(Swift.String(describing: logDelivery)), plugins: \(Swift.String(describing: plugins)), serviceExecutionRoleArn: \(Swift.String(describing: serviceExecutionRoleArn)), stateDescription: \(Swift.String(describing: stateDescription)), workerConfiguration: \(Swift.String(describing: workerConfiguration)), connectorConfiguration: \"CONTENT_REDACTED\")"}
 }
 
+public struct DescribeConnectorOperationInput: Swift.Sendable {
+    /// ARN of the connector operation to be described.
+    /// This member is required.
+    public var connectorOperationArn: Swift.String?
+
+    public init(
+        connectorOperationArn: Swift.String? = nil
+    ) {
+        self.connectorOperationArn = connectorOperationArn
+    }
+}
+
+extension KafkaConnectClientTypes {
+
+    /// Details about worker setting of a connector
+    public struct WorkerSetting: Swift.Sendable {
+        /// A description of the connector's capacity.
+        public var capacity: KafkaConnectClientTypes.CapacityDescription?
+
+        public init(
+            capacity: KafkaConnectClientTypes.CapacityDescription? = nil
+        ) {
+            self.capacity = capacity
+        }
+    }
+}
+
+public struct DescribeConnectorOperationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector.
+    public var connectorArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the connector operation.
+    public var connectorOperationArn: Swift.String?
+    /// The state of the connector operation.
+    public var connectorOperationState: KafkaConnectClientTypes.ConnectorOperationState?
+    /// The type of connector operation performed.
+    public var connectorOperationType: KafkaConnectClientTypes.ConnectorOperationType?
+    /// The time when the operation was created.
+    public var creationTime: Foundation.Date?
+    /// The time when the operation ended.
+    public var endTime: Foundation.Date?
+    /// Details about the state of a resource.
+    public var errorInfo: KafkaConnectClientTypes.StateDescription?
+    /// The array of operation steps taken.
+    public var operationSteps: [KafkaConnectClientTypes.ConnectorOperationStep]?
+    /// The origin connector configuration.
+    public var originConnectorConfiguration: [Swift.String: Swift.String]?
+    /// The origin worker setting.
+    public var originWorkerSetting: KafkaConnectClientTypes.WorkerSetting?
+    /// The target connector configuration.
+    public var targetConnectorConfiguration: [Swift.String: Swift.String]?
+    /// The target worker setting.
+    public var targetWorkerSetting: KafkaConnectClientTypes.WorkerSetting?
+
+    public init(
+        connectorArn: Swift.String? = nil,
+        connectorOperationArn: Swift.String? = nil,
+        connectorOperationState: KafkaConnectClientTypes.ConnectorOperationState? = nil,
+        connectorOperationType: KafkaConnectClientTypes.ConnectorOperationType? = nil,
+        creationTime: Foundation.Date? = nil,
+        endTime: Foundation.Date? = nil,
+        errorInfo: KafkaConnectClientTypes.StateDescription? = nil,
+        operationSteps: [KafkaConnectClientTypes.ConnectorOperationStep]? = nil,
+        originConnectorConfiguration: [Swift.String: Swift.String]? = nil,
+        originWorkerSetting: KafkaConnectClientTypes.WorkerSetting? = nil,
+        targetConnectorConfiguration: [Swift.String: Swift.String]? = nil,
+        targetWorkerSetting: KafkaConnectClientTypes.WorkerSetting? = nil
+    ) {
+        self.connectorArn = connectorArn
+        self.connectorOperationArn = connectorOperationArn
+        self.connectorOperationState = connectorOperationState
+        self.connectorOperationType = connectorOperationType
+        self.creationTime = creationTime
+        self.endTime = endTime
+        self.errorInfo = errorInfo
+        self.operationSteps = operationSteps
+        self.originConnectorConfiguration = originConnectorConfiguration
+        self.originWorkerSetting = originWorkerSetting
+        self.targetConnectorConfiguration = targetConnectorConfiguration
+        self.targetWorkerSetting = targetWorkerSetting
+    }
+}
+
+extension DescribeConnectorOperationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeConnectorOperationOutput(connectorArn: \(Swift.String(describing: connectorArn)), connectorOperationArn: \(Swift.String(describing: connectorOperationArn)), connectorOperationState: \(Swift.String(describing: connectorOperationState)), connectorOperationType: \(Swift.String(describing: connectorOperationType)), creationTime: \(Swift.String(describing: creationTime)), endTime: \(Swift.String(describing: endTime)), errorInfo: \(Swift.String(describing: errorInfo)), operationSteps: \(Swift.String(describing: operationSteps)), originWorkerSetting: \(Swift.String(describing: originWorkerSetting)), targetWorkerSetting: \(Swift.String(describing: targetWorkerSetting)), originConnectorConfiguration: \"CONTENT_REDACTED\", targetConnectorConfiguration: \"CONTENT_REDACTED\")"}
+}
+
 public struct DescribeCustomPluginInput: Swift.Sendable {
     /// Returns information about a custom plugin.
     /// This member is required.
@@ -2021,17 +2313,52 @@ public struct DescribeWorkerConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct ListConnectorOperationsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector for which to list operations.
+    /// This member is required.
+    public var connectorArn: Swift.String?
+    /// Maximum number of connector operations to fetch in one get request.
+    public var maxResults: Swift.Int?
+    /// If the response is truncated, it includes a NextToken. Send this NextToken in a subsequent request to continue listing from where it left off.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectorArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.connectorArn = connectorArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConnectorOperationsOutput: Swift.Sendable {
+    /// An array of connector operation descriptions.
+    public var connectorOperations: [KafkaConnectClientTypes.ConnectorOperationSummary]?
+    /// If the response is truncated, it includes a NextToken. Send this NextToken in a subsequent request to continue listing from where it left off.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectorOperations: [KafkaConnectClientTypes.ConnectorOperationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.connectorOperations = connectorOperations
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListConnectorsInput: Swift.Sendable {
     /// The name prefix that you want to use to search for and list connectors.
     public var connectorNamePrefix: Swift.String?
     /// The maximum number of connectors to list in one response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If the response of a ListConnectors operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where the previous operation left off.
     public var nextToken: Swift.String?
 
     public init(
         connectorNamePrefix: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.connectorNamePrefix = connectorNamePrefix
@@ -2057,14 +2384,14 @@ public struct ListConnectorsOutput: Swift.Sendable {
 
 public struct ListCustomPluginsInput: Swift.Sendable {
     /// The maximum number of custom plugins to list in one response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Lists custom plugin names that start with the specified text string.
     public var namePrefix: Swift.String?
     /// If the response of a ListCustomPlugins operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where the previous operation left off.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
     ) {
@@ -2114,14 +2441,14 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
 public struct ListWorkerConfigurationsInput: Swift.Sendable {
     /// The maximum number of worker configurations to list in one response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Lists worker configuration names that start with the specified text string.
     public var namePrefix: Swift.String?
     /// If the response of a ListWorkerConfigurations operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where the previous operation left off.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
     ) {
@@ -2192,11 +2519,12 @@ public struct UntagResourceOutput: Swift.Sendable {
 
 public struct UpdateConnectorInput: Swift.Sendable {
     /// The target capacity.
-    /// This member is required.
     public var capacity: KafkaConnectClientTypes.CapacityUpdate?
     /// The Amazon Resource Name (ARN) of the connector that you want to update.
     /// This member is required.
     public var connectorArn: Swift.String?
+    /// A map of keys to values that represent the configuration for the connector.
+    public var connectorConfiguration: [Swift.String: Swift.String]?
     /// The current version of the connector that you want to update.
     /// This member is required.
     public var currentVersion: Swift.String?
@@ -2204,25 +2532,36 @@ public struct UpdateConnectorInput: Swift.Sendable {
     public init(
         capacity: KafkaConnectClientTypes.CapacityUpdate? = nil,
         connectorArn: Swift.String? = nil,
+        connectorConfiguration: [Swift.String: Swift.String]? = nil,
         currentVersion: Swift.String? = nil
     ) {
         self.capacity = capacity
         self.connectorArn = connectorArn
+        self.connectorConfiguration = connectorConfiguration
         self.currentVersion = currentVersion
     }
+}
+
+extension UpdateConnectorInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateConnectorInput(capacity: \(Swift.String(describing: capacity)), connectorArn: \(Swift.String(describing: connectorArn)), currentVersion: \(Swift.String(describing: currentVersion)), connectorConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateConnectorOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the connector.
     public var connectorArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the connector operation.
+    public var connectorOperationArn: Swift.String?
     /// The state of the connector.
     public var connectorState: KafkaConnectClientTypes.ConnectorState?
 
     public init(
         connectorArn: Swift.String? = nil,
+        connectorOperationArn: Swift.String? = nil,
         connectorState: KafkaConnectClientTypes.ConnectorState? = nil
     ) {
         self.connectorArn = connectorArn
+        self.connectorOperationArn = connectorOperationArn
         self.connectorState = connectorState
     }
 }
@@ -2300,6 +2639,16 @@ extension DescribeConnectorInput {
     }
 }
 
+extension DescribeConnectorOperationInput {
+
+    static func urlPathProvider(_ value: DescribeConnectorOperationInput) -> Swift.String? {
+        guard let connectorOperationArn = value.connectorOperationArn else {
+            return nil
+        }
+        return "/v1/connectorOperations/\(connectorOperationArn.urlPercentEncoding())"
+    }
+}
+
 extension DescribeCustomPluginInput {
 
     static func urlPathProvider(_ value: DescribeCustomPluginInput) -> Swift.String? {
@@ -2320,6 +2669,32 @@ extension DescribeWorkerConfigurationInput {
     }
 }
 
+extension ListConnectorOperationsInput {
+
+    static func urlPathProvider(_ value: ListConnectorOperationsInput) -> Swift.String? {
+        guard let connectorArn = value.connectorArn else {
+            return nil
+        }
+        return "/v1/connectors/\(connectorArn.urlPercentEncoding())/operations"
+    }
+}
+
+extension ListConnectorOperationsInput {
+
+    static func queryItemProvider(_ value: ListConnectorOperationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListConnectorsInput {
 
     static func urlPathProvider(_ value: ListConnectorsInput) -> Swift.String? {
@@ -2331,8 +2706,8 @@ extension ListConnectorsInput {
 
     static func queryItemProvider(_ value: ListConnectorsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        if value.maxResults != 0 {
-            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
@@ -2358,8 +2733,8 @@ extension ListCustomPluginsInput {
 
     static func queryItemProvider(_ value: ListCustomPluginsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        if value.maxResults != 0 {
-            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
@@ -2395,8 +2770,8 @@ extension ListWorkerConfigurationsInput {
 
     static func queryItemProvider(_ value: ListWorkerConfigurationsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        if value.maxResults != 0 {
-            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
@@ -2527,6 +2902,7 @@ extension UpdateConnectorInput {
     static func write(value: UpdateConnectorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["capacity"].write(value.capacity, with: KafkaConnectClientTypes.CapacityUpdate.write(value:to:))
+        try writer["connectorConfiguration"].writeMap(value.connectorConfiguration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -2642,6 +3018,29 @@ extension DescribeConnectorOutput {
     }
 }
 
+extension DescribeConnectorOperationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeConnectorOperationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeConnectorOperationOutput()
+        value.connectorArn = try reader["connectorArn"].readIfPresent()
+        value.connectorOperationArn = try reader["connectorOperationArn"].readIfPresent()
+        value.connectorOperationState = try reader["connectorOperationState"].readIfPresent()
+        value.connectorOperationType = try reader["connectorOperationType"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errorInfo = try reader["errorInfo"].readIfPresent(with: KafkaConnectClientTypes.StateDescription.read(from:))
+        value.operationSteps = try reader["operationSteps"].readListIfPresent(memberReadingClosure: KafkaConnectClientTypes.ConnectorOperationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.originConnectorConfiguration = try reader["originConnectorConfiguration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.originWorkerSetting = try reader["originWorkerSetting"].readIfPresent(with: KafkaConnectClientTypes.WorkerSetting.read(from:))
+        value.targetConnectorConfiguration = try reader["targetConnectorConfiguration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.targetWorkerSetting = try reader["targetWorkerSetting"].readIfPresent(with: KafkaConnectClientTypes.WorkerSetting.read(from:))
+        return value
+    }
+}
+
 extension DescribeCustomPluginOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCustomPluginOutput {
@@ -2673,6 +3072,19 @@ extension DescribeWorkerConfigurationOutput {
         value.name = try reader["name"].readIfPresent()
         value.workerConfigurationArn = try reader["workerConfigurationArn"].readIfPresent()
         value.workerConfigurationState = try reader["workerConfigurationState"].readIfPresent()
+        return value
+    }
+}
+
+extension ListConnectorOperationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectorOperationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectorOperationsOutput()
+        value.connectorOperations = try reader["connectorOperations"].readListIfPresent(memberReadingClosure: KafkaConnectClientTypes.ConnectorOperationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -2750,6 +3162,7 @@ extension UpdateConnectorOutput {
         let reader = responseReader
         var value = UpdateConnectorOutput()
         value.connectorArn = try reader["connectorArn"].readIfPresent()
+        value.connectorOperationArn = try reader["connectorOperationArn"].readIfPresent()
         value.connectorState = try reader["connectorState"].readIfPresent()
         return value
     }
@@ -2898,6 +3311,26 @@ enum DescribeConnectorOutputError {
     }
 }
 
+enum DescribeConnectorOperationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeCustomPluginOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2919,6 +3352,26 @@ enum DescribeCustomPluginOutputError {
 }
 
 enum DescribeWorkerConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConnectorOperationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3402,6 +3855,27 @@ extension KafkaConnectClientTypes.StateDescription {
     }
 }
 
+extension KafkaConnectClientTypes.ConnectorOperationStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaConnectClientTypes.ConnectorOperationStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaConnectClientTypes.ConnectorOperationStep()
+        value.stepType = try reader["stepType"].readIfPresent()
+        value.stepState = try reader["stepState"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaConnectClientTypes.WorkerSetting {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaConnectClientTypes.WorkerSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaConnectClientTypes.WorkerSetting()
+        value.capacity = try reader["capacity"].readIfPresent(with: KafkaConnectClientTypes.CapacityDescription.read(from:))
+        return value
+    }
+}
+
 extension KafkaConnectClientTypes.CustomPluginRevisionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaConnectClientTypes.CustomPluginRevisionSummary {
@@ -3459,6 +3933,20 @@ extension KafkaConnectClientTypes.WorkerConfigurationRevisionDescription {
         value.description = try reader["description"].readIfPresent()
         value.propertiesFileContent = try reader["propertiesFileContent"].readIfPresent()
         value.revision = try reader["revision"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension KafkaConnectClientTypes.ConnectorOperationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaConnectClientTypes.ConnectorOperationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaConnectClientTypes.ConnectorOperationSummary()
+        value.connectorOperationArn = try reader["connectorOperationArn"].readIfPresent()
+        value.connectorOperationType = try reader["connectorOperationType"].readIfPresent()
+        value.connectorOperationState = try reader["connectorOperationState"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
