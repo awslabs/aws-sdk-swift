@@ -25,11 +25,11 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
     let validationMode: String
     let priorityList: [String]
 
-    public init(validationMode: String, priorityList: [String] = []) {
+    public init(validationMode: String, algosSupportedByOperation: [String] = []) {
         self.validationMode = validationMode
-        self.priorityList = !priorityList.isEmpty
-            ? withPriority(checksums: priorityList)
-            : CHECKSUM_HEADER_VALIDATION_PRIORITY_LIST
+        self.priorityList = algosSupportedByOperation.isEmpty
+            ? CHECKSUM_HEADER_VALIDATION_PRIORITY_LIST
+            : withPriority(checksums: algosSupportedByOperation)
     }
 
     private func validateChecksum(response: HTTPResponse, logger: any LogAgent, attributes: Context) async throws {

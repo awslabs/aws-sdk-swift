@@ -163,10 +163,10 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         builder.interceptors.add(FlexibleChecksumsRequestMiddleware<MockInput, MockOutput>(requestChecksumRequired: requestChecksumRequired, checksumAlgorithm: checksumAlgorithm, checksumAlgoHeaderName: "x-amz-checksum-algorithm"))
     }
 
-    private func addFlexibleChecksumsResponseMiddleware(_ validationMode: String, _ priorityList: [String] = []) {
+    private func addFlexibleChecksumsResponseMiddleware(_ validationMode: String, _ algosSupportedByOperation: [String] = []) {
         builder.interceptors.add(FlexibleChecksumsResponseMiddleware<MockInput, MockOutput>(
                 validationMode: validationMode,
-                priorityList: priorityList
+                algosSupportedByOperation: algosSupportedByOperation
         ))
     }
 

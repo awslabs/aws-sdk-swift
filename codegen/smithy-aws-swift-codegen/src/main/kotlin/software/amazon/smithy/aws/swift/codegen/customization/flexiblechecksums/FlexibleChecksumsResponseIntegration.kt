@@ -51,13 +51,23 @@ private object FlexibleChecksumResponseMiddleware : MiddlewareRenderable {
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val validationModeMemberName = httpChecksumTrait?.requestValidationModeMember?.get()?.lowercaseFirstLetter()
+        val checksumAlgosSupportedByResponse = httpChecksumTrait?.responseAlgorithms?.let {
+            if (it.isEmpty()) { "" } else {
+                ", algosSupportedByOperation: " + it.joinToString(
+                    prefix = "[\"",
+                    postfix = "\"]",
+                    separator = "\", \""
+                )
+            }
+        } ?: ""
 
         writer.write(
-            "\$N<\$L, \$L>(validationMode: input.\$L?.rawValue ?? \"unset\")",
+            "\$N<\$L, \$L>(validationMode: input.\$L?.rawValue ?? \"unset\"\$L)",
             AWSClientRuntimeTypes.Core.FlexibleChecksumsResponseMiddleware,
             inputShapeName,
             outputShapeName,
             validationModeMemberName,
+            checksumAlgosSupportedByResponse
         )
     }
 }
