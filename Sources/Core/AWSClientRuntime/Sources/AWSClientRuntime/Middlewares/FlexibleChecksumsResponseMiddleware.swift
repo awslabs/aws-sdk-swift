@@ -41,11 +41,11 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
 
         let checksumHeaderIsPresent = priorityList.first {
             response.headers.value(for: "x-amz-checksum-\($0)") != nil  &&
-            // When retrieving an object uploaded usingn mutipart upload (MPU) and flexible checksum,
+            // When retrieving an object uploaded using mutipart upload (MPU) and flexible checksum,
             //   S3 may return the checksum for the whole object (full object checksum)
             //   or the checksum of checksums (composite checksum).
             // Composite checksums end in "-#" where # is an integer between 1 and 10000, indicating number of parts the object
-            //   was original uploaded in.
+            //   was originally uploaded in.
             // The composite checksum should be ignored.
             !isCompositeChecksum(response.headers.value(for: "x-amz-checksum-\($0)")!)
         }

@@ -43,7 +43,7 @@ class FlexibleChecksumsRequestIntegration : SwiftIntegration {
          */
         val useFlexibleChecksum = httpChecksumTrait != null && (
             (
-                (httpChecksumTrait.requestAlgorithmMember?.orElse(null) != null) &&
+                (httpChecksumTrait.requestAlgorithmMember?.isPresent ?: false) &&
                     (input?.memberNames?.any { it == httpChecksumTrait.requestAlgorithmMember.get() } == true)
                 ) || (httpChecksumTrait.isRequestChecksumRequired)
             )

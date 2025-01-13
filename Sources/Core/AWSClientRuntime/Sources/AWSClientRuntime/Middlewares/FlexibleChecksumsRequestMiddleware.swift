@@ -68,7 +68,8 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         }
 
         var checksumHashFunction: ChecksumAlgorithm
-        if let checksumAlgorithm { // If checksum algorithm to use was configured via checksum algorithm input member by the user
+        if let checksumAlgorithm {
+            // If checksum algorithm to use was configured via checksum algorithm input member by the user
             if let hashFunction = ChecksumAlgorithm.from(string: checksumAlgorithm) {
                 // If user chose a supported algorithm, continue
                 checksumHashFunction = hashFunction
@@ -117,10 +118,12 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 // If not eligible for chunked streaming, calculate and add checksum to request header now instead of as a trailing header.
                 let streamBytes: Data?
                 if stream.isSeekable {
-                    let currentPosition = stream.position // Need to save current position to reset stream position after reading
+                    // Need to save current position to reset stream position after reading
+                    let currentPosition = stream.position
                     try stream.seek(toOffset: 0) // Explicit seek to beginning for correct behavior of FileHandle
                     streamBytes = try stream.readToEnd()
-                    try stream.seek(toOffset: currentPosition) // Reset stream position to where it was before reading it for checksum calculation
+                    // Reset stream position to where it was before reading it for checksum calculation
+                    try stream.seek(toOffset: currentPosition)
                 } else {
                     streamBytes = try await stream.readToEndAsync()
                     builder.withBody(.data(streamBytes)) // Reset request body with streamBytes to "refill" it
@@ -128,7 +131,8 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 try await calculateAndAddChecksumHeader(data: streamBytes)
             }
         case .noStream:
-            break // Unreachable block, but it's here for exhaustive switch case
+            // Unreachable block since we return early if .noStream, but it's here for exhaustive switch case
+            break
         }
 
         func calculateAndAddChecksumHeader(data: Data?) async throws {
