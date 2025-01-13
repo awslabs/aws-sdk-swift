@@ -496,9 +496,10 @@ private func productForService(_ service: String) -> Product {
 // MARK: Dependencies
 
 private var clientRuntimeDependency: Package.Dependency {
-    let path = "../smithy-swift"
+    let path = "./smithy-swift"
     let gitURL = "https://github.com/smithy-lang/smithy-swift"
-    let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
+    // let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
+    let useLocalDeps = true
     return useLocalDeps ? .package(path: path) : .package(url: gitURL, exact: clientRuntimeVersion)
 }
 
