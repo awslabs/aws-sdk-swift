@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SsmSapClient: ClientRuntime.Client {
     public static let clientName = "SsmSapClient"
-    public static let version = "1.0.76"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: SsmSapClient.SsmSapClientConfiguration
     let serviceName = "Ssm Sap"

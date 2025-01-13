@@ -986,6 +986,27 @@ extension TranscribeClientTypes {
 
 extension TranscribeClientTypes {
 
+    /// Adds metadata, in the form of a key:value pair, to the specified resource. For example, you could add the tag Department:Sales to a resource to indicate that it pertains to your organization's sales department. You can also use tags for tag-based access control. To learn more about tagging, see [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+    public struct Tag: Swift.Sendable {
+        /// The first part of a key:value pair that forms a tag associated with a given resource. For example, in the tag Department:Sales, the key is 'Department'.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The second part of a key:value pair that forms a tag associated with a given resource. For example, in the tag Department:Sales, the value is 'Sales'. Note that you can set the value of a tag to an empty string, but you can't set the value of a tag to null. Omitting the tag value is the same as using an empty string.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
     /// Provides you with the Amazon S3 URI you can use to access your transcript.
     public struct Transcript: Swift.Sendable {
         /// The Amazon S3 location of your redacted transcript. You can use this URI to access or download your transcript. If you included OutputBucketName in your transcription job request, this is the URI of that bucket. If you also included OutputKey in your request, your output is located in the path you specified in your request. If you didn't include OutputBucketName in your transcription job request, your transcript is stored in a service-managed bucket, and RedactedTranscriptFileUri provides you with a temporary URI you can use for secure access to your transcript. Temporary URIs for service-managed Amazon S3 buckets are only valid for 15 minutes. If you get an AccesDenied error, you can get a new temporary URI by running a GetTranscriptionJob or ListTranscriptionJob request.
@@ -1049,6 +1070,8 @@ extension TranscribeClientTypes {
         public var settings: TranscribeClientTypes.CallAnalyticsJobSettings?
         /// The date and time the specified Call Analytics job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public var startTime: Foundation.Date?
+        /// The tags, each in the form of a key:value pair, assigned to the specified call analytics job.
+        public var tags: [TranscribeClientTypes.Tag]?
         /// Provides you with the Amazon S3 URI you can use to access your transcript.
         public var transcript: TranscribeClientTypes.Transcript?
 
@@ -1068,6 +1091,7 @@ extension TranscribeClientTypes {
             mediaSampleRateHertz: Swift.Int? = nil,
             settings: TranscribeClientTypes.CallAnalyticsJobSettings? = nil,
             startTime: Foundation.Date? = nil,
+            tags: [TranscribeClientTypes.Tag]? = nil,
             transcript: TranscribeClientTypes.Transcript? = nil
         ) {
             self.callAnalyticsJobDetails = callAnalyticsJobDetails
@@ -1085,6 +1109,7 @@ extension TranscribeClientTypes {
             self.mediaSampleRateHertz = mediaSampleRateHertz
             self.settings = settings
             self.startTime = startTime
+            self.tags = tags
             self.transcript = transcript
         }
     }
@@ -1445,19 +1470,23 @@ extension TranscribeClientTypes {
         public var lastUpdateTime: Foundation.Date?
         /// The rules used to define a Call Analytics category. Each category can have between 1 and 20 rules.
         public var rules: [TranscribeClientTypes.Rule]?
+        /// The tags, each in the form of a key:value pair, assigned to the specified call analytics category.
+        public var tags: [TranscribeClientTypes.Tag]?
 
         public init(
             categoryName: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             inputType: TranscribeClientTypes.InputType? = nil,
             lastUpdateTime: Foundation.Date? = nil,
-            rules: [TranscribeClientTypes.Rule]? = nil
+            rules: [TranscribeClientTypes.Rule]? = nil,
+            tags: [TranscribeClientTypes.Tag]? = nil
         ) {
             self.categoryName = categoryName
             self.createTime = createTime
             self.inputType = inputType
             self.lastUpdateTime = lastUpdateTime
             self.rules = rules
+            self.tags = tags
         }
     }
 }
@@ -1584,15 +1613,19 @@ public struct CreateCallAnalyticsCategoryInput: Swift.Sendable {
     /// Rules define a Call Analytics category. When creating a new category, you must create between 1 and 20 rules for that category. For each rule, you specify a filter you want applied to the attributes of a call. For example, you can choose a sentiment filter that detects if a customer's sentiment was positive during the last 30 seconds of the call.
     /// This member is required.
     public var rules: [TranscribeClientTypes.Rule]?
+    /// Adds one or more custom tags, each in the form of a key:value pair, to a new call analytics category at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+    public var tags: [TranscribeClientTypes.Tag]?
 
     public init(
         categoryName: Swift.String? = nil,
         inputType: TranscribeClientTypes.InputType? = nil,
-        rules: [TranscribeClientTypes.Rule]? = nil
+        rules: [TranscribeClientTypes.Rule]? = nil,
+        tags: [TranscribeClientTypes.Tag]? = nil
     ) {
         self.categoryName = categoryName
         self.inputType = inputType
         self.rules = rules
+        self.tags = tags
     }
 }
 
@@ -1628,27 +1661,6 @@ extension TranscribeClientTypes {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.s3Uri = s3Uri
             self.tuningDataS3Uri = tuningDataS3Uri
-        }
-    }
-}
-
-extension TranscribeClientTypes {
-
-    /// Adds metadata, in the form of a key:value pair, to the specified resource. For example, you could add the tag Department:Sales to a resource to indicate that it pertains to your organization's sales department. You can also use tags for tag-based access control. To learn more about tagging, see [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
-    public struct Tag: Swift.Sendable {
-        /// The first part of a key:value pair that forms a tag associated with a given resource. For example, in the tag Department:Sales, the key is 'Department'.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The second part of a key:value pair that forms a tag associated with a given resource. For example, in the tag Department:Sales, the value is 'Sales'. Note that you can set the value of a tag to an empty string, but you can't set the value of a tag to null. Omitting the tag value is the same as using an empty string.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
         }
     }
 }
@@ -3864,6 +3876,8 @@ public struct StartCallAnalyticsJobInput: Swift.Sendable {
     public var outputLocation: Swift.String?
     /// Specify additional optional settings in your request, including content redaction; allows you to apply custom language models, vocabulary filters, and custom vocabularies to your Call Analytics job.
     public var settings: TranscribeClientTypes.CallAnalyticsJobSettings?
+    /// Adds one or more custom tags, each in the form of a key:value pair, to a new call analytics job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+    public var tags: [TranscribeClientTypes.Tag]?
 
     public init(
         callAnalyticsJobName: Swift.String? = nil,
@@ -3872,7 +3886,8 @@ public struct StartCallAnalyticsJobInput: Swift.Sendable {
         media: TranscribeClientTypes.Media? = nil,
         outputEncryptionKMSKeyId: Swift.String? = nil,
         outputLocation: Swift.String? = nil,
-        settings: TranscribeClientTypes.CallAnalyticsJobSettings? = nil
+        settings: TranscribeClientTypes.CallAnalyticsJobSettings? = nil,
+        tags: [TranscribeClientTypes.Tag]? = nil
     ) {
         self.callAnalyticsJobName = callAnalyticsJobName
         self.channelDefinitions = channelDefinitions
@@ -3881,6 +3896,7 @@ public struct StartCallAnalyticsJobInput: Swift.Sendable {
         self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
         self.outputLocation = outputLocation
         self.settings = settings
+        self.tags = tags
     }
 }
 
@@ -4815,6 +4831,7 @@ extension CreateCallAnalyticsCategoryInput {
         guard let value else { return }
         try writer["InputType"].write(value.inputType)
         try writer["Rules"].writeList(value.rules, memberWritingClosure: TranscribeClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -5097,6 +5114,7 @@ extension StartCallAnalyticsJobInput {
         try writer["OutputEncryptionKMSKeyId"].write(value.outputEncryptionKMSKeyId)
         try writer["OutputLocation"].write(value.outputLocation)
         try writer["Settings"].write(value.settings, with: TranscribeClientTypes.CallAnalyticsJobSettings.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6524,7 +6542,25 @@ extension TranscribeClientTypes.CategoryProperties {
         value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputType = try reader["InputType"].readIfPresent()
+        return value
+    }
+}
+
+extension TranscribeClientTypes.Tag {
+
+    static func write(value: TranscribeClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6757,6 +6793,7 @@ extension TranscribeClientTypes.CallAnalyticsJob {
         value.identifiedLanguageScore = try reader["IdentifiedLanguageScore"].readIfPresent()
         value.settings = try reader["Settings"].readIfPresent(with: TranscribeClientTypes.CallAnalyticsJobSettings.read(from:))
         value.channelDefinitions = try reader["ChannelDefinitions"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.ChannelDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6928,23 +6965,6 @@ extension TranscribeClientTypes.MedicalScribeJob {
         value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
         value.channelDefinitions = try reader["ChannelDefinitions"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.MedicalScribeChannelDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TranscribeClientTypes.Tag {
-
-    static func write(value: TranscribeClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TranscribeClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
