@@ -22,7 +22,7 @@ class BusinessMetricsTests: XCTestCase {
     var headers: Headers!
 
     override func setUp() async throws {
-        config = UserAgentValuesFromConfig(appID: nil, endpoint: nil, awsRetryMode: .standard)
+        config = UserAgentValuesFromConfig(appID: nil, endpoint: nil, awsRetryMode: .standard, requestChecksumCalculation: .whenSupported, responseChecksumValidation: .whenSupported)
         context = Context(attributes: Attributes())
         headers = Headers()
     }
@@ -33,24 +33,10 @@ class BusinessMetricsTests: XCTestCase {
         context.businessMetrics = ["SHORT_FILLER": "A"]
         let longMetricValue = String(repeating: "F", count: 1025)
         context.businessMetrics = ["LONG_FILLER": longMetricValue]
+        config = UserAgentValuesFromConfig(appID: nil, endpoint: nil, awsRetryMode: .standard, requestChecksumCalculation: .whenRequired, responseChecksumValidation: .whenRequired)
 
-        let userAgent = testUserAgent()
+        let userAgent = createTestUserAgent()
 
-=======
-        let userAgent = AWSUserAgentMetadata.fromConfigAndContext(
-            serviceID: "test",
-            version: "1.0",
-            config: UserAgentValuesFromConfig(
-                appID: nil,
-                endpoint: nil,
-                awsRetryMode: .standard,
-                requestChecksumCalculation: .whenRequired,
-                responseChecksumValidation: .whenRequired
-            ),
-            context: context,
-            headers: headers
-        )
->>>>>>> main
         // Assert values in context match with values assigned to user agent
         XCTAssertEqual(userAgent.businessMetrics?.features, context.businessMetrics)
         // Assert string gets truncated successfully
@@ -69,26 +55,10 @@ class BusinessMetricsTests: XCTestCase {
             signingProperties: nil,
             signer: nil
         ))
-<<<<<<< HEAD
 
-        config = UserAgentValuesFromConfig(appID: nil, endpoint: "test-endpoint", awsRetryMode: .adaptive)
-        let userAgent = testUserAgent()
+        config = UserAgentValuesFromConfig(appID: nil, endpoint: "test-endpoint", awsRetryMode: .adaptive, requestChecksumCalculation: .whenSupported, responseChecksumValidation: .whenSupported)
+        let userAgent = createTestUserAgent()
 
-=======
-        let userAgent = AWSUserAgentMetadata.fromConfigAndContext(
-            serviceID: "test",
-            version: "1.0",
-            config: UserAgentValuesFromConfig(
-                appID: nil,
-                endpoint: "test-endpoint",
-                awsRetryMode: .adaptive,
-                requestChecksumCalculation: .whenSupported,
-                responseChecksumValidation: .whenSupported
-            ),
-            context: context,
-            headers: headers
-        )
->>>>>>> main
         // F comes from retry mode being adaptive & N comes from endpoint override
         let expectedString = "m/A,B,F,N,S,Z,b"
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
@@ -99,20 +69,20 @@ class BusinessMetricsTests: XCTestCase {
     func test_accountIDInEndpoint_noAccountIDInEndpoint() {
         configureContext(host: "dynamodb.us-east-1.amazonaws.com", accountID: "0123456789")
 
-        let userAgent = testUserAgent()
+        let userAgent = createTestUserAgent()
 
         // E comes from retry mode & T comes from resolving account ID
-        let expectedString = "m/E,T"
+        let expectedString = "m/E,T,Z,b"
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
     }
 
     func test_accountIDInEndpoint_hasAccountIDInEndpoint() {
         configureContext(host: "0123456789.dynamodb.us-east-1.amazonaws.com", accountID: "0123456789")
 
-        let userAgent = testUserAgent()
+        let userAgent = createTestUserAgent()
 
         // E comes from retry mode, O comes from account ID in endpoint, & T comes from resolving account ID
-        let expectedString = "m/E,O,T"
+        let expectedString = "m/E,O,T,Z,b"
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
     }
 
@@ -121,36 +91,36 @@ class BusinessMetricsTests: XCTestCase {
     func test_accountIDEndpointMode_recordsPreferredCorrectly() {
         context.accountIDEndpointMode = .preferred
 
-        let userAgent = testUserAgent()
+        let userAgent = createTestUserAgent()
 
         // E comes from retry mode & P comes from preferred account ID endpoint mode
-        let expectedString = "m/E,P"
+        let expectedString = "m/E,P,Z,b"
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
     }
 
     func test_accountIDEndpointMode_recordsDisabledCorrectly() {
         context.accountIDEndpointMode = .disabled
 
-        let userAgent = testUserAgent()
+        let userAgent = createTestUserAgent()
 
         // E comes from retry mode & Q comes from disabled account ID endpoint mode
-        let expectedString = "m/E,Q"
+        let expectedString = "m/E,Q,Z,b"
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
     }
 
     func test_accountIDEndpointMode_recordsRequiredCorrectly() {
         context.accountIDEndpointMode = .required
 
-        let userAgent = testUserAgent()
+        let userAgent = createTestUserAgent()
 
         // E comes from retry mode & R comes from required account ID endpoint mode
-        let expectedString = "m/E,R"
+        let expectedString = "m/E,R,Z,b"
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
     }
 
     // MARK: - Private methods
 
-    private func testUserAgent() -> AWSUserAgentMetadata {
+    private func createTestUserAgent() -> AWSUserAgentMetadata {
         AWSUserAgentMetadata.fromConfigAndContext(
             serviceID: "test",
             version: "1.0",

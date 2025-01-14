@@ -51,15 +51,10 @@ let projection2: [Swift.String]? = objects2?.compactMap { original in
     let id = original.id
     return id
 }
-<<<<<<< HEAD
 let endpointParamsBlock = { [config] (context: Smithy.Context) in
-    EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.boolFoo, endpoint: config.endpoint, flattenedArray: projection, keysFunctionArray: keys, region: region, stringArrayBar: ["five", "six", "seven"], stringBar: "some value", stringBaz: input.buzz, stringFoo: config.stringFoo, subfield: subfield2, wildcardProjectionArray: projection2)
+    EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.boolFoo, endpoint: configuredEndpoint, flattenedArray: projection, keysFunctionArray: keys, region: region, stringArrayBar: ["five", "six", "seven"], stringBar: "some value", stringBaz: input.buzz, stringFoo: config.stringFoo, subfield: subfield2, wildcardProjectionArray: projection2)
 }
 builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetThingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
-=======
-let endpointParams = EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.boolFoo, endpoint: configuredEndpoint, flattenedArray: projection, keysFunctionArray: keys, region: region, stringArrayBar: ["five", "six", "seven"], stringBar: "some value", stringBaz: input.buzz, stringFoo: config.stringFoo, subfield: subfield2, wildcardProjectionArray: projection2)
-builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetThingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
->>>>>>> main
 """
         contents.shouldContainOnlyOnce(expected)
     }

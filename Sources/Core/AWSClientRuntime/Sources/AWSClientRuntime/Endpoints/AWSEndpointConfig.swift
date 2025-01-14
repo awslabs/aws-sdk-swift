@@ -28,7 +28,6 @@ public enum AWSEndpointConfig {
         ).value ?? .preferred
     }
 
-public enum AWSEndpointConfig {
     static func configuredEndpoint(
         sdkID: String,
         ignoreConfiguredEndpointURLs: Bool?,

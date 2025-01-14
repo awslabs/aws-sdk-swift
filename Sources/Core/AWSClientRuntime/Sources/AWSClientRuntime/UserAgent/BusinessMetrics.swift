@@ -97,7 +97,6 @@ private func setFlagsIntoContext(
         }
     }
 
-    // Handle S
     if context.selectedAuthScheme?.schemeID == "aws.auth#sigv4a" {
         context.businessMetrics = ["SIGV4A_SIGNING": "S"]
     }
@@ -107,12 +106,6 @@ private func setFlagsIntoContext(
         context.businessMetrics = ["RESOLVED_ACCOUNT_ID": "T"]
     }
 
-    if let endpoint = config.endpoint, !endpoint.isEmpty {
-        context.businessMetrics = ["ENDPOINT_OVERRIDE": "N"]
-    }
-    if context.selectedAuthScheme?.schemeID == "aws.auth#sigv4a" {
-        context.businessMetrics = ["SIGV4A_SIGNING": "S"]
-    }
     switch context.checksum {
     case .crc32:
         context.businessMetrics = ["FLEXIBLE_CHECKSUMS_REQ_CRC32": "U"]
