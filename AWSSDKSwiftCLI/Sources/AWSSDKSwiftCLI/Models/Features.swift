@@ -25,7 +25,7 @@ struct FeaturesReader {
 }
 
 struct Features: Decodable {
-    let features: [Feature]
+    let features: [Feature]?
 }
 
 struct Feature: Decodable {
