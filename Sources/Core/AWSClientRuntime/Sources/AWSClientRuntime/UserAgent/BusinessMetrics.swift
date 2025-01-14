@@ -61,35 +61,11 @@ public extension Context {
 
 public let businessMetricsKey = AttributeKey<Dictionary<String, String>>(name: "BusinessMetrics")
 
-/* List of readable "feature ID" to "metric value"; last updated on 08/19/2024
-    [Feature ID]                [Metric Value]  [Flag Supported]
-    "RESOURCE_MODEL"            : "A"           :
-    "WAITER"                    : "B"           :
-    "PAGINATOR"                 : "C"           :
-    "RETRY_MODE_LEGACY"         : "D"           : Y
-    "RETRY_MODE_STANDARD"       : "E"           : Y
-    "RETRY_MODE_ADAPTIVE"       : "F"           : Y
-    "S3_TRANSFER"               : "G"           :
-    "S3_CRYPTO_V1N"             : "H"           :
-    "S3_CRYPTO_V2"              : "I"           :
-    "S3_EXPRESS_BUCKET"         : "J"           :
-    "S3_ACCESS_GRANTS"          : "K"           :
-    "GZIP_REQUEST_COMPRESSION"  : "L"           :
-    "PROTOCOL_RPC_V2_CBOR"      : "M"           : Y
-    "ENDPOINT_OVERRIDE"         : "N"           : Y
-    "ACCOUNT_ID_ENDPOINT"       : "O"           :
-    "ACCOUNT_ID_MODE_PREFERRED" : "P"           :
-    "ACCOUNT_ID_MODE_DISABLED"  : "Q"           :
-    "ACCOUNT_ID_MODE_REQUIRED"  : "R"           :
-    "SIGV4A_SIGNING"            : "S"           : Y
-    "RESOLVED_ACCOUNT_ID"       : "T"           :
- */
 private func setFlagsIntoContext(
     config: UserAgentValuesFromConfig,
     context: Context,
     headers: Headers
 ) {
-    // Handle D, E, F
     switch config.awsRetryMode {
     case .legacy:
         context.businessMetrics = ["RETRY_MODE_LEGACY": "D"]
@@ -98,13 +74,35 @@ private func setFlagsIntoContext(
     case .adaptive:
         context.businessMetrics = ["RETRY_MODE_ADAPTIVE": "F"]
     }
-    // Handle N
     if let endpoint = config.endpoint, !endpoint.isEmpty {
         context.businessMetrics = ["ENDPOINT_OVERRIDE": "N"]
     }
-    // Handle S
     if context.selectedAuthScheme?.schemeID == "aws.auth#sigv4a" {
         context.businessMetrics = ["SIGV4A_SIGNING": "S"]
+    }
+    switch context.checksum {
+    case .crc32:
+        context.businessMetrics = ["FLEXIBLE_CHECKSUMS_REQ_CRC32": "U"]
+    case .crc32c:
+        context.businessMetrics = ["FLEXIBLE_CHECKSUMS_REQ_CRC32C": "V"]
+    case .crc64nvme:
+        context.businessMetrics = ["FLEXIBLE_CHECKSUMS_REQ_CRC64": "W"]
+    case .sha1:
+        context.businessMetrics = ["FLEXIBLE_CHECKSUMS_REQ_SHA1": "X"]
+    case .sha256:
+        context.businessMetrics = ["FLEXIBLE_CHECKSUMS_REQ_SHA256": "Y"]
+    default:
+        break
+    }
+    if config.requestChecksumCalculation == .whenSupported {
+        context.businessMetrics = ["FLEXIBLE_CHECKSUMS_REQ_WHEN_SUPPORTED": "Z"]
+    } else {
+        context.businessMetrics = ["FLEXIBLE_CHECKSUMS_REQ_WHEN_REQUIRED": "a"]
+    }
+    if config.responseChecksumValidation == .whenSupported {
+        context.businessMetrics = ["FLEXIBLE_CHECKSUMS_RES_WHEN_SUPPORTED": "b"]
+    } else {
+        context.businessMetrics = ["FLEXIBLE_CHECKSUMS_RES_WHEN_REQUIRED": "c"]
     }
     // Handle M
     if headers.value(for: "smithy-protocol") == "rpc-v2-cbor" {
