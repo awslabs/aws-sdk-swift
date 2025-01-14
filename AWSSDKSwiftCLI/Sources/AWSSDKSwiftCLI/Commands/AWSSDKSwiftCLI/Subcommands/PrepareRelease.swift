@@ -81,12 +81,13 @@ struct PrepareRelease {
         try FileManager.default.changeWorkingDirectory(repoPath)
         
         let previousVersion = try getPreviousVersion()
-        guard try repoHasChanges(previousVersion) && FeaturesReader.buildRequestAndMappingExist() else {
+        guard try repoHasChanges(previousVersion) else {
             /// If repo has no changes, create an empty release-manifest.json file.
             /// Empty manifest file makes GitHubReleasePublisher be no-op.
             /// The manifest file is required regardless of whether there should
             /// be a release or not.
-            log("Repo has no changes, writing empty manifest and exiting.")
+            log("Repo has no changes to publish.")
+            log("Writing empty manifest and exiting.")
             try createEmptyReleaseManifest()
             /// Return without creating new commit or tag in local repos.
             /// This makes GitPublisher be no-op.
@@ -95,7 +96,8 @@ struct PrepareRelease {
         guard FeaturesReader.buildRequestAndMappingExist() else {
             /// If the build request or mapping input files
             /// don't exist, create an empty release-manifest.json file.
-            log("build-request.json and/or feature-service-id.json don't exist, writing empty manifest and exiting.")
+            log("build-request.json and/or feature-service-id.json don't exist.")
+            log("Writing empty manifest and exiting.")
             try createEmptyReleaseManifest()
             /// Return without creating new commit or tag in local repos.
             /// This makes GitPublisher be no-op.
