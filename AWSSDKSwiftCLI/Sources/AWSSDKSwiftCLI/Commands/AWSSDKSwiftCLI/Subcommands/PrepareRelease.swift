@@ -81,8 +81,9 @@ struct PrepareRelease {
         try FileManager.default.changeWorkingDirectory(repoPath)
         
         let previousVersion = try getPreviousVersion()
-        guard try repoHasChanges(previousVersion) else {
-            /// If repo has no changes, create an empty release-manifest.json file.
+        guard try repoHasChanges(previousVersion) && FeaturesReader.buildRequestAndMappingExist() else {
+            /// If repo has no changes or if the build request or mapping input files
+            /// don't exist, create an empty release-manifest.json file.
             /// Empty manifest file makes GitHubReleasePublisher be no-op.
             /// The manifest file is required regardless of whether there should
             /// be a release or not.
