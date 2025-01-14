@@ -71,7 +71,7 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         // Handle certain CRT errors as transient errors
         if case CommonRunTimeError.crtError(let crtError) = error {
             if transientCRTErrorCodes.contains(crtError.code) {
-                logger.debug("RETRYING CRT ERROR CODE: \(crtError.code)")
+                logger.info("RETRYING CRT ERROR CODE: \(crtError.code)")
                 return RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout)
             }
         }
