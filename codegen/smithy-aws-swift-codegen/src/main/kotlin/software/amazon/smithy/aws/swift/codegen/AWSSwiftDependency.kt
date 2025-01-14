@@ -8,6 +8,15 @@ import software.amazon.smithy.swift.codegen.SwiftDependency
 class AWSSwiftDependency {
 
     companion object {
+        val AWS_SDK_CHECKSUMS = SwiftDependency(
+            "AWSSDKChecksums",
+            "main",
+            "0.0.1",
+            "aws-sdk-swift",
+            "../../../aws-sdk-swift",
+            "AWSSDKChecksums",
+            SwiftDependency.DistributionMethod.SPR,
+        )
         val AWS_SDK_IDENTITY = SwiftDependency(
             "AWSSDKIdentity",
             "main",

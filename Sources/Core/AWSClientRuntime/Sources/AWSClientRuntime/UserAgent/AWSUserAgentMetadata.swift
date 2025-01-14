@@ -7,6 +7,7 @@
 
 import ClientRuntime
 import class Smithy.Context
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import struct SmithyHTTPAPI.Headers
 
 public struct AWSUserAgentMetadata {
@@ -105,16 +106,28 @@ public class UserAgentValuesFromConfig {
     var appID: String?
     var endpoint: String?
     var awsRetryMode: AWSRetryMode
+    var requestChecksumCalculation: AWSChecksumCalculationMode
+    var responseChecksumValidation: AWSChecksumCalculationMode
 
-    public init(appID: String?, endpoint: String?, awsRetryMode: AWSRetryMode) {
+    public init(
+        appID: String?,
+        endpoint: String?,
+        awsRetryMode: AWSRetryMode,
+        requestChecksumCalculation: AWSChecksumCalculationMode,
+        responseChecksumValidation: AWSChecksumCalculationMode
+    ) {
         self.endpoint = endpoint
         self.awsRetryMode = awsRetryMode
         self.appID = appID
+        self.requestChecksumCalculation = requestChecksumCalculation
+        self.responseChecksumValidation = responseChecksumValidation
     }
 
     public init(config: DefaultClientConfiguration & AWSDefaultClientConfiguration) {
         self.appID = config.appID
         self.endpoint = config.endpoint
         self.awsRetryMode = config.awsRetryMode
+        self.requestChecksumCalculation = config.requestChecksumCalculation
+        self.responseChecksumValidation = config.responseChecksumValidation
     }
 }
