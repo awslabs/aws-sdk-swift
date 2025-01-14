@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FirehoseClient: ClientRuntime.Client {
     public static let clientName = "FirehoseClient"
-    public static let version = "1.0.78"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: FirehoseClient.FirehoseClientConfiguration
     let serviceName = "Firehose"

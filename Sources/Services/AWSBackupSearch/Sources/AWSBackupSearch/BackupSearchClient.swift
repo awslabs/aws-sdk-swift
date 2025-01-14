@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BackupSearchClient: ClientRuntime.Client {
     public static let clientName = "BackupSearchClient"
-    public static let version = "1.0.78"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: BackupSearchClient.BackupSearchClientConfiguration
     let serviceName = "BackupSearch"
