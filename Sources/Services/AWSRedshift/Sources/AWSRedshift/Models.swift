@@ -3014,7 +3014,7 @@ extension RedshiftClientTypes {
         public var pendingModifiedValues: RedshiftClientTypes.PendingModifiedValues?
         /// The weekly time range, in Universal Coordinated Time (UTC), during which system maintenance can occur.
         public var preferredMaintenanceWindow: Swift.String?
-        /// A boolean value that, if true, indicates that the cluster can be accessed from a public network.
+        /// A boolean value that, if true, indicates that the cluster can be accessed from a public network. Default: false
         public var publiclyAccessible: Swift.Bool?
         /// The status of the reserved-node exchange request. Statuses include in-progress and requested.
         public var reservedNodeExchangeStatus: RedshiftClientTypes.ReservedNodeExchangeStatus?
@@ -4310,7 +4310,7 @@ public struct CreateClusterInput: Swift.Sendable {
     public var defaultIamRoleArn: Swift.String?
     /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. Don't specify the Elastic IP address for a publicly accessible cluster with availability zone relocation turned on. For more information about provisioning clusters in EC2-VPC, go to [Supported Platforms to Launch Your Cluster](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#cluster-platforms) in the Amazon Redshift Cluster Management Guide.
     public var elasticIp: Swift.String?
-    /// If true, the data in the cluster is encrypted at rest. Default: false
+    /// If true, the data in the cluster is encrypted at rest. If you set the value on this parameter to false, the request will fail. Default: true
     public var encrypted: Swift.Bool?
     /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see [Enhanced VPC Routing](https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html) in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled. Default: false
     public var enhancedVpcRouting: Swift.Bool?
@@ -4374,7 +4374,7 @@ public struct CreateClusterInput: Swift.Sendable {
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. For more information about the time blocks for each region, see [Maintenance Windows](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows) in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
-    /// If true, the cluster can be accessed from a public network.
+    /// If true, the cluster can be accessed from a public network. Default: false
     public var publiclyAccessible: Swift.Bool?
     /// The Amazon resource name (ARN) of the Amazon Redshift IAM Identity Center application.
     public var redshiftIdcApplicationArn: Swift.String?
@@ -12214,7 +12214,7 @@ public struct ModifyClusterInput: Swift.Sendable {
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which system maintenance can occur, if necessary. If system maintenance is necessary during the window, it may result in an outage. This maintenance window change is made immediately. If the new maintenance window indicates the current time, there must be at least 120 minutes between the current time and end of the window in order to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi, for example wed:07:30-wed:08:00. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes.
     public var preferredMaintenanceWindow: Swift.String?
-    /// If true, the cluster can be accessed from a public network. Only clusters in VPCs can be set to be publicly available.
+    /// If true, the cluster can be accessed from a public network. Only clusters in VPCs can be set to be publicly available. Default: false
     public var publiclyAccessible: Swift.Bool?
     /// A list of virtual private cloud (VPC) security groups to be associated with the cluster. This change is asynchronously applied as soon as possible.
     public var vpcSecurityGroupIds: [Swift.String]?
@@ -13459,7 +13459,7 @@ public struct RestoreFromClusterSnapshotInput: Swift.Sendable {
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each region, see [Maintenance Windows](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows) in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
-    /// If true, the cluster can be accessed from a public network.
+    /// If true, the cluster can be accessed from a public network. Default: false
     public var publiclyAccessible: Swift.Bool?
     /// The identifier of the target reserved node offering.
     public var reservedNodeId: Swift.String?

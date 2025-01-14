@@ -7,6 +7,8 @@
 
 import ClientRuntime
 import class Smithy.Context
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
+import struct SmithyHTTPAPI.Headers
 
 public struct AWSUserAgentMetadata {
     let sdkMetadata: SDKMetadata
@@ -73,7 +75,8 @@ public struct AWSUserAgentMetadata {
         serviceID: String,
         version: String,
         config: UserAgentValuesFromConfig,
-        context: Context
+        context: Context,
+        headers: Headers
     ) -> AWSUserAgentMetadata {
         let apiMetadata = APIMetadata(serviceID: serviceID, version: version)
         let sdkMetadata = SDKMetadata(version: apiMetadata.version)
@@ -82,7 +85,7 @@ public struct AWSUserAgentMetadata {
         let osVersion = PlatformOperationSystemVersion.operatingSystemVersion()
         let osMetadata = OSMetadata(family: currentOS, version: osVersion)
         let languageMetadata = LanguageMetadata(version: swiftVersion)
-        let businessMetrics = BusinessMetrics(config: config, context: context)
+        let businessMetrics = BusinessMetrics(config: config, context: context, headers: headers)
         let appIDMetadata = AppIDMetadata(name: config.appID)
         let frameworkMetadata = [FrameworkMetadata]()
         return AWSUserAgentMetadata(
@@ -103,16 +106,28 @@ public class UserAgentValuesFromConfig {
     var appID: String?
     var endpoint: String?
     var awsRetryMode: AWSRetryMode
+    var requestChecksumCalculation: AWSChecksumCalculationMode
+    var responseChecksumValidation: AWSChecksumCalculationMode
 
-    public init(appID: String?, endpoint: String?, awsRetryMode: AWSRetryMode) {
+    public init(
+        appID: String?,
+        endpoint: String?,
+        awsRetryMode: AWSRetryMode,
+        requestChecksumCalculation: AWSChecksumCalculationMode,
+        responseChecksumValidation: AWSChecksumCalculationMode
+    ) {
         self.endpoint = endpoint
         self.awsRetryMode = awsRetryMode
         self.appID = appID
+        self.requestChecksumCalculation = requestChecksumCalculation
+        self.responseChecksumValidation = responseChecksumValidation
     }
 
     public init(config: DefaultClientConfiguration & AWSDefaultClientConfiguration) {
         self.appID = config.appID
         self.endpoint = config.endpoint
         self.awsRetryMode = config.awsRetryMode
+        self.requestChecksumCalculation = config.requestChecksumCalculation
+        self.responseChecksumValidation = config.responseChecksumValidation
     }
 }

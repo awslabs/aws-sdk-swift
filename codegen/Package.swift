@@ -96,6 +96,7 @@ private var protocolTestTargets: [Target] {
         .init(name: "RPCEventStream", sourcePath: "\(baseDirLocal)/RPCEventStream", buildOnly: true),
         .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "../codegen/protocol-test-codegen-local/Tests"),
         .init(name: "StringArrayEndpointParam", sourcePath: "\(baseDirLocal)/StringArrayEndpointParam"),
+        .init(name: "RPCV2CBORTestSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor"),
         .init(name: "Performance", sourcePath: "\(baseDirLocal)/Performance", testPath: "../codegen/protocol-test-codegen-local/Tests"),
     ]
     return protocolTests.flatMap { protocolTest in

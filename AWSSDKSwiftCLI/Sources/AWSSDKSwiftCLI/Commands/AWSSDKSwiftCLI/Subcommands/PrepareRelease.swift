@@ -86,6 +86,18 @@ struct PrepareRelease {
             /// Empty manifest file makes GitHubReleasePublisher be no-op.
             /// The manifest file is required regardless of whether there should
             /// be a release or not.
+            log("Repo has no changes to publish.")
+            log("Writing empty manifest and exiting.")
+            try createEmptyReleaseManifest()
+            /// Return without creating new commit or tag in local repos.
+            /// This makes GitPublisher be no-op.
+            return
+        }
+        guard FeaturesReader.buildRequestAndMappingExist() else {
+            /// If the build request or mapping input files
+            /// don't exist, create an empty release-manifest.json file.
+            log("build-request.json and/or feature-service-id.json don't exist.")
+            log("Writing empty manifest and exiting.")
             try createEmptyReleaseManifest()
             /// Return without creating new commit or tag in local repos.
             /// This makes GitPublisher be no-op.

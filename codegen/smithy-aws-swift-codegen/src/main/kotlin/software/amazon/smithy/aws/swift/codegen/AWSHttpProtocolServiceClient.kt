@@ -130,6 +130,12 @@ class AWSHttpProtocolServiceClient(
                         "retryStrategyOptions" -> {
                             "try AWSClientConfigDefaultsProvider.retryStrategyOptions()"
                         }
+                        "requestChecksumCalculation" -> {
+                            "try AWSClientConfigDefaultsProvider.requestChecksumCalculation()"
+                        }
+                        "responseChecksumValidation" -> {
+                            "try AWSClientConfigDefaultsProvider.responseChecksumValidation()"
+                        }
                         else -> {
                             it.default?.render(writer) ?: "nil"
                         }
