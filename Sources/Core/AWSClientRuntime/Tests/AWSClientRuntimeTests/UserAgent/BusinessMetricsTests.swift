@@ -31,7 +31,13 @@ class BusinessMetricsTests: XCTestCase {
         let userAgent = AWSUserAgentMetadata.fromConfigAndContext(
             serviceID: "test",
             version: "1.0",
-            config: UserAgentValuesFromConfig(appID: nil, endpoint: nil, awsRetryMode: .standard),
+            config: UserAgentValuesFromConfig(
+                appID: nil,
+                endpoint: nil,
+                awsRetryMode: .standard,
+                requestChecksumCalculation: .whenRequired,
+                responseChecksumValidation: .whenRequired
+            ),
             context: context,
             headers: headers
         )
@@ -54,12 +60,18 @@ class BusinessMetricsTests: XCTestCase {
         let userAgent = AWSUserAgentMetadata.fromConfigAndContext(
             serviceID: "test",
             version: "1.0",
-            config: UserAgentValuesFromConfig(appID: nil, endpoint: "test-endpoint", awsRetryMode: .adaptive),
+            config: UserAgentValuesFromConfig(
+                appID: nil,
+                endpoint: "test-endpoint",
+                awsRetryMode: .adaptive,
+                requestChecksumCalculation: .whenSupported,
+                responseChecksumValidation: .whenSupported
+            ),
             context: context,
             headers: headers
         )
         // F comes from retry mode being adaptive & N comes from endpoint override
-        let expectedString = "m/A,B,F,N,S"
+        let expectedString = "m/A,B,F,N,S,Z,b"
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
     }
 }
