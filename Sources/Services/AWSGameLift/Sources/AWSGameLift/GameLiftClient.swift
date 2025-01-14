@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GameLiftClient: ClientRuntime.Client {
     public static let clientName = "GameLiftClient"
-    public static let version = "1.0.77"
+    public static let version = "1.0.78"
     let client: ClientRuntime.SdkHttpClient
     let config: GameLiftClient.GameLiftClientConfiguration
     let serviceName = "GameLift"
@@ -4780,7 +4780,7 @@ extension GameLiftClient {
 
     /// Performs the `DescribeGameSessionPlacement` operation on the `GameLift` service.
     ///
-    /// Retrieves information, including current status, about a game session placement request. To get game session placement details, specify the placement ID. This operation is not designed to be continually called to track game session status. This practice can cause you to exceed your API limit, which results in errors. Instead, you must configure configure an Amazon Simple Notification Service (SNS) topic to receive notifications from FlexMatch or queues. Continuously polling with DescribeGameSessionPlacement should only be used for games in development with low game session usage.
+    /// Retrieves information, including current status, about a game session placement request. To get game session placement details, specify the placement ID. This operation is not designed to be continually called to track game session status. This practice can cause you to exceed your API limit, which results in errors. Instead, you must configure an Amazon Simple Notification Service (SNS) topic to receive notifications from FlexMatch or queues. Continuously polling with DescribeGameSessionPlacement should only be used for games in development with low game session usage.
     ///
     /// - Parameter DescribeGameSessionPlacementInput : [no documentation found]
     ///
@@ -7738,18 +7738,30 @@ extension GameLiftClient {
 
     /// Performs the `StartGameSessionPlacement` operation on the `GameLift` service.
     ///
-    /// Places a request for a new game session in a queue. When processing a placement request, Amazon GameLift searches for available resources on the queue's destinations, scanning each until it finds resources or the placement request times out. A game session placement request can also request player sessions. When a new game session is successfully created, Amazon GameLift creates a player session for each player included in the request. When placing a game session, by default Amazon GameLift tries each fleet in the order they are listed in the queue configuration. Ideally, a queue's destinations are listed in preference order. Alternatively, when requesting a game session with players, you can also provide latency data for each player in relevant Regions. Latency data indicates the performance lag a player experiences when connected to a fleet in the Region. Amazon GameLift uses latency data to reorder the list of destinations to place the game session in a Region with minimal lag. If latency data is provided for multiple players, Amazon GameLift calculates each Region's average lag for all players and reorders to get the best game play across all players. To place a new game session request, specify the following:
+    /// Makes a request to start a new game session using a game session queue. When processing a placement request in a queue, Amazon GameLift finds the best possible available resource to host the game session and prompts the resource to start the game session. Request options Call this API with the following minimum parameters: GameSessionQueueName, MaximumPlayerSessionCount, and PlacementID. You can also include game session data (data formatted as strings) or game properties (data formatted as key-value pairs) to pass to the new game session.
     ///
-    /// * The queue name and a set of game session properties and settings
+    /// * You can change how Amazon GameLift chooses a hosting resource for the new game session. Prioritizing resources for game session placements is defined when you configure a game session queue. You can use the default prioritization process or specify a custom process by providing a [ PriorityConfiguration](https://docs.aws.amazon.com/gamelift/latest/apireference/API_PriorityConfiguration.html) when you create or update a queue.
     ///
-    /// * A unique ID (such as a UUID) for the placement. You use this ID to track the status of the placement request
+    /// * Prioritize based on resource cost and location, using the queue's configured priority settings. Call this API with the minimum parameters.
     ///
-    /// * (Optional) A set of player data and a unique player ID for each player that you are joining to the new game session (player data is optional, but if you include it, you must also provide a unique ID for each player)
+    /// * Prioritize based on latency. Include a set of values for PlayerLatencies. You can provide latency data with or without player session data. This option instructs Amazon GameLift to reorder the queue's prioritized locations list based on the latency data. If latency data is provided for multiple players, Amazon GameLift calculates each location's average latency for all players and reorders to find the lowest latency across all players. Don't include latency data if you're providing a custom list of locations.
     ///
-    /// * Latency data for all players (if you want to optimize game play for the players)
+    /// * Prioritize based on a custom list of locations. If you're using a queue that's configured to prioritize location first (see [PriorityConfiguration](https://docs.aws.amazon.com/gamelift/latest/apireference/API_PriorityConfiguration.html) for game session queues), use the PriorityConfigurationOverride parameter to substitute a different location list for this placement request. When prioritizing placements by location, Amazon GameLift searches each location in prioritized order to find an available hosting resource for the new game session. You can choose whether to use the override list for the first placement attempt only or for all attempts.
     ///
     ///
-    /// If successful, a new game session placement is created. To track the status of a placement request, call [DescribeGameSessionPlacement](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeGameSessionPlacement.html) and check the request's status. If the status is FULFILLED, a new game session has been created and a game session ARN and Region are referenced. If the placement request times out, you can resubmit the request or retry it with a different queue.
+    ///
+    ///
+    /// * You can request new player sessions for a group of players. Include the DesiredPlayerSessions parameter and include at minimum a unique player ID for each. You can also include player-specific data to pass to the new game session.
+    ///
+    ///
+    /// Result If successful, this request generates a new game session placement request and adds it to the game session queue for Amazon GameLift to process in turn. You can track the status of individual placement requests by calling [DescribeGameSessionPlacement](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeGameSessionPlacement.html). A new game session is running if the status is FULFILLED and the request returns the game session connection information (IP address and port). If you include player session data, Amazon GameLift creates a player session for each player ID in the request. The request results in a BadRequestException in the following situations:
+    ///
+    /// * If the request includes both PlayerLatencies and PriorityConfigurationOverride parameters.
+    ///
+    /// * If the request includes the PriorityConfigurationOverride parameter and designates a queue doesn't prioritize locations.
+    ///
+    ///
+    /// Amazon GameLift continues to retry each placement request until it reaches the queue's timeout setting. If a request times out, you can resubmit the request to the same queue or try a different queue.
     ///
     /// - Parameter StartGameSessionPlacementInput : [no documentation found]
     ///
@@ -7762,6 +7774,7 @@ extension GameLiftClient {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
+    /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startGameSessionPlacement(input: StartGameSessionPlacementInput) async throws -> StartGameSessionPlacementOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8355,19 +8368,14 @@ extension GameLiftClient {
 
     /// Performs the `TerminateGameSession` operation on the `GameLift` service.
     ///
-    /// Ends a game session that's currently in progress. You can use this action to terminate any game session that isn't in TERMINATED or TERMINATING status. Terminating a game session is the most efficient way to free up a server process when it's hosting a game session that's in a bad state or not ending naturally. You can use this action to terminate a game session that's being hosted on any type of Amazon GameLift fleet compute, including computes for managed EC2, managed container, and Anywhere fleets. There are two potential methods for terminating a game session:
+    /// Ends a game session that's currently in progress. Use this action to terminate any game session that isn't in ERROR status. Terminating a game session is the most efficient way to free up a server process when it's hosting a game session that's in a bad state or not ending properly. You can use this action to terminate a game session that's being hosted on any type of Amazon GameLift fleet compute, including computes for managed EC2, managed container, and Anywhere fleets. The game server must be integrated with Amazon GameLift server SDK 5.x or greater. Request options Request termination for a single game session. Provide the game session ID and the termination mode. There are two potential methods for terminating a game session:
     ///
-    /// * With a graceful termination, the Amazon GameLift service prompts the server process to initiate its normal game session shutdown sequence. This sequence is implemented in the game server code and might involve a variety of actions to gracefully end a game session, such as notifying players, and stop the server process.
+    /// * Initiate a graceful termination using the normal game session shutdown sequence. With this mode, the Amazon GameLift service prompts the server process that's hosting the game session by calling the server SDK callback method OnProcessTerminate(). The callback implementation is part of the custom game server code. It might involve a variety of actions to gracefully end a game session, such as notifying players, before stopping the server process.
     ///
-    /// * With a forceful termination, the Amazon GameLift service takes immediate action to terminate the game session by stopping the server process. Termination occurs without the normal game session shutdown sequence.
-    ///
-    ///
-    /// Request options
-    ///
-    /// * Request termination for a single game session. Provide the game session ID and the termination method.
+    /// * Force an immediate game session termination. With this mode, the Amazon GameLift service takes action to stop the server process, which ends the game session without the normal game session shutdown sequence.
     ///
     ///
-    /// Results If successful, game session termination is initiated, which includes changing the game session status to TERMINATING. As a result of this action, and depending on the implementation of OnProcessTerminate(), the server process either becomes available to host a new game session, or it's recycled and a new server process started with availability to host a game session. The game session status is changed to TERMINATED, with a status reason that indicates the termination method used.
+    /// Results If successful, game session termination is initiated. During this activity, the game session status is changed to TERMINATING. When completed, the server process that was hosting the game session has been stopped and replaced with a new server process that's ready to host a new game session. The old game session's status is changed to TERMINATED with a status reason that indicates the termination method used. Learn more [Add Amazon GameLift to your game server](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html) Amazon GameLift server SDK 5 reference guide for OnProcessTerminate() ([C++](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk5-cpp-initsdk.html)) ([C#](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk5-csharp-initsdk.html)) ([Unreal](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk5-unreal-initsdk.html)) ([Go](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk-go-initsdk.html))
     ///
     /// - Parameter TerminateGameSessionInput : [no documentation found]
     ///

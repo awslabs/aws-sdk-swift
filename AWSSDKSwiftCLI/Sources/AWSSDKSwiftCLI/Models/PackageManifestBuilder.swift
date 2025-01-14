@@ -18,6 +18,7 @@ struct PackageManifestBuilder {
     let crtVersion: Version
     let services: [Service]
     let excludeRuntimeTests: Bool
+    let previewBuild: Bool
     let prefixContents: () throws -> String
     let basePackageContents: () throws -> String
     
@@ -26,6 +27,7 @@ struct PackageManifestBuilder {
         crtVersion: Version,
         services: [Service],
         excludeRuntimeTests: Bool,
+        previewBuild: Bool,
         prefixContents: @escaping () throws -> String,
         basePackageContents: @escaping () throws -> String
     ) {
@@ -33,6 +35,7 @@ struct PackageManifestBuilder {
         self.crtVersion = crtVersion
         self.services = services
         self.excludeRuntimeTests = excludeRuntimeTests
+        self.previewBuild = previewBuild
         self.prefixContents = prefixContents
         self.basePackageContents = basePackageContents
     }
@@ -41,13 +44,15 @@ struct PackageManifestBuilder {
         clientRuntimeVersion: Version,
         crtVersion: Version,
         services: [Service],
-        excludeRuntimeTests: Bool
+        excludeRuntimeTests: Bool,
+        previewBuild: Bool
     ) {
         self.init(
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
             excludeRuntimeTests: excludeRuntimeTests,
+            previewBuild: previewBuild,
             prefixContents: Self.contentReader(filename: "Package.Prefix"),
             basePackageContents: Self.contentReader(filename: "Package.Base")
         )
@@ -96,6 +101,9 @@ struct PackageManifestBuilder {
             // Remove the runtime tests if needed
             buildRuntimeTests(),
             "",
+            // Configure for preview or regular build
+            buildPreviewFlag(),
+            "",
             // Add the generated content that defines the list of services to include
             buildServiceTargets(),
             "",
@@ -121,6 +129,10 @@ struct PackageManifestBuilder {
 
     private func buildRuntimeTests() -> String {
         "let excludeRuntimeUnitTests = \(excludeRuntimeTests)"
+    }
+
+    private func buildPreviewFlag() -> String {
+        "let isPreviewBuild = \(previewBuild)"
     }
 
     /// Builds the list of services to include.
