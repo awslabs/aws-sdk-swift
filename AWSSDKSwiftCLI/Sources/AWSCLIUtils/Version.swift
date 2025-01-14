@@ -22,7 +22,7 @@ public struct Version: Equatable {
     }
 
     public init(_ value: String) throws {
-        let components = value.split(separator: ".")
+        let components = value.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: ".")
         guard components.count == 3 else {
             throw Error("Version does not have three components")
         }
