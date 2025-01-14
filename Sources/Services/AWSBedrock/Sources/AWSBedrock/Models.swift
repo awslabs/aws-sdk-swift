@@ -1024,6 +1024,50 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    public enum PerformanceConfigLatency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case optimized
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PerformanceConfigLatency] {
+            return [
+                .optimized,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optimized: return "optimized"
+            case .standard: return "standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Contains performance settings for a model.
+    public struct PerformanceConfiguration: Swift.Sendable {
+        /// Specifies whether to use the latency-optimized or standard version of a model or inference profile.
+        public var latency: BedrockClientTypes.PerformanceConfigLatency?
+
+        public init(
+            latency: BedrockClientTypes.PerformanceConfigLatency? = nil
+        ) {
+            self.latency = latency
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// Contains the ARN of the Amazon Bedrock model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) specified in your evaluation job. Each Amazon Bedrock model supports different inferenceParams. To learn more about supported inference parameters for Amazon Bedrock models, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). The inferenceParams are specified using JSON. To successfully insert JSON as string make sure that all quotations are properly escaped. For example, "temperature":"0.25" key value pair would need to be formatted as \"temperature\":\"0.25\" to successfully accepted in the request.
     public struct EvaluationBedrockModel: Swift.Sendable {
         /// Each Amazon Bedrock support different inference parameters that change how the model behaves during inference.
@@ -1031,20 +1075,24 @@ extension BedrockClientTypes {
         /// The ARN of the Amazon Bedrock model or inference profile specified.
         /// This member is required.
         public var modelIdentifier: Swift.String?
+        /// Specifies performance settings for the model or inference profile.
+        public var performanceConfig: BedrockClientTypes.PerformanceConfiguration?
 
         public init(
             inferenceParams: Swift.String? = "{}",
-            modelIdentifier: Swift.String? = nil
+            modelIdentifier: Swift.String? = nil,
+            performanceConfig: BedrockClientTypes.PerformanceConfiguration? = nil
         ) {
             self.inferenceParams = inferenceParams
             self.modelIdentifier = modelIdentifier
+            self.performanceConfig = performanceConfig
         }
     }
 }
 
 extension BedrockClientTypes.EvaluationBedrockModel: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EvaluationBedrockModel(modelIdentifier: \(Swift.String(describing: modelIdentifier)), inferenceParams: \"CONTENT_REDACTED\")"}
+        "EvaluationBedrockModel(modelIdentifier: \(Swift.String(describing: modelIdentifier)), performanceConfig: \(Swift.String(describing: performanceConfig)), inferenceParams: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -11283,6 +11331,7 @@ extension BedrockClientTypes.EvaluationBedrockModel {
         guard let value else { return }
         try writer["inferenceParams"].write(value.inferenceParams)
         try writer["modelIdentifier"].write(value.modelIdentifier)
+        try writer["performanceConfig"].write(value.performanceConfig, with: BedrockClientTypes.PerformanceConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationBedrockModel {
@@ -11290,6 +11339,22 @@ extension BedrockClientTypes.EvaluationBedrockModel {
         var value = BedrockClientTypes.EvaluationBedrockModel()
         value.modelIdentifier = try reader["modelIdentifier"].readIfPresent() ?? ""
         value.inferenceParams = try reader["inferenceParams"].readIfPresent() ?? "{}"
+        value.performanceConfig = try reader["performanceConfig"].readIfPresent(with: BedrockClientTypes.PerformanceConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.PerformanceConfiguration {
+
+    static func write(value: BedrockClientTypes.PerformanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["latency"].write(value.latency)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.PerformanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.PerformanceConfiguration()
+        value.latency = try reader["latency"].readIfPresent()
         return value
     }
 }

@@ -131,6 +131,12 @@ class AWSHttpProtocolServiceClient(
                         "retryStrategyOptions" -> {
                             writer.write("try AWSClientConfigDefaultsProvider.retryStrategyOptions(),")
                         }
+                        "requestChecksumCalculation" -> {
+                            "try AWSClientConfigDefaultsProvider.requestChecksumCalculation()"
+                        }
+                        "responseChecksumValidation" -> {
+                            "try AWSClientConfigDefaultsProvider.responseChecksumValidation()"
+                        }
                         else -> {
                             writer.write("\$L,", property.default?.render(writer) ?: "nil")
                         }

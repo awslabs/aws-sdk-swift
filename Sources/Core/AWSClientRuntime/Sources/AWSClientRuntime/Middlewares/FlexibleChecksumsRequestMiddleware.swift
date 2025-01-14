@@ -8,7 +8,9 @@
 import enum SmithyChecksumsAPI.ChecksumAlgorithm
 import enum SmithyChecksums.ChecksumMismatchException
 import enum Smithy.ClientError
+import struct Smithy.URIQueryItem
 import class Smithy.Context
+import struct Foundation.Data
 import AwsCommonRuntimeKit
 import AWSSDKChecksums
 import ClientRuntime
@@ -18,76 +20,136 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
 
     public let id: String = "FlexibleChecksumsRequestMiddleware"
 
+    let requestChecksumRequired: Bool
     let checksumAlgorithm: String?
+    let checksumAlgoHeaderName: String?
 
-    public init(checksumAlgorithm: String?) {
+    public init(
+        requestChecksumRequired: Bool,
+        checksumAlgorithm: String?,
+        checksumAlgoHeaderName: String?
+    ) {
+        self.requestChecksumRequired = requestChecksumRequired
         self.checksumAlgorithm = checksumAlgorithm
+        self.checksumAlgoHeaderName = checksumAlgoHeaderName
     }
 
     private func addHeaders(builder: HTTPRequestBuilder, attributes: Context) async throws {
-        if case(.stream(let stream)) = builder.body {
-            attributes.isChunkedEligibleStream = stream.isEligibleForChunkedStreaming
-            if stream.isEligibleForChunkedStreaming {
-                try builder.setAwsChunkedHeaders() // x-amz-decoded-content-length
-            }
-        }
-
         // Initialize logger
         guard let logger = attributes.getLogger() else {
             throw ClientError.unknownError("No logger found!")
         }
 
-        guard let checksumString = checksumAlgorithm else {
-            logger.info("No checksum provided! Skipping flexible checksums workflow...")
+        if case(.stream(let stream)) = builder.body {
+            attributes.isChunkedEligibleStream = stream.isEligibleForChunkedStreaming
+            if stream.isEligibleForChunkedStreaming {
+                try builder.setAwsChunkedHeaders() // x-amz-decoded-content-length
+            }
+        } else if case(.noStream) = builder.body {
+            logger.info("Request body is empty. Skipping request checksum calculation...")
             return
         }
 
-        guard let checksumHashFunction = ChecksumAlgorithm.from(string: checksumString) else {
-            logger.info("Found no supported checksums! Skipping flexible checksums workflow...")
+        // E.g., prefix for x-amz-checksum-crc32
+        let checksumHeaderPrefix = "x-amz-checksum-"
+
+        if attributes.getFlowType() == .PRESIGN_URL {
+            // Skip default request checksum calculation logic for PRESIGN_URL flow.
             return
         }
-
-        // Determine the header name
-        let headerName = "x-amz-checksum-\(checksumHashFunction)"
-        logger.debug("Resolved checksum header name: \(headerName)")
 
         // Check if any checksum header is already provided by the user
-        let checksumHeaderPrefix = "x-amz-checksum-"
         if builder.headers.headers.contains(where: {
             $0.name.lowercased().starts(with: checksumHeaderPrefix) &&
-            $0.name.lowercased() != "x-amz-checksum-algorithm"
+            $0.name.lowercased() != checksumAlgoHeaderName?.lowercased()
         }) {
             logger.debug("Checksum header already provided by the user. Skipping calculation.")
             return
         }
 
+        var checksumHashFunction: ChecksumAlgorithm
+        if let checksumAlgorithm {
+            // If checksum algorithm to use was configured via checksum algorithm input member by the user
+            if let hashFunction = ChecksumAlgorithm.from(string: checksumAlgorithm) {
+                // If user chose a supported algorithm, continue
+                checksumHashFunction = hashFunction
+            } else {
+                // If user chose an unsupported algorithm, throw error
+                throw ClientError.invalidValue("Error: Checksum algorithm \(checksumAlgorithm) is not supported!")
+            }
+        } else {
+            // If user didn't choose an algorithm via checksum algorithm input member, then:
+            if requestChecksumRequired || (attributes.requestChecksumCalculation == .whenSupported) {
+                // If requestChecksumRequired == true OR RequestChecksumCalculation == when_supported, use CRC32 as default algorithm.
+                checksumHashFunction = ChecksumAlgorithm.from(string: "crc32")!
+                logger.info("No algorithm chosen by user. Defaulting to CRC32 checksum algorithm.")
+                // If the input member tied to `requestAlgorithmMember` has `@httpHeader` trait in model,
+                //   manually set the header with the name from `@httpHeader` trait with SDK's default algorithm: CRC32.
+                // This needs to be manually added here because user didn't configure checksumAlgorithm but we're sending default checksum.
+                // If user did set checksumAlgorithm in input, it would've been automatically added to requset as a header in serialize step.
+                if let checksumAlgoHeaderName {
+                    builder.updateHeader(name: checksumAlgoHeaderName, value: "crc32")
+                }
+            } else {
+                // If requestChecksumRequired == false AND RequestChecksumCalculation == when_required, skip calculation.
+                logger.info("Checksum not required for the operation.")
+                logger.info("Client config `requestChecksumCalculation` set to `.whenRequired`")
+                logger.info("No checksum algorithm chosen by the user. Skipping checksum calculation...")
+                return
+            }
+        }
+
+        // Save resolved ChecksumAlgorithm to interceptor context.
+        attributes.checksum = checksumHashFunction
+
+        // Determine the checksum header name
+        let checksumHashHeaderName = "x-amz-checksum-\(checksumHashFunction)"
+        logger.debug("Resolved checksum header name: \(checksumHashHeaderName)")
+
         // Handle body vs handle stream
         switch builder.body {
         case .data(let data):
+            try await calculateAndAddChecksumHeader(data: data)
+        case .stream(let stream):
+            if stream.isEligibleForChunkedStreaming {
+                // Handle calculating and adding checksum header in ChunkedStream
+                builder.updateHeader(name: "x-amz-trailer", value: [checksumHashHeaderName])
+            } else {
+                // If not eligible for chunked streaming, calculate and add checksum to request header now instead of as a trailing header.
+                let streamBytes: Data?
+                if stream.isSeekable {
+                    // Need to save current position to reset stream position after reading
+                    let currentPosition = stream.position
+                    try stream.seek(toOffset: 0) // Explicit seek to beginning for correct behavior of FileHandle
+                    streamBytes = try stream.readToEnd()
+                    // Reset stream position to where it was before reading it for checksum calculation
+                    try stream.seek(toOffset: currentPosition)
+                } else {
+                    streamBytes = try await stream.readToEndAsync()
+                    builder.withBody(.data(streamBytes)) // Reset request body with streamBytes to "refill" it
+                }
+                try await calculateAndAddChecksumHeader(data: streamBytes)
+            }
+        case .noStream:
+            // Unreachable block since we return early if .noStream, but it's here for exhaustive switch case
+            break
+        }
+
+        func calculateAndAddChecksumHeader(data: Data?) async throws {
             guard let data else {
-                throw ClientError.dataNotFound("Cannot calculate checksum of empty body!")
+                logger.info("Request body is empty. Skipping request checksum calculation...")
+                return
             }
-
-            if builder.headers.value(for: headerName) == nil {
-                logger.debug("Calculating checksum")
+            if builder.headers.value(for: checksumHashHeaderName) == nil {
+                logger.debug("Calculating request checksum")
             }
-
             // Create checksum instance
             let checksum = checksumHashFunction.createChecksum()
-
             // Pass data to hash
             try checksum.update(chunk: data)
-
             // Retrieve the hash
             let hash = try checksum.digest().toBase64String()
-
-            builder.updateHeader(name: headerName, value: [hash])
-        case .stream:
-            // Will handle calculating checksum and setting header later
-            attributes.checksum = checksumHashFunction
-            builder.updateHeader(name: "x-amz-trailer", value: [headerName])
-        case .noStream:
-            throw ClientError.dataNotFound("Cannot calculate the checksum of an empty body!")
+            builder.updateHeader(name: checksumHashHeaderName, value: [hash])
         }
     }
 }

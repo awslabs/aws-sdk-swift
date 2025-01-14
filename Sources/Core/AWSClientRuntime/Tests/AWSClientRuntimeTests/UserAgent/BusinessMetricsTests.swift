@@ -36,6 +36,21 @@ class BusinessMetricsTests: XCTestCase {
 
         let userAgent = testUserAgent()
 
+=======
+        let userAgent = AWSUserAgentMetadata.fromConfigAndContext(
+            serviceID: "test",
+            version: "1.0",
+            config: UserAgentValuesFromConfig(
+                appID: nil,
+                endpoint: nil,
+                awsRetryMode: .standard,
+                requestChecksumCalculation: .whenRequired,
+                responseChecksumValidation: .whenRequired
+            ),
+            context: context,
+            headers: headers
+        )
+>>>>>>> main
         // Assert values in context match with values assigned to user agent
         XCTAssertEqual(userAgent.businessMetrics?.features, context.businessMetrics)
         // Assert string gets truncated successfully
@@ -54,12 +69,28 @@ class BusinessMetricsTests: XCTestCase {
             signingProperties: nil,
             signer: nil
         ))
+<<<<<<< HEAD
 
         config = UserAgentValuesFromConfig(appID: nil, endpoint: "test-endpoint", awsRetryMode: .adaptive)
         let userAgent = testUserAgent()
 
+=======
+        let userAgent = AWSUserAgentMetadata.fromConfigAndContext(
+            serviceID: "test",
+            version: "1.0",
+            config: UserAgentValuesFromConfig(
+                appID: nil,
+                endpoint: "test-endpoint",
+                awsRetryMode: .adaptive,
+                requestChecksumCalculation: .whenSupported,
+                responseChecksumValidation: .whenSupported
+            ),
+            context: context,
+            headers: headers
+        )
+>>>>>>> main
         // F comes from retry mode being adaptive & N comes from endpoint override
-        let expectedString = "m/A,B,F,N,S"
+        let expectedString = "m/A,B,F,N,S,Z,b"
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
     }
 

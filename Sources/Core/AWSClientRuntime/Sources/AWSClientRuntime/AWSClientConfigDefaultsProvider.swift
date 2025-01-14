@@ -18,6 +18,7 @@ import enum ClientRuntime.ClientLogMode
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 
 typealias RuntimeConfigType = DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
 
@@ -84,6 +85,40 @@ public class AWSClientConfigDefaultsProvider {
         return resolvedAppID
     }
 
+    public static func requestChecksumCalculation(
+        _ requestChecksumCalculation: AWSChecksumCalculationMode? = nil
+    ) throws -> AWSChecksumCalculationMode {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        let resolvedRequestChecksumCalculation: AWSChecksumCalculationMode
+        if let requestChecksumCalculation {
+            resolvedRequestChecksumCalculation = requestChecksumCalculation
+        } else {
+            resolvedRequestChecksumCalculation = AWSChecksumsConfig.requestChecksumCalculation(
+                configValue: nil,
+                profileName: nil,
+                fileBasedConfig: fileBasedConfig
+            )
+        }
+        return resolvedRequestChecksumCalculation
+    }
+
+    public static func responseChecksumValidation(
+        _ responseChecksumValidation: AWSChecksumCalculationMode? = nil
+    ) throws -> AWSChecksumCalculationMode {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        let resolvedResponseChecksumValidation: AWSChecksumCalculationMode
+        if let responseChecksumValidation {
+            resolvedResponseChecksumValidation = responseChecksumValidation
+        } else {
+            resolvedResponseChecksumValidation = AWSChecksumsConfig.responseChecksumValidation(
+                configValue: nil,
+                profileName: nil,
+                fileBasedConfig: fileBasedConfig
+            )
+        }
+        return resolvedResponseChecksumValidation
+    }
+
     public static func retryMode(_ retryMode: AWSRetryMode? = nil) throws -> AWSRetryMode {
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
         let resolvedRetryMode: AWSRetryMode?
@@ -133,6 +168,18 @@ public class AWSClientConfigDefaultsProvider {
             backoffStrategy: ExponentialBackoffStrategy(),
             maxRetriesBase: resolvedMaxAttempts - 1,
             rateLimitingMode: resolvedRateLimitingMode
+        )
+    }
+
+    public static func configuredEndpoint(
+        _ sdkID: String,
+        _ ignoreConfiguredEndpointURLs: Bool? = nil
+    ) throws -> String? {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        return try AWSEndpointConfig.configuredEndpoint(
+            sdkID: sdkID,
+            ignoreConfiguredEndpointURLs: ignoreConfiguredEndpointURLs,
+            fileBasedConfig: fileBasedConfig
         )
     }
 

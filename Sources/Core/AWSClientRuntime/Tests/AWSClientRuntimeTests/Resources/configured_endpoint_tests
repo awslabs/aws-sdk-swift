@@ -1,0 +1,19 @@
+[profile noConfiguredEndpointProfile]
+region = dummyValue
+
+[profile globalConfiguredEndpointProfile]
+endpoint_url = https://config-global.com:1000
+
+[profile serviceSpecificConfiguredEndpointProfile]
+endpoint_url = https://config-global.com:2000
+services = serviceSpecificEndpoints
+
+[services serviceSpecificEndpoints]
+test_service =
+    endpoint_url = https://config-specific.com:1000
+test_service_2 =
+    endpoint_url = https://config-specific.com:2000
+
+[profile ignoreConfiguredEndpointProfile]
+ignore_configured_endpoint_urls = true
+endpoint_url = http://this-should-be-ignored

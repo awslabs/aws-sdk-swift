@@ -4686,7 +4686,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A list of fleet locations where a game session queue can place new game sessions. You can use a filter to temporarily turn off placements for specific locations. For queues that have multi-location fleets, you can use a filter configuration allow placement with some, but not all of these locations.
+    /// A list of fleet locations where a game session queue can place new game sessions. You can use a filter to temporarily exclude specific locations from receiving placements. For queues that have multi-location fleets, you can use a filter configuration allow placement with some, but not all, of a fleet's locations.
     public struct FilterConfiguration: Swift.Sendable {
         /// A list of locations to allow game session placement in, in the form of Amazon Web Services Region codes such as us-west-2.
         public var allowedLocations: [Swift.String]?
@@ -4755,26 +4755,23 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Custom prioritization settings for use by a game session queue when placing new game sessions with available game servers. When defined, this configuration replaces the default FleetIQ prioritization process, which is as follows:
+    /// Custom prioritization settings for a game session queue to use when searching for available game servers to place new game sessions. This configuration replaces the default FleetIQ prioritization process. By default, a queue makes placements based on the following default prioritizations:
     ///
-    /// * If player latency data is included in a game session request, destinations and locations are prioritized first based on lowest average latency (1), then on lowest hosting cost (2), then on destination list order (3), and finally on location (alphabetical) (4). This approach ensures that the queue's top priority is to place game sessions where average player latency is lowest, and--if latency is the same--where the hosting cost is less, etc.
+    /// * If player latency data is included in a game session request, Amazon GameLift prioritizes placing game sessions where the average player latency is lowest. Amazon GameLift re-orders the queue's destinations and locations (for multi-location fleets) based on the following priorities: (1) the lowest average latency across all players, (2) the lowest hosting cost, (3) the queue's default destination order, and then (4), an alphabetic list of locations.
     ///
-    /// * If player latency data is not included, destinations and locations are prioritized first on destination list order (1), and then on location (alphabetical) (2). This approach ensures that the queue's top priority is to place game sessions on the first destination fleet listed. If that fleet has multiple locations, the game session is placed on the first location (when listed alphabetically).
-    ///
-    ///
-    /// Changing the priority order will affect how game sessions are placed.
+    /// * If player latency data is not included, Amazon GameLift prioritizes placing game sessions in the queue's first destination. If that fleet has multiple locations, the game session is placed on the first location (when listed alphabetically). Amazon GameLift re-orders the queue's destinations and locations (for multi-location fleets) based on the following priorities: (1) the queue's default destination order, and then (2) an alphabetic list of locations.
     public struct PriorityConfiguration: Swift.Sendable {
-        /// The prioritization order to use for fleet locations, when the PriorityOrder property includes LOCATION. Locations are identified by Amazon Web Services Region codes such as us-west-2. Each location can only be listed once.
+        /// The prioritization order to use for fleet locations, when the PriorityOrder property includes LOCATION. Locations can include Amazon Web Services Region codes (such as us-west-2), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see [Amazon GameLift service locations.](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
         public var locationOrder: [Swift.String]?
-        /// The recommended sequence to use when prioritizing where to place new game sessions. Each type can only be listed once.
+        /// A custom sequence to use when prioritizing where to place new game sessions. Each priority type is listed once.
         ///
-        /// * LATENCY -- FleetIQ prioritizes locations where the average player latency (provided in each game session request) is lowest.
+        /// * LATENCY -- Amazon GameLift prioritizes locations where the average player latency is lowest. Player latency data is provided in each game session placement request.
         ///
-        /// * COST -- FleetIQ prioritizes destinations with the lowest current hosting costs. Cost is evaluated based on the location, instance type, and fleet type (Spot or On-Demand) for each destination in the queue.
+        /// * COST -- Amazon GameLift prioritizes destinations with the lowest current hosting costs. Cost is evaluated based on the location, instance type, and fleet type (Spot or On-Demand) of each destination in the queue.
         ///
-        /// * DESTINATION -- FleetIQ prioritizes based on the order that destinations are listed in the queue configuration.
+        /// * DESTINATION -- Amazon GameLift prioritizes based on the list order of destinations in the queue configuration.
         ///
-        /// * LOCATION -- FleetIQ prioritizes based on the provided order of locations, as defined in LocationOrder.
+        /// * LOCATION -- Amazon GameLift prioritizes based on the provided order of locations, as defined in LocationOrder.
         public var priorityOrder: [GameLiftClientTypes.PriorityType]?
 
         public init(
@@ -7465,6 +7462,59 @@ extension GameLiftClientTypes.PlayerLatency: Swift.CustomDebugStringConvertible 
 
 extension GameLiftClientTypes {
 
+    public enum PlacementFallbackStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case defaultAfterSinglePass
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PlacementFallbackStrategy] {
+            return [
+                .defaultAfterSinglePass,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .defaultAfterSinglePass: return "DEFAULT_AFTER_SINGLE_PASS"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
+    /// An alternate list of prioritized locations for use with a game session queue. When this property is included in a [StartGameSessionPlacement](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StartGameSessionPlacement.html) request, this list overrides the queue's default location prioritization, as defined in the queue's [PriorityConfiguration] setting (LocationOrder). This property overrides the queue's default priority list for individual placement requests only. Use this property only with queues that have a PriorityConfiguration setting that prioritizes first. A priority configuration override list does not override a queue's FilterConfiguration setting, if the queue has one. Filter configurations are used to limit placements to a subset of the locations in a queue's destinations. If the override list includes a location that's not included in the FilterConfiguration allowed list, Amazon GameLift won't attempt to place a game session there.
+    public struct PriorityConfigurationOverride: Swift.Sendable {
+        /// A prioritized list of hosting locations. The list can include Amazon Web Services Regions (such as us-west-2), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see [Amazon GameLift service locations.](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
+        /// This member is required.
+        public var locationOrder: [Swift.String]?
+        /// Instructions for how to use the override list if the first round of placement attempts fails. The first round is a failure if Amazon GameLift searches all listed locations, in all of the queue's destinations, without finding an available hosting resource for a new game session. Valid strategies include:
+        ///
+        /// * DEFAULT_AFTER_SINGLE_PASS -- After the first round of placement attempts, discard the override list and use the queue's default location priority list. Continue to use the queue's default list until the placement request times out.
+        ///
+        /// * NONE -- Continue to use the override list for all rounds of placement attempts until the placement request times out.
+        public var placementFallbackStrategy: GameLiftClientTypes.PlacementFallbackStrategy?
+
+        public init(
+            locationOrder: [Swift.String]? = nil,
+            placementFallbackStrategy: GameLiftClientTypes.PlacementFallbackStrategy? = nil
+        ) {
+            self.locationOrder = locationOrder
+            self.placementFallbackStrategy = placementFallbackStrategy
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
     public enum GameSessionPlacementState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case failed
@@ -7503,7 +7553,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Represents a potential game session placement, including the full details of the original placement request and the current status. If the game session placement status is PENDING, the properties for game session ID/ARN, region, IP address/DNS, and port aren't final. A game session is not active and ready to accept players until placement status reaches FULFILLED. When the placement is in PENDING status, Amazon GameLift may attempt to place a game session multiple times before succeeding. With each attempt it creates a [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameSession](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameSession) object and updates this placement object with the new game session properties..
+    /// Represents a potential game session placement, including the full details of the original placement request and the current status. If the game session placement status is PENDING, the properties for game session ID/ARN, region, IP address/DNS, and port aren't final. A game session is not active and ready to accept players until placement status reaches FULFILLED. When the placement is in PENDING status, Amazon GameLift may attempt to place a game session multiple times before succeeding. With each attempt it creates a [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameSession](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameSession) object and updates this placement object with the new game session properties.
     public struct GameSessionPlacement: Swift.Sendable {
         /// The DNS identifier assigned to the instance that is running the game session. Values have the following format:
         ///
@@ -7540,10 +7590,12 @@ extension GameLiftClientTypes {
         public var placedPlayerSessions: [GameLiftClientTypes.PlacedPlayerSession]?
         /// A unique identifier for a game session placement.
         public var placementId: Swift.String?
-        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to @aws; Regions.
+        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions.
         public var playerLatencies: [GameLiftClientTypes.PlayerLatency]?
         /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value isn't final until placement status is FULFILLED.
         public var port: Swift.Int?
+        /// A prioritized list of locations to use with a game session placement request and instructions on how to use it. This list overrides a queue's prioritized location list for a single game session placement request only. The list can include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). The fallback strategy instructs Amazon GameLift to use the override list for the first placement attempt only or for all placement attempts.
+        public var priorityConfigurationOverride: GameLiftClientTypes.PriorityConfigurationOverride?
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var startTime: Foundation.Date?
         /// Current status of the game session placement request.
@@ -7576,6 +7628,7 @@ extension GameLiftClientTypes {
             placementId: Swift.String? = nil,
             playerLatencies: [GameLiftClientTypes.PlayerLatency]? = nil,
             port: Swift.Int? = nil,
+            priorityConfigurationOverride: GameLiftClientTypes.PriorityConfigurationOverride? = nil,
             startTime: Foundation.Date? = nil,
             status: GameLiftClientTypes.GameSessionPlacementState? = nil
         ) {
@@ -7595,6 +7648,7 @@ extension GameLiftClientTypes {
             self.placementId = placementId
             self.playerLatencies = playerLatencies
             self.port = port
+            self.priorityConfigurationOverride = priorityConfigurationOverride
             self.startTime = startTime
             self.status = status
         }
@@ -7603,7 +7657,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes.GameSessionPlacement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GameSessionPlacement(dnsName: \(Swift.String(describing: dnsName)), endTime: \(Swift.String(describing: endTime)), gameProperties: \(Swift.String(describing: gameProperties)), gameSessionArn: \(Swift.String(describing: gameSessionArn)), gameSessionData: \(Swift.String(describing: gameSessionData)), gameSessionId: \(Swift.String(describing: gameSessionId)), gameSessionName: \(Swift.String(describing: gameSessionName)), gameSessionQueueName: \(Swift.String(describing: gameSessionQueueName)), gameSessionRegion: \(Swift.String(describing: gameSessionRegion)), matchmakerData: \(Swift.String(describing: matchmakerData)), maximumPlayerSessionCount: \(Swift.String(describing: maximumPlayerSessionCount)), placedPlayerSessions: \(Swift.String(describing: placedPlayerSessions)), placementId: \(Swift.String(describing: placementId)), playerLatencies: \(Swift.String(describing: playerLatencies)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), ipAddress: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
+        "GameSessionPlacement(dnsName: \(Swift.String(describing: dnsName)), endTime: \(Swift.String(describing: endTime)), gameProperties: \(Swift.String(describing: gameProperties)), gameSessionArn: \(Swift.String(describing: gameSessionArn)), gameSessionData: \(Swift.String(describing: gameSessionData)), gameSessionId: \(Swift.String(describing: gameSessionId)), gameSessionName: \(Swift.String(describing: gameSessionName)), gameSessionQueueName: \(Swift.String(describing: gameSessionQueueName)), gameSessionRegion: \(Swift.String(describing: gameSessionRegion)), matchmakerData: \(Swift.String(describing: matchmakerData)), maximumPlayerSessionCount: \(Swift.String(describing: maximumPlayerSessionCount)), placedPlayerSessions: \(Swift.String(describing: placedPlayerSessions)), placementId: \(Swift.String(describing: placementId)), playerLatencies: \(Swift.String(describing: playerLatencies)), priorityConfigurationOverride: \(Swift.String(describing: priorityConfigurationOverride)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), ipAddress: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeGameSessionPlacementOutput: Swift.Sendable {
@@ -7928,7 +7982,7 @@ extension GameLiftClientTypes {
 
     /// Represents a player in matchmaking. When starting a matchmaking request, a player has a player ID, attributes, and may have latency data. Team information is added after a match has been successfully completed.
     public struct Player: Swift.Sendable {
-        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to @aws; Regions. If this property is present, FlexMatch considers placing the match only in Regions for which latency is reported. If a matchmaker has a rule that evaluates player latency, players must report latency in order to be matched. If no latency is reported in this scenario, FlexMatch assumes that no Regions are available to the player and the ticket is not matchable.
+        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions. If this property is present, FlexMatch considers placing the match only in Regions for which latency is reported. If a matchmaker has a rule that evaluates player latency, players must report latency in order to be matched. If no latency is reported in this scenario, FlexMatch assumes that no Regions are available to the player and the ticket is not matchable.
         public var latencyInMs: [Swift.String: Swift.Int]?
         /// A collection of key:value pairs containing player information for use in matchmaking. Player attribute keys must match the playerAttributes used in a matchmaking rule set. Example: "PlayerAttributes": {"skill": {"N": "23"}, "gameMode": {"S": "deathmatch"}}. You can provide up to 10 PlayerAttributes.
         public var playerAttributes: [Swift.String: GameLiftClientTypes.AttributeValue]?
@@ -9899,8 +9953,10 @@ public struct StartGameSessionPlacementInput: Swift.Sendable {
     /// A unique identifier to assign to the new game session placement. This value is developer-defined. The value must be unique across all Regions and cannot be reused.
     /// This member is required.
     public var placementId: Swift.String?
-    /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to @aws; Regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players.
+    /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players.
     public var playerLatencies: [GameLiftClientTypes.PlayerLatency]?
+    /// A prioritized list of locations to use for the game session placement and instructions on how to use it. This list overrides a queue's prioritized location list for this game session placement request only. You can include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). Choose a fallback strategy to instruct Amazon GameLift to use the override list for the first placement attempt only or for all placement attempts.
+    public var priorityConfigurationOverride: GameLiftClientTypes.PriorityConfigurationOverride?
 
     public init(
         desiredPlayerSessions: [GameLiftClientTypes.DesiredPlayerSession]? = nil,
@@ -9910,7 +9966,8 @@ public struct StartGameSessionPlacementInput: Swift.Sendable {
         gameSessionQueueName: Swift.String? = nil,
         maximumPlayerSessionCount: Swift.Int? = nil,
         placementId: Swift.String? = nil,
-        playerLatencies: [GameLiftClientTypes.PlayerLatency]? = nil
+        playerLatencies: [GameLiftClientTypes.PlayerLatency]? = nil,
+        priorityConfigurationOverride: GameLiftClientTypes.PriorityConfigurationOverride? = nil
     ) {
         self.desiredPlayerSessions = desiredPlayerSessions
         self.gameProperties = gameProperties
@@ -9920,6 +9977,7 @@ public struct StartGameSessionPlacementInput: Swift.Sendable {
         self.maximumPlayerSessionCount = maximumPlayerSessionCount
         self.placementId = placementId
         self.playerLatencies = playerLatencies
+        self.priorityConfigurationOverride = priorityConfigurationOverride
     }
 }
 
@@ -10167,9 +10225,9 @@ public struct TerminateGameSessionInput: Swift.Sendable {
     public var gameSessionId: Swift.String?
     /// The method to use to terminate the game session. Available methods include:
     ///
-    /// * TRIGGER_ON_PROCESS_TERMINATE – Sends an OnProcessTerminate() callback to the server process to initiate the normal game session shutdown sequence. At a minimum, the callback method must include a call to the server SDK action ProcessEnding(), which is how the server process signals that a game session is ending. If the server process doesn't call ProcessEnding(), this termination method won't be successful.
+    /// * TRIGGER_ON_PROCESS_TERMINATE – Prompts the Amazon GameLift service to send an OnProcessTerminate() callback to the server process and initiate the normal game session shutdown sequence. The OnProcessTerminate method, which is implemented in the game server code, must include a call to the server SDK action ProcessEnding(), which is how the server process signals to Amazon GameLift that a game session is ending. If the server process doesn't call ProcessEnding(), the game session termination won't conclude successfully.
     ///
-    /// * FORCE_TERMINATE – Takes action to stop the server process, using existing methods to control how server processes run on an Amazon GameLift managed compute. This method is not available for game sessions that are running on Anywhere fleets unless the fleet is deployed with the Amazon GameLift Agent. In this scenario, a force terminate request results in an invalid or bad request exception.
+    /// * FORCE_TERMINATE – Prompts the Amazon GameLift service to stop the server process immediately. Amazon GameLift takes action (depending on the type of fleet) to shut down the server process without the normal game session shutdown sequence. This method is not available for game sessions that are running on Anywhere fleets unless the fleet is deployed with the Amazon GameLift Agent. In this scenario, a force terminate request results in an invalid or bad request exception.
     /// This member is required.
     public var terminationMode: GameLiftClientTypes.TerminationMode?
 
@@ -12740,6 +12798,7 @@ extension StartGameSessionPlacementInput {
         try writer["MaximumPlayerSessionCount"].write(value.maximumPlayerSessionCount)
         try writer["PlacementId"].write(value.placementId)
         try writer["PlayerLatencies"].writeList(value.playerLatencies, memberWritingClosure: GameLiftClientTypes.PlayerLatency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PriorityConfigurationOverride"].write(value.priorityConfigurationOverride, with: GameLiftClientTypes.PriorityConfigurationOverride.write(value:to:))
     }
 }
 
@@ -16067,6 +16126,7 @@ enum StartGameSessionPlacementOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "UnsupportedRegionException": return try UnsupportedRegionException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -17702,6 +17762,24 @@ extension GameLiftClientTypes.GameSessionPlacement {
         value.placedPlayerSessions = try reader["PlacedPlayerSessions"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.PlacedPlayerSession.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gameSessionData = try reader["GameSessionData"].readIfPresent()
         value.matchmakerData = try reader["MatchmakerData"].readIfPresent()
+        value.priorityConfigurationOverride = try reader["PriorityConfigurationOverride"].readIfPresent(with: GameLiftClientTypes.PriorityConfigurationOverride.read(from:))
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PriorityConfigurationOverride {
+
+    static func write(value: GameLiftClientTypes.PriorityConfigurationOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LocationOrder"].writeList(value.locationOrder, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PlacementFallbackStrategy"].write(value.placementFallbackStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PriorityConfigurationOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PriorityConfigurationOverride()
+        value.placementFallbackStrategy = try reader["PlacementFallbackStrategy"].readIfPresent()
+        value.locationOrder = try reader["LocationOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
