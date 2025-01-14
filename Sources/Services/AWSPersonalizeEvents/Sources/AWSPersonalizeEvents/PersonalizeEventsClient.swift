@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PersonalizeEventsClient: ClientRuntime.Client {
     public static let clientName = "PersonalizeEventsClient"
-    public static let version = "1.0.75"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeEventsClient.PersonalizeEventsClientConfiguration
     let serviceName = "Personalize Events"
@@ -92,6 +92,7 @@ extension PersonalizeEventsClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -116,6 +117,7 @@ extension PersonalizeEventsClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
             _ endpointResolver: EndpointResolver,
@@ -138,6 +140,7 @@ extension PersonalizeEventsClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -163,6 +166,7 @@ extension PersonalizeEventsClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -186,6 +190,7 @@ extension PersonalizeEventsClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -211,6 +216,7 @@ extension PersonalizeEventsClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -234,6 +240,7 @@ extension PersonalizeEventsClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -260,6 +267,7 @@ extension PersonalizeEventsClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -285,6 +293,7 @@ extension PersonalizeEventsClient {
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
                 nil,
                 region,
                 region,
@@ -378,12 +387,13 @@ extension PersonalizeEventsClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutActionInteractionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Personalize Events", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutActionInteractionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutActionInteractionsInput, PutActionInteractionsOutput>(serviceID: serviceName, version: PersonalizeEventsClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutActionInteractionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutActionInteractionsInput, PutActionInteractionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutActionInteractionsInput, PutActionInteractionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutActionInteractionsInput, PutActionInteractionsOutput>(serviceID: serviceName, version: PersonalizeEventsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PersonalizeEvents")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutActionInteractions")
@@ -449,12 +459,13 @@ extension PersonalizeEventsClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutActionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Personalize Events", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutActionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutActionsInput, PutActionsOutput>(serviceID: serviceName, version: PersonalizeEventsClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutActionsInput, PutActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutActionsInput, PutActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutActionsInput, PutActionsOutput>(serviceID: serviceName, version: PersonalizeEventsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PersonalizeEvents")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutActions")
@@ -518,12 +529,13 @@ extension PersonalizeEventsClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEventsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Personalize Events", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutEventsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutEventsInput, PutEventsOutput>(serviceID: serviceName, version: PersonalizeEventsClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutEventsInput, PutEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutEventsInput, PutEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutEventsInput, PutEventsOutput>(serviceID: serviceName, version: PersonalizeEventsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PersonalizeEvents")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutEvents")
@@ -589,12 +601,13 @@ extension PersonalizeEventsClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutItemsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Personalize Events", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutItemsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutItemsInput, PutItemsOutput>(serviceID: serviceName, version: PersonalizeEventsClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutItemsInput, PutItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutItemsInput, PutItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutItemsInput, PutItemsOutput>(serviceID: serviceName, version: PersonalizeEventsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PersonalizeEvents")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutItems")
@@ -660,12 +673,13 @@ extension PersonalizeEventsClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutUsersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Personalize Events", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutUsersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutUsersInput, PutUsersOutput>(serviceID: serviceName, version: PersonalizeEventsClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutUsersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutUsersInput, PutUsersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutUsersInput, PutUsersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutUsersInput, PutUsersOutput>(serviceID: serviceName, version: PersonalizeEventsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PersonalizeEvents")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutUsers")

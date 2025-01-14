@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EMRServerlessClient: ClientRuntime.Client {
     public static let clientName = "EMRServerlessClient"
-    public static let version = "1.0.75"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: EMRServerlessClient.EMRServerlessClientConfiguration
     let serviceName = "EMR Serverless"
@@ -95,6 +95,7 @@ extension EMRServerlessClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -119,6 +120,7 @@ extension EMRServerlessClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
             _ endpointResolver: EndpointResolver,
@@ -141,6 +143,7 @@ extension EMRServerlessClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -166,6 +169,7 @@ extension EMRServerlessClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -189,6 +193,7 @@ extension EMRServerlessClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -214,6 +219,7 @@ extension EMRServerlessClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -237,6 +243,7 @@ extension EMRServerlessClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -263,6 +270,7 @@ extension EMRServerlessClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -288,6 +296,7 @@ extension EMRServerlessClient {
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
                 nil,
                 region,
                 region,
@@ -378,12 +387,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobRunOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CancelJobRunOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelJobRunInput, CancelJobRunOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelJobRunInput, CancelJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelJobRunInput, CancelJobRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelJobRunInput, CancelJobRunOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelJobRun")
@@ -451,12 +461,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateApplicationInput, CreateApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateApplicationInput, CreateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateApplicationInput, CreateApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateApplication")
@@ -519,12 +530,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteApplication")
@@ -587,12 +599,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetApplicationInput, GetApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetApplicationInput, GetApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetApplicationInput, GetApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetApplicationInput, GetApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetApplication")
@@ -656,12 +669,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDashboardForJobRunOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetDashboardForJobRunOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDashboardForJobRunInput, GetDashboardForJobRunOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDashboardForJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDashboardForJobRunInput, GetDashboardForJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDashboardForJobRunInput, GetDashboardForJobRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDashboardForJobRunInput, GetDashboardForJobRunOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDashboardForJobRun")
@@ -725,12 +739,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobRunOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetJobRunOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetJobRunInput, GetJobRunOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetJobRunInput, GetJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetJobRunInput, GetJobRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetJobRunInput, GetJobRunOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetJobRun")
@@ -793,12 +808,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListApplicationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationsInput, ListApplicationsOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationsInput, ListApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationsInput, ListApplicationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListApplicationsInput, ListApplicationsOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListApplications")
@@ -862,12 +878,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobRunAttemptsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListJobRunAttemptsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListJobRunAttemptsInput, ListJobRunAttemptsOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListJobRunAttemptsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListJobRunAttemptsInput, ListJobRunAttemptsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListJobRunAttemptsInput, ListJobRunAttemptsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListJobRunAttemptsInput, ListJobRunAttemptsOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListJobRunAttempts")
@@ -930,12 +947,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobRunsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListJobRunsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListJobRunsInput, ListJobRunsOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListJobRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListJobRunsInput, ListJobRunsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListJobRunsInput, ListJobRunsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListJobRunsInput, ListJobRunsOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListJobRuns")
@@ -998,12 +1016,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
@@ -1067,12 +1086,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartApplicationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartApplicationInput, StartApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartApplicationInput, StartApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartApplicationInput, StartApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartApplicationInput, StartApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartApplication")
@@ -1140,12 +1160,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartJobRunOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartJobRunOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartJobRunInput, StartJobRunOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartJobRunInput, StartJobRunOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartJobRunInput, StartJobRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartJobRunInput, StartJobRunOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartJobRun")
@@ -1208,12 +1229,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopApplicationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopApplicationInput, StopApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopApplicationInput, StopApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopApplicationInput, StopApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopApplicationInput, StopApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopApplication")
@@ -1279,12 +1301,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -1348,12 +1371,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
@@ -1420,12 +1444,13 @@ extension EMRServerlessClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EMR Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateApplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(serviceID: serviceName, version: EMRServerlessClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EMRServerless")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateApplication")

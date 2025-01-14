@@ -135,4 +135,16 @@ public class AWSClientConfigDefaultsProvider {
             rateLimitingMode: resolvedRateLimitingMode
         )
     }
+
+    public static func configuredEndpoint(
+        _ sdkID: String,
+        _ ignoreConfiguredEndpointURLs: Bool? = nil
+    ) throws -> String? {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        return try AWSEndpointConfig.configuredEndpoint(
+            sdkID: sdkID,
+            ignoreConfiguredEndpointURLs: ignoreConfiguredEndpointURLs,
+            fileBasedConfig: fileBasedConfig
+        )
+    }
 }

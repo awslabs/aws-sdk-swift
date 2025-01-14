@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DocDBElasticClient: ClientRuntime.Client {
     public static let clientName = "DocDBElasticClient"
-    public static let version = "1.0.75"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: DocDBElasticClient.DocDBElasticClientConfiguration
     let serviceName = "DocDB Elastic"
@@ -94,6 +94,7 @@ extension DocDBElasticClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -118,6 +119,7 @@ extension DocDBElasticClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
             _ endpointResolver: EndpointResolver,
@@ -140,6 +142,7 @@ extension DocDBElasticClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -165,6 +168,7 @@ extension DocDBElasticClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -188,6 +192,7 @@ extension DocDBElasticClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -213,6 +218,7 @@ extension DocDBElasticClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -236,6 +242,7 @@ extension DocDBElasticClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -262,6 +269,7 @@ extension DocDBElasticClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -287,6 +295,7 @@ extension DocDBElasticClient {
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
                 nil,
                 region,
                 region,
@@ -383,12 +392,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyPendingMaintenanceActionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ApplyPendingMaintenanceActionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ApplyPendingMaintenanceActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ApplyPendingMaintenanceAction")
@@ -458,12 +468,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyClusterSnapshotOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CopyClusterSnapshotOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CopyClusterSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CopyClusterSnapshot")
@@ -533,12 +544,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateClusterInput, CreateClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateClusterInput, CreateClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateClusterInput, CreateClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCluster")
@@ -608,12 +620,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterSnapshotOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateClusterSnapshotOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClusterSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateClusterSnapshot")
@@ -679,12 +692,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteClusterInput, DeleteClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteClusterInput, DeleteClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteClusterInput, DeleteClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCluster")
@@ -750,12 +764,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterSnapshotOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteClusterSnapshotOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClusterSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteClusterSnapshot")
@@ -820,12 +835,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetClusterInput, GetClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetClusterInput, GetClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetClusterInput, GetClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetClusterInput, GetClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCluster")
@@ -890,12 +906,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterSnapshotOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetClusterSnapshotOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetClusterSnapshotInput, GetClusterSnapshotOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetClusterSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetClusterSnapshotInput, GetClusterSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetClusterSnapshotInput, GetClusterSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetClusterSnapshotInput, GetClusterSnapshotOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetClusterSnapshot")
@@ -961,12 +978,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPendingMaintenanceActionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetPendingMaintenanceActionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPendingMaintenanceActionInput, GetPendingMaintenanceActionOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPendingMaintenanceActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPendingMaintenanceActionInput, GetPendingMaintenanceActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPendingMaintenanceActionInput, GetPendingMaintenanceActionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPendingMaintenanceActionInput, GetPendingMaintenanceActionOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPendingMaintenanceAction")
@@ -1031,12 +1049,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClusterSnapshotsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListClusterSnapshotsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClusterSnapshotsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListClusterSnapshots")
@@ -1101,12 +1120,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListClustersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListClustersInput, ListClustersOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClustersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListClustersInput, ListClustersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListClustersInput, ListClustersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListClustersInput, ListClustersOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListClusters")
@@ -1171,12 +1191,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPendingMaintenanceActionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListPendingMaintenanceActionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPendingMaintenanceActionsInput, ListPendingMaintenanceActionsOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPendingMaintenanceActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPendingMaintenanceActionsInput, ListPendingMaintenanceActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPendingMaintenanceActionsInput, ListPendingMaintenanceActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPendingMaintenanceActionsInput, ListPendingMaintenanceActionsOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPendingMaintenanceActions")
@@ -1240,12 +1261,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
@@ -1315,12 +1337,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreClusterFromSnapshotOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RestoreClusterFromSnapshotOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreClusterFromSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreClusterFromSnapshot")
@@ -1385,12 +1408,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartClusterOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartClusterInput, StartClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartClusterInput, StartClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartClusterInput, StartClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartClusterInput, StartClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartCluster")
@@ -1455,12 +1479,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopClusterOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopClusterInput, StopClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopClusterInput, StopClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopClusterInput, StopClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopClusterInput, StopClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopCluster")
@@ -1527,12 +1552,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -1597,12 +1623,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
@@ -1672,12 +1699,13 @@ extension DocDBElasticClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DocDB Elastic", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateClusterInput, UpdateClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateClusterInput, UpdateClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateClusterInput, UpdateClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateClusterInput, UpdateClusterOutput>(serviceID: serviceName, version: DocDBElasticClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DocDBElastic")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCluster")

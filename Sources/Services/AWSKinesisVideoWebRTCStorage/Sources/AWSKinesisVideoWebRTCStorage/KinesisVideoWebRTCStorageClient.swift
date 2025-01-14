@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoWebRTCStorageClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoWebRTCStorageClient"
-    public static let version = "1.0.75"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfiguration
     let serviceName = "Kinesis Video WebRTC Storage"
@@ -92,6 +92,7 @@ extension KinesisVideoWebRTCStorageClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -116,6 +117,7 @@ extension KinesisVideoWebRTCStorageClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
             _ endpointResolver: EndpointResolver,
@@ -138,6 +140,7 @@ extension KinesisVideoWebRTCStorageClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -163,6 +166,7 @@ extension KinesisVideoWebRTCStorageClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -186,6 +190,7 @@ extension KinesisVideoWebRTCStorageClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -211,6 +216,7 @@ extension KinesisVideoWebRTCStorageClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -234,6 +240,7 @@ extension KinesisVideoWebRTCStorageClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -260,6 +267,7 @@ extension KinesisVideoWebRTCStorageClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -285,6 +293,7 @@ extension KinesisVideoWebRTCStorageClient {
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
                 nil,
                 region,
                 region,
@@ -392,12 +401,13 @@ extension KinesisVideoWebRTCStorageClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<JoinStorageSessionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Video WebRTC Storage", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<JoinStorageSessionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<JoinStorageSessionInput, JoinStorageSessionOutput>(serviceID: serviceName, version: KinesisVideoWebRTCStorageClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<JoinStorageSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<JoinStorageSessionInput, JoinStorageSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<JoinStorageSessionInput, JoinStorageSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<JoinStorageSessionInput, JoinStorageSessionOutput>(serviceID: serviceName, version: KinesisVideoWebRTCStorageClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisVideoWebRTCStorage")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "JoinStorageSession")
@@ -464,12 +474,13 @@ extension KinesisVideoWebRTCStorageClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<JoinStorageSessionAsViewerOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Video WebRTC Storage", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<JoinStorageSessionAsViewerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>(serviceID: serviceName, version: KinesisVideoWebRTCStorageClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<JoinStorageSessionAsViewerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>(serviceID: serviceName, version: KinesisVideoWebRTCStorageClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisVideoWebRTCStorage")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "JoinStorageSessionAsViewer")

@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2InstanceConnectClient: ClientRuntime.Client {
     public static let clientName = "EC2InstanceConnectClient"
-    public static let version = "1.0.75"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration
     let serviceName = "EC2 Instance Connect"
@@ -93,6 +93,7 @@ extension EC2InstanceConnectClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -117,6 +118,7 @@ extension EC2InstanceConnectClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
             _ endpointResolver: EndpointResolver,
@@ -139,6 +141,7 @@ extension EC2InstanceConnectClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -164,6 +167,7 @@ extension EC2InstanceConnectClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -187,6 +191,7 @@ extension EC2InstanceConnectClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -212,6 +217,7 @@ extension EC2InstanceConnectClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -235,6 +241,7 @@ extension EC2InstanceConnectClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -261,6 +268,7 @@ extension EC2InstanceConnectClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -286,6 +294,7 @@ extension EC2InstanceConnectClient {
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
                 nil,
                 region,
                 region,
@@ -381,15 +390,16 @@ extension EC2InstanceConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendSSHPublicKeyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2 Instance Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendSSHPublicKeyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(serviceID: serviceName, version: EC2InstanceConnectClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(xAmzTarget: "AWSEC2InstanceConnectService.SendSSHPublicKey"))
         builder.serialize(ClientRuntime.BodyMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendSSHPublicKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendSSHPublicKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(serviceID: serviceName, version: EC2InstanceConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2InstanceConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendSSHPublicKey")
@@ -462,15 +472,16 @@ extension EC2InstanceConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendSerialConsoleSSHPublicKeyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2 Instance Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendSerialConsoleSSHPublicKeyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(serviceID: serviceName, version: EC2InstanceConnectClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(xAmzTarget: "AWSEC2InstanceConnectService.SendSerialConsoleSSHPublicKey"))
         builder.serialize(ClientRuntime.BodyMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendSerialConsoleSSHPublicKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendSerialConsoleSSHPublicKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(serviceID: serviceName, version: EC2InstanceConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2InstanceConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendSerialConsoleSSHPublicKey")

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamWriteClient: ClientRuntime.Client {
     public static let clientName = "TimestreamWriteClient"
-    public static let version = "1.0.75"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamWriteClient.TimestreamWriteClientConfiguration
     let serviceName = "Timestream Write"
@@ -94,6 +94,7 @@ extension TimestreamWriteClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -118,6 +119,7 @@ extension TimestreamWriteClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
             _ endpointResolver: EndpointResolver,
@@ -140,6 +142,7 @@ extension TimestreamWriteClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -165,6 +168,7 @@ extension TimestreamWriteClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -188,6 +192,7 @@ extension TimestreamWriteClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -213,6 +218,7 @@ extension TimestreamWriteClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -236,6 +242,7 @@ extension TimestreamWriteClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -262,6 +269,7 @@ extension TimestreamWriteClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -287,6 +295,7 @@ extension TimestreamWriteClient {
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
                 nil,
                 region,
                 region,
@@ -384,15 +393,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBatchLoadTaskOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateBatchLoadTaskOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBatchLoadTaskInput, CreateBatchLoadTaskOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBatchLoadTaskInput, CreateBatchLoadTaskOutput>(xAmzTarget: "Timestream_20181101.CreateBatchLoadTask"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBatchLoadTaskInput, CreateBatchLoadTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBatchLoadTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBatchLoadTaskInput, CreateBatchLoadTaskOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBatchLoadTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBatchLoadTaskInput, CreateBatchLoadTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBatchLoadTaskInput, CreateBatchLoadTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBatchLoadTaskInput, CreateBatchLoadTaskOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateBatchLoadTask")
@@ -460,15 +470,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatabaseOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateDatabaseOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(xAmzTarget: "Timestream_20181101.CreateDatabase"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDatabaseInput, CreateDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDatabaseInput, CreateDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDatabase")
@@ -537,15 +548,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTableInput, CreateTableOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTableInput, CreateTableOutput>(xAmzTarget: "Timestream_20181101.CreateTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTableInput, CreateTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTableInput, CreateTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTableInput, CreateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTableInput, CreateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTableInput, CreateTableOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTable")
@@ -612,15 +624,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatabaseOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDatabaseOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(xAmzTarget: "Timestream_20181101.DeleteDatabase"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDatabase")
@@ -687,15 +700,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTableInput, DeleteTableOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTableInput, DeleteTableOutput>(xAmzTarget: "Timestream_20181101.DeleteTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTableInput, DeleteTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTableInput, DeleteTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTableInput, DeleteTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTableInput, DeleteTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTableInput, DeleteTableOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTable")
@@ -761,15 +775,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBatchLoadTaskOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeBatchLoadTaskOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeBatchLoadTaskInput, DescribeBatchLoadTaskOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeBatchLoadTaskInput, DescribeBatchLoadTaskOutput>(xAmzTarget: "Timestream_20181101.DescribeBatchLoadTask"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeBatchLoadTaskInput, DescribeBatchLoadTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBatchLoadTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBatchLoadTaskInput, DescribeBatchLoadTaskOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBatchLoadTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBatchLoadTaskInput, DescribeBatchLoadTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeBatchLoadTaskInput, DescribeBatchLoadTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeBatchLoadTaskInput, DescribeBatchLoadTaskOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeBatchLoadTask")
@@ -836,15 +851,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatabaseOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeDatabaseOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDatabaseInput, DescribeDatabaseOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDatabaseInput, DescribeDatabaseOutput>(xAmzTarget: "Timestream_20181101.DescribeDatabase"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDatabaseInput, DescribeDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDatabaseInput, DescribeDatabaseOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDatabaseInput, DescribeDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDatabaseInput, DescribeDatabaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDatabaseInput, DescribeDatabaseOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDatabase")
@@ -917,15 +933,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeEndpointsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(xAmzTarget: "Timestream_20181101.DescribeEndpoints"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEndpointsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEndpoints")
@@ -992,15 +1009,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTableOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTableInput, DescribeTableOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTableInput, DescribeTableOutput>(xAmzTarget: "Timestream_20181101.DescribeTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTableInput, DescribeTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTableInput, DescribeTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTableInput, DescribeTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTableInput, DescribeTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTableInput, DescribeTableOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTable")
@@ -1066,15 +1084,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBatchLoadTasksOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListBatchLoadTasksOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBatchLoadTasksInput, ListBatchLoadTasksOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBatchLoadTasksInput, ListBatchLoadTasksOutput>(xAmzTarget: "Timestream_20181101.ListBatchLoadTasks"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBatchLoadTasksInput, ListBatchLoadTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBatchLoadTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBatchLoadTasksInput, ListBatchLoadTasksOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBatchLoadTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBatchLoadTasksInput, ListBatchLoadTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBatchLoadTasksInput, ListBatchLoadTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBatchLoadTasksInput, ListBatchLoadTasksOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBatchLoadTasks")
@@ -1140,15 +1159,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatabasesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDatabasesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDatabasesInput, ListDatabasesOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDatabasesInput, ListDatabasesOutput>(xAmzTarget: "Timestream_20181101.ListDatabases"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDatabasesInput, ListDatabasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatabasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatabasesInput, ListDatabasesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatabasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDatabasesInput, ListDatabasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDatabasesInput, ListDatabasesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDatabasesInput, ListDatabasesOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDatabases")
@@ -1215,15 +1235,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTablesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTablesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTablesInput, ListTablesOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTablesInput, ListTablesOutput>(xAmzTarget: "Timestream_20181101.ListTables"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTablesInput, ListTablesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTablesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTablesInput, ListTablesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTablesInput, ListTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTablesInput, ListTablesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTablesInput, ListTablesOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTables")
@@ -1288,15 +1309,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "Timestream_20181101.ListTagsForResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
@@ -1363,15 +1385,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeBatchLoadTaskOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ResumeBatchLoadTaskOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResumeBatchLoadTaskInput, ResumeBatchLoadTaskOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ResumeBatchLoadTaskInput, ResumeBatchLoadTaskOutput>(xAmzTarget: "Timestream_20181101.ResumeBatchLoadTask"))
         builder.serialize(ClientRuntime.BodyMiddleware<ResumeBatchLoadTaskInput, ResumeBatchLoadTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResumeBatchLoadTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResumeBatchLoadTaskInput, ResumeBatchLoadTaskOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResumeBatchLoadTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResumeBatchLoadTaskInput, ResumeBatchLoadTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResumeBatchLoadTaskInput, ResumeBatchLoadTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResumeBatchLoadTaskInput, ResumeBatchLoadTaskOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResumeBatchLoadTask")
@@ -1437,15 +1460,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "Timestream_20181101.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -1511,15 +1535,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "Timestream_20181101.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
@@ -1587,15 +1612,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatabaseOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateDatabaseOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(xAmzTarget: "Timestream_20181101.UpdateDatabase"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDatabase")
@@ -1662,15 +1688,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTableInput, UpdateTableOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTableInput, UpdateTableOutput>(xAmzTarget: "Timestream_20181101.UpdateTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTableInput, UpdateTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTableInput, UpdateTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTableInput, UpdateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTableInput, UpdateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTableInput, UpdateTableOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTable")
@@ -1754,15 +1781,16 @@ extension TimestreamWriteClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<WriteRecordsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream Write", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<WriteRecordsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<WriteRecordsInput, WriteRecordsOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<WriteRecordsInput, WriteRecordsOutput>(xAmzTarget: "Timestream_20181101.WriteRecords"))
         builder.serialize(ClientRuntime.BodyMiddleware<WriteRecordsInput, WriteRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: WriteRecordsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<WriteRecordsInput, WriteRecordsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<WriteRecordsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<WriteRecordsInput, WriteRecordsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<WriteRecordsInput, WriteRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<WriteRecordsInput, WriteRecordsOutput>(serviceID: serviceName, version: TimestreamWriteClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamWrite")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "WriteRecords")

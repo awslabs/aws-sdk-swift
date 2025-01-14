@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamInfluxDBClient: ClientRuntime.Client {
     public static let clientName = "TimestreamInfluxDBClient"
-    public static let version = "1.0.75"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamInfluxDBClient.TimestreamInfluxDBClientConfiguration
     let serviceName = "Timestream InfluxDB"
@@ -93,6 +93,7 @@ extension TimestreamInfluxDBClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -117,6 +118,7 @@ extension TimestreamInfluxDBClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
             _ endpointResolver: EndpointResolver,
@@ -139,6 +141,7 @@ extension TimestreamInfluxDBClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -164,6 +167,7 @@ extension TimestreamInfluxDBClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -187,6 +191,7 @@ extension TimestreamInfluxDBClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -212,6 +217,7 @@ extension TimestreamInfluxDBClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -235,6 +241,7 @@ extension TimestreamInfluxDBClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -261,6 +268,7 @@ extension TimestreamInfluxDBClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -286,6 +294,7 @@ extension TimestreamInfluxDBClient {
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
                 nil,
                 region,
                 region,
@@ -381,15 +390,16 @@ extension TimestreamInfluxDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDbInstanceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateDbInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.CreateDbInstance"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDbInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDbInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDbInstance")
@@ -457,15 +467,16 @@ extension TimestreamInfluxDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDbParameterGroupOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateDbParameterGroupOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.CreateDbParameterGroup"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDbParameterGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDbParameterGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDbParameterGroup")
@@ -532,15 +543,16 @@ extension TimestreamInfluxDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDbInstanceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDbInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.DeleteDbInstance"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDbInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDbInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDbInstance")
@@ -606,15 +618,16 @@ extension TimestreamInfluxDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDbInstanceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetDbInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDbInstanceInput, GetDbInstanceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDbInstanceInput, GetDbInstanceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.GetDbInstance"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDbInstanceInput, GetDbInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDbInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDbInstanceInput, GetDbInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDbInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDbInstanceInput, GetDbInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDbInstanceInput, GetDbInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDbInstanceInput, GetDbInstanceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDbInstance")
@@ -680,15 +693,16 @@ extension TimestreamInfluxDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDbParameterGroupOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetDbParameterGroupOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.GetDbParameterGroup"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDbParameterGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDbParameterGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDbParameterGroup")
@@ -754,15 +768,16 @@ extension TimestreamInfluxDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDbInstancesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDbInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDbInstancesInput, ListDbInstancesOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDbInstancesInput, ListDbInstancesOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.ListDbInstances"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDbInstancesInput, ListDbInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbInstancesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbInstancesInput, ListDbInstancesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDbInstancesInput, ListDbInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDbInstancesInput, ListDbInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDbInstancesInput, ListDbInstancesOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDbInstances")
@@ -828,15 +843,16 @@ extension TimestreamInfluxDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDbParameterGroupsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDbParameterGroupsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.ListDbParameterGroups"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbParameterGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbParameterGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDbParameterGroups")
@@ -898,15 +914,16 @@ extension TimestreamInfluxDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.ListTagsForResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
@@ -969,15 +986,16 @@ extension TimestreamInfluxDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -1039,15 +1057,16 @@ extension TimestreamInfluxDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
@@ -1114,15 +1133,16 @@ extension TimestreamInfluxDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDbInstanceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateDbInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput>(xAmzTarget: "AmazonTimestreamInfluxDB.UpdateDbInstance"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDbInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDbInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDbInstance")

@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaStoreClient: ClientRuntime.Client {
     public static let clientName = "MediaStoreClient"
-    public static let version = "1.0.75"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaStoreClient.MediaStoreClientConfiguration
     let serviceName = "MediaStore"
@@ -93,6 +93,7 @@ extension MediaStoreClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -117,6 +118,7 @@ extension MediaStoreClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
             _ endpointResolver: EndpointResolver,
@@ -139,6 +141,7 @@ extension MediaStoreClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -164,6 +167,7 @@ extension MediaStoreClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -187,6 +191,7 @@ extension MediaStoreClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -212,6 +217,7 @@ extension MediaStoreClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -235,6 +241,7 @@ extension MediaStoreClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -261,6 +268,7 @@ extension MediaStoreClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -286,6 +294,7 @@ extension MediaStoreClient {
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
                 nil,
                 region,
                 region,
@@ -377,15 +386,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateContainerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateContainerInput, CreateContainerOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateContainerInput, CreateContainerOutput>(xAmzTarget: "MediaStore_20170901.CreateContainer"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateContainerInput, CreateContainerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateContainerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerInput, CreateContainerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateContainerInput, CreateContainerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateContainerInput, CreateContainerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateContainerInput, CreateContainerOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateContainer")
@@ -449,15 +459,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteContainerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteContainerInput, DeleteContainerOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteContainerInput, DeleteContainerOutput>(xAmzTarget: "MediaStore_20170901.DeleteContainer"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteContainerInput, DeleteContainerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteContainerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerInput, DeleteContainerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContainerInput, DeleteContainerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContainerInput, DeleteContainerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteContainerInput, DeleteContainerOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteContainer")
@@ -522,15 +533,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteContainerPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput>(xAmzTarget: "MediaStore_20170901.DeleteContainerPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteContainerPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteContainerPolicy")
@@ -595,15 +607,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCorsPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteCorsPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput>(xAmzTarget: "MediaStore_20170901.DeleteCorsPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCorsPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCorsPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCorsPolicy")
@@ -668,15 +681,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLifecyclePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteLifecyclePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(xAmzTarget: "MediaStore_20170901.DeleteLifecyclePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLifecyclePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLifecyclePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLifecyclePolicy")
@@ -741,15 +755,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMetricPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteMetricPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput>(xAmzTarget: "MediaStore_20170901.DeleteMetricPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMetricPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMetricPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMetricPolicy")
@@ -812,15 +827,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeContainerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContainerInput, DescribeContainerOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeContainerInput, DescribeContainerOutput>(xAmzTarget: "MediaStore_20170901.DescribeContainer"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeContainerInput, DescribeContainerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContainerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerInput, DescribeContainerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContainerInput, DescribeContainerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContainerInput, DescribeContainerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContainerInput, DescribeContainerOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeContainer")
@@ -885,15 +901,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContainerPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetContainerPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput>(xAmzTarget: "MediaStore_20170901.GetContainerPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContainerPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContainerPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetContainerPolicy")
@@ -958,15 +975,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCorsPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetCorsPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput>(xAmzTarget: "MediaStore_20170901.GetCorsPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCorsPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCorsPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCorsPolicy")
@@ -1031,15 +1049,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLifecyclePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetLifecyclePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(xAmzTarget: "MediaStore_20170901.GetLifecyclePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLifecyclePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLifecyclePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetLifecyclePolicy")
@@ -1104,15 +1123,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetMetricPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput>(xAmzTarget: "MediaStore_20170901.GetMetricPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMetricPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMetricPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetMetricPolicy")
@@ -1174,15 +1194,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListContainersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContainersInput, ListContainersOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListContainersInput, ListContainersOutput>(xAmzTarget: "MediaStore_20170901.ListContainers"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListContainersInput, ListContainersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListContainersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainersInput, ListContainersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContainersInput, ListContainersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContainersInput, ListContainersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContainersInput, ListContainersOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListContainers")
@@ -1246,15 +1267,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "MediaStore_20170901.ListTagsForResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
@@ -1318,15 +1340,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutContainerPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutContainerPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput>(xAmzTarget: "MediaStore_20170901.PutContainerPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutContainerPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutContainerPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutContainerPolicy")
@@ -1390,15 +1413,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutCorsPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutCorsPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput>(xAmzTarget: "MediaStore_20170901.PutCorsPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutCorsPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutCorsPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutCorsPolicy")
@@ -1462,15 +1486,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLifecyclePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutLifecyclePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(xAmzTarget: "MediaStore_20170901.PutLifecyclePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutLifecyclePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLifecyclePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutLifecyclePolicy")
@@ -1534,15 +1559,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutMetricPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput>(xAmzTarget: "MediaStore_20170901.PutMetricPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutMetricPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMetricPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutMetricPolicy")
@@ -1606,15 +1632,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAccessLoggingOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartAccessLoggingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput>(xAmzTarget: "MediaStore_20170901.StartAccessLogging"))
         builder.serialize(ClientRuntime.BodyMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartAccessLoggingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAccessLoggingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartAccessLogging")
@@ -1678,15 +1705,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopAccessLoggingOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopAccessLoggingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput>(xAmzTarget: "MediaStore_20170901.StopAccessLogging"))
         builder.serialize(ClientRuntime.BodyMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopAccessLoggingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopAccessLoggingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopAccessLogging")
@@ -1750,15 +1778,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "MediaStore_20170901.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -1822,15 +1851,16 @@ extension MediaStoreClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaStore", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "MediaStore_20170901.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: MediaStoreClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaStore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")

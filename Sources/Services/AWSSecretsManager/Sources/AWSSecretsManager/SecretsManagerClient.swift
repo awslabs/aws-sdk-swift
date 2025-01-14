@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecretsManagerClient: ClientRuntime.Client {
     public static let clientName = "SecretsManagerClient"
-    public static let version = "1.0.75"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: SecretsManagerClient.SecretsManagerClientConfiguration
     let serviceName = "Secrets Manager"
@@ -95,6 +95,7 @@ extension SecretsManagerClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -119,6 +120,7 @@ extension SecretsManagerClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
             _ endpointResolver: EndpointResolver,
@@ -141,6 +143,7 @@ extension SecretsManagerClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -166,6 +169,7 @@ extension SecretsManagerClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -189,6 +193,7 @@ extension SecretsManagerClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -214,6 +219,7 @@ extension SecretsManagerClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -237,6 +243,7 @@ extension SecretsManagerClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -263,6 +270,7 @@ extension SecretsManagerClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -288,6 +296,7 @@ extension SecretsManagerClient {
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
                 nil,
                 region,
                 region,
@@ -388,15 +397,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSecretValueOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchGetSecretValueOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(xAmzTarget: "secretsmanager.BatchGetSecretValue"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetSecretValueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetSecretValue")
@@ -467,15 +477,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelRotateSecretOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CancelRotateSecretOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(xAmzTarget: "secretsmanager.CancelRotateSecret"))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelRotateSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelRotateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelRotateSecret")
@@ -553,15 +564,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecretOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateSecretOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSecretInput, CreateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateSecretInput, CreateSecretOutput>(xAmzTarget: "secretsmanager.CreateSecret"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateSecretInput, CreateSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSecretInput, CreateSecretOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSecretInput, CreateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSecretInput, CreateSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSecretInput, CreateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSecret")
@@ -632,15 +644,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "secretsmanager.DeleteResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourcePolicy")
@@ -711,15 +724,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecretOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteSecretOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSecretInput, DeleteSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteSecretInput, DeleteSecretOutput>(xAmzTarget: "secretsmanager.DeleteSecret"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteSecretInput, DeleteSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSecretInput, DeleteSecretOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSecretInput, DeleteSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSecretInput, DeleteSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSecretInput, DeleteSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSecret")
@@ -783,15 +797,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecretOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeSecretOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSecretInput, DescribeSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSecretInput, DescribeSecretOutput>(xAmzTarget: "secretsmanager.DescribeSecret"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeSecretInput, DescribeSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSecretInput, DescribeSecretOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSecretInput, DescribeSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSecretInput, DescribeSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSecretInput, DescribeSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSecret")
@@ -861,15 +876,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRandomPasswordOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetRandomPasswordOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(xAmzTarget: "secretsmanager.GetRandomPassword"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRandomPasswordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRandomPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRandomPassword")
@@ -940,15 +956,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xAmzTarget: "secretsmanager.GetResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourcePolicy")
@@ -1020,15 +1037,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecretValueOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetSecretValueOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSecretValueInput, GetSecretValueOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSecretValueInput, GetSecretValueOutput>(xAmzTarget: "secretsmanager.GetSecretValue"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSecretValueInput, GetSecretValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSecretValueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSecretValueInput, GetSecretValueOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSecretValueInput, GetSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSecretValueInput, GetSecretValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSecretValueInput, GetSecretValueOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSecretValue")
@@ -1093,15 +1111,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecretVersionIdsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListSecretVersionIdsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(xAmzTarget: "secretsmanager.ListSecretVersionIds"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecretVersionIdsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecretVersionIdsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSecretVersionIds")
@@ -1172,15 +1191,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecretsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListSecretsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecretsInput, ListSecretsOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSecretsInput, ListSecretsOutput>(xAmzTarget: "secretsmanager.ListSecrets"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSecretsInput, ListSecretsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecretsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretsInput, ListSecretsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecretsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSecretsInput, ListSecretsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSecretsInput, ListSecretsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecretsInput, ListSecretsOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSecrets")
@@ -1253,15 +1273,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "secretsmanager.PutResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutResourcePolicy")
@@ -1337,15 +1358,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSecretValueOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutSecretValueOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutSecretValueInput, PutSecretValueOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutSecretValueInput, PutSecretValueOutput>(xAmzTarget: "secretsmanager.PutSecretValue"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutSecretValueInput, PutSecretValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutSecretValueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSecretValueInput, PutSecretValueOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutSecretValueInput, PutSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutSecretValueInput, PutSecretValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutSecretValueInput, PutSecretValueOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutSecretValue")
@@ -1416,15 +1438,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveRegionsFromReplicationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RemoveRegionsFromReplicationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(xAmzTarget: "secretsmanager.RemoveRegionsFromReplication"))
         builder.serialize(ClientRuntime.BodyMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveRegionsFromReplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveRegionsFromReplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemoveRegionsFromReplication")
@@ -1495,15 +1518,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplicateSecretToRegionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ReplicateSecretToRegionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(xAmzTarget: "secretsmanager.ReplicateSecretToRegions"))
         builder.serialize(ClientRuntime.BodyMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReplicateSecretToRegionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReplicateSecretToRegionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplicateSecretToRegions")
@@ -1574,15 +1598,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreSecretOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RestoreSecretOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreSecretInput, RestoreSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RestoreSecretInput, RestoreSecretOutput>(xAmzTarget: "secretsmanager.RestoreSecret"))
         builder.serialize(ClientRuntime.BodyMiddleware<RestoreSecretInput, RestoreSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RestoreSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreSecretInput, RestoreSecretOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreSecretInput, RestoreSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreSecretInput, RestoreSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreSecretInput, RestoreSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreSecret")
@@ -1654,15 +1679,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RotateSecretOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RotateSecretOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RotateSecretInput, RotateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RotateSecretInput, RotateSecretOutput>(xAmzTarget: "secretsmanager.RotateSecret"))
         builder.serialize(ClientRuntime.BodyMiddleware<RotateSecretInput, RotateSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RotateSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RotateSecretInput, RotateSecretOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RotateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RotateSecretInput, RotateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RotateSecretInput, RotateSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RotateSecretInput, RotateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RotateSecret")
@@ -1733,15 +1759,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopReplicationToReplicaOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopReplicationToReplicaOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(xAmzTarget: "secretsmanager.StopReplicationToReplica"))
         builder.serialize(ClientRuntime.BodyMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopReplicationToReplicaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopReplicationToReplicaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopReplicationToReplica")
@@ -1812,15 +1839,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "secretsmanager.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -1891,15 +1919,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "secretsmanager.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
@@ -1977,15 +2006,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecretOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateSecretOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSecretInput, UpdateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateSecretInput, UpdateSecretOutput>(xAmzTarget: "secretsmanager.UpdateSecret"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateSecretInput, UpdateSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSecretInput, UpdateSecretOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSecretInput, UpdateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSecretInput, UpdateSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSecretInput, UpdateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSecret")
@@ -2057,15 +2087,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecretVersionStageOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateSecretVersionStageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(xAmzTarget: "secretsmanager.UpdateSecretVersionStage"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSecretVersionStageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSecretVersionStageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSecretVersionStage")
@@ -2146,15 +2177,16 @@ extension SecretsManagerClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateResourcePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ValidateResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(xAmzTarget: "secretsmanager.ValidateResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ValidateResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidateResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ValidateResourcePolicy")

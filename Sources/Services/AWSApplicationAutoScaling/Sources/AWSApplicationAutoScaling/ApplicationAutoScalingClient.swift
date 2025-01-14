@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationAutoScalingClient: ClientRuntime.Client {
     public static let clientName = "ApplicationAutoScalingClient"
-    public static let version = "1.0.75"
+    public static let version = "1.0.77"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationAutoScalingClient.ApplicationAutoScalingClientConfiguration
     let serviceName = "Application Auto Scaling"
@@ -94,6 +94,7 @@ extension ApplicationAutoScalingClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -118,6 +119,7 @@ extension ApplicationAutoScalingClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
             _ endpointResolver: EndpointResolver,
@@ -140,6 +142,7 @@ extension ApplicationAutoScalingClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -165,6 +168,7 @@ extension ApplicationAutoScalingClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -188,6 +192,7 @@ extension ApplicationAutoScalingClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -213,6 +218,7 @@ extension ApplicationAutoScalingClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -236,6 +242,7 @@ extension ApplicationAutoScalingClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try endpointResolver ?? DefaultEndpointResolver(),
@@ -262,6 +269,7 @@ extension ApplicationAutoScalingClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -287,6 +295,7 @@ extension ApplicationAutoScalingClient {
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
                 nil,
                 region,
                 region,
@@ -379,15 +388,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScalingPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteScalingPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(xAmzTarget: "AnyScaleFrontendService.DeleteScalingPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteScalingPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteScalingPolicy")
@@ -452,15 +462,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScheduledActionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteScheduledActionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>(xAmzTarget: "AnyScaleFrontendService.DeleteScheduledAction"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteScheduledActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScheduledActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteScheduledAction")
@@ -525,15 +536,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterScalableTargetOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeregisterScalableTargetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterScalableTargetInput, DeregisterScalableTargetOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterScalableTargetInput, DeregisterScalableTargetOutput>(xAmzTarget: "AnyScaleFrontendService.DeregisterScalableTarget"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeregisterScalableTargetInput, DeregisterScalableTargetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterScalableTargetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterScalableTargetInput, DeregisterScalableTargetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterScalableTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterScalableTargetInput, DeregisterScalableTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterScalableTargetInput, DeregisterScalableTargetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterScalableTargetInput, DeregisterScalableTargetOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterScalableTarget")
@@ -598,15 +610,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalableTargetsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeScalableTargetsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalableTargetsInput, DescribeScalableTargetsOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeScalableTargetsInput, DescribeScalableTargetsOutput>(xAmzTarget: "AnyScaleFrontendService.DescribeScalableTargets"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeScalableTargetsInput, DescribeScalableTargetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeScalableTargetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScalableTargetsInput, DescribeScalableTargetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScalableTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeScalableTargetsInput, DescribeScalableTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeScalableTargetsInput, DescribeScalableTargetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalableTargetsInput, DescribeScalableTargetsOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeScalableTargets")
@@ -671,15 +684,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingActivitiesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeScalingActivitiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput>(xAmzTarget: "AnyScaleFrontendService.DescribeScalingActivities"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeScalingActivitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScalingActivitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeScalingActivities")
@@ -745,15 +759,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingPoliciesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeScalingPoliciesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(xAmzTarget: "AnyScaleFrontendService.DescribeScalingPolicies"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeScalingPoliciesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScalingPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeScalingPolicies")
@@ -818,15 +833,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScheduledActionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeScheduledActionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(xAmzTarget: "AnyScaleFrontendService.DescribeScheduledActions"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeScheduledActionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScheduledActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeScheduledActions")
@@ -889,15 +905,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPredictiveScalingForecastOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetPredictiveScalingForecastOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(xAmzTarget: "AnyScaleFrontendService.GetPredictiveScalingForecast"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPredictiveScalingForecastInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPredictiveScalingForecastOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPredictiveScalingForecast")
@@ -959,15 +976,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AnyScaleFrontendService.ListTagsForResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
@@ -1034,15 +1052,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutScalingPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutScalingPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(xAmzTarget: "AnyScaleFrontendService.PutScalingPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutScalingPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutScalingPolicy")
@@ -1108,15 +1127,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutScheduledActionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutScheduledActionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutScheduledActionInput, PutScheduledActionOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutScheduledActionInput, PutScheduledActionOutput>(xAmzTarget: "AnyScaleFrontendService.PutScheduledAction"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutScheduledActionInput, PutScheduledActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutScheduledActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutScheduledActionInput, PutScheduledActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutScheduledActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutScheduledActionInput, PutScheduledActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutScheduledActionInput, PutScheduledActionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutScheduledActionInput, PutScheduledActionOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutScheduledAction")
@@ -1181,15 +1201,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterScalableTargetOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RegisterScalableTargetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterScalableTargetInput, RegisterScalableTargetOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterScalableTargetInput, RegisterScalableTargetOutput>(xAmzTarget: "AnyScaleFrontendService.RegisterScalableTarget"))
         builder.serialize(ClientRuntime.BodyMiddleware<RegisterScalableTargetInput, RegisterScalableTargetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterScalableTargetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterScalableTargetInput, RegisterScalableTargetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterScalableTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterScalableTargetInput, RegisterScalableTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterScalableTargetInput, RegisterScalableTargetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterScalableTargetInput, RegisterScalableTargetOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterScalableTarget")
@@ -1253,15 +1274,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AnyScaleFrontendService.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -1324,15 +1346,16 @@ extension ApplicationAutoScalingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AnyScaleFrontendService.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")

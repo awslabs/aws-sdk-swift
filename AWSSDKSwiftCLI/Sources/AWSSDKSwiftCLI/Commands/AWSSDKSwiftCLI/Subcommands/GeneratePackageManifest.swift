@@ -35,6 +35,9 @@ struct GeneratePackageManifestCommand: ParsableCommand {
     @Flag(help: "If the package manifest should exclude runtime tests.")
     var excludeRuntimeTests = false
 
+    @Flag(help: "If the package manifest should be configured for a preview build.")
+    var previewBuild = false
+
     func run() throws {
         let generatePackageManifest = GeneratePackageManifest.standard(
             repoPath: repoPath,
@@ -42,7 +45,8 @@ struct GeneratePackageManifestCommand: ParsableCommand {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services.isEmpty ? nil : services,
-            excludeRuntimeTests: excludeRuntimeTests
+            excludeRuntimeTests: excludeRuntimeTests,
+            previewBuild: previewBuild
         )
         try generatePackageManifest.run()
     }
@@ -67,6 +71,8 @@ struct GeneratePackageManifest {
     let services: [String]?
     /// If the package manifest should exclude runtime unit tests.
     let excludeRuntimeTests: Bool
+    /// If the package manifest should be configured for a preview build.
+    let previewBuild: Bool
 
     typealias BuildPackageManifest = (
         _ clientRuntimeVersion: Version,
@@ -199,7 +205,8 @@ extension GeneratePackageManifest {
         crtVersion: Version? = nil,
         services: [String]? = nil,
         excludeAWSServices: Bool = false,
-        excludeRuntimeTests: Bool = false
+        excludeRuntimeTests: Bool = false,
+        previewBuild: Bool = false
     ) -> Self {
         GeneratePackageManifest(
             repoPath: repoPath,
@@ -207,13 +214,15 @@ extension GeneratePackageManifest {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
-            excludeRuntimeTests: excludeRuntimeTests
+            excludeRuntimeTests: excludeRuntimeTests,
+            previewBuild: previewBuild
         ) { _clientRuntimeVersion, _crtVersion, _services in
             let builder = PackageManifestBuilder(
                 clientRuntimeVersion: _clientRuntimeVersion,
                 crtVersion: _crtVersion,
                 services: _services,
-                excludeRuntimeTests: excludeRuntimeTests
+                excludeRuntimeTests: excludeRuntimeTests,
+                previewBuild: previewBuild
             )
             return try builder.build()
         }
