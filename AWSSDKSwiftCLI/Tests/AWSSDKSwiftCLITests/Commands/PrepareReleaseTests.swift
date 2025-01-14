@@ -45,15 +45,7 @@ class PrepareReleaseTests: CLITestCase {
         createPackageVersion(previousVersion)
         createNextPackageVersion(newVersion)
 
-        let buildRequest = """
-        {
-            "features": []
-        }
-        """
-        FileManager.default.createFile(atPath: "../build-request.json", contents: Data(buildRequest.utf8))
-
-        let mapping = "{}"
-        FileManager.default.createFile(atPath: "../feature-service-id.json", contents: Data(mapping.utf8))
+        createBuildRequestAndMapping()
 
         let subject = PrepareRelease.mock(repoType: .awsSdkSwift, diffChecker: { _,_ in true })
         try! subject.run()
@@ -87,15 +79,45 @@ class PrepareReleaseTests: CLITestCase {
         createPackageVersion(previousVersion)
         createNextPackageVersion(newVersion)
 
+        createBuildRequestAndMapping()
+
         let subject = PrepareRelease.mock(diffChecker: { _,_ in false })
         try! subject.run()
-        
+
         let versionFromFile = try! Version.fromFile("Package.version")
         XCTAssertEqual(versionFromFile, previousVersion)
-        
+
         XCTAssertTrue(commands.isEmpty)
+
+        // Verify that an empty release manifest was written
+        let data = try FileManager.default.loadContents(atPath: "release-manifest.json")
+        XCTAssertTrue(data.isEmpty)
     }
-    
+
+    func testRunBailsEarlyIfThereAreNoBuildRequestAndMapping() throws {
+        var commands: [String] = []
+        let runner = ProcessRunner {
+            commands.append($0.commandString)
+        }
+        ProcessRunner.testRunner = runner
+        let previousVersion = try Version("1.2.3")
+        let newVersion = try Version("1.2.4")
+        createPackageVersion(previousVersion)
+        createNextPackageVersion(newVersion)
+
+        let subject = PrepareRelease.mock(diffChecker: { _,_ in true })
+        try! subject.run()
+
+        let versionFromFile = try! Version.fromFile("Package.version")
+        XCTAssertEqual(versionFromFile, previousVersion)
+
+        XCTAssertTrue(commands.isEmpty)
+
+        // Verify that an empty release manifest was written
+        let data = try FileManager.default.loadContents(atPath: "release-manifest.json")
+        XCTAssertTrue(data.isEmpty)
+    }
+
     // MARK: createNewVersion()
     
     func testCreateNewSDKVersion() async throws {
@@ -174,6 +196,16 @@ class PrepareReleaseTests: CLITestCase {
         let subject = PrepareRelease.mock(repoType: .smithySwift)
         try! subject.stageFiles()
         XCTAssertTrue(command.hasSuffix("git add Package.version Package.version.next"))
+    }
+
+    // MARK: - Private methods
+
+    private func createBuildRequestAndMapping() {
+        let buildRequest = "{\"features\":[]}"
+        FileManager.default.createFile(atPath: "../build-request.json", contents: Data(buildRequest.utf8))
+
+        let mapping = "{}"
+        FileManager.default.createFile(atPath: "../feature-service-id.json", contents: Data(mapping.utf8))
     }
 }
 
