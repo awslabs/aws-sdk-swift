@@ -57,7 +57,7 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
 
     public static func errorInfo(for error: Error) -> RetryErrorInfo? {
         let logger = SwiftLogger(label: "RetryLogger")
-        logger.debug("(RETRYING) got errorInfo for \(error)")
+        logger.info("(RETRYING) got errorInfo for \(error)")
 
         // Determine based on properties if this error is a timeout error.
         var isTimeout = false
