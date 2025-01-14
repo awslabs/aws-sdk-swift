@@ -358,6 +358,7 @@ extension Route53ClientTypes {
         case ilCentral1
         case meCentral1
         case meSouth1
+        case mxCentral1
         case saEast1
         case usEast1
         case usEast2
@@ -400,6 +401,7 @@ extension Route53ClientTypes {
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
+                .mxCentral1,
                 .saEast1,
                 .usEast1,
                 .usEast2,
@@ -448,6 +450,7 @@ extension Route53ClientTypes {
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
             case .saEast1: return "sa-east-1"
             case .usEast1: return "us-east-1"
             case .usEast2: return "us-east-2"
@@ -812,6 +815,7 @@ extension Route53ClientTypes {
         case ilCentral1
         case meCentral1
         case meSouth1
+        case mxCentral1
         case saEast1
         case usEast1
         case usEast2
@@ -854,6 +858,7 @@ extension Route53ClientTypes {
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
+                .mxCentral1,
                 .saEast1,
                 .usEast1,
                 .usEast2,
@@ -902,6 +907,7 @@ extension Route53ClientTypes {
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
             case .saEast1: return "sa-east-1"
             case .usEast1: return "us-east-1"
             case .usEast2: return "us-east-2"
@@ -1389,6 +1395,7 @@ extension Route53ClientTypes {
         case ilCentral1
         case meCentral1
         case meSouth1
+        case mxCentral1
         case saEast1
         case usEast1
         case usEast2
@@ -1426,6 +1433,7 @@ extension Route53ClientTypes {
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
+                .mxCentral1,
                 .saEast1,
                 .usEast1,
                 .usEast2,
@@ -1469,6 +1477,7 @@ extension Route53ClientTypes {
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
             case .saEast1: return "sa-east-1"
             case .usEast1: return "us-east-1"
             case .usEast2: return "us-east-2"
