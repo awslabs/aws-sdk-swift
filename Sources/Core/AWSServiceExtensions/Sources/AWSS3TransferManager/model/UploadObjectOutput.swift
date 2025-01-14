@@ -7,6 +7,9 @@
 
 import AWSS3
 
+/// The synthetic output type for the UploadObject operation of AWS S3 Transfer Manager.
+///
+/// This type contains the intersection of PutObjectOutput & CompleteMultipartUploadOutput input members.
 public struct UploadObjectOutput {
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool?
