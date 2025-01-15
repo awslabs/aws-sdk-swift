@@ -9,9 +9,12 @@ import AWSS3
 import class Foundation.OutputStream
 
 /// The synthetic input type for AWS S3 Transfer Manager's DownloadObject operation.
-public struct DownloadObjectInput {
+///
+/// This is a class instead of struct to allow modification to its `getObjectInput` member during S3TM operation.
+public class DownloadObjectInput {
     let outputStream: OutputStream
-    let getObjectInput: GetObjectInput
+    /// This is a var instead of a let because S3TM needs to be able to modify it as needed during the operation.
+    var getObjectInput: GetObjectInput
     let transferListeners: [TransferListener]
 
     /// Creates the input type for single object download, used by AWS S3 Transfer Manager.
