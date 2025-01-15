@@ -11,11 +11,9 @@ import struct Foundation.Date
 
 /// The synthetic output type for the DownloadObject operation of AWS S3 Transfer Manager.
 ///
-/// This type contains all output members from GetObjectOutput and an additional boolean flag for whether the S3 transfer manager performed response checksum validation or not.
+/// This type contains all output members from GetObjectOutput, except `body`.
+/// Retrieved object is written to the `OutputStream` provided by the user in the `DownloadObjectInput` used to call the operation.
 public struct DownloadObjectOutput {
-    /// Indicates whether the response checksum was validated by the S3 Transfer Manager.
-    public var performedChecksumValidation: Bool
-
     /// Indicates that a range of bytes was specified in the request.
     public var acceptRanges: Swift.String?
     /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
@@ -91,10 +89,7 @@ public struct DownloadObjectOutput {
     /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. This functionality is not supported for directory buckets.
     public var websiteRedirectLocation: Swift.String?
 
-    init(getObjectOutput: GetObjectOutput, performedChecksumValidation: Bool) {
-        // The additional boolean flag for response checksum validation status.
-        self.performedChecksumValidation = performedChecksumValidation
-
+    init(getObjectOutput: GetObjectOutput) {
         // GetObjectOutput members.
         self.acceptRanges = getObjectOutput.acceptRanges
         self.bucketKeyEnabled = getObjectOutput.bucketKeyEnabled
