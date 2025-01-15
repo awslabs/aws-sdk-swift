@@ -18,8 +18,6 @@ public struct DownloadObjectOutput {
 
     /// Indicates that a range of bytes was specified in the request.
     public var acceptRanges: Swift.String?
-    /// Object data.
-    public var body: Smithy.ByteStream?
     /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
@@ -99,7 +97,6 @@ public struct DownloadObjectOutput {
 
         // GetObjectOutput members.
         self.acceptRanges = getObjectOutput.acceptRanges
-        self.body = getObjectOutput.body
         self.bucketKeyEnabled = getObjectOutput.bucketKeyEnabled
         self.cacheControl = getObjectOutput.cacheControl
         self.checksumCRC32 = getObjectOutput.checksumCRC32

@@ -6,31 +6,26 @@
 //
 
 import AWSS3
-import class Foundation.FileHandle
-import class SmithyStreams.FileStream
+import class Foundation.OutputStream
 
 /// The synthetic input type for AWS S3 Transfer Manager's DownloadObject operation.
 public struct DownloadObjectInput {
-    let destination: FileStream?
+    let outputStream: OutputStream
     let getObjectInput: GetObjectInput
     let transferListeners: [TransferListener]
 
     /// Creates the input type for single object download, used by AWS S3 Transfer Manager.
     ///
     /// - Parameters:
-    ///   - destination: Optional parameter to specify the file that the retrieved S3 object should be saved to. Default is nil.
+    ///   - outputStream: Where the S3 transfer manager should write the retrieved S3 object to.
     ///   - getObjectInput: An instance of AWSS3.GetObjectInput struct.
     ///   - transferListeners: An array of TransferListeners. The transfer progress of DownloadObject operation will be published to each transfer listener provided here.
     public init(
-        destination: FileHandle? = nil,
+        outputStream: OutputStream,
         getObjectInput: GetObjectInput,
         transferListeners: [TransferListener] = []
     ) {
-        if let destination {
-            self.destination = FileStream(fileHandle: destination)
-        } else {
-            self.destination = nil
-        }
+        self.outputStream = outputStream
         self.getObjectInput = getObjectInput
         self.transferListeners = transferListeners
     }
