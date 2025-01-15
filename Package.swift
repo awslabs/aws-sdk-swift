@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.109.0"
+let clientRuntimeVersion: Version = "0.110.0"
 let crtVersion: Version = "0.43.0"
 
 let excludeRuntimeUnitTests = false
@@ -539,7 +539,8 @@ private var runtimeTargets: [Target] {
                 .smithyEventStreamsAuthAPI,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
-                .awsSDKIdentity
+                .awsSDKIdentity,
+                .awsSDKChecksums,
             ],
             path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
