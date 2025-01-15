@@ -6651,6 +6651,7 @@ extension SESv2ClientTypes {
 
     public enum RecommendationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bimi
+        case complaint
         case dkim
         case dmarc
         case spf
@@ -6659,6 +6660,7 @@ extension SESv2ClientTypes {
         public static var allCases: [RecommendationType] {
             return [
                 .bimi,
+                .complaint,
                 .dkim,
                 .dmarc,
                 .spf
@@ -6673,6 +6675,7 @@ extension SESv2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .bimi: return "BIMI"
+            case .complaint: return "COMPLAINT"
             case .dkim: return "DKIM"
             case .dmarc: return "DMARC"
             case .spf: return "SPF"

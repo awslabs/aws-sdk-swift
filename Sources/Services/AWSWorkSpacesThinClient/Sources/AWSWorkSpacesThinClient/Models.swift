@@ -421,6 +421,7 @@ extension WorkSpacesThinClientClientTypes {
         /// The minutes past the hour for the maintenance window start (00-59).
         public var startTimeMinute: Swift.Int?
         /// An option to select the default or custom maintenance window.
+        /// This member is required.
         public var type: WorkSpacesThinClientClientTypes.MaintenanceWindowType?
 
         public init(
@@ -2577,7 +2578,7 @@ extension WorkSpacesThinClientClientTypes.MaintenanceWindow {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.MaintenanceWindow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesThinClientClientTypes.MaintenanceWindow()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.startTimeHour = try reader["startTimeHour"].readIfPresent()
         value.startTimeMinute = try reader["startTimeMinute"].readIfPresent()
         value.endTimeHour = try reader["endTimeHour"].readIfPresent()
