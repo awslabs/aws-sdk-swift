@@ -64,28 +64,6 @@ class BusinessMetricsTests: XCTestCase {
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
     }
 
-    // MARK: - Account ID in Endpoint
-
-    func test_accountIDInEndpoint_noAccountIDInEndpoint() {
-        configureContext(host: "dynamodb.us-east-1.amazonaws.com", accountID: "0123456789")
-
-        let userAgent = createTestUserAgent()
-
-        // E comes from retry mode & T comes from resolving account ID
-        let expectedString = "m/E,T,Z,b"
-        XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
-    }
-
-    func test_accountIDInEndpoint_hasAccountIDInEndpoint() {
-        configureContext(host: "0123456789.dynamodb.us-east-1.amazonaws.com", accountID: "0123456789")
-
-        let userAgent = createTestUserAgent()
-
-        // E comes from retry mode, O comes from account ID in endpoint, & T comes from resolving account ID
-        let expectedString = "m/E,O,T,Z,b"
-        XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
-    }
-
     // MARK: - AccountIDEndpointMode
 
     func test_accountIDEndpointMode_recordsPreferredCorrectly() {

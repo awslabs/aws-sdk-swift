@@ -25,8 +25,8 @@ import software.amazon.smithy.swift.codegen.model.isOutputEventStream
 abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations() {
 
     override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, serviceShape: ServiceShape, op: OperationShape) {
-
         // FIXME handle indentation properly or do swift formatting after the fact
+        writer.write("  .withAccountIDEndpointMode(value: config.accountIdEndpointMode)")
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4")
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4a")
         writer.write("  .withRegion(value: config.region)")

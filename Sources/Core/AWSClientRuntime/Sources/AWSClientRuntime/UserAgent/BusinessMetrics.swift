@@ -80,11 +80,6 @@ private func setFlagsIntoContext(
         context.businessMetrics = ["ENDPOINT_OVERRIDE": "N"]
     }
 
-    // Handle O
-    if let endpoint = context.resolvedEndpoint, let accountID = context.resolvedAWSAccountID, endpoint.host.contains(accountID) {
-        context.businessMetrics = ["ACCOUNT_ID_ENDPOINT": "O"]
-    }
-
     // Handle P, Q, R
     if let accountIDEndpointMode = context.accountIDEndpointMode {
         switch accountIDEndpointMode {
@@ -102,7 +97,7 @@ private func setFlagsIntoContext(
     }
 
     // Handle T
-    if context.resolvedAWSAccountID != nil {
+    if context.resolvedAccountID != nil {
         context.businessMetrics = ["RESOLVED_ACCOUNT_ID": "T"]
     }
 

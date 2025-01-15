@@ -173,7 +173,7 @@ class OperationEndpointResolverMiddleware(
             clientContextParam != null -> {
                 when {
                     param.name.toString() == "AccountId" -> {
-                        writer.format("context.resolvedAWSAccountID")
+                        writer.format("context.resolvedAccountID")
                     }
                     param.name.toString() == "AccountIdEndpointMode" -> {
                         "config.accountIdEndpointMode?.rawValue"

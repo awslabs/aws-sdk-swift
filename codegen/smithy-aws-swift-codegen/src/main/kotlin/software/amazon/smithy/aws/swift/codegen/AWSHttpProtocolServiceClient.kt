@@ -45,7 +45,7 @@ class AWSHttpProtocolServiceClient(
     }
 
     override fun overrideConfigProperties(properties: List<ConfigProperty>): List<ConfigProperty> {
-        return properties.map { property ->
+        return properties.mapNotNull { property ->
             when (property.name) {
                 "authSchemeResolver" -> {
                     ConfigProperty("authSchemeResolver", SmithyHTTPAuthAPITypes.AuthSchemeResolver, authSchemeResolverDefaultProvider)
@@ -101,6 +101,20 @@ class AWSHttpProtocolServiceClient(
                         { it.format("AWSClientConfigDefaultsProvider.httpClientConfiguration()") },
                     )
                 }
+                "accountId" -> null // do not expose accountId as a client config property
+                "accountIdEndpointMode" -> { // expose accountIdEndpointMode as a Swift string-backed enum
+                    ConfigProperty(
+                        "accountIdEndpointMode",
+                        AWSClientRuntimeTypes.Core.AccountIDEndpointMode.toOptional(),
+                        { writer ->
+                            writer.format(
+                                "\$N.accountIDEndpointMode()",
+                                AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                            )
+                        },
+                        true
+                    )
+                }
                 else -> property
             }
         }
@@ -132,10 +146,10 @@ class AWSHttpProtocolServiceClient(
                             writer.write("try AWSClientConfigDefaultsProvider.retryStrategyOptions(),")
                         }
                         "requestChecksumCalculation" -> {
-                            "try AWSClientConfigDefaultsProvider.requestChecksumCalculation()"
+                            writer.write("try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),")
                         }
                         "responseChecksumValidation" -> {
-                            "try AWSClientConfigDefaultsProvider.responseChecksumValidation()"
+                            writer.write("try AWSClientConfigDefaultsProvider.responseChecksumValidation(),")
                         }
                         else -> {
                             writer.write("\$L,", property.default?.render(writer) ?: "nil")
@@ -164,24 +178,4 @@ class AWSHttpProtocolServiceClient(
         false,
         false
     )
-
-    override fun customizedClientConfigProperty(property: ConfigProperty): ConfigProperty? {
-        return when (property.name) {
-            "accountId" -> null // do not expose accountId as a client config property
-            "accountIdEndpointMode" -> { // expose accountIdEndpointMode as a Swift string-backed enum
-                ConfigProperty(
-                    "accountIdEndpointMode",
-                    AWSClientRuntimeTypes.Core.AccountIDEndpointMode.toOptional(),
-                    { writer ->
-                        writer.format(
-                            "\$N.accountIDEndpointMode()",
-                            AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
-                        )
-                    },
-                    true
-                )
-            }
-            else -> property
-        }
-    }
 }
