@@ -112,6 +112,5 @@ class BusinessMetricsTests: XCTestCase {
         let selectedAuthScheme = SelectedAuthScheme(schemeID: "aws.auth#sigv4", identity: AWSCredentialIdentity(accessKey: "abc", secret: "def", accountID: accountID), signingProperties: Attributes(), signer: nil)
         context.selectedAuthScheme = selectedAuthScheme
         let uri = URIBuilder().withScheme(.https).withPath("/").withHost(host).build()
-        context.resolvedEndpoint = Endpoint(uri: uri)
     }
 }
