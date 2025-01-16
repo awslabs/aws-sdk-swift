@@ -161,7 +161,8 @@ public class AWSS3TransferManager {
                 // Complete MPU.
                 let completeMPUInput = input.getCompleteMultipartUploadInput(
                     multipartUpload: S3ClientTypes.CompletedMultipartUpload(parts: completedParts),
-                    uploadID: uploadID
+                    uploadID: uploadID,
+                    mpuObjectSize: String(payloadSize)
                 )
                 let completeMPUOutput = try await s3.completeMultipartUpload(input: completeMPUInput)
                 return UploadObjectOutput(completeMultipartUploadOutput: completeMPUOutput)
