@@ -46,6 +46,7 @@ let package = Package(
 private var integrationTestTargets: [Target] {
     let integrationTests = [
         "AWSCloudFrontKeyValueStore",
+        "AWSDynamoDB",
         "AWSEC2",
         "AWSECS",
         "AWSEventBridge",
@@ -112,3 +113,4 @@ private func integrationTestTarget(_ name: String) -> Target {
         resources: [.process("Resources")]
     )
 }
+

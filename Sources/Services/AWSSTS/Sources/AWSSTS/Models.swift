@@ -1458,6 +1458,8 @@ extension GetCallerIdentityInput {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
                       .build()

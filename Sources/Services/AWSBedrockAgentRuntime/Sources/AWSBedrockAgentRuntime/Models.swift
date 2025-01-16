@@ -6849,6 +6849,8 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
     /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
     /// This member is required.
     public var sessionId: Swift.String?
+    /// Specifies the configurations for streaming. To use agent streaming, you need permissions to perform the bedrock:InvokeModelWithResponseStream action.
+    public var streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations?
 
     public init(
         actionGroups: [BedrockAgentRuntimeClientTypes.AgentActionGroup]? = nil,
@@ -6864,7 +6866,8 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
         instruction: Swift.String? = nil,
         knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]? = nil,
         promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration? = nil,
-        sessionId: Swift.String? = nil
+        sessionId: Swift.String? = nil,
+        streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations? = nil
     ) {
         self.actionGroups = actionGroups
         self.bedrockModelConfigurations = bedrockModelConfigurations
@@ -6880,12 +6883,13 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
         self.knowledgeBases = knowledgeBases
         self.promptOverrideConfiguration = promptOverrideConfiguration
         self.sessionId = sessionId
+        self.streamingConfigurations = streamingConfigurations
     }
 }
 
 extension InvokeInlineAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeInlineAgentInput(actionGroups: \(Swift.String(describing: actionGroups)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), inlineSessionState: \(Swift.String(describing: inlineSessionState)), knowledgeBases: \(Swift.String(describing: knowledgeBases)), sessionId: \(Swift.String(describing: sessionId)), inputText: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "InvokeInlineAgentInput(actionGroups: \(Swift.String(describing: actionGroups)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), inlineSessionState: \(Swift.String(describing: inlineSessionState)), knowledgeBases: \(Swift.String(describing: knowledgeBases)), sessionId: \(Swift.String(describing: sessionId)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), inputText: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct RetrieveAndGenerateInput: Swift.Sendable {
@@ -7220,6 +7224,7 @@ extension InvokeInlineAgentInput {
         try writer["instruction"].write(value.instruction)
         try writer["knowledgeBases"].writeList(value.knowledgeBases, memberWritingClosure: BedrockAgentRuntimeClientTypes.KnowledgeBase.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["promptOverrideConfiguration"].write(value.promptOverrideConfiguration, with: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration.write(value:to:))
+        try writer["streamingConfigurations"].write(value.streamingConfigurations, with: BedrockAgentRuntimeClientTypes.StreamingConfigurations.write(value:to:))
     }
 }
 

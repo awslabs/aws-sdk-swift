@@ -23,6 +23,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PartnerCentralSellingClient: ClientRuntime.Client {
     public static let clientName = "PartnerCentralSellingClient"
-    public static let version = "1.0.78"
+    public static let version = "1.1.1"
     let client: ClientRuntime.SdkHttpClient
     let config: PartnerCentralSellingClient.PartnerCentralSellingClientConfiguration
     let serviceName = "PartnerCentral Selling"
@@ -95,6 +96,8 @@ extension PartnerCentralSellingClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
@@ -120,6 +123,8 @@ extension PartnerCentralSellingClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
             _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
@@ -143,6 +148,8 @@ extension PartnerCentralSellingClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = requestChecksumCalculation
+            self.responseChecksumValidation = responseChecksumValidation
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
@@ -169,6 +176,8 @@ extension PartnerCentralSellingClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
@@ -193,6 +202,8 @@ extension PartnerCentralSellingClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
                 ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
@@ -219,6 +230,8 @@ extension PartnerCentralSellingClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
@@ -243,6 +256,8 @@ extension PartnerCentralSellingClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
                 ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
@@ -270,6 +285,8 @@ extension PartnerCentralSellingClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
                 ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
@@ -297,6 +314,8 @@ extension PartnerCentralSellingClient {
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 nil,
+                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
                 nil,
                 region,
                 region,
@@ -352,6 +371,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
     /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
@@ -372,6 +392,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -447,6 +469,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -537,6 +561,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -613,6 +639,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -690,6 +718,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -742,7 +772,7 @@ extension PartnerCentralSellingClient {
     ///
     /// * To associate a solution with the opportunity, use AssociateOpportunity.
     ///
-    /// * To submit the opportunity, use StartEngagementFromOpportunityTask.
+    /// * To start the engagement with AWS, use StartEngagementFromOpportunity.
     ///
     ///
     /// After submission, you can't edit the opportunity until the review is complete. But opportunities in the Pending Submission state must have complete details. You can update the opportunity while it's in the Pending Submission state. There's a set of mandatory fields to create opportunities, but consider providing optional fields to enrich the opportunity record.
@@ -776,6 +806,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -853,6 +885,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -930,6 +964,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -986,6 +1022,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1005,6 +1042,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1080,6 +1119,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1155,6 +1196,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1229,6 +1272,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1304,6 +1349,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1379,6 +1426,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1453,6 +1502,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1527,6 +1578,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1601,6 +1654,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1675,6 +1730,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1749,6 +1806,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1824,6 +1883,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1869,7 +1930,7 @@ extension PartnerCentralSellingClient {
 
     /// Performs the `ListEngagementMembers` operation on the `PartnerCentralSelling` service.
     ///
-    /// Retrieves the details of member partners in an engagement. This operation can only be invoked by members of the engagement. The ListEngagementMembers operation allows you to fetch information about the members of a specific engagement. This action is restricted to members of the engagement being queried.
+    /// Retrieves the details of member partners in an Engagement. This operation can only be invoked by members of the Engagement. The ListEngagementMembers operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried.
     ///
     /// - Parameter ListEngagementMembersInput : [no documentation found]
     ///
@@ -1898,6 +1959,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1972,6 +2035,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2017,7 +2082,7 @@ extension PartnerCentralSellingClient {
 
     /// Performs the `ListEngagements` operation on the `PartnerCentralSelling` service.
     ///
-    /// This action allows users to retrieve a list of engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process.
+    /// This action allows users to retrieve a list of Engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process.
     ///
     /// - Parameter ListEngagementsInput : [no documentation found]
     ///
@@ -2046,6 +2111,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2127,6 +2194,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2182,6 +2251,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
     public func listResourceSnapshotJobs(input: ListResourceSnapshotJobsInput) async throws -> ListResourceSnapshotJobsOutput {
@@ -2200,6 +2270,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2245,7 +2317,17 @@ extension PartnerCentralSellingClient {
 
     /// Performs the `ListResourceSnapshots` operation on the `PartnerCentralSelling` service.
     ///
-    /// Retrieves a list of resource view snapshots based on specified criteria.
+    /// Retrieves a list of resource view snapshots based on specified criteria. This operation supports various use cases, including:
+    ///
+    /// * Fetching all snapshots associated with an engagement.
+    ///
+    /// * Retrieving snapshots of a specific resource type within an engagement.
+    ///
+    /// * Obtaining snapshots for a particular resource using a specified template.
+    ///
+    /// * Accessing the latest snapshot of a resource within an engagement.
+    ///
+    /// * Filtering snapshots by resource owner.
     ///
     /// - Parameter ListResourceSnapshotsInput : [no documentation found]
     ///
@@ -2274,6 +2356,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2348,6 +2432,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2391,6 +2477,83 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListTagsForResource` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Returns a list of tags for a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTagsForResource")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListTagsForResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutSellingSystemSettings` operation on the `PartnerCentralSelling` service.
     ///
     /// Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs.
@@ -2422,6 +2585,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2477,6 +2642,7 @@ extension PartnerCentralSellingClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
     /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
@@ -2497,6 +2663,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2574,6 +2742,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2652,6 +2822,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2727,6 +2899,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2801,6 +2975,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2846,7 +3022,7 @@ extension PartnerCentralSellingClient {
 
     /// Performs the `SubmitOpportunity` operation on the `PartnerCentralSelling` service.
     ///
-    /// Use this action to submit an opportunity that was previously created by partner for AWS review. After you perform this action, the opportunity becomes non-editable until it is reviewed by AWS and has  LifeCycle.ReviewStatus  as either Approved or Action Required.
+    /// Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has  LifeCycle.ReviewStatus  as either Approved or Action Required.
     ///
     /// - Parameter SubmitOpportunityInput : [no documentation found]
     ///
@@ -2876,6 +3052,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2907,6 +3085,162 @@ extension PartnerCentralSellingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SubmitOpportunity")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `TagResource` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Assigns one or more tags (key-value pairs) to the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "tagResource")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSPartnerCentralSelling.TagResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UntagResource` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Removes a tag or tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "untagResource")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSPartnerCentralSelling.UntagResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2952,6 +3286,8 @@ extension PartnerCentralSellingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "partnercentral-selling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
