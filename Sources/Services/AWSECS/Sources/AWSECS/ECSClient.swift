@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECSClient: ClientRuntime.Client {
     public static let clientName = "ECSClient"
-    public static let version = "1.1.0"
+    public static let version = "1.1.1"
     let client: ClientRuntime.SdkHttpClient
     let config: ECSClient.ECSClientConfiguration
     let serviceName = "ECS"

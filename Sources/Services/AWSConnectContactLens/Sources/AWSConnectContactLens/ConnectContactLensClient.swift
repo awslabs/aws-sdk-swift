@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectContactLensClient: ClientRuntime.Client {
     public static let clientName = "ConnectContactLensClient"
-    public static let version = "1.1.0"
+    public static let version = "1.1.1"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectContactLensClient.ConnectContactLensClientConfiguration
     let serviceName = "Connect Contact Lens"

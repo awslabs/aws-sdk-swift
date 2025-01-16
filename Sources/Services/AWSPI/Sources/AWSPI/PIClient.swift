@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PIClient: ClientRuntime.Client {
     public static let clientName = "PIClient"
-    public static let version = "1.1.0"
+    public static let version = "1.1.1"
     let client: ClientRuntime.SdkHttpClient
     let config: PIClient.PIClientConfiguration
     let serviceName = "PI"

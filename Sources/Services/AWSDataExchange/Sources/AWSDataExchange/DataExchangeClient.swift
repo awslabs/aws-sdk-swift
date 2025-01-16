@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataExchangeClient: ClientRuntime.Client {
     public static let clientName = "DataExchangeClient"
-    public static let version = "1.1.0"
+    public static let version = "1.1.1"
     let client: ClientRuntime.SdkHttpClient
     let config: DataExchangeClient.DataExchangeClientConfiguration
     let serviceName = "DataExchange"
