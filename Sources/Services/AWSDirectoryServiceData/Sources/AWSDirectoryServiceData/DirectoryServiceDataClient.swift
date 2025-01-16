@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectoryServiceDataClient: ClientRuntime.Client {
     public static let clientName = "DirectoryServiceDataClient"
-    public static let version = "1.1.0"
+    public static let version = "1.1.1"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectoryServiceDataClient.DirectoryServiceDataClientConfiguration
     let serviceName = "Directory Service Data"

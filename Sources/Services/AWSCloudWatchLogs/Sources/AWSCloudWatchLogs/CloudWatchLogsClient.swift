@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudWatchLogsClient: ClientRuntime.Client {
     public static let clientName = "CloudWatchLogsClient"
-    public static let version = "1.1.0"
+    public static let version = "1.1.1"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudWatchLogsClient.CloudWatchLogsClientConfiguration
     let serviceName = "CloudWatch Logs"
