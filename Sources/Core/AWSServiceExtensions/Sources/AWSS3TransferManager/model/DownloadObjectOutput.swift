@@ -28,6 +28,8 @@ public struct DownloadObjectOutput {
     public var checksumSHA1: Swift.String?
     /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
+    /// This header specifies the checksum type of the object, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. For PutObject uploads, the checksum type is always FULL_OBJECT. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum that was specified. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    public var checksumType: S3ClientTypes.ChecksumType?
     /// Specifies presentational information for the object.
     public var contentDisposition: Swift.String?
     /// Indicates what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
@@ -98,6 +100,7 @@ public struct DownloadObjectOutput {
         self.checksumCRC32C = getObjectOutput.checksumCRC32C
         self.checksumSHA1 = getObjectOutput.checksumSHA1
         self.checksumSHA256 = getObjectOutput.checksumSHA256
+        self.checksumType = getObjectOutput.checksumType
         self.contentDisposition = getObjectOutput.contentDisposition
         self.contentEncoding = getObjectOutput.contentEncoding
         self.contentLanguage = getObjectOutput.contentLanguage

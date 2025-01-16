@@ -34,6 +34,7 @@ public struct UploadObjectInput {
             bucketKeyEnabled: putObjectInput.bucketKeyEnabled,
             cacheControl: putObjectInput.cacheControl,
             checksumAlgorithm: resolveChecksumAlgorithmForCreateMPUInput(putObjectInput),
+            checksumType: resolveChecksumType(putObjectInput),
             contentDisposition: putObjectInput.contentDisposition,
             contentEncoding: putObjectInput.contentEncoding,
             contentLanguage: putObjectInput.contentLanguage,
@@ -92,7 +93,8 @@ public struct UploadObjectInput {
     // Helper function to construct CompleteMultipartUploadInput from PutObjectInput.
     func getCompleteMultipartUploadInput(
         multipartUpload: S3ClientTypes.CompletedMultipartUpload,
-        uploadID: String
+        uploadID: String,
+        mpuObjectSize: String
     ) -> CompleteMultipartUploadInput {
         return CompleteMultipartUploadInput(
             bucket: putObjectInput.bucket,
@@ -100,10 +102,12 @@ public struct UploadObjectInput {
             checksumCRC32C: putObjectInput.checksumCRC32C,
             checksumSHA1: putObjectInput.checksumSHA1,
             checksumSHA256: putObjectInput.checksumSHA256,
+            checksumType: resolveChecksumType(putObjectInput),
             expectedBucketOwner: putObjectInput.expectedBucketOwner,
             ifMatch: putObjectInput.ifMatch,
             ifNoneMatch: putObjectInput.ifNoneMatch,
             key: putObjectInput.key,
+            mpuObjectSize: mpuObjectSize,
             multipartUpload: multipartUpload,
             requestPayer: putObjectInput.requestPayer,
             sseCustomerAlgorithm: putObjectInput.sseCustomerAlgorithm,
@@ -150,5 +154,16 @@ public struct UploadObjectInput {
         // If no checksum nor checksum algorithm was configured, return CRC32.
         // It's the default algorithm for Swift SDK.
         return .crc32
+    }
+
+    private func resolveChecksumType(
+        _ input: PutObjectInput
+    ) -> S3ClientTypes.ChecksumType? {
+        let checksum = input.checksumCRC32 ?? input.checksumCRC32C ?? input.checksumSHA1 ?? input.checksumSHA256 ?? input.checksumCRC64NVME
+        if let checksum {
+            return .fullObject
+        } else {
+            return .composite
+        }
     }
 }

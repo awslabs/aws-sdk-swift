@@ -21,6 +21,8 @@ public struct UploadObjectOutput {
     public var checksumSHA1: Swift.String?
     /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
+    /// This header specifies the checksum type of the object, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. For PutObject uploads, the checksum type is always FULL_OBJECT. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum that was specified. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    public var checksumType: S3ClientTypes.ChecksumType?
     /// Entity tag that identifies the newly created object's data. Objects with different object data will have different entity tags. The entity tag is an opaque string. The entity tag may or may not be an MD5 digest of the object data. If the entity tag is not an MD5 digest of the object data, it will contain one or more nonhexadecimal characters and/or will consist of less than 32 or more than 32 hexadecimal digits. For more information about how the entity tag is calculated, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var eTag: Swift.String?
     /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL-encoded. This functionality is not supported for directory buckets.
@@ -44,6 +46,7 @@ public struct UploadObjectOutput {
         self.checksumCRC32C = out.checksumCRC32C
         self.checksumSHA1 = out.checksumSHA1
         self.checksumSHA256 = out.checksumSHA256
+        self.checksumType = out.checksumType
         self.eTag = out.eTag
         self.expiration = out.expiration
         self.requestCharged = out.requestCharged
@@ -62,6 +65,7 @@ public struct UploadObjectOutput {
         self.checksumCRC32C = out.checksumCRC32C
         self.checksumSHA1 = out.checksumSHA1
         self.checksumSHA256 = out.checksumSHA256
+        self.checksumType = out.checksumType
         self.eTag = out.eTag
         self.expiration = out.expiration
         self.requestCharged = out.requestCharged
