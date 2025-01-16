@@ -25,11 +25,16 @@ import software.amazon.smithy.swift.codegen.model.isOutputEventStream
 abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations() {
 
     override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, serviceShape: ServiceShape, op: OperationShape) {
-
         // FIXME handle indentation properly or do swift formatting after the fact
+        val config = AWSServiceConfig(writer, ctx)
+        if (config.serviceSpecificConfigProperties().any { it.memberName == "accountIdEndpointMode" }) {
+            writer.write("  .withAccountIDEndpointMode(value: config.accountIdEndpointMode)")
+        }
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4")
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4a")
         writer.write("  .withRegion(value: config.region)")
+        writer.write("  .withRequestChecksumCalculation(value: config.requestChecksumCalculation)")
+        writer.write("  .withResponseChecksumValidation(value: config.responseChecksumValidation)")
         if (AWSAuthUtils.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
             val signingName = AWSAuthUtils.signingServiceName(serviceShape)
             writer.write("  .withSigningName(value: \$S)", signingName)
@@ -67,7 +72,7 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         return AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
     }
 
-    override val endpointMiddlewareSymbol: Symbol = AWSClientRuntimeTypes.Core.EndpointResolverMiddleware
+    override val endpointMiddlewareSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware
 
     override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
 }

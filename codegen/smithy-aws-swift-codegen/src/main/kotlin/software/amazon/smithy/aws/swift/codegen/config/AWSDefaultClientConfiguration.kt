@@ -6,6 +6,7 @@
 package software.amazon.smithy.aws.swift.codegen.config
 
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKChecksumsTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.config.ClientConfiguration
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
@@ -40,6 +41,18 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
             true
         ),
         ConfigProperty("maxAttempts", SwiftTypes.Int.toOptional()),
+        ConfigProperty(
+            "requestChecksumCalculation",
+            AWSSDKChecksumsTypes.AWSChecksumCalculationMode,
+            { it.format("\$N.requestChecksumCalculation(requestChecksumCalculation)", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider) },
+            true
+        ),
+        ConfigProperty(
+            "responseChecksumValidation",
+            AWSSDKChecksumsTypes.AWSChecksumCalculationMode,
+            { it.format("\$N.responseChecksumValidation(responseChecksumValidation)", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider) },
+            true
+        ),
         ConfigProperty("ignoreConfiguredEndpointURLs", SwiftTypes.Bool.toOptional())
     )
 }

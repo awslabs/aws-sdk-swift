@@ -23,6 +23,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MedicalImagingClient: ClientRuntime.Client {
     public static let clientName = "MedicalImagingClient"
-    public static let version = "1.0.77"
+    public static let version = "1.1.1"
     let client: ClientRuntime.SdkHttpClient
     let config: MedicalImagingClient.MedicalImagingClientConfiguration
     let serviceName = "Medical Imaging"
@@ -97,6 +98,8 @@ extension MedicalImagingClient {
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
         public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
@@ -122,6 +125,8 @@ extension MedicalImagingClient {
             _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
             _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
             _ maxAttempts: Swift.Int?,
+            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
             _ ignoreConfiguredEndpointURLs: Swift.Bool?,
             _ region: Swift.String?,
             _ signingRegion: Swift.String?,
@@ -145,6 +150,8 @@ extension MedicalImagingClient {
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = requestChecksumCalculation
+            self.responseChecksumValidation = responseChecksumValidation
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
@@ -171,6 +178,8 @@ extension MedicalImagingClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
@@ -195,6 +204,8 @@ extension MedicalImagingClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
                 ignoreConfiguredEndpointURLs,
                 region,
                 signingRegion,
@@ -221,6 +232,8 @@ extension MedicalImagingClient {
             awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
             awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
             maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
@@ -245,6 +258,8 @@ extension MedicalImagingClient {
                 try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
                 ignoreConfiguredEndpointURLs,
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
                 try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
@@ -272,6 +287,8 @@ extension MedicalImagingClient {
                 awsCredentialIdentityResolver: nil,
                 awsRetryMode: nil,
                 maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
                 ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
@@ -299,6 +316,8 @@ extension MedicalImagingClient {
                 try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 nil,
+                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
                 nil,
                 region,
                 region,
@@ -376,6 +395,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -452,6 +473,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -528,6 +551,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -600,6 +625,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -672,6 +699,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -743,6 +772,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -815,6 +846,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -890,6 +923,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -963,6 +998,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1036,6 +1073,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1107,6 +1146,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1180,6 +1221,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1252,6 +1295,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1324,6 +1369,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1401,6 +1448,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1476,6 +1525,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1550,6 +1601,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1624,6 +1677,8 @@ extension MedicalImagingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "medical-imaging")
                       .withSigningRegion(value: config.signingRegion)
                       .build()

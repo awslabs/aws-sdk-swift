@@ -110,7 +110,8 @@ private var runtimeTargets: [Target] {
                 .smithyEventStreamsAuthAPI,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
-                .awsSDKIdentity
+                .awsSDKIdentity,
+                .awsSDKChecksums,
             ],
             path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [

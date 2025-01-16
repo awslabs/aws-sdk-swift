@@ -1318,6 +1318,8 @@ extension WorkSpacesClientTypes {
 extension WorkSpacesClientTypes {
 
     public enum Compute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case generalpurpose4xlarge
+        case generalpurpose8xlarge
         case graphics
         case graphicspro
         case graphicsproG4dn
@@ -1331,6 +1333,8 @@ extension WorkSpacesClientTypes {
 
         public static var allCases: [Compute] {
             return [
+                .generalpurpose4xlarge,
+                .generalpurpose8xlarge,
                 .graphics,
                 .graphicspro,
                 .graphicsproG4dn,
@@ -1350,6 +1354,8 @@ extension WorkSpacesClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .generalpurpose4xlarge: return "GENERALPURPOSE_4XLARGE"
+            case .generalpurpose8xlarge: return "GENERALPURPOSE_8XLARGE"
             case .graphics: return "GRAPHICS"
             case .graphicspro: return "GRAPHICSPRO"
             case .graphicsproG4dn: return "GRAPHICSPRO_G4DN"

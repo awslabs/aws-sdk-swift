@@ -804,7 +804,7 @@ public struct CreateBasePathMappingInput: Swift.Sendable {
     /// The domain name of the BasePathMapping resource to create.
     /// This member is required.
     public var domainName: Swift.String?
-    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    /// The identifier for the domain name resource. Required for private custom domain names.
     public var domainNameId: Swift.String?
     /// The string identifier of the associated RestApi.
     /// This member is required.
@@ -4092,7 +4092,7 @@ public struct GetDomainNameInput: Swift.Sendable {
     /// The name of the DomainName resource.
     /// This member is required.
     public var domainName: Swift.String?
-    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    /// The identifier for the domain name resource. Required for private custom domain names.
     public var domainNameId: Swift.String?
 
     public init(
