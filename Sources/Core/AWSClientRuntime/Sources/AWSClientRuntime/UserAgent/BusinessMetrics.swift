@@ -74,12 +74,33 @@ private func setFlagsIntoContext(
     case .adaptive:
         context.businessMetrics = ["RETRY_MODE_ADAPTIVE": "F"]
     }
+
+    // Handle N
     if let endpoint = config.endpoint, !endpoint.isEmpty {
         context.businessMetrics = ["ENDPOINT_OVERRIDE": "N"]
     }
+
+    // Handle P, Q, R
+    if let accountIDEndpointMode = context.accountIDEndpointMode {
+        switch accountIDEndpointMode {
+        case .preferred:
+            context.businessMetrics = ["ACCOUNT_ID_MODE_PREFERRED": "P"]
+        case .disabled:
+            context.businessMetrics = ["ACCOUNT_ID_MODE_DISABLED": "Q"]
+        case .required:
+            context.businessMetrics = ["ACCOUNT_ID_MODE_REQUIRED": "R"]
+        }
+    }
+
     if context.selectedAuthScheme?.schemeID == "aws.auth#sigv4a" {
         context.businessMetrics = ["SIGV4A_SIGNING": "S"]
     }
+
+    // Handle T
+    if context.resolvedAccountID != nil {
+        context.businessMetrics = ["RESOLVED_ACCOUNT_ID": "T"]
+    }
+
     switch context.checksum {
     case .crc32:
         context.businessMetrics = ["FLEXIBLE_CHECKSUMS_REQ_CRC32": "U"]
@@ -104,6 +125,7 @@ private func setFlagsIntoContext(
     } else {
         context.businessMetrics = ["FLEXIBLE_CHECKSUMS_RES_WHEN_REQUIRED": "c"]
     }
+
     // Handle M
     if headers.value(for: "smithy-protocol") == "rpc-v2-cbor" {
         context.businessMetrics = ["PROTOCOL_RPC_V2_CBOR": "M"]

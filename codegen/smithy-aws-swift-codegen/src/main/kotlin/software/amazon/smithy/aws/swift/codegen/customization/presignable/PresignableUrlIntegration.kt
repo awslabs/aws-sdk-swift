@@ -137,10 +137,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                     operationStackName,
                     ::overrideHttpMethod
                 )
-                generator.render(serviceShape, op, PRESIGN_URL) { writer, _ ->
-                    writer.write("return nil")
-                }
-
+                generator.render(serviceShape, op, PRESIGN_URL)
                 writer.write("return try await op.presignRequest(input: input).endpoint.url")
             }
         }
