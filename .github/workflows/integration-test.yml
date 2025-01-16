@@ -17,7 +17,7 @@ permissions:
 jobs:
   apple:
     if: false
-    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
+    # if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
