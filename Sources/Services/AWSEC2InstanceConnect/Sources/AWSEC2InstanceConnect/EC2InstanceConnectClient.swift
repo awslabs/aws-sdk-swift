@@ -16,6 +16,7 @@ import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
+import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
@@ -41,8 +42,8 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+@_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
@@ -64,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2InstanceConnectClient: ClientRuntime.Client {
     public static let clientName = "EC2InstanceConnectClient"
-    public static let version = "1.1.0"
+    public static let version = "1.2.0"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration
     let serviceName = "EC2 Instance Connect"
@@ -412,8 +413,10 @@ extension EC2InstanceConnectClient {
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendSSHPublicKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2 Instance Connect", config.ignoreConfiguredEndpointURLs)
-        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendSSHPublicKeyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendSSHPublicKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(xAmzTarget: "AWSEC2InstanceConnectService.SendSSHPublicKey"))
         builder.serialize(ClientRuntime.BodyMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendSSHPublicKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(contentType: "application/x-amz-json-1.1"))
@@ -496,8 +499,10 @@ extension EC2InstanceConnectClient {
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendSerialConsoleSSHPublicKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2 Instance Connect", config.ignoreConfiguredEndpointURLs)
-        let endpointParams = EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendSerialConsoleSSHPublicKeyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendSerialConsoleSSHPublicKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(xAmzTarget: "AWSEC2InstanceConnectService.SendSerialConsoleSSHPublicKey"))
         builder.serialize(ClientRuntime.BodyMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendSerialConsoleSSHPublicKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(contentType: "application/x-amz-json-1.1"))

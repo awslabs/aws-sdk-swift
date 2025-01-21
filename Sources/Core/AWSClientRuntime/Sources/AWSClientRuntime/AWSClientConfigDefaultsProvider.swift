@@ -182,4 +182,19 @@ public class AWSClientConfigDefaultsProvider {
             fileBasedConfig: fileBasedConfig
         )
     }
+
+    public static func accountIDEndpointMode(
+        _ accountIDEndpointMode: AccountIDEndpointMode? = nil
+    ) throws -> AccountIDEndpointMode {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        if let accountIDEndpointMode {
+            return accountIDEndpointMode
+        } else {
+            return AWSEndpointConfig.accountIDEndpointMode(
+                configValue: accountIDEndpointMode,
+                profileName: nil,
+                fileBasedConfig: fileBasedConfig
+            )
+        }
+    }
 }

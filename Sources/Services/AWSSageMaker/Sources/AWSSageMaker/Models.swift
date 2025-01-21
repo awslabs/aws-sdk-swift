@@ -888,7 +888,7 @@ extension SageMakerClientTypes {
         public var framework: Swift.String?
         /// The framework version of the Model Package Container Image.
         public var frameworkVersion: Swift.String?
-        /// The Amazon EC2 Container Registry path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
+        /// The Amazon Elastic Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
         /// This member is required.
         public var image: Swift.String?
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
@@ -34713,6 +34713,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlTrn132xlarge
         case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
@@ -34722,6 +34723,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlTrn132xlarge,
                 .mlTrn248xlarge
             ]
         }
@@ -34737,6 +34739,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlTrn132xlarge: return "ml.trn1.32xlarge"
             case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
