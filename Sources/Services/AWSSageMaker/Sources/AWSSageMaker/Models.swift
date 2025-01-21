@@ -888,7 +888,7 @@ extension SageMakerClientTypes {
         public var framework: Swift.String?
         /// The framework version of the Model Package Container Image.
         public var frameworkVersion: Swift.String?
-        /// The Amazon EC2 Container Registry path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
+        /// The Amazon Elastic Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
         /// This member is required.
         public var image: Swift.String?
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
