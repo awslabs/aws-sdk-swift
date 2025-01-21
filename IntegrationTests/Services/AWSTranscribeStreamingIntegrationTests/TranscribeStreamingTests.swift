@@ -101,7 +101,10 @@ final class TranscribeStreamingTests: XCTestCase {
             "Hello transcribed streaming from swift sdk.",
             "Hello transcribes streaming from Swift SDK.",
         ]
-        XCTAssertTrue(candidates.contains(where: { $0.lowercased() == fullMessage.lowercased() }))
+        XCTAssertTrue(
+            candidates.contains { $0.lowercased() == fullMessage.lowercased() },
+            "The transcription \"\(fullMessage)\" does not match any of the expected forms: [\(candidates.map { "\"\($0)\"" }.joined(separator: ", "))]"
+        )
     }
 
     // Performs the stream transcription, with retry for selected errors associated with
