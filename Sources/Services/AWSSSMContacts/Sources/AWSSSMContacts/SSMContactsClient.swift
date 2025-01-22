@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMContactsClient: ClientRuntime.Client {
     public static let clientName = "SSMContactsClient"
-    public static let version = "1.2.1"
+    public static let version = "1.2.2"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMContactsClient.SSMContactsClientConfiguration
     let serviceName = "SSM Contacts"
