@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudControlClient: ClientRuntime.Client {
     public static let clientName = "CloudControlClient"
-    public static let version = "1.2.1"
+    public static let version = "1.2.2"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudControlClient.CloudControlClientConfiguration
     let serviceName = "CloudControl"

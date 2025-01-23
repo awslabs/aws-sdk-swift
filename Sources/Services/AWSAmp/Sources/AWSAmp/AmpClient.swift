@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AmpClient: ClientRuntime.Client {
     public static let clientName = "AmpClient"
-    public static let version = "1.2.1"
+    public static let version = "1.2.2"
     let client: ClientRuntime.SdkHttpClient
     let config: AmpClient.AmpClientConfiguration
     let serviceName = "amp"
