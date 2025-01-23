@@ -3685,6 +3685,7 @@ extension ConnectClientTypes {
         case agentHold
         case agentTransfer
         case agentWhisper
+        case campaign
         case contactFlow
         case customerHold
         case customerQueue
@@ -3698,6 +3699,7 @@ extension ConnectClientTypes {
                 .agentHold,
                 .agentTransfer,
                 .agentWhisper,
+                .campaign,
                 .contactFlow,
                 .customerHold,
                 .customerQueue,
@@ -3717,6 +3719,7 @@ extension ConnectClientTypes {
             case .agentHold: return "AGENT_HOLD"
             case .agentTransfer: return "AGENT_TRANSFER"
             case .agentWhisper: return "AGENT_WHISPER"
+            case .campaign: return "CAMPAIGN"
             case .contactFlow: return "CONTACT_FLOW"
             case .customerHold: return "CUSTOMER_HOLD"
             case .customerQueue: return "CUSTOMER_QUEUE"
@@ -3773,7 +3776,7 @@ public struct CreateContactFlowOutput: Swift.Sendable {
     public var contactFlowArn: Swift.String?
     /// The identifier of the flow.
     public var contactFlowId: Swift.String?
-    /// Indicates the checksum value of the flow content.
+    /// Indicates the checksum value of the latest published flow content.
     public var flowContentSha256: Swift.String?
 
     public init(
@@ -3863,6 +3866,8 @@ public struct CreateContactFlowVersionInput: Swift.Sendable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
+    /// The identifier of the flow version.
+    public var contactFlowVersion: Swift.Int?
     /// The description of the flow version.
     public var description: Swift.String?
     /// Indicates the checksum value of the flow content.
@@ -3877,6 +3882,7 @@ public struct CreateContactFlowVersionInput: Swift.Sendable {
 
     public init(
         contactFlowId: Swift.String? = nil,
+        contactFlowVersion: Swift.Int? = nil,
         description: Swift.String? = nil,
         flowContentSha256: Swift.String? = nil,
         instanceId: Swift.String? = nil,
@@ -3884,6 +3890,7 @@ public struct CreateContactFlowVersionInput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil
     ) {
         self.contactFlowId = contactFlowId
+        self.contactFlowVersion = contactFlowVersion
         self.description = description
         self.flowContentSha256 = flowContentSha256
         self.instanceId = instanceId
@@ -7685,6 +7692,33 @@ public struct DeleteContactFlowModuleInput: Swift.Sendable {
 }
 
 public struct DeleteContactFlowModuleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteContactFlowVersionInput: Swift.Sendable {
+    /// The identifier of the flow.
+    /// This member is required.
+    public var contactFlowId: Swift.String?
+    /// The identifier of the flow version.
+    /// This member is required.
+    public var contactFlowVersion: Swift.Int?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        contactFlowId: Swift.String? = nil,
+        contactFlowVersion: Swift.Int? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.contactFlowId = contactFlowId
+        self.contactFlowVersion = contactFlowVersion
+        self.instanceId = instanceId
+    }
+}
+
+public struct DeleteContactFlowVersionOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -25856,6 +25890,22 @@ extension DeleteContactFlowModuleInput {
     }
 }
 
+extension DeleteContactFlowVersionInput {
+
+    static func urlPathProvider(_ value: DeleteContactFlowVersionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactFlowId = value.contactFlowId else {
+            return nil
+        }
+        guard let contactFlowVersion = value.contactFlowVersion else {
+            return nil
+        }
+        return "/contact-flows/\(instanceId.urlPercentEncoding())/\(contactFlowId.urlPercentEncoding())/version/\(contactFlowVersion)"
+    }
+}
+
 extension DeleteEmailAddressInput {
 
     static func urlPathProvider(_ value: DeleteEmailAddressInput) -> Swift.String? {
@@ -29647,6 +29697,7 @@ extension CreateContactFlowVersionInput {
 
     static func write(value: CreateContactFlowVersionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ContactFlowVersion"].write(value.contactFlowVersion)
         try writer["Description"].write(value.description)
         try writer["FlowContentSha256"].write(value.flowContentSha256)
         try writer["LastModifiedRegion"].write(value.lastModifiedRegion)
@@ -31782,6 +31833,13 @@ extension DeleteContactFlowModuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContactFlowModuleOutput {
         return DeleteContactFlowModuleOutput()
+    }
+}
+
+extension DeleteContactFlowVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContactFlowVersionOutput {
+        return DeleteContactFlowVersionOutput()
     }
 }
 
@@ -35248,6 +35306,25 @@ enum DeleteContactFlowOutputError {
 }
 
 enum DeleteContactFlowModuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteContactFlowVersionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

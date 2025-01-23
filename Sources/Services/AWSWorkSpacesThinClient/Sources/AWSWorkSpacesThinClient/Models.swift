@@ -507,7 +507,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The ID of the software set to apply.
     public var desiredSoftwareSetId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+    /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
     /// This member is required.
     public var desktopArn: Swift.String?
     /// The URL for the identity provider login (only for environments that use AppStream 2.0).
@@ -603,7 +603,7 @@ extension WorkSpacesThinClientClientTypes {
         public var createdAt: Foundation.Date?
         /// The ID of the software set to apply.
         public var desiredSoftwareSetId: Swift.String?
-        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
         public var desktopArn: Swift.String?
         /// The URL for the identity provider login (only for environments that use AppStream 2.0).
         public var desktopEndpoint: Swift.String?
@@ -1089,7 +1089,7 @@ extension WorkSpacesThinClientClientTypes {
         public var createdAt: Foundation.Date?
         /// The ID of the software set to apply.
         public var desiredSoftwareSetId: Swift.String?
-        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
         public var desktopArn: Swift.String?
         /// The URL for the identity provider login (only for environments that use AppStream 2.0).
         public var desktopEndpoint: Swift.String?
@@ -1588,7 +1588,7 @@ public struct UpdateDeviceOutput: Swift.Sendable {
 public struct UpdateEnvironmentInput: Swift.Sendable {
     /// The ID of the software set to apply.
     public var desiredSoftwareSetId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+    /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
     public var desktopArn: Swift.String?
     /// The URL for the identity provider login (only for environments that use AppStream 2.0).
     public var desktopEndpoint: Swift.String?

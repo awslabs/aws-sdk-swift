@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FSxClient: ClientRuntime.Client {
     public static let clientName = "FSxClient"
-    public static let version = "1.2.0"
+    public static let version = "1.2.3"
     let client: ClientRuntime.SdkHttpClient
     let config: FSxClient.FSxClientConfiguration
     let serviceName = "FSx"

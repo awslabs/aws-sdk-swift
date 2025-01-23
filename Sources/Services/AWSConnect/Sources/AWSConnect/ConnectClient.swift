@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.2.0"
+    public static let version = "1.2.3"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -1468,7 +1468,7 @@ extension ConnectClient {
 
     /// Performs the `AssociateUserProficiencies` operation on the `Connect` service.
     ///
-    /// >Associates a set of proficiencies with a user.
+    /// Associates a set of proficiencies with a user.
     ///
     /// - Parameter AssociateUserProficienciesInput : [no documentation found]
     ///
@@ -2424,7 +2424,7 @@ extension ConnectClient {
 
     /// Performs the `CreateContactFlowVersion` operation on the `Connect` service.
     ///
-    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If a version of the same flow content already exists, no new version is created and instead the existing version number is returned. If the FlowContentSha256 provided is different from the FlowContentSha256 of the $LATEST published flow content, then an error is returned. This API only supports creating versions for flows of type Campaign.
+    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is different from the FlowContentSha256 of the $LATEST published flow content, then an error is returned. This API only supports creating versions for flows of type Campaign.
     ///
     /// - Parameter CreateContactFlowVersionInput : [no documentation found]
     ///
@@ -4810,6 +4810,82 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteContactFlowVersion` operation on the `Connect` service.
+    ///
+    /// Deletes the particular version specified in flow version identifier.
+    ///
+    /// - Parameter DeleteContactFlowVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteContactFlowVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func deleteContactFlowVersion(input: DeleteContactFlowVersionInput) async throws -> DeleteContactFlowVersionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteContactFlowVersion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteContactFlowVersionInput, DeleteContactFlowVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteContactFlowVersionInput, DeleteContactFlowVersionOutput>(DeleteContactFlowVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContactFlowVersionInput, DeleteContactFlowVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContactFlowVersionOutput>(DeleteContactFlowVersionOutput.httpOutput(from:), DeleteContactFlowVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContactFlowVersionInput, DeleteContactFlowVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContactFlowVersionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContactFlowVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContactFlowVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContactFlowVersionInput, DeleteContactFlowVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContactFlowVersionInput, DeleteContactFlowVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteContactFlowVersionInput, DeleteContactFlowVersionOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteContactFlowVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteEmailAddress` operation on the `Connect` service.
     ///
     /// Deletes email address from the specified Amazon Connect instance.
@@ -5493,7 +5569,7 @@ extension ConnectClient {
 
     /// Performs the `DeleteQueue` operation on the `Connect` service.
     ///
-    /// Deletes a queue. It isn't possible to delete a queue by using the Amazon Connect admin website.
+    /// Deletes a queue.
     ///
     /// - Parameter DeleteQueueInput : [no documentation found]
     ///
@@ -6788,7 +6864,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeContactFlow` operation on the `Connect` service.
     ///
-    /// Describes the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. In the response, Status indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. SAVED does not initiate validation of the content. SAVED | PUBLISHED
+    /// Describes the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. Use arn:aws:.../contact-flow/{id}:{version} to retrieve the content of a specific flow version. In the response, Status indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. SAVED does not initiate validation of the content. SAVED | PUBLISHED
     ///
     /// - Parameter DescribeContactFlowInput : [no documentation found]
     ///

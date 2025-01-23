@@ -884,7 +884,7 @@ extension CloudWatchLogsClientTypes {
     public struct S3DeliveryConfiguration: Swift.Sendable {
         /// This parameter causes the S3 objects that contain delivered logs to use a prefix structure that allows for integration with Apache Hive.
         public var enableHiveCompatiblePath: Swift.Bool?
-        /// This string allows re-configuring the S3 object prefix to contain either static or variable sections. The valid variables to use in the suffix path will vary by each log source. See ConfigurationTemplate$allowedSuffixPathFields for more info on what values are supported in the suffix path for each log source.
+        /// This string allows re-configuring the S3 object prefix to contain either static or variable sections. The valid variables to use in the suffix path will vary by each log source. To find the values supported for the suffix path for each log source, use the [DescribeConfigurationTemplates](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeConfigurationTemplates.html) operation and check the allowedSuffixPathFields field in the response.
         public var suffixPath: Swift.String?
 
         public init(
@@ -5630,11 +5630,21 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Amazon Bedrock, the valid value is APPLICATION_LOGS.
     ///
+    /// * For CloudFront, the valid value is ACCESS_LOGS.
+    ///
     /// * For Amazon CodeWhisperer, the valid value is EVENT_LOGS.
+    ///
+    /// * For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.
+    ///
+    /// * For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.
     ///
     /// * For IAM Identity Center, the valid value is ERROR_LOGS.
     ///
-    /// * For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, and WORKMAIL_MAILBOX_ACCESS_LOGS.
+    /// * For Amazon Q, the valid value is EVENT_LOGS.
+    ///
+    /// * For Amazon SES mail manager, the valid value is APPLICATION_LOG.
+    ///
+    /// * For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.
     /// This member is required.
     public var logType: Swift.String?
     /// A name for this delivery source. This name must be unique for all delivery sources in your account.
@@ -5762,10 +5772,10 @@ extension CloudWatchLogsClientTypes {
     public struct OpenSearchResourceConfig: Swift.Sendable {
         /// If you want to use an existing OpenSearch Service application for your integration with OpenSearch Service, specify it here. If you omit this, a new application will be created.
         public var applicationArn: Swift.String?
-        /// Specify the ARNs of IAM roles and IAM users who you want to grant permission to for viewing the dashboards. In addition to specifying these users here, you must also grant them the CloudWatchOpenSearchDashboardsAccess IAM policy. For more information, see
+        /// Specify the ARNs of IAM roles and IAM users who you want to grant permission to for viewing the dashboards. In addition to specifying these users here, you must also grant them the CloudWatchOpenSearchDashboardAccess IAM policy. For more information, see [IAM policies for users](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/OpenSearch-Dashboards-UserRoles.html).
         /// This member is required.
         public var dashboardViewerPrincipals: [Swift.String]?
-        /// Specify the ARN of an IAM role that CloudWatch Logs will use to create the integration. This role must have the permissions necessary to access the OpenSearch Service collection to be able to create the dashboards. For more information about the permissions needed, see [Create an IAM role to access the OpenSearch Service collection](https://docs.aws.amazon.com/OpenSearch-Dashboards-CreateRole) in the CloudWatch Logs User Guide.
+        /// Specify the ARN of an IAM role that CloudWatch Logs will use to create the integration. This role must have the permissions necessary to access the OpenSearch Service collection to be able to create the dashboards. For more information about the permissions needed, see [Permissions that the integration needs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/OpenSearch-Dashboards-CreateRole.html) in the CloudWatch Logs User Guide.
         /// This member is required.
         public var dataSourceRoleArn: Swift.String?
         /// To have the vended dashboard data encrypted with KMS instead of the CloudWatch Logs default encryption method, specify the ARN of the KMS key that you want to use.
@@ -6154,7 +6164,7 @@ public struct StartLiveTailInput: Swift.Sendable {
     }
 }
 
-/// his exception is returned if an unknown error occurs during a Live Tail session.
+/// This exception is returned if an unknown error occurs during a Live Tail session.
 public struct SessionStreamingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
